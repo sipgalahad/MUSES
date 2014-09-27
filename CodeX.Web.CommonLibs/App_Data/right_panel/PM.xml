@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!-- #Region PM010300 -->
+  <page menucode="PM010300">
+    <prints>
+      <print title="Bukti Pendaftaran" reportcode="PM-00101" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+
+  <!-- #Region Patient Visit Page -->
+  <!-- #Region ER -->
+  <!-- #Region PM99010101 -->
+  <page menucode="PM99010101">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99010301 -->
+  <page menucode="PM99010301">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99010302 -->
+  <page menucode="PM99010302">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99010303 -->
+  <page menucode="PM99010303">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99010304 -->
+  <page menucode="PM99010304">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99010305 -->
+  <page menucode="PM99010305">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!--#Region PM99010401-->
+  <page menucode="PM99010401">
+    <prints>
+      <print title="Cetak Rincian Transaksi Keseluruhan - Detail" reportcode="PM-00203" />
+      <print title="Cetak Rincian Transaksi Keseluruhan" reportcode="PM-00204" />
+      <print title="Cetak Rincian Transaksi Keseluruhan - Obat Alkes" reportcode="PM-00205" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99010403 -->
+  <page menucode="PM99010403">
+    <prints>
+      <print title="Cetak Bukti Penerimaan Uang Muka" reportcode="PM-00307" />
+      <print title="Cetak Bukti Pengembalian Uang Muka" reportcode="PM-00308" />
+      <print title="Cetak Bukti Penerimaan Pembayaran" visible="0" reportcode="PM-00301" />
+      <print title="Cetak Bukti Penerimaan Pembayaran - Kelompok Pelayanan" reportcode="PM-00309" />
+      <print title="Cetak Bukti Penerimaan Pembayaran - Detail" reportcode="PM-00302" />
+      <print title="Cetak Bukti Piutang Pribadi" visible="0" reportcode="PM-00303" />
+      <print title="Cetak Bukti Piutang Pribadi - Kelompok Pelayanan" reportcode="PM-00310" />
+      <print title="Cetak Bukti Piutang Pribadi - Detail" reportcode="PM-00304" />
+      <print title="Cetak Bukti Piutang Instansi" reportcode="PM-00305" />
+      <print title="Cetak Bukti Piutang Instansi - Detail" reportcode="PM-00306" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #EndRegion -->
+  <!-- #Region OP -->
+  <!-- #Region PM99020101 -->
+  <page menucode="PM99020101">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99020301 -->
+  <page menucode="PM99020301">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99020302 -->
+  <page menucode="PM99020302">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99020303 -->
+  <page menucode="PM99020303">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99020304 -->
+  <page menucode="PM99020304">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99020305 -->
+  <page menucode="PM99020305">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!--#Region PM99020401-->
+  <page menucode="PM99020401">
+    <prints>
+      <print title="Cetak Rincian Transaksi Keseluruhan - Detail" reportcode="PM-00203" />
+      <print title="Cetak Rincian Transaksi Keseluruhan" reportcode="PM-00204" />
+      <print title="Cetak Rincian Transaksi Keseluruhan - Obat Alkes" reportcode="PM-00205" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99020403 -->
+  <page menucode="PM99020403">
+    <prints>
+      <print title="Cetak Bukti Penerimaan Uang Muka" reportcode="PM-00307" />
+      <print title="Cetak Bukti Pengembalian Uang Muka" reportcode="PM-00308" />
+      <print title="Cetak Bukti Penerimaan Pembayaran" visible="0" reportcode="PM-00301" />
+      <print title="Cetak Bukti Penerimaan Pembayaran - Kelompok Pelayanan" reportcode="PM-00309" />
+      <print title="Cetak Bukti Penerimaan Pembayaran - Detail" reportcode="PM-00302" />
+      <print title="Cetak Bukti Piutang Pribadi" visible="0" reportcode="PM-00303" />
+      <print title="Cetak Bukti Piutang Pribadi - Kelompok Pelayanan" reportcode="PM-00310" />
+      <print title="Cetak Bukti Piutang Pribadi - Detail" reportcode="PM-00304" />
+      <print title="Cetak Bukti Piutang Instansi" reportcode="PM-00305" />
+      <print title="Cetak Bukti Piutang Instansi - Detail" reportcode="PM-00306" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #EndRegion -->
+  <!-- #Region IP -->
+  <!-- #Region PM99030101 -->
+  <page menucode="PM99030101">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99030301 -->
+  <page menucode="PM99030301">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99030302 -->
+  <page menucode="PM99030302">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99030303 -->
+  <page menucode="PM99030303">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99030304 -->
+  <page menucode="PM99030304">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99030305 -->
+  <page menucode="PM99030305">
+    <prints>
+      <print title="Bukti Transaksi" reportcode="PM-00201" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!--#Region PM99030401-->
+  <page menucode="PM99030401">
+    <prints>
+      <print title="Cetak Rincian Transaksi Keseluruhan - Detail" reportcode="PM-00203" />
+      <print title="Cetak Rincian Transaksi Keseluruhan" reportcode="PM-00204" />
+      <print title="Cetak Rincian Transaksi Keseluruhan - Obat Alkes" reportcode="PM-00205" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region PM99030403 -->
+  <page menucode="PM99030403">
+    <prints>
+      <print title="Cetak Bukti Penerimaan Uang Muka" reportcode="PM-00307" />
+      <print title="Cetak Bukti Pengembalian Uang Muka" reportcode="PM-00308" />
+      <print title="Cetak Bukti Penerimaan Pembayaran" visible="0" reportcode="PM-00301" />
+      <print title="Cetak Bukti Penerimaan Pembayaran - Kelompok Pelayanan" reportcode="PM-00309" />
+      <print title="Cetak Bukti Penerimaan Pembayaran - Detail" reportcode="PM-00302" />
+      <print title="Cetak Bukti Piutang Pribadi" visible="0" reportcode="PM-00303" />
+      <print title="Cetak Bukti Piutang Pribadi - Kelompok Pelayanan" reportcode="PM-00310" />
+      <print title="Cetak Bukti Piutang Pribadi - Detail" reportcode="PM-00304" />
+      <print title="Cetak Bukti Piutang Instansi" reportcode="PM-00305" />
+      <print title="Cetak Bukti Piutang Instansi - Detail" reportcode="PM-00306" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #EndRegion -->
+  <!-- #EndRegion -->
+</root>

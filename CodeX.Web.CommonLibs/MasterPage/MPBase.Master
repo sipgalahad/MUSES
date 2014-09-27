@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MPBase.master.cs" Inherits="CodeX.Web.CommonLibs.MasterPage.MPBase" %>
+
+<%@ Register Src="~/Libs/Controls/GeneralCtl.ascx" TagName="GeneralCtl" TagPrefix="uc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>MUSES</title>
+    <link href="../Images/icon.ico" rel="icon" type="image/gif" />
+    <link href='../Styles/common.css' rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href='../Styles/jquery/jquery.ui.core.css' type="text/css" />
+    <link rel="stylesheet" href='../Styles/jquery/jquery.ui.datepicker.css' type="text/css" />
+</head>
+<body style="max-width:100%; overflow-x: hidden">
+    <form id="myForm" runat="server">
+        <uc1:GeneralCtl ID="ctlGeneral" runat="server" />  
+        <asp:ContentPlaceHolder ID="plhMPBase" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </form>
+
+    <style type="text/css">
+        .dxeListBoxItemHover                { background-color: #A7DFF4; color: Black; }
+        .dxeListBoxItemSelected             { background-color: #368EE0; color: White; }
+
+        .dxeDisabled        { color: Maroon !important; background-color: #EAEAEA !important; border: 1px solid #848484; border-right: 1px solid #FAFAFA; border-bottom: 1px solid #FAFAFA; }
+        
+        .dxeButtonEdit input[type="text"]   { max-height: 19px; font-family: Segoe UI; font-size: 12px; }
+        .dxeButtonEdit                      { border: 1px solid #BABABA; }
+    </style>
+</body>
+</html>

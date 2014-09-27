@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!-- #Region IM020102 -->
+  <page menucode="IM020102">
+    <prints>
+      <print title="Cetak Bukti Permintaan Pembelian" reportcode="IM-00001" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM020202 -->
+  <page menucode="IM020202">
+    <prints>
+      <print title="Cetak Bukti Pemesanan Barang Dengan Nilai" reportcode="IM-00002" />
+    </prints>
+    <prints>
+      <print title="Cetak Bukti Pemesanan Barang Tanpa Nilai" reportcode="IM-00003" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM020301 -->
+  <page menucode="IM020301">
+    <prints>
+      <print title="Cetak Bukti Pembelian Tunai" reportcode="IM-00005" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM020302 -->
+  <page menucode="IM020302">
+    <prints>
+      <print title="Cetak Bukti Retur Pembelian Tunai Dengan Nilai" reportcode="IM-00010" />
+    </prints>
+    <prints>
+      <print title="Cetak Bukti Retur Pembelian Tunai Tanpa Nilai" reportcode="IM-00011" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030102 -->
+  <page menucode="IM030102">
+    <prints>
+      <print title="Cetak Bukti Permintaan Barang" reportcode="IM-00004" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030103 -->
+  <page menucode="IM030103">
+    <prints>
+      <print title="Cetak Bukti Permintaan Barang" reportcode="IM-00004" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030202 -->
+  <page menucode="IM030202">
+    <prints>
+      <print title="Cetak Bukti Distribusi Barang" reportcode="IM-00007" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030302 -->
+  <page menucode="IM030302">
+    <prints>
+      <print title="Cetak Bukti Retur Pembelian dengan Nilai" reportcode="IM-00012" />
+    </prints>
+    <prints>
+      <print title="Cetak Bukti Retur Pembelian tanpa Nilai" reportcode="IM-00013" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030301 -->
+  <page menucode="IM030301">
+    <prints>
+      <print title="Cetak Bukti Penerimaan Pembelian" reportcode="IM-00018" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030303 -->
+  <page menucode="IM030303">
+    <prints>
+      <print title="Cetak Bukti Nota Kredit" reportcode="IM-00006" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030304 -->
+  <page menucode="IM030304">
+    <prints>
+      <print title="Cetak Bukti Penggantian Barang" reportcode="IM-00009" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030503 -->
+  <page menucode="IM030503">
+    <prints>
+      <print title="Cetak Bukti Pemakaian Barang" reportcode="IM-00008" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030504 -->
+  <page menucode="IM030504">
+    <prints>
+      <print title="Cetak Bukti Produksi" reportcode="IM-00014" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+  <!-- #Region IM030505 -->
+  <page menucode="IM030505">
+    <prints>
+      <print title="Cetak Bukti Persediaan Stock Opname" reportcode="IM-00015" />
+      <print title="Cetak Form Stock Opname dengan Saldo" reportcode="IM-00016" />
+      <print title="Cetak Form Stock Opname tanpa Saldo" reportcode="IM-00017" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+
+</root>

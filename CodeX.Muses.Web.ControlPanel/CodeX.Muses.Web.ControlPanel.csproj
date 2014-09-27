@@ -1,0 +1,760 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4604E0BA-AD28-4D84-8522-C8356583EF83}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeX.Muses.Web.ControlPanel</RootNamespace>
+    <AssemblyName>CodeX.Muses.Web.ControlPanel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath />
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v11.1.Core, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v11.1.Design, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v11.1.Extensions, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v11.1.Service, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v11.1.Web, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx">
+      <Link>SharedLibs\Controls\ChangePasswordCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MatrixWithParameterCtl.ascx">
+      <Link>SharedLibs\Controls\MatrixWithParameterCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx">
+      <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
+      <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx">
+      <Link>SharedLibs\ErrorPage.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\Main.aspx">
+      <Link>SharedLibs\Program\Main.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx">
+      <Link>SharedLibs\Program\RemoteLogon.aspx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
+      <Link>SharedLibs\Service\MethodService.asmx</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Tools\DataLayerGenerator.aspx">
+      <Link>SharedLibs\Tools\DataLayerGenerator.aspx</Link>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="Login2.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapList.aspx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationEntry.aspx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationList.aspx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationTableLinkCtl.ascx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigration.aspx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigrationList.aspx" />
+    <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigrationProcessedDataCtl.ascx" />
+    <Content Include="Program\ProcessUtilities\PersonNameFormat\PersonNameFormatList.aspx" />
+    <Content Include="Program\ProcessUtilities\RecoverDeletedRecord\Configuration\RecoverDeletedRecordConfigurationEntry.aspx" />
+    <Content Include="Program\ProcessUtilities\RecoverDeletedRecord\Configuration\RecoverDeletedRecordConfigurationList.aspx" />
+    <Content Include="Program\ProcessUtilities\RecoverDeletedRecord\Tool\RecoverDeletedRecord.aspx" />
+    <Content Include="Program\ProcessUtilities\RecoverDeletedRecord\Tool\RecoverDeletedRecordList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\Menu\MenuEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\Menu\MenuList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\Module\ModuleEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\Module\ModuleList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\SettingParameter\SettingParameterEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\SettingParameter\SettingParameterList.aspx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\StandardCode\StandardCodeEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\StandardCode\StandardCodeList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\TagField\TagFieldList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\TransactionNumbering\TransactionNumberingEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\TransactionNumbering\TransactionNumberingList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\ZipCodes\ZipCodesEntry.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\ZipCodes\ZipCodesList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
+    <Content Include="Program\Tools\ViewErrorLog\ViewErrorLogList.aspx" />
+    <Content Include="Temp\Test.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.cs">
+      <Link>SharedLibs\Controls\ChangePasswordCtl.ascx.cs</Link>
+      <DependentUpon>ChangePasswordCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\ChangePasswordCtl.ascx.designer.cs</Link>
+      <DependentUpon>ChangePasswordCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.cs">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx.cs</Link>
+      <DependentUpon>GeneralCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.cs</Link>
+      <DependentUpon>GeneralCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx.cs</Link>
+      <DependentUpon>MatrixCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx.designer.cs</Link>
+      <DependentUpon>MatrixCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixWithParameterCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MatrixWithParameterCtl.ascx.cs</Link>
+      <DependentUpon>MatrixWithParameterCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixWithParameterCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MatrixWithParameterCtl.ascx.designer.cs</Link>
+      <DependentUpon>MatrixWithParameterCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.cs</Link>
+      <DependentUpon>MPEntryPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.designer.cs</Link>
+      <DependentUpon>MPEntryPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx.cs</Link>
+      <DependentUpon>MPListPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
+      <DependentUpon>MPListPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.cs">
+      <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.cs</Link>
+      <DependentUpon>SetLoginAttributeCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs</Link>
+      <DependentUpon>SetLoginAttributeCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
+      <Link>SharedLibs\ErrorPage.aspx.cs</Link>
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.designer.cs">
+      <Link>SharedLibs\ErrorPage.aspx.designer.cs</Link>
+      <DependentUpon>ErrorPage.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.cs">
+      <Link>SharedLibs\MasterPage\MPBase.Master.cs</Link>
+      <DependentUpon>MPBase.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBase.Master.designer.cs</Link>
+      <DependentUpon>MPBase.Master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseContent.master.cs</Link>
+      <DependentUpon>MPBaseContent.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseContent.master.designer.cs</Link>
+      <DependentUpon>MPBaseContent.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.cs">
+      <Link>SharedLibs\MasterPage\MPEntry.master.cs</Link>
+      <DependentUpon>MPEntry.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPEntry.master.designer.cs</Link>
+      <DependentUpon>MPEntry.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.cs">
+      <Link>SharedLibs\MasterPage\MPFrame.master.cs</Link>
+      <DependentUpon>MPFrame.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPFrame.master.designer.cs</Link>
+      <DependentUpon>MPFrame.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.cs">
+      <Link>SharedLibs\MasterPage\MPList.master.cs</Link>
+      <DependentUpon>MPList.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPList.master.designer.cs</Link>
+      <DependentUpon>MPList.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPListEntry.master.cs">
+      <Link>SharedLibs\MasterPage\MPListEntry.master.cs</Link>
+      <DependentUpon>MPListEntry.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPListEntry.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPListEntry.master.designer.cs</Link>
+      <DependentUpon>MPListEntry.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.cs">
+      <Link>SharedLibs\MasterPage\MPMain.master.cs</Link>
+      <DependentUpon>MPMain.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPMain.master.designer.cs</Link>
+      <DependentUpon>MPMain.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master.cs">
+      <Link>SharedLibs\MasterPage\MPTrx.master.cs</Link>
+      <DependentUpon>MPTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPTrx.master.designer.cs</Link>
+      <DependentUpon>MPTrx.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\Main.aspx.cs">
+      <Link>SharedLibs\Program\Main.aspx.cs</Link>
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\Main.aspx.designer.cs">
+      <Link>SharedLibs\Program\Main.aspx.designer.cs</Link>
+      <DependentUpon>Main.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.cs">
+      <Link>SharedLibs\Program\RemoteLogon.aspx.cs</Link>
+      <DependentUpon>RemoteLogon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.designer.cs">
+      <Link>SharedLibs\Program\RemoteLogon.aspx.designer.cs</Link>
+      <DependentUpon>RemoteLogon.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
+      <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
+      <DependentUpon>MethodService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Tools\DataLayerGenerator.aspx.cs">
+      <Link>SharedLibs\Tools\DataLayerGenerator.aspx.cs</Link>
+      <DependentUpon>DataLayerGenerator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Tools\DataLayerGenerator.aspx.designer.cs">
+      <Link>SharedLibs\Tools\DataLayerGenerator.aspx.designer.cs</Link>
+      <DependentUpon>DataLayerGenerator.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login2.aspx.cs">
+      <DependentUpon>Login2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login2.aspx.designer.cs">
+      <DependentUpon>Login2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx.cs">
+      <DependentUpon>LoginAttributeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx.designer.cs">
+      <DependentUpon>LoginAttributeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx.cs">
+      <DependentUpon>LoginAttributeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx.designer.cs">
+      <DependentUpon>LoginAttributeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx.cs">
+      <DependentUpon>FilterParameterEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx.designer.cs">
+      <DependentUpon>FilterParameterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterList.aspx.cs">
+      <DependentUpon>FilterParameterList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterList.aspx.designer.cs">
+      <DependentUpon>FilterParameterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx.cs">
+      <DependentUpon>ReportConfigurationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx.designer.cs">
+      <DependentUpon>ReportConfigurationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx.cs">
+      <DependentUpon>ReportConfigurationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx.designer.cs">
+      <DependentUpon>ReportConfigurationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.cs">
+      <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.designer.cs">
+      <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx.cs">
+      <DependentUpon>DataMigrationConfigurationColumnMapEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx.designer.cs">
+      <DependentUpon>DataMigrationConfigurationColumnMapEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapList.aspx.cs">
+      <DependentUpon>DataMigrationConfigurationColumnMapList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapList.aspx.designer.cs">
+      <DependentUpon>DataMigrationConfigurationColumnMapList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationEntry.aspx.cs">
+      <DependentUpon>DataMigrationConfigurationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationEntry.aspx.designer.cs">
+      <DependentUpon>DataMigrationConfigurationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationList.aspx.cs">
+      <DependentUpon>DataMigrationConfigurationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationList.aspx.designer.cs">
+      <DependentUpon>DataMigrationConfigurationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationTableLinkCtl.ascx.cs">
+      <DependentUpon>DataMigrationTableLinkCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationTableLinkCtl.ascx.designer.cs">
+      <DependentUpon>DataMigrationTableLinkCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigration.aspx.cs">
+      <DependentUpon>DataMigration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigration.aspx.designer.cs">
+      <DependentUpon>DataMigration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigrationList.aspx.cs">
+      <DependentUpon>DataMigrationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigrationList.aspx.designer.cs">
+      <DependentUpon>DataMigrationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigrationProcessedDataCtl.ascx.cs">
+      <DependentUpon>DataMigrationProcessedDataCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationTool\DataMigrationProcessedDataCtl.ascx.designer.cs">
+      <DependentUpon>DataMigrationProcessedDataCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\PersonNameFormat\PersonNameFormatList.aspx.cs">
+      <DependentUpon>PersonNameFormatList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\PersonNameFormat\PersonNameFormatList.aspx.designer.cs">
+      <DependentUpon>PersonNameFormatList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Configuration\RecoverDeletedRecordConfigurationEntry.aspx.cs">
+      <DependentUpon>RecoverDeletedRecordConfigurationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Configuration\RecoverDeletedRecordConfigurationEntry.aspx.designer.cs">
+      <DependentUpon>RecoverDeletedRecordConfigurationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Configuration\RecoverDeletedRecordConfigurationList.aspx.cs">
+      <DependentUpon>RecoverDeletedRecordConfigurationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Configuration\RecoverDeletedRecordConfigurationList.aspx.designer.cs">
+      <DependentUpon>RecoverDeletedRecordConfigurationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Tool\RecoverDeletedRecord.aspx.cs">
+      <DependentUpon>RecoverDeletedRecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Tool\RecoverDeletedRecord.aspx.designer.cs">
+      <DependentUpon>RecoverDeletedRecord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Tool\RecoverDeletedRecordList.aspx.cs">
+      <DependentUpon>RecoverDeletedRecordList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\RecoverDeletedRecord\Tool\RecoverDeletedRecordList.aspx.designer.cs">
+      <DependentUpon>RecoverDeletedRecordList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuEntry.aspx.cs">
+      <DependentUpon>MenuEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuEntry.aspx.designer.cs">
+      <DependentUpon>MenuEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuList.aspx.cs">
+      <DependentUpon>MenuList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuList.aspx.designer.cs">
+      <DependentUpon>MenuList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Module\ModuleEntry.aspx.cs">
+      <DependentUpon>ModuleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Module\ModuleEntry.aspx.designer.cs">
+      <DependentUpon>ModuleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Module\ModuleList.aspx.cs">
+      <DependentUpon>ModuleList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Module\ModuleList.aspx.designer.cs">
+      <DependentUpon>ModuleList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\SettingParameter\SettingParameterEntry.aspx.cs">
+      <DependentUpon>SettingParameterEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\SettingParameter\SettingParameterEntry.aspx.designer.cs">
+      <DependentUpon>SettingParameterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\SettingParameter\SettingParameterList.aspx.cs">
+      <DependentUpon>SettingParameterList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\SettingParameter\SettingParameterList.aspx.designer.cs">
+      <DependentUpon>SettingParameterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.designer.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\StandardCode\StandardCodeEntry.aspx.cs">
+      <DependentUpon>StandardCodeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\StandardCode\StandardCodeEntry.aspx.designer.cs">
+      <DependentUpon>StandardCodeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\StandardCode\StandardCodeList.aspx.cs">
+      <DependentUpon>StandardCodeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\StandardCode\StandardCodeList.aspx.designer.cs">
+      <DependentUpon>StandardCodeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\TagField\TagFieldList.aspx.cs">
+      <DependentUpon>TagFieldList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\TagField\TagFieldList.aspx.designer.cs">
+      <DependentUpon>TagFieldList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\TransactionNumbering\TransactionNumberingEntry.aspx.cs">
+      <DependentUpon>TransactionNumberingEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\TransactionNumbering\TransactionNumberingEntry.aspx.designer.cs">
+      <DependentUpon>TransactionNumberingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\TransactionNumbering\TransactionNumberingList.aspx.cs">
+      <DependentUpon>TransactionNumberingList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\TransactionNumbering\TransactionNumberingList.aspx.designer.cs">
+      <DependentUpon>TransactionNumberingList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ZipCodes\ZipCodesEntry.aspx.cs">
+      <DependentUpon>ZipCodesEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ZipCodes\ZipCodesEntry.aspx.designer.cs">
+      <DependentUpon>ZipCodesEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ZipCodes\ZipCodesList.aspx.cs">
+      <DependentUpon>ZipCodesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\ZipCodes\ZipCodesList.aspx.designer.cs">
+      <DependentUpon>ZipCodesList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.cs">
+      <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.designer.cs">
+      <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.cs">
+      <DependentUpon>UserManagementList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.designer.cs">
+      <DependentUpon>UserManagementList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.cs">
+      <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.cs">
+      <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.designer.cs">
+      <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.cs">
+      <DependentUpon>UserRolesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.designer.cs">
+      <DependentUpon>UserRolesList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Tools\ViewErrorLog\ViewErrorLogList.aspx.cs">
+      <DependentUpon>ViewErrorLogList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Tools\ViewErrorLog\ViewErrorLogList.aspx.designer.cs">
+      <DependentUpon>ViewErrorLogList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Temp\Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temp\Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Program\Master\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
+      <Project>{E33A9234-868D-432F-BE4A-F18087209BCF}</Project>
+      <Name>CodeX.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Data.Core\CodeX.Data.Core.csproj">
+      <Project>{CAC7A3D3-E6BB-4C97-B728-B87D395EB688}</Project>
+      <Name>CodeX.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Data.Model\CodeX.Data.Model.csproj">
+      <Project>{E8019F76-DE58-43A7-984C-A1272D62EA45}</Project>
+      <Name>CodeX.Data.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Report\CodeX.Report.csproj">
+      <Project>{0C8A80FC-005D-4002-8906-903A0AD20B88}</Project>
+      <Name>CodeX.Report</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Web.Common\CodeX.Web.Common.csproj">
+      <Project>{12E5AAFD-04A7-4D8F-8840-C8CB4E0B23DC}</Project>
+      <Name>CodeX.Web.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeX.Web.CustomControl\CodeX.Web.CustomControl.csproj">
+      <Project>{A61E72CD-A2CE-42EF-BBD5-9657CC3C8E9E}</Project>
+      <Name>CodeX.Web.CustomControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">
+      <Link>AppSetting.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
+      <Link>ConnectionString.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master">
+      <Link>SharedLibs\MasterPage\MPBase.Master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master">
+      <Link>SharedLibs\MasterPage\MPEntry.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master">
+      <Link>SharedLibs\MasterPage\MPFrame.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master">
+      <Link>SharedLibs\MasterPage\MPList.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPListEntry.master">
+      <Link>SharedLibs\MasterPage\MPListEntry.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master">
+      <Link>SharedLibs\MasterPage\MPMain.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
+      <Link>SharedLibs\MasterPage\MPTrx.master</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master">
+      <Link>SharedLibs\MasterPage\MPBaseContent.master</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1176</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/research/Muses/ControlPanel</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>COPY "$(TargetDir)*.config" "$(ProjectDir)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

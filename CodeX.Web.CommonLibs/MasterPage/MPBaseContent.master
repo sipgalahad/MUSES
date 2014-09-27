@@ -1,0 +1,67 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPMain.Master" AutoEventWireup="true" 
+    CodeBehind="MPBaseContent.master.cs" Inherits="CodeX.Web.CommonLibs.MasterPage.MPBaseContent" %>
+
+<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
+<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="qis" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
+    <asp:ContentPlaceHolder ID="plhMPMain" runat="server">                
+    </asp:ContentPlaceHolder>
+
+    <script type="text/javascript">
+        $(function () {
+            var isHoverToolbarArea = false;
+            $('#toolbarArea').hover(function () {
+                isHoverToolbarArea = true;
+            }, function () {
+                isHoverToolbarArea = false;
+            });
+
+            $('html').click(function () {
+                if (!isHoverToolbarArea)
+                    $('#toolbarArea').slideUp('fast');
+            });
+
+            $('#openBottomBar').hover(function () {
+                $('#toolbarArea').slideDown('fast');
+            });
+            $('#toolbarArea').slideDown('fast');
+        });
+
+        $(document).live("contextmenu", function (e) {
+            if (e.button === 2) {
+                e.preventDefault();
+                $('#toolbarArea').slideDown('fast');
+            }
+        });
+        $(function () {
+            $('#<%=btnMPEntryPrint.ClientID %>').click(function () {
+                var id = '<%=OnGetMenuCode() %>';
+                var url = ResolveUrl("~/Libs/Controls/PopupPrintCtl.ascx");
+                openUserControlPopup(url, id, 'Print', 500, 400);
+            });
+            $('#<%=btnMPEntryInfo.ClientID %>').click(function () {
+                var id = '<%=OnGetMenuCode() %>';
+                var url = ResolveUrl("~/Libs/Controls/PopupInfoCtl.ascx");
+                openUserControlPopup(url, id, 'Information', 500, 400);
+            });
+        });
+    </script>
+
+    <div id="openBottomBar"></div>        
+    <div class="toolbarArea" id="toolbarArea">
+        <asp:ContentPlaceHolder ID="plhToolbar" runat="server">                
+        </asp:ContentPlaceHolder>
+
+        <ul class="quickMenu">
+            <li id="btnMPEntryPrint" style="display:none" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbprint.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Print")%></div></li>
+            <li id="btnMPEntryInfo" style="display:none" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbinfo.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Info")%></div></li>
+            <asp:ContentPlaceHolder ID="plhCustomQuickMenu" runat="server">                
+            </asp:ContentPlaceHolder>
+        </ul>
+    </div>
+</asp:Content>

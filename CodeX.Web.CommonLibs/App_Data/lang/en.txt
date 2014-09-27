@@ -1,0 +1,120 @@
+AddData;Add Data
+AdditionalInformation;Additional Information
+Address;Address
+Age;Age
+AllClinic;All Clinic
+Allergy;Allergy
+AppointmentDate;Appointment Date
+AppointmentNo;Appointment No.
+BirthPlace;Birth Place
+BlackList;Black List
+BloodType;Blood Type
+Cancel;Cancel
+CardFee;Card Fee
+ChangeAppointmentSchedule;Change Appointment Schedule
+ChangePatientBlackListStatus;Change Patient Black List Status
+ChangeToDate;Change To Date
+ClosePatientRegistrationStatusProcess;Close Patient Registration Status Proses
+City;City
+Close;Close
+Company;Company
+ContactInformation;Contact Information
+CoverageLimit;Coverage Limit
+Date;Date
+Day;Day
+Delete;Delete
+DOB;Date Of Birth
+Edit;Edit
+Education;Education
+Email;Email
+EmergencyContact;Emergency Contact
+Ethnic;Ethnic
+Every10Minutes;Every 10 Minutes
+ExpiredDate;Expired Date
+FamilyName;Family Name
+Father/HusbandName;Father / Husband Name
+Female;Female
+Gender;Gender
+Hour;Hour
+IdentityCardNo;Identity Card No
+Job;Job
+JobDescription;JobDescription
+Male;Male
+MaritalStatus;Marital Status
+MobilePhone;Mobile Phone
+Month;Month
+Mother/WifeName;Mother / Wife Name
+MRN;MRN
+Name;Name
+Nationality;Nationality
+New;New
+Next;Next
+Notes;Notes
+Office;Office
+OfficeAddress;Office Address
+OfficeTelephone;Office Telephone
+Open;Open
+OpenClosePatientRegistrationStatus;Open / Close Patient Registration Status
+OtherInformation;Other Information
+OutpatientRegistration;Outpatient Registration
+PacketNo;Packet No
+ParticipantNo;Participant No
+PassportNo;Passport No
+PatientAddressData;Patient Address
+PatientAppointment;Patient Appointment
+PatientBillSummary;Patient Bill Summary
+PatientCategory;Patient Category
+PatientContactData;Patient Contact
+PatientData;Patient Data
+PatientFamilyData;Patient Family Data
+PatientIdentity;Patient Identity
+PatientInformation;Patient Information
+PatientJobData;Patient Job Data
+PatientManagement;Patient Management
+PatientName;Patient Name
+PatientPayerData;Patient Payer Data
+PatientStatus;Patient Status
+PatientVisit;Patient Visit
+Payer;Payer
+PayerData;Payer Data
+Physician;Physician
+Plafon;Plafon
+Polyclinic;Polyclinic
+PolyclinicTransaction;Polyclinic Transaction
+PreferredName;Preferred Name
+Pregnant;Pregnant
+Prev;Prev
+Province;Province
+QueueNo;Queue No
+Reason;Reason
+Referral;Referral
+ReferralDescription;Referral Description
+Registrar;Registrar
+RegistrationData;Registration Data
+RegistrationDate;Registration Date
+RegistrationDateTime;Registration Date / Time
+RegistrationNo;Registration No.
+RegistrationTime;Registration Time
+Relation;Relation
+Religion;Religion
+RT;RT
+RW;RW
+Salutation;Salutation
+SearchDialog;Search Dialog
+Save;Save
+SelectPatient;Select Patient
+Shift;Shift
+Specialty;Specialty
+Telephone;Telephone
+TelephoneNo;Telephone No
+ThisPageWill;This Page Will
+Title;Title
+TransactionNo;Transaction No
+VisitData;Visit Information
+VisitInformation;Visit Information
+VisitNotes;Visit Notes
+VisitType;Visit Type
+Void;Void
+Welcome;Welcome
+Year;Year
+ZipCode;Zip Code

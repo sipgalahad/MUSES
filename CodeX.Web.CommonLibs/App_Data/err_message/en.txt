@@ -1,0 +1,20 @@
+101;There are opened transaction(s) for this visit
+102;This Bed Cannot Be Used
+103;This Patient Has Opened Registration.
+104;Registration Had Been Closed
+105;Please Discharge Patient First
+106;Please Finish Transaction First
+107;There are opened transaction(s) for this registration
+108;This Appointment Has Completed. Cannot Be Edited
+109;Please Select Appointment First
+110;Please Select Registration First
+111;Registration Is Opened
+112;Please Select Medical No First
+113;Please Select Transaction First
+114;Uang yang dibayarkan tidak boleh kurang dari jumlah tagihan
+115;Uang yang dibayarkan tidak boleh lebih dari jumlah tagihan
+116;This Patient Doesn\'t Have Medical No. Please Entry Patient Data First
+117;This Slot Cannot Be Used
+118;This Registration Had Been Transferred To Inpatient. Cannot Be Opened
+119;Transaksi Sudah Digunakan Dalam Proses Honor Dokter. Tidak bisa dibatalkan.
+120;Uang Muka Sudah Digunakan Untuk Proses Pelunasan. Tidak bisa dibatalkan

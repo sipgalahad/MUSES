@@ -1,0 +1,162 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBase.master" AutoEventWireup="true" 
+    CodeBehind="MPBaseDetailPage.master.cs" Inherits="CodeX.Web.CommonLibs.MasterPage.MPBaseDetailPage" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="plhMPBase" runat="server">
+    <script type="text/javascript">        
+        $(function () {
+            $('html').click(function () {
+                if (!isHoverToolbarArea)
+                    $('#toolbarArea').slideUp('fast');
+            });
+
+            var isHoverToolbarArea = false;
+            $('#toolbarArea').hover(function () {
+                isHoverToolbarArea = true;
+            }, function () {
+                isHoverToolbarArea = false;
+            });
+
+            $('#openBottomBar').hover(function () {
+                $('#toolbarArea').slideDown('fast');
+            });
+            $('#toolbarArea').slideDown('fast');
+        });
+
+        $(document).live("contextmenu", function (e) {
+            if (e.button === 2) {
+                e.preventDefault();
+                $('#toolbarArea').slideDown('fast');
+            }
+        });
+        $(function () {
+            $('#imgBaseHeaderCloseHeaderDetailClose').click(function () {
+                $('#headerBannerDetail').hide();
+            });
+            $('#imgBaseHeaderCloseHeaderDetailOpen').click(function () {
+                $('#headerBannerDetail').show();
+            });
+
+            $('#ulTabMenuLevel1 li').click(function () {
+                showLoadingPanel();
+                document.location = ResolveUrl($(this).attr('url'));
+            });
+
+            $('#ulTabMenuLevel2 li').click(function () {
+                showLoadingPanel();
+                document.location = ResolveUrl($(this).attr('url'));
+            });
+
+            $(function () {
+                $('#<%=btnMPEntryPrint.ClientID %>').click(function () {
+                    var id = '<%=OnGetMenuCode() %>';
+                    var url = ResolveUrl("~/Libs/Controls/PopupPrintCtl.ascx");
+                    openUserControlPopup(url, id, 'Print', 500, 400);
+                });
+                $('#<%=btnMPEntryInfo.ClientID %>').click(function () {
+                    var id = '<%=OnGetMenuCode() %>';
+                    var url = ResolveUrl("~/Libs/Controls/PopupInfoCtl.ascx");
+                    openUserControlPopup(url, id, 'Information', 500, 400);
+                });
+            });
+        });
+    </script>
+    <style type="text/css">
+        .ulTabMenuLevel1                { padding: 0; margin: 0; font-size: 20px; margin-bottom: 10px; }
+        .ulTabMenuLevel1 li             { cursor: pointer; display: inline-block; list-style-type: none; margin-right: 12px; color: #666; }
+        .ulTabMenuLevel1 li:hover       { color: #000; }
+        .ulTabMenuLevel1 li.selected    { color: #1564AD; border-bottom: 1px solid #368EE0; }
+            
+        .ulTabMenuLevel2                { padding: 0; margin: 0; font-size: 12px; border-bottom: 1px solid; }
+        .ulTabMenuLevel2 li             { cursor: pointer; text-transform: uppercase; display: inline-block; list-style-type: none; margin-right: 16px; color: #666; font-weight: bolder; }
+        .ulTabMenuLevel2 li:hover       { color: #000; }
+        .ulTabMenuLevel2 li.selected    { color: #1564AD; }
+            
+        .headerBannerDetail             { display: none; position: absolute; z-index: 30002; background-color: White; border-left: 1px solid #A1A1A1; top: 0; bottom: 0; right: 0; width: 650px; }
+        .headerBannerDetail .headerBannerDetailTitle { background-color: #008917; padding: 20px 10px 10px 10px; color: White; }
+        .headerBannerDetail .headerBannerDetailTitle * { color: White; }
+            
+        .headerBannerDetail .ulHeaderBannerDetailInfo    { padding: 0; margin: 0; margin-top: 5px; }
+        .headerBannerDetail .ulHeaderBannerDetailInfo li { display: inline-block; list-style-type: none; margin-right: 3px; border: 1px solid; margin-bottom: 5px; }
+        .headerBannerDetail .ulHeaderBannerDetailInfo li div.containerTile { display: table-cell; vertical-align: middle; padding: 10px; font-size: 30px; height: 60px; text-align: center; }
+        .headerBannerDetail .ulHeaderBannerDetailInfo li h6  { font-size: 14px; border-top: 1px solid; text-align: center; margin: 0; }
+        
+        .circle                         { display: block; width: 35px; height: 35px; margin: 1em auto; background-size: cover; background-repeat: no-repeat;
+                                         background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+        .floatRight                     { float: right; margin-top: -10px; }
+    </style>
+    <div style="padding: 10px;">
+        <div class="headerBannerDetail" id="headerBannerDetail">  
+            <div class="headerBannerDetailTitle">
+                
+                <div class="circle floatRight" id="divImageHeaderBanner"></div>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><img id="imgBaseHeaderCloseHeaderDetailClose" class="imgLink" src='<%=ResolveUrl("~/Libs/Images/Icon/back.png") %>' alt="" height="25px" style="margin-top: 0px;" /></td>    
+                        <td style="width: 10px;">&nbsp;</td>
+                        <td id="tdPatientName" runat="server" style="font-size: 20px;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div style="padding: 10px;">
+                <asp:ContentPlaceHolder ID="plhMPBaseDetailPageDetailInfo" runat="server">        
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+        
+        <asp:ContentPlaceHolder ID="plhMPBaseDetailPageExitImage" runat="server">        
+        </asp:ContentPlaceHolder>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td><h3 id="h3Title" runat="server"></h3></td>
+                <td style="width: 10px">&nbsp;</td>
+                <td valign="top" style="padding-top: 10px;"><img id="imgBaseHeaderCloseHeaderDetailOpen" class="imgLink" src='<%=ResolveUrl("~/Libs/Images/Icon/arrow-down.png") %>' height="30px" alt="" /></td>
+            </tr>
+        </table>
+    
+         <asp:Repeater ID="rptMenuHeader" runat="server" OnItemDataBound="rptMenuHeader_ItemDataBound">
+            <HeaderTemplate>
+                <ul class="ulTabMenuLevel1" id="ulTabMenuLevel1">        
+            </HeaderTemplate>
+            <ItemTemplate>
+                <li id="ulLinkModule" runat="server">
+                    <%#Eval("MenuCaption")%>
+                </li>
+            </ItemTemplate>
+            <FooterTemplate>
+                </ul>
+            </FooterTemplate>
+        </asp:Repeater>
+
+        <div id="divBorderBottomMenuLevel1" runat="server" style="border-bottom: 1px solid; width:100%; margin-top: -10px;"></div>
+
+        <asp:Repeater ID="rptMenuDetail" runat="server" OnItemDataBound="rptMenuDetail_ItemDataBound">
+            <HeaderTemplate>
+                <ul class="ulTabMenuLevel2" id="ulTabMenuLevel2">                        
+            </HeaderTemplate>
+            <ItemTemplate>  
+                <li id="liCaption" runat="server" url='<%#Eval("MenuUrl") %>'><%#Eval("MenuCaption") %></li>                    
+            </ItemTemplate>
+            <FooterTemplate>
+                </ul>
+            </FooterTemplate>
+        </asp:Repeater>
+
+        <div style="position:relative">
+            <asp:ContentPlaceHolder ID="plhMPBaseDetailPage" runat="server">        
+            </asp:ContentPlaceHolder>
+
+            <div id="openBottomBar"></div>        
+            <div class="toolbarArea" id="toolbarArea">
+                <asp:ContentPlaceHolder ID="plhToolbar" runat="server">                
+                </asp:ContentPlaceHolder>
+
+                <ul class="quickMenu">
+                    <li id="btnMPEntryPrint" style="display:none" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbprint.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Print")%></div></li>
+                    <li id="btnMPEntryInfo" style="display:none" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbinfo.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Info")%></div></li>
+                    <asp:ContentPlaceHolder ID="plhCustomQuickMenu" runat="server">                
+                    </asp:ContentPlaceHolder>
+                </ul>
+            </div>
+        </div>
+    </div>
+</asp:Content>
