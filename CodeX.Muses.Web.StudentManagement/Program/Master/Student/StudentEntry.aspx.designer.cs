@@ -31,40 +31,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtStudentCode;
         
         /// <summary>
-        /// cboGCSalutation control.
+        /// cboSalutation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCSalutation;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSalutation;
         
         /// <summary>
-        /// cboGCSuffix control.
+        /// cboTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCSuffix;
-        
-        /// <summary>
-        /// cboGCStudentStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCStudentStatus;
-        
-        /// <summary>
-        /// cboGCTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCTitle;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTitle;
         
         /// <summary>
         /// txtFirstName control.
@@ -94,6 +76,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtLastName;
         
         /// <summary>
+        /// cboSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSuffix;
+        
+        /// <summary>
         /// txtPreferredName control.
         /// </summary>
         /// <remarks>
@@ -101,6 +92,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPreferredName;
+        
+        /// <summary>
+        /// cboGender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGender;
+        
+        /// <summary>
+        /// cboNationality control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboNationality;
         
         /// <summary>
         /// txtBirthPlace control.
@@ -121,49 +130,67 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtDOB;
         
         /// <summary>
-        /// cboGCNationality control.
+        /// txtAgeInYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCNationality;
+        protected global::System.Web.UI.WebControls.TextBox txtAgeInYear;
         
         /// <summary>
-        /// cboGCGrade control.
+        /// txtAgeInMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCGrade;
+        protected global::System.Web.UI.WebControls.TextBox txtAgeInMonth;
         
         /// <summary>
-        /// cboGCMajor control.
+        /// txtAgeInDay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCMajor;
+        protected global::System.Web.UI.WebControls.TextBox txtAgeInDay;
         
         /// <summary>
-        /// txtPictureFileName control.
+        /// txtEmailAddress1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPictureFileName;
+        protected global::System.Web.UI.WebControls.TextBox txtEmailAddress1;
         
         /// <summary>
-        /// txtRemarks control.
+        /// txtEmailAddress2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        protected global::System.Web.UI.WebControls.TextBox txtEmailAddress2;
+        
+        /// <summary>
+        /// txtMobilePhoneNo1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMobilePhoneNo1;
+        
+        /// <summary>
+        /// txtMobilePhoneNo2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMobilePhoneNo2;
         
         /// <summary>
         /// txtAddress control.
@@ -202,22 +229,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtCity;
         
         /// <summary>
-        /// txtProvinceCode control.
+        /// tacProvince control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProvinceCode;
-        
-        /// <summary>
-        /// txtProvinceName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProvinceName;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacProvince;
         
         /// <summary>
         /// tacZipCode control.
@@ -238,39 +256,48 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtTelephoneNo;
         
         /// <summary>
-        /// txtEmailAddress1 control.
+        /// cboStudentStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmailAddress1;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStudentStatus;
         
         /// <summary>
-        /// txtEmailAddress2 control.
+        /// cboGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmailAddress2;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGrade;
         
         /// <summary>
-        /// txtMobilePhoneNo1 control.
+        /// cboMajor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMobilePhoneNo1;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMajor;
         
         /// <summary>
-        /// txtMobilePhoneNo2 control.
+        /// txtPictureFileName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMobilePhoneNo2;
+        protected global::System.Web.UI.WebControls.TextBox txtPictureFileName;
+        
+        /// <summary>
+        /// txtRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
     }
 }

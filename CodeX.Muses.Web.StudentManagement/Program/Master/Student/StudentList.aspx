@@ -76,8 +76,8 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="StudentCode" HeaderText="Kode Student" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="FullName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="StudentCode" HeaderText="Kode Siswa" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="PatientName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

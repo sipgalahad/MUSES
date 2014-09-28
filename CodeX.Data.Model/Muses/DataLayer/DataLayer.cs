@@ -15,15 +15,18 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _GCSalutation;
-        private String _GCSuffix;
         private String _GCStudentStatus;
         private String _GCTitle;
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _StudentName;
+        private String _Name;
+        private String _GCSuffix;
         private String _PreferredName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
         private String _GCNationality;
         private String _GCGrade;
         private String _GCMajor;
@@ -58,12 +61,6 @@ namespace CodeX.Data.Model
             get { return _GCSalutation; }
             set { _GCSalutation = value; }
         }
-        [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
-        public String GCSuffix
-        {
-            get { return _GCSuffix; }
-            set { _GCSuffix = value; }
-        }
         [Column(Name = "GCStudentStatus", DataType = "String")]
         public String GCStudentStatus
         {
@@ -94,6 +91,24 @@ namespace CodeX.Data.Model
             get { return _LastName; }
             set { _LastName = value; }
         }
+        [Column(Name = "StudentName", DataType = "String", IsNullable = true)]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "Name", DataType = "String", IsNullable = true)]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
+        }
+        [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
+        public String GCSuffix
+        {
+            get { return _GCSuffix; }
+            set { _GCSuffix = value; }
+        }
         [Column(Name = "PreferredName", DataType = "String")]
         public String PreferredName
         {
@@ -111,6 +126,12 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
         }
         [Column(Name = "GCNationality", DataType = "String", IsNullable = true)]
         public String GCNationality

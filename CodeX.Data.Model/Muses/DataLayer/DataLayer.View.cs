@@ -9,7 +9,7 @@ namespace CodeX.Data.Model
     #region vStudent
     [Serializable]
     [Table(Name = "vStudent")]
-    public class vStudent
+    public partial class vStudent
     {
         private Int32 _StudentID;
         private String _StudentCode;
@@ -23,6 +23,7 @@ namespace CodeX.Data.Model
         private String _PreferredName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
         private String _GCNationality;
         private String _GCGrade;
         private String _GCMajor;
@@ -32,6 +33,7 @@ namespace CodeX.Data.Model
         private String _City;
         private String _County;
         private String _GCState;
+        private String _State;
         private Int32 _ZipCodeID;
         private String _ZipCode;
         private String _EmailAddress1;
@@ -113,6 +115,12 @@ namespace CodeX.Data.Model
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
         }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
         [Column(Name = "GCNationality", DataType = "String")]
         public String GCNationality
         {
@@ -166,6 +174,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCState; }
             set { _GCState = value; }
+        }
+        [Column(Name = "State", DataType = "String")]
+        public String State
+        {
+            get { return _State; }
+            set { _State = value; }
         }
         [Column(Name = "ZipCodeID", DataType = "Int32")]
         public Int32 ZipCodeID
