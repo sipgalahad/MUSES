@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class ReportConfigurationList : BasePageList
+    public partial class SubjectList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.REPORT_CONFIGURATION;
+            return Constant.MenuCode.ControlPanel.SUBJECT;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvReportMasterRowIndex(filterExpression, keyValue, "ReportCode") + 1;
+                int row = BusinessLayer.GetSubjectRowIndex(filterExpression, keyValue, "SubjectCode") + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -42,8 +42,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Report Code", "Report Title" };
-            fieldListValue = new string[] { "ReportCode", "ReportTitle1 ReportTitle2" };
+            fieldListText = new string[] { "Kode", "Nama" };
+            fieldListValue = new string[] { "SubjectCode", "SubjectName" };
         }
 
         private string GetFilterExpression()
@@ -61,11 +61,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvReportMasterRowCount(filterExpression);
+                rowCount = BusinessLayer.GetSubjectRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vReportMaster> lstEntity = BusinessLayer.GetvReportMasterList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ReportCode");
+            List<Subject> lstEntity = BusinessLayer.GetSubjectList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SubjectCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -96,7 +96,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/ControlPanel/SystemConfiguration/ReportConfiguration/ReportConfigurationEntry.aspx");
+            url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx");
             return true;
         }
 
@@ -104,7 +104,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/ControlPanel/SystemConfiguration/ReportConfiguration/ReportConfigurationEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/Subject/SubjectEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -114,10 +114,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                ReportMaster entity = BusinessLayer.GetReportMaster(Convert.ToInt32(hdnID.Value));
+                Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateReportMaster(entity);
+                BusinessLayer.UpdateSubject(entity);
                 return true;
             }
             return false;

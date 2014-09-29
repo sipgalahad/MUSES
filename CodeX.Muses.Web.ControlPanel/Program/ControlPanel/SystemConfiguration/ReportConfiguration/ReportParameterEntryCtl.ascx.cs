@@ -9,7 +9,7 @@ using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common;
 
-namespace CodeX.Ronin.Web.SystemSetup.Program
+namespace CodeX.Muses.Web.ControlPanel.Program
 {
     public partial class ReportParameterEntryCtl : BaseViewPopupCtl
     {

@@ -23,6 +23,7 @@ namespace CodeX.Common
         #region Standard Code
         public static class StandardCode
         {
+            public const string SCHOOL_PERIOD_STATUS = "MS001";
             public const string SCHOOL_GRADE = "MS003";
             public const string SCHOOL_MAJOR = "MS004";
             public const string STUDENT_STATUS = "MS006";
@@ -152,6 +153,14 @@ namespace CodeX.Common
             public const string PRESCRIPTION_RETURN_TYPE = "X179";
         }
 
+        public static class SchoolPeriodStatus
+        {
+            public const string OPEN = "MS001^001";
+            public const string START = "MS001^002";
+            public const string END = "MS001^003";
+            public const string VOID = "MS001^999";
+        }
+
         public static class ControlType
         {
             public const string TEXT_BOX = "X103^001";
@@ -232,6 +241,9 @@ namespace CodeX.Common
             #region ControlPanel
             public static class ControlPanel
             {
+                public const string ROOM = "CP010103";
+                public const string SUBJECT = "CP010104";
+
                 public const string SITE_INFORMATION = "CP020101";
                 public const string MODULE_MANAGEMENT = "CP020201";
                 public const string MENU_MANAGEMENT = "CP020202";
@@ -262,6 +274,7 @@ namespace CodeX.Common
             public static class StudentManagement
             {
                 public const string STUDENT = "SM010100";
+                public const string SCHOOL_PERIOD = "SM010200";
             }
             #endregion
         }

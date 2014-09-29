@@ -10,7 +10,7 @@ using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace CodeX.Ronin.Web.SystemSetup.Program
+namespace CodeX.Muses.Web.ControlPanel.Program
 {
     public partial class FilterParameterEntry : BasePageEntry
     {

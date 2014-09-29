@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class ReportConfigurationList {
+    public partial class RoomList {
         
         /// <summary>
         /// hdnID control.

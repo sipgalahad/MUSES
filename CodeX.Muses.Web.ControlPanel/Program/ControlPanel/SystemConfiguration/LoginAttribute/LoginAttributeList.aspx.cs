@@ -10,7 +10,7 @@ using CodeX.Web.Common.UI;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
-namespace CodeX.Ronin.Web.SystemSetup.Program
+namespace CodeX.Muses.Web.ControlPanel.Program
 {
     public partial class LoginAttributeList : BasePageList
     {

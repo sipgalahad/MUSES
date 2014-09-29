@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanel.Program {
+namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ReportConfigurationList {
+    public partial class SchoolPeriodList {
         
         /// <summary>
         /// hdnID control.

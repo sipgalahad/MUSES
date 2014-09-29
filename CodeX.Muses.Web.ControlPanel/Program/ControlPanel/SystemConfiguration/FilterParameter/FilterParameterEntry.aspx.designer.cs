@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Ronin.Web.SystemSetup.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
     public partial class FilterParameterEntry {

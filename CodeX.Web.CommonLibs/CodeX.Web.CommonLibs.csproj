@@ -1059,20 +1059,6 @@
     <Compile Include="MasterPage\MPTrx2.master.designer.cs">
       <DependentUpon>MPTrx2.master</DependentUpon>
     </Compile>
-    <Compile Include="MasterPage\MPFrame.master.cs">
-      <DependentUpon>MPFrame.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MasterPage\MPFrame.master.designer.cs">
-      <DependentUpon>MPFrame.master</DependentUpon>
-    </Compile>
-    <Compile Include="MasterPage\MPListEntry.master.cs">
-      <DependentUpon>MPListEntry.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MasterPage\MPListEntry.master.designer.cs">
-      <DependentUpon>MPListEntry.master</DependentUpon>
-    </Compile>
     <Compile Include="MasterPage\MPEntry.master.cs">
       <DependentUpon>MPEntry.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1231,8 +1217,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MasterPage\MPListEntry.master" />
-    <Content Include="MasterPage\MPFrame.master" />
     <Content Include="MasterPage\MPTrx2.master" />
     <Content Include="MasterPage\MPBaseContent.master" />
     <Content Include="MasterPage\MPBaseDetailPage.master" />

@@ -113,6 +113,10 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx" />
+    <Content Include="Program\Master\Room\RoomEntry.aspx" />
+    <Content Include="Program\Master\Room\RoomList.aspx" />
+    <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationEntry.aspx" />
@@ -257,15 +261,6 @@
       <Link>SharedLibs\MasterPage\MPEntry.master.designer.cs</Link>
       <DependentUpon>MPEntry.master.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.cs">
-      <Link>SharedLibs\MasterPage\MPFrame.master.cs</Link>
-      <DependentUpon>MPFrame.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.designer.cs">
-      <Link>SharedLibs\MasterPage\MPFrame.master.designer.cs</Link>
-      <DependentUpon>MPFrame.master.cs</DependentUpon>
-    </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.cs">
       <Link>SharedLibs\MasterPage\MPList.master.cs</Link>
       <DependentUpon>MPList.master</DependentUpon>
@@ -274,15 +269,6 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPList.master.designer.cs</Link>
       <DependentUpon>MPList.master.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPListEntry.master.cs">
-      <Link>SharedLibs\MasterPage\MPListEntry.master.cs</Link>
-      <DependentUpon>MPListEntry.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPListEntry.master.designer.cs">
-      <Link>SharedLibs\MasterPage\MPListEntry.master.designer.cs</Link>
-      <DependentUpon>MPListEntry.master.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.cs">
       <Link>SharedLibs\MasterPage\MPMain.master.cs</Link>
@@ -399,6 +385,34 @@
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.designer.cs">
       <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Room\RoomEntry.aspx.cs">
+      <DependentUpon>RoomEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Room\RoomEntry.aspx.designer.cs">
+      <DependentUpon>RoomEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Room\RoomList.aspx.cs">
+      <DependentUpon>RoomList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Room\RoomList.aspx.designer.cs">
+      <DependentUpon>RoomList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectEntry.aspx.cs">
+      <DependentUpon>SubjectEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectEntry.aspx.designer.cs">
+      <DependentUpon>SubjectEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectList.aspx.cs">
+      <DependentUpon>SubjectList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectList.aspx.designer.cs">
+      <DependentUpon>SubjectList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx.cs">
       <DependentUpon>DataMigrationConfigurationColumnMapEntry.aspx</DependentUpon>
@@ -656,7 +670,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Program\Master\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
@@ -706,14 +719,8 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master">
       <Link>SharedLibs\MasterPage\MPEntry.master</Link>
     </Content>
-    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master">
-      <Link>SharedLibs\MasterPage\MPFrame.master</Link>
-    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master">
       <Link>SharedLibs\MasterPage\MPList.master</Link>
-    </Content>
-    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPListEntry.master">
-      <Link>SharedLibs\MasterPage\MPListEntry.master</Link>
     </Content>
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master">
       <Link>SharedLibs\MasterPage\MPMain.master</Link>

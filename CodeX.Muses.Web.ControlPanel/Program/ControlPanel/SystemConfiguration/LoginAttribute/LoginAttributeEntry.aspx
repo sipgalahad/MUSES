@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="LoginAttributeEntry.aspx.cs" Inherits="CodeX.Ronin.Web.SystemSetup.Program.LoginAttributeEntry" %>
+    CodeBehind="LoginAttributeEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.LoginAttributeEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <input type="hidden" id="hdnID" runat="server" value="" />

@@ -92,6 +92,8 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx" />
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentList.aspx" />
     <Content Include="Web.config" />
@@ -245,6 +247,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx.cs">
+      <DependentUpon>SchoolPeriodEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx.designer.cs">
+      <DependentUpon>SchoolPeriodEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx.cs">
+      <DependentUpon>SchoolPeriodList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx.designer.cs">
+      <DependentUpon>SchoolPeriodList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Student\StudentEntry.aspx.cs">
       <DependentUpon>StudentEntry.aspx</DependentUpon>

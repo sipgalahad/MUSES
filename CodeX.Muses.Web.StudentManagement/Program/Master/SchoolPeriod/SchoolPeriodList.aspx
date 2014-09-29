@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="FilterParameterList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.FilterParameterList" %>
+    CodeBehind="SchoolPeriodList.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SchoolPeriodList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -13,17 +13,17 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
         });
 
-        function onRefreshControl(filterExpression) {
-            $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
-            cbpView.PerformCallback('refresh');
-        }
-
         function onGetCurrID() {
             return $('#<%=hdnID.ClientID %>').val();
         }
 
         function onGetFilterExpression() {
             return $('#<%=hdnFilterExpression.ClientID %>').val();
+        }
+
+        function onRefreshControl(filterExpression) {
+            $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
+            cbpView.PerformCallback('refresh');
         }
 
         //#region Paging
@@ -74,13 +74,9 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="FilterParameterID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="FilterParameterCode" HeaderText="Filter Parameter Code" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="FilterParameterName" HeaderText="Filter Parameter Name" />
-                                <asp:BoundField DataField="FilterParameterType" HeaderText="Filter Parameter Type" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ValueFieldName" HeaderText="Value Field Name" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="TextFieldName" HeaderText="Text Field Name" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="FieldName" HeaderText="Field Name" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="SchoolPeriodID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SchoolPeriodCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="SchoolPeriodName" HeaderText="Nama" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

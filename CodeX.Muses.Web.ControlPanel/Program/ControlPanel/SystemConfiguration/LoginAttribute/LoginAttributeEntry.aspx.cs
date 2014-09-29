@@ -10,7 +10,7 @@ using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace CodeX.Ronin.Web.SystemSetup.Program
+namespace CodeX.Muses.Web.ControlPanel.Program
 {
     public partial class LoginAttributeEntry : BasePageEntry
     {
@@ -114,6 +114,7 @@ namespace CodeX.Ronin.Web.SystemSetup.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -137,6 +138,7 @@ namespace CodeX.Ronin.Web.SystemSetup.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
