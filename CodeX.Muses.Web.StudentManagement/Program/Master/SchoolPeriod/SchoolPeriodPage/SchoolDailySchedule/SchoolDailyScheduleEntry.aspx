@@ -1,82 +1,152 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
     CodeBehind="SchoolDailyScheduleEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SchoolDailyScheduleEntry" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnMedicalRecordSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
-</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
         });
         
     </script> 
+    <style type="text/css">
+        .tblSchedule                        { width: 100%; }
+        .tblSchedule td                     { text-align: center; }
+        .tblSchedule tr td                  { border: 1px solid #333; }
+        .tblSchedule tr.T001 td, .nts001    { background-color: #21B424; }
+    </style>
     <table style="width:100%">
         <colgroup>
-            <col style="width:50%"/>
+            <col style="width:15%"/>
+            <col style="width:15%"/>
+            <col style="width:15%"/>
+            <col style="width:15%"/>
+            <col style="width:15%"/>
+            <col style="width:15%"/>
         </colgroup>
         <tr>
-            <td>
-                <table style="width:100%">
-                    <colgroup>
-                        <col style="width:130px"/>
-                    </colgroup>
-                    <tr>
-                        <td class="tdLabel"><%=GetLabel("Date") %> - <%=GetLabel("Time") %></td>
-                        <td>
-                            <table cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="padding-right: 1px;width:145px"><asp:TextBox ID="txtNoteDate" Width="120px" CssClass="datepicker" runat="server" /></td>
-                                    <td style="width:5px">&nbsp;</td>
-                                    <td><asp:TextBox ID="txtNoteTime" Width="80px" CssClass="time" runat="server" Style="text-align:center" /></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Subjective")%></label></td>
-                        <td><asp:TextBox ID="txtSubjective" Width="100%" runat="server" TextMode="MultiLine" Rows="5" /></td>
-                    </tr>
-                </table>
+            <td valign="top">
+                <h4 style="text-align: center"><%=GetLabel("Senin") %></h4>
+                <center><span class="lblLink"><%=GetLabel("Ubah Data")%></span><br /></center>
+                <input type="hidden" class="hdnDayNumber" value="1" />
+                <asp:Repeater ID="rptDay1" runat="server">
+                    <HeaderTemplate>
+                        <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                            <td><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
             </td>
-            <td>
-                <table style="width:100%">
-                    <colgroup>
-                        <col style="width:130px"/>
-                    </colgroup>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Objective")%></label></td>
-                        <td><asp:TextBox ID="txtObjective" Width="100%" runat="server" TextMode="MultiLine" Rows="5" /></td>
-                    </tr>
-                </table>            
+            <td valign="top"> 
+                <h4 style="text-align: center"><%=GetLabel("Selasa") %></h4>
+                <center><span class="lblLink"><%=GetLabel("Ubah Data")%></span><br /></center>
+                <input type="hidden" class="hdnDayNumber" value="2" />
+                <asp:Repeater ID="rptDay2" runat="server">
+                    <HeaderTemplate>
+                        <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                            <td><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
             </td>
-        </tr>
-        <tr>
-            <td>
-                <table style="width:100%">
-                    <colgroup>
-                        <col style="width:130px"/>
-                    </colgroup>
-                    <tr>
-                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Assessment")%></label></td>
-                        <td><asp:TextBox ID="txtAssessment" Width="100%" runat="server" TextMode="MultiLine" Rows="5" /></td>
-                    </tr>
-                </table>            
+            <td valign="top"> 
+                <h4 style="text-align: center"><%=GetLabel("Rabu") %></h4>
+                <center><span class="lblLink"><%=GetLabel("Ubah Data")%></span><br /></center>
+                <input type="hidden" class="hdnDayNumber" value="3" />
+                <asp:Repeater ID="rptDay3" runat="server">
+                    <HeaderTemplate>
+                        <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                            <td><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
             </td>
-            <td>
-                <table style="width:100%">
-                    <colgroup>
-                        <col style="width:130px"/>
-                    </colgroup>
-                    <tr>
-                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Planning")%></label></td>
-                        <td><asp:TextBox ID="txtPlanning" Width="100%" runat="server" TextMode="MultiLine" Rows="5" /></td>
-                    </tr>
-                </table>         
+            <td valign="top"> 
+                <h4 style="text-align: center"><%=GetLabel("Kamis") %></h4>
+                <center><span class="lblLink"><%=GetLabel("Ubah Data")%></span><br /></center>
+                <input type="hidden" class="hdnDayNumber" value="4" />
+                <asp:Repeater ID="rptDay4" runat="server">
+                    <HeaderTemplate>
+                        <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                            <td><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
+            </td>
+            <td valign="top"> 
+                <h4 style="text-align: center"><%=GetLabel("Jumat") %></h4>
+                <center><span class="lblLink"><%=GetLabel("Ubah Data")%></span><br /></center>
+                <input type="hidden" class="hdnDayNumber" value="5" />
+                <asp:Repeater ID="rptDay5" runat="server">
+                    <HeaderTemplate>
+                        <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                            <td><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
+            </td>
+            <td valign="top"> 
+                <h4 style="text-align: center"><%=GetLabel("Sabtu") %></h4>
+                <center><span class="lblLink"><%=GetLabel("Ubah Data")%></span><br /></center>
+                <input type="hidden" class="hdnDayNumber" value="6" />
+                <asp:Repeater ID="rptDay6" runat="server">
+                    <HeaderTemplate>
+                        <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                            <td><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
             </td>
         </tr>
     </table>
+    <br />
+    <div style="font-weight: bold;"><%=GetLabel("Keterangan") %> :</div>
+    <asp:Repeater ID="rptRemarks" runat="server">
+        <HeaderTemplate>
+            <table>
+        </HeaderTemplate>
+        <ItemTemplate>
+            <tr>
+                <td><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
+                <td><%#Eval("StandardCodeName") %></td>
+            </tr>
+        </ItemTemplate>
+        <FooterTemplate>
+            </table>
+        </FooterTemplate>
+    </asp:Repeater>
 </asp:Content>

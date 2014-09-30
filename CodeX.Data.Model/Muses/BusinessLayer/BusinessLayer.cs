@@ -9,6 +9,446 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region Room
+        public static Room GetRoom(Int32 RoomID)
+        {
+            return new RoomDao().Get(RoomID);
+        }
+        public static int InsertRoom(Room record)
+        {
+            return new RoomDao().Insert(record);
+        }
+        public static int UpdateRoom(Room record)
+        {
+            return new RoomDao().Update(record);
+        }
+        public static int DeleteRoom(Int32 RoomID)
+        {
+            return new RoomDao().Delete(RoomID);
+        }
+        public static List<Room> GetRoomList(string filterExpression)
+        {
+            List<Room> result = new List<Room>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Room));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Room)helper.IDataReaderToObject(reader, new Room()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRoomRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Room));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<Room> GetRoomList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<Room> result = new List<Room>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Room));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Room)helper.IDataReaderToObject(reader, new Room()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRoomRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Room));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "RoomID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetRoomMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Room));
+                ctx.CommandText = helper.SelectMaxColumn("RoomID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SchoolDailySchedule
+        public static SchoolDailySchedule GetSchoolDailySchedule(Int32 SchoolDailyScheduleID)
+        {
+            return new SchoolDailyScheduleDao().Get(SchoolDailyScheduleID);
+        }
+        public static int InsertSchoolDailySchedule(SchoolDailySchedule record)
+        {
+            return new SchoolDailyScheduleDao().Insert(record);
+        }
+        public static int UpdateSchoolDailySchedule(SchoolDailySchedule record)
+        {
+            return new SchoolDailyScheduleDao().Update(record);
+        }
+        public static int DeleteSchoolDailySchedule(Int32 SchoolDailyScheduleID)
+        {
+            return new SchoolDailyScheduleDao().Delete(SchoolDailyScheduleID);
+        }
+        public static List<SchoolDailySchedule> GetSchoolDailyScheduleList(string filterExpression)
+        {
+            List<SchoolDailySchedule> result = new List<SchoolDailySchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailySchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolDailySchedule)helper.IDataReaderToObject(reader, new SchoolDailySchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SchoolDailySchedulePackage
+        public static SchoolDailySchedulePackage GetSchoolDailySchedulePackage(Int32 SchoolDailySchedulePackageID)
+        {
+            return new SchoolDailySchedulePackageDao().Get(SchoolDailySchedulePackageID);
+        }
+        public static int InsertSchoolDailySchedulePackage(SchoolDailySchedulePackage record)
+        {
+            return new SchoolDailySchedulePackageDao().Insert(record);
+        }
+        public static int UpdateSchoolDailySchedulePackage(SchoolDailySchedulePackage record)
+        {
+            return new SchoolDailySchedulePackageDao().Update(record);
+        }
+        public static int DeleteSchoolDailySchedulePackage(Int32 SchoolDailySchedulePackageID)
+        {
+            return new SchoolDailySchedulePackageDao().Delete(SchoolDailySchedulePackageID);
+        }
+        public static List<SchoolDailySchedulePackage> GetSchoolDailySchedulePackageList(string filterExpression)
+        {
+            List<SchoolDailySchedulePackage> result = new List<SchoolDailySchedulePackage>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailySchedulePackage));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolDailySchedulePackage)helper.IDataReaderToObject(reader, new SchoolDailySchedulePackage()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolDailySchedulePackageRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailySchedulePackage));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SchoolDailySchedulePackage> GetSchoolDailySchedulePackageList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SchoolDailySchedulePackage> result = new List<SchoolDailySchedulePackage>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailySchedulePackage));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolDailySchedulePackage)helper.IDataReaderToObject(reader, new SchoolDailySchedulePackage()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolDailySchedulePackageRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailySchedulePackage));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "SchoolDailySchedulePackageID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolDailySchedulePackageMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailySchedulePackage));
+                ctx.CommandText = helper.SelectMaxColumn("SchoolDailySchedulePackageID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SchoolDailyScheduleTypeDt
+        public static SchoolDailyScheduleTypeDt GetSchoolDailyScheduleTypeDt(Int32 SchoolDailyScheduleTypeDtID)
+        {
+            return new SchoolDailyScheduleTypeDtDao().Get(SchoolDailyScheduleTypeDtID);
+        }
+        public static int InsertSchoolDailyScheduleTypeDt(SchoolDailyScheduleTypeDt record)
+        {
+            return new SchoolDailyScheduleTypeDtDao().Insert(record);
+        }
+        public static int UpdateSchoolDailyScheduleTypeDt(SchoolDailyScheduleTypeDt record)
+        {
+            return new SchoolDailyScheduleTypeDtDao().Update(record);
+        }
+        public static int DeleteSchoolDailyScheduleTypeDt(Int32 SchoolDailyScheduleTypeDtID)
+        {
+            return new SchoolDailyScheduleTypeDtDao().Delete(SchoolDailyScheduleTypeDtID);
+        }
+        public static List<SchoolDailyScheduleTypeDt> GetSchoolDailyScheduleTypeDtList(string filterExpression)
+        {
+            List<SchoolDailyScheduleTypeDt> result = new List<SchoolDailyScheduleTypeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailyScheduleTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolDailyScheduleTypeDt)helper.IDataReaderToObject(reader, new SchoolDailyScheduleTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SchoolDailyScheduleTypeHd
+        public static SchoolDailyScheduleTypeHd GetSchoolDailyScheduleTypeHd(Int32 SchoolDailyScheduleTypeHdID)
+        {
+            return new SchoolDailyScheduleTypeHdDao().Get(SchoolDailyScheduleTypeHdID);
+        }
+        public static int InsertSchoolDailyScheduleTypeHd(SchoolDailyScheduleTypeHd record)
+        {
+            return new SchoolDailyScheduleTypeHdDao().Insert(record);
+        }
+        public static int UpdateSchoolDailyScheduleTypeHd(SchoolDailyScheduleTypeHd record)
+        {
+            return new SchoolDailyScheduleTypeHdDao().Update(record);
+        }
+        public static int DeleteSchoolDailyScheduleTypeHd(Int32 SchoolDailyScheduleTypeHdID)
+        {
+            return new SchoolDailyScheduleTypeHdDao().Delete(SchoolDailyScheduleTypeHdID);
+        }
+        public static List<SchoolDailyScheduleTypeHd> GetSchoolDailyScheduleTypeHdList(string filterExpression)
+        {
+            List<SchoolDailyScheduleTypeHd> result = new List<SchoolDailyScheduleTypeHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailyScheduleTypeHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolDailyScheduleTypeHd)helper.IDataReaderToObject(reader, new SchoolDailyScheduleTypeHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolDailyScheduleTypeHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailyScheduleTypeHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SchoolDailyScheduleTypeHd> GetSchoolDailyScheduleTypeHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SchoolDailyScheduleTypeHd> result = new List<SchoolDailyScheduleTypeHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailyScheduleTypeHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolDailyScheduleTypeHd)helper.IDataReaderToObject(reader, new SchoolDailyScheduleTypeHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolDailyScheduleTypeHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailyScheduleTypeHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "SchoolDailyScheduleTypeID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSchoolDailyScheduleTypeHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolDailyScheduleTypeHd));
+                ctx.CommandText = helper.SelectMaxColumn("SchoolDailyScheduleTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SchoolPeriod
         public static SchoolPeriod GetSchoolPeriod(Int32 SchoolPeriodID)
         {
@@ -439,126 +879,6 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(Subject));
                 ctx.CommandText = helper.SelectMaxColumn("SubjectID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
-        #region Room
-        public static Room GetRoom(Int32 RoomID)
-        {
-            return new RoomDao().Get(RoomID);
-        }
-        public static int InsertRoom(Room record)
-        {
-            return new RoomDao().Insert(record);
-        }
-        public static int UpdateRoom(Room record)
-        {
-            return new RoomDao().Update(record);
-        }
-        public static int DeleteRoom(Int32 RoomID)
-        {
-            return new RoomDao().Delete(RoomID);
-        }
-        public static List<Room> GetRoomList(string filterExpression)
-        {
-            List<Room> result = new List<Room>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Room));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((Room)helper.IDataReaderToObject(reader, new Room()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetRoomRowCount(string filterExpression)
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Room));
-                ctx.CommandText = helper.GetRowCount(filterExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<Room> GetRoomList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
-        {
-            List<Room> result = new List<Room>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Room));
-                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((Room)helper.IDataReaderToObject(reader, new Room()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetRoomRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Room));
-                ctx.CommandText = helper.GetRowIndex(filterExpression, "RoomID", keyValue, orderByExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetRoomMaxID(IDbContext ctx)
-        {
-            Int32 result = 0;
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Room));
-                ctx.CommandText = helper.SelectMaxColumn("RoomID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }

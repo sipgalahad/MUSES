@@ -7,6 +7,15 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region vSchoolDailyScheduleDt
+    public partial class vSchoolDailyScheduleDt
+    {
+        public string cfDailyScheduleType
+        {
+            get { return _GCDailyScheduleType.Split('^')[1]; }
+        }
+    }
+    #endregion
     #region vSchoolPeriodSchedule
     public partial class vSchoolPeriodSchedule
     {

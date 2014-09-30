@@ -6,6 +6,77 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vSchoolDailyScheduleDt
+    [Serializable]
+    [Table(Name = "vSchoolDailyScheduleDt")]
+    public partial class vSchoolDailyScheduleDt
+    {
+        private Int32 _SchoolDailyScheduleID;
+        private Int32 _SchoolPeriodID;
+        private Int16 _DayNumber;
+        private Int32 _SchoolDailyScheduleTypeID;
+        private Int16 _HoursIndex;
+        private String _StartTime;
+        private String _EndTime;
+        private String _GCDailyScheduleType;
+        private String _DailyScheduleType;
+
+        [Column(Name = "SchoolDailyScheduleID", DataType = "Int32")]
+        public Int32 SchoolDailyScheduleID
+        {
+            get { return _SchoolDailyScheduleID; }
+            set { _SchoolDailyScheduleID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
+        }
+        [Column(Name = "SchoolDailyScheduleTypeID", DataType = "Int32")]
+        public Int32 SchoolDailyScheduleTypeID
+        {
+            get { return _SchoolDailyScheduleTypeID; }
+            set { _SchoolDailyScheduleTypeID = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "GCDailyScheduleType", DataType = "String")]
+        public String GCDailyScheduleType
+        {
+            get { return _GCDailyScheduleType; }
+            set { _GCDailyScheduleType = value; }
+        }
+        [Column(Name = "DailyScheduleType", DataType = "String")]
+        public String DailyScheduleType
+        {
+            get { return _DailyScheduleType; }
+            set { _DailyScheduleType = value; }
+        }
+    }
+    #endregion
     #region vSchoolPeriodSchedule
     [Serializable]
     [Table(Name = "vSchoolPeriodSchedule")]

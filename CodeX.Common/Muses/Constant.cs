@@ -29,6 +29,7 @@ namespace CodeX.Common
             public const string SCHOOL_MAJOR = "MS004";
             public const string STUDENT_STATUS = "MS006";
             public const string SCHOOL_PERIOD_SCHEDULE_TYPE = "MS007";
+            public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
 
 
             public const string MARITAL_STATUS = "0002";
@@ -245,6 +246,8 @@ namespace CodeX.Common
             {
                 public const string ROOM = "CP010103";
                 public const string SUBJECT = "CP010104";
+                public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
+                public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
 
                 public const string SITE_INFORMATION = "CP020101";
                 public const string MODULE_MANAGEMENT = "CP020201";
