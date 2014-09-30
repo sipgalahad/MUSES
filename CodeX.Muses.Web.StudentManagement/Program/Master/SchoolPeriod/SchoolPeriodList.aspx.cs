@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SchoolPeriodStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+            filterExpression += string.Format("GCSchoolPeriodStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
             return filterExpression;
         }
 

@@ -103,5 +103,36 @@ namespace CodeX.Web.Common
 
             HttpContext.Current.Session.Clear();
         }
+
+        public static Int32 SchoolPeriodID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SchoolPeriodID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SchoolPeriodID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SchoolPeriodID"]);
+                            HttpContext.Current.Session["_SchoolPeriodID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_SchoolPeriodID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SchoolPeriodID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_SchoolPeriodID"] = value;
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace CodeX.Common
         public static class Module
         {
             public const string CONTROL_PANEL = "CP";
+            public const string STUDENT_MANAGEMENT = "SM";
         }
         #endregion
 
@@ -27,6 +28,7 @@ namespace CodeX.Common
             public const string SCHOOL_GRADE = "MS003";
             public const string SCHOOL_MAJOR = "MS004";
             public const string STUDENT_STATUS = "MS006";
+            public const string SCHOOL_PERIOD_SCHEDULE_TYPE = "MS007";
 
 
             public const string MARITAL_STATUS = "0002";
@@ -275,6 +277,11 @@ namespace CodeX.Common
             {
                 public const string STUDENT = "SM010100";
                 public const string SCHOOL_PERIOD = "SM010200";
+
+                public const string SCHOOL_PERIOD_PAGE = "SM99010000";
+                public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
+                public const string SP_SCHOOL_PERIOD_SECTION = "SM99010102";
+                public const string SP_SCHOOL_DAILY_SCHEDULE = "SM99010103";
             }
             #endregion
         }

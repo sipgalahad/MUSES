@@ -6,6 +6,155 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vSchoolPeriodSchedule
+    [Serializable]
+    [Table(Name = "vSchoolPeriodSchedule")]
+    public partial class vSchoolPeriodSchedule
+    {
+        private Int32 _SchoolPeriodScheduleID;
+        private String _SchoolPeriodScheduleCode;
+        private String _SchoolPeriodScheduleName;
+        private Int32 _SchoolPeriodID;
+        private String _GCSchoolPeriodScheduleType;
+        private String _SchoolPeriodScheduleType;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SchoolPeriodScheduleID", DataType = "Int32")]
+        public Int32 SchoolPeriodScheduleID
+        {
+            get { return _SchoolPeriodScheduleID; }
+            set { _SchoolPeriodScheduleID = value; }
+        }
+        [Column(Name = "SchoolPeriodScheduleCode", DataType = "String")]
+        public String SchoolPeriodScheduleCode
+        {
+            get { return _SchoolPeriodScheduleCode; }
+            set { _SchoolPeriodScheduleCode = value; }
+        }
+        [Column(Name = "SchoolPeriodScheduleName", DataType = "String")]
+        public String SchoolPeriodScheduleName
+        {
+            get { return _SchoolPeriodScheduleName; }
+            set { _SchoolPeriodScheduleName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCSchoolPeriodScheduleType", DataType = "String")]
+        public String GCSchoolPeriodScheduleType
+        {
+            get { return _GCSchoolPeriodScheduleType; }
+            set { _GCSchoolPeriodScheduleType = value; }
+        }
+        [Column(Name = "SchoolPeriodScheduleType", DataType = "String")]
+        public String SchoolPeriodScheduleType
+        {
+            get { return _SchoolPeriodScheduleType; }
+            set { _SchoolPeriodScheduleType = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSchoolPeriodSection
+    [Serializable]
+    [Table(Name = "vSchoolPeriodSection")]
+    public partial class vSchoolPeriodSection
+    {
+        private Int32 _SchoolPeriodSectionID;
+        private String _SchoolPeriodSectionCode;
+        private String _SchoolPeriodSectionName;
+        private Int32 _SchoolPeriodID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _GCSchoolPeriodSectionStatus;
+        private String _SchoolPeriodSectionStatus;
+        private String _Remarks;
+
+        [Column(Name = "SchoolPeriodSectionID", DataType = "Int32")]
+        public Int32 SchoolPeriodSectionID
+        {
+            get { return _SchoolPeriodSectionID; }
+            set { _SchoolPeriodSectionID = value; }
+        }
+        [Column(Name = "SchoolPeriodSectionCode", DataType = "String")]
+        public String SchoolPeriodSectionCode
+        {
+            get { return _SchoolPeriodSectionCode; }
+            set { _SchoolPeriodSectionCode = value; }
+        }
+        [Column(Name = "SchoolPeriodSectionName", DataType = "String")]
+        public String SchoolPeriodSectionName
+        {
+            get { return _SchoolPeriodSectionName; }
+            set { _SchoolPeriodSectionName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "GCSchoolPeriodSectionStatus", DataType = "String")]
+        public String GCSchoolPeriodSectionStatus
+        {
+            get { return _GCSchoolPeriodSectionStatus; }
+            set { _GCSchoolPeriodSectionStatus = value; }
+        }
+        [Column(Name = "SchoolPeriodSectionStatus", DataType = "String")]
+        public String SchoolPeriodSectionStatus
+        {
+            get { return _SchoolPeriodSectionStatus; }
+            set { _SchoolPeriodSectionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vStudent
     [Serializable]
     [Table(Name = "vStudent")]

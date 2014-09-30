@@ -129,6 +129,86 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SchoolPeriodSchedule
+        public static SchoolPeriodSchedule GetSchoolPeriodSchedule(Int32 SchoolPeriodScheduleID)
+        {
+            return new SchoolPeriodScheduleDao().Get(SchoolPeriodScheduleID);
+        }
+        public static int InsertSchoolPeriodSchedule(SchoolPeriodSchedule record)
+        {
+            return new SchoolPeriodScheduleDao().Insert(record);
+        }
+        public static int UpdateSchoolPeriodSchedule(SchoolPeriodSchedule record)
+        {
+            return new SchoolPeriodScheduleDao().Update(record);
+        }
+        public static int DeleteSchoolPeriodSchedule(Int32 SchoolPeriodScheduleID)
+        {
+            return new SchoolPeriodScheduleDao().Delete(SchoolPeriodScheduleID);
+        }
+        public static List<SchoolPeriodSchedule> GetSchoolPeriodScheduleList(string filterExpression)
+        {
+            List<SchoolPeriodSchedule> result = new List<SchoolPeriodSchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolPeriodSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolPeriodSchedule)helper.IDataReaderToObject(reader, new SchoolPeriodSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SchoolPeriodSection
+        public static SchoolPeriodSection GetSchoolPeriodSection(Int32 SchoolPeriodSectionID)
+        {
+            return new SchoolPeriodSectionDao().Get(SchoolPeriodSectionID);
+        }
+        public static int InsertSchoolPeriodSection(SchoolPeriodSection record)
+        {
+            return new SchoolPeriodSectionDao().Insert(record);
+        }
+        public static int UpdateSchoolPeriodSection(SchoolPeriodSection record)
+        {
+            return new SchoolPeriodSectionDao().Update(record);
+        }
+        public static int DeleteSchoolPeriodSection(Int32 SchoolPeriodSectionID)
+        {
+            return new SchoolPeriodSectionDao().Delete(SchoolPeriodSectionID);
+        }
+        public static List<SchoolPeriodSection> GetSchoolPeriodSectionList(string filterExpression)
+        {
+            List<SchoolPeriodSection> result = new List<SchoolPeriodSection>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolPeriodSection));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolPeriodSection)helper.IDataReaderToObject(reader, new SchoolPeriodSection()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Student
         public static Student GetStudent(Int32 StudentID)
         {

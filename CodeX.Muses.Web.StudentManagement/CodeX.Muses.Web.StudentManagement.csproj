@@ -92,8 +92,13 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolDailySchedule\SchoolDailyScheduleEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSchedule\SchoolPeriodScheduleEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSection\SchoolPeriodSectionEntry.aspx" />
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentList.aspx" />
     <Content Include="Web.config" />
@@ -186,6 +191,24 @@
       <Link>SharedLibs\MasterPage\MPBaseContent.master.designer.cs</Link>
       <DependentUpon>MPBaseContent.master.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.cs</Link>
+      <DependentUpon>MPBaseDetailPage.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.designer.cs</Link>
+      <DependentUpon>MPBaseDetailPage.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.cs</Link>
+      <DependentUpon>MPBaseDetailPageTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs</Link>
+      <DependentUpon>MPBaseDetailPageTrx.master.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.cs">
       <Link>SharedLibs\MasterPage\MPEntry.master.cs</Link>
       <DependentUpon>MPEntry.master</DependentUpon>
@@ -248,6 +271,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPSchoolPeriodPageTrxVisit.master.cs">
+      <DependentUpon>MPSchoolPeriodPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPSchoolPeriodPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSchoolPeriodPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SchoolPeriodBannerDtCtl.ascx.cs">
+      <DependentUpon>SchoolPeriodBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\SchoolPeriodBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SchoolPeriodBannerDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx.cs">
       <DependentUpon>SchoolPeriodEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -261,6 +298,34 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx.designer.cs">
       <DependentUpon>SchoolPeriodList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx.cs">
+      <DependentUpon>SchoolPeriodPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx.designer.cs">
+      <DependentUpon>SchoolPeriodPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolDailySchedule\SchoolDailyScheduleEntry.aspx.cs">
+      <DependentUpon>SchoolDailyScheduleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolDailySchedule\SchoolDailyScheduleEntry.aspx.designer.cs">
+      <DependentUpon>SchoolDailyScheduleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSchedule\SchoolPeriodScheduleEntry.aspx.cs">
+      <DependentUpon>SchoolPeriodScheduleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSchedule\SchoolPeriodScheduleEntry.aspx.designer.cs">
+      <DependentUpon>SchoolPeriodScheduleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSection\SchoolPeriodSectionEntry.aspx.cs">
+      <DependentUpon>SchoolPeriodSectionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSection\SchoolPeriodSectionEntry.aspx.designer.cs">
+      <DependentUpon>SchoolPeriodSectionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Student\StudentEntry.aspx.cs">
       <DependentUpon>StudentEntry.aspx</DependentUpon>
@@ -339,6 +404,17 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPSchoolPeriodPageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

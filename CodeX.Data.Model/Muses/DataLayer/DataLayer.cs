@@ -254,6 +254,281 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SchoolPeriodSchedule
+    [Serializable]
+    [Table(Name = "SchoolPeriodSchedule")]
+    public class SchoolPeriodSchedule : DbDataModel
+    {
+        private Int32 _SchoolPeriodScheduleID;
+        private String _SchoolPeriodScheduleCode;
+        private String _SchoolPeriodScheduleName;
+        private Int32 _SchoolPeriodID;
+        private String _GCSchoolPeriodScheduleType;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SchoolPeriodScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SchoolPeriodScheduleID
+        {
+            get { return _SchoolPeriodScheduleID; }
+            set { _SchoolPeriodScheduleID = value; }
+        }
+        [Column(Name = "SchoolPeriodScheduleCode", DataType = "String")]
+        public String SchoolPeriodScheduleCode
+        {
+            get { return _SchoolPeriodScheduleCode; }
+            set { _SchoolPeriodScheduleCode = value; }
+        }
+        [Column(Name = "SchoolPeriodScheduleName", DataType = "String")]
+        public String SchoolPeriodScheduleName
+        {
+            get { return _SchoolPeriodScheduleName; }
+            set { _SchoolPeriodScheduleName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCSchoolPeriodScheduleType", DataType = "String")]
+        public String GCSchoolPeriodScheduleType
+        {
+            get { return _GCSchoolPeriodScheduleType; }
+            set { _GCSchoolPeriodScheduleType = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SchoolPeriodScheduleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SchoolPeriodSchedule));
+        private bool _isAuditLog = false;
+        private const string p_SchoolPeriodScheduleID = "@p_SchoolPeriodScheduleID";
+        public SchoolPeriodScheduleDao() { }
+        public SchoolPeriodScheduleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SchoolPeriodSchedule Get(Int32 SchoolPeriodScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SchoolPeriodScheduleID, SchoolPeriodScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SchoolPeriodSchedule)_helper.DataRowToObject(row, new SchoolPeriodSchedule());
+        }
+        public int Insert(SchoolPeriodSchedule record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SchoolPeriodSchedule record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SchoolPeriodScheduleID)
+        {
+            SchoolPeriodSchedule record;
+            if (_ctx.Transaction == null)
+                record = new SchoolPeriodScheduleDao().Get(SchoolPeriodScheduleID);
+            else
+                record = Get(SchoolPeriodScheduleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SchoolPeriodSection
+    [Serializable]
+    [Table(Name = "SchoolPeriodSection")]
+    public class SchoolPeriodSection : DbDataModel
+    {
+        private Int32 _SchoolPeriodSectionID;
+        private String _SchoolPeriodSectionCode;
+        private String _SchoolPeriodSectionName;
+        private Int32 _SchoolPeriodID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _GCSchoolPeriodSectionStatus;
+        private String _Remarks;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SchoolPeriodSectionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SchoolPeriodSectionID
+        {
+            get { return _SchoolPeriodSectionID; }
+            set { _SchoolPeriodSectionID = value; }
+        }
+        [Column(Name = "SchoolPeriodSectionCode", DataType = "String")]
+        public String SchoolPeriodSectionCode
+        {
+            get { return _SchoolPeriodSectionCode; }
+            set { _SchoolPeriodSectionCode = value; }
+        }
+        [Column(Name = "SchoolPeriodSectionName", DataType = "String")]
+        public String SchoolPeriodSectionName
+        {
+            get { return _SchoolPeriodSectionName; }
+            set { _SchoolPeriodSectionName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "GCSchoolPeriodSectionStatus", DataType = "String")]
+        public String GCSchoolPeriodSectionStatus
+        {
+            get { return _GCSchoolPeriodSectionStatus; }
+            set { _GCSchoolPeriodSectionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SchoolPeriodSectionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SchoolPeriodSection));
+        private bool _isAuditLog = false;
+        private const string p_SchoolPeriodSectionID = "@p_SchoolPeriodSectionID";
+        public SchoolPeriodSectionDao() { }
+        public SchoolPeriodSectionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SchoolPeriodSection Get(Int32 SchoolPeriodSectionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SchoolPeriodSectionID, SchoolPeriodSectionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SchoolPeriodSection)_helper.DataRowToObject(row, new SchoolPeriodSection());
+        }
+        public int Insert(SchoolPeriodSection record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SchoolPeriodSection record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SchoolPeriodSectionID)
+        {
+            SchoolPeriodSection record;
+            if (_ctx.Transaction == null)
+                record = new SchoolPeriodSectionDao().Get(SchoolPeriodSectionID);
+            else
+                record = Get(SchoolPeriodSectionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Student
     [Serializable]
     [Table(Name = "Student")]
