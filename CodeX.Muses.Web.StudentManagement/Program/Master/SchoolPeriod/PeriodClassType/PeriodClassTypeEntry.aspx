@@ -11,9 +11,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            setDatePicker('<%=txtStartDate.ClientID %>');
-            setDatePicker('<%=txtNoOfClass.ClientID %>');
-
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 cboClassType.SetValue('');
@@ -128,7 +125,7 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ClassTypeName" HeaderText="Nama"/>
+                                <asp:BoundField DataField="ClassTypeName" HeaderText="Tipe Kelas"/>
                                 <asp:BoundField DataField="DailySchedulePackageName" HeaderText="Tipe Jadwal" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="NoOfClass" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
@@ -137,9 +134,7 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeID") %>" bindingfield="PeriodClassTypeID" />
                                         <input type="hidden" value="<%#Eval("ClassTypeID") %>" bindingfield="ClassTypeID" />
-                                        <input type="hidden" value="<%#Eval("ClassTypeName") %>" bindingfield="ClassTypeName" />
                                         <input type="hidden" value="<%#Eval("DailySchedulePackageID") %>" bindingfield="DailySchedulePackageID" />
-                                        <input type="hidden" value="<%#Eval("DailySchedulePackageName") %>" bindingfield="DailySchedulePackageName" />
                                         <input type="hidden" value="<%#Eval("NoOfClass") %>" bindingfield="NoOfClass" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
