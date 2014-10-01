@@ -7,6 +7,53 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region vPeriodAdmission
+    public partial class vPeriodAdmission
+    {
+        public string StartDateInString
+        {
+            get
+            {
+                return _StartDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public string EndDateInString
+        {
+            get
+            {
+                return _EndDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public string RegistrationStartDateInString
+        {
+            get
+            {
+                return _RegistrationStartDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public string RegistrationEndDateInString
+        {
+            get
+            {
+                return _RegistrationEndDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public string StartDateInDatePickerFormat
+        {
+            get
+            {
+                return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public string EndDateInDatePickerFormat
+        {
+            get
+            {
+                return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vPeriodSchedule
     public partial class vPeriodSchedule
     {

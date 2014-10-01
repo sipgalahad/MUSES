@@ -284,7 +284,7 @@ namespace CodeX.Common
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
                 public const string SP_SCHOOL_PERIOD_SECTION = "SM99010102";
-                public const string SP_SCHOOL_PERIOD_SELECTION = "SM99010103";
+                public const string SP_SCHOOL_PERIOD_ADMISSION = "SM99010103";
 
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010201";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010202";

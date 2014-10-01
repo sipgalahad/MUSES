@@ -6,6 +6,91 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vPeriodAdmission
+    [Serializable]
+    [Table(Name = "vPeriodAdmission")]
+    public partial class vPeriodAdmission
+    {
+        private Int32 _PeriodAdmissionID;
+        private String _PeriodAdmissionCode;
+        private String _PeriodAdmissionName;
+        private Int32 _SchoolPeriodID;
+        private DateTime _RegistrationStartDate;
+        private DateTime _RegistrationEndDate;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _GCPeriodAdmissionStatus;
+        private String _PeriodAdmissionStatus;
+        private String _Remarks;
+
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32")]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "PeriodAdmissionCode", DataType = "String")]
+        public String PeriodAdmissionCode
+        {
+            get { return _PeriodAdmissionCode; }
+            set { _PeriodAdmissionCode = value; }
+        }
+        [Column(Name = "PeriodAdmissionName", DataType = "String")]
+        public String PeriodAdmissionName
+        {
+            get { return _PeriodAdmissionName; }
+            set { _PeriodAdmissionName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "RegistrationStartDate", DataType = "DateTime")]
+        public DateTime RegistrationStartDate
+        {
+            get { return _RegistrationStartDate; }
+            set { _RegistrationStartDate = value; }
+        }
+        [Column(Name = "RegistrationEndDate", DataType = "DateTime")]
+        public DateTime RegistrationEndDate
+        {
+            get { return _RegistrationEndDate; }
+            set { _RegistrationEndDate = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "GCPeriodAdmissionStatus", DataType = "String")]
+        public String GCPeriodAdmissionStatus
+        {
+            get { return _GCPeriodAdmissionStatus; }
+            set { _GCPeriodAdmissionStatus = value; }
+        }
+        [Column(Name = "PeriodAdmissionStatus", DataType = "String")]
+        public String PeriodAdmissionStatus
+        {
+            get { return _PeriodAdmissionStatus; }
+            set { _PeriodAdmissionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vPeriodClassType
     [Serializable]
     [Table(Name = "vPeriodClassType")]
@@ -82,6 +167,119 @@ namespace CodeX.Data.Model
         {
             get { return _NoOfClass; }
             set { _NoOfClass = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vPeriodClassTypeSubject
+    [Serializable]
+    [Table(Name = "vPeriodClassTypeSubject")]
+    public class vPeriodClassTypeSubject
+    {
+        private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _SchoolPeriodID;
+        private String _SchoolPeriodName;
+        private Int32 _PeriodSectionID;
+        private String _PeriodSectionName;
+        private Int32 _ClassTypeID;
+        private String _ClassTypeName;
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+        private Int32 _TeacherID;
+        private String _TeacherCode;
+        private String _TeacherName;
+        private Int16 _NoMeetingHoursInWeek;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
+        {
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherCode", DataType = "String")]
+        public String TeacherCode
+        {
+            get { return _TeacherCode; }
+            set { _TeacherCode = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
+        public Int16 NoMeetingHoursInWeek
+        {
+            get { return _NoMeetingHoursInWeek; }
+            set { _NoMeetingHoursInWeek = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

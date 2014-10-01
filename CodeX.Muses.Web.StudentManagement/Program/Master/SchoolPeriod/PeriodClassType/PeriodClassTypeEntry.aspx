@@ -35,7 +35,7 @@
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.ID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeID);
                     cbpProcess.PerformCallback('delete');
                 }
             });

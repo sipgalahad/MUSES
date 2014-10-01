@@ -329,6 +329,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PeriodAdmission
+        public static PeriodAdmission GetPeriodAdmission(Int32 PeriodAdmissionID)
+        {
+            return new PeriodAdmissionDao().Get(PeriodAdmissionID);
+        }
+        public static int InsertPeriodAdmission(PeriodAdmission record)
+        {
+            return new PeriodAdmissionDao().Insert(record);
+        }
+        public static int UpdatePeriodAdmission(PeriodAdmission record)
+        {
+            return new PeriodAdmissionDao().Update(record);
+        }
+        public static int DeletePeriodAdmission(Int32 PeriodAdmissionID)
+        {
+            return new PeriodAdmissionDao().Delete(PeriodAdmissionID);
+        }
+        public static List<PeriodAdmission> GetPeriodAdmissionList(string filterExpression)
+        {
+            List<PeriodAdmission> result = new List<PeriodAdmission>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodAdmission));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodAdmission)helper.IDataReaderToObject(reader, new PeriodAdmission()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PeriodClassType
         public static PeriodClassType GetPeriodClassType(Int32 PeriodClassTypeID)
         {
@@ -357,6 +397,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((PeriodClassType)helper.IDataReaderToObject(reader, new PeriodClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PeriodClassTypeSubject
+        public static PeriodClassTypeSubject GetPeriodClassTypeSubject(Int32 PeriodClassTypeSubjectID)
+        {
+            return new PeriodClassTypeSubjectDao().Get(PeriodClassTypeSubjectID);
+        }
+        public static int InsertPeriodClassTypeSubject(PeriodClassTypeSubject record)
+        {
+            return new PeriodClassTypeSubjectDao().Insert(record);
+        }
+        public static int UpdatePeriodClassTypeSubject(PeriodClassTypeSubject record)
+        {
+            return new PeriodClassTypeSubjectDao().Update(record);
+        }
+        public static int DeletePeriodClassTypeSubject(Int32 PeriodClassTypeSubjectID)
+        {
+            return new PeriodClassTypeSubjectDao().Delete(PeriodClassTypeSubjectID);
+        }
+        public static List<PeriodClassTypeSubject> GetPeriodClassTypeSubjectList(string filterExpression)
+        {
+            List<PeriodClassTypeSubject> result = new List<PeriodClassTypeSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeSubject)helper.IDataReaderToObject(reader, new PeriodClassTypeSubject()));
             }
             catch (Exception ex)
             {

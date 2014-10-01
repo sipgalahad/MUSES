@@ -9,6 +9,30 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region vPeriodAdmission
+        public static List<vPeriodAdmission> GetvPeriodAdmissionList(string filterExpression)
+        {
+            List<vPeriodAdmission> result = new List<vPeriodAdmission>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodAdmission));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodAdmission)helper.IDataReaderToObject(reader, new vPeriodAdmission()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPeriodClassType
         public static List<vPeriodClassType> GetvPeriodClassTypeList(string filterExpression)
         {
@@ -21,6 +45,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vPeriodClassType)helper.IDataReaderToObject(reader, new vPeriodClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPeriodClassTypeSubject
+        public static List<vPeriodClassTypeSubject> GetvPeriodClassTypeSubjectList(string filterExpression)
+        {
+            List<vPeriodClassTypeSubject> result = new List<vPeriodClassTypeSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodClassTypeSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodClassTypeSubject)helper.IDataReaderToObject(reader, new vPeriodClassTypeSubject()));
             }
             catch (Exception ex)
             {

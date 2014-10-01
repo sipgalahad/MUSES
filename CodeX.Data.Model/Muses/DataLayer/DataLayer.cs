@@ -448,6 +448,154 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PeriodAdmission
+    [Serializable]
+    [Table(Name = "PeriodAdmission")]
+    public class PeriodAdmission : DbDataModel
+    {
+        private Int32 _PeriodAdmissionID;
+        private String _PeriodAdmissionCode;
+        private String _PeriodAdmissionName;
+        private Int32 _SchoolPeriodID;
+        private DateTime _RegistrationStartDate;
+        private DateTime _RegistrationEndDate;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _GCPeriodAdmissionStatus;
+        private String _Remarks;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "PeriodAdmissionCode", DataType = "String")]
+        public String PeriodAdmissionCode
+        {
+            get { return _PeriodAdmissionCode; }
+            set { _PeriodAdmissionCode = value; }
+        }
+        [Column(Name = "PeriodAdmissionName", DataType = "String")]
+        public String PeriodAdmissionName
+        {
+            get { return _PeriodAdmissionName; }
+            set { _PeriodAdmissionName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "RegistrationStartDate", DataType = "DateTime")]
+        public DateTime RegistrationStartDate
+        {
+            get { return _RegistrationStartDate; }
+            set { _RegistrationStartDate = value; }
+        }
+        [Column(Name = "RegistrationEndDate", DataType = "DateTime")]
+        public DateTime RegistrationEndDate
+        {
+            get { return _RegistrationEndDate; }
+            set { _RegistrationEndDate = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "GCPeriodAdmissionStatus", DataType = "String")]
+        public String GCPeriodAdmissionStatus
+        {
+            get { return _GCPeriodAdmissionStatus; }
+            set { _GCPeriodAdmissionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PeriodAdmissionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodAdmission));
+        private bool _isAuditLog = false;
+        private const string p_PeriodAdmissionID = "@p_PeriodAdmissionID";
+        public PeriodAdmissionDao() { }
+        public PeriodAdmissionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodAdmission Get(Int32 PeriodAdmissionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodAdmissionID, PeriodAdmissionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodAdmission)_helper.DataRowToObject(row, new PeriodAdmission());
+        }
+        public int Insert(PeriodAdmission record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodAdmission record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodAdmissionID)
+        {
+            PeriodAdmission record;
+            if (_ctx.Transaction == null)
+                record = new PeriodAdmissionDao().Get(PeriodAdmissionID);
+            else
+                record = Get(PeriodAdmissionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodClassType
     [Serializable]
     [Table(Name = "PeriodClassType")]
@@ -570,6 +718,126 @@ namespace CodeX.Data.Model
                 record = new PeriodClassTypeDao().Get(PeriodClassTypeID);
             else
                 record = Get(PeriodClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PeriodClassTypeSubject
+    [Serializable]
+    [Table(Name = "PeriodClassTypeSubject")]
+    public class PeriodClassTypeSubject : DbDataModel
+    {
+        private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _PeriodClassTypeID;
+        private Int32 _SubjectID;
+        private Int32 _TeacherID;
+        private Int16 _NoMeetingHoursInWeek;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
+        public Int16 NoMeetingHoursInWeek
+        {
+            get { return _NoMeetingHoursInWeek; }
+            set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PeriodClassTypeSubjectDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodClassTypeSubject));
+        private bool _isAuditLog = false;
+        private const string p_PeriodClassTypeSubjectID = "@p_PeriodClassTypeSubjectID";
+        public PeriodClassTypeSubjectDao() { }
+        public PeriodClassTypeSubjectDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodClassTypeSubject Get(Int32 PeriodClassTypeSubjectID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodClassTypeSubjectID, PeriodClassTypeSubjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodClassTypeSubject)_helper.DataRowToObject(row, new PeriodClassTypeSubject());
+        }
+        public int Insert(PeriodClassTypeSubject record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodClassTypeSubject record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodClassTypeSubjectID)
+        {
+            PeriodClassTypeSubject record;
+            if (_ctx.Transaction == null)
+                record = new PeriodClassTypeSubjectDao().Get(PeriodClassTypeSubjectID);
+            else
+                record = Get(PeriodClassTypeSubjectID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -98,7 +98,7 @@
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeSubject\PeriodClassTypeSubjectEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassType\PeriodClassTypeEntry.aspx" />
-    <Content Include="Program\Master\SchoolPeriod\PeriodSelection\PeriodSelectionEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodAdmission\PeriodAdmissionEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodSchedule\PeriodScheduleEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodSection\PeriodSectionEntry.aspx" />
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
@@ -322,12 +322,12 @@
     <Compile Include="Program\Master\SchoolPeriod\PeriodClassType\PeriodClassTypeEntry.aspx.designer.cs">
       <DependentUpon>PeriodClassTypeEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\PeriodSelection\PeriodSelectionEntry.aspx.cs">
-      <DependentUpon>PeriodSelectionEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodAdmission\PeriodAdmissionEntry.aspx.cs">
+      <DependentUpon>PeriodAdmissionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\PeriodSelection\PeriodSelectionEntry.aspx.designer.cs">
-      <DependentUpon>PeriodSelectionEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodAdmission\PeriodAdmissionEntry.aspx.designer.cs">
+      <DependentUpon>PeriodAdmissionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\PeriodSchedule\PeriodScheduleEntry.aspx.cs">
       <DependentUpon>PeriodScheduleEntry.aspx</DependentUpon>

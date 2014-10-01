@@ -11,16 +11,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            setDatePicker('<%=txtStartDate.ClientID %>');
-            setDatePicker('<%=txtEndDate.ClientID %>');
-
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtPeriodSectionCode.ClientID %>').val('');
-                $('#<%=txtPeriodSectionName.ClientID %>').val('');
-                $('#<%=txtStartDate.ClientID %>').val('');
-                $('#<%=txtEndDate.ClientID %>').val('');
-                $('#<%=txtRemarks.ClientID %>').val('');
+                cboClassType.SetValue('');
+                cboDailySchedulePackage.SetValue('');
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#entryDetailContainer').show();
             });
 
@@ -40,7 +35,7 @@
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.ID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeSubjectID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -50,12 +45,10 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodSectionID);
-            $('#<%=txtPeriodSectionCode.ClientID %>').val(entity.PeriodSectionCode);
-            $('#<%=txtPeriodSectionName.ClientID %>').val(entity.PeriodSectionName);
-            $('#<%=txtStartDate.ClientID %>').val(entity.StartDateInDatePickerFormat);
-            $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
-            $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeSubjectID);
+            cboClassType.SetValue(entity.ClassTypeID);
+            cboDailySchedulePackage.SetValue(entity.DailySchedulePackageID);
+            $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#entryDetailContainer').show();
         });
 
@@ -97,24 +90,16 @@
                                     <col style="width: 150px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
-                                    <td><asp:TextBox ID="txtPeriodSectionCode" Width="100px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
+                                    <td><dxe:ASPxComboBox runat="server" ID="cboClassType" ClientInstanceName="cboClassType" Width="300px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtPeriodSectionName" Width="300px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai")%></label></td>
-                                    <td><asp:TextBox ID="txtStartDate" CssClass="datepicker" Width="120px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
+                                    <td><dxe:ASPxComboBox runat="server" ID="cboDailySchedulePackage" ClientInstanceName="cboDailySchedulePackage" Width="300px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Selesai")%></label></td>
-                                    <td><asp:TextBox ID="txtEndDate" CssClass="datepicker" Width="120px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
+                                    <td><asp:TextBox ID="txtNoMeetingHoursInWeek" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -139,21 +124,20 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="PeriodSectionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="PeriodSectionCode" HeaderText="Kode" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="PeriodSectionName" HeaderText="Nama"/>
-                                <asp:BoundField DataField="StartDateInString" HeaderText="Tanggal Mulai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="EndDateInString" HeaderText="Tanggal Selesai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
+                                <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("PeriodSectionID") %>" bindingfield="PeriodSectionID" />
-                                        <input type="hidden" value="<%#Eval("PeriodSectionCode") %>" bindingfield="PeriodSectionCode" />
-                                        <input type="hidden" value="<%#Eval("PeriodSectionName") %>" bindingfield="PeriodSectionName" />
-                                        <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
-                                        <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />
-                                        <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
+                                        <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
+                                        <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
+                                        <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" /
+                                        <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
+                                        <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
