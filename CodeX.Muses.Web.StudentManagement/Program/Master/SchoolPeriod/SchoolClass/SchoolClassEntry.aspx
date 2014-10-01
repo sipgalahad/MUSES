@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="PeriodClassTypeSubjectEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodClassTypeSubjectEntry" %>
+    CodeBehind="SchoolClassEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SchoolClassEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -15,11 +15,13 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                tacSubject.setValue('');
-                tacSubject.setText('');
+                $('#<%=txtSchoolClassCode.ClientID %>').val('');
+                $('#<%=txtSchoolClassName.ClientID %>').val('');
+                tacRoom.setValue('');
+                tacRoom.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
-                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
+                $('#<%=txtMaxStudent.ClientID %>').val('');
                 $('#entryDetailContainer').show();
             });
 
@@ -39,7 +41,7 @@
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeSubjectID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.SchoolClassID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -49,57 +51,56 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeSubjectID);
-            tacSubject.setValue(entity.SubjectID);
-            tacSubject.setText(entity.SubjectName);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.SchoolClassID);
+            $('#<%=txtSchoolClassCode.ClientID %>').val(entity.SchoolClassCode);
+            $('#<%=txtSchoolClassName.ClientID %>').val(entity.SchoolClassName);
+            tacRoom.setValue(entity.RoomID);
+            tacRoom.setText(entity.RoomName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
-            $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
+            $('#<%=txtMaxStudent.ClientID %>').val(entity.MaxStudent);
             $('#entryDetailContainer').show();
         });
 
         //#endregion
 
-        //#region Subject
-        function onGetSubjectFilterExpression() {
-            var filterExpression = "GCGrade = '" + $('#<%=hdnGCGrade.ClientID %>').val() + "' AND (GCMajor = '" + $('#<%=hdnGCMajor.ClientID %>').val() + "' OR GCMajor IS NULL) AND IsDeleted = 0";
+        //#region Room
+        function onGetRoomFilterExpression() {
+            var filterExpression = "IsDeleted = 0";
             return filterExpression;
         }
 
-        function onTacSubjectButtonSearchClick() {
-            openSearchDialog('subjectgrademajor', onGetSubjectFilterExpression(), function (value) {
-                var filterExpression = onGetSubjectFilterExpression() + " AND SubjectCode = '" + value + "'";
-                Methods.getObject('GetvSubjectGradeMajorList', filterExpression, function (result) {
+        function onTacRoomButtonSearchClick() {
+            openSearchDialog('subject', onGetRoomFilterExpression(), function (value) {
+                var filterExpression = onGetRoomFilterExpression() + " AND RoomCode = '" + value + "'";
+                Methods.getObject('GetRoomList', filterExpression, function (result) {
                     if (result != null) {
-                        tacSubject.setValue(result.SubjectID);
-                        tacSubject.setText(result.SubjectName);
+                        tacRoom.setValue(result.RoomID);
+                        tacRoom.setText(result.RoomName);
                     }
                     else {
-                        tacSubject.setValue('');
-                        tacSubject.setText('');
+                        tacRoom.setValue('');
+                        tacRoom.setText('');
                     }
                 });
             });
 
         }
 
-        function onTacSubjectValueChanged() {
+        function onTacRoomValueChanged() {
         }
         //#endregion
 
         //#region Teacher
         function onGetTeacherFilterExpression() {
-            var filterExpression = "1 = 0";
-            var subjectID = tacSubject.getValue();
-            if (subjectID != '')
-                filterExpression = "SubjectID = " + subjectID;
+            var filterExpression = "IsDeleted = 0";
             return filterExpression;
         }
 
         function onTacTeacherButtonSearchClick() {
-            openSearchDialog('teachersubject', onGetTeacherFilterExpression(), function (value) {
+            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
                 var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                Methods.getObject('GetvTeacherSubjectList', filterExpression, function (result) {
+                Methods.getObject('GetTeacherList', filterExpression, function (result) {
                     if (result != null) {
                         tacTeacher.setValue(result.TeacherID);
                         tacTeacher.setText(result.TeacherName);
@@ -168,12 +169,20 @@
                                     <col style="width: 150px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Pelajaran")%></label></td>
+                                    <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
+                                    <td><asp:TextBox ID="txtSchoolClassCode" Width="100px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
+                                    <td><asp:TextBox ID="txtSchoolClassName" Width="300px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Ruangan")%></label></td>
                                     <td>
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectGradeMajorList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
-                                            SearchFields="SubjectName,SubjectID" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectID}</b>)" OrderByExpression="SubjectName">
-                                            <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectButtonSearchClick(); }"
-                                                ValueChanged="function(){ onTacSubjectValueChanged(); }" />
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacRoom" ClientInstanceName="tacRoom" MethodName="GetRoomList" GetFilterExpressionFunction="onGetRoomFilterExpression"
+                                            SearchFields="RoomName,RoomID" TextField="RoomName" ValueField="RoomID" SearchText="${RoomName} (<b>${RoomID}</b>)" OrderByExpression="RoomName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacRoomButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacRoomValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
@@ -188,8 +197,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah Jam Pertemuan")%></label></td>
-                                    <td><asp:TextBox ID="txtNoMeetingHoursInWeek" CssClass="number" Width="120px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Maximal Siswa")%></label></td>
+                                    <td><asp:TextBox ID="txtMaxStudent" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -211,25 +220,27 @@
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
-                        <input type="hidden" id="hdnGCMajor" runat="server" value="" />
-                        <input type="hidden" id="hdnGCGrade" runat="server" value="" />
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
+                                <asp:BoundField DataField="SchoolClassID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SchoolClassCode" HeaderText="Kode Kelas" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="SchoolClassName" HeaderText="Nama Kelas"/>
+                                <asp:BoundField DataField="RoomName" HeaderText="Ruangan" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="MaxStudent" HeaderText="Maximal Siswa" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
-                                        <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
-                                        <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("SchoolClassID") %>" bindingfield="SchoolClassID" />
+                                        <input type="hidden" value="<%#Eval("SchoolClassCode") %>" bindingfield="SchoolClassCode" />
+                                        <input type="hidden" value="<%#Eval("SchoolClassName") %>" bindingfield="SchoolClassName" />
+                                        <input type="hidden" value="<%#Eval("RoomID") %>" bindingfield="RoomID" />
+                                        <input type="hidden" value="<%#Eval("RoomName") %>" bindingfield="RoomName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
-                                        <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
+                                        <input type="hidden" value="<%#Eval("MaxStudent") %>" bindingfield="MaxStudent" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

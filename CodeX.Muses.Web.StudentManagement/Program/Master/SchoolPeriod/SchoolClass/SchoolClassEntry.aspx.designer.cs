@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class PeriodClassTypeSubjectEntry {
+    public partial class SchoolClassEntry {
         
         /// <summary>
         /// cboClassType control.
@@ -31,13 +31,31 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// tacSubject control.
+        /// txtSchoolClassCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::System.Web.UI.WebControls.TextBox txtSchoolClassCode;
+        
+        /// <summary>
+        /// txtSchoolClassName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSchoolClassName;
+        
+        /// <summary>
+        /// tacRoom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacRoom;
         
         /// <summary>
         /// tacTeacher control.
@@ -49,13 +67,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
         
         /// <summary>
-        /// txtNoMeetingHoursInWeek control.
+        /// txtMaxStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoMeetingHoursInWeek;
+        protected global::System.Web.UI.WebControls.TextBox txtMaxStudent;
         
         /// <summary>
         /// cbpView control.
@@ -83,24 +101,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
-        /// hdnGCMajor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCMajor;
-        
-        /// <summary>
-        /// hdnGCGrade control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCGrade;
         
         /// <summary>
         /// grdView control.

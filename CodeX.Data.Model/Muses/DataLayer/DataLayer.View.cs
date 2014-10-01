@@ -103,6 +103,10 @@ namespace CodeX.Data.Model
         private String _PeriodSectionName;
         private Int32 _ClassTypeID;
         private String _ClassTypeName;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCMajor;
+        private String _Major;
         private Int32 _DailySchedulePackageID;
         private String _DailySchedulePackageName;
         private Int16 _NoOfClass;
@@ -150,6 +154,30 @@ namespace CodeX.Data.Model
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
         }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
+        }
         [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
         public Int32 DailySchedulePackageID
         {
@@ -182,6 +210,7 @@ namespace CodeX.Data.Model
     public class vPeriodClassTypeSubject
     {
         private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _PeriodClassTypeID;
         private Int32 _SchoolPeriodID;
         private String _SchoolPeriodName;
         private Int32 _PeriodSectionID;
@@ -202,6 +231,12 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodClassTypeSubjectID; }
             set { _PeriodClassTypeSubjectID = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -438,6 +473,126 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSchoolClass
+    [Serializable]
+    [Table(Name = "vSchoolClass")]
+    public class vSchoolClass
+    {
+        private Int32 _SchoolClassID;
+        private String _SchoolClassCode;
+        private String _SchoolClassName;
+        private Int32 _PeriodClassTypeID;
+        private Int32 _SchoolPeriodID;
+        private String _SchoolPeriodName;
+        private Int32 _PeriodSectionID;
+        private String _PeriodSectionName;
+        private Int32 _ClassTypeID;
+        private String _ClassTypeName;
+        private Int32 _RoomID;
+        private String _RoomName;
+        private Int32 _TeacherID;
+        private String _TeacherName;
+        private Int16 _MaxStudent;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
+        {
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "MaxStudent", DataType = "Int16")]
+        public Int16 MaxStudent
+        {
+            get { return _MaxStudent; }
+            set { _MaxStudent = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStudent
     [Serializable]
     [Table(Name = "vStudent")]
@@ -660,6 +815,120 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vSubjectGradeMajor
+    [Serializable]
+    [Table(Name = "vSubjectGradeMajor")]
+    public class vSubjectGradeMajor
+    {
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCMajor;
+        private String _Major;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vTeacherSubject
+    [Serializable]
+    [Table(Name = "vTeacherSubject")]
+    public class vTeacherSubject
+    {
+        private Int32 _TeacherID;
+        private String _TeacherCode;
+        private String _TeacherName;
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherCode", DataType = "String")]
+        public String TeacherCode
+        {
+            get { return _TeacherCode; }
+            set { _TeacherCode = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
         }
     }
     #endregion

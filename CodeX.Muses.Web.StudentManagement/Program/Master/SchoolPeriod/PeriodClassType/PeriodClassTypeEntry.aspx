@@ -73,6 +73,13 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        $('.lnkSchedule').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
+            openUserControlPopup(url, entity.DailySchedulePackageID, 'Jadwal', 1000, 550);
+        });
     </script>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
@@ -126,7 +133,13 @@
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="ClassTypeName" HeaderText="Tipe Kelas"/>
-                                <asp:BoundField DataField="DailySchedulePackageName" HeaderText="Tipe Jadwal" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="Grade" HeaderText="Tingkat" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="Major" HeaderText="Jurusan" HeaderStyle-Width="150px" />
+                                <asp:TemplateField HeaderText="Tipe Jadwal" HeaderStyle-Width="300px">
+                                    <ItemTemplate>
+                                        <a class="lnkSchedule"><%#Eval("DailySchedulePackageName")%></a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="NoOfClass" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

@@ -288,6 +288,8 @@ namespace CodeX.Common
 
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010201";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010202";
+
+                public const string SP_SCHOOL_CLASS = "SM99010301";
             }
             #endregion
         }

@@ -93,6 +93,8 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodClassType\DailySchedulePackageDtCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolClass\SchoolClassEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx" />
@@ -286,6 +288,20 @@
     </Compile>
     <Compile Include="MasterPage\SchoolPeriodBannerDtCtl.ascx.designer.cs">
       <DependentUpon>SchoolPeriodBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassType\DailySchedulePackageDtCtl.ascx.cs">
+      <DependentUpon>DailySchedulePackageDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassType\DailySchedulePackageDtCtl.ascx.designer.cs">
+      <DependentUpon>DailySchedulePackageDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolClass\SchoolClassEntry.aspx.cs">
+      <DependentUpon>SchoolClassEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolClass\SchoolClassEntry.aspx.designer.cs">
+      <DependentUpon>SchoolClassEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx.cs">
       <DependentUpon>SchoolPeriodEntry.aspx</DependentUpon>

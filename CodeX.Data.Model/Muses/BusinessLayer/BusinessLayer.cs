@@ -649,6 +649,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SchoolClass
+        public static SchoolClass GetSchoolClass(Int32 SchoolClassID)
+        {
+            return new SchoolClassDao().Get(SchoolClassID);
+        }
+        public static int InsertSchoolClass(SchoolClass record)
+        {
+            return new SchoolClassDao().Insert(record);
+        }
+        public static int UpdateSchoolClass(SchoolClass record)
+        {
+            return new SchoolClassDao().Update(record);
+        }
+        public static int DeleteSchoolClass(Int32 SchoolClassID)
+        {
+            return new SchoolClassDao().Delete(SchoolClassID);
+        }
+        public static List<SchoolClass> GetSchoolClassList(string filterExpression)
+        {
+            List<SchoolClass> result = new List<SchoolClass>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolClass));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolClass)helper.IDataReaderToObject(reader, new SchoolClass()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SchoolPeriod
         public static SchoolPeriod GetSchoolPeriod(Int32 SchoolPeriodID)
         {
@@ -1005,6 +1045,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region Teacher
+        public static Teacher GetTeacher(Int32 TeacherID)
+        {
+            return new TeacherDao().Get(TeacherID);
+        }
+        public static int InsertTeacher(Teacher record)
+        {
+            return new TeacherDao().Insert(record);
+        }
+        public static int UpdateTeacher(Teacher record)
+        {
+            return new TeacherDao().Update(record);
+        }
+        public static int DeleteTeacher(Int32 TeacherID)
+        {
+            return new TeacherDao().Delete(TeacherID);
+        }
+        public static List<Teacher> GetTeacherList(string filterExpression)
+        {
+            List<Teacher> result = new List<Teacher>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Teacher));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Teacher)helper.IDataReaderToObject(reader, new Teacher()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

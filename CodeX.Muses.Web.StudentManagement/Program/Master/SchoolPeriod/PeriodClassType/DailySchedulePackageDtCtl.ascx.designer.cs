@@ -10,114 +10,105 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class PeriodClassTypeSubjectEntry {
+    public partial class DailySchedulePackageDtCtl {
         
         /// <summary>
-        /// cboClassType control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboClassType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnEntryID control.
+        /// Hidden1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden Hidden1;
         
         /// <summary>
-        /// tacSubject control.
+        /// txtDailySchedulePackageCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::System.Web.UI.WebControls.TextBox txtDailySchedulePackageCode;
         
         /// <summary>
-        /// tacTeacher control.
+        /// txtDailySchedulePackageName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
+        protected global::System.Web.UI.WebControls.TextBox txtDailySchedulePackageName;
         
         /// <summary>
-        /// txtNoMeetingHoursInWeek control.
+        /// rptDay1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoMeetingHoursInWeek;
+        protected global::System.Web.UI.WebControls.Repeater rptDay1;
         
         /// <summary>
-        /// cbpView control.
+        /// rptDay2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.Repeater rptDay2;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// rptDay3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.WebControls.Repeater rptDay3;
         
         /// <summary>
-        /// pnlView control.
+        /// rptDay4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.WebControls.Repeater rptDay4;
         
         /// <summary>
-        /// hdnGCMajor control.
+        /// rptDay5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCMajor;
+        protected global::System.Web.UI.WebControls.Repeater rptDay5;
         
         /// <summary>
-        /// hdnGCGrade control.
+        /// rptDay6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCGrade;
+        protected global::System.Web.UI.WebControls.Repeater rptDay6;
         
         /// <summary>
-        /// grdView control.
+        /// rptRemarks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
-        
-        /// <summary>
-        /// cbpProcess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
+        protected global::System.Web.UI.WebControls.Repeater rptRemarks;
     }
 }

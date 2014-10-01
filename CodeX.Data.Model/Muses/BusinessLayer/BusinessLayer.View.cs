@@ -129,6 +129,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSchoolClass
+        public static List<vSchoolClass> GetvSchoolClassList(string filterExpression)
+        {
+            List<vSchoolClass> result = new List<vSchoolClass>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSchoolClass));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSchoolClass)helper.IDataReaderToObject(reader, new vSchoolClass()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudent
         public static List<vStudent> GetvStudentList(string filterExpression)
         {
@@ -141,6 +165,54 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vStudent)helper.IDataReaderToObject(reader, new vStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectGradeMajor
+        public static List<vSubjectGradeMajor> GetvSubjectGradeMajorList(string filterExpression)
+        {
+            List<vSubjectGradeMajor> result = new List<vSubjectGradeMajor>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectGradeMajor));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectGradeMajor)helper.IDataReaderToObject(reader, new vSubjectGradeMajor()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTeacherSubject
+        public static List<vTeacherSubject> GetvTeacherSubjectList(string filterExpression)
+        {
+            List<vTeacherSubject> result = new List<vTeacherSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherSubject)helper.IDataReaderToObject(reader, new vTeacherSubject()));
             }
             catch (Exception ex)
             {
