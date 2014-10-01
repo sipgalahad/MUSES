@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class SchoolDailySchedulePackageEntry {
+    public partial class DailySchedulePackageEntry {
         
         /// <summary>
         /// hdnID control.
@@ -22,22 +22,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// txtSchoolDailySchedulePackageCode control.
+        /// txtDailySchedulePackageCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolDailySchedulePackageCode;
+        protected global::System.Web.UI.WebControls.TextBox txtDailySchedulePackageCode;
         
         /// <summary>
-        /// txtSchoolDailySchedulePackageName control.
+        /// txtDailySchedulePackageName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolDailySchedulePackageName;
+        protected global::System.Web.UI.WebControls.TextBox txtDailySchedulePackageName;
         
         /// <summary>
         /// cboScheduleType1 control.

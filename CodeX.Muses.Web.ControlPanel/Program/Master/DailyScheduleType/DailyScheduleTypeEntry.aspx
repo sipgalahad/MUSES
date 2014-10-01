@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="SchoolDailyScheduleTypeEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.SchoolDailyScheduleTypeEntry" %>
+    CodeBehind="DailyScheduleTypeEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.DailyScheduleTypeEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <input type="hidden" id="hdnID" runat="server" value="" />
@@ -15,11 +15,11 @@
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
-                        <td><asp:TextBox ID="txtSchoolDailyScheduleTypeCode" Width="100px" runat="server" /></td>
+                        <td><asp:TextBox ID="txtDailyScheduleTypeCode" Width="100px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                        <td><asp:TextBox ID="txtSchoolDailyScheduleTypeName" Width="300px" runat="server" /></td>
+                        <td><asp:TextBox ID="txtDailyScheduleTypeName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>

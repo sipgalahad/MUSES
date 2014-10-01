@@ -7,6 +7,849 @@ using System.Data;
 
 namespace CodeX.Data.Model
 {
+    #region DailySchedule
+    [Serializable]
+    [Table(Name = "DailySchedule")]
+    public class DailySchedule : DbDataModel
+    {
+        private Int32 _DailyScheduleID;
+        private Int32 _SchoolPeriodID;
+        private Int16 _DayNumber;
+        private Int32 _DailyScheduleTypeID;
+
+        [Column(Name = "DailyScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DailyScheduleID
+        {
+            get { return _DailyScheduleID; }
+            set { _DailyScheduleID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID", DataType = "Int32")]
+        public Int32 DailyScheduleTypeID
+        {
+            get { return _DailyScheduleTypeID; }
+            set { _DailyScheduleTypeID = value; }
+        }
+    }
+
+    public class DailyScheduleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DailySchedule));
+        private bool _isAuditLog = false;
+        private const string p_DailyScheduleID = "@p_DailyScheduleID";
+        public DailyScheduleDao() { }
+        public DailyScheduleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DailySchedule Get(Int32 DailyScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DailyScheduleID, DailyScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DailySchedule)_helper.DataRowToObject(row, new DailySchedule());
+        }
+        public int Insert(DailySchedule record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DailySchedule record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DailyScheduleID)
+        {
+            DailySchedule record;
+            if (_ctx.Transaction == null)
+                record = new DailyScheduleDao().Get(DailyScheduleID);
+            else
+                record = Get(DailyScheduleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region DailySchedulePackage
+    [Serializable]
+    [Table(Name = "DailySchedulePackage")]
+    public class DailySchedulePackage : DbDataModel
+    {
+        private Int32 _DailySchedulePackageID;
+        private String _DailySchedulePackageCode;
+        private String _DailySchedulePackageName;
+        private String _SiteID;
+        private Int32? _DailyScheduleTypeID1;
+        private Int32? _DailyScheduleTypeID2;
+        private Int32? _DailyScheduleTypeID3;
+        private Int32? _DailyScheduleTypeID4;
+        private Int32? _DailyScheduleTypeID5;
+        private Int32? _DailyScheduleTypeID6;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "DailySchedulePackageID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DailySchedulePackageID
+        {
+            get { return _DailySchedulePackageID; }
+            set { _DailySchedulePackageID = value; }
+        }
+        [Column(Name = "DailySchedulePackageCode", DataType = "String")]
+        public String DailySchedulePackageCode
+        {
+            get { return _DailySchedulePackageCode; }
+            set { _DailySchedulePackageCode = value; }
+        }
+        [Column(Name = "DailySchedulePackageName", DataType = "String")]
+        public String DailySchedulePackageName
+        {
+            get { return _DailySchedulePackageName; }
+            set { _DailySchedulePackageName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID1", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID1
+        {
+            get { return _DailyScheduleTypeID1; }
+            set { _DailyScheduleTypeID1 = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID2", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID2
+        {
+            get { return _DailyScheduleTypeID2; }
+            set { _DailyScheduleTypeID2 = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID3", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID3
+        {
+            get { return _DailyScheduleTypeID3; }
+            set { _DailyScheduleTypeID3 = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID4", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID4
+        {
+            get { return _DailyScheduleTypeID4; }
+            set { _DailyScheduleTypeID4 = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID5", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID5
+        {
+            get { return _DailyScheduleTypeID5; }
+            set { _DailyScheduleTypeID5 = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID6", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID6
+        {
+            get { return _DailyScheduleTypeID6; }
+            set { _DailyScheduleTypeID6 = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class DailySchedulePackageDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DailySchedulePackage));
+        private bool _isAuditLog = false;
+        private const string p_DailySchedulePackageID = "@p_DailySchedulePackageID";
+        public DailySchedulePackageDao() { }
+        public DailySchedulePackageDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DailySchedulePackage Get(Int32 DailySchedulePackageID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DailySchedulePackageID, DailySchedulePackageID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DailySchedulePackage)_helper.DataRowToObject(row, new DailySchedulePackage());
+        }
+        public int Insert(DailySchedulePackage record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DailySchedulePackage record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DailySchedulePackageID)
+        {
+            DailySchedulePackage record;
+            if (_ctx.Transaction == null)
+                record = new DailySchedulePackageDao().Get(DailySchedulePackageID);
+            else
+                record = Get(DailySchedulePackageID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region DailyScheduleTypeDt
+    [Serializable]
+    [Table(Name = "DailyScheduleTypeDt")]
+    public partial class DailyScheduleTypeDt : DbDataModel
+    {
+        private Int32 _DailyScheduleTypeDtID;
+        private Int32? _DailyScheduleTypeID;
+        private Int16 _HoursIndex;
+        private String _StartTime;
+        private String _EndTime;
+        private String _GCDailyScheduleType;
+
+        [Column(Name = "DailyScheduleTypeDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DailyScheduleTypeDtID
+        {
+            get { return _DailyScheduleTypeDtID; }
+            set { _DailyScheduleTypeDtID = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID", DataType = "Int32", IsNullable = true)]
+        public Int32? DailyScheduleTypeID
+        {
+            get { return _DailyScheduleTypeID; }
+            set { _DailyScheduleTypeID = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16", IsNullable = true)]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "GCDailyScheduleType", DataType = "String")]
+        public String GCDailyScheduleType
+        {
+            get { return _GCDailyScheduleType; }
+            set { _GCDailyScheduleType = value; }
+        }
+    }
+
+    public class DailyScheduleTypeDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DailyScheduleTypeDt));
+        private bool _isAuditLog = false;
+        private const string p_DailyScheduleTypeDtID = "@p_DailyScheduleTypeDtID";
+        public DailyScheduleTypeDtDao() { }
+        public DailyScheduleTypeDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DailyScheduleTypeDt Get(Int32 DailyScheduleTypeDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DailyScheduleTypeDtID, DailyScheduleTypeDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DailyScheduleTypeDt)_helper.DataRowToObject(row, new DailyScheduleTypeDt());
+        }
+        public int Insert(DailyScheduleTypeDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DailyScheduleTypeDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DailyScheduleTypeDtID)
+        {
+            DailyScheduleTypeDt record;
+            if (_ctx.Transaction == null)
+                record = new DailyScheduleTypeDtDao().Get(DailyScheduleTypeDtID);
+            else
+                record = Get(DailyScheduleTypeDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region DailyScheduleTypeHd
+    [Serializable]
+    [Table(Name = "DailyScheduleTypeHd")]
+    public class DailyScheduleTypeHd : DbDataModel
+    {
+        private Int32 _DailyScheduleTypeID;
+        private String _DailyScheduleTypeCode;
+        private String _DailyScheduleTypeName;
+        private String _SiteID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "DailyScheduleTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DailyScheduleTypeID
+        {
+            get { return _DailyScheduleTypeID; }
+            set { _DailyScheduleTypeID = value; }
+        }
+        [Column(Name = "DailyScheduleTypeCode", DataType = "String")]
+        public String DailyScheduleTypeCode
+        {
+            get { return _DailyScheduleTypeCode; }
+            set { _DailyScheduleTypeCode = value; }
+        }
+        [Column(Name = "DailyScheduleTypeName", DataType = "String")]
+        public String DailyScheduleTypeName
+        {
+            get { return _DailyScheduleTypeName; }
+            set { _DailyScheduleTypeName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class DailyScheduleTypeHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DailyScheduleTypeHd));
+        private bool _isAuditLog = false;
+        private const string p_DailyScheduleTypeID = "@p_DailyScheduleTypeID";
+        public DailyScheduleTypeHdDao() { }
+        public DailyScheduleTypeHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DailyScheduleTypeHd Get(Int32 DailyScheduleTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DailyScheduleTypeID, DailyScheduleTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DailyScheduleTypeHd)_helper.DataRowToObject(row, new DailyScheduleTypeHd());
+        }
+        public int Insert(DailyScheduleTypeHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DailyScheduleTypeHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DailyScheduleTypeID)
+        {
+            DailyScheduleTypeHd record;
+            if (_ctx.Transaction == null)
+                record = new DailyScheduleTypeHdDao().Get(DailyScheduleTypeID);
+            else
+                record = Get(DailyScheduleTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PeriodClassType
+    [Serializable]
+    [Table(Name = "PeriodClassType")]
+    public class PeriodClassType : DbDataModel
+    {
+        private Int32 _PeriodClassTypeID;
+        private Int32 _SchoolPeriodID;
+        private Int32? _PeriodSectionID;
+        private Int32 _ClassTypeID;
+        private Int32 _DailySchedulePackageID;
+        private Int16 _NoOfClass;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsNullable = true)]
+        public Int32? PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
+        public Int32 DailySchedulePackageID
+        {
+            get { return _DailySchedulePackageID; }
+            set { _DailySchedulePackageID = value; }
+        }
+        [Column(Name = "NoOfClass", DataType = "Int16")]
+        public Int16 NoOfClass
+        {
+            get { return _NoOfClass; }
+            set { _NoOfClass = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PeriodClassTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodClassType));
+        private bool _isAuditLog = false;
+        private const string p_PeriodClassTypeID = "@p_PeriodClassTypeID";
+        public PeriodClassTypeDao() { }
+        public PeriodClassTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodClassType Get(Int32 PeriodClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodClassTypeID, PeriodClassTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodClassType)_helper.DataRowToObject(row, new PeriodClassType());
+        }
+        public int Insert(PeriodClassType record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodClassType record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodClassTypeID)
+        {
+            PeriodClassType record;
+            if (_ctx.Transaction == null)
+                record = new PeriodClassTypeDao().Get(PeriodClassTypeID);
+            else
+                record = Get(PeriodClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PeriodSchedule
+    [Serializable]
+    [Table(Name = "PeriodSchedule")]
+    public class PeriodSchedule : DbDataModel
+    {
+        private Int32 _PeriodScheduleID;
+        private String _PeriodScheduleCode;
+        private String _PeriodScheduleName;
+        private Int32 _SchoolPeriodID;
+        private String _GCPeriodScheduleType;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PeriodScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PeriodScheduleID
+        {
+            get { return _PeriodScheduleID; }
+            set { _PeriodScheduleID = value; }
+        }
+        [Column(Name = "PeriodScheduleCode", DataType = "String")]
+        public String PeriodScheduleCode
+        {
+            get { return _PeriodScheduleCode; }
+            set { _PeriodScheduleCode = value; }
+        }
+        [Column(Name = "PeriodScheduleName", DataType = "String")]
+        public String PeriodScheduleName
+        {
+            get { return _PeriodScheduleName; }
+            set { _PeriodScheduleName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCPeriodScheduleType", DataType = "String")]
+        public String GCPeriodScheduleType
+        {
+            get { return _GCPeriodScheduleType; }
+            set { _GCPeriodScheduleType = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PeriodScheduleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodSchedule));
+        private bool _isAuditLog = false;
+        private const string p_PeriodScheduleID = "@p_PeriodScheduleID";
+        public PeriodScheduleDao() { }
+        public PeriodScheduleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodSchedule Get(Int32 PeriodScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodScheduleID, PeriodScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodSchedule)_helper.DataRowToObject(row, new PeriodSchedule());
+        }
+        public int Insert(PeriodSchedule record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodSchedule record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodScheduleID)
+        {
+            PeriodSchedule record;
+            if (_ctx.Transaction == null)
+                record = new PeriodScheduleDao().Get(PeriodScheduleID);
+            else
+                record = Get(PeriodScheduleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PeriodSection
+    [Serializable]
+    [Table(Name = "PeriodSection")]
+    public class PeriodSection : DbDataModel
+    {
+        private Int32 _PeriodSectionID;
+        private String _PeriodSectionCode;
+        private String _PeriodSectionName;
+        private Int32 _SchoolPeriodID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _GCPeriodSectionStatus;
+        private String _Remarks;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodSectionCode", DataType = "String")]
+        public String PeriodSectionCode
+        {
+            get { return _PeriodSectionCode; }
+            set { _PeriodSectionCode = value; }
+        }
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
+        {
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "GCPeriodSectionStatus", DataType = "String")]
+        public String GCPeriodSectionStatus
+        {
+            get { return _GCPeriodSectionStatus; }
+            set { _GCPeriodSectionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PeriodSectionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodSection));
+        private bool _isAuditLog = false;
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        public PeriodSectionDao() { }
+        public PeriodSectionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodSection Get(Int32 PeriodSectionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodSection)_helper.DataRowToObject(row, new PeriodSection());
+        }
+        public int Insert(PeriodSection record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodSection record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodSectionID)
+        {
+            PeriodSection record;
+            if (_ctx.Transaction == null)
+                record = new PeriodSectionDao().Get(PeriodSectionID);
+            else
+                record = Get(PeriodSectionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Room
     [Serializable]
     [Table(Name = "Room")]
@@ -115,447 +958,6 @@ namespace CodeX.Data.Model
                 record = new RoomDao().Get(RoomID);
             else
                 record = Get(RoomID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region SchoolDailySchedule
-    [Serializable]
-    [Table(Name = "SchoolDailySchedule")]
-    public class SchoolDailySchedule : DbDataModel
-    {
-        private Int32 _SchoolDailyScheduleID;
-        private Int32 _SchoolPeriodID;
-        private Int16 _DayNumber;
-        private Int32 _SchoolDailyScheduleTypeID;
-
-        [Column(Name = "SchoolDailyScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SchoolDailyScheduleID
-        {
-            get { return _SchoolDailyScheduleID; }
-            set { _SchoolDailyScheduleID = value; }
-        }
-        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
-        public Int32 SchoolPeriodID
-        {
-            get { return _SchoolPeriodID; }
-            set { _SchoolPeriodID = value; }
-        }
-        [Column(Name = "DayNumber", DataType = "Int16")]
-        public Int16 DayNumber
-        {
-            get { return _DayNumber; }
-            set { _DayNumber = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID", DataType = "Int32")]
-        public Int32 SchoolDailyScheduleTypeID
-        {
-            get { return _SchoolDailyScheduleTypeID; }
-            set { _SchoolDailyScheduleTypeID = value; }
-        }
-    }
-
-    public class SchoolDailyScheduleDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SchoolDailySchedule));
-        private bool _isAuditLog = false;
-        private const string p_SchoolDailyScheduleID = "@p_SchoolDailyScheduleID";
-        public SchoolDailyScheduleDao() { }
-        public SchoolDailyScheduleDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SchoolDailySchedule Get(Int32 SchoolDailyScheduleID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SchoolDailyScheduleID, SchoolDailyScheduleID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SchoolDailySchedule)_helper.DataRowToObject(row, new SchoolDailySchedule());
-        }
-        public int Insert(SchoolDailySchedule record)
-        {
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SchoolDailySchedule record)
-        {
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SchoolDailyScheduleID)
-        {
-            SchoolDailySchedule record;
-            if (_ctx.Transaction == null)
-                record = new SchoolDailyScheduleDao().Get(SchoolDailyScheduleID);
-            else
-                record = Get(SchoolDailyScheduleID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region SchoolDailySchedulePackage
-    [Serializable]
-    [Table(Name = "SchoolDailySchedulePackage")]
-    public class SchoolDailySchedulePackage : DbDataModel
-    {
-        private Int32 _SchoolDailySchedulePackageID;
-        private String _SchoolDailySchedulePackageCode;
-        private String _SchoolDailySchedulePackageName;
-        private String _SiteID;
-        private Int32? _SchoolDailyScheduleTypeID1;
-        private Int32? _SchoolDailyScheduleTypeID2;
-        private Int32? _SchoolDailyScheduleTypeID3;
-        private Int32? _SchoolDailyScheduleTypeID4;
-        private Int32? _SchoolDailyScheduleTypeID5;
-        private Int32? _SchoolDailyScheduleTypeID6;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "SchoolDailySchedulePackageID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SchoolDailySchedulePackageID
-        {
-            get { return _SchoolDailySchedulePackageID; }
-            set { _SchoolDailySchedulePackageID = value; }
-        }
-        [Column(Name = "SchoolDailySchedulePackageCode", DataType = "String")]
-        public String SchoolDailySchedulePackageCode
-        {
-            get { return _SchoolDailySchedulePackageCode; }
-            set { _SchoolDailySchedulePackageCode = value; }
-        }
-        [Column(Name = "SchoolDailySchedulePackageName", DataType = "String")]
-        public String SchoolDailySchedulePackageName
-        {
-            get { return _SchoolDailySchedulePackageName; }
-            set { _SchoolDailySchedulePackageName = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID1", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID1
-        {
-            get { return _SchoolDailyScheduleTypeID1; }
-            set { _SchoolDailyScheduleTypeID1 = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID2", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID2
-        {
-            get { return _SchoolDailyScheduleTypeID2; }
-            set { _SchoolDailyScheduleTypeID2 = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID3", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID3
-        {
-            get { return _SchoolDailyScheduleTypeID3; }
-            set { _SchoolDailyScheduleTypeID3 = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID4", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID4
-        {
-            get { return _SchoolDailyScheduleTypeID4; }
-            set { _SchoolDailyScheduleTypeID4 = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID5", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID5
-        {
-            get { return _SchoolDailyScheduleTypeID5; }
-            set { _SchoolDailyScheduleTypeID5 = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID6", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID6
-        {
-            get { return _SchoolDailyScheduleTypeID6; }
-            set { _SchoolDailyScheduleTypeID6 = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class SchoolDailySchedulePackageDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SchoolDailySchedulePackage));
-        private bool _isAuditLog = false;
-        private const string p_SchoolDailySchedulePackageID = "@p_SchoolDailySchedulePackageID";
-        public SchoolDailySchedulePackageDao() { }
-        public SchoolDailySchedulePackageDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SchoolDailySchedulePackage Get(Int32 SchoolDailySchedulePackageID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SchoolDailySchedulePackageID, SchoolDailySchedulePackageID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SchoolDailySchedulePackage)_helper.DataRowToObject(row, new SchoolDailySchedulePackage());
-        }
-        public int Insert(SchoolDailySchedulePackage record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SchoolDailySchedulePackage record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SchoolDailySchedulePackageID)
-        {
-            SchoolDailySchedulePackage record;
-            if (_ctx.Transaction == null)
-                record = new SchoolDailySchedulePackageDao().Get(SchoolDailySchedulePackageID);
-            else
-                record = Get(SchoolDailySchedulePackageID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region SchoolDailyScheduleTypeDt
-    [Serializable]
-    [Table(Name = "SchoolDailyScheduleTypeDt")]
-    public partial class SchoolDailyScheduleTypeDt : DbDataModel
-    {
-        private Int32 _SchoolDailyScheduleTypeDtID;
-        private Int32? _SchoolDailyScheduleTypeID;
-        private Int16 _HoursIndex;
-        private String _StartTime;
-        private String _EndTime;
-        private String _GCDailyScheduleType;
-
-        [Column(Name = "SchoolDailyScheduleTypeDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SchoolDailyScheduleTypeDtID
-        {
-            get { return _SchoolDailyScheduleTypeDtID; }
-            set { _SchoolDailyScheduleTypeDtID = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeID", DataType = "Int32", IsNullable = true)]
-        public Int32? SchoolDailyScheduleTypeID
-        {
-            get { return _SchoolDailyScheduleTypeID; }
-            set { _SchoolDailyScheduleTypeID = value; }
-        }
-        [Column(Name = "HoursIndex", DataType = "Int16", IsNullable = true)]
-        public Int16 HoursIndex
-        {
-            get { return _HoursIndex; }
-            set { _HoursIndex = value; }
-        }
-        [Column(Name = "StartTime", DataType = "String")]
-        public String StartTime
-        {
-            get { return _StartTime; }
-            set { _StartTime = value; }
-        }
-        [Column(Name = "EndTime", DataType = "String")]
-        public String EndTime
-        {
-            get { return _EndTime; }
-            set { _EndTime = value; }
-        }
-        [Column(Name = "GCDailyScheduleType", DataType = "String")]
-        public String GCDailyScheduleType
-        {
-            get { return _GCDailyScheduleType; }
-            set { _GCDailyScheduleType = value; }
-        }
-    }
-
-    public class SchoolDailyScheduleTypeDtDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SchoolDailyScheduleTypeDt));
-        private bool _isAuditLog = false;
-        private const string p_SchoolDailyScheduleTypeDtID = "@p_SchoolDailyScheduleTypeDtID";
-        public SchoolDailyScheduleTypeDtDao() { }
-        public SchoolDailyScheduleTypeDtDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SchoolDailyScheduleTypeDt Get(Int32 SchoolDailyScheduleTypeDtID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SchoolDailyScheduleTypeDtID, SchoolDailyScheduleTypeDtID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SchoolDailyScheduleTypeDt)_helper.DataRowToObject(row, new SchoolDailyScheduleTypeDt());
-        }
-        public int Insert(SchoolDailyScheduleTypeDt record)
-        {
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SchoolDailyScheduleTypeDt record)
-        {
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SchoolDailyScheduleTypeDtID)
-        {
-            SchoolDailyScheduleTypeDt record;
-            if (_ctx.Transaction == null)
-                record = new SchoolDailyScheduleTypeDtDao().Get(SchoolDailyScheduleTypeDtID);
-            else
-                record = Get(SchoolDailyScheduleTypeDtID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region SchoolDailyScheduleTypeHd
-    [Serializable]
-    [Table(Name = "SchoolDailyScheduleTypeHd")]
-    public class SchoolDailyScheduleTypeHd : DbDataModel
-    {
-        private Int32 _SchoolDailyScheduleTypeID;
-        private String _SchoolDailyScheduleTypeCode;
-        private String _SchoolDailyScheduleTypeName;
-        private String _SiteID;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "SchoolDailyScheduleTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SchoolDailyScheduleTypeID
-        {
-            get { return _SchoolDailyScheduleTypeID; }
-            set { _SchoolDailyScheduleTypeID = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeCode", DataType = "String")]
-        public String SchoolDailyScheduleTypeCode
-        {
-            get { return _SchoolDailyScheduleTypeCode; }
-            set { _SchoolDailyScheduleTypeCode = value; }
-        }
-        [Column(Name = "SchoolDailyScheduleTypeName", DataType = "String")]
-        public String SchoolDailyScheduleTypeName
-        {
-            get { return _SchoolDailyScheduleTypeName; }
-            set { _SchoolDailyScheduleTypeName = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class SchoolDailyScheduleTypeHdDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SchoolDailyScheduleTypeHd));
-        private bool _isAuditLog = false;
-        private const string p_SchoolDailyScheduleTypeID = "@p_SchoolDailyScheduleTypeID";
-        public SchoolDailyScheduleTypeHdDao() { }
-        public SchoolDailyScheduleTypeHdDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SchoolDailyScheduleTypeHd Get(Int32 SchoolDailyScheduleTypeID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SchoolDailyScheduleTypeID, SchoolDailyScheduleTypeID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SchoolDailyScheduleTypeHd)_helper.DataRowToObject(row, new SchoolDailyScheduleTypeHd());
-        }
-        public int Insert(SchoolDailyScheduleTypeHd record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SchoolDailyScheduleTypeHd record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SchoolDailyScheduleTypeID)
-        {
-            SchoolDailyScheduleTypeHd record;
-            if (_ctx.Transaction == null)
-                record = new SchoolDailyScheduleTypeHdDao().Get(SchoolDailyScheduleTypeID);
-            else
-                record = Get(SchoolDailyScheduleTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -690,281 +1092,6 @@ namespace CodeX.Data.Model
                 record = new SchoolPeriodDao().Get(SchoolPeriodID);
             else
                 record = Get(SchoolPeriodID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region SchoolPeriodSchedule
-    [Serializable]
-    [Table(Name = "SchoolPeriodSchedule")]
-    public class SchoolPeriodSchedule : DbDataModel
-    {
-        private Int32 _SchoolPeriodScheduleID;
-        private String _SchoolPeriodScheduleCode;
-        private String _SchoolPeriodScheduleName;
-        private Int32 _SchoolPeriodID;
-        private String _GCSchoolPeriodScheduleType;
-        private DateTime _StartDate;
-        private DateTime _EndDate;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "SchoolPeriodScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SchoolPeriodScheduleID
-        {
-            get { return _SchoolPeriodScheduleID; }
-            set { _SchoolPeriodScheduleID = value; }
-        }
-        [Column(Name = "SchoolPeriodScheduleCode", DataType = "String")]
-        public String SchoolPeriodScheduleCode
-        {
-            get { return _SchoolPeriodScheduleCode; }
-            set { _SchoolPeriodScheduleCode = value; }
-        }
-        [Column(Name = "SchoolPeriodScheduleName", DataType = "String")]
-        public String SchoolPeriodScheduleName
-        {
-            get { return _SchoolPeriodScheduleName; }
-            set { _SchoolPeriodScheduleName = value; }
-        }
-        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
-        public Int32 SchoolPeriodID
-        {
-            get { return _SchoolPeriodID; }
-            set { _SchoolPeriodID = value; }
-        }
-        [Column(Name = "GCSchoolPeriodScheduleType", DataType = "String")]
-        public String GCSchoolPeriodScheduleType
-        {
-            get { return _GCSchoolPeriodScheduleType; }
-            set { _GCSchoolPeriodScheduleType = value; }
-        }
-        [Column(Name = "StartDate", DataType = "DateTime")]
-        public DateTime StartDate
-        {
-            get { return _StartDate; }
-            set { _StartDate = value; }
-        }
-        [Column(Name = "EndDate", DataType = "DateTime")]
-        public DateTime EndDate
-        {
-            get { return _EndDate; }
-            set { _EndDate = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class SchoolPeriodScheduleDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SchoolPeriodSchedule));
-        private bool _isAuditLog = false;
-        private const string p_SchoolPeriodScheduleID = "@p_SchoolPeriodScheduleID";
-        public SchoolPeriodScheduleDao() { }
-        public SchoolPeriodScheduleDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SchoolPeriodSchedule Get(Int32 SchoolPeriodScheduleID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SchoolPeriodScheduleID, SchoolPeriodScheduleID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SchoolPeriodSchedule)_helper.DataRowToObject(row, new SchoolPeriodSchedule());
-        }
-        public int Insert(SchoolPeriodSchedule record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SchoolPeriodSchedule record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SchoolPeriodScheduleID)
-        {
-            SchoolPeriodSchedule record;
-            if (_ctx.Transaction == null)
-                record = new SchoolPeriodScheduleDao().Get(SchoolPeriodScheduleID);
-            else
-                record = Get(SchoolPeriodScheduleID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region SchoolPeriodSection
-    [Serializable]
-    [Table(Name = "SchoolPeriodSection")]
-    public class SchoolPeriodSection : DbDataModel
-    {
-        private Int32 _SchoolPeriodSectionID;
-        private String _SchoolPeriodSectionCode;
-        private String _SchoolPeriodSectionName;
-        private Int32 _SchoolPeriodID;
-        private DateTime _StartDate;
-        private DateTime _EndDate;
-        private String _GCSchoolPeriodSectionStatus;
-        private String _Remarks;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "SchoolPeriodSectionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SchoolPeriodSectionID
-        {
-            get { return _SchoolPeriodSectionID; }
-            set { _SchoolPeriodSectionID = value; }
-        }
-        [Column(Name = "SchoolPeriodSectionCode", DataType = "String")]
-        public String SchoolPeriodSectionCode
-        {
-            get { return _SchoolPeriodSectionCode; }
-            set { _SchoolPeriodSectionCode = value; }
-        }
-        [Column(Name = "SchoolPeriodSectionName", DataType = "String")]
-        public String SchoolPeriodSectionName
-        {
-            get { return _SchoolPeriodSectionName; }
-            set { _SchoolPeriodSectionName = value; }
-        }
-        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
-        public Int32 SchoolPeriodID
-        {
-            get { return _SchoolPeriodID; }
-            set { _SchoolPeriodID = value; }
-        }
-        [Column(Name = "StartDate", DataType = "DateTime")]
-        public DateTime StartDate
-        {
-            get { return _StartDate; }
-            set { _StartDate = value; }
-        }
-        [Column(Name = "EndDate", DataType = "DateTime")]
-        public DateTime EndDate
-        {
-            get { return _EndDate; }
-            set { _EndDate = value; }
-        }
-        [Column(Name = "GCSchoolPeriodSectionStatus", DataType = "String")]
-        public String GCSchoolPeriodSectionStatus
-        {
-            get { return _GCSchoolPeriodSectionStatus; }
-            set { _GCSchoolPeriodSectionStatus = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class SchoolPeriodSectionDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SchoolPeriodSection));
-        private bool _isAuditLog = false;
-        private const string p_SchoolPeriodSectionID = "@p_SchoolPeriodSectionID";
-        public SchoolPeriodSectionDao() { }
-        public SchoolPeriodSectionDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SchoolPeriodSection Get(Int32 SchoolPeriodSectionID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SchoolPeriodSectionID, SchoolPeriodSectionID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SchoolPeriodSection)_helper.DataRowToObject(row, new SchoolPeriodSection());
-        }
-        public int Insert(SchoolPeriodSection record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SchoolPeriodSection record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SchoolPeriodSectionID)
-        {
-            SchoolPeriodSection record;
-            if (_ctx.Transaction == null)
-                record = new SchoolPeriodSectionDao().Get(SchoolPeriodSectionID);
-            else
-                record = Get(SchoolPeriodSectionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="SchoolDailyScheduleEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SchoolDailyScheduleEntry" %>
+    CodeBehind="PeriodSelectionEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodSelectionEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">

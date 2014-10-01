@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="SchoolDailySchedulePackageList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.SchoolDailySchedulePackageList" %>
+    CodeBehind="DailyScheduleTypeList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.DailyScheduleTypeList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -74,9 +74,9 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="SchoolDailySchedulePackageID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SchoolDailySchedulePackageCode" HeaderText="Kode" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="SchoolDailySchedulePackageName" HeaderText="Nama" />
+                                <asp:BoundField DataField="DailyScheduleTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="DailyScheduleTypeCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="DailyScheduleTypeName" HeaderText="Nama" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

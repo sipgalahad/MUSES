@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="SchoolPeriodScheduleEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SchoolPeriodScheduleEntry" %>
+    CodeBehind="PeriodClassTypeSubjectEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodClassTypeSubjectEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -16,12 +16,11 @@
 
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtSchoolPeriodScheduleCode.ClientID %>').val('');
-                $('#<%=txtSchoolPeriodScheduleName.ClientID %>').val('');
+                $('#<%=txtPeriodSectionCode.ClientID %>').val('');
+                $('#<%=txtPeriodSectionName.ClientID %>').val('');
                 $('#<%=txtStartDate.ClientID %>').val('');
                 $('#<%=txtEndDate.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
-                cboScheduleType.SetValue('');
                 $('#entryDetailContainer').show();
             });
 
@@ -51,13 +50,12 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.SchoolPeriodScheduleID);
-            $('#<%=txtSchoolPeriodScheduleCode.ClientID %>').val(entity.SchoolPeriodScheduleCode);
-            $('#<%=txtSchoolPeriodScheduleName.ClientID %>').val(entity.SchoolPeriodScheduleName);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodSectionID);
+            $('#<%=txtPeriodSectionCode.ClientID %>').val(entity.PeriodSectionCode);
+            $('#<%=txtPeriodSectionName.ClientID %>').val(entity.PeriodSectionName);
             $('#<%=txtStartDate.ClientID %>').val(entity.StartDateInDatePickerFormat);
             $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
-            cboScheduleType.SetValue(entity.GCSchoolPeriodScheduleType);
             $('#entryDetailContainer').show();
         });
 
@@ -100,15 +98,11 @@
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
-                                    <td><asp:TextBox ID="txtSchoolPeriodScheduleCode" Width="100px" runat="server" /></td>
+                                    <td><asp:TextBox ID="txtPeriodSectionCode" Width="100px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtSchoolPeriodScheduleName" Width="300px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboScheduleType" ClientInstanceName="cboScheduleType" Width="300px" /></td>
+                                    <td><asp:TextBox ID="txtPeriodSectionName" Width="300px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai")%></label></td>
@@ -145,22 +139,20 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="SchoolPeriodScheduleID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SchoolPeriodScheduleCode" HeaderText="Kode" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="SchoolPeriodScheduleName" HeaderText="Nama"/>
-                                <asp:BoundField DataField="SchoolPeriodScheduleType" HeaderText="Tipe" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="PeriodSectionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="PeriodSectionCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="PeriodSectionName" HeaderText="Nama"/>
                                 <asp:BoundField DataField="StartDateInString" HeaderText="Tanggal Mulai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="EndDateInString" HeaderText="Tanggal Selesai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("SchoolPeriodScheduleID") %>" bindingfield="SchoolPeriodScheduleID" />
-                                        <input type="hidden" value="<%#Eval("SchoolPeriodScheduleCode") %>" bindingfield="SchoolPeriodScheduleCode" />
-                                        <input type="hidden" value="<%#Eval("SchoolPeriodScheduleName") %>" bindingfield="SchoolPeriodScheduleName" />
+                                        <input type="hidden" value="<%#Eval("PeriodSectionID") %>" bindingfield="PeriodSectionID" />
+                                        <input type="hidden" value="<%#Eval("PeriodSectionCode") %>" bindingfield="PeriodSectionCode" />
+                                        <input type="hidden" value="<%#Eval("PeriodSectionName") %>" bindingfield="PeriodSectionName" />
                                         <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
                                         <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />
-                                        <input type="hidden" value="<%#Eval("GCSchoolPeriodScheduleType") %>" bindingfield="GCSchoolPeriodScheduleType" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

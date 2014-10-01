@@ -113,10 +113,10 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx" />
-    <Content Include="Program\Master\SchoolDailySchedulePackage\SchoolDailySchedulePackageEntry.aspx" />
-    <Content Include="Program\Master\SchoolDailySchedulePackage\SchoolDailySchedulePackageList.aspx" />
-    <Content Include="Program\Master\SchoolDailyScheduleType\SchoolDailyScheduleTypeEntry.aspx" />
-    <Content Include="Program\Master\SchoolDailyScheduleType\SchoolDailyScheduleTypeList.aspx" />
+    <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx" />
+    <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageList.aspx" />
+    <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx" />
+    <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
@@ -390,33 +390,33 @@
     <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.designer.cs">
       <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailySchedulePackage\SchoolDailySchedulePackageEntry.aspx.cs">
-      <DependentUpon>SchoolDailySchedulePackageEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx.cs">
+      <DependentUpon>DailySchedulePackageEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailySchedulePackage\SchoolDailySchedulePackageEntry.aspx.designer.cs">
-      <DependentUpon>SchoolDailySchedulePackageEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx.designer.cs">
+      <DependentUpon>DailySchedulePackageEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailySchedulePackage\SchoolDailySchedulePackageList.aspx.cs">
-      <DependentUpon>SchoolDailySchedulePackageList.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailySchedulePackage\DailySchedulePackageList.aspx.cs">
+      <DependentUpon>DailySchedulePackageList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailySchedulePackage\SchoolDailySchedulePackageList.aspx.designer.cs">
-      <DependentUpon>SchoolDailySchedulePackageList.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailySchedulePackage\DailySchedulePackageList.aspx.designer.cs">
+      <DependentUpon>DailySchedulePackageList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailyScheduleType\SchoolDailyScheduleTypeEntry.aspx.cs">
-      <DependentUpon>SchoolDailyScheduleTypeEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx.cs">
+      <DependentUpon>DailyScheduleTypeEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailyScheduleType\SchoolDailyScheduleTypeEntry.aspx.designer.cs">
-      <DependentUpon>SchoolDailyScheduleTypeEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx.designer.cs">
+      <DependentUpon>DailyScheduleTypeEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailyScheduleType\SchoolDailyScheduleTypeList.aspx.cs">
-      <DependentUpon>SchoolDailyScheduleTypeList.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx.cs">
+      <DependentUpon>DailyScheduleTypeList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolDailyScheduleType\SchoolDailyScheduleTypeList.aspx.designer.cs">
-      <DependentUpon>SchoolDailyScheduleTypeList.aspx</DependentUpon>
+    <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx.designer.cs">
+      <DependentUpon>DailyScheduleTypeList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Room\RoomEntry.aspx.cs">
       <DependentUpon>RoomEntry.aspx</DependentUpon>

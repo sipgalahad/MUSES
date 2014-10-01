@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SchoolDailyScheduleTypeList : BasePageList
+    public partial class DailySchedulePackageList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.SCHOOL_DAILY_SCHEDULE_TYPE;
+            return Constant.MenuCode.ControlPanel.SCHOOL_DAILY_SCHEDULE_PACKAGE;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetSchoolDailyScheduleTypeHdRowIndex(filterExpression, keyValue, "SchoolDailyScheduleTypeCode") + 1;
+                int row = BusinessLayer.GetDailySchedulePackageRowIndex(filterExpression, keyValue, "DailySchedulePackageCode") + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -43,7 +43,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
             fieldListText = new string[] { "Kode", "Nama" };
-            fieldListValue = new string[] { "SchoolDailyScheduleTypeCode", "SchoolDailyScheduleTypeName" };
+            fieldListValue = new string[] { "DailySchedulePackageCode", "DailySchedulePackageName" };
         }
 
         private string GetFilterExpression()
@@ -61,11 +61,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetSchoolDailyScheduleTypeHdRowCount(filterExpression);
+                rowCount = BusinessLayer.GetDailySchedulePackageRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<SchoolDailyScheduleTypeHd> lstEntity = BusinessLayer.GetSchoolDailyScheduleTypeHdList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SchoolDailyScheduleTypeCode");
+            List<DailySchedulePackage> lstEntity = BusinessLayer.GetDailySchedulePackageList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "DailySchedulePackageCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -96,7 +96,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/SchoolDailyScheduleType/SchoolDailyScheduleTypeEntry.aspx");
+            url = ResolveUrl("~/Program/Master/DailySchedulePackage/DailySchedulePackageEntry.aspx");
             return true;
         }
 
@@ -104,7 +104,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/SchoolDailyScheduleType/SchoolDailyScheduleTypeEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/DailySchedulePackage/DailySchedulePackageEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -114,10 +114,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                SchoolDailyScheduleTypeHd entity = BusinessLayer.GetSchoolDailyScheduleTypeHd(Convert.ToInt32(hdnID.Value));
+                DailySchedulePackage entity = BusinessLayer.GetDailySchedulePackage(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSchoolDailyScheduleTypeHd(entity);
+                BusinessLayer.UpdateDailySchedulePackage(entity);
                 return true;
             }
             return false;

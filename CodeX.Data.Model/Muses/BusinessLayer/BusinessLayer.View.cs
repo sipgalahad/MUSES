@@ -9,18 +9,18 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
-        #region vSchoolDailyScheduleDt
-        public static List<vSchoolDailyScheduleDt> GetvSchoolDailyScheduleDtList(string filterExpression)
+        #region vPeriodClassType
+        public static List<vPeriodClassType> GetvPeriodClassTypeList(string filterExpression)
         {
-            List<vSchoolDailyScheduleDt> result = new List<vSchoolDailyScheduleDt>();
+            List<vPeriodClassType> result = new List<vPeriodClassType>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vSchoolDailyScheduleDt));
+                DbHelper helper = new DbHelper(typeof(vPeriodClassType));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((vSchoolDailyScheduleDt)helper.IDataReaderToObject(reader, new vSchoolDailyScheduleDt()));
+                        result.Add((vPeriodClassType)helper.IDataReaderToObject(reader, new vPeriodClassType()));
             }
             catch (Exception ex)
             {
@@ -33,18 +33,18 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vSchoolPeriodSchedule
-        public static List<vSchoolPeriodSchedule> GetvSchoolPeriodScheduleList(string filterExpression)
+        #region vPeriodSchedule
+        public static List<vPeriodSchedule> GetvPeriodScheduleList(string filterExpression)
         {
-            List<vSchoolPeriodSchedule> result = new List<vSchoolPeriodSchedule>();
+            List<vPeriodSchedule> result = new List<vPeriodSchedule>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vSchoolPeriodSchedule));
+                DbHelper helper = new DbHelper(typeof(vPeriodSchedule));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((vSchoolPeriodSchedule)helper.IDataReaderToObject(reader, new vSchoolPeriodSchedule()));
+                        result.Add((vPeriodSchedule)helper.IDataReaderToObject(reader, new vPeriodSchedule()));
             }
             catch (Exception ex)
             {
@@ -57,18 +57,18 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vSchoolPeriodSection
-        public static List<vSchoolPeriodSection> GetvSchoolPeriodSectionList(string filterExpression)
+        #region vPeriodSection
+        public static List<vPeriodSection> GetvPeriodSectionList(string filterExpression)
         {
-            List<vSchoolPeriodSection> result = new List<vSchoolPeriodSection>();
+            List<vPeriodSection> result = new List<vPeriodSection>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vSchoolPeriodSection));
+                DbHelper helper = new DbHelper(typeof(vPeriodSection));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((vSchoolPeriodSection)helper.IDataReaderToObject(reader, new vSchoolPeriodSection()));
+                        result.Add((vPeriodSection)helper.IDataReaderToObject(reader, new vPeriodSection()));
             }
             catch (Exception ex)
             {

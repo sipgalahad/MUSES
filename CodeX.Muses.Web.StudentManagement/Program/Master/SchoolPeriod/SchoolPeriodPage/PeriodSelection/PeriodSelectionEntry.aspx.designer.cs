@@ -10,16 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class SchoolDailyScheduleEntry {
-        
-        /// <summary>
-        /// btnMedicalRecordSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnMedicalRecordSave;
+    public partial class PeriodSelectionEntry {
         
         /// <summary>
         /// rptDay1 control.

@@ -7,17 +7,8 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
-    #region vSchoolDailyScheduleDt
-    public partial class vSchoolDailyScheduleDt
-    {
-        public string cfDailyScheduleType
-        {
-            get { return _GCDailyScheduleType.Split('^')[1]; }
-        }
-    }
-    #endregion
-    #region vSchoolPeriodSchedule
-    public partial class vSchoolPeriodSchedule
+    #region vPeriodSchedule
+    public partial class vPeriodSchedule
     {
         public string StartDateInString
         {
@@ -49,8 +40,8 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vSchoolPeriodSection
-    public partial class vSchoolPeriodSection
+    #region vPeriodSection
+    public partial class vPeriodSection
     {
         public string StartDateInString
         {

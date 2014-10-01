@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="SchoolDailySchedulePackageEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.SchoolDailySchedulePackageEntry" %>
+    CodeBehind="DailySchedulePackageEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.DailySchedulePackageEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -28,11 +28,11 @@
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
-                        <td><asp:TextBox ID="txtSchoolDailySchedulePackageCode" Width="100px" runat="server" /></td>
+                        <td><asp:TextBox ID="txtDailySchedulePackageCode" Width="100px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                        <td><asp:TextBox ID="txtSchoolDailySchedulePackageName" Width="300px" runat="server" /></td>
+                        <td><asp:TextBox ID="txtDailySchedulePackageName" Width="300px" runat="server" /></td>
                     </tr>
                 </table>
             </td>

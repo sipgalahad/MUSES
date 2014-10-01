@@ -6,26 +6,28 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
-    #region vSchoolDailyScheduleDt
+    #region vPeriodClassType
     [Serializable]
-    [Table(Name = "vSchoolDailyScheduleDt")]
-    public partial class vSchoolDailyScheduleDt
+    [Table(Name = "vPeriodClassType")]
+    public class vPeriodClassType
     {
-        private Int32 _SchoolDailyScheduleID;
+        private Int32 _PeriodClassTypeID;
         private Int32 _SchoolPeriodID;
-        private Int16 _DayNumber;
-        private Int32 _SchoolDailyScheduleTypeID;
-        private Int16 _HoursIndex;
-        private String _StartTime;
-        private String _EndTime;
-        private String _GCDailyScheduleType;
-        private String _DailyScheduleType;
+        private String _SchoolPeriodName;
+        private Int32 _PeriodSectionID;
+        private String _PeriodSectionName;
+        private Int32 _ClassTypeID;
+        private String _ClassTypeName;
+        private Int32 _DailySchedulePackageID;
+        private String _DailySchedulePackageName;
+        private Int16 _NoOfClass;
+        private Boolean _IsDeleted;
 
-        [Column(Name = "SchoolDailyScheduleID", DataType = "Int32")]
-        public Int32 SchoolDailyScheduleID
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
         {
-            get { return _SchoolDailyScheduleID; }
-            set { _SchoolDailyScheduleID = value; }
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -33,83 +35,95 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "DayNumber", DataType = "Int16")]
-        public Int16 DayNumber
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
         {
-            get { return _DayNumber; }
-            set { _DayNumber = value; }
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
         }
-        [Column(Name = "SchoolDailyScheduleTypeID", DataType = "Int32")]
-        public Int32 SchoolDailyScheduleTypeID
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
         {
-            get { return _SchoolDailyScheduleTypeID; }
-            set { _SchoolDailyScheduleTypeID = value; }
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
-        [Column(Name = "HoursIndex", DataType = "Int16")]
-        public Int16 HoursIndex
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
         {
-            get { return _HoursIndex; }
-            set { _HoursIndex = value; }
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
         }
-        [Column(Name = "StartTime", DataType = "String")]
-        public String StartTime
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
         {
-            get { return _StartTime; }
-            set { _StartTime = value; }
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
         }
-        [Column(Name = "EndTime", DataType = "String")]
-        public String EndTime
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
         {
-            get { return _EndTime; }
-            set { _EndTime = value; }
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
         }
-        [Column(Name = "GCDailyScheduleType", DataType = "String")]
-        public String GCDailyScheduleType
+        [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
+        public Int32 DailySchedulePackageID
         {
-            get { return _GCDailyScheduleType; }
-            set { _GCDailyScheduleType = value; }
+            get { return _DailySchedulePackageID; }
+            set { _DailySchedulePackageID = value; }
         }
-        [Column(Name = "DailyScheduleType", DataType = "String")]
-        public String DailyScheduleType
+        [Column(Name = "DailySchedulePackageName", DataType = "String")]
+        public String DailySchedulePackageName
         {
-            get { return _DailyScheduleType; }
-            set { _DailyScheduleType = value; }
+            get { return _DailySchedulePackageName; }
+            set { _DailySchedulePackageName = value; }
+        }
+        [Column(Name = "NoOfClass", DataType = "Int16")]
+        public Int16 NoOfClass
+        {
+            get { return _NoOfClass; }
+            set { _NoOfClass = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion
-    #region vSchoolPeriodSchedule
+    #region vPeriodSchedule
     [Serializable]
-    [Table(Name = "vSchoolPeriodSchedule")]
-    public partial class vSchoolPeriodSchedule
+    [Table(Name = "vPeriodSchedule")]
+    public partial class vPeriodSchedule
     {
-        private Int32 _SchoolPeriodScheduleID;
-        private String _SchoolPeriodScheduleCode;
-        private String _SchoolPeriodScheduleName;
+        private Int32 _PeriodScheduleID;
+        private String _PeriodScheduleCode;
+        private String _PeriodScheduleName;
         private Int32 _SchoolPeriodID;
-        private String _GCSchoolPeriodScheduleType;
-        private String _SchoolPeriodScheduleType;
+        private String _GCPeriodScheduleType;
+        private String _PeriodScheduleType;
         private DateTime _StartDate;
         private DateTime _EndDate;
         private String _Remarks;
         private Boolean _IsDeleted;
 
-        [Column(Name = "SchoolPeriodScheduleID", DataType = "Int32")]
-        public Int32 SchoolPeriodScheduleID
+        [Column(Name = "PeriodScheduleID", DataType = "Int32")]
+        public Int32 PeriodScheduleID
         {
-            get { return _SchoolPeriodScheduleID; }
-            set { _SchoolPeriodScheduleID = value; }
+            get { return _PeriodScheduleID; }
+            set { _PeriodScheduleID = value; }
         }
-        [Column(Name = "SchoolPeriodScheduleCode", DataType = "String")]
-        public String SchoolPeriodScheduleCode
+        [Column(Name = "PeriodScheduleCode", DataType = "String")]
+        public String PeriodScheduleCode
         {
-            get { return _SchoolPeriodScheduleCode; }
-            set { _SchoolPeriodScheduleCode = value; }
+            get { return _PeriodScheduleCode; }
+            set { _PeriodScheduleCode = value; }
         }
-        [Column(Name = "SchoolPeriodScheduleName", DataType = "String")]
-        public String SchoolPeriodScheduleName
+        [Column(Name = "PeriodScheduleName", DataType = "String")]
+        public String PeriodScheduleName
         {
-            get { return _SchoolPeriodScheduleName; }
-            set { _SchoolPeriodScheduleName = value; }
+            get { return _PeriodScheduleName; }
+            set { _PeriodScheduleName = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -117,17 +131,17 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "GCSchoolPeriodScheduleType", DataType = "String")]
-        public String GCSchoolPeriodScheduleType
+        [Column(Name = "GCPeriodScheduleType", DataType = "String")]
+        public String GCPeriodScheduleType
         {
-            get { return _GCSchoolPeriodScheduleType; }
-            set { _GCSchoolPeriodScheduleType = value; }
+            get { return _GCPeriodScheduleType; }
+            set { _GCPeriodScheduleType = value; }
         }
-        [Column(Name = "SchoolPeriodScheduleType", DataType = "String")]
-        public String SchoolPeriodScheduleType
+        [Column(Name = "PeriodScheduleType", DataType = "String")]
+        public String PeriodScheduleType
         {
-            get { return _SchoolPeriodScheduleType; }
-            set { _SchoolPeriodScheduleType = value; }
+            get { return _PeriodScheduleType; }
+            set { _PeriodScheduleType = value; }
         }
         [Column(Name = "StartDate", DataType = "DateTime")]
         public DateTime StartDate
@@ -155,38 +169,38 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vSchoolPeriodSection
+    #region vPeriodSection
     [Serializable]
-    [Table(Name = "vSchoolPeriodSection")]
-    public partial class vSchoolPeriodSection
+    [Table(Name = "vPeriodSection")]
+    public partial class vPeriodSection
     {
-        private Int32 _SchoolPeriodSectionID;
-        private String _SchoolPeriodSectionCode;
-        private String _SchoolPeriodSectionName;
+        private Int32 _PeriodSectionID;
+        private String _PeriodSectionCode;
+        private String _PeriodSectionName;
         private Int32 _SchoolPeriodID;
         private DateTime _StartDate;
         private DateTime _EndDate;
-        private String _GCSchoolPeriodSectionStatus;
-        private String _SchoolPeriodSectionStatus;
+        private String _GCPeriodSectionStatus;
+        private String _PeriodSectionStatus;
         private String _Remarks;
 
-        [Column(Name = "SchoolPeriodSectionID", DataType = "Int32")]
-        public Int32 SchoolPeriodSectionID
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
         {
-            get { return _SchoolPeriodSectionID; }
-            set { _SchoolPeriodSectionID = value; }
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
-        [Column(Name = "SchoolPeriodSectionCode", DataType = "String")]
-        public String SchoolPeriodSectionCode
+        [Column(Name = "PeriodSectionCode", DataType = "String")]
+        public String PeriodSectionCode
         {
-            get { return _SchoolPeriodSectionCode; }
-            set { _SchoolPeriodSectionCode = value; }
+            get { return _PeriodSectionCode; }
+            set { _PeriodSectionCode = value; }
         }
-        [Column(Name = "SchoolPeriodSectionName", DataType = "String")]
-        public String SchoolPeriodSectionName
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
         {
-            get { return _SchoolPeriodSectionName; }
-            set { _SchoolPeriodSectionName = value; }
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -206,17 +220,17 @@ namespace CodeX.Data.Model
             get { return _EndDate; }
             set { _EndDate = value; }
         }
-        [Column(Name = "GCSchoolPeriodSectionStatus", DataType = "String")]
-        public String GCSchoolPeriodSectionStatus
+        [Column(Name = "GCPeriodSectionStatus", DataType = "String")]
+        public String GCPeriodSectionStatus
         {
-            get { return _GCSchoolPeriodSectionStatus; }
-            set { _GCSchoolPeriodSectionStatus = value; }
+            get { return _GCPeriodSectionStatus; }
+            set { _GCPeriodSectionStatus = value; }
         }
-        [Column(Name = "SchoolPeriodSectionStatus", DataType = "String")]
-        public String SchoolPeriodSectionStatus
+        [Column(Name = "PeriodSectionStatus", DataType = "String")]
+        public String PeriodSectionStatus
         {
-            get { return _SchoolPeriodSectionStatus; }
-            set { _SchoolPeriodSectionStatus = value; }
+            get { return _PeriodSectionStatus; }
+            set { _PeriodSectionStatus = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

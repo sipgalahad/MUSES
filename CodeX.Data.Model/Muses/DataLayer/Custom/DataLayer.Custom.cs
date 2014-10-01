@@ -6,8 +6,8 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
-    #region SchoolDailyScheduleTypeDt
-    public partial class SchoolDailyScheduleTypeDt
+    #region DailyScheduleTypeDt
+    public partial class DailyScheduleTypeDt
     {
         public string cfDailyScheduleType
         {

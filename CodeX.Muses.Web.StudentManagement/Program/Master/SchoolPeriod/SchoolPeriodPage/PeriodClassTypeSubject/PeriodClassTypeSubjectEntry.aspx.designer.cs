@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class SchoolPeriodScheduleEntry {
+    public partial class PeriodClassTypeSubjectEntry {
         
         /// <summary>
         /// hdnEntryID control.
@@ -22,31 +22,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtSchoolPeriodScheduleCode control.
+        /// txtPeriodSectionCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodScheduleCode;
+        protected global::System.Web.UI.WebControls.TextBox txtPeriodSectionCode;
         
         /// <summary>
-        /// txtSchoolPeriodScheduleName control.
+        /// txtPeriodSectionName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodScheduleName;
-        
-        /// <summary>
-        /// cboScheduleType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboScheduleType;
+        protected global::System.Web.UI.WebControls.TextBox txtPeriodSectionName;
         
         /// <summary>
         /// txtStartDate control.

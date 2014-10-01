@@ -96,9 +96,11 @@
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodList.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx" />
-    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolDailySchedule\SchoolDailyScheduleEntry.aspx" />
-    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSchedule\SchoolPeriodScheduleEntry.aspx" />
-    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSection\SchoolPeriodSectionEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodClassTypeSubject\PeriodClassTypeSubjectEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodClassType\PeriodClassTypeEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSelection\PeriodSelectionEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSchedule\PeriodScheduleEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSection\PeriodSectionEntry.aspx" />
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentList.aspx" />
     <Content Include="Web.config" />
@@ -306,26 +308,40 @@
     <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPageLauncher.aspx.designer.cs">
       <DependentUpon>SchoolPeriodPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolDailySchedule\SchoolDailyScheduleEntry.aspx.cs">
-      <DependentUpon>SchoolDailyScheduleEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodClassTypeSubject\PeriodClassTypeSubjectEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypeSubjectEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolDailySchedule\SchoolDailyScheduleEntry.aspx.designer.cs">
-      <DependentUpon>SchoolDailyScheduleEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodClassTypeSubject\PeriodClassTypeSubjectEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypeSubjectEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSchedule\SchoolPeriodScheduleEntry.aspx.cs">
-      <DependentUpon>SchoolPeriodScheduleEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodClassType\PeriodClassTypeEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypeEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSchedule\SchoolPeriodScheduleEntry.aspx.designer.cs">
-      <DependentUpon>SchoolPeriodScheduleEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodClassType\PeriodClassTypeEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypeEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSection\SchoolPeriodSectionEntry.aspx.cs">
-      <DependentUpon>SchoolPeriodSectionEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSelection\PeriodSelectionEntry.aspx.cs">
+      <DependentUpon>PeriodSelectionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\SchoolPeriodSection\SchoolPeriodSectionEntry.aspx.designer.cs">
-      <DependentUpon>SchoolPeriodSectionEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSelection\PeriodSelectionEntry.aspx.designer.cs">
+      <DependentUpon>PeriodSelectionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSchedule\PeriodScheduleEntry.aspx.cs">
+      <DependentUpon>PeriodScheduleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSchedule\PeriodScheduleEntry.aspx.designer.cs">
+      <DependentUpon>PeriodScheduleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSection\PeriodSectionEntry.aspx.cs">
+      <DependentUpon>PeriodSectionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolPeriodPage\PeriodSection\PeriodSectionEntry.aspx.designer.cs">
+      <DependentUpon>PeriodSectionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Student\StudentEntry.aspx.cs">
       <DependentUpon>StudentEntry.aspx</DependentUpon>
