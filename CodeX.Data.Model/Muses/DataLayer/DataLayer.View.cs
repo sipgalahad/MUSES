@@ -939,6 +939,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacher
+    [Serializable]
+    [Table(Name = "vTeacher")]
+    public class vTeacher
+    {
+        private Int32 _TeacherID;
+        private String _TeacherCode;
+        private String _GCSalutation;
+        private String _GCTitle;
+        private String _FirstName;
+        private String _MiddleName;
+        private String _LastName;
+        private String _GCSuffix;
+        private String _EmailAddress;
+        private String _MobilePhone1;
+        private String _MobilePhone2;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherCode", DataType = "String")]
+        public String TeacherCode
+        {
+            get { return _TeacherCode; }
+            set { _TeacherCode = value; }
+        }
+        [Column(Name = "GCSalutation", DataType = "String")]
+        public String GCSalutation
+        {
+            get { return _GCSalutation; }
+            set { _GCSalutation = value; }
+        }
+        [Column(Name = "GCTitle", DataType = "String")]
+        public String GCTitle
+        {
+            get { return _GCTitle; }
+            set { _GCTitle = value; }
+        }
+        [Column(Name = "FirstName", DataType = "String")]
+        public String FirstName
+        {
+            get { return _FirstName; }
+            set { _FirstName = value; }
+        }
+        [Column(Name = "MiddleName", DataType = "String")]
+        public String MiddleName
+        {
+            get { return _MiddleName; }
+            set { _MiddleName = value; }
+        }
+        [Column(Name = "LastName", DataType = "String")]
+        public String LastName
+        {
+            get { return _LastName; }
+            set { _LastName = value; }
+        }
+        [Column(Name = "GCSuffix", DataType = "String")]
+        public String GCSuffix
+        {
+            get { return _GCSuffix; }
+            set { _GCSuffix = value; }
+        }
+        [Column(Name = "EmailAddress", DataType = "String")]
+        public String EmailAddress
+        {
+            get { return _EmailAddress; }
+            set { _EmailAddress = value; }
+        }
+        [Column(Name = "MobilePhone1", DataType = "String")]
+        public String MobilePhone1
+        {
+            get { return _MobilePhone1; }
+            set { _MobilePhone1 = value; }
+        }
+        [Column(Name = "MobilePhone2", DataType = "String")]
+        public String MobilePhone2
+        {
+            get { return _MobilePhone2; }
+            set { _MobilePhone2 = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vTeacherSubject
     [Serializable]
     [Table(Name = "vTeacherSubject")]

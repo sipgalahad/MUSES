@@ -123,6 +123,8 @@
     <Content Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
+    <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
+    <Content Include="Program\Master\Teacher\TeacherList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationEntry.aspx" />
@@ -461,6 +463,20 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectList.aspx.designer.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Teacher\TeacherEntry.aspx.cs">
+      <DependentUpon>TeacherEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Teacher\TeacherEntry.aspx.designer.cs">
+      <DependentUpon>TeacherEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Teacher\TeacherList.aspx.cs">
+      <DependentUpon>TeacherList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Teacher\TeacherList.aspx.designer.cs">
+      <DependentUpon>TeacherList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx.cs">
       <DependentUpon>DataMigrationConfigurationColumnMapEntry.aspx</DependentUpon>

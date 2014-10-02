@@ -35,7 +35,7 @@
         if (confirm("Are You Sure Want To Delete This Data?")) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.DailyScheduleTypeDtID);
+                cboGrade.SetValue(entity.GCGrade);
                 cbpProcessPopup.PerformCallback('delete');
             }
         }

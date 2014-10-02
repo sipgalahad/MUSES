@@ -244,6 +244,8 @@ namespace CodeX.Common
             #region ControlPanel
             public static class ControlPanel
             {
+                public const string TEACHER = "CP010101";
+                public const string CLASS_TYPE = "CP010102";
                 public const string ROOM = "CP010103";
                 public const string SUBJECT = "CP010104";
                 public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";

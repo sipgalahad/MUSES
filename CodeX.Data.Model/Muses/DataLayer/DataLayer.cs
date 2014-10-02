@@ -2003,6 +2003,7 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private String _PreferredName;
         private String _SiteID;
+        private Int32? _RoomID;
         private String _EmailAddress;
         private String _MobilePhone1;
         private String _MobilePhone2;
@@ -2078,6 +2079,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32", IsNullable = true)]
+        public Int32? RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
         }
         [Column(Name = "EmailAddress", DataType = "String", IsNullable = true)]
         public String EmailAddress
