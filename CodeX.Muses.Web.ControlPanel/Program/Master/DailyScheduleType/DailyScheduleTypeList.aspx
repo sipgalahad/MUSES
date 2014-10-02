@@ -61,6 +61,12 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/DailyScheduleType/DailyScheduleTypeDtEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Jadwal Harian', 600, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -77,6 +83,7 @@
                                 <asp:BoundField DataField="DailyScheduleTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="DailyScheduleTypeCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="DailyScheduleTypeName" HeaderText="Nama" />
+                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

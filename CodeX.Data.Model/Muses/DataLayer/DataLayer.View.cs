@@ -6,6 +6,63 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vDailyScheduleTypeDt
+    [Serializable]
+    [Table(Name = "vDailyScheduleTypeDt")]
+    public class vDailyScheduleTypeDt
+    {
+        private Int32 _DailyScheduleTypeDtID;
+        private Int32 _DailyScheduleTypeID;
+        private Int16 _HoursIndex;
+        private String _StartTime;
+        private String _EndTime;
+        private String _GCDailyScheduleType;
+        private String _DailyScheduleType;
+
+        [Column(Name = "DailyScheduleTypeDtID", DataType = "Int32")]
+        public Int32 DailyScheduleTypeDtID
+        {
+            get { return _DailyScheduleTypeDtID; }
+            set { _DailyScheduleTypeDtID = value; }
+        }
+        [Column(Name = "DailyScheduleTypeID", DataType = "Int32")]
+        public Int32 DailyScheduleTypeID
+        {
+            get { return _DailyScheduleTypeID; }
+            set { _DailyScheduleTypeID = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "GCDailyScheduleType", DataType = "String")]
+        public String GCDailyScheduleType
+        {
+            get { return _GCDailyScheduleType; }
+            set { _GCDailyScheduleType = value; }
+        }
+        [Column(Name = "DailyScheduleType", DataType = "String")]
+        public String DailyScheduleType
+        {
+            get { return _DailyScheduleType; }
+            set { _DailyScheduleType = value; }
+        }
+    }
+    #endregion
     #region vPeriodAdmission
     [Serializable]
     [Table(Name = "vPeriodAdmission")]

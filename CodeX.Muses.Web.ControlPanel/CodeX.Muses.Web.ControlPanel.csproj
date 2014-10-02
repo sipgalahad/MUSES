@@ -117,8 +117,10 @@
     <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageList.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx" />
+    <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
+    <Content Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
@@ -418,6 +420,13 @@
     <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx.designer.cs">
       <DependentUpon>DailyScheduleTypeList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx.cs">
+      <DependentUpon>DailyScheduleTypeDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>DailyScheduleTypeDtEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\Room\RoomEntry.aspx.cs">
       <DependentUpon>RoomEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -431,6 +440,13 @@
     </Compile>
     <Compile Include="Program\Master\Room\RoomList.aspx.designer.cs">
       <DependentUpon>RoomList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx.cs">
+      <DependentUpon>SubjectGradeMajorEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectGradeMajorEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectEntry.aspx.cs">
       <DependentUpon>SubjectEntry.aspx</DependentUpon>

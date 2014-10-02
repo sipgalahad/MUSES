@@ -9,6 +9,30 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region vDailyScheduleTypeDt
+        public static List<vDailyScheduleTypeDt> GetvDailyScheduleTypeDtList(string filterExpression)
+        {
+            List<vDailyScheduleTypeDt> result = new List<vDailyScheduleTypeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vDailyScheduleTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vDailyScheduleTypeDt)helper.IDataReaderToObject(reader, new vDailyScheduleTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPeriodAdmission
         public static List<vPeriodAdmission> GetvPeriodAdmissionList(string filterExpression)
         {

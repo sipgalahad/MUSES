@@ -245,10 +245,15 @@ namespace CodeX.Data.Model
     {
         private Int32 _DailyScheduleTypeDtID;
         private Int32? _DailyScheduleTypeID;
-        private Int16 _HoursIndex;
+        private Int16? _HoursIndex;
         private String _StartTime;
         private String _EndTime;
         private String _GCDailyScheduleType;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
 
         [Column(Name = "DailyScheduleTypeDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
         public Int32 DailyScheduleTypeDtID
@@ -263,7 +268,7 @@ namespace CodeX.Data.Model
             set { _DailyScheduleTypeID = value; }
         }
         [Column(Name = "HoursIndex", DataType = "Int16", IsNullable = true)]
-        public Int16 HoursIndex
+        public Int16? HoursIndex
         {
             get { return _HoursIndex; }
             set { _HoursIndex = value; }
@@ -285,6 +290,36 @@ namespace CodeX.Data.Model
         {
             get { return _GCDailyScheduleType; }
             set { _GCDailyScheduleType = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
         }
     }
 
@@ -308,11 +343,13 @@ namespace CodeX.Data.Model
         }
         public int Insert(DailyScheduleTypeDt record)
         {
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
         public int Update(DailyScheduleTypeDt record)
         {
+            record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
@@ -1874,6 +1911,77 @@ namespace CodeX.Data.Model
                 record = new SubjectDao().Get(SubjectID);
             else
                 record = Get(SubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubjectGradeMajor
+    [Serializable]
+    [Table(Name = "SubjectGradeMajor")]
+    public class SubjectGradeMajor : DbDataModel
+    {
+        private Int32 _SubjectID;
+        private String _GCGrade;
+        private String _GCMajor;
+
+        [Column(Name = "SubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String", IsPrimaryKey = true)]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String", IsNullable = true)]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+    }
+
+    public class SubjectGradeMajorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectGradeMajor));
+        private bool _isAuditLog = false;
+        private const string p_GCGrade = "@p_GCGrade";
+        private const string p_SubjectID = "@p_SubjectID";
+        public SubjectGradeMajorDao() { }
+        public SubjectGradeMajorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectGradeMajor Get(Int32 SubjectID, String GCGrade)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCGrade, GCGrade);
+            _ctx.Add(p_SubjectID, SubjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectGradeMajor)_helper.DataRowToObject(row, new SubjectGradeMajor());
+        }
+        public int Insert(SubjectGradeMajor record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectGradeMajor record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectID, String GCGrade)
+        {
+            SubjectGradeMajor record;
+            if (_ctx.Transaction == null)
+                record = new SubjectGradeMajorDao().Get(SubjectID, GCGrade);
+            else
+                record = Get(SubjectID, GCGrade);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
