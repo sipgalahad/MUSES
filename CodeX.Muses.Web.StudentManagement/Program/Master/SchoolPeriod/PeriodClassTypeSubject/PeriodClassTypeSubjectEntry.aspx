@@ -171,7 +171,7 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Pelajaran")%></label></td>
                                     <td>
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectGradeMajorList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
-                                            SearchFields="SubjectName,SubjectID" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectID}</b>)" OrderByExpression="SubjectName">
+                                            SearchFields="SubjectName,SubjectCode" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectCode}</b>)" OrderByExpression="SubjectName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacSubjectValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
@@ -180,8 +180,8 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
                                     <td>
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
-                                            SearchFields="TeacherName,TeacherID" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherID}</b>)" OrderByExpression="TeacherName">
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetvTeacherSubjectList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
+                                            SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacTeacherValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   

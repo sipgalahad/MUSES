@@ -9,6 +9,63 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region ClassSubject
+        public static ClassSubject GetClassSubject(Int32 ClassSubjectID)
+        {
+            return new ClassSubjectDao().Get(ClassSubjectID);
+        }
+        public static int InsertClassSubject(ClassSubject record)
+        {
+            return new ClassSubjectDao().Insert(record);
+        }
+        public static int UpdateClassSubject(ClassSubject record)
+        {
+            return new ClassSubjectDao().Update(record);
+        }
+        public static int DeleteClassSubject(Int32 ClassSubjectID)
+        {
+            return new ClassSubjectDao().Delete(ClassSubjectID);
+        }
+        public static List<ClassSubject> GetClassSubjectList(string filterExpression)
+        {
+            List<ClassSubject> result = new List<ClassSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubject)helper.IDataReaderToObject(reader, new ClassSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassSubject> GetClassSubjectList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassSubject> result = new List<ClassSubject>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubject)helper.IDataReaderToObject(reader, new ClassSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region DailySchedule
         public static DailySchedule GetDailySchedule(Int32 DailyScheduleID)
         {
