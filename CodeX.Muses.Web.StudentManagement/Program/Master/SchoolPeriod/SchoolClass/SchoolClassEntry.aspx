@@ -66,12 +66,12 @@
 
         //#region Room
         function onGetRoomFilterExpression() {
-            var filterExpression = "IsDeleted = 0";
+            var filterExpression = "<%=OnGetRoomFilterExpression() %>";
             return filterExpression;
         }
 
         function onTacRoomButtonSearchClick() {
-            openSearchDialog('subject', onGetRoomFilterExpression(), function (value) {
+            openSearchDialog('room', onGetRoomFilterExpression(), function (value) {
                 var filterExpression = onGetRoomFilterExpression() + " AND RoomCode = '" + value + "'";
                 Methods.getObject('GetRoomList', filterExpression, function (result) {
                     if (result != null) {
@@ -93,7 +93,7 @@
 
         //#region Teacher
         function onGetTeacherFilterExpression() {
-            var filterExpression = "IsDeleted = 0";
+            var filterExpression = "<%=OnGetTeacherFilterExpression() %>";
             return filterExpression;
         }
 
@@ -226,7 +226,7 @@
                                 <asp:BoundField DataField="SchoolClassID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SchoolClassCode" HeaderText="Kode Kelas" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="SchoolClassName" HeaderText="Nama Kelas"/>
-                                <asp:BoundField DataField="RoomName" HeaderText="Ruangan" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="RoomName" HeaderText="Ruangan" HeaderStyle-Width="230px" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Wali Kelas" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="MaxStudent" HeaderText="Kapasitas Siswa" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">

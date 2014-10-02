@@ -27,6 +27,14 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
+
+            $('#btnDailySchedulePackageDt').click(function () {
+                var schedulePackage = cboDailySchedulePackage.GetValue();
+                if (schedulePackage != null && cboDailySchedulePackage != '') {
+                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
+                    openUserControlPopup(url, schedulePackage, 'Jadwal', 1000, 550);
+                }
+            });
         });
 
         //#region edit and delete
@@ -80,6 +88,17 @@
             var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
             openUserControlPopup(url, entity.DailySchedulePackageID, 'Jadwal', 1000, 550);
         });
+
+        $('.lnkGenerate').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/GenerateSchoolClassEntryCtl.ascx");
+            openUserControlPopup(url, entity.PeriodClassTypeID, 'Generate Kelas', 1000, 550);
+        });
+
+        function onAfterSaveAddRecordEntryPopup() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
@@ -95,6 +114,7 @@
                             <table>
                                 <colgroup>
                                     <col style="width: 150px" />
+                                    <col style="width: 300px" />
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
@@ -103,6 +123,7 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
                                     <td><dxe:ASPxComboBox runat="server" ID="cboDailySchedulePackage" ClientInstanceName="cboDailySchedulePackage" Width="300px" /></td>
+                                    <td><input type="button" id="btnDailySchedulePackageDt" class="btnMore" value="..." /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Selesai")%></label></td>
@@ -141,10 +162,15 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="NoOfClass" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:TemplateField HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <a class="lnkGenerate" <%#Eval("IsAllowEditItem").ToString() == "False" ? "style='display:none'" : "" %>><%=GetLabel("Generate Kelas")%></a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <div style='float:right;' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                        <div style='float:right;margin-right:10px;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeID") %>" bindingfield="PeriodClassTypeID" />
                                         <input type="hidden" value="<%#Eval("ClassTypeID") %>" bindingfield="ClassTypeID" />
                                         <input type="hidden" value="<%#Eval("DailySchedulePackageID") %>" bindingfield="DailySchedulePackageID" />

@@ -54,6 +54,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPeriodClassType
+    public partial class vPeriodClassType
+    {
+        public bool IsAllowEditItem
+        {
+            get
+            {
+                return _CreatedClass < 1;
+            }
+        }
+    }
+    #endregion
     #region vPeriodSchedule
     public partial class vPeriodSchedule
     {

@@ -307,7 +307,7 @@ namespace CodeX.Data.Model
     #region vPeriodClassType
     [Serializable]
     [Table(Name = "vPeriodClassType")]
-    public class vPeriodClassType
+    public partial class vPeriodClassType
     {
         private Int32 _PeriodClassTypeID;
         private Int32 _SchoolPeriodID;
@@ -323,6 +323,7 @@ namespace CodeX.Data.Model
         private Int32 _DailySchedulePackageID;
         private String _DailySchedulePackageName;
         private Int16 _NoOfClass;
+        private Int32 _CreatedClass;
         private Boolean _IsDeleted;
 
         [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
@@ -408,6 +409,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoOfClass; }
             set { _NoOfClass = value; }
+        }
+        [Column(Name = "CreatedClass", DataType = "Int32")]
+        public Int32 CreatedClass
+        {
+            get { return _CreatedClass; }
+            set { _CreatedClass = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

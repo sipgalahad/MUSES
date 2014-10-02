@@ -20,6 +20,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return Constant.MenuCode.StudentManagement.SP_SCHOOL_CLASS;
         }
+        protected string OnGetRoomFilterExpression()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
+
+        protected string OnGetTeacherFilterExpression()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
         protected override void InitializeDataControl()
         {
             List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
