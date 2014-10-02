@@ -22,6 +22,8 @@ namespace CodeX.Data.Model
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _TeacherName;
+        private Int32 _RoomID;
+        private String _RoomName;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -89,6 +91,18 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherName; }
             set { _TeacherName = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -701,6 +715,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolClassID;
         private String _SchoolClassCode;
         private String _SchoolClassName;
+        private Int32 _DailySchedulePackageID;
         private Int32 _PeriodClassTypeID;
         private Int32 _SchoolPeriodID;
         private String _SchoolPeriodName;
@@ -732,6 +747,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassName; }
             set { _SchoolClassName = value; }
+        }
+        [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
+        public Int32 DailySchedulePackageID
+        {
+            get { return _DailySchedulePackageID; }
+            set { _DailySchedulePackageID = value; }
         }
         [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
         public Int32 PeriodClassTypeID

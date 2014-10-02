@@ -228,11 +228,11 @@ td.tdExpand                     { vertical-align: middle; padding-top: 5px; text
 .grdCollapsible .hiddenColumn   { display: none; }
 .grdCollapsible th  { text-align: left; border: 0px; border-bottom: 1px solid #CCCCCC; padding: 3px 0; background-color: #F7F7F7; }
 .grdCollapsible:not(.notAllowSelect) > tbody > tr:not(.trDetail) { cursor: pointer; }
-.grdCollapsible .divDetailEdit, 
-.grdCollapsible .divDetailDelete { cursor: pointer; padding: 2px; font-size: 12px; }
-.grdCollapsible .divDetailEdit:hover { text-decoration: underline; }       
-.grdCollapsible div.divDetailDelete:hover { background-color:#AAA; color:White; }
-.grdCollapsible .divDetailDelete:before { content:  "\2715 "; } 
+.divDetailEdit, 
+.divDetailDelete { cursor: pointer; padding: 2px; font-size: 12px; }
+.divDetailEdit:hover { text-decoration: underline; }       
+div.divDetailDelete:hover { background-color:#AAA; color:White; }
+.divDetailDelete:before { content:  "\2715 "; } 
 .grdCollapsible .divTrxDetail   { font-size: 12px; }
 .grdCollapsible b                { color: #FF2E12; }
 
