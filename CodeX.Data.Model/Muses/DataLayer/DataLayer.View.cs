@@ -12,6 +12,7 @@ namespace CodeX.Data.Model
     public class vClassSchedule
     {
         private Int32 _ClassScheduleID;
+        private Int32 _SchoolPeriodID;
         private Int32 _ClassSubjectID;
         private Int32 _SchoolClassID;
         private Int32 _SubjectID;
@@ -31,6 +32,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassScheduleID; }
             set { _ClassScheduleID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
         }
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
         public Int32 ClassSubjectID

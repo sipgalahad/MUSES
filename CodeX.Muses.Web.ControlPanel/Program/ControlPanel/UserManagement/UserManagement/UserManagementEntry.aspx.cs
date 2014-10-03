@@ -21,6 +21,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return Constant.MenuCode.ControlPanel.USER_ACCOUNTS;
         }
 
+        protected string OnGetTeacherFilterExpression()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
+
         protected override void InitializeDataControl()
         {
             if (Request.QueryString.Count > 0)
@@ -50,6 +55,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtConfirmMobilePIN, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSecurityQuestion, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSecurityAnswer, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false));
         }
 
         protected override void OnReInitControl()
@@ -74,6 +80,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtMobilePIN.Text = "hidden";
             txtSecurityQuestion.Text = entity.PasswordQuestion;
             txtSecurityAnswer.Text = "hidden";
+            tacTeacher.Value = entity.TeacherID.ToString();
+            tacTeacher.Text = entity.TeacherName;
 
             #region Custom Attribute
             foreach (RepeaterItem item in rptCustomAttribute.Items)
@@ -93,6 +101,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.Email = txtEmail.Text;
             entity.LoweredEmail = entity.Email.ToLower();
             entity.PasswordQuestion = txtSecurityQuestion.Text;
+            if (tacTeacher.Value == "" || tacTeacher.Value == "0")
+                entityAttribute.TeacherID = null;
+            else
+                entityAttribute.TeacherID = Convert.ToInt32(tacTeacher.Value);
 
             #region Custom Attribute
             foreach (RepeaterItem item in rptCustomAttribute.Items)

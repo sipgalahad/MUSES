@@ -208,6 +208,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -235,6 +236,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -266,6 +268,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -279,36 +282,113 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override bool OnProposeRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemTransactionHdDao itemTransactionHdDao = new ItemTransactionHdDao(ctx);
+            ItemTransactionDtDao itemTransactionDtDao = new ItemTransactionDtDao(ctx);
             try
             {
-                ItemTransactionHd entity = BusinessLayer.GetItemTransactionHd(Convert.ToInt32(hdnConsumptionID.Value));
-                entity.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateItemTransactionHd(entity);
-                return true;
+                ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnConsumptionID.Value));
+                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                itemTransactionHdDao.Update(itemTransactionHd);
+
+                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnConsumptionID.Value, Constant.TransactionStatus.VOID);
+                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                {
+                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionDtDao.Update(itemTransactionDt);
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemTransactionHdDao itemTransactionHdDao = new ItemTransactionHdDao(ctx);
+            ItemTransactionDtDao itemTransactionDtDao = new ItemTransactionDtDao(ctx);
+            try
+            {
+                ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnConsumptionID.Value));
+                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                itemTransactionHdDao.Update(itemTransactionHd);
+
+                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnConsumptionID.Value, Constant.TransactionStatus.VOID);
+                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                {
+                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionDtDao.Update(itemTransactionDt);
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnVoidRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemTransactionHdDao itemTransactionHdDao = new ItemTransactionHdDao(ctx);
+            ItemTransactionDtDao itemTransactionDtDao = new ItemTransactionDtDao(ctx);
             try
             {
-                ItemTransactionHd entity = BusinessLayer.GetItemTransactionHd(Convert.ToInt32(hdnConsumptionID.Value));
-                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateItemTransactionHd(entity);
-                return true;
+                ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnConsumptionID.Value));
+                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                itemTransactionHdDao.Update(itemTransactionHd);
+
+                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnConsumptionID.Value, Constant.TransactionStatus.VOID);
+                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                {
+                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionDtDao.Update(itemTransactionDt);
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         #endregion
@@ -384,6 +464,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -410,6 +491,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -436,6 +518,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

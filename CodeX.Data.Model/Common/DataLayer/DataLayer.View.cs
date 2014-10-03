@@ -780,6 +780,8 @@ namespace CodeX.Data.Model
         private String _Comment;
         private String _FullName;
         private String _UserImage;
+        private Int32 _TeacherID;
+        private String _TeacherName;
         private Boolean _IsResetPassword;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -906,6 +908,18 @@ namespace CodeX.Data.Model
         {
             get { return _UserImage; }
             set { _UserImage = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
         }
         [Column(Name = "IsResetPassword", DataType = "Boolean")]
         public Boolean IsResetPassword

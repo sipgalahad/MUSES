@@ -46,7 +46,11 @@ namespace CodeX.Muses.Web.ControlPanel
                     UserLogin userLogin = new UserLogin();
                     userLogin.UserID = user.UserID;
                     userLogin.UserName = user.UserName;
-                    userLogin.UserFullName = user.FullName;
+                    if (user.TeacherID > 0)
+                        userLogin.UserFullName = user.TeacherName;
+                    else
+                        userLogin.UserFullName = user.FullName;
+                    userLogin.TeacherID = user.TeacherID;
                     Site site = BusinessLayer.GetSiteList("").FirstOrDefault();
                     userLogin.SiteID = site.SiteID;
                     userLogin.SiteName = site.SiteName;

@@ -1,6 +1,9 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
     CodeBehind="UserManagementEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.UserManagementEntry" %>
 
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function checkConfirmPassword(value, element) {
@@ -15,6 +18,33 @@
 
         function onLoad() {
         }
+
+        //#region Teacher
+        function onGetTeacherFilterExpression() {
+            var filterExpression = "<%=OnGetTeacherFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacTeacherButtonSearchClick() {
+            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
+                var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
+                Methods.getObject('GetTeacherList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacTeacher.setValue(result.TeacherID);
+                        tacTeacher.setText(result.TeacherName);
+                    }
+                    else {
+                        tacTeacher.setValue('');
+                        tacTeacher.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacTeacherValueChanged() {
+        }
+        //#endregion
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table class="tblContentArea">
@@ -64,6 +94,16 @@
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Security Answer")%></label></td>
                         <td><asp:TextBox ID="txtSecurityAnswer" Width="100%" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
+                        <td>
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
+                                SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacTeacherValueChanged(); }" />
+                            </cdx:CodeXAutoCompleteTextBox>   
+                        </td>
                     </tr>
                 </table>
             </td>

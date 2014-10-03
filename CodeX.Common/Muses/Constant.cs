@@ -261,6 +261,12 @@ namespace CodeX.Common
                 public const string SP_CLASS_STUDENT = "SM99010304";
             }
             #endregion
+
+            #region TeacherPage
+            public static class TeacherPage
+            {
+                public const string WEEKLY_SCHEDULE = "TP010100";
+            }
         }
         #endregion
 
@@ -288,6 +294,7 @@ namespace CodeX.Common
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";
-        }    
+        }
+        #endregion
     }
 }

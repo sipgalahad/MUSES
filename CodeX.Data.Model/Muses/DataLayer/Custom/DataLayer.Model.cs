@@ -5,5 +5,10 @@ using System.Text;
 
 namespace CodeX.Data.Model
 {
-    
+    #region UserLogin
+    public partial class UserLogin
+    {
+        public Int32? TeacherID { get; set; }
+    }
+    #endregion
 }
