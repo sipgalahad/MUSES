@@ -1349,6 +1349,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
         private String _GCStudentStatus;
@@ -1356,6 +1357,8 @@ namespace CodeX.Data.Model
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _StudentName;
+        private String _Name;
         private String _PreferredName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
@@ -1363,6 +1366,8 @@ namespace CodeX.Data.Model
         private String _GCNationality;
         private String _GCGrade;
         private String _GCMajor;
+        private Int32 _SchoolClassID;
+        private String _SchoolClassName;
         private Int32 _AddressID;
         private String _StreetName;
         private String _District;
@@ -1378,6 +1383,7 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PictureFileName;
         private String _Remarks;
+        private Boolean _IsDeleted;
 
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
@@ -1390,6 +1396,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "GCSalutation", DataType = "String")]
         public String GCSalutation
@@ -1433,6 +1445,18 @@ namespace CodeX.Data.Model
             get { return _LastName; }
             set { _LastName = value; }
         }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
+        }
         [Column(Name = "PreferredName", DataType = "String")]
         public String PreferredName
         {
@@ -1474,6 +1498,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCMajor; }
             set { _GCMajor = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
         }
         [Column(Name = "AddressID", DataType = "Int32")]
         public Int32 AddressID
@@ -1564,6 +1600,12 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

@@ -10,6 +10,9 @@
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onCboClassTypeValueChanged(s) {
@@ -57,7 +60,7 @@
                 if ($tr.find('.tdValue').html() != '') {
                     $tr.find('.divDetailDelete').click();
                 }
-                $(this).html('<div style="float:right" class="divDetailDelete"></div>' + text + '<br/><label class="lblLink">' + $('#hdnSelectedTrRoomName').val() + '</label>');
+                $(this).html('<div style="float:right" class="divDetailDelete"></div>' + text + '<br/><label class="lblLink lblRoom">' + $('#hdnSelectedTrRoomName').val() + '</label>');
 
                 $tr.find('.tdValue').html($('#hdnSelectedTrValue').val());
                 $tr.find('.tdRoomID').html($('#hdnSelectedTrRoomID').val());
@@ -98,7 +101,71 @@
                 }
             });
         });
+
+        //#region Room
+        function onGetRoomFilterExpression() {
+            var filterExpression = "<%=OnGetRoomFilterExpression() %>";
+            return filterExpression;
+        }
+
+        $td = null;
+        $('.lblRoom.lblLink').die('click');
+        $('.lblRoom.lblLink').live('click', function () {
+            $tr = $(this).closest('tr');
+            openSearchDialog('room', onGetRoomFilterExpression(), function (value) {
+                onTxtRoomChanged(value);
+            });
+        });
+
+        function onTxtRoomChanged(value) {
+            var filterExpression = onGetRoomFilterExpression() + " AND RoomCode = '" + value + "'";
+            Methods.getObject('GetRoomList', filterExpression, function (result) {
+                if (result != null) {
+                    $tr.find('.tdRoomID').html(result.RoomID);
+                    $tr.find('.lblRoom').html(result.RoomName);
+                }
+                else {
+                    $tr.find('.tdRoomID').html('0');
+                    $tr.find('.lblRoom').html('Pilih Ruangan');
+                }
+            });
+        }
+        //#endregion
+
+        $(function () {
+            $('#<%=btnSave.ClientID %>').click(function () {
+                var lstClassSubjectID = [];
+                var lstRoomID = [];
+                var lstDayNumber = [];
+                var lstHoursIndex = [];
+                $('.tblSchedule tr.T001').each(function () {
+                    $tr = $(this);
+                    var classSubjectID = $tr.find('.tdValue').html();
+                    if (classSubjectID != '') {
+                        var roomID = $tr.find('.tdRoomID').html();
+                        var dayNumber = $tr.find('.tdDayNumber').html();
+                        var hoursIndex = $tr.find('.tdHoursIndex').html();
+
+                        lstClassSubjectID.push(classSubjectID);
+                        lstDayNumber.push(dayNumber);
+                        lstHoursIndex.push(hoursIndex);
+                        lstRoomID.push(roomID);
+                    }
+                });
+                $('#<%=hdnLstClassSubjectID.ClientID %>').val(lstClassSubjectID.join(','));
+                $('#<%=hdnLstHoursIndex.ClientID %>').val(lstHoursIndex.join(','));
+                $('#<%=hdnLstRoomID.ClientID %>').val(lstRoomID.join(','));
+                $('#<%=hdnLstDayNumber.ClientID %>').val(lstDayNumber.join(','));
+               
+                onCustomButtonClick('save');
+            });
+        });
     </script>
+    <input type="hidden" runat="server" id="hdnLstClassSubjectID" />
+    <input type="hidden" runat="server" id="hdnLstRoomID" />
+    <input type="hidden" runat="server" id="hdnLstHoursIndex" />
+    <input type="hidden" runat="server" id="hdnLstDayNumber" />
+
     <table>
         <tr>
             <td><%=GetLabel("Kelas") %></td>
@@ -311,6 +378,7 @@
                                         <input type="hidden" value="<%#Eval("ClassSubjectID") %>" bindingfield="ClassSubjectID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("RoomID") %>" bindingfield="RoomID" />
                                         <input type="hidden" value="<%#Eval("RoomName") %>" bindingfield="RoomName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

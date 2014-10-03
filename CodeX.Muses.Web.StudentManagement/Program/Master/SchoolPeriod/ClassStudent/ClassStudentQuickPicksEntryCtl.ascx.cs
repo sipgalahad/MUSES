@@ -26,7 +26,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("SiteID = '{0}' AND ItemName1 LIKE '%{1}%' AND IsDeleted = 0 AND StudentID NOT IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {2})", AppSession.UserLogin.SiteID, hdnFilterItem.Value, hdnSchoolClassID.Value);
+            string filterExpression = string.Format("SiteID = '{0}' AND StudentName LIKE '%{1}%' AND IsDeleted = 0 AND StudentID NOT IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {2})", AppSession.UserLogin.SiteID, hdnFilterItem.Value, hdnSchoolClassID.Value);
             return filterExpression;
         }
 

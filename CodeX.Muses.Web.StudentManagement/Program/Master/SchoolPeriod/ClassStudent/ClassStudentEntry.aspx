@@ -38,12 +38,18 @@
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
+
+            var param = s.cpResult.split('|');
             if (param[0] == 'delete') {
                 if (param[1] == 'fail')
                     showToast('Delete Failed', 'Error Message : ' + param[2]);
                 else
                     cbpView.PerformCallback('refresh');
             }
+        }
+
+        function onAfterSaveAddRecordEntryPopup() {
+            cbpView.PerformCallback('refresh');
         }
     </script>
     <input type="hidden" id="hdnEntryID" runat="server"/>
@@ -71,7 +77,7 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="StudentName" HeaderText="Wali Kelas"/>
+                                <asp:BoundField DataField="StudentName" HeaderText="Siswa"/>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

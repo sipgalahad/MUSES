@@ -9,6 +9,63 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region ClassSchedule
+        public static ClassSchedule GetClassSchedule(Int32 ClassScheduleID)
+        {
+            return new ClassScheduleDao().Get(ClassScheduleID);
+        }
+        public static int InsertClassSchedule(ClassSchedule record)
+        {
+            return new ClassScheduleDao().Insert(record);
+        }
+        public static int UpdateClassSchedule(ClassSchedule record)
+        {
+            return new ClassScheduleDao().Update(record);
+        }
+        public static int DeleteClassSchedule(Int32 ClassScheduleID)
+        {
+            return new ClassScheduleDao().Delete(ClassScheduleID);
+        }
+        public static List<ClassSchedule> GetClassScheduleList(string filterExpression)
+        {
+            List<ClassSchedule> result = new List<ClassSchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSchedule)helper.IDataReaderToObject(reader, new ClassSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassSchedule> GetClassScheduleList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassSchedule> result = new List<ClassSchedule>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSchedule)helper.IDataReaderToObject(reader, new ClassSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassStudent
         public static ClassStudent GetClassStudent(Int32 SchoolClassID, Int32 StudentID)
         {

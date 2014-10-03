@@ -98,7 +98,7 @@
             $selectedTr = $(this).closest('tr');
 
             $newTr = $('#tmplSelectedTestItem').html();
-            $newTr = $newTr.replace(/\$\{StudentName}/g, $selectedTr.find('.tdItemName1').html());
+            $newTr = $newTr.replace(/\$\{StudentName}/g, $selectedTr.find('.tdStudentName').html());
             $newTr = $newTr.replace(/\$\{StudentID}/g, $selectedTr.find('.keyField').html());
             $newTr = $($newTr);
             $newTr.insertAfter($('#trHeader2'));
@@ -167,13 +167,14 @@
                                 <asp:GridView ID="grdView" runat="server" CssClass="grdView notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
                                 OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
-                                        <asp:BoundField DataField="ItemID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
+                                        <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
                                         <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="StudentName" HeaderText="Nama" ItemStyle-CssClass="tdItemName1" />
+                                        <asp:BoundField DataField="StudentName" HeaderText="Nama" ItemStyle-CssClass="tdStudentName" />
+                                        <asp:BoundField DataField="SchoolClassName" HeaderText="Kelas" HeaderStyle-Width="150px" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

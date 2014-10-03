@@ -16,6 +16,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 {
     public partial class ClassScheduleEntry : BasePageTrx
     {
+        protected string OnGetRoomFilterExpression()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.StudentManagement.SP_CLASS_SCHEDULE;
@@ -79,5 +83,69 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             BindGridView();
         }
         #endregion
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ClassScheduleDao entityDtDao = new ClassScheduleDao(ctx);
+            try
+            {
+                string[] lstClassSubjectID = hdnLstClassSubjectID.Value.Split(',');
+                string[] lstRoomID = hdnLstRoomID.Value.Split(',');
+                string[] lstDayNumber = hdnLstDayNumber.Value.Split(',');
+                string[] lstHoursIndex = hdnLstHoursIndex.Value.Split(',');
+                int SchoolClassID = Convert.ToInt32(cboClass.Value);
+
+                List<ClassSchedule> lstClassSchedule = BusinessLayer.GetClassScheduleList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", SchoolClassID), ctx);
+                for (int ct = 0; ct < lstClassSubjectID.Length; ++ct)
+                {
+                    Int16 dayNumber = Convert.ToInt16(lstDayNumber[ct]);
+                    Int16 hoursIndex = Convert.ToInt16(lstHoursIndex[ct]);
+                    ClassSchedule entityDt = lstClassSchedule.FirstOrDefault(p => p.DayNumber == dayNumber && p.HoursIndex == hoursIndex);
+                    if (entityDt == null)
+                    {
+                        entityDt = new ClassSchedule();
+                        entityDt.SchoolClassID = SchoolClassID;
+                        entityDt.HoursIndex = hoursIndex;
+                        entityDt.DayNumber = dayNumber;
+                        entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                        entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
+                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Insert(entityDt);
+                    }
+                    else
+                    {
+                        entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                        entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
+                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Update(entityDt);
+                    }
+                }
+
+                foreach (ClassSchedule entity in lstClassSchedule)
+                {
+                    if (!lstDayNumber.Contains(entity.DayNumber.ToString()) && !lstHoursIndex.Contains(entity.HoursIndex.ToString()))
+                    {
+                        entity.IsDeleted = true;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Update(entity);
+                    }
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
     }
 }
