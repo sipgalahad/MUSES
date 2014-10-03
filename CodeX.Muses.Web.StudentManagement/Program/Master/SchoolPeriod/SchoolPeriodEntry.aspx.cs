@@ -26,14 +26,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
+                SetControlProperties();
                 SchoolPeriod entity = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(ID));
                 EntityToControl(entity);
             }
             else
             {
+                SetControlProperties();
                 IsAdd = true;
             }
             txtSchoolPeriodCode.Focus();
+        }
+
+        protected override void SetControlProperties()
+        {
+            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<DailySchedulePackage>(cboDailySchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
+            cboDailySchedulePackage.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -43,6 +52,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboDailySchedulePackage, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(SchoolPeriod entity)
@@ -52,6 +62,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = entity.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
+            cboDailySchedulePackage.Value = entity.DailySchedulePackageID.ToString();
         }
 
         private void ControlToEntity(SchoolPeriod entity)
@@ -60,6 +71,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.SchoolPeriodName = txtSchoolPeriodName.Text;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
+            entity.DailySchedulePackageID = Convert.ToInt32(cboDailySchedulePackage.Value);
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -71,7 +83,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<SchoolPeriod> lst = BusinessLayer.GetSchoolPeriodList(FilterExpression);
 
             if (lst.Count > 0)
-                errMessage = " Login Attribute With Code " + txtSchoolPeriodCode.Text + " is already exist!";
+                errMessage = " School Period With Code " + txtSchoolPeriodCode.Text + " is already exist!";
 
             return (errMessage == string.Empty);
         }
@@ -83,7 +95,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<SchoolPeriod> lst = BusinessLayer.GetSchoolPeriodList(FilterExpression);
 
             if (lst.Count > 0)
-                errMessage = " Login Attribute With Code " + txtSchoolPeriodCode.Text + " is already exist!";
+                errMessage = " School Period With Code " + txtSchoolPeriodCode.Text + " is already exist!";
 
             return (errMessage == string.Empty);
         }

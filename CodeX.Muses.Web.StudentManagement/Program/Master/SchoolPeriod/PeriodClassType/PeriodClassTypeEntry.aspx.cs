@@ -28,7 +28,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<DailySchedulePackage>(cboDailySchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
-            cboClassType.SelectedIndex = 0;
+            cboDailySchedulePackage.SelectedIndex = 0;
 
             BindGridView();
 

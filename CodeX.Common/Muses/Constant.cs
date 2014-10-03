@@ -17,7 +17,10 @@ namespace CodeX.Common
         public static class Module
         {
             public const string CONTROL_PANEL = "CP";
+            public const string FINANCE = "FN";
+            public const string INVENTORY = "IF";
             public const string STUDENT_MANAGEMENT = "SM";
+            public const string TEACHER_PAGE = "TP";
         }
         #endregion
 
@@ -31,120 +34,35 @@ namespace CodeX.Common
             public const string SCHOOL_PERIOD_SCHEDULE_TYPE = "MS007";
             public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
 
-
             public const string MARITAL_STATUS = "0002";
             public const string GENDER = "0003";
             public const string ETHNIC = "0005";
             public const string RELIGION = "0006";
-            public const string ADMISSION_TYPE = "0007";
-            public const string ADMISSION_SOURCE = "0023";
-            public const string ADMISSION_CONDITION = "0043";
-            public const string FAMILY_RELATION = "0063";
-            public const string EMPLOYMENT_STATUS = "0066";
-            public const string BED_STATUS = "0116";
-            public const string ALLERGEN_TYPE = "0127";
-            public const string ALLERGY_SEVERITY = "0128";
-            public const string MEDICATION_ROUTE_HL7 = "0162";
             public const string NATIONALITY = "0212";
-            public const string PATIENT_OUTCOME = "0241";
-            public const string DOCUMENT_TYPE = "0270";
             public const string PROVINCE = "0347";
             public const string ITEM_TYPE = "X001";
-            public const string LABORATORY_RESULT_TYPE = "X002";
             public const string ITEM_UNIT = "X003";
-            public const string CUSTOMER_TYPE = "X004";
-            public const string TARIFF_SCHEME = "X005";
-            public const string AGE_UNIT = "X008";
-            public const string BLOOD_TYPE = "X009";
             public const string OCCUPATION = "X012";
             public const string EDUCATION = "X013";
             public const string SALUTATION = "X014";
             public const string TITLE = "X015";
             public const string SUFFIX = "X016";
             public const string BUSINESS_OBJECT_TYPE = "X017";
-            public const string HEALTHCARE_PROFESSIONAL_TYPE = "X019";
-            public const string REGISTRATION_STATUS = "X020";
-            public const string DIAGNOSIS_TYPE = "X029";
-            public const string MEDICATION_ROUTE = "X030";
-            public const string DIFFERENTIAL_DIAGNOSIS_STATUS = "X031";
             public const string HEALTHCARE_OPERATING_GROUP = "X033";
-            public const string PAYMENT_TYPE = "X034";
-            public const string PAYMENT_METHOD = "X035";
             public const string RESTRICTION_TYPE = "X038";
-            public const string TOOTH = "X044";
-            public const string TOOTH_PROBLEM = "X045";
-            public const string TOOTH_STATUS = "X046";
-            public const string TOOTH_SURFACES = "X047";
-            public const string RL_CLASS = "X048";
-            public const string DISCHARGE_ROUTINE = "X052";
-            public const string VACCINATION_ROUTE = "X059";
-            public const string DIAGNOSTIC_RESULT_INTERPRETATION = "X062";
-            public const string ONSET = "X064";
-            public const string QUALITY = "X065";
-            public const string SEVERITY = "X066";
-            public const string PATIENT_CATEGORY = "X067";
-            public const string COURSE_TIMING = "X068";
-            public const string EXACERBATED = "X069";
-            public const string RELIEVED_BY = "X070";
-            public const string LABORATORY_UNIT = "X072";
-            public const string TRIAGE = "X079";
-            public const string VACCINATION_GROUP = "X080";
-            public const string PARAMEDIC_ROLE = "X084";
-            public const string IDENTITY_NUMBERY_TYPE = "X097";
-            public const string REVIEW_OF_SYSTEM = "X098";
-            public const string CARD_TYPE = "X102";
             public const string VALUE_TYPE = "X103";
-            public const string LABORATORY_TEST_CATEGORY = "X104";
-            public const string REFERRAL = "X105";
-            public const string REFERRER_GROUP = "X105";
             public const string REPORTING_PERIOD = "X106";
             public const string ADJUSTMENT_REASON = "X107";
             public const string FILTER_PARAMETER_TYPE = "X108";
-            public const string ABC_CLASS = "X109";
-            public const string MEDICAL_FILE_STATUS = "X111";
-            public const string TEMPLATE_TEXT_GROUP = "X112";
-            public const string OBJECTIVE_DATA_SOURCE = "X113";
-            public const string BODY_DIAGRAM_GROUP = "X114";
-            public const string BODY_DIAGRAM_SYMBOL = "X115";
-            public const string ALLERGY_INFORMATION_SOURCE = "X116";
             public const string TRANSACTION_STATUS = "X121";
-            public const string DRUG_FORM = "X122";
-            public const string DRUG_CLASSIFICATION = "X123";
-            public const string PREGNANCY_CATEGORY = "X124";
-            public const string TO_BE_PERFORMED = "X125";
-            public const string PATIENT_TRANSFER_TYPE = "X127";
             public const string DELETE_REASON = "X129";
-            public const string DOSING_FREQUENCY = "X130";
-            public const string BODY_PART_SYMPTOM_CHECKER = "X135";
-            public const string DISCONTINUE_MEDICATION_REASON = "X136";
-            public const string REFILL_INSTRUCTION = "X138";
-            public const string PATIENT_INSTRUCTION_GROUP = "X139";
             public const string REPORT_TYPE = "X140";
             public const string DATA_SOURCE_TYPE = "X141";
-            public const string CARD_PROVIDER = "X142";
-            public const string MEDICAL_FOLDER_TYPE = "X144";
-            public const string PATIENT_VISIT_NOTES = "X011";
             public const string PURCHASE_ORDER_TYPE = "X145";
             public const string FRANCO_REGION = "X146";
             public const string CURRENCY_CODE = "X147";
-            public const string BORN_CONDITION = "X148";
-            public const string BIRTH_METHOD = "X149";
-            public const string BIRTH_COMPLICATION_TYPE = "X150";
-            public const string BIRTH_COD = "X151";
-            public const string CAESAR_METHOD = "X152";
-            public const string TWIN_SINGLE = "X153";
-            public const string BORN_AT = "X154";
-            public const string DISCOUNT_REASON = "X155";
-            public const string VISIT_REASON = "X156";
-            public const string CHARGES_TYPE = "X157";
-            public const string REVENUE_SHARING_FORMULA_TYPE = "X158";
-            public const string REVENUE_SHARING_COMPONENT = "X159";
             public const string PURCHASE_RETURN_TYPE = "X161";
             public const string PURCHASE_RETURN_REASON = "X162";
-            public const string PATIENT_ATD_STATUS = "X163";
-            public const string REVENUE_SHARING_ADJUSTMENT_GROUP = "X166";
-            public const string REVENUE_SHARING_ADJUSTMENT_TYPE = "X167";
-            public const string CASHIER_GROUP = "X169";
             public const string RETURN_REASON = "X170";
             public const string COENAM_RULE = "X172";
             public const string ADJUSTMENT_TYPE = "X173";
@@ -153,7 +71,6 @@ namespace CodeX.Common
             public const string SUPPLIER_CREDIT_NOTE_TYPE = "X176";
             public const string CHECK_COUNT_TYPE = "X177";
             public const string SUPPLIER_PAYMENT_METHOD = "X178";
-            public const string PRESCRIPTION_RETURN_TYPE = "X179";
         }
 
         public static class SchoolPeriodStatus
@@ -171,6 +88,11 @@ namespace CodeX.Common
             public const string RADIO_BUTTON = "X103^003";
             public const string CHECK_BOX = "X103^004";
             public const string SEARCH_DIALOG = "X103^005";
+        }
+
+        public static class AdjustmentType
+        {
+            public const string RECEIPTS = "X173^001";
         }
 
         public static class CustomerType
@@ -277,6 +199,48 @@ namespace CodeX.Common
             }
             #endregion
 
+            #region Inventory
+            public static class Inventory
+            {
+                public const string REORDER_PURCHASE_REQUEST = "IM020101";
+                public const string PURCHASE_REQUEST = "IM020102";
+                public const string APPROVED_PURCHASE_REQUEST = "IM020103";
+                public const string REORDER_PURCHASE_ORDER = "IM020201";
+                public const string PURCHASE_ORDER = "IM020202";
+                public const string APPROVED_PURCHASE_ORDER = "IM020203";
+                public const string DIRECT_PURCHASE = "IM020301";
+                public const string DIRECT_PURCHASE_RETURN = "IM020302";
+
+                public const string REORDER_ITEM_REQUEST = "IM030101";
+                public const string ITEM_REQUEST = "IM030102";
+                public const string APPROVED_ITEM_REQUEST = "IM030103";
+                public const string REORDER_ITEM_DISTRIBUTION = "IM030201";
+                public const string ITEM_DISTRIBUTION = "IM030202";
+                public const string PURCHASE_RECEIVE = "IM030301";
+                public const string PURCHASE_RETURN = "IM030302";
+                public const string CREDIT_NOTE = "IM030303";
+                public const string PURCHASE_REPLACEMENT = "IM030304";
+                public const string ITEM_DISTRIBUTION_CONFIRMED = "IM030203";
+                public const string ITEM_ADJUSTMENT = "IM030502";
+                public const string ITEM_CONSUMPTION = "IM030503";
+                public const string ITEM_PRODUCTION = "IM030504";
+                public const string STOCK_TAKING = "IM030505";
+
+                public const string ITEM_REQUEST_APPROVAL = "IM040100";
+                public const string PURCHASE_REQUEST_APPROVAL = "IM040200";
+                public const string PURCHASE_ORDER_APPROVAL = "IM040300";
+                public const string PURCHASE_RECEIVE_APPROVAL = "IM040400";
+                public const string ITEM_DISTRIBUTION_APPROVAL = "IM040500";
+                public const string PURCHASE_RECEIVE_CONFIRMED = "IM040600";
+                public const string PURCHASE_RETURN_APPROVAL = "IM040700";
+                public const string ITEM_ADJUSTMENT_APPROVAL = "IM040800";
+                public const string ITEM_CONSUMPTION_APPROVAL = "IM040900";
+                public const string PURCHASE_RECEIVE_VOID = "IM041000";
+
+                public const string REPORT = "IM090000";
+            }
+            #endregion
+
             #region StudentManagement
             public static class StudentManagement
             {
@@ -294,9 +258,36 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_CLASS = "SM99010301";
                 public const string SP_CLASS_SUBJECT = "SM99010302";
                 public const string SP_CLASS_SCHEDULE = "SM99010303";
+                public const string SP_CLASS_STUDENT = "SM99010304";
             }
             #endregion
         }
-        #endregion      
+        #endregion
+
+        public static class TransactionCode
+        {
+            public const string ITEM_REQUEST = "4104";
+            public const string ITEM_CONSUMPTION = "4105";
+            public const string ITEM_ADJUSTMENT = "4106";
+            public const string PURCHASE_REQUEST = "4201";
+            public const string PURCHASE_ORDER = "4202";
+            public const string PURCHASE_RECEIVE = "4203";
+            public const string ITEM_DISTRIBUTION = "4204";
+            public const string PURCHASE_RETURN = "4205";
+            public const string DIRECT_PURCHASE = "4206";
+            public const string DIRECT_PURCHASE_RETURN = "4207";
+            public const string SUPPLIER_CREDIT_NOTE = "4208";
+            public const string PRODUCTION_PROCESS = "4209";
+            public const string STOCK_TAKING = "4210";
+            public const string PURCHASE_RETURN_REPLACEMENT = "4211";
+
+            public const string AR_INVOICE_PATIENT = "5102";
+            public const string AR_INVOICE_PAYER = "5103";
+            public const string AR_RECEIVE_PATIENT = "5104";
+            public const string AR_RECEIVE_PAYER = "5105";
+
+            public const string PURCHASE_INVOICE = "6101";
+            public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";
+        }    
     }
 }

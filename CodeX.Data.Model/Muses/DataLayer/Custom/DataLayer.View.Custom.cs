@@ -7,6 +7,60 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region vItemBalance
+    public partial class vItemBalance
+    {
+        public String CustomMinimum
+        {
+            get { return string.Format("{0:N} {1}", QuantityMIN, _ItemUnit); }
+        }
+
+        public String CustomMaximum
+        {
+            get { return string.Format("{0:N} {1}", QuantityMAX, _ItemUnit); }
+        }
+        public String CustomEndingBalance
+        {
+            get { return string.Format("{0:N} {1}", QuantityEND, _ItemUnit); }
+        }
+    }
+    #endregion
+    #region vItemTransactionDt
+    public partial class vItemTransactionDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+        public String Conversion
+        {
+            get { return string.Format("1 {0} = {1} {2}", _BaseUnit, _ConversionFactor, _ItemUnit); }
+        }
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+        public String TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region vItemTransactionHd
+    public partial class vItemTransactionHd
+    {
+        public String TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vPeriodAdmission
     public partial class vPeriodAdmission
     {
