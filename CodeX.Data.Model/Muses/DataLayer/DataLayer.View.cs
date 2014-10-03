@@ -6,6 +6,112 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vClassSchedule
+    [Serializable]
+    [Table(Name = "vClassSchedule")]
+    public class vClassSchedule
+    {
+        private Int32 _ClassScheduleID;
+        private Int32 _ClassSubjectID;
+        private Int32 _SchoolClassID;
+        private Int32 _SubjectID;
+        private String _SubjectName;
+        private Int16 _DayNumber;
+        private Int16 _HoursIndex;
+        private String _StartTime;
+        private String _EndTime;
+        private Int32 _RoomID;
+        private String _RoomName;
+        private Int32 _TeacherID;
+        private String _TeacherName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ClassScheduleID", DataType = "Int32")]
+        public Int32 ClassScheduleID
+        {
+            get { return _ClassScheduleID; }
+            set { _ClassScheduleID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vClassStudent
     [Serializable]
     [Table(Name = "vClassStudent")]

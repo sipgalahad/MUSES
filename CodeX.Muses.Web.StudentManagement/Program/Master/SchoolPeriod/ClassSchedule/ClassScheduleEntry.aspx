@@ -34,7 +34,7 @@
         $('#<%=grdView.ClientID %> tr:gt(0)').live('click', function () {
             $('#<%=grdView.ClientID %> tr.selected').removeClass('selected');
 
-            $tdRemaining = $(this).find('td.tdRemaining');
+            $tdRemaining = $(this).find('.tdRemaining');
             if ($tdRemaining.html() != '0') {
 
                 $(this).addClass('selected');
@@ -65,7 +65,7 @@
                 $tr.find('.tdValue').html($('#hdnSelectedTrValue').val());
                 $tr.find('.tdRoomID').html($('#hdnSelectedTrRoomID').val());
 
-                $tdRemaining = $('#<%=grdView.ClientID %> tr.selected td.tdRemaining');
+                $tdRemaining = $('#<%=grdView.ClientID %> tr.selected .tdRemaining');
                 var remaining = parseFloat($tdRemaining.html());
                 $tdRemaining.html(remaining - 1);
                 if (remaining < 2) {
@@ -93,7 +93,7 @@
                 if (!isFound) {
                     var entity = rowToObject($(this));
                     if (entity.ClassSubjectID == classSubjectID) {
-                        $tdRemaining = $(this).find('td.tdRemaining');
+                        $tdRemaining = $(this).find('.tdRemaining');
                         var remaining = parseFloat($tdRemaining.html());
                         $tdRemaining.html(remaining + 1);
                         isFound = true;
@@ -241,18 +241,18 @@
                             <tr>
                                 <td valign="top">
                                     <h4 style="text-align: center"><%=GetLabel("Senin") %></h4>
-                                    <asp:Repeater ID="rptDay1" runat="server">
+                                    <asp:Repeater ID="rptDay1" runat="server" OnItemDataBound="rptDay1_ItemDataBound">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
                                                 <td style="display:none;" class="tdDefaultHtml"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
-                                                <td style="display:none;" class="tdValue"></td>
-                                                <td style="display:none;" class="tdRoomID"></td>
+                                                <td style="display:none;" class="tdValue" id="tdValue" runat="server"></td>
+                                                <td style="display:none;" class="tdRoomID" id="tdRoomID" runat="server"></td>
                                                 <td style="display:none;" class="tdHoursIndex"><%#Eval("HoursIndex") %></td>
                                                 <td style="display:none;" class="tdDayNumber">1</td>
-                                                <td class="tdHtmlText"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -262,18 +262,18 @@
                                 </td>
                                 <td valign="top"> 
                                     <h4 style="text-align: center"><%=GetLabel("Selasa") %></h4>
-                                    <asp:Repeater ID="rptDay2" runat="server">
+                                    <asp:Repeater ID="rptDay2" runat="server" OnItemDataBound="rptDay2_ItemDataBound">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
                                                 <td style="display:none;" class="tdDefaultHtml"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
-                                                <td style="display:none;" class="tdValue"></td>
-                                                <td style="display:none;" class="tdRoomID"></td>
+                                                <td style="display:none;" class="tdValue" id="tdValue" runat="server"></td>
+                                                <td style="display:none;" class="tdRoomID" id="tdRoomID" runat="server"></td>
                                                 <td style="display:none;" class="tdHoursIndex"><%#Eval("HoursIndex") %></td>
                                                 <td style="display:none;" class="tdDayNumber">2</td>
-                                                <td class="tdHtmlText"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -283,18 +283,18 @@
                                 </td>
                                 <td valign="top"> 
                                     <h4 style="text-align: center"><%=GetLabel("Rabu") %></h4>
-                                    <asp:Repeater ID="rptDay3" runat="server">
+                                    <asp:Repeater ID="rptDay3" runat="server" OnItemDataBound="rptDay3_ItemDataBound">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
                                                 <td style="display:none;" class="tdDefaultHtml"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
-                                                <td style="display:none;" class="tdValue"></td>
-                                                <td style="display:none;" class="tdRoomID"></td>
+                                                <td style="display:none;" class="tdValue" id="tdValue" runat="server"></td>
+                                                <td style="display:none;" class="tdRoomID" id="tdRoomID" runat="server"></td>
                                                 <td style="display:none;" class="tdHoursIndex"><%#Eval("HoursIndex") %></td>
                                                 <td style="display:none;" class="tdDayNumber">3</td>
-                                                <td class="tdHtmlText"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -304,18 +304,18 @@
                                 </td>
                                 <td valign="top"> 
                                     <h4 style="text-align: center"><%=GetLabel("Kamis") %></h4>
-                                    <asp:Repeater ID="rptDay4" runat="server">
+                                    <asp:Repeater ID="rptDay4" runat="server" OnItemDataBound="rptDay4_ItemDataBound">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
                                                 <td style="display:none;" class="tdDefaultHtml"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
-                                                <td style="display:none;" class="tdValue"></td>
-                                                <td style="display:none;" class="tdRoomID"></td>
+                                                <td style="display:none;" class="tdValue" id="tdValue" runat="server"></td>
+                                                <td style="display:none;" class="tdRoomID" id="tdRoomID" runat="server"></td>
                                                 <td style="display:none;" class="tdHoursIndex"><%#Eval("HoursIndex") %></td>
                                                 <td style="display:none;" class="tdDayNumber">4</td>
-                                                <td class="tdHtmlText"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -325,18 +325,18 @@
                                 </td>
                                 <td valign="top"> 
                                     <h4 style="text-align: center"><%=GetLabel("Jumat") %></h4>
-                                    <asp:Repeater ID="rptDay5" runat="server">
+                                    <asp:Repeater ID="rptDay5" runat="server" OnItemDataBound="rptDay5_ItemDataBound">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
                                                 <td style="display:none;" class="tdDefaultHtml"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
-                                                <td style="display:none;" class="tdValue"></td>
-                                                <td style="display:none;" class="tdRoomID"></td>
+                                                <td style="display:none;" class="tdValue" id="tdValue" runat="server"></td>
+                                                <td style="display:none;" class="tdRoomID" id="tdRoomID" runat="server"></td>
                                                 <td style="display:none;" class="tdHoursIndex"><%#Eval("HoursIndex") %></td>
                                                 <td style="display:none;" class="tdDayNumber">5</td>
-                                                <td class="tdHtmlText"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -346,18 +346,18 @@
                                 </td>
                                 <td valign="top"> 
                                     <h4 style="text-align: center"><%=GetLabel("Sabtu") %></h4>
-                                    <asp:Repeater ID="rptDay6" runat="server">
+                                    <asp:Repeater ID="rptDay6" runat="server" OnItemDataBound="rptDay6_ItemDataBound">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
                                                 <td style="display:none;" class="tdDefaultHtml"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
-                                                <td style="display:none;" class="tdValue"></td>
-                                                <td style="display:none;" class="tdRoomID"></td>
+                                                <td style="display:none;" class="tdValue" id="tdValue" runat="server"></td>
+                                                <td style="display:none;" class="tdRoomID" id="tdRoomID" runat="server"></td>
                                                 <td style="display:none;" class="tdHoursIndex"><%#Eval("HoursIndex") %></td>
                                                 <td style="display:none;" class="tdDayNumber">6</td>
-                                                <td class="tdHtmlText"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -368,7 +368,7 @@
                             </tr>
                         </table>
                         <br />
-                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected"
+                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" OnRowDataBound="grdView_RowDataBound"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
@@ -384,7 +384,11 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru"/>
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
-                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Sisa Jam Pertemuan" ItemStyle-CssClass="tdRemaining" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:TemplateField HeaderText="Sisa Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                    <ItemTemplate>
+                                        <div id="tdRemaining" class="tdRemaining" runat="server"></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

@@ -11,6 +11,7 @@ using System.Data;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -60,6 +61,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.DailyScheduleTypeID5 == null ? "0" : entity.DailyScheduleTypeID5.ToString(),
                     entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                 ));
+
+                lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", cboClass.Value));
                 rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();
                 rptDay1.DataBind();
                 rptDay2.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID2).ToList();
@@ -77,6 +80,69 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
+
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vClassSubject entity = (vClassSubject)e.Row.DataItem;
+                HtmlGenericControl tdRemaining = (HtmlGenericControl)e.Row.FindControl("tdRemaining");
+                tdRemaining.InnerHtml = (entity.NoMeetingHoursInWeek - lstClassSchedule.Where(p => p.ClassSubjectID == entity.ClassSubjectID).Count()).ToString();
+            }
+        }
+
+        protected void rptDay1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            rptDay_ItemDataBound(e, 1);
+        }
+
+        protected void rptDay2_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            rptDay_ItemDataBound(e, 2);
+        }
+
+        protected void rptDay3_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            rptDay_ItemDataBound(e, 3);
+        }
+
+        protected void rptDay4_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            rptDay_ItemDataBound(e, 4);
+        }
+
+        protected void rptDay5_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            rptDay_ItemDataBound(e, 5);
+        }
+
+        protected void rptDay6_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            rptDay_ItemDataBound(e, 6);
+        }
+
+        private void rptDay_ItemDataBound(RepeaterItemEventArgs e, Int16 DayNumber)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                DailyScheduleTypeDt entityTypeDt = e.Item.DataItem as DailyScheduleTypeDt;
+                vClassSchedule entity = lstClassSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
+                HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
+                if (entity != null)
+                {
+                    HtmlTableCell tdValue = (HtmlTableCell)e.Item.FindControl("tdValue");
+                    HtmlTableCell tdRoomID = (HtmlTableCell)e.Item.FindControl("tdRoomID");
+                    tdValue.InnerHtml = entity.ClassSubjectID.ToString();
+                    tdRoomID.InnerHtml = entity.RoomID.ToString();
+                    tdHtmlText.InnerHtml = string.Format("<div style='float:right' class='divDetailDelete'></div>{0}<br/>{1}<br/><label class='lblLink lblRoom'>{2}</label>", entity.SubjectName, entity.TeacherName, entity.RoomName);
+                }
+                else
+                {
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
+                }
+            }
+        }
+        List<vClassSchedule> lstClassSchedule = null;
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
