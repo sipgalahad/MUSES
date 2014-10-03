@@ -14,6 +14,12 @@
         function onCboSchoolPeriodValueChanged(s) {
             cbpView.PerformCallback('refresh');
         }
+
+        $('.T001').live('click', function () {
+            var id = 7 + '|' + 0;
+            var url = ResolveUrl('~/Program/WeeklySchedule/ClassMeetingPageLauncher.aspx?id=' + id);
+            openWindowPopup(url, 'ClassMeeting', '1300', '650');
+        });
     </script>
     <table>
         <tr>
@@ -29,7 +35,8 @@
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
         .tblSchedule tr td                  { border: 1px solid #333; }
-        .tblSchedule tr.T001                { height: 44px; }
+        .tblSchedule tr.T001                { height: 56px; }
+        .tblSchedule tr.T001 b              { color: Red; }
         .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
     </style>
 

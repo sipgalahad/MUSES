@@ -103,7 +103,7 @@ namespace CodeX.Muses.Web.TeacherPage.Program
                 vClassSchedule entity = lstClassSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
                 HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
                 if (entity != null)
-                    tdHtmlText.InnerHtml = string.Format("{0}<br/>{1}", entity.SubjectName, entity.RoomName);
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
                 else
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
             }

@@ -92,6 +92,10 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="MasterPage\MPClassSubjectPageTrxVisit.master" />
+    <Content Include="MasterPage\ClassSubjectBannerDtCtl.ascx" />
+    <Content Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx" />
+    <Content Include="Program\WeeklySchedule\ClassSubject\ClassSubjectEntry.aspx" />
     <Content Include="Program\WeeklySchedule\WeeklyScheduleList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -262,6 +266,34 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\MPClassSubjectPageTrxVisit.master.cs">
+      <DependentUpon>MPClassSubjectPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPClassSubjectPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPClassSubjectPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\ClassSubjectBannerDtCtl.ascx.cs">
+      <DependentUpon>ClassSubjectBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\ClassSubjectBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>ClassSubjectBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx.cs">
+      <DependentUpon>ClassMeetingPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx.designer.cs">
+      <DependentUpon>ClassMeetingPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassSubject\ClassSubjectEntry.aspx.cs">
+      <DependentUpon>ClassSubjectEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassSubject\ClassSubjectEntry.aspx.designer.cs">
+      <DependentUpon>ClassSubjectEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\WeeklySchedule\WeeklyScheduleList.aspx.cs">
       <DependentUpon>WeeklyScheduleList.aspx</DependentUpon>

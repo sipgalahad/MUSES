@@ -39,6 +39,47 @@ namespace CodeX.Web.Common
             return HttpContext.Current.Session[sessionName].ToString();
         }
 
+        public static ClassSubjectModel ClassSubject
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_ClassSubject"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] != null)
+                        {
+                            string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"].Split('|');
+                            ClassSubjectModel classSubject = new ClassSubjectModel();
+                            classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
+                            classSubject.ClassMeetingID = Convert.ToInt32(temp[1]);
+
+                            HttpContext.Current.Session["_ClassSubject"] = classSubject;
+                            return classSubject;
+                        }
+                    }
+                    return null;
+                }
+                return ((ClassSubjectModel)(HttpContext.Current.Session["_ClassSubject"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] == null || HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] == null)
+                {
+                    HttpCookie userLoginCookie = new HttpCookie("Muses");
+                    userLoginCookie["_ClassSubject"] = string.Format("{0}|{1}", value.ClassSubjectID, value.ClassMeetingID);
+                    userLoginCookie.Expires = DateTime.Now.AddDays(1d);
+                    HttpContext.Current.Response.Cookies.Add(userLoginCookie);
+                }
+                else
+                {
+                    HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] = string.Format("{0}|{1}", value.ClassSubjectID, value.ClassMeetingID);
+                    HttpContext.Current.Request.Cookies["Muses"].Expires = DateTime.Now.AddDays(1d);
+                }
+                HttpContext.Current.Session["_ClassSubject"] = value;
+            }
+        }
+
         public static UserLogin UserLogin
         {
             get

@@ -15,6 +15,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private Int32 _ClassSubjectID;
         private Int32 _SchoolClassID;
+        private String _SchoolClassName;
         private Int32 _SubjectID;
         private String _SubjectName;
         private Int16 _DayNumber;
@@ -50,6 +51,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
         }
         [Column(Name = "SubjectID", DataType = "Int32")]
         public Int32 SubjectID
