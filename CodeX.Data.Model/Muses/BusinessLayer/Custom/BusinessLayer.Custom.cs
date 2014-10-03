@@ -9,6 +9,5 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
-        
     }
 }

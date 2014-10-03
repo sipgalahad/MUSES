@@ -1289,6 +1289,182 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region Location
+    [Serializable]
+    [Table(Name = "Location")]
+    public class Location : DbDataModel
+    {
+        private Int32 _LocationID;
+        private String _SiteID;
+        private String _LocationCode;
+        private String _LocationName;
+        private String _ShortName;
+        private Int32? _ParentID;
+        private Int32? _ItemGroupID;
+        private Int32? _RestrictionID;
+        private Boolean _IsHeader;
+        private Boolean _IsAvailable;
+        private Boolean _IsNettable;
+        private Boolean _IsAllowOverIssued;
+        private Boolean _IsHoldForTransaction;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "LocationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "LocationCode", DataType = "String")]
+        public String LocationCode
+        {
+            get { return _LocationCode; }
+            set { _LocationCode = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
+        }
+        [Column(Name = "ShortName", DataType = "String")]
+        public String ShortName
+        {
+            get { return _ShortName; }
+            set { _ShortName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "RestrictionID", DataType = "Int32", IsNullable = true)]
+        public Int32? RestrictionID
+        {
+            get { return _RestrictionID; }
+            set { _RestrictionID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "IsAvailable", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsAvailable
+        {
+            get { return _IsAvailable; }
+            set { _IsAvailable = value; }
+        }
+        [Column(Name = "IsNettable", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsNettable
+        {
+            get { return _IsNettable; }
+            set { _IsNettable = value; }
+        }
+        [Column(Name = "IsAllowOverIssued", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsAllowOverIssued
+        {
+            get { return _IsAllowOverIssued; }
+            set { _IsAllowOverIssued = value; }
+        }
+        [Column(Name = "IsHoldForTransaction", DataType = "Boolean")]
+        public Boolean IsHoldForTransaction
+        {
+            get { return _IsHoldForTransaction; }
+            set { _IsHoldForTransaction = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class LocationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Location));
+        private bool _isAuditLog = false;
+        private const string p_LocationID = "@p_LocationID";
+        public LocationDao() { }
+        public LocationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Location Get(Int32 LocationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_LocationID, LocationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Location)_helper.DataRowToObject(row, new Location());
+        }
+        public int Insert(Location record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Location record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 LocationID)
+        {
+            Location record;
+            if (_ctx.Transaction == null)
+                record = new LocationDao().Get(LocationID);
+            else
+                record = Get(LocationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodAdmission
     [Serializable]
     [Table(Name = "PeriodAdmission")]

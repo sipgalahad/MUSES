@@ -5,18 +5,20 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
-<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
-    Namespace="DevExpress.Web.ASPxPopupControl" TagPrefix="dxpc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server"> 
     <input type="hidden" runat="server" id="hdnIsRefreshControlAfterSaveAddRecord" value="1" />
     <input type="hidden" runat="server" id="hdnIsAdd" value="1" />
     <input type="hidden" runat="server" id="hdnIsAllowEdit" value="1" />
     <input type="hidden" runat="server" id="hdnIsAllowVoid" value="1" />
+    <input type="hidden" runat="server" id="hdnIsAllowPropose" value="0" />
     <input type="hidden" runat="server" id="hdnIsAllowNextPrev" value="1" />
+    <input type="hidden" runat="server" id="hdnIsAllowApprove" value="" />
+    <input type="hidden" runat="server" id="hdnIsAllowReopen" value="" />
     <input type="hidden" runat="server" id="hdnRowCount" value="0" />
     <input type="hidden" runat="server" id="hdnPageIndex" value="-1" />
     <input type="hidden" runat="server" id="hdnWatermark" value="" />
+    <input type="hidden" runat="server" id="hdnProposeText" value="" />
     <div style="position:relative;">
         <div runat="server" id="pnlWatermark" style="pointer-events:none;display:none; position:absolute; z-index:1000; height:170px;width:100%;text-align:center; padding-top: 50px; margin-top:180px;font-size: 40px;background-color: transparent; opacity: 0.45; color: #FF0000; overflow-y:hidden;" class="borderBox">
             <div style="-webkit-transform: rotate(-10deg); -moz-transform: rotate(-10deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);">
@@ -31,6 +33,12 @@
                 <%=GetBreadcrumbs()%>
             </div>        
             <script type="text/javascript">
+                $(document).live("contextmenu", function (e) {
+                    if (e.button === 2) {
+                        e.preventDefault();
+                        $('#toolbarArea').slideDown('fast');
+                    }
+                });
                 function isShowWatermark() {
                     return $('#<%=pnlWatermark.ClientID %>').is(':visible');
                 }
@@ -39,12 +47,19 @@
                     $('#<%=pnlWatermark.ClientID %>').show();
                     $('#<%=btnMPEntryVoid.ClientID %>').hide();
                     $('#<%=btnMPEntrySave.ClientID %>').hide();
+                    $('#<%=btnMPEntryPropose.ClientID %>').hide();
+                    if ($('#<%=hdnIsAllowReopen.ClientID %>').val() == '1')
+                        $('#<%=btnMPEntryReopen.ClientID %>').show();
+                    else
+                        $('#<%=btnMPEntryReopen.ClientID %>').hide();
                 }
 
                 function hideWatermark() {
                     $('#<%=pnlWatermark.ClientID %>').hide();
+                    $('#<%=btnMPEntryReopen.ClientID %>').hide();
                     if ($('#<%=hdnIsAdd.ClientID %>').val() == '1') {
                         $('#<%=btnMPEntryVoid.ClientID %>').hide();
+                        $('#<%=btnMPEntryPropose.ClientID %>').hide();
                     }
                     else {
                         if ($('#<%=hdnIsAllowEdit.ClientID %>').val() == '0')
@@ -56,6 +71,11 @@
                             $('#<%=btnMPEntryVoid.ClientID %>').hide();
                         else
                             $('#<%=btnMPEntryVoid.ClientID %>').show();
+
+                        if ($('#<%=hdnIsAllowPropose.ClientID %>').val() == '1' || $('#<%=hdnIsAllowApprove.ClientID %>').val() == '1')
+                            $('#<%=btnMPEntryPropose.ClientID %>').show();
+                        else
+                            $('#<%=btnMPEntryPropose.ClientID %>').hide();
                     }
                 }
 
@@ -64,6 +84,8 @@
                         $('#<%=hdnIsAdd.ClientID %>').val('1');
                         $('#<%=btnMPEntryVoid.ClientID %>').hide();
                         $('#<%=btnMPEntrySave.ClientID %>').show();
+                        $('#<%=btnMPEntryPropose.ClientID %>').hide();
+                        $('#<%=btnMPEntryReopen.ClientID %>').hide();
                     }
                     else {
                         var $group = $('#fsMPEntry');
@@ -93,8 +115,15 @@
                         if ($('#<%=pnlWatermark.ClientID %>').is(":visible")) {
                             $('#<%=btnMPEntrySave.ClientID %>').hide();
                             $('#<%=btnMPEntryVoid.ClientID %>').hide();
+                            $('#<%=btnMPEntryPropose.ClientID %>').hide();
+
+                            if ($('#<%=hdnIsAllowReopen.ClientID %>').val() == '1')
+                                $('#<%=btnMPEntryReopen.ClientID %>').show();
+                            else
+                                $('#<%=btnMPEntryReopen.ClientID %>').hide();
                         }
                         else {
+                            $('#<%=btnMPEntryReopen.ClientID %>').hide();
                             if ($('#<%=hdnIsAllowEdit.ClientID %>').val() == '0')
                                 $('#<%=btnMPEntrySave.ClientID %>').hide();
                             else
@@ -104,6 +133,11 @@
                                 $('#<%=btnMPEntryVoid.ClientID %>').show();
                             else
                                 $('#<%=btnMPEntryVoid.ClientID %>').hide();
+
+                            if ($('#<%=hdnIsAllowPropose.ClientID %>').val() == '1' || $('#<%=hdnIsAllowApprove.ClientID %>').val() == '1')
+                                $('#<%=btnMPEntryPropose.ClientID %>').show();
+                            else
+                                $('#<%=btnMPEntryPropose.ClientID %>').hide();
                         }
                     }
                     if (typeof onSetIsAddToolbar == 'function')
@@ -111,13 +145,6 @@
                 }
                 window.getIsAdd = function () {
                     return ($('#<%=hdnIsAdd.ClientID %>').val() == '1');
-                }
-
-                function hideToolbar() {
-                    $('#<%=btnMPEntryPrev.ClientID %>').hide();
-                    $('#<%=btnMPEntryNext.ClientID %>').hide();
-                    $('#<%=btnMPEntrySave.ClientID %>').hide();
-                    $('#<%=btnMPEntryVoid.ClientID %>').hide();
                 }
 
                 function onAfterCustomSaveSuccess() {
@@ -130,6 +157,15 @@
                     }
                     $('#<%=hdnRowCount.ClientID %>').val(rowCount);
                     setIsAdd(false);
+                }
+
+                function hideToolbar() {
+                    $('#<%=btnMPEntryPrev.ClientID %>').hide();
+                    $('#<%=btnMPEntryNext.ClientID %>').hide();
+                    $('#<%=btnMPEntrySave.ClientID %>').hide();
+                    $('#<%=btnMPEntryVoid.ClientID %>').hide();
+                    $('#<%=btnMPEntryPropose.ClientID %>').hide();
+                    $('#<%=btnMPEntryReopen.ClientID %>').hide();
                 }
 
                 function setPageIndex(pageIndex) {
@@ -160,7 +196,6 @@
                     }
 
                     if (isRefreshControlAfterSaveAddRecord()) {
-                        setIsAdd(false);
                         setPageIndex(0);
                         cbpMPEntryContent.PerformCallback('load');
                     }
@@ -208,9 +243,26 @@
                                 cbpMPEntryProcess.PerformCallback('save|' + $('#<%=hdnIsAdd.ClientID %>').val());
                         }
                     });
+                    $('#<%=btnMPEntryPropose.ClientID %>').click(function () {
+                        if ($('#<%=hdnIsAllowApprove.ClientID %>').val() == '1') {
+                            showToastConfirmation('Are You Sure Want To Approve?', function (result) {
+                                if (result) cbpMPEntryProcess.PerformCallback('approve');
+                            });
+                        }
+                        else {
+                            showToastConfirmation('Are You Sure Want To Propose?', function (result) {
+                                if (result) cbpMPEntryProcess.PerformCallback('propose');
+                            });
+                        }
+                    });
                     $('#<%=btnMPEntryVoid.ClientID %>').click(function () {
                         showToastConfirmation('Are You Sure Want To Void?', function (result) {
                             if (result) cbpMPEntryProcess.PerformCallback('void');
+                        });
+                    });
+                    $('#<%=btnMPEntryReopen.ClientID %>').click(function () {
+                        showToastConfirmation('Are You Sure Want To Reopen?', function (result) {
+                            if (result) cbpMPEntryProcess.PerformCallback('reopen');
                         });
                     });
                     $('#<%=btnMPEntryPrev.ClientID %>').click(function () {
@@ -224,114 +276,6 @@
                     if (typeof onSetIsAddToolbar == 'function')
                         onSetIsAddToolbar(getIsAdd());
                 });
-
-                //#region Popup List
-                //#region Paging
-                var pageCount = parseInt('<%=PageCount %>');
-                var rowCount = parseInt('<%=RowCount %>');
-                var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
-                var currPage = parseInt('<%=CurrPage %>');
-                function onPcSearchPopupShown() {
-                    cbpSearchList.PerformCallback('refresh');
-                    if (typeof onPopupListShown == 'function')
-                        onPopupListShown();
-                }
-
-                function onCbpViewEndCallback(s) {
-                    hideLoadingPanel();
-
-                    var param = s.cpResult.split('|');
-                    if (param[0] == 'refresh') {
-                        var pageCount = parseInt(param[1]);
-                        var rowCount = parseInt(param[2]);
-                        setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
-                        setPaging($("#paging"), pageCount, function (page) {
-                            cbpSearchList.PerformCallback('changepage|' + page);
-                            setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-                        });
-                    }
-                }
-                //#endregion
-
-                $(function () {
-                    registerCollapseExpandHandler();
-
-                    $('#btnPopupListClearFilter').click(function () {
-                        if (typeof onPopupBtnClearFilterClick == 'function')
-                            onPopupBtnClearFilterClick();
-                    });
-
-                    $('#btnPopupListSearch').click(function () {
-                        cbpSearchList.PerformCallback('refresh');
-                    });
-
-                    $('.txtPopupListSearch').keypress(function (e) {
-                        var code = (e.keyCode ? e.keyCode : e.which);
-                        if (code == 13) { // enter
-                            $('#btnPopupListSearch').click();
-                        }
-                    });
-
-                    $("#<%=rblExpandCollapse.ClientID%> input").change(function () {
-                        if ($(this).val() == '1') {
-                            $('.tblList tr:gt(0) td.tdExpand').each(function () {
-                                $tr = $(this).parent().next();
-                                if (!$tr.is(":visible")) {
-                                    $(this).find('.divExpand').html('-');
-                                    $tr.show('slow');
-                                }
-                            });
-                        }
-                        else {
-                            $('.tblList tr:gt(0) td.tdExpand').each(function () {
-                                $tr = $(this).parent().next();
-                                if ($tr.is(":visible")) {
-                                    $(this).find('.divExpand').html('+');
-                                    $tr.hide('slow');
-                                }
-                            });
-                        }
-                    });
-                });
-
-                $(function () {
-                    if (typeof isShowExpandCollapseSearch == 'function') {
-                        var isShow = isShowExpandCollapseSearch();
-                        if (!isShow)
-                            $('#divExpandCollapse').hide();
-                    }
-                });
-
-                $('.tblList > tbody > tr:gt(0):not(.trEmpty)').live('click', function () {
-                    if (!isHoverTdExpand) {
-                        var value = $(this).find('.hdnKeyField').val();
-                        pcSearchList.Hide();
-                        onLoadObject(value);
-                    }
-                });
-
-                var isHoverTdExpand = false;
-                $('.tblList tr:gt(0) td.tdExpand').live({
-                    mouseenter: function () { isHoverTdExpand = true; },
-                    mouseleave: function () { isHoverTdExpand = false; }
-                });
-
-                $('.tblList tr:gt(0) td.tdExpand').live('click', function () {
-                    $("#<%=rblExpandCollapse.ClientID%> input:checked").removeAttr('checked');
-                    $tr = $(this).parent();
-                    $trDetail = $tr.next();
-                    if (!$trDetail.is(":visible")) {
-                        $(this).find('.divExpand').html('-');
-                        $tr.addClass('expanded');
-                        $trDetail.show('slow');
-                    }
-                    else {
-                        $(this).find('.divExpand').html('+');
-                        $tr.removeClass('expanded');
-                        $trDetail.hide('fast');
-                    }
-                });
-                //#endregion
             </script>
             <asp:ContentPlaceHolder ID="plhHeader" runat="server">                
             </asp:ContentPlaceHolder>
@@ -405,6 +349,28 @@
                                 showToast('Void Failed', '');
                         }
                     }
+                    else if(result[0] == 'propose'){
+                        if(result[1] == 'success'){
+                            cbpMPEntryContent.PerformCallback('load');
+                        }
+                        else{
+                            if(result[2] != '')
+                                showToast('Propose Failed', 'Error Message : ' + result[2]);
+                            else
+                                showToast('Propose Failed', '');
+                        }
+                    }
+                    else if(result[0] == 'approve'){
+                        if(result[1] == 'success'){
+                            cbpMPEntryContent.PerformCallback('load');
+                        }
+                        else{
+                            if(result[2] != '')
+                                showToast('Approve Failed', 'Error Message : ' + result[2]);
+                            else
+                                showToast('Approve Failed', '');
+                        }
+                    }
                     else if(result[0] == 'customclick'){
                         if(result[1] == 'success'){
                             if (typeof onAfterCustomClickSuccess == 'function')
@@ -422,71 +388,15 @@
             </dxcp:ASPxCallbackPanel>
         </div>    
     </div>
-
-    <dxpc:ASPxPopupControl ID="pcSearchList" runat="server" ClientInstanceName="pcSearchList" EnableHierarchyRecreation="True"
-        FooterText="" HeaderText="List" Modal="True" AllowDragging="True" PopupHorizontalAlign="WindowCenter" Width="1100px" Height="550px"
-        PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
-        <ClientSideEvents Shown="function (s,e) { onPcSearchPopupShown(); }" 
-            Closing="function(s,e){  }" />
-        <ContentCollection>
-            <dxpc:PopupControlContentControl ID="PopupControlContentControl2" runat="server">
-                <div id="containerSearchResult" style="height:400px;overflow-y:auto;overflow-x:hidden;position:relative">
-                    
-                    <h4 class="h4expanded"><%=GetLabel("Search Information")%></h4>
-                    <div class="containerTblEntryContent">
-                        <asp:ContentPlaceHolder ID="plhPopupListFilter" runat="server">                
-                        </asp:ContentPlaceHolder>
-                        <table class="tblEntryContent">
-                            <colgroup>
-                                <col style="width:170px"/>
-                                <col style="width:300px"/>
-                            </colgroup>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>
-                                    <input type="button" id="btnPopupListSearch" value='<%=GetLabel("Cari") %>' />
-                                    <input type="button" id="btnPopupListClearFilter" value='<%=GetLabel("Hapus Pencarian") %>' />
-                                </td>
-                                <td>
-                                    <asp:RadioButtonList ID="rblExpandCollapse" runat="server" RepeatDirection="Horizontal">
-                                        <asp:ListItem Text="Expand All" Value="1"/>
-                                        <asp:ListItem Text="Collapse All" Value="2"/>
-                                    </asp:RadioButtonList>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </div>
-                    <dxcp:ASPxCallbackPanel ID="cbpSearchList" runat="server" Width="100%" ClientInstanceName="cbpSearchList"
-                        ShowLoadingPanel="false" OnCallback="cbpSearchList_Callback">
-                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                            EndCallback="function(s,e){ hideLoadingPanel(); }" />
-                        <PanelCollection>
-                            <dx:PanelContent ID="PanelContent2" runat="server">
-                                <asp:Panel runat="server" ID="pnlQuickMenuArea" Style="width: 100%; margin-left: auto; margin-right: auto">
-                                    <asp:ContentPlaceHolder ID="plhPopupListGridView" runat="server">                
-                                    </asp:ContentPlaceHolder>
-                                </asp:Panel>
-                            </dx:PanelContent>
-                        </PanelCollection>
-                    </dxcp:ASPxCallbackPanel>
-                    <div class="containerPaging">
-                        <div class="divInformationNumEntries" id="informationNumEntries"></div>
-                        <div class="wrapperPaging">
-                            <div id="paging"></div>
-                        </div>
-                    </div> 
-                </div>   
-            </dxpc:PopupControlContentControl>
-        </ContentCollection>
-    </dxpc:ASPxPopupControl> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhToolbar" runat="server"> 
     <ul id="ulMPTrxToolbar" runat="server">
         <li id="btnMPEntryNew" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/add.png")%>' alt="" /><div><%=GetLabel("New")%></div></li>
         <li id="btnMPEntrySave" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+        <li id="btnMPEntryPropose" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/nurse_outstanding.png")%>' alt="" /><div><%=GetProposeText()%></div></li>
         <li id="btnMPEntryVoid" runat="server" CRUDMode="V"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
+        <li id="btnMPEntryReopen" runat="server" CRUDMode="O"><img src='<%=ResolveUrl("~/Libs/Images/Icon/nurse_outstanding.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
         <li id="btnMPEntryPrev" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/prev.png")%>' alt="" /><div><%=GetLabel("Prev")%></div></li>
         <li id="btnMPEntryNext" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/next.png")%>' alt="" /><div><%=GetLabel("Next")%></div></li>
         <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">                

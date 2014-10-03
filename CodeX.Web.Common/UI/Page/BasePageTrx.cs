@@ -184,6 +184,16 @@ namespace CodeX.Web.Common.UI
                 result += string.Format("fail|{0}", errMessage);
         }
 
+        public void OnBtnReopenClick(ref string result)
+        {
+            result = "approve|";
+            string errMessage = "";
+            if (OnReopenRecord(ref errMessage))
+                result += "success";
+            else
+                result += string.Format("fail|{0}", errMessage);
+        }
+
         public void OnBtnCustomClick(ref string result, string type, ref string retval)
         {
             result = "customclick|";
@@ -425,6 +435,10 @@ namespace CodeX.Web.Common.UI
             return false;
         }
         protected virtual bool OnApproveRecord(ref string errMessage)
+        {
+            return false;
+        }
+        protected virtual bool OnReopenRecord(ref string errMessage)
         {
             return false;
         }

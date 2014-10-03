@@ -310,6 +310,42 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
         }
 
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemTransactionHdDao itemTransactionHdDao = new ItemTransactionHdDao(ctx);
+            ItemTransactionDtDao itemTransactionDtDao = new ItemTransactionDtDao(ctx);
+            try
+            {
+                ItemTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnAdjustmentID.Value));
+                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                itemTransactionHdDao.Update(itemTransactionHd);
+
+                string filterExpressionPurchaseOrderHd = String.Format("TransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnAdjustmentID.Value, Constant.TransactionStatus.VOID);
+                List<ItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetItemTransactionDtList(filterExpressionPurchaseOrderHd, ctx);
+                foreach (ItemTransactionDt itemTransactionDt in lstItemTransactionDt)
+                {
+                    itemTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                    itemTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemTransactionDtDao.Update(itemTransactionDt);
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
         protected override bool OnVoidRecord(ref string errMessage)
         {
             try

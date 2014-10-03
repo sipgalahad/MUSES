@@ -767,6 +767,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Location
+        public static Location GetLocation(Int32 LocationID)
+        {
+            return new LocationDao().Get(LocationID);
+        }
+        public static int InsertLocation(Location record)
+        {
+            return new LocationDao().Insert(record);
+        }
+        public static int UpdateLocation(Location record)
+        {
+            return new LocationDao().Update(record);
+        }
+        public static int DeleteLocation(Int32 LocationID)
+        {
+            return new LocationDao().Delete(LocationID);
+        }
+        public static List<Location> GetLocationList(string filterExpression)
+        {
+            List<Location> result = new List<Location>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Location));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Location)helper.IDataReaderToObject(reader, new Location()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PeriodAdmission
         public static PeriodAdmission GetPeriodAdmission(Int32 PeriodAdmissionID)
         {

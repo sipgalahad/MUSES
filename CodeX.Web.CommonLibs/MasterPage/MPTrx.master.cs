@@ -60,7 +60,6 @@ namespace CodeX.Web.CommonLibs.MasterPage
         {
             if (!Page.IsPostBack)
             {
-                RowCountPerPage = Constant.GridViewPageSize.GRID_POPUP_LIST;
                 bool isAdd = !BasePageEntry.IsLoadFirstRecord;
                 hdnIsAdd.Value = isAdd ? "1" : "0";
                 int rowCount = BasePageEntry.OnGetRowCount();
@@ -95,7 +94,22 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 //if (!IsAllowPrint) CRUDMode = CRUDMode.Replace("P", "");
                 hdnIsAllowEdit.Value = CRUDMode.Contains("U") ? "1" : "0";
                 hdnIsAllowNextPrev.Value = IsAllowNextPrev ? "1" : "0";
-                hdnIsAllowVoid.Value = CRUDMode.Contains("V") ? "1" : "0";
+                hdnIsAllowVoid.Value = CRUDMode.Contains("D") ? "1" : "0";
+                hdnIsAllowReopen.Value = CRUDMode.Contains("O") ? "1" : "0";
+
+                if (CRUDMode.Contains('A'))
+                {
+                    hdnProposeText.Value = GetLabel("Approve");
+                    hdnIsAllowApprove.Value = "1";
+                }
+                else if (CRUDMode.Contains('P'))
+                {
+                    hdnProposeText.Value = GetLabel("Propose");
+                    hdnIsAllowApprove.Value = "0";
+                    hdnIsAllowPropose.Value = "1";
+                }
+                else
+                    hdnIsAllowPropose.Value = "0";
 
                 foreach (Control c in ulMPTrxToolbar.Controls)
                 {
@@ -116,6 +130,8 @@ namespace CodeX.Web.CommonLibs.MasterPage
                         }
                     }
                 }
+                if(!CRUDMode.Contains("A") && !CRUDMode.Contains("P"))
+                    btnMPEntryPropose.Style.Add("display", "none");
 
                 if (rowCount < 1)
                 {
@@ -123,20 +139,39 @@ namespace CodeX.Web.CommonLibs.MasterPage
                     btnMPEntryPrev.Style.Add("display", "none");
                 }
                 if (isAdd)
+                {
                     btnMPEntryVoid.Style.Add("display", "none");
+                    btnMPEntryPropose.Style.Add("display", "none");
+                    btnMPEntryReopen.Style.Add("display", "none");
+                }
                 else
                 {
                     if (!CRUDMode.Contains("U"))
                         btnMPEntrySave.Style.Add("display", "none");
                     if (BasePageEntry.isShowWatermark)
+                    {
                         hdnWatermark.Value = "1|" + BasePageEntry.watermarkText;
+                        btnMPEntryReopen.Style.Remove("display");
+                    }
                     else
+                    {
                         hdnWatermark.Value = "0";
+                        btnMPEntryReopen.Style.Add("display", "none");
+                    }
                     hdnPageIndex.Value = BasePageEntry.PageIndex.ToString();
                 }
 
-                BasePageEntry.BindSearchList(CurrPage, true, ref PageCount, ref RowCount);
             }
+        }
+
+        protected string OnGetMenuCode()
+        {
+            return BasePageEntry.OnGetMenuCode();
+        }
+
+        protected string GetProposeText()
+        {
+            return hdnProposeText.Value;
         }
 
         private void SetToolbarButtonVisibility(HtmlGenericControl li, string CRUDMode)
@@ -199,6 +234,12 @@ namespace CodeX.Web.CommonLibs.MasterPage
             }
             else if (param[0] == "void")
                 BasePageEntry.OnBtnVoidClick(ref result);
+            else if (param[0] == "approve")
+                BasePageEntry.OnBtnApproveClick(ref result);
+            else if (param[0] == "propose")
+                BasePageEntry.OnBtnProposeClick(ref result);
+            else if (param[0] == "reopen")
+                BasePageEntry.OnBtnReopenClick(ref result);
             else if (param[0] == "customclick")
             {
                 BasePageEntry.OnBtnCustomClick(ref result, param[1], ref retval);
@@ -208,35 +249,5 @@ namespace CodeX.Web.CommonLibs.MasterPage
             panel.JSProperties["cpResult"] = result;
             panel.JSProperties["cpRetval"] = retval;
         }
-
-        #region Popup List
-        protected int PageCount = 0;
-        protected int RowCount = 0;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;
-        protected void cbpSearchList_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BasePageEntry.BindSearchList(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BasePageEntry.BindSearchList(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-        }
-        #endregion
     }
 }
