@@ -16,9 +16,16 @@
         }
 
         $('.T001').live('click', function () {
-            var id = 7 + '|' + 2 + '|' + 0;
-            var url = ResolveUrl('~/Program/WeeklySchedule/ClassMeetingPageLauncher.aspx?id=' + id);
-            openWindowPopup(url, 'ClassMeeting', '1300', '650');
+            //var id = 7 + '|' + 2 + '|' + 0;
+            //var url = ResolveUrl('~/Program/WeeklySchedule/ClassMeetingPageLauncher.aspx?id=' + id);
+            //openWindowPopup(url, 'ClassMeeting', '1300', '650');
+            var classSubjectID = $(this).find('.tdClassSubjectID').html();
+            var classScheduleID = $(this).find('.tdClassScheduleID').html();
+            if (classScheduleID != '') {
+                var id = classSubjectID + '|' + classScheduleID;
+                var url = ResolveUrl("~/Program/WeeklySchedule/ClassMeetingHistoryCtl.ascx");
+                openUserControlPopup(url, id, 'Riwayat Pertemuan', 1000, 550);
+            }
         });
     </script>
     <table>
@@ -67,6 +74,8 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
+                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
                                                 <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
@@ -83,6 +92,8 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
+                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
                                                 <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
@@ -99,6 +110,8 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
+                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
                                                 <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
@@ -115,6 +128,8 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
+                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
                                                 <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
@@ -131,6 +146,8 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
+                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
                                                 <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>
@@ -147,6 +164,8 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
+                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
+                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
                                                 <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
                                             </tr>
                                         </ItemTemplate>

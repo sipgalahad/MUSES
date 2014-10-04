@@ -50,13 +50,12 @@ namespace CodeX.Web.Common
                         if (HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] != null)
                         {
                             string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"].Split('|');
-                            ClassSubjectModel classSubject = new ClassSubjectModel();
-                            classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
-                            classSubject.ClassScheduleID = Convert.ToInt32(temp[1]);
-                            classSubject.ClassMeetingID = Convert.ToInt32(temp[2]);
-
-                            HttpContext.Current.Session["_ClassSubject"] = classSubject;
-                            return classSubject;
+                            ClassSubjectModel entity = new ClassSubjectModel();
+                            entity.ClassSubjectID = Convert.ToInt32(temp[0]);
+                            entity.ClassScheduleID = Convert.ToInt32(temp[1]);
+                            entity.ClassMeetingID = Convert.ToInt32(temp[2]);
+                            HttpContext.Current.Session["_ClassSubject"] = entity;
+                            return entity;
                         }
                     }
                     return null;
@@ -65,18 +64,13 @@ namespace CodeX.Web.Common
             }
             set
             {
-                if (HttpContext.Current.Request.Cookies["Muses"] == null || HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] == null)
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
                 {
-                    HttpCookie userLoginCookie = new HttpCookie("Muses");
-                    userLoginCookie["_ClassSubject"] = string.Format("{0}|{1}{2}", value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID);
-                    userLoginCookie.Expires = DateTime.Now.AddDays(1d);
-                    HttpContext.Current.Response.Cookies.Add(userLoginCookie);
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_ClassSubject"] = string.Format("{0}|{1}|{2}", value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID);
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
                 }
-                else
-                {
-                    HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] = string.Format("{0}|{1}|{2}", value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID);
-                    HttpContext.Current.Request.Cookies["Muses"].Expires = DateTime.Now.AddDays(1d);
-                }
+
                 HttpContext.Current.Session["_ClassSubject"] = value;
             }
         }

@@ -102,8 +102,14 @@ namespace CodeX.Muses.Web.TeacherPage.Program
                 DailyScheduleTypeDt entityTypeDt = e.Item.DataItem as DailyScheduleTypeDt;
                 vClassSchedule entity = lstClassSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
                 HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
+                HtmlTableCell tdClassSubjectID = (HtmlTableCell)e.Item.FindControl("tdClassSubjectID");
+                HtmlTableCell tdClassScheduleID = (HtmlTableCell)e.Item.FindControl("tdClassScheduleID");
                 if (entity != null)
+                {
+                    tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
+                    tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
+                }
                 else
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
             }
