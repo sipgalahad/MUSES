@@ -10,6 +10,6 @@
 namespace CodeX.Muses.Web.TeacherPage.Program {
     
     
-    public partial class ClassSubjectEntry {
+    public partial class ClassAttendanceEntry {
     }
 }

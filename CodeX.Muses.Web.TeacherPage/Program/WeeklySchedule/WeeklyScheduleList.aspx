@@ -16,7 +16,7 @@
         }
 
         $('.T001').live('click', function () {
-            var id = 7 + '|' + 0;
+            var id = 7 + '|' + 2 + '|' + 0;
             var url = ResolveUrl('~/Program/WeeklySchedule/ClassMeetingPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'ClassMeeting', '1300', '650');
         });

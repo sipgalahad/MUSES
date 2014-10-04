@@ -14,11 +14,11 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.TeacherPage.Program
 {
-    public partial class ClassSubjectEntry : BasePageTrx
+    public partial class ClassAttendanceEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.TeacherPage.WS_CLASS_SUBJECT;
+            return Constant.MenuCode.TeacherPage.WS_CLASS_ATTENDANCE;
         }
         protected override void InitializeDataControl()
         {

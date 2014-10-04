@@ -268,7 +268,7 @@ namespace CodeX.Common
                 public const string WEEKLY_SCHEDULE = "TP010100";
 
                 public const string CLASS_MEETING_PAGE = "TP99010000";
-                public const string WS_CLASS_SUBJECT = "TP99010101";
+                public const string WS_CLASS_MEETING = "TP99010101";
                 public const string WS_CLASS_ATTENDANCE = "TP99010102";
                 public const string WS_CLASS_TASK = "TP99010103";
 

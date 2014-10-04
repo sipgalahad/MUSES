@@ -9,6 +9,30 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region vClassMeeting
+        public static List<vClassMeeting> GetvClassMeetingList(string filterExpression)
+        {
+            List<vClassMeeting> result = new List<vClassMeeting>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassMeeting));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassMeeting)helper.IDataReaderToObject(reader, new vClassMeeting()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassSchedule
         public static List<vClassSchedule> GetvClassScheduleList(string filterExpression)
         {

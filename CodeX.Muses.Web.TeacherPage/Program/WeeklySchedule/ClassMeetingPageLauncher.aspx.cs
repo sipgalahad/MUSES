@@ -17,7 +17,8 @@ namespace CodeX.Muses.Web.TeacherPage.Program
             string[] temp = Request.QueryString["id"].Split('|');
             ClassSubjectModel classSubject = new ClassSubjectModel();
             classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
-            classSubject.ClassMeetingID = Convert.ToInt32(temp[1]);
+            classSubject.ClassScheduleID = Convert.ToInt32(temp[1]);
+            classSubject.ClassMeetingID = Convert.ToInt32(temp[2]);
             AppSession.ClassSubject = classSubject;
 
             string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.TeacherPage.CLASS_MEETING_PAGE);

@@ -6,6 +6,98 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vClassMeeting
+    [Serializable]
+    [Table(Name = "vClassMeeting")]
+    public class vClassMeeting
+    {
+        private Int32 _ClassMeetingID;
+        private Int32 _ClassSubjectID;
+        private DateTime _MeetingDate;
+        private String _StartTime;
+        private String _EndTime;
+        private Int32 _RoomID;
+        private String _RoomName;
+        private Int32 _TeacherID;
+        private String _TeacherName;
+        private String _Remarks;
+        private String _NextMeetingRemarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ClassMeetingID", DataType = "Int32")]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "MeetingDate", DataType = "DateTime")]
+        public DateTime MeetingDate
+        {
+            get { return _MeetingDate; }
+            set { _MeetingDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "NextMeetingRemarks", DataType = "String")]
+        public String NextMeetingRemarks
+        {
+            get { return _NextMeetingRemarks; }
+            set { _NextMeetingRemarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vClassSchedule
     [Serializable]
     [Table(Name = "vClassSchedule")]

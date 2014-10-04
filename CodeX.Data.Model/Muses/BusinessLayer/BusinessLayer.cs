@@ -9,6 +9,62 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region ClassMeeting
+        public static ClassMeeting GetClassMeeting(Int32 ClassMeetingID)
+        {
+            return new ClassMeetingDao().Get(ClassMeetingID);
+        }
+        public static int InsertClassMeeting(ClassMeeting record)
+        {
+            return new ClassMeetingDao().Insert(record);
+        }
+        public static int UpdateClassMeeting(ClassMeeting record)
+        {
+            return new ClassMeetingDao().Update(record);
+        }
+        public static int DeleteClassMeeting(Int32 ClassMeetingID)
+        {
+            return new ClassMeetingDao().Delete(ClassMeetingID);
+        }
+        public static List<ClassMeeting> GetClassMeetingList(string filterExpression)
+        {
+            List<ClassMeeting> result = new List<ClassMeeting>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeeting));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassMeeting)helper.IDataReaderToObject(reader, new ClassMeeting()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetClassMeetingMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeeting));
+                ctx.CommandText = helper.SelectMaxColumn("ClassMeetingID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassSchedule
         public static ClassSchedule GetClassSchedule(Int32 ClassScheduleID)
         {

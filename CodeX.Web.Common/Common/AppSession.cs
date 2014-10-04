@@ -52,7 +52,8 @@ namespace CodeX.Web.Common
                             string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"].Split('|');
                             ClassSubjectModel classSubject = new ClassSubjectModel();
                             classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
-                            classSubject.ClassMeetingID = Convert.ToInt32(temp[1]);
+                            classSubject.ClassScheduleID = Convert.ToInt32(temp[1]);
+                            classSubject.ClassMeetingID = Convert.ToInt32(temp[2]);
 
                             HttpContext.Current.Session["_ClassSubject"] = classSubject;
                             return classSubject;
@@ -67,13 +68,13 @@ namespace CodeX.Web.Common
                 if (HttpContext.Current.Request.Cookies["Muses"] == null || HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] == null)
                 {
                     HttpCookie userLoginCookie = new HttpCookie("Muses");
-                    userLoginCookie["_ClassSubject"] = string.Format("{0}|{1}", value.ClassSubjectID, value.ClassMeetingID);
+                    userLoginCookie["_ClassSubject"] = string.Format("{0}|{1}{2}", value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID);
                     userLoginCookie.Expires = DateTime.Now.AddDays(1d);
                     HttpContext.Current.Response.Cookies.Add(userLoginCookie);
                 }
                 else
                 {
-                    HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] = string.Format("{0}|{1}", value.ClassSubjectID, value.ClassMeetingID);
+                    HttpContext.Current.Request.Cookies["Muses"]["_ClassSubject"] = string.Format("{0}|{1}|{2}", value.ClassSubjectID, value.ClassScheduleID, value.ClassMeetingID);
                     HttpContext.Current.Request.Cookies["Muses"].Expires = DateTime.Now.AddDays(1d);
                 }
                 HttpContext.Current.Session["_ClassSubject"] = value;

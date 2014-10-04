@@ -7,6 +7,154 @@ using System.Data;
 
 namespace CodeX.Data.Model
 {
+    #region ClassMeeting
+    [Serializable]
+    [Table(Name = "ClassMeeting")]
+    public class ClassMeeting : DbDataModel
+    {
+        private Int32 _ClassMeetingID;
+        private Int32 _ClassSubjectID;
+        private DateTime _MeetingDate;
+        private String _StartTime;
+        private String _EndTime;
+        private Int32 _RoomID;
+        private Int32 _TeacherID;
+        private String _Remarks;
+        private String _NextMeetingRemarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ClassMeetingID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "MeetingDate", DataType = "DateTime")]
+        public DateTime MeetingDate
+        {
+            get { return _MeetingDate; }
+            set { _MeetingDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "NextMeetingRemarks", DataType = "String", IsNullable = true)]
+        public String NextMeetingRemarks
+        {
+            get { return _NextMeetingRemarks; }
+            set { _NextMeetingRemarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ClassMeetingDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassMeeting));
+        private bool _isAuditLog = false;
+        private const string p_ClassMeetingID = "@p_ClassMeetingID";
+        public ClassMeetingDao() { }
+        public ClassMeetingDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassMeeting Get(Int32 ClassMeetingID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassMeetingID, ClassMeetingID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassMeeting)_helper.DataRowToObject(row, new ClassMeeting());
+        }
+        public int Insert(ClassMeeting record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassMeeting record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassMeetingID)
+        {
+            ClassMeeting record;
+            if (_ctx.Transaction == null)
+                record = new ClassMeetingDao().Get(ClassMeetingID);
+            else
+                record = Get(ClassMeetingID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassSchedule
     [Serializable]
     [Table(Name = "ClassSchedule")]

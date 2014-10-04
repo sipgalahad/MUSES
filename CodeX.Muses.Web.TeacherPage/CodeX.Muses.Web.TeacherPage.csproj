@@ -95,7 +95,8 @@
     <Content Include="MasterPage\MPClassSubjectPageTrxVisit.master" />
     <Content Include="MasterPage\ClassSubjectBannerDtCtl.ascx" />
     <Content Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx" />
-    <Content Include="Program\WeeklySchedule\ClassSubject\ClassSubjectEntry.aspx" />
+    <Content Include="Program\WeeklySchedule\ClassMeeting\ClassMeetingEntry.aspx" />
+    <Content Include="Program\WeeklySchedule\ClassAttendance\ClassAttendanceEntry.aspx" />
     <Content Include="Program\WeeklySchedule\WeeklyScheduleList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -288,12 +289,19 @@
     <Compile Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx.designer.cs">
       <DependentUpon>ClassMeetingPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\WeeklySchedule\ClassSubject\ClassSubjectEntry.aspx.cs">
-      <DependentUpon>ClassSubjectEntry.aspx</DependentUpon>
+    <Compile Include="Program\WeeklySchedule\ClassMeeting\ClassMeetingEntry.aspx.cs">
+      <DependentUpon>ClassMeetingEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\WeeklySchedule\ClassSubject\ClassSubjectEntry.aspx.designer.cs">
-      <DependentUpon>ClassSubjectEntry.aspx</DependentUpon>
+    <Compile Include="Program\WeeklySchedule\ClassMeeting\ClassMeetingEntry.aspx.designer.cs">
+      <DependentUpon>ClassMeetingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassAttendance\ClassAttendanceEntry.aspx.cs">
+      <DependentUpon>ClassAttendanceEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassAttendance\ClassAttendanceEntry.aspx.designer.cs">
+      <DependentUpon>ClassAttendanceEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\WeeklySchedule\WeeklyScheduleList.aspx.cs">
       <DependentUpon>WeeklyScheduleList.aspx</DependentUpon>
