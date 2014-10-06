@@ -7,6 +7,180 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region vDirectPurchaseDt
+    public partial class vDirectPurchaseDt
+    {
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal total = _Quantity * _UnitPrice;
+                total = total - (total * _DiscountPercentage / 100);
+                return total;
+            }
+        }
+
+        public Decimal CustomDiscount
+        {
+            get
+            {
+                return (_Quantity * _UnitPrice) * _DiscountPercentage / 100;
+            }
+        }
+
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N") + " / " + _ItemUnit;
+            }
+        }
+
+        public Decimal CustomTotalDiscount
+        {
+            get
+            {
+                return (Quantity * UnitPrice * ConversionFactor) - CustomSubTotal;
+            }
+        }
+        //public String CustomQtyRemaining
+        //{
+        //    get
+        //    {
+        //        return string.Format("{0:N}", (_Quantity - _ReceivedQuantity));
+        //    }
+        //}
+    }
+    #endregion
+    #region vDirectPurchaseHd
+    public partial class vDirectPurchaseHd
+    {
+        public string PurchaseDateInString
+        {
+            get
+            {
+                return _PurchaseDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string ReferenceDateInString
+        {
+            get
+            {
+                return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region vDirectPurchaseReturnDt
+    public partial class vDirectPurchaseReturnDt
+    {
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+        public Decimal CustomDiscount
+        {
+            get
+            {
+                return (_Quantity * _UnitPrice) * _DiscountPercentage1 / 100;
+            }
+        }
+
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                // Decimal totalAfterDisc1 = (Quantity * UnitPrice * ConversionFactor) - ((Quantity * UnitPrice * ConversionFactor) *
+                //_DiscountPercentage1 / 100);
+                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
+               _DiscountPercentage1 / 100);
+                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
+                return totalAfterDisc2;
+            }
+        }
+
+        public Decimal CustomLineAmount
+        {
+            get
+            {
+                return _Quantity * _UnitPrice;
+            }
+        }
+
+        public Decimal CustomTotalDiscount
+        {
+            get
+            {
+                //return (Quantity * UnitPrice * ConversionFactor) - CustomSubTotal;
+                return (Quantity * UnitPrice) - CustomSubTotal;
+            }
+        }
+
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N") + " / " + _ItemUnit;
+            }
+        }
+    }
+    #endregion
+    #region vDirectPurchaseReturnHd
+    public partial class vDirectPurchaseReturnHd
+    {
+        public string ReturnDateInString
+        {
+            get
+            {
+                return _ReturnDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string ReferenceDateInString
+        {
+            get
+            {
+                return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vItemBalance
     public partial class vItemBalance
     {
@@ -22,6 +196,173 @@ namespace CodeX.Data.Model
         public String CustomEndingBalance
         {
             get { return string.Format("{0:N} {1}", QuantityEND, _ItemUnit); }
+        }
+    }
+    #endregion
+    #region vItemBalanceInventory
+    public partial class vItemBalanceInventory
+    {
+        public String CustomMinimum
+        {
+            get { return string.Format("{0:N} {1}", QuantityMIN, _ItemUnit); }
+        }
+
+        public String CustomMaximum
+        {
+            get { return string.Format("{0:N} {1}", QuantityMAX, _ItemUnit); }
+        }
+        public String CustomEndingBalance
+        {
+            get { return string.Format("{0:N} {1}", QuantityEND, _ItemUnit); }
+        }
+        public String CustomQtyOnOrderItemRequest
+        {
+            get { return string.Format("{0:N} {1}", ItemRequestQtyOnOrder, _ItemUnit); }
+        }
+        public String CustomQtyOnOrderPurchaseRequest
+        {
+            get { return string.Format("{0:N} {1}", PurchaseRequestQtyOnOrder, _ItemUnit); }
+        }
+        public String CustomQtyOnOrderPurchaseOrder
+        {
+            get { return string.Format("{0:N} {1}", PurchaseOrderQtyOnOrder, _ItemUnit); }
+        }
+        public String CustomQtyOnOrderItemDistribution
+        {
+            get { return string.Format("{0:N} {1}", ItemDistributionQtyOnOrder, _ItemUnit); }
+        }
+    }
+    #endregion
+    #region vItemDistributionDt
+    public partial class vItemDistributionDt
+    {
+        public String DeliveryDateInString
+        {
+            get { return _DeliveryDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.DistributionStatus.OPEN);
+            }
+        }
+
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+
+        public decimal CustomTotal
+        {
+            get
+            {
+                return (_Quantity * _ConversionFactor);
+            }
+        }
+
+        public String CustomItemDistribution
+        {
+            get
+            {
+                return string.Format("{0:N} {1}", CustomTotal, _BaseUnit);
+            }
+        }
+    }
+    #endregion
+    #region vItemDistributionHd
+    public partial class vItemDistributionHd
+    {
+        public string DeliveryDateInString
+        {
+            get
+            {
+                return _DeliveryDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string DeliveryDateTimeInString
+        {
+            get
+            {
+                return _DeliveryDate.ToString(Constant.FormatString.DATE_FORMAT) + " " + _DeliveryTime;
+            }
+        }
+    }
+    #endregion
+    #region vItemRequestDt
+    public partial class vItemRequestDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+        public String CustomEndingBalance
+        {
+            get
+            {
+                if (_EndingBalance == null) return 0 + " " + _BaseUnit;
+                else return _EndingBalance + " " + _BaseUnit;
+            }
+        }
+
+        public String CustomItemUnit
+        {
+            get
+            {
+                return _Quantity + " " + _ItemUnit;
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+
+        public decimal CustomTotal
+        {
+            get
+            {
+                return (_Quantity * _ConversionFactor);
+            }
+        }
+
+        public String CustomItemRequest
+        {
+            get
+            {
+                return string.Format("{0:N} {1}", CustomTotal, _BaseUnit);
+            }
+        }
+    }
+    #endregion
+    #region vItemRequestHd
+    public partial class vItemRequestHd
+    {
+        public string TransactionDateInString
+        {
+            get
+            {
+                return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
         }
     }
     #endregion
@@ -182,6 +523,346 @@ namespace CodeX.Data.Model
             get
             {
                 return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseOrderDt
+    public partial class vPurchaseOrderDt
+    {
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
+               _DiscountPercentage1 / 100);
+                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
+                return totalAfterDisc2;
+            }
+        }
+
+        public Decimal CustomTotal
+        {
+            get
+            {
+                return _Quantity * _ConversionFactor;
+            }
+        }
+
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _PurchaseUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+
+        public String CustomPurchaseUnit
+        {
+            get
+            {
+                return _Quantity + " " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomQtyRemaining
+        {
+            get
+            {
+                return string.Format("{0:N}", (_Quantity - _ReceivedQuantity));
+            }
+        }
+
+        public String OrderDateInString
+        {
+            get { return _OrderDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public Boolean IsReceived
+        {
+            get { return _ReceivedInformation != "" ? true : false; }
+        }
+    }
+    #endregion
+    #region vPurchaseOrderDtOutStanding
+    public partial class vPurchaseOrderDtOutStanding
+    {
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal totalAfterDisc1 = (Quantity * UnitPrice * ConversionFactor) - ((Quantity * UnitPrice * ConversionFactor) *
+               _DiscountPercentage1 / 100);
+                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
+                return totalAfterDisc2;
+            }
+        }
+
+        public Decimal CustomTotalDiscount
+        {
+            get
+            {
+                return (Quantity * UnitPrice * ConversionFactor) - CustomSubTotal;
+            }
+        }
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _BaseUnit;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseOrderHd
+    public partial class vPurchaseOrderHd
+    {
+        public string OrderDateInString
+        {
+            get
+            {
+                return _OrderDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string DeliveryDateInString
+        {
+            get
+            {
+                return _DeliveryDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string ExpiredDateInString
+        {
+            get
+            {
+                return _POExpiredDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public Decimal cfTransactionAmount
+        {
+            get
+            {
+                decimal finalDisc = (_TransactionAmount * _FinalDiscount / 100);
+                decimal PPN = (_VATPercentage / 100) * (_TransactionAmount - finalDisc);
+                decimal total = _TransactionAmount - finalDisc + PPN - _DownPaymentAmount;
+                return total;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseRequestDt
+    public partial class vPurchaseRequestDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public Boolean IsApproved
+        {
+            get { return _GCItemDetailStatus == Constant.TransactionStatus.APPROVED; }
+        }
+
+        public String CustomEndingBalance
+        {
+            get
+            {
+                return _EndingBalance / _ConversionFactor + " " + _PurchaseUnit;
+            }
+        }
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _PurchaseUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+
+        public String CustomPurchaseUnit
+        {
+            get
+            {
+                return _Quantity + " " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _PurchaseUnit;
+            }
+        }
+
+        public decimal CustomTotal
+        {
+            get
+            {
+                return _Quantity * _ConversionFactor;
+            }
+        }
+
+        public decimal CustomTotalPrice
+        {
+            get
+            {
+                return _Quantity * _UnitPrice;
+            }
+        }
+
+        public String CustomPurchaseRequest
+        {
+            get
+            {
+                return string.Format("{0:N} {1}", CustomTotal, _BaseUnit);
+            }
+        }
+
+        public string TransactionDateInString
+        {
+            get
+            {
+                return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string ItemNameCatalog
+        {
+            get
+            {
+                if (_SupplierItemName != "")
+                    return string.Format("{0} / {1}", _ItemName1, _SupplierItemName);
+                return _ItemName1;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseRequestDtOutstanding
+    public partial class vPurchaseRequestDtOutstanding
+    {
+        public String cfSupplierItem
+        {
+            get
+            {
+                if (_SupplierItemName != "" && _SupplierItemCode != "")
+                    return string.Format("{0} ({1})", _SupplierItemName, _SupplierItemCode);
+                if (_SupplierItemName != "")
+                    return _SupplierItemName;
+                return _SupplierItemCode;
+            }
+        }
+        public String CustomQtyOnOrder
+        {
+            get
+            {
+                return string.Format("{0:N} {1}", _QtyOnOrder, _BaseUnit);
+            }
+        }
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+        public String CustomEndingBalance
+        {
+            get
+            {
+                if (_QuantityEND == null) return 0 + " " + _BaseUnit;
+                else return _QuantityEND + " " + _BaseUnit;
+            }
+        }
+        public String CustomConversion
+        {
+            get
+            {
+                if (!_PurchaseUnit.Equals(_BaseUnit))
+                    return "1.00 " + _PurchaseUnit + " = " + ConversionFactor + " " + _BaseUnit;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public String CustomPurchaseUnit
+        {
+            get
+            {
+                return _Quantity + " " + _PurchaseUnit;
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice + " / " + _BaseUnit;
+            }
+        }
+
+        public decimal CustomTotal
+        {
+            get
+            {
+                return _Quantity * _ConversionFactor;
+            }
+        }
+
+        public decimal CustomTotalPrice
+        {
+            get
+            {
+                return _Quantity * _UnitPrice;
+            }
+        }
+
+        public String CustomPurchaseRequest
+        {
+            get
+            {
+                return string.Format("{0:N} {1}", CustomTotal, _BaseUnit);
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseRequestHd
+    public partial class vPurchaseRequestHd
+    {
+        public string TransactionDateInString
+        {
+            get
+            {
+                return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT);
             }
         }
     }

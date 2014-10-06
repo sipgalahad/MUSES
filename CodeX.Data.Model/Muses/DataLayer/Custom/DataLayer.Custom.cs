@@ -15,4 +15,43 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ItemRequestHd
+    public partial class ItemRequestHd
+    {
+        public string TransactionDateInString
+        {
+            get
+            {
+                return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region PurchaseRequestHd
+    public partial class PurchaseRequestHd
+    {
+        public string TransactionDateInString
+        {
+            get
+            {
+                return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region PurchaseOrderDt
+    public partial class PurchaseOrderDt
+    {
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
+               _DiscountPercentage1 / 100);
+                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
+                return totalAfterDisc2;
+            }
+        }
+    }
+    #endregion
 }

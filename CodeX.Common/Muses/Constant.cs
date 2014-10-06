@@ -24,12 +24,20 @@ namespace CodeX.Common
         }
         #endregion
 
+        #region Site Parameter
+        public static class SiteParameter
+        {
+            public const string IS_ITEM_DISTRIBUTION_AUTO_RECEIVED = "IM0002";
+        }
+        #endregion
+
         #region Standard Code
         public static class StandardCode
         {
             public const string SCHOOL_PERIOD_STATUS = "MS001";
             public const string SCHOOL_GRADE = "MS003";
             public const string SCHOOL_MAJOR = "MS004";
+            public const string STUDENT_ATTENDANCE = "MS005";
             public const string STUDENT_STATUS = "MS006";
             public const string SCHOOL_PERIOD_SCHEDULE_TYPE = "MS007";
             public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
@@ -79,6 +87,11 @@ namespace CodeX.Common
             public const string START = "MS001^002";
             public const string END = "MS001^003";
             public const string VOID = "MS001^999";
+        }
+
+        public static class ItemType
+        {
+            public const string PRODUCT = "X001^001";
         }
 
         public static class ControlType
@@ -302,6 +315,20 @@ namespace CodeX.Common
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";
+        }
+        #endregion
+
+        #region Setting Parameter
+        public static partial class SettingParameter
+        {
+            public const string DEFAULT_MARKUP_MARGIN = "MSSFN0001";
+            public const string VAT_PERCENTAGE = "MSSFN0002";
+
+            public const string IS_CONFIRM_PURCHASE_RECEIVE = "MSSIM0002";
+            public const string DEFAULT_CYCLE_COUNT_TYPE = "MSSIM0003";
+            public const string RANGE_EXPIRED_DATE = "MSSIM0004";
+            public const string IS_DISCOUNT_APPLIED_TO_AVERAGE_PRICE = "MSSIM0005";
+            public const string IS_DISCOUNT_APPLIED_TO_UNIT_PRICE = "MSSIM0006";
         }
         #endregion
     }

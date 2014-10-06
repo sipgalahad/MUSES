@@ -82,6 +82,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ClassStudentDao entityDao = new ClassStudentDao(ctx);
+            StudentDao entityStudentDao = new StudentDao(ctx);
             bool result = false;
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
             try
@@ -93,6 +94,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.SchoolClassID = SchoolClassID;
                     entity.StudentID = Convert.ToInt32(studentID);
                     entityDao.Insert(entity);
+
+                    Student student = entityStudentDao.Get(entity.StudentID);
+                    student.SchoolClassID = entity.SchoolClassID;
+                    student.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityStudentDao.Update(student);
                 }
                 ctx.CommitTransaction();
                 result = true;
