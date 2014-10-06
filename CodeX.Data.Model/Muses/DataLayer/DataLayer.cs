@@ -331,6 +331,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassMeetingAttendance
+    [Serializable]
+    [Table(Name = "ClassMeetingAttendance")]
+    public class ClassMeetingAttendance : DbDataModel
+    {
+        private Int32 _ClassMeetingID;
+        private Int32 _StudentID;
+        private String _GCAttendanceStatus;
+
+        [Column(Name = "ClassMeetingID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+    }
+
+    public class ClassMeetingAttendanceDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassMeetingAttendance));
+        private bool _isAuditLog = false;
+        private const string p_ClassMeetingID = "@p_ClassMeetingID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassMeetingAttendanceDao() { }
+        public ClassMeetingAttendanceDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassMeetingAttendance Get(Int32 ClassMeetingID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassMeetingID, ClassMeetingID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassMeetingAttendance)_helper.DataRowToObject(row, new ClassMeetingAttendance());
+        }
+        public int Insert(ClassMeetingAttendance record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassMeetingAttendance record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassMeetingID, Int32 StudentID)
+        {
+            ClassMeetingAttendance record;
+            if (_ctx.Transaction == null)
+                record = new ClassMeetingAttendanceDao().Get(ClassMeetingID, StudentID);
+            else
+                record = Get(ClassMeetingID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassSchedule
     [Serializable]
     [Table(Name = "ClassSchedule")]

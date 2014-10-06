@@ -29,6 +29,8 @@ namespace CodeX.Muses.Web.TeacherPage.Program
             rptHeader.DataSource = lstAttendanceStatus;
             rptHeader.DataBind();
 
+            lstClassMeetingAttendance = BusinessLayer.GetClassMeetingAttendanceList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID));
+
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
@@ -43,15 +45,81 @@ namespace CodeX.Muses.Web.TeacherPage.Program
                 Repeater rptStudentAttendance = (Repeater)e.Item.FindControl("rptStudentAttendance");
                 rptStudentAttendance.DataSource = lstAttendanceStatus;
                 rptStudentAttendance.DataBind();
+            }
+        }
 
-                //HtmlInputRadioButton rdoAttendance = (HtmlInputRadioButton)e.Item.FindControl("rdoAttendance");
-                //rdoAttendance.Attributes.Add("name", "rdoAttendance" + entity.StudentID);
+        List<ClassMeetingAttendance> lstClassMeetingAttendance = null;
+        protected void rptStudentAttendance_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                StandardCode entity = (StandardCode)e.Item.DataItem;
+
+                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
+                ClassMeetingAttendance attendance = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == student.StudentID);
+                if (attendance != null)
+                {
+                    if (attendance.GCAttendanceStatus == entity.StandardCodeID)
+                    {
+                        HtmlInputRadioButton rdoAttendance = (HtmlInputRadioButton)e.Item.FindControl("rdoAttendance");
+                        rdoAttendance.Checked = true;
+                    }
+                }
             }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ClassMeetingAttendanceDao entityDtDao = new ClassMeetingAttendanceDao(ctx);
+            try
+            {
+                string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
+
+                List<ClassMeetingAttendance> lstClassMeetingAttendance = BusinessLayer.GetClassMeetingAttendanceList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID), ctx);
+                foreach (String saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(',');
+                    int studentID = Convert.ToInt32(temp[0]);
+                    string GCAttendanceStatus = temp[1];
+                    if (GCAttendanceStatus != "")
+                    {
+                        ClassMeetingAttendance entityDt = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == studentID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ClassMeetingAttendance();
+                            entityDt.ClassMeetingID = AppSession.ClassSubject.ClassMeetingID;
+                            entityDt.StudentID = studentID;
+                            entityDt.GCAttendanceStatus = GCAttendanceStatus;
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            entityDt.GCAttendanceStatus = GCAttendanceStatus;
+                            entityDtDao.Update(entityDt);
+                        }
+                    }
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

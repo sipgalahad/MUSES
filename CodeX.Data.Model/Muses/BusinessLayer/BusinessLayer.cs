@@ -185,6 +185,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassMeetingAttendance
+        public static ClassMeetingAttendance GetClassMeetingAttendance(Int32 ClassMeetingID, Int32 StudentID)
+        {
+            return new ClassMeetingAttendanceDao().Get(ClassMeetingID, StudentID);
+        }
+        public static int InsertClassMeetingAttendance(ClassMeetingAttendance record)
+        {
+            return new ClassMeetingAttendanceDao().Insert(record);
+        }
+        public static int UpdateClassMeetingAttendance(ClassMeetingAttendance record)
+        {
+            return new ClassMeetingAttendanceDao().Update(record);
+        }
+        public static int DeleteClassMeetingAttendance(Int32 ClassMeetingID, Int32 StudentID)
+        {
+            return new ClassMeetingAttendanceDao().Delete(ClassMeetingID, StudentID);
+        }
+        public static List<ClassMeetingAttendance> GetClassMeetingAttendanceList(string filterExpression)
+        {
+            List<ClassMeetingAttendance> result = new List<ClassMeetingAttendance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeetingAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassMeetingAttendance)helper.IDataReaderToObject(reader, new ClassMeetingAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassMeetingAttendance> GetClassMeetingAttendanceList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassMeetingAttendance> result = new List<ClassMeetingAttendance>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeetingAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassMeetingAttendance)helper.IDataReaderToObject(reader, new ClassMeetingAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassSchedule
         public static ClassSchedule GetClassSchedule(Int32 ClassScheduleID)
         {
