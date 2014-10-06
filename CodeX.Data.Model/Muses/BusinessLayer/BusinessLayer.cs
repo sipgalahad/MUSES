@@ -339,6 +339,126 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassType
+        public static ClassType GetClassType(Int32 ClassTypeID)
+        {
+            return new ClassTypeDao().Get(ClassTypeID);
+        }
+        public static int InsertClassType(ClassType record)
+        {
+            return new ClassTypeDao().Insert(record);
+        }
+        public static int UpdateClassType(ClassType record)
+        {
+            return new ClassTypeDao().Update(record);
+        }
+        public static int DeleteClassType(Int32 ClassTypeID)
+        {
+            return new ClassTypeDao().Delete(ClassTypeID);
+        }
+        public static List<ClassType> GetClassTypeList(string filterExpression)
+        {
+            List<ClassType> result = new List<ClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassType)helper.IDataReaderToObject(reader, new ClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetClassTypeRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassType));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassType> GetClassTypeList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ClassType> result = new List<ClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassType));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassType)helper.IDataReaderToObject(reader, new ClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetClassTypeRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassType));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ClassTypeID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetClassTypeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassType));
+                ctx.CommandText = helper.SelectMaxColumn("ClassTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region DailySchedule
         public static DailySchedule GetDailySchedule(Int32 DailyScheduleID)
         {
@@ -3214,6 +3334,63 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherSubject
+        public static TeacherSubject GetTeacherSubject(Int32 TeacherID, Int32 SubjectID)
+        {
+            return new TeacherSubjectDao().Get(TeacherID, SubjectID);
+        }
+        public static int InsertTeacherSubject(TeacherSubject record)
+        {
+            return new TeacherSubjectDao().Insert(record);
+        }
+        public static int UpdateTeacherSubject(TeacherSubject record)
+        {
+            return new TeacherSubjectDao().Update(record);
+        }
+        public static int DeleteTeacherSubject(Int32 TeacherID, Int32 SubjectID)
+        {
+            return new TeacherSubjectDao().Delete(TeacherID, SubjectID);
+        }
+        public static List<TeacherSubject> GetTeacherSubjectList(string filterExpression)
+        {
+            List<TeacherSubject> result = new List<TeacherSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherSubject)helper.IDataReaderToObject(reader, new TeacherSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TeacherSubject> GetTeacherSubjectList(string filterExpression, IDbContext ctx)
+        {
+            List<TeacherSubject> result = new List<TeacherSubject>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherSubject)helper.IDataReaderToObject(reader, new TeacherSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

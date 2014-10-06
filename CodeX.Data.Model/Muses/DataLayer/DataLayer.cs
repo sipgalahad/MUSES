@@ -642,6 +642,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassType
+    [Serializable]
+    [Table(Name = "ClassType")]
+    public class ClassType : DbDataModel
+    {
+        private Int32 _ClassTypeID;
+        private String _ClassTypeCode;
+        private String _ClassTypeName;
+        private String _SiteID;
+        private String _GCGrade;
+        private String _GCMajor;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String", IsNullable = true)]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ClassTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassType));
+        private bool _isAuditLog = false;
+        private const string p_ClassTypeID = "@p_ClassTypeID";
+        public ClassTypeDao() { }
+        public ClassTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassType Get(Int32 ClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassTypeID, ClassTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassType)_helper.DataRowToObject(row, new ClassType());
+        }
+        public int Insert(ClassType record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassType record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassTypeID)
+        {
+            ClassType record;
+            if (_ctx.Transaction == null)
+                record = new ClassTypeDao().Get(ClassTypeID);
+            else
+                record = Get(ClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region DailySchedule
     [Serializable]
     [Table(Name = "DailySchedule")]
@@ -6923,6 +7050,70 @@ namespace CodeX.Data.Model
                 record = new TeacherDao().Get(TeacherID);
             else
                 record = Get(TeacherID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherSubject
+    [Serializable]
+    [Table(Name = "TeacherSubject")]
+    public class TeacherSubject : DbDataModel
+    {
+        private Int32 _TeacherID;
+        private Int32 _SubjectID;
+
+        [Column(Name = "TeacherID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+    }
+
+    public class TeacherSubjectDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherSubject));
+        private bool _isAuditLog = false;
+        private const string p_SubjectID = "@p_SubjectID";
+        private const string p_TeacherID = "@p_TeacherID";
+        public TeacherSubjectDao() { }
+        public TeacherSubjectDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherSubject Get(Int32 TeacherID, Int32 SubjectID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubjectID, SubjectID);
+            _ctx.Add(p_TeacherID, TeacherID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherSubject)_helper.DataRowToObject(row, new TeacherSubject());
+        }
+        public int Insert(TeacherSubject record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherSubject record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherID, Int32 SubjectID)
+        {
+            TeacherSubject record;
+            if (_ctx.Transaction == null)
+                record = new TeacherSubjectDao().Get(TeacherID, SubjectID);
+            else
+                record = Get(TeacherID, SubjectID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

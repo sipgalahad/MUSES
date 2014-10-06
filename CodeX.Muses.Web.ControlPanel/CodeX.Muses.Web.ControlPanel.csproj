@@ -113,6 +113,8 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx" />
+    <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
+    <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx" />
     <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageList.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx" />
@@ -123,6 +125,7 @@
     <Content Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
+    <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
     <Content Include="Program\Master\Teacher\TeacherList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
@@ -394,6 +397,20 @@
     <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.designer.cs">
       <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeEntry.aspx.cs">
+      <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeEntry.aspx.designer.cs">
+      <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.cs">
+      <DependentUpon>ClassTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
+      <DependentUpon>ClassTypeList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx.cs">
       <DependentUpon>DailySchedulePackageEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -463,6 +480,13 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectList.aspx.designer.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx.cs">
+      <DependentUpon>TeacherSubjectEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx.designer.cs">
+      <DependentUpon>TeacherSubjectEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Teacher\TeacherEntry.aspx.cs">
       <DependentUpon>TeacherEntry.aspx</DependentUpon>

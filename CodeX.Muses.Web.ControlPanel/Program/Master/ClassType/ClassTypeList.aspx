@@ -1,6 +1,5 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="TeacherList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.TeacherList" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
+    CodeBehind="ClassTypeList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.ClassTypeList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -14,17 +13,17 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
         });
 
-        function onRefreshControl(filterExpression) {
-            $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
-            cbpView.PerformCallback('refresh');
-        }
-
         function onGetCurrID() {
             return $('#<%=hdnID.ClientID %>').val();
         }
 
         function onGetFilterExpression() {
             return $('#<%=hdnFilterExpression.ClientID %>').val();
+        }
+
+        function onRefreshControl(filterExpression) {
+            $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
+            cbpView.PerformCallback('refresh');
         }
 
         //#region Paging
@@ -62,12 +61,6 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
-        $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/Teacher/TeacherSubjectEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Pelajaran', 900, 650);
-        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -81,13 +74,14 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="TeacherID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="TeacherCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="TeacherName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="ClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="ClassTypeCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ClassTypeName" HeaderText="Nama" />
+                                <asp:BoundField DataField="Grade" HeaderText="Tingkat / Kelas" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="Major" HeaderText="Jurusan" HeaderStyle-Width="150px" />
                             </Columns>
                             <EmptyDataTemplate>
-                                <%=GetLabel("Data Tidak Tersedia")%>
+                                <%=GetLabel("No Data To Display")%>
                             </EmptyDataTemplate>
                         </asp:GridView>
                     </asp:Panel>
