@@ -45,7 +45,19 @@ namespace CodeX.Web.CommonLibs.Program
 
                         AppSession.UserLogin = userLogin;
 
-
+                        string ListModuleID = "";
+                        List<Module> lstModule = BusinessLayer.GetModuleList("IsVisible = 1 ORDER BY ModuleIndex ASC");
+                        foreach (Module module in lstModule)
+                        {
+                            List<GetUserMenuAccess> lstUserMenu = BusinessLayer.GetUserMenuAccess(module.ModuleID, siteID, AppSession.UserLogin.UserID, "IsShowInPullDownMenu = 1");
+                            if (lstUserMenu.Count > 0)
+                            {
+                                if (ListModuleID != "")
+                                    ListModuleID += ",";
+                                ListModuleID += string.Format("'{0}'", module.ModuleID);
+                            }
+                        }
+                        AppSession.ListModuleID = ListModuleID;
                         Response.Redirect("~/Libs/Program/Main.aspx");
                     }
                 }

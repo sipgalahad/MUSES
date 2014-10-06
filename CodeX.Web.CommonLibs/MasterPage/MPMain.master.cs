@@ -38,7 +38,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/menu.png");
                 imgCloseLeftPane.Src = ResolveUrl("~/Libs/Images/Icon/left.png");
 
-                List<Module> lstModule = BusinessLayer.GetModuleList("IsVisible = 1 ORDER BY ModuleIndex");
+                List<Module> lstModule = BusinessLayer.GetModuleList(string.Format("ModuleID IN ({0}) ORDER BY ModuleIndex", AppSession.ListModuleID));
                 rptModule.DataSource = lstModule;
                 rptModule.DataBind();
             }

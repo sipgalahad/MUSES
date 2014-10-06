@@ -174,5 +174,36 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_SchoolPeriodID"] = value;
             }
         }
+
+        public static String ListModuleID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_ListModuleID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_ListModuleID"] != null)
+                        {
+                            String value = HttpContext.Current.Request.Cookies["Muses"]["_ListModuleID"];
+                            HttpContext.Current.Session["_ListModuleID"] = value;
+                            return value;
+                        }
+                    }
+                    return "";
+                }
+                return HttpContext.Current.Session["_ListModuleID"].ToString();
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_ListModuleID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_ListModuleID"] = value;
+            }
+        }
     }
 }
