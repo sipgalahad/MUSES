@@ -69,6 +69,7 @@ namespace CodeX.Common
             public const string PURCHASE_ORDER_TYPE = "X145";
             public const string FRANCO_REGION = "X146";
             public const string CURRENCY_CODE = "X147";
+            public const string CHARGES_TYPE = "X157";
             public const string PURCHASE_RETURN_TYPE = "X161";
             public const string PURCHASE_RETURN_REASON = "X162";
             public const string RETURN_REASON = "X170";

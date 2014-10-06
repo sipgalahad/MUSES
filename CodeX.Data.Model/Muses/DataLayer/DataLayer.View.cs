@@ -3752,6 +3752,519 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseReceiveDt
+    [Serializable]
+    [Table(Name = "vPurchaseReceiveDt")]
+    public partial class vPurchaseReceiveDt
+    {
+        private Int32 _ID;
+        private Int32 _PurchaseReceiveID;
+        private String _PurchaseReceiveNo;
+        private DateTime _ReceivedDate;
+        private Int32 _PurchaseOrderID;
+        private String _PurchaseOrderNo;
+        private Int32 _ItemID;
+        private String _ItemName1;
+        private String _ItemCode;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private Int32 _SupplierID;
+        private Int32 _LocationID;
+        private String _LocationName;
+        private Decimal _OrderQuantity;
+        private String _OrderPurchaseUnit;
+        private Decimal _Quantity;
+        private String _SupplierName;
+        private String _SupplierItemName;
+        private String _SupplierItemCode;
+        private String _GCBaseUnit;
+        private String _BaseUnit;
+        private String _GCItemUnit;
+        private String _ItemUnit;
+        private Decimal _ConversionFactor;
+        private Decimal _UnitPrice;
+        private Decimal _DiscountPercentage1;
+        private Decimal _DiscountPercentage2;
+        private Boolean _IsBonusItem;
+        private Boolean _IsControlExpired;
+        private String _GCItemDetailStatus;
+        private String _ItemDetailStatus;
+        private Int32 _CreatedBy;
+        private String _UserName;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32")]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "PurchaseReceiveNo", DataType = "String")]
+        public String PurchaseReceiveNo
+        {
+            get { return _PurchaseReceiveNo; }
+            set { _PurchaseReceiveNo = value; }
+        }
+        [Column(Name = "ReceivedDate", DataType = "DateTime")]
+        public DateTime ReceivedDate
+        {
+            get { return _ReceivedDate; }
+            set { _ReceivedDate = value; }
+        }
+        [Column(Name = "PurchaseOrderID", DataType = "Int32")]
+        public Int32 PurchaseOrderID
+        {
+            get { return _PurchaseOrderID; }
+            set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "PurchaseOrderNo", DataType = "String")]
+        public String PurchaseOrderNo
+        {
+            get { return _PurchaseOrderNo; }
+            set { _PurchaseOrderNo = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "ItemCode", DataType = "String")]
+        public String ItemCode
+        {
+            get { return _ItemCode; }
+            set { _ItemCode = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "SupplierID", DataType = "Int32")]
+        public Int32 SupplierID
+        {
+            get { return _SupplierID; }
+            set { _SupplierID = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
+        }
+        [Column(Name = "OrderQuantity", DataType = "Decimal")]
+        public Decimal OrderQuantity
+        {
+            get { return _OrderQuantity; }
+            set { _OrderQuantity = value; }
+        }
+        [Column(Name = "OrderPurchaseUnit", DataType = "String")]
+        public String OrderPurchaseUnit
+        {
+            get { return _OrderPurchaseUnit; }
+            set { _OrderPurchaseUnit = value; }
+        }
+        [Column(Name = "Quantity", DataType = "Decimal")]
+        public Decimal Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
+        [Column(Name = "SupplierName", DataType = "String")]
+        public String SupplierName
+        {
+            get { return _SupplierName; }
+            set { _SupplierName = value; }
+        }
+        [Column(Name = "SupplierItemName", DataType = "String")]
+        public String SupplierItemName
+        {
+            get { return _SupplierItemName; }
+            set { _SupplierItemName = value; }
+        }
+        [Column(Name = "SupplierItemCode", DataType = "String")]
+        public String SupplierItemCode
+        {
+            get { return _SupplierItemCode; }
+            set { _SupplierItemCode = value; }
+        }
+        [Column(Name = "GCBaseUnit", DataType = "String")]
+        public String GCBaseUnit
+        {
+            get { return _GCBaseUnit; }
+            set { _GCBaseUnit = value; }
+        }
+        [Column(Name = "BaseUnit", DataType = "String")]
+        public String BaseUnit
+        {
+            get { return _BaseUnit; }
+            set { _BaseUnit = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "UnitPrice", DataType = "Decimal")]
+        public Decimal UnitPrice
+        {
+            get { return _UnitPrice; }
+            set { _UnitPrice = value; }
+        }
+        [Column(Name = "DiscountPercentage1", DataType = "Decimal")]
+        public Decimal DiscountPercentage1
+        {
+            get { return _DiscountPercentage1; }
+            set { _DiscountPercentage1 = value; }
+        }
+        [Column(Name = "DiscountPercentage2", DataType = "Decimal")]
+        public Decimal DiscountPercentage2
+        {
+            get { return _DiscountPercentage2; }
+            set { _DiscountPercentage2 = value; }
+        }
+        [Column(Name = "IsBonusItem", DataType = "Boolean")]
+        public Boolean IsBonusItem
+        {
+            get { return _IsBonusItem; }
+            set { _IsBonusItem = value; }
+        }
+        [Column(Name = "IsControlExpired", DataType = "Boolean")]
+        public Boolean IsControlExpired
+        {
+            get { return _IsControlExpired; }
+            set { _IsControlExpired = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "ItemDetailStatus", DataType = "String")]
+        public String ItemDetailStatus
+        {
+            get { return _ItemDetailStatus; }
+            set { _ItemDetailStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "UserName", DataType = "String")]
+        public String UserName
+        {
+            get { return _UserName; }
+            set { _UserName = value; }
+        }
+    }
+    #endregion
+    #region vPurchaseReceiveHd
+    [Serializable]
+    [Table(Name = "vPurchaseReceiveHd")]
+    public partial class vPurchaseReceiveHd
+    {
+        private Int32 _PurchaseReceiveID;
+        private String _PurchaseReceiveNo;
+        private DateTime _ReceivedDate;
+        private String _ReceivedTime;
+        private Int32 _LocationID;
+        private String _LocationCode;
+        private String _LocationName;
+        private Int32 _SupplierID;
+        private String _SupplierCode;
+        private String _SupplierName;
+        private Int32 _TermID;
+        private String _TermName;
+        private String _ReferenceNo;
+        private DateTime _ReferenceDate;
+        private String _GCCurrencyCode;
+        private String _CurrencyCode;
+        private Decimal _CurrencyRate;
+        private Boolean _IsIncludeVAT;
+        private Decimal _TransactionAmount;
+        private Decimal _DiscountAmount;
+        private Decimal _FinalDiscount;
+        private String _GCChargesType;
+        private String _ChargesType;
+        private Decimal _ChargesAmount;
+        private Decimal _StampAmount;
+        private Decimal _VATPercentage;
+        private Decimal _DownPaymentAmount;
+        private String _DownPaymentReferenceNo;
+        private String _ReceivedBy;
+        private String _Remarks;
+        private DateTime _PaymentDueDate;
+        private String _GCTransactionStatus;
+        private Boolean _IsHasPurchaseReturn;
+        private Int32 _PurchaseReturnID;
+        private String _TransactionStatusWatermark;
+        private String _CreatedByName;
+
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32")]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "PurchaseReceiveNo", DataType = "String")]
+        public String PurchaseReceiveNo
+        {
+            get { return _PurchaseReceiveNo; }
+            set { _PurchaseReceiveNo = value; }
+        }
+        [Column(Name = "ReceivedDate", DataType = "DateTime")]
+        public DateTime ReceivedDate
+        {
+            get { return _ReceivedDate; }
+            set { _ReceivedDate = value; }
+        }
+        [Column(Name = "ReceivedTime", DataType = "String")]
+        public String ReceivedTime
+        {
+            get { return _ReceivedTime; }
+            set { _ReceivedTime = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "LocationCode", DataType = "String")]
+        public String LocationCode
+        {
+            get { return _LocationCode; }
+            set { _LocationCode = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
+        }
+        [Column(Name = "SupplierID", DataType = "Int32")]
+        public Int32 SupplierID
+        {
+            get { return _SupplierID; }
+            set { _SupplierID = value; }
+        }
+        [Column(Name = "SupplierCode", DataType = "String")]
+        public String SupplierCode
+        {
+            get { return _SupplierCode; }
+            set { _SupplierCode = value; }
+        }
+        [Column(Name = "SupplierName", DataType = "String")]
+        public String SupplierName
+        {
+            get { return _SupplierName; }
+            set { _SupplierName = value; }
+        }
+        [Column(Name = "TermID", DataType = "Int32")]
+        public Int32 TermID
+        {
+            get { return _TermID; }
+            set { _TermID = value; }
+        }
+        [Column(Name = "TermName", DataType = "String")]
+        public String TermName
+        {
+            get { return _TermName; }
+            set { _TermName = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String")]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "ReferenceDate", DataType = "DateTime")]
+        public DateTime ReferenceDate
+        {
+            get { return _ReferenceDate; }
+            set { _ReferenceDate = value; }
+        }
+        [Column(Name = "GCCurrencyCode", DataType = "String")]
+        public String GCCurrencyCode
+        {
+            get { return _GCCurrencyCode; }
+            set { _GCCurrencyCode = value; }
+        }
+        [Column(Name = "CurrencyCode", DataType = "String")]
+        public String CurrencyCode
+        {
+            get { return _CurrencyCode; }
+            set { _CurrencyCode = value; }
+        }
+        [Column(Name = "CurrencyRate", DataType = "Decimal")]
+        public Decimal CurrencyRate
+        {
+            get { return _CurrencyRate; }
+            set { _CurrencyRate = value; }
+        }
+        [Column(Name = "IsIncludeVAT", DataType = "Boolean")]
+        public Boolean IsIncludeVAT
+        {
+            get { return _IsIncludeVAT; }
+            set { _IsIncludeVAT = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "FinalDiscount", DataType = "Decimal")]
+        public Decimal FinalDiscount
+        {
+            get { return _FinalDiscount; }
+            set { _FinalDiscount = value; }
+        }
+        [Column(Name = "GCChargesType", DataType = "String")]
+        public String GCChargesType
+        {
+            get { return _GCChargesType; }
+            set { _GCChargesType = value; }
+        }
+        [Column(Name = "ChargesType", DataType = "String")]
+        public String ChargesType
+        {
+            get { return _ChargesType; }
+            set { _ChargesType = value; }
+        }
+        [Column(Name = "ChargesAmount", DataType = "Decimal")]
+        public Decimal ChargesAmount
+        {
+            get { return _ChargesAmount; }
+            set { _ChargesAmount = value; }
+        }
+        [Column(Name = "StampAmount", DataType = "Decimal")]
+        public Decimal StampAmount
+        {
+            get { return _StampAmount; }
+            set { _StampAmount = value; }
+        }
+        [Column(Name = "VATPercentage", DataType = "Decimal")]
+        public Decimal VATPercentage
+        {
+            get { return _VATPercentage; }
+            set { _VATPercentage = value; }
+        }
+        [Column(Name = "DownPaymentAmount", DataType = "Decimal")]
+        public Decimal DownPaymentAmount
+        {
+            get { return _DownPaymentAmount; }
+            set { _DownPaymentAmount = value; }
+        }
+        [Column(Name = "DownPaymentReferenceNo", DataType = "String")]
+        public String DownPaymentReferenceNo
+        {
+            get { return _DownPaymentReferenceNo; }
+            set { _DownPaymentReferenceNo = value; }
+        }
+        [Column(Name = "ReceivedBy", DataType = "String")]
+        public String ReceivedBy
+        {
+            get { return _ReceivedBy; }
+            set { _ReceivedBy = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "PaymentDueDate", DataType = "DateTime")]
+        public DateTime PaymentDueDate
+        {
+            get { return _PaymentDueDate; }
+            set { _PaymentDueDate = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "IsHasPurchaseReturn", DataType = "Boolean")]
+        public Boolean IsHasPurchaseReturn
+        {
+            get { return _IsHasPurchaseReturn; }
+            set { _IsHasPurchaseReturn = value; }
+        }
+        [Column(Name = "PurchaseReturnID", DataType = "Int32")]
+        public Int32 PurchaseReturnID
+        {
+            get { return _PurchaseReturnID; }
+            set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
+        }
+    }
+    #endregion
     #region vPurchaseRequestDt
     [Serializable]
     [Table(Name = "vPurchaseRequestDt")]

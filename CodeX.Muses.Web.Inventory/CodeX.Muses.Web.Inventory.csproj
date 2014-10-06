@@ -129,6 +129,13 @@
     <Content Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestOutstandingDetail.aspx" />
     <Content Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestOutstandingList.aspx" />
     <Content Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestProcessedDtCtl.ascx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalDetail.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalList.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDetail.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationList.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\ExpiredDatePerItemCtl.ascx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveDetailCtl.ascx" />
+    <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalList.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\StockAdjustmentEntry.aspx" />
@@ -564,6 +571,55 @@
     </Compile>
     <Compile Include="Program\Warehouse\ItemRequest\Outstanding\ItemRequestProcessedDtCtl.ascx.designer.cs">
       <DependentUpon>ItemRequestProcessedDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalDetail.aspx.cs">
+      <DependentUpon>PurchaseReceiveApprovalDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalDetail.aspx.designer.cs">
+      <DependentUpon>PurchaseReceiveApprovalDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalList.aspx.cs">
+      <DependentUpon>PurchaseReceiveApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Approval\PurchaseReceiveApprovalList.aspx.designer.cs">
+      <DependentUpon>PurchaseReceiveApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDetail.aspx.cs">
+      <DependentUpon>PurchaseReceiveConfirmationDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationDetail.aspx.designer.cs">
+      <DependentUpon>PurchaseReceiveConfirmationDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationList.aspx.cs">
+      <DependentUpon>PurchaseReceiveConfirmationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\Confirmation\PurchaseReceiveConfirmationList.aspx.designer.cs">
+      <DependentUpon>PurchaseReceiveConfirmationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\ExpiredDatePerItemCtl.ascx.cs">
+      <DependentUpon>ExpiredDatePerItemCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\ExpiredDatePerItemCtl.ascx.designer.cs">
+      <DependentUpon>ExpiredDatePerItemCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveDetailCtl.ascx.cs">
+      <DependentUpon>PurchaseReceiveDetailCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveDetailCtl.ascx.designer.cs">
+      <DependentUpon>PurchaseReceiveDetailCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx.cs">
+      <DependentUpon>PurchaseReceiveEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx.designer.cs">
+      <DependentUpon>PurchaseReceiveEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalDetail.aspx.cs">
       <DependentUpon>StockAdjustmentApprovalDetail.aspx</DependentUpon>

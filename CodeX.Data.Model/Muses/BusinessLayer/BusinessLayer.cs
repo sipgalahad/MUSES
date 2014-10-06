@@ -1894,6 +1894,192 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseReceiveDt
+        public static PurchaseReceiveDt GetPurchaseReceiveDt(Int32 ID)
+        {
+            return new PurchaseReceiveDtDao().Get(ID);
+        }
+        public static int InsertPurchaseReceiveDt(PurchaseReceiveDt record)
+        {
+            return new PurchaseReceiveDtDao().Insert(record);
+        }
+        public static int UpdatePurchaseReceiveDt(PurchaseReceiveDt record)
+        {
+            return new PurchaseReceiveDtDao().Update(record);
+        }
+        public static int DeletePurchaseReceiveDt(Int32 ID)
+        {
+            return new PurchaseReceiveDtDao().Delete(ID);
+        }
+        public static List<PurchaseReceiveDt> GetPurchaseReceiveDtList(string filterExpression)
+        {
+            List<PurchaseReceiveDt> result = new List<PurchaseReceiveDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveDt)helper.IDataReaderToObject(reader, new PurchaseReceiveDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PurchaseReceiveDt> GetPurchaseReceiveDtList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseReceiveDt> result = new List<PurchaseReceiveDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveDt)helper.IDataReaderToObject(reader, new PurchaseReceiveDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetPurchaseReceiveDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveDt));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseReceiveDtExpired
+        public static PurchaseReceiveDtExpired GetPurchaseReceiveDtExpired(Int32 ID, String BatchNumber)
+        {
+            return new PurchaseReceiveDtExpiredDao().Get(ID, BatchNumber);
+        }
+        public static int InsertPurchaseReceiveDtExpired(PurchaseReceiveDtExpired record)
+        {
+            return new PurchaseReceiveDtExpiredDao().Insert(record);
+        }
+        public static int UpdatePurchaseReceiveDtExpired(PurchaseReceiveDtExpired record)
+        {
+            return new PurchaseReceiveDtExpiredDao().Update(record);
+        }
+        public static int DeletePurchaseReceiveDtExpired(Int32 ID, String BatchNumber)
+        {
+            return new PurchaseReceiveDtExpiredDao().Delete(ID, BatchNumber);
+        }
+        public static List<PurchaseReceiveDtExpired> GetPurchaseReceiveDtExpiredList(string filterExpression)
+        {
+            List<PurchaseReceiveDtExpired> result = new List<PurchaseReceiveDtExpired>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveDtExpired));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveDtExpired)helper.IDataReaderToObject(reader, new PurchaseReceiveDtExpired()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseReceiveHd
+        public static PurchaseReceiveHd GetPurchaseReceiveHd(Int32 PurchaseReceiveID)
+        {
+            return new PurchaseReceiveHdDao().Get(PurchaseReceiveID);
+        }
+        public static int InsertPurchaseReceiveHd(PurchaseReceiveHd record)
+        {
+            return new PurchaseReceiveHdDao().Insert(record);
+        }
+        public static int UpdatePurchaseReceiveHd(PurchaseReceiveHd record)
+        {
+            return new PurchaseReceiveHdDao().Update(record);
+        }
+        public static int DeletePurchaseReceiveHd(Int32 PurchaseReceiveID)
+        {
+            return new PurchaseReceiveHdDao().Delete(PurchaseReceiveID);
+        }
+        public static List<PurchaseReceiveHd> GetPurchaseReceiveHdList(string filterExpression)
+        {
+            List<PurchaseReceiveHd> result = new List<PurchaseReceiveHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveHd)helper.IDataReaderToObject(reader, new PurchaseReceiveHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PurchaseReceiveHd> GetPurchaseReceiveHdList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseReceiveHd> result = new List<PurchaseReceiveHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceiveHd)helper.IDataReaderToObject(reader, new PurchaseReceiveHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetPurchaseReceiveHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceiveHd));
+                ctx.CommandText = helper.SelectMaxColumn("PurchaseReceiveID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseRequestDt
         public static PurchaseRequestDt GetPurchaseRequestDt(Int32 ID)
         {

@@ -4580,6 +4580,535 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PurchaseReceiveDt
+    [Serializable]
+    [Table(Name = "PurchaseReceiveDt")]
+    public class PurchaseReceiveDt : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _PurchaseReceiveID;
+        private Int32? _PurchaseOrderID;
+        private Int32 _ItemID;
+        private Decimal _Quantity;
+        private String _GCItemUnit;
+        private String _GCBaseUnit;
+        private Decimal _ConversionFactor;
+        private Decimal _UnitPrice;
+        private Decimal _DiscountPercentage1;
+        private Decimal _DiscountPercentage2;
+        private Boolean _IsBonusItem;
+        private Boolean _IsControlExpired;
+        private String _GCItemDetailStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32")]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "PurchaseOrderID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseOrderID
+        {
+            get { return _PurchaseOrderID; }
+            set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "Quantity", DataType = "Decimal")]
+        public Decimal Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "GCBaseUnit", DataType = "String")]
+        public String GCBaseUnit
+        {
+            get { return _GCBaseUnit; }
+            set { _GCBaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "UnitPrice", DataType = "Decimal")]
+        public Decimal UnitPrice
+        {
+            get { return _UnitPrice; }
+            set { _UnitPrice = value; }
+        }
+        [Column(Name = "DiscountPercentage1", DataType = "Decimal")]
+        public Decimal DiscountPercentage1
+        {
+            get { return _DiscountPercentage1; }
+            set { _DiscountPercentage1 = value; }
+        }
+        [Column(Name = "DiscountPercentage2", DataType = "Decimal")]
+        public Decimal DiscountPercentage2
+        {
+            get { return _DiscountPercentage2; }
+            set { _DiscountPercentage2 = value; }
+        }
+        [Column(Name = "IsBonusItem", DataType = "Boolean")]
+        public Boolean IsBonusItem
+        {
+            get { return _IsBonusItem; }
+            set { _IsBonusItem = value; }
+        }
+        [Column(Name = "IsControlExpired", DataType = "Boolean")]
+        public Boolean IsControlExpired
+        {
+            get { return _IsControlExpired; }
+            set { _IsControlExpired = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PurchaseReceiveDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReceiveDt));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public PurchaseReceiveDtDao() { }
+        public PurchaseReceiveDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReceiveDt Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReceiveDt)_helper.DataRowToObject(row, new PurchaseReceiveDt());
+        }
+        public int Insert(PurchaseReceiveDt record)
+        {
+            record.CreatedDate = record.LastUpdatedDate = DateTime.Now;
+            record.LastUpdatedBy = record.CreatedBy;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReceiveDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            PurchaseReceiveDt record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReceiveDtDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PurchaseReceiveDtExpired
+    [Serializable]
+    [Table(Name = "PurchaseReceiveDtExpired")]
+    public partial class PurchaseReceiveDtExpired : DbDataModel
+    {
+        private Int32 _ID;
+        private String _BatchNumber;
+        private DateTime _ExpiredDate;
+        private Decimal _Quantity;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "BatchNumber", DataType = "String", IsPrimaryKey = true)]
+        public String BatchNumber
+        {
+            get { return _BatchNumber; }
+            set { _BatchNumber = value; }
+        }
+        [Column(Name = "ExpiredDate", DataType = "DateTime")]
+        public DateTime ExpiredDate
+        {
+            get { return _ExpiredDate; }
+            set { _ExpiredDate = value; }
+        }
+        [Column(Name = "Quantity", DataType = "Decimal")]
+        public Decimal Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
+    }
+
+    public class PurchaseReceiveDtExpiredDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReceiveDtExpired));
+        private bool _isAuditLog = false;
+        private const string p_BatchNumber = "@p_BatchNumber";
+        private const string p_ID = "@p_ID";
+        public PurchaseReceiveDtExpiredDao() { }
+        public PurchaseReceiveDtExpiredDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReceiveDtExpired Get(Int32 ID, String BatchNumber)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BatchNumber, BatchNumber);
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReceiveDtExpired)_helper.DataRowToObject(row, new PurchaseReceiveDtExpired());
+        }
+        public int Insert(PurchaseReceiveDtExpired record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReceiveDtExpired record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID, String BatchNumber)
+        {
+            PurchaseReceiveDtExpired record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReceiveDtExpiredDao().Get(ID, BatchNumber);
+            else
+                record = Get(ID, BatchNumber);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PurchaseReceiveHd
+    [Serializable]
+    [Table(Name = "PurchaseReceiveHd")]
+    public class PurchaseReceiveHd : DbDataModel
+    {
+        private Int32 _PurchaseReceiveID;
+        private DateTime _ReceivedDate;
+        private String _ReceivedTime;
+        private String _PurchaseReceiveNo;
+        private Int32 _LocationID;
+        private Int32 _BusinessPartnerID;
+        private Int32 _TermID;
+        private String _ReferenceNo;
+        private DateTime _ReferenceDate;
+        private DateTime _PaymentDueDate;
+        private String _GCCurrencyCode;
+        private Decimal _CurrencyRate;
+        private Boolean _IsIncludeVAT;
+        private Decimal _TransactionAmount;
+        private Decimal _DiscountAmount;
+        private Decimal _FinalDiscount;
+        private String _GCChargesType;
+        private Decimal _ChargesAmount;
+        private Decimal _StampAmount;
+        private Decimal _VATPercentage;
+        private Decimal _DownPaymentAmount;
+        private String _DownPaymentReferenceNo;
+        private Decimal _NetTransactionAmount;
+        private String _ReceivedBy;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Boolean _IsHasPurchaseReturn;
+        private Int32? _PurchaseReturnID;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "ReceivedDate", DataType = "DateTime")]
+        public DateTime ReceivedDate
+        {
+            get { return _ReceivedDate; }
+            set { _ReceivedDate = value; }
+        }
+        [Column(Name = "ReceivedTime", DataType = "String")]
+        public String ReceivedTime
+        {
+            get { return _ReceivedTime; }
+            set { _ReceivedTime = value; }
+        }
+        [Column(Name = "PurchaseReceiveNo", DataType = "String")]
+        public String PurchaseReceiveNo
+        {
+            get { return _PurchaseReceiveNo; }
+            set { _PurchaseReceiveNo = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "TermID", DataType = "Int32")]
+        public Int32 TermID
+        {
+            get { return _TermID; }
+            set { _TermID = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String")]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "ReferenceDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ReferenceDate
+        {
+            get { return _ReferenceDate; }
+            set { _ReferenceDate = value; }
+        }
+        [Column(Name = "PaymentDueDate", DataType = "DateTime")]
+        public DateTime PaymentDueDate
+        {
+            get { return _PaymentDueDate; }
+            set { _PaymentDueDate = value; }
+        }
+        [Column(Name = "GCCurrencyCode", DataType = "String")]
+        public String GCCurrencyCode
+        {
+            get { return _GCCurrencyCode; }
+            set { _GCCurrencyCode = value; }
+        }
+        [Column(Name = "CurrencyRate", DataType = "Decimal")]
+        public Decimal CurrencyRate
+        {
+            get { return _CurrencyRate; }
+            set { _CurrencyRate = value; }
+        }
+        [Column(Name = "IsIncludeVAT", DataType = "Boolean")]
+        public Boolean IsIncludeVAT
+        {
+            get { return _IsIncludeVAT; }
+            set { _IsIncludeVAT = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "FinalDiscount", DataType = "Decimal")]
+        public Decimal FinalDiscount
+        {
+            get { return _FinalDiscount; }
+            set { _FinalDiscount = value; }
+        }
+        [Column(Name = "GCChargesType", DataType = "String")]
+        public String GCChargesType
+        {
+            get { return _GCChargesType; }
+            set { _GCChargesType = value; }
+        }
+        [Column(Name = "ChargesAmount", DataType = "Decimal")]
+        public Decimal ChargesAmount
+        {
+            get { return _ChargesAmount; }
+            set { _ChargesAmount = value; }
+        }
+        [Column(Name = "StampAmount", DataType = "Decimal")]
+        public Decimal StampAmount
+        {
+            get { return _StampAmount; }
+            set { _StampAmount = value; }
+        }
+        [Column(Name = "VATPercentage", DataType = "Decimal")]
+        public Decimal VATPercentage
+        {
+            get { return _VATPercentage; }
+            set { _VATPercentage = value; }
+        }
+        [Column(Name = "DownPaymentAmount", DataType = "Decimal")]
+        public Decimal DownPaymentAmount
+        {
+            get { return _DownPaymentAmount; }
+            set { _DownPaymentAmount = value; }
+        }
+        [Column(Name = "DownPaymentReferenceNo", DataType = "String", IsNullable = true)]
+        public String DownPaymentReferenceNo
+        {
+            get { return _DownPaymentReferenceNo; }
+            set { _DownPaymentReferenceNo = value; }
+        }
+        [Column(Name = "NetTransactionAmount", DataType = "Decimal")]
+        public Decimal NetTransactionAmount
+        {
+            get { return _NetTransactionAmount; }
+            set { _NetTransactionAmount = value; }
+        }
+        [Column(Name = "ReceivedBy", DataType = "String", IsNullable = true)]
+        public String ReceivedBy
+        {
+            get { return _ReceivedBy; }
+            set { _ReceivedBy = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "IsHasPurchaseReturn", DataType = "Boolean")]
+        public Boolean IsHasPurchaseReturn
+        {
+            get { return _IsHasPurchaseReturn; }
+            set { _IsHasPurchaseReturn = value; }
+        }
+        [Column(Name = "PurchaseReturnID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseReturnID
+        {
+            get { return _PurchaseReturnID; }
+            set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PurchaseReceiveHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReceiveHd));
+        private bool _isAuditLog = false;
+        private const string p_PurchaseReceiveID = "@p_PurchaseReceiveID";
+        public PurchaseReceiveHdDao() { }
+        public PurchaseReceiveHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReceiveHd Get(Int32 PurchaseReceiveID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PurchaseReceiveID, PurchaseReceiveID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReceiveHd)_helper.DataRowToObject(row, new PurchaseReceiveHd());
+        }
+        public int Insert(PurchaseReceiveHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReceiveHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PurchaseReceiveID)
+        {
+            PurchaseReceiveHd record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReceiveHdDao().Get(PurchaseReceiveID);
+            else
+                record = Get(PurchaseReceiveID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PurchaseRequestDt
     [Serializable]
     [Table(Name = "PurchaseRequestDt")]

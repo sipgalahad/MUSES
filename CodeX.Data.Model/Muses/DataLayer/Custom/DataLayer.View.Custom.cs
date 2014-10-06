@@ -677,6 +677,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseReceiveDt
+    public partial class vPurchaseReceiveDt
+    {
+        public string ReceivedDateInString
+        {
+            get { return _ReceivedDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
+               _DiscountPercentage1 / 100);
+                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
+                return totalAfterDisc2;
+            }
+        }
+
+        public Decimal CustomTotalDiscount
+        {
+            get
+            {
+                return (Quantity * UnitPrice) - CustomSubTotal;
+            }
+        }
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _ItemUnit;
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                if (_ItemUnit != _BaseUnit)
+                    return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public Decimal DiscountAmount1
+        {
+            get { return (_UnitPrice * Quantity) * DiscountPercentage1 / 100; }
+        }
+
+        public Decimal DiscountAmount2
+        {
+            get { return ((_UnitPrice * Quantity) - DiscountAmount1) * DiscountPercentage2 / 100; }
+        }
+
+        public Boolean isConfirmed
+        {
+            get
+            {
+                return _GCItemDetailStatus == "X121^002" ? true : false;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseReceiveHd
+    public partial class vPurchaseReceiveHd
+    {
+        public string ReceivedDateInString
+        {
+            get
+            {
+                return _ReceivedDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public decimal NetTransactionAmount
+        {
+            get
+            {
+                return _TransactionAmount - _DiscountAmount;
+            }
+        }
+
+        public string PaymentDueDateInString
+        {
+            get
+            {
+                return _PaymentDueDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vPurchaseRequestDt
     public partial class vPurchaseRequestDt
     {
