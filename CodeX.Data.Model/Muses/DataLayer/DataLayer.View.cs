@@ -417,6 +417,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassSubjectTask
+    [Serializable]
+    [Table(Name = "vClassSubjectTask")]
+    public class vClassSubjectTask
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _ClassSubjectID;
+        private String _GCTaskType;
+        private String _TaskType;
+        private Int16 _FinalMarkPercentage;
+        private DateTime _TaskDate;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _StartTime;
+        private String _EndTime;
+        private String _Topic;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String")]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
+        }
+        [Column(Name = "TaskType", DataType = "String")]
+        public String TaskType
+        {
+            get { return _TaskType; }
+            set { _TaskType = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
+        public Int16 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "TaskDate", DataType = "DateTime")]
+        public DateTime TaskDate
+        {
+            get { return _TaskDate; }
+            set { _TaskDate = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "Topic", DataType = "String")]
+        public String Topic
+        {
+            get { return _Topic; }
+            set { _Topic = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vClassType
     [Serializable]
     [Table(Name = "vClassType")]

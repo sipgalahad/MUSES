@@ -396,6 +396,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassSubjectTask
+        public static ClassSubjectTask GetClassSubjectTask(Int32 ClassSubjectTaskID)
+        {
+            return new ClassSubjectTaskDao().Get(ClassSubjectTaskID);
+        }
+        public static int InsertClassSubjectTask(ClassSubjectTask record)
+        {
+            return new ClassSubjectTaskDao().Insert(record);
+        }
+        public static int UpdateClassSubjectTask(ClassSubjectTask record)
+        {
+            return new ClassSubjectTaskDao().Update(record);
+        }
+        public static int DeleteClassSubjectTask(Int32 ClassSubjectTaskID)
+        {
+            return new ClassSubjectTaskDao().Delete(ClassSubjectTaskID);
+        }
+        public static List<ClassSubjectTask> GetClassSubjectTaskList(string filterExpression)
+        {
+            List<ClassSubjectTask> result = new List<ClassSubjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectTask)helper.IDataReaderToObject(reader, new ClassSubjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ClassType
         public static ClassType GetClassType(Int32 ClassTypeID)
         {

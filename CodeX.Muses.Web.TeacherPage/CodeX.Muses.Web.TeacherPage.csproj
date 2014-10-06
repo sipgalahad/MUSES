@@ -94,6 +94,7 @@
     <Content Include="Global.asax" />
     <Content Include="MasterPage\MPClassSubjectPageTrxVisit.master" />
     <Content Include="MasterPage\ClassSubjectBannerDtCtl.ascx" />
+    <Content Include="Program\WeeklySchedule\ClassTask\ClassTaskEntryCtl.ascx" />
     <Content Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx" />
     <Content Include="Program\WeeklySchedule\ClassMeeting\ClassMeetingEntry.aspx" />
     <Content Include="Program\WeeklySchedule\ClassAttendance\ClassAttendanceEntry.aspx" />
@@ -283,6 +284,13 @@
     </Compile>
     <Compile Include="MasterPage\ClassSubjectBannerDtCtl.ascx.designer.cs">
       <DependentUpon>ClassSubjectBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassTask\ClassTaskEntryCtl.ascx.cs">
+      <DependentUpon>ClassTaskEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassTask\ClassTaskEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassTaskEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx.cs">
       <DependentUpon>ClassMeetingPageLauncher.aspx</DependentUpon>

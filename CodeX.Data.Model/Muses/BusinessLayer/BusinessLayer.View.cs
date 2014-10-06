@@ -172,6 +172,73 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassSubjectTask
+        public static List<vClassSubjectTask> GetvClassSubjectTaskList(string filterExpression)
+        {
+            List<vClassSubjectTask> result = new List<vClassSubjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubjectTask));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassSubjectTask)helper.IDataReaderToObject(reader, new vClassSubjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vClassSubjectTask> GetvClassSubjectTaskList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vClassSubjectTask> result = new List<vClassSubjectTask>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubjectTask));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassSubjectTask)helper.IDataReaderToObject(reader, new vClassSubjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvClassSubjectTaskRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubjectTask));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassType
         public static List<vClassType> GetvClassTypeList(string filterExpression)
         {

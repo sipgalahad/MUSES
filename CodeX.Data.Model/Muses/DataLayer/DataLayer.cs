@@ -713,6 +713,168 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassSubjectTask
+    [Serializable]
+    [Table(Name = "ClassSubjectTask")]
+    public class ClassSubjectTask : DbDataModel
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _ClassSubjectID;
+        private String _GCTaskType;
+        private Int16 _FinalMarkPercentage;
+        private DateTime _TaskDate;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _StartTime;
+        private String _EndTime;
+        private String _Topic;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String")]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
+        public Int16 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "TaskDate", DataType = "DateTime")]
+        public DateTime TaskDate
+        {
+            get { return _TaskDate; }
+            set { _TaskDate = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "Topic", DataType = "String")]
+        public String Topic
+        {
+            get { return _Topic; }
+            set { _Topic = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ClassSubjectTaskDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassSubjectTask));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectTaskID = "@p_ClassSubjectTaskID";
+        public ClassSubjectTaskDao() { }
+        public ClassSubjectTaskDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassSubjectTask Get(Int32 ClassSubjectTaskID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectTaskID, ClassSubjectTaskID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassSubjectTask)_helper.DataRowToObject(row, new ClassSubjectTask());
+        }
+        public int Insert(ClassSubjectTask record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassSubjectTask record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectTaskID)
+        {
+            ClassSubjectTask record;
+            if (_ctx.Transaction == null)
+                record = new ClassSubjectTaskDao().Get(ClassSubjectTaskID);
+            else
+                record = Get(ClassSubjectTaskID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassType
     [Serializable]
     [Table(Name = "ClassType")]
