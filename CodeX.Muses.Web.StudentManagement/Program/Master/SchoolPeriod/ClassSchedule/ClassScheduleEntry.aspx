@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxPopupControl" TagPrefix="dxpc" %>
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
@@ -17,6 +19,15 @@
     <script type="text/javascript">
         function onCboClassTypeValueChanged(s) {
             cbpView.PerformCallback('refresh');
+            cbpClassSubject.PerformCallback('refresh');
+
+            $('#hdnSelectedTrText').val('');
+            $('#hdnSelectedTrValue').val('');
+            $('#hdnSelectedTrRoomID').val('');
+            $('#hdnSelectedTrRoomName').val('');
+
+            $('#tdSelectedSubject').html('');
+            $('#tdSelectedTeacher').html('');
         }
 
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
@@ -29,6 +40,7 @@
 
         function onAfterSaveAddRecordEntryPopup() {
             cbpView.PerformCallback('refresh');
+            cbpClassSubject.PerformCallback('refresh');
         }
 
         $('#<%=grdView.ClientID %> tr:gt(0)').live('click', function () {
@@ -48,6 +60,7 @@
 
                 $('#tdSelectedSubject').html(entity.SubjectName);
                 $('#tdSelectedTeacher').html(entity.TeacherName);
+                pcClassSubject.Hide();
             }
         });
 
@@ -156,8 +169,12 @@
                 $('#<%=hdnLstHoursIndex.ClientID %>').val(lstHoursIndex.join(','));
                 $('#<%=hdnLstRoomID.ClientID %>').val(lstRoomID.join(','));
                 $('#<%=hdnLstDayNumber.ClientID %>').val(lstDayNumber.join(','));
-               
+
                 onCustomButtonClick('save');
+            });
+
+            $('#lblChangeClassSubject').click(function () {
+                pcClassSubject.Show();
             });
         });
     </script>
@@ -194,7 +211,7 @@
             <col style="width:150px" />
         </colgroup>
         <tr>
-            <td class="tdLabel"><div style="font-weight: bold;"><%=GetLabel("Dipilih") %> :</div></td>
+            <td class="tdLabel"><label class="lblLink" id="lblChangeClassSubject" style="font-weight: bold;"><%=GetLabel("Dipilih") %></label> :</td>
         </tr>
         <tr>
             <td class="tdLabel"><%=GetLabel("Mata Pelajaran") %> :</td>
@@ -367,36 +384,56 @@
                                 </td>
                             </tr>
                         </table>
-                        <br />
-                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" OnRowDataBound="grdView_RowDataBound"
-                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                            <Columns>
-                                <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:TemplateField HeaderText="Mata Pelajaran" HeaderStyle-Width="250px">
-                                    <ItemTemplate>
-                                        <%#Eval("SubjectName")%>
-                                        <input type="hidden" value="<%#Eval("ClassSubjectID") %>" bindingfield="ClassSubjectID" />
-                                        <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
-                                        <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
-                                        <input type="hidden" value="<%#Eval("RoomID") %>" bindingfield="RoomID" />
-                                        <input type="hidden" value="<%#Eval("RoomName") %>" bindingfield="RoomName" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="TeacherName" HeaderText="Guru"/>
-                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
-                                <asp:TemplateField HeaderText="Sisa Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
-                                    <ItemTemplate>
-                                        <div id="tdRemaining" class="tdRemaining" runat="server"></div>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                            <EmptyDataTemplate>
-                                <%=GetLabel("No Data To Display")%>
-                            </EmptyDataTemplate>
-                        </asp:GridView>
                     </asp:Panel>
                 </dx:PanelContent>
             </PanelCollection>
         </dxcp:ASPxCallbackPanel>
     </div>
+
+    <dxpc:ASPxPopupControl ID="pcClassSubject" runat="server" ClientInstanceName="pcClassSubject" EnableHierarchyRecreation="True"
+        FooterText="" HeaderText="Daftar Pelajaran" Modal="True" AllowDragging="True" PopupHorizontalAlign="WindowCenter" Width="800px"
+        PopupVerticalAlign="WindowCenter" CloseAction="CloseButton" Height="450px">
+        <ContentCollection>
+            <dxpc:PopupControlContentControl ID="PopupControlContentControl2" runat="server">
+                <div style="height:390px; overflow-y:scroll">
+                    <dxcp:ASPxCallbackPanel ID="cbpClassSubject" runat="server" Width="100%" ClientInstanceName="cbpClassSubject"
+                        ShowLoadingPanel="false" OnCallback="cbpClassSubject_Callback">
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent2" runat="server">
+                                <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                    position: relative; font-size: 0.95em;">
+                                    <asp:GridView ID="grdView" runat="server" CssClass="grdView" OnRowDataBound="grdView_RowDataBound"
+                                        AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                        <Columns>
+                                            <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:TemplateField HeaderText="Mata Pelajaran" HeaderStyle-Width="250px">
+                                                <ItemTemplate>
+                                                    <%#Eval("SubjectName")%>
+                                                    <input type="hidden" value="<%#Eval("ClassSubjectID") %>" bindingfield="ClassSubjectID" />
+                                                    <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
+                                                    <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                                    <input type="hidden" value="<%#Eval("RoomID") %>" bindingfield="RoomID" />
+                                                    <input type="hidden" value="<%#Eval("RoomName") %>" bindingfield="RoomName" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="TeacherName" HeaderText="Guru"/>
+                                            <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                            <asp:TemplateField HeaderText="Sisa Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right">
+                                                <ItemTemplate>
+                                                    <div id="tdRemaining" class="tdRemaining" runat="server"></div>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataTemplate>
+                                            <%=GetLabel("No Data To Display")%>
+                                        </EmptyDataTemplate>
+                                    </asp:GridView>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>
+                </div>
+            </dxpc:PopupControlContentControl>
+        </ContentCollection>
+    </dxpc:ASPxPopupControl>   
 </asp:Content>

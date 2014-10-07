@@ -36,6 +36,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboClass.SelectedIndex = 0;
 
             BindGridView();
+            BindGridClassSubject();
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -46,11 +47,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = "1 = 0";
             if (cboClass.Value != null && cboClass.Value.ToString() != "0")
             {
-                filterExpression = string.Format("SchoolClassID = {0} AND IsDeleted = 0 ORDER BY SubjectName, TeacherName", cboClass.Value);
-
                 vSchoolClass schoolClass = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", cboClass.Value)).FirstOrDefault();
                 DailySchedulePackage entity = BusinessLayer.GetDailySchedulePackage(schoolClass.DailySchedulePackageID);
                 List<DailyScheduleTypeDt> lstEntityDt = BusinessLayer.GetDailyScheduleTypeDtList(string.Format("DailyScheduleTypeID IN ({0},{1},{2},{3},{4},{5}) AND IsDeleted = 0",
@@ -61,7 +59,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.DailyScheduleTypeID5 == null ? "0" : entity.DailyScheduleTypeID5.ToString(),
                     entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                 ));
-
                 lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", cboClass.Value));
                 rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();
                 rptDay1.DataBind();
@@ -75,6 +72,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rptDay5.DataBind();
                 rptDay6.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID6).ToList();
                 rptDay6.DataBind();
+            }            
+        }
+
+        private void BindGridClassSubject()
+        {
+            string filterExpression = "1 = 0";
+            if (cboClass.Value != null && cboClass.Value.ToString() != "0")
+            {
+                filterExpression = string.Format("SchoolClassID = {0} AND IsDeleted = 0 ORDER BY SubjectName, TeacherName", cboClass.Value);
+                lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", cboClass.Value));
             }
             List<vClassSubject> lstEntity = BusinessLayer.GetvClassSubjectList(filterExpression);
             grdView.DataSource = lstEntity;
@@ -147,6 +154,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
+        }
+        protected void cbpClassSubject_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridClassSubject();
         }
         #endregion
 
