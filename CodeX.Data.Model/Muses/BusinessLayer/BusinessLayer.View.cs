@@ -2434,6 +2434,189 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vPurchaseReturnDt
+        public static List<vPurchaseReturnDt> GetvPurchaseReturnDtList(string filterExpression)
+        {
+            List<vPurchaseReturnDt> result = new List<vPurchaseReturnDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseReturnDt)helper.IDataReaderToObject(reader, new vPurchaseReturnDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvPurchaseReturnDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vPurchaseReturnDt> GetvPurchaseReturnDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vPurchaseReturnDt> result = new List<vPurchaseReturnDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseReturnDt)helper.IDataReaderToObject(reader, new vPurchaseReturnDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPurchaseReturnHd
+        public static List<vPurchaseReturnHd> GetvPurchaseReturnHdList(string filterExpression)
+        {
+            List<vPurchaseReturnHd> result = new List<vPurchaseReturnHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseReturnHd)helper.IDataReaderToObject(reader, new vPurchaseReturnHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static List<vPurchaseReturnHd> GetvPurchaseReturnHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vPurchaseReturnHd> result = new List<vPurchaseReturnHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseReturnHd)helper.IDataReaderToObject(reader, new vPurchaseReturnHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvPurchaseReturnHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvPurchaseReturnHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "PurchaseReturnNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static vPurchaseReturnHd GetvPurchaseReturnHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vPurchaseReturnHd> result = new List<vPurchaseReturnHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReturnHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseReturnHd)helper.IDataReaderToObject(reader, new vPurchaseReturnHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        #endregion
         #region vSchoolClass
         public static List<vSchoolClass> GetvSchoolClassList(string filterExpression)
         {
@@ -2456,6 +2639,189 @@ namespace CodeX.Data.Model
                 ctx.Close();
             }
             return result;
+        }
+        #endregion
+        #region vStockTakingDt
+        public static List<vStockTakingDt> GetvStockTakingDtList(string filterExpression)
+        {
+            List<vStockTakingDt> result = new List<vStockTakingDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStockTakingDt)helper.IDataReaderToObject(reader, new vStockTakingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vStockTakingDt> GetvStockTakingDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStockTakingDt> result = new List<vStockTakingDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStockTakingDt)helper.IDataReaderToObject(reader, new vStockTakingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStockTakingDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vStockTakingHd
+        public static List<vStockTakingHd> GetvStockTakingHdList(string filterExpression)
+        {
+            List<vStockTakingHd> result = new List<vStockTakingHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStockTakingHd)helper.IDataReaderToObject(reader, new vStockTakingHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static List<vStockTakingHd> GetvStockTakingHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStockTakingHd> result = new List<vStockTakingHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStockTakingHd)helper.IDataReaderToObject(reader, new vStockTakingHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvStockTakingHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvStockTakingHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "StockTakingNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static vStockTakingHd GetvStockTakingHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vStockTakingHd> result = new List<vStockTakingHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStockTakingHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStockTakingHd)helper.IDataReaderToObject(reader, new vStockTakingHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
         }
         #endregion
         #region vStudent

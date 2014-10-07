@@ -2506,6 +2506,102 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseReturnDt
+        public static PurchaseReturnDt GetPurchaseReturnDt(Int32 ID)
+        {
+            return new PurchaseReturnDtDao().Get(ID);
+        }
+        public static int InsertPurchaseReturnDt(PurchaseReturnDt record)
+        {
+            return new PurchaseReturnDtDao().Insert(record);
+        }
+        public static int UpdatePurchaseReturnDt(PurchaseReturnDt record)
+        {
+            return new PurchaseReturnDtDao().Update(record);
+        }
+        public static int DeletePurchaseReturnDt(Int32 ID)
+        {
+            return new PurchaseReturnDtDao().Delete(ID);
+        }
+        public static List<PurchaseReturnDt> GetPurchaseReturnDtList(string filterExpression)
+        {
+            List<PurchaseReturnDt> result = new List<PurchaseReturnDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReturnDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReturnDt)helper.IDataReaderToObject(reader, new PurchaseReturnDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseReturnHd
+        public static PurchaseReturnHd GetPurchaseReturnHd(Int32 PurchaseReturnID)
+        {
+            return new PurchaseReturnHdDao().Get(PurchaseReturnID);
+        }
+        public static int InsertPurchaseReturnHd(PurchaseReturnHd record)
+        {
+            return new PurchaseReturnHdDao().Insert(record);
+        }
+        public static int UpdatePurchaseReturnHd(PurchaseReturnHd record)
+        {
+            return new PurchaseReturnHdDao().Update(record);
+        }
+        public static int DeletePurchaseReturnHd(Int32 PurchaseReturnID)
+        {
+            return new PurchaseReturnHdDao().Delete(PurchaseReturnID);
+        }
+        public static List<PurchaseReturnHd> GetPurchaseReturnHdList(string filterExpression)
+        {
+            List<PurchaseReturnHd> result = new List<PurchaseReturnHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReturnHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReturnHd)helper.IDataReaderToObject(reader, new PurchaseReturnHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPurchaseReturnHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReturnHd));
+                ctx.CommandText = helper.SelectMaxColumn("PurchaseReturnID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region RestrictionDt
         public static RestrictionDt GetRestrictionDt(Int32 RestrictionID, String TransactionCode)
         {
@@ -3046,6 +3142,178 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StockTakingDt
+        public static StockTakingDt GetStockTakingDt(Int32 StockTakingID, Int32 ItemID)
+        {
+            return new StockTakingDtDao().Get(StockTakingID, ItemID);
+        }
+        public static int InsertStockTakingDt(StockTakingDt record)
+        {
+            return new StockTakingDtDao().Insert(record);
+        }
+        public static int UpdateStockTakingDt(StockTakingDt record)
+        {
+            return new StockTakingDtDao().Update(record);
+        }
+        public static int DeleteStockTakingDt(Int32 StockTakingID, Int32 ItemID)
+        {
+            return new StockTakingDtDao().Delete(StockTakingID, ItemID);
+        }
+        public static List<StockTakingDt> GetStockTakingDtList(string filterExpression, IDbContext ctx)
+        {
+            List<StockTakingDt> result = new List<StockTakingDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StockTakingDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StockTakingDt)helper.IDataReaderToObject(reader, new StockTakingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static List<StockTakingDt> GetStockTakingDtList(string filterExpression)
+        {
+            List<StockTakingDt> result = new List<StockTakingDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StockTakingDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StockTakingDt)helper.IDataReaderToObject(reader, new StockTakingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StockTakingDtExpired
+        public static StockTakingDtExpired GetStockTakingDtExpired(Int32 StockTakingID, Int32 ItemID, String BatchNumber)
+        {
+            return new StockTakingDtExpiredDao().Get(StockTakingID, ItemID, BatchNumber);
+        }
+        public static int InsertStockTakingDtExpired(StockTakingDtExpired record)
+        {
+            return new StockTakingDtExpiredDao().Insert(record);
+        }
+        public static int UpdateStockTakingDtExpired(StockTakingDtExpired record)
+        {
+            return new StockTakingDtExpiredDao().Update(record);
+        }
+        public static int DeleteStockTakingDtExpired(Int32 StockTakingID, Int32 ItemID, String BatchNumber)
+        {
+            return new StockTakingDtExpiredDao().Delete(StockTakingID, ItemID, BatchNumber);
+        }
+
+        public static List<StockTakingDtExpired> GetStockTakingDtExpiredList(string filterExpression, IDbContext ctx)
+        {
+            List<StockTakingDtExpired> result = new List<StockTakingDtExpired>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StockTakingDtExpired));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StockTakingDtExpired)helper.IDataReaderToObject(reader, new StockTakingDtExpired()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public static List<StockTakingDtExpired> GetStockTakingDtExpiredList(string filterExpression)
+        {
+            List<StockTakingDtExpired> result = new List<StockTakingDtExpired>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StockTakingDtExpired));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StockTakingDtExpired)helper.IDataReaderToObject(reader, new StockTakingDtExpired()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StockTakingHd
+        public static StockTakingHd GetStockTakingHd(Int32 StockTakingID)
+        {
+            return new StockTakingHdDao().Get(StockTakingID);
+        }
+        public static int InsertStockTakingHd(StockTakingHd record)
+        {
+            return new StockTakingHdDao().Insert(record);
+        }
+        public static int UpdateStockTakingHd(StockTakingHd record)
+        {
+            return new StockTakingHdDao().Update(record);
+        }
+        public static int DeleteStockTakingHd(Int32 StockTakingID)
+        {
+            return new StockTakingHdDao().Delete(StockTakingID);
+        }
+        public static List<StockTakingHd> GetStockTakingHdList(string filterExpression)
+        {
+            List<StockTakingHd> result = new List<StockTakingHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StockTakingHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StockTakingHd)helper.IDataReaderToObject(reader, new StockTakingHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStockTakingHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StockTakingHd));
+                ctx.CommandText = helper.SelectMaxColumn("StockTakingID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

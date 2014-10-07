@@ -136,6 +136,9 @@
     <Content Include="Program\Warehouse\PurchaseReceive\ExpiredDatePerItemCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveDetailCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalDetail.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalList.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntry.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalList.aspx" />
     <Content Include="Program\Warehouse\StockAdjustment\StockAdjustmentEntry.aspx" />
@@ -143,6 +146,8 @@
     <Content Include="Program\Warehouse\StockConsumption\Approval\StockConsumptionApprovalList.aspx" />
     <Content Include="Program\Warehouse\StockConsumption\StockConsumptionEntry.aspx" />
     <Content Include="Program\Warehouse\StockConsumption\StockConsumptionQuickPicksCtl.ascx" />
+    <Content Include="Program\Warehouse\StockTaking\StockTakingEntry.aspx" />
+    <Content Include="Program\Warehouse\StockTaking\StockTakingExpiredDateCtl.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -621,6 +626,27 @@
     <Compile Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx.designer.cs">
       <DependentUpon>PurchaseReceiveEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalDetail.aspx.cs">
+      <DependentUpon>PurchaseReturnApprovalDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalDetail.aspx.designer.cs">
+      <DependentUpon>PurchaseReturnApprovalDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalList.aspx.cs">
+      <DependentUpon>PurchaseReturnApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalList.aspx.designer.cs">
+      <DependentUpon>PurchaseReturnApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntry.aspx.cs">
+      <DependentUpon>PurchaseReturnEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntry.aspx.designer.cs">
+      <DependentUpon>PurchaseReturnEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Warehouse\StockAdjustment\Approval\StockAdjustmentApprovalDetail.aspx.cs">
       <DependentUpon>StockAdjustmentApprovalDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -669,6 +695,20 @@
     </Compile>
     <Compile Include="Program\Warehouse\StockConsumption\StockConsumptionQuickPicksCtl.ascx.designer.cs">
       <DependentUpon>StockConsumptionQuickPicksCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\StockTaking\StockTakingEntry.aspx.cs">
+      <DependentUpon>StockTakingEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\StockTaking\StockTakingEntry.aspx.designer.cs">
+      <DependentUpon>StockTakingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\StockTaking\StockTakingExpiredDateCtl.ascx.cs">
+      <DependentUpon>StockTakingExpiredDateCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\StockTaking\StockTakingExpiredDateCtl.ascx.designer.cs">
+      <DependentUpon>StockTakingExpiredDateCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

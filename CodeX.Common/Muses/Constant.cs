@@ -91,6 +91,12 @@ namespace CodeX.Common
             public const string VOID = "MS001^999";
         }
 
+        public static class PurchaseReturnType
+        {
+            public const string REPLACEMENT = "X161^001";
+            public const string CREDIT_NOTE = "X161^002";
+        }
+
         public static class ItemType
         {
             public const string PRODUCT = "X001^001";

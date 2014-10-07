@@ -966,6 +966,106 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseReturnDt
+    public partial class vPurchaseReturnDt
+    {
+
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
+               _DiscountPercentage1 / 100);
+                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
+                return totalAfterDisc2;
+            }
+        }
+
+        public Decimal CustomTotalDiscount
+        {
+            get
+            {
+                return (Quantity * UnitPrice) - CustomSubTotal;
+            }
+        }
+
+        public Decimal Discount
+        {
+            get
+            {
+                return Price * _DiscountPercentage1 / 100;
+            }
+        }
+        public Decimal Price
+        {
+            get
+            {
+                return (Quantity * UnitPrice * ConversionFactor);
+            }
+        }
+
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _ItemUnit;
+            }
+        }
+
+        public String CustomQuantityItemUnit
+        {
+            get
+            {
+                return string.Format("{0} {1}", _Quantity, _ItemUnit);
+            }
+        }
+
+        public String ReturnDateInString
+        {
+            get { return _ReturnDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region vPurchaseReturnHd
+    public partial class vPurchaseReturnHd
+    {
+        public string ReturnDateInString
+        {
+            get
+            {
+                return _ReturnDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string RefferenceDateInString
+        {
+            get
+            {
+                return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region vStockTakingHd
+    public partial class vStockTakingHd
+    {
+        public string FormDateInString
+        {
+            get
+            {
+                return _FormDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vStudent
     public partial class vStudent
     {
