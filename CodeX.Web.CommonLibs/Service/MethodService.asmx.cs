@@ -36,6 +36,22 @@ namespace CodeX.Web.CommonLibs.Service
             return Session[sessionName];
         }
 
+        #region GetItemMasterPurchase
+        [WebMethod(EnableSession = true)]
+        public object GetItemMasterPurchase(int itemID, int businessPartnerID)
+        {
+            return BusinessLayer.GetItemMasterPurchaseList(AppSession.UserLogin.SiteID, itemID, businessPartnerID).FirstOrDefault();
+        }
+        #endregion
+
+        #region GetItemQtyOnOrder
+        [WebMethod(EnableSession = true)]
+        public object GetItemQtyOnOrder(int itemID, int locationID, int type)
+        {
+            return BusinessLayer.GetItemQtyOnOrder(itemID, locationID, type).FirstOrDefault();
+        }
+        #endregion
+
         #region Get Object
         [WebMethod()]
         public object GetLimitListObject(string methodName, string filterExpression, int pageCount)

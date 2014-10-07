@@ -147,6 +147,46 @@
     };
     //#endregion
 
+    //#region Get Item Master Purchase
+    this.getItemMasterPurchase = function (itemID, businessPartnerID, functionHandler) {
+        $.ajax({
+            // have to use synchronous here, else returns before data is fetched
+            async: false,
+            type: 'POST',
+            url: ResolveUrl('~/Libs/Service/MethodService.asmx/GetItemMasterPurchase'),
+            contentType: 'application/json; charset=utf-8',
+            data: '{ "itemID" : "' + itemID + '", "businessPartnerID" : "' + businessPartnerID + '"}',
+            dataType: 'json',
+            error: function (msg) {
+                alert(msg.responseText);
+            },
+            success: function (msg) {
+                functionHandler(msg.d);
+            }
+        });     //end ajax
+    };
+    //#endregion
+
+    //#region Get Item Qty On Order
+    this.getItemQtyOnOrder = function (itemID, locationID, type, functionHandler) {
+        $.ajax({
+            // have to use synchronous here, else returns before data is fetched
+            async: false,
+            type: 'POST',
+            url: ResolveUrl('~/Libs/Service/MethodService.asmx/GetItemQtyOnOrder'),
+            contentType: 'application/json; charset=utf-8',
+            data: '{ "itemID" : "' + itemID + '", "locationID" : "' + locationID + '", "type" : "' + type + '"}',
+            dataType: 'json',
+            error: function (msg) {
+                alert(msg.responseText);
+            },
+            success: function (msg) {
+                functionHandler(msg.d);
+            }
+        });     //end ajax
+    };
+    //#endregion
+
     this.getCustomObject = function (listParentValue, selectedColumnID, selectedColumnName, valueColumn, valueColumnType, filterExpression, orderByExpression, objectTypeName, functionHandler) {
         showLoadingPanel();
         $.ajax({

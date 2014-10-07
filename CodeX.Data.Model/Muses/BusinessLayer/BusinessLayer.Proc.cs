@@ -42,5 +42,35 @@ namespace CodeX.Data.Model
             }
         }
         #endregion        
+        #region GetItemQtyOnOrder
+        public static List<GetItemQtyOnOrder> GetItemQtyOnOrder(int itemID, int locationID, int type)
+        {
+            List<GetItemQtyOnOrder> result = new List<GetItemQtyOnOrder>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetItemQtyOnOrder));
+                ctx.CommandText = "GetItemQtyOnOrder";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("ItemID", itemID);
+                ctx.Add("LocationID", locationID);
+                ctx.Add("Type", type);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetItemQtyOnOrder)helper.IDataReaderToObject(reader, new GetItemQtyOnOrder()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
     }
 }

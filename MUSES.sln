@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.Inventory",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.TeacherPage", "CodeX.Muses.Web.TeacherPage\CodeX.Muses.Web.TeacherPage.csproj", "{87039EC0-2C72-4CF7-8FED-9A3D47DDD2E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.Finance", "CodeX.Muses.Web.Finance\CodeX.Muses.Web.Finance.csproj", "{420C32EA-F15A-4045-A32A-E0880F74A520}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,14 @@ Global
 		{87039EC0-2C72-4CF7-8FED-9A3D47DDD2E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87039EC0-2C72-4CF7-8FED-9A3D47DDD2E5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{87039EC0-2C72-4CF7-8FED-9A3D47DDD2E5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{420C32EA-F15A-4045-A32A-E0880F74A520}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +161,7 @@ Global
 		{134FFA5D-4987-4B09-93EC-2A90D356A748} = {854807FA-DCFA-48E5-8A26-D3DE1A7BCED5}
 		{0B639E25-6049-4DAB-84CA-D9DE6DADCEDA} = {854807FA-DCFA-48E5-8A26-D3DE1A7BCED5}
 		{87039EC0-2C72-4CF7-8FED-9A3D47DDD2E5} = {854807FA-DCFA-48E5-8A26-D3DE1A7BCED5}
+		{420C32EA-F15A-4045-A32A-E0880F74A520} = {854807FA-DCFA-48E5-8A26-D3DE1A7BCED5}
 		{BB477D39-0A55-4F17-B656-143459C5E9AD} = {E0B255F5-AE9B-4FCB-B3BF-9BCF461D9FF9}
 	EndGlobalSection
 EndGlobal
