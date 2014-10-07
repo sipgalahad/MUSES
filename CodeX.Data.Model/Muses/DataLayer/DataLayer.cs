@@ -5469,6 +5469,302 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PurchaseReplacementDt
+    [Serializable]
+    [Table(Name = "PurchaseReplacementDt")]
+    public class PurchaseReplacementDt : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _PurchaseReplacementID;
+        private Int32 _FromItemID;
+        private Int32 _ToItemID;
+        private Decimal _Quantity;
+        private String _GCItemUnit;
+        private String _GCBaseUnit;
+        private Decimal _ConversionFactor;
+        private Boolean _IsControlExpired;
+        private String _GCItemDetailStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "PurchaseReplacementID", DataType = "Int32")]
+        public Int32 PurchaseReplacementID
+        {
+            get { return _PurchaseReplacementID; }
+            set { _PurchaseReplacementID = value; }
+        }
+        [Column(Name = "FromItemID", DataType = "Int32")]
+        public Int32 FromItemID
+        {
+            get { return _FromItemID; }
+            set { _FromItemID = value; }
+        }
+        [Column(Name = "ToItemID", DataType = "Int32")]
+        public Int32 ToItemID
+        {
+            get { return _ToItemID; }
+            set { _ToItemID = value; }
+        }
+        [Column(Name = "Quantity", DataType = "Decimal")]
+        public Decimal Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "GCBaseUnit", DataType = "String")]
+        public String GCBaseUnit
+        {
+            get { return _GCBaseUnit; }
+            set { _GCBaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "IsControlExpired", DataType = "Boolean")]
+        public Boolean IsControlExpired
+        {
+            get { return _IsControlExpired; }
+            set { _IsControlExpired = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PurchaseReplacementDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReplacementDt));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public PurchaseReplacementDtDao() { }
+        public PurchaseReplacementDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReplacementDt Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReplacementDt)_helper.DataRowToObject(row, new PurchaseReplacementDt());
+        }
+        public int Insert(PurchaseReplacementDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReplacementDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            PurchaseReplacementDt record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReplacementDtDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PurchaseReplacementHd
+    [Serializable]
+    [Table(Name = "PurchaseReplacementHd")]
+    public class PurchaseReplacementHd : DbDataModel
+    {
+        private Int32 _PurchaseReplacementID;
+        private String _PurchaseReplacementNo;
+        private DateTime _ReplacementDate;
+        private Int32 _PurchaseReturnID;
+        private Int32 _LocationID;
+        private Int32 _BusinessPartnerID;
+        private String _ReferenceNo;
+        private DateTime _ReferenceDate;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PurchaseReplacementID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PurchaseReplacementID
+        {
+            get { return _PurchaseReplacementID; }
+            set { _PurchaseReplacementID = value; }
+        }
+        [Column(Name = "PurchaseReplacementNo", DataType = "String")]
+        public String PurchaseReplacementNo
+        {
+            get { return _PurchaseReplacementNo; }
+            set { _PurchaseReplacementNo = value; }
+        }
+        [Column(Name = "ReplacementDate", DataType = "DateTime")]
+        public DateTime ReplacementDate
+        {
+            get { return _ReplacementDate; }
+            set { _ReplacementDate = value; }
+        }
+        [Column(Name = "PurchaseReturnID", DataType = "Int32")]
+        public Int32 PurchaseReturnID
+        {
+            get { return _PurchaseReturnID; }
+            set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "ReferenceDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ReferenceDate
+        {
+            get { return _ReferenceDate; }
+            set { _ReferenceDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String", IsNullable = true)]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class PurchaseReplacementHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReplacementHd));
+        private bool _isAuditLog = false;
+        private const string p_PurchaseReplacementID = "@p_PurchaseReplacementID";
+        public PurchaseReplacementHdDao() { }
+        public PurchaseReplacementHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReplacementHd Get(Int32 PurchaseReplacementID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PurchaseReplacementID, PurchaseReplacementID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReplacementHd)_helper.DataRowToObject(row, new PurchaseReplacementHd());
+        }
+        public int Insert(PurchaseReplacementHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReplacementHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PurchaseReplacementID)
+        {
+            PurchaseReplacementHd record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReplacementHdDao().Get(PurchaseReplacementID);
+            else
+                record = Get(PurchaseReplacementID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PurchaseRequestDt
     [Serializable]
     [Table(Name = "PurchaseRequestDt")]
@@ -7837,6 +8133,168 @@ namespace CodeX.Data.Model
                 record = new SubjectGradeMajorDao().Get(SubjectID, GCGrade);
             else
                 record = Get(SubjectID, GCGrade);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SupplierCreditNote
+    [Serializable]
+    [Table(Name = "SupplierCreditNote")]
+    public class SupplierCreditNote : DbDataModel
+    {
+        private Int32 _CreditNoteID;
+        private String _CreditNoteNo;
+        private DateTime _CreditNoteDate;
+        private Int32 _BusinessPartnerID;
+        private Int32 _PurchaseReturnID;
+        private String _GCCreditNoteType;
+        private Decimal _CNAmount;
+        private Boolean _IsIncludeVAT;
+        private Decimal _VATPercentage;
+        private String _Remarks;
+        private Int32? _PurchaseInvoiceID;
+        private String _GCTransactionStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "CreditNoteID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 CreditNoteID
+        {
+            get { return _CreditNoteID; }
+            set { _CreditNoteID = value; }
+        }
+        [Column(Name = "CreditNoteNo", DataType = "String")]
+        public String CreditNoteNo
+        {
+            get { return _CreditNoteNo; }
+            set { _CreditNoteNo = value; }
+        }
+        [Column(Name = "CreditNoteDate", DataType = "DateTime")]
+        public DateTime CreditNoteDate
+        {
+            get { return _CreditNoteDate; }
+            set { _CreditNoteDate = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "PurchaseReturnID", DataType = "Int32")]
+        public Int32 PurchaseReturnID
+        {
+            get { return _PurchaseReturnID; }
+            set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "GCCreditNoteType", DataType = "String")]
+        public String GCCreditNoteType
+        {
+            get { return _GCCreditNoteType; }
+            set { _GCCreditNoteType = value; }
+        }
+        [Column(Name = "CNAmount", DataType = "Decimal")]
+        public Decimal CNAmount
+        {
+            get { return _CNAmount; }
+            set { _CNAmount = value; }
+        }
+        [Column(Name = "IsIncludeVAT", DataType = "Boolean")]
+        public Boolean IsIncludeVAT
+        {
+            get { return _IsIncludeVAT; }
+            set { _IsIncludeVAT = value; }
+        }
+        [Column(Name = "VATPercentage", DataType = "Decimal")]
+        public Decimal VATPercentage
+        {
+            get { return _VATPercentage; }
+            set { _VATPercentage = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "PurchaseInvoiceID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseInvoiceID
+        {
+            get { return _PurchaseInvoiceID; }
+            set { _PurchaseInvoiceID = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SupplierCreditNoteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SupplierCreditNote));
+        private bool _isAuditLog = false;
+        private const string p_CreditNoteID = "@p_CreditNoteID";
+        public SupplierCreditNoteDao() { }
+        public SupplierCreditNoteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SupplierCreditNote Get(Int32 CreditNoteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CreditNoteID, CreditNoteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SupplierCreditNote)_helper.DataRowToObject(row, new SupplierCreditNote());
+        }
+        public int Insert(SupplierCreditNote record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SupplierCreditNote record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CreditNoteID)
+        {
+            SupplierCreditNote record;
+            if (_ctx.Transaction == null)
+                record = new SupplierCreditNoteDao().Get(CreditNoteID);
+            else
+                record = Get(CreditNoteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

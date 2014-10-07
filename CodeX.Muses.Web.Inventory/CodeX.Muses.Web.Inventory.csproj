@@ -113,6 +113,7 @@
     <Content Include="Program\Procurement\PurchaseRequest\PurchaseRequestQtyOnOrderCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\PurchaseRequestQuickPicksCtl.ascx" />
     <Content Include="Program\Procurement\PurchaseRequest\PurchaseRequestReorder.aspx" />
+    <Content Include="Program\Warehouse\CreditNote\CreditNoteEntry.aspx" />
     <Content Include="Program\Warehouse\ItemDistribution\Approval\ItemDistributionApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\ItemDistribution\Approval\ItemDistributionApprovalList.aspx" />
     <Content Include="Program\Warehouse\ItemDistribution\Confirmation\ItemDistributionConfirmationDetailCtl.ascx" />
@@ -136,6 +137,7 @@
     <Content Include="Program\Warehouse\PurchaseReceive\ExpiredDatePerItemCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveDetailCtl.ascx" />
     <Content Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx" />
+    <Content Include="Program\Warehouse\PurchaseReplacement\PurchaseReplacementEntry.aspx" />
     <Content Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalDetail.aspx" />
     <Content Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalList.aspx" />
     <Content Include="Program\Warehouse\PurchaseReturn\PurchaseReturnEntry.aspx" />
@@ -465,6 +467,13 @@
     <Compile Include="Program\Procurement\PurchaseRequest\PurchaseRequestReorder.aspx.designer.cs">
       <DependentUpon>PurchaseRequestReorder.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Warehouse\CreditNote\CreditNoteEntry.aspx.cs">
+      <DependentUpon>CreditNoteEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\CreditNote\CreditNoteEntry.aspx.designer.cs">
+      <DependentUpon>CreditNoteEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Warehouse\ItemDistribution\Approval\ItemDistributionApprovalDetail.aspx.cs">
       <DependentUpon>ItemDistributionApprovalDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -625,6 +634,13 @@
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReceive\PurchaseReceiveEntry.aspx.designer.cs">
       <DependentUpon>PurchaseReceiveEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReplacement\PurchaseReplacementEntry.aspx.cs">
+      <DependentUpon>PurchaseReplacementEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Warehouse\PurchaseReplacement\PurchaseReplacementEntry.aspx.designer.cs">
+      <DependentUpon>PurchaseReplacementEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Warehouse\PurchaseReturn\Approval\PurchaseReturnApprovalDetail.aspx.cs">
       <DependentUpon>PurchaseReturnApprovalDetail.aspx</DependentUpon>

@@ -2297,6 +2297,102 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseReplacementDt
+        public static PurchaseReplacementDt GetPurchaseReplacementDt(Int32 ID)
+        {
+            return new PurchaseReplacementDtDao().Get(ID);
+        }
+        public static int InsertPurchaseReplacementDt(PurchaseReplacementDt record)
+        {
+            return new PurchaseReplacementDtDao().Insert(record);
+        }
+        public static int UpdatePurchaseReplacementDt(PurchaseReplacementDt record)
+        {
+            return new PurchaseReplacementDtDao().Update(record);
+        }
+        public static int DeletePurchaseReplacementDt(Int32 ID)
+        {
+            return new PurchaseReplacementDtDao().Delete(ID);
+        }
+        public static List<PurchaseReplacementDt> GetPurchaseReplacementDtList(string filterExpression)
+        {
+            List<PurchaseReplacementDt> result = new List<PurchaseReplacementDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReplacementDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReplacementDt)helper.IDataReaderToObject(reader, new PurchaseReplacementDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseReplacementHd
+        public static PurchaseReplacementHd GetPurchaseReplacementHd(Int32 PurchaseReplacementID)
+        {
+            return new PurchaseReplacementHdDao().Get(PurchaseReplacementID);
+        }
+        public static int InsertPurchaseReplacementHd(PurchaseReplacementHd record)
+        {
+            return new PurchaseReplacementHdDao().Insert(record);
+        }
+        public static int UpdatePurchaseReplacementHd(PurchaseReplacementHd record)
+        {
+            return new PurchaseReplacementHdDao().Update(record);
+        }
+        public static int DeletePurchaseReplacementHd(Int32 PurchaseReplacementID)
+        {
+            return new PurchaseReplacementHdDao().Delete(PurchaseReplacementID);
+        }
+        public static List<PurchaseReplacementHd> GetPurchaseReplacementHdList(string filterExpression)
+        {
+            List<PurchaseReplacementHd> result = new List<PurchaseReplacementHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReplacementHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReplacementHd)helper.IDataReaderToObject(reader, new PurchaseReplacementHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPurchaseReplacementHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReplacementHd));
+                ctx.CommandText = helper.SelectMaxColumn("PurchaseReplacementID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseRequestDt
         public static PurchaseRequestDt GetPurchaseRequestDt(Int32 ID)
         {
@@ -3598,6 +3694,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SupplierCreditNote
+        public static SupplierCreditNote GetSupplierCreditNote(Int32 CreditNoteID)
+        {
+            return new SupplierCreditNoteDao().Get(CreditNoteID);
+        }
+        public static int InsertSupplierCreditNote(SupplierCreditNote record)
+        {
+            return new SupplierCreditNoteDao().Insert(record);
+        }
+        public static int UpdateSupplierCreditNote(SupplierCreditNote record)
+        {
+            return new SupplierCreditNoteDao().Update(record);
+        }
+        public static int DeleteSupplierCreditNote(Int32 CreditNoteID)
+        {
+            return new SupplierCreditNoteDao().Delete(CreditNoteID);
+        }
+        public static List<SupplierCreditNote> GetSupplierCreditNoteList(string filterExpression)
+        {
+            List<SupplierCreditNote> result = new List<SupplierCreditNote>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierCreditNote));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierCreditNote)helper.IDataReaderToObject(reader, new SupplierCreditNote()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSupplierCreditNoteMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierCreditNote));
+                ctx.CommandText = helper.SelectMaxColumn("CreditNoteID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Teacher
         public static Teacher GetTeacher(Int32 TeacherID)
         {
@@ -3699,6 +3851,22 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeacherMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Teacher));
+                ctx.CommandText = helper.SelectMaxColumn("TeacherID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

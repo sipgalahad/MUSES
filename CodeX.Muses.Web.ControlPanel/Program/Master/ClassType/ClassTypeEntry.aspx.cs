@@ -107,6 +107,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 ClassType entity = new ClassType();
                 ControlToEntity(entity);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetClassTypeMaxID(ctx).ToString();

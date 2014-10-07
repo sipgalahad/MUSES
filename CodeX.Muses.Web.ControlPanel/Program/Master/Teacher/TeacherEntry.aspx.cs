@@ -117,19 +117,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            TeacherDao entityDao = new TeacherDao(ctx);
             bool result = false;
             try
             {
                 Teacher entity = new Teacher();
                 ControlToEntity(entity);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertTeacher(entity);
+                entityDao.Insert(entity);
+                retval = BusinessLayer.GetTeacherMaxID(ctx).ToString();
+                ctx.CommitTransaction();
                 result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

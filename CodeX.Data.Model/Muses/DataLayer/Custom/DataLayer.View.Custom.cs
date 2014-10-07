@@ -776,6 +776,60 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseReplacementDt
+    public partial class vPurchaseReplacementDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomQuantityItemUnit
+        {
+            get
+            {
+                return string.Format("{0} {1}", _Quantity, _ItemUnit);
+            }
+        }
+        public String CustomFromQuantityItemUnit
+        {
+            get
+            {
+                return string.Format("{0} {1}", _FromQuantity, _FromItemUnit);
+            }
+        }
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseReplacementHd
+    public partial class vPurchaseReplacementHd
+    {
+        public string ReplacementDateInString
+        {
+            get
+            {
+                return _ReplacementDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string RefferenceDateInString
+        {
+            get
+            {
+                return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region vPurchaseRequestDt
     public partial class vPurchaseRequestDt
     {
@@ -1089,6 +1143,28 @@ namespace CodeX.Data.Model
             {
                 return Function.GetPatientAgeInDay(_DateOfBirth, DateTime.Now);
             }
+        }
+    }
+    #endregion
+    #region vSupplierCreditNote
+    public partial class vSupplierCreditNote
+    {
+        public string CreditNoteDateInString
+        {
+            get
+            {
+                return _CreditNoteDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public Decimal VATAmount
+        {
+            get { return _CNAmount * _VATPercentage / 100; }
+        }
+
+        public String TotalInString
+        {
+            get { return Function.NumberInWords(Convert.ToInt32(_CNAmount + VATAmount), true); }
         }
     }
     #endregion
