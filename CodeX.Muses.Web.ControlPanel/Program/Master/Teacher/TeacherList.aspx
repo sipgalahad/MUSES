@@ -84,7 +84,7 @@
                                 <asp:BoundField DataField="TeacherID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="TeacherCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Mata Pelajaran" Text="Mata Pelajaran" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

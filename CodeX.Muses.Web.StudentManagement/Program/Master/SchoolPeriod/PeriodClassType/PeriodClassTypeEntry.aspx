@@ -126,7 +126,7 @@
                                     <td><input type="button" id="btnDailySchedulePackageDt" class="btnMore" value="..." /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Selesai")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah Kelas")%></label></td>
                                     <td><asp:TextBox ID="txtNoOfClass" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
                             </table>

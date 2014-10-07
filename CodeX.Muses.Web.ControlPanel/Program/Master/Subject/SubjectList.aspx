@@ -83,7 +83,7 @@
                                 <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Nama" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Kelas & Jurusan" Text="Kelas & Jurusan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

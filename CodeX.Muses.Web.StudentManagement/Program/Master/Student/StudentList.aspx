@@ -77,7 +77,7 @@
                             <Columns>
                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="StudentCode" HeaderText="Kode Siswa" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="PatientName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="StudentName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

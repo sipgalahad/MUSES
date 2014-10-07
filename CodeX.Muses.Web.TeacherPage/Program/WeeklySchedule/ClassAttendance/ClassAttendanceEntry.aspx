@@ -30,6 +30,28 @@
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
             });
+
+            $('.grdStudent tr:gt(1)').each(function () {
+                var hdnAttendance = $(this).find(".hdnAttendance").val();
+                if (hdnAttendance != '') {
+                    $rdo = $(this).find("input[type='radio'][value='" + hdnAttendance + "']");
+                    $rdo.attr('checked', true);
+                }
+            });
+
+            $("input[type='radio'][name='rdoAttendanceAll']").live('change', function () {
+                var selectedValue = $(this).val();
+                $('.grdStudent tr:gt(1)').each(function () {
+                    $rdo = $(this).find("input[type='radio'][value='" + selectedValue + "']");
+                    $rdo.attr('checked', true);
+                });
+            });
+
+            $('.rdoAttendanceDt').live('change', function () {
+                $rdo = $("input[type='radio'][name='rdoAttendanceAll']:checked");
+                if ($rdo != null)
+                    $rdo.attr('checked', false);
+            });
         });
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
@@ -41,7 +63,10 @@
         <tr>
             <asp:Repeater ID="rptHeader" runat="server">
                 <ItemTemplate>
-                    <th class="thCenter" style="width:100px"><%#Eval("StandardCodeName") %></th>
+                    <th class="thCenter" style="width:100px">
+                        <%#Eval("StandardCodeName") %><br />
+                        <input type="radio" name="rdoAttendanceAll" value='<%#Eval("StandardCodeID") %>' />
+                    </th>
                 </ItemTemplate>
             </asp:Repeater>
         </tr>
@@ -49,10 +74,15 @@
             <ItemTemplate>
                 <tr>
                     <td class="keyField"><%#Eval("StudentID") %></td>
-                    <td><%#Eval("StudentName") %></td>
-                    <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
+                    <td>
+                        <%#Eval("StudentName") %>
+                        <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
+                    </td>
+                    <asp:Repeater ID="rptStudentAttendance" runat="server">
                         <ItemTemplate>
-                            <td align="center"><input type="radio" id="rdoAttendance" runat="server" name="rdoAttendance<%# ((RepeaterItem)Container.Parent.Parent).ItemIndex %>" value='<%#Eval("StandardCodeID") %>' /></td>
+                            <td align="center">
+                                <input type="radio" class="rdoAttendanceDt" name="rdoAttendance<%# ((RepeaterItem)Container.Parent.Parent).ItemIndex %>" value='<%#Eval("StandardCodeID") %>' />
+                            </td>
                         </ItemTemplate>
                     </asp:Repeater>
                 </tr>

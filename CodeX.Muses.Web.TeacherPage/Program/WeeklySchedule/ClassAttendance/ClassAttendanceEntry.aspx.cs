@@ -37,34 +37,21 @@ namespace CodeX.Muses.Web.TeacherPage.Program
             rptStudent.DataBind();
         }
 
+        List<ClassMeetingAttendance> lstClassMeetingAttendance = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassStudent entity = (vClassStudent)e.Item.DataItem;
+                HtmlInputHidden hdnAttendance = (HtmlInputHidden)e.Item.FindControl("hdnAttendance");
+
+                ClassMeetingAttendance attendance = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == entity.StudentID);
+                if (attendance != null)
+                    hdnAttendance.Value = attendance.GCAttendanceStatus;
+
                 Repeater rptStudentAttendance = (Repeater)e.Item.FindControl("rptStudentAttendance");
                 rptStudentAttendance.DataSource = lstAttendanceStatus;
                 rptStudentAttendance.DataBind();
-            }
-        }
-
-        List<ClassMeetingAttendance> lstClassMeetingAttendance = null;
-        protected void rptStudentAttendance_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                StandardCode entity = (StandardCode)e.Item.DataItem;
-
-                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
-                ClassMeetingAttendance attendance = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == student.StudentID);
-                if (attendance != null)
-                {
-                    if (attendance.GCAttendanceStatus == entity.StandardCodeID)
-                    {
-                        HtmlInputRadioButton rdoAttendance = (HtmlInputRadioButton)e.Item.FindControl("rdoAttendance");
-                        rdoAttendance.Checked = true;
-                    }
-                }
             }
         }
 
