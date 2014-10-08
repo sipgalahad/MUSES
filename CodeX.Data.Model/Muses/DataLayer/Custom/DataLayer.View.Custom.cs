@@ -302,6 +302,25 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemMovement
+    public partial class vItemMovement
+    {
+        public string MovementDateInString
+        {
+            get
+            {
+                return _MovementDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public string SupplierName
+        {
+            get
+            {
+                return DetailDesc.Split(new String[] { " PO:", " :" }, StringSplitOptions.None)[0];
+            }
+        }
+    }
+    #endregion
     #region vItemRequestDt
     public partial class vItemRequestDt
     {

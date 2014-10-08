@@ -2053,6 +2053,196 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemMovement
+    [Serializable]
+    [Table(Name = "vItemMovement")]
+    public partial class vItemMovement
+    {
+        private Int32 _MovementID;
+        private DateTime _MovementDate;
+        private Int32 _LocationID;
+        private String _TransactionCode;
+        private String _TransactionNo;
+        private Int32 _TransactionID;
+        private Int32 _TransactionDtID;
+        private Int32 _ItemID;
+        private String _ItemCode;
+        private String _ItemName1;
+        private String _TransactionDescription;
+        private String _DetailDesc;
+        private Decimal _QuantityBEGIN;
+        private Decimal _QuantityIN;
+        private Decimal _QuantityOUT;
+        private Decimal _QuantityEND;
+        private String _GCItemUnit;
+        private String _ItemUnit;
+        private String _GCBaseUnit;
+        private String _BaseUnit;
+        private Decimal _ConversionFactor;
+        private Decimal _SalesPrice;
+        private Decimal _PurchasePrice;
+        private Decimal _CostAmount;
+        private Int32 _CreatedBy;
+        private String _CreatedByUserName;
+
+        [Column(Name = "MovementID", DataType = "Int32")]
+        public Int32 MovementID
+        {
+            get { return _MovementID; }
+            set { _MovementID = value; }
+        }
+        [Column(Name = "MovementDate", DataType = "DateTime")]
+        public DateTime MovementDate
+        {
+            get { return _MovementDate; }
+            set { _MovementDate = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemCode", DataType = "String")]
+        public String ItemCode
+        {
+            get { return _ItemCode; }
+            set { _ItemCode = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "TransactionDescription", DataType = "String")]
+        public String TransactionDescription
+        {
+            get { return _TransactionDescription; }
+            set { _TransactionDescription = value; }
+        }
+        [Column(Name = "DetailDesc", DataType = "String")]
+        public String DetailDesc
+        {
+            get { return _DetailDesc; }
+            set { _DetailDesc = value; }
+        }
+        [Column(Name = "QuantityBEGIN", DataType = "Decimal")]
+        public Decimal QuantityBEGIN
+        {
+            get { return _QuantityBEGIN; }
+            set { _QuantityBEGIN = value; }
+        }
+        [Column(Name = "QuantityIN", DataType = "Decimal")]
+        public Decimal QuantityIN
+        {
+            get { return _QuantityIN; }
+            set { _QuantityIN = value; }
+        }
+        [Column(Name = "QuantityOUT", DataType = "Decimal")]
+        public Decimal QuantityOUT
+        {
+            get { return _QuantityOUT; }
+            set { _QuantityOUT = value; }
+        }
+        [Column(Name = "QuantityEND", DataType = "Decimal")]
+        public Decimal QuantityEND
+        {
+            get { return _QuantityEND; }
+            set { _QuantityEND = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+        [Column(Name = "GCBaseUnit", DataType = "String")]
+        public String GCBaseUnit
+        {
+            get { return _GCBaseUnit; }
+            set { _GCBaseUnit = value; }
+        }
+        [Column(Name = "BaseUnit", DataType = "String")]
+        public String BaseUnit
+        {
+            get { return _BaseUnit; }
+            set { _BaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "SalesPrice", DataType = "Decimal")]
+        public Decimal SalesPrice
+        {
+            get { return _SalesPrice; }
+            set { _SalesPrice = value; }
+        }
+        [Column(Name = "PurchasePrice", DataType = "Decimal")]
+        public Decimal PurchasePrice
+        {
+            get { return _PurchasePrice; }
+            set { _PurchasePrice = value; }
+        }
+        [Column(Name = "CostAmount", DataType = "Decimal")]
+        public Decimal CostAmount
+        {
+            get { return _CostAmount; }
+            set { _CostAmount = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByUserName", DataType = "String")]
+        public String CreatedByUserName
+        {
+            get { return _CreatedByUserName; }
+            set { _CreatedByUserName = value; }
+        }
+    }
+    #endregion
     #region vItemRequestDt
     [Serializable]
     [Table(Name = "vItemRequestDt")]

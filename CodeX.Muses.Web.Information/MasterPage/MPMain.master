@@ -1,0 +1,122 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBase.Master" AutoEventWireup="true" 
+    CodeBehind="MPMain.master.cs" Inherits="CodeX.Muses.Web.Information.MasterPage.MPMain" %>
+
+<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="plhMPBase" runat="server">
+    <script type="text/javascript">
+        $(function () {
+            $('#dropDownMenu').superfish({
+                //useClick: true
+            });
+        });
+
+        function openWindowPopup(link, windowID, width, heigth) {
+            showLoadingPanel();
+            var url = ResolveUrl(link);
+            var tempWindowID = 'Map' + windowID;
+
+            var left = (screen.width / 2) - (width / 2);
+            var top = (screen.height / 2) - (heigth / 2);
+            var win = window.open("", tempWindowID, 'status=1,toolbar=0,menubar=0,resizable=1,location=0,scrollbars=1,width=' + width + ',height=' + heigth + ', top=' + top + ', left=' + left);
+            if (win) {
+                win.focus();
+                //listWindow.push(win);
+
+                var mapForm = document.createElement("form");
+                mapForm.target = tempWindowID;
+                mapForm.method = "POST";
+                mapForm.action = url;
+
+                //var mapInput = document.createElement("input");
+                //mapInput.type = "hidden";
+                //mapInput.name = "id";
+                //mapInput.value = loginData;
+                //mapForm.appendChild(mapInput);
+
+                document.body.appendChild(mapForm);
+
+                mapForm.submit();
+
+                $(mapForm).remove();
+
+            } else {
+                showToast('Warning', 'You must allow popups for this map to work.');
+            }
+            hideLoadingPanel();
+        }
+    </script>
+
+    <input type="hidden" runat="server" id="hdnLoginData" />
+
+    <div class="applicationTopBar" style="height: 33px;">
+        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;"><%=GetLabel("Information")%></div>
+        <div id="page-wrap" style="padding-top:7px;">
+            <asp:Repeater ID="rptMenu" runat="server" OnItemDataBound="rptMenu_ItemDataBound">
+                <HeaderTemplate>
+                    <ul class="sf-menu" id="dropDownMenu">
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <li class="liHeader"><a href="<%# GetResolveUrl((string)Eval("MenuUrl"))%>"><%# GetLabel((string)Eval("MenuCaption"))%></a>
+                        <asp:Repeater ID="rptMenuLevel2" runat="server" OnItemDataBound="rptMenuLevel2_ItemDataBound">
+                            <HeaderTemplate>
+                                <ul>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                    <li><a href="<%# GetResolveUrl((string)Eval("MenuUrl"))%>"><%# GetLabel((string)Eval("MenuCaption"))%></a>
+                                        <asp:Repeater ID="rptMenuLevel3" runat="server" OnItemDataBound="rptMenuLevel3_ItemDataBound">
+                                            <HeaderTemplate>
+                                                <ul>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <li><a href="<%# GetResolveUrl((string)Eval("MenuUrl"))%>"><%# GetLabel((string)Eval("MenuCaption"))%></a>
+                                                    <asp:Repeater ID="rptMenuLevel4" runat="server">
+                                                        <HeaderTemplate>
+                                                            <ul>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                                <li><a href="<%# GetResolveUrl((string)Eval("MenuUrl"))%>"><%# GetLabel((string)Eval("MenuCaption"))%></a></li>
+                                                        </ItemTemplate>
+                                                        <FooterTemplate>
+                                                            </ul>
+                                                        </FooterTemplate>
+                                                    </asp:Repeater>  
+                                                </li>
+                                            </ItemTemplate>
+                                            <FooterTemplate>
+                                                </ul>
+                                            </FooterTemplate>
+                                        </asp:Repeater>                                
+                                    </li>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                </ul>
+                            </FooterTemplate>
+                        </asp:Repeater>
+                    </li>
+                </ItemTemplate>
+                <FooterTemplate>
+                    </ul>
+                </FooterTemplate>
+            </asp:Repeater>
+        </div>
+    </div>
+    <div style="position: relative;width:100%;">
+        <div style="position:absolute;width:100%;z-index:1;">
+        <asp:ContentPlaceHolder ID="plhMPMain" runat="server">
+        
+        </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <div style="display:none;height:0px; overflow:hidden;">
+        <dxcp:ASPxCallbackPanel ID="cbpCloseWindow" runat="server" Width="100%" ClientInstanceName="cbpCloseWindow"
+            ShowLoadingPanel="false" OnCallback="cbpCloseWindow_Callback">
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
+                EndCallback="function(s,e){                
+                    hideLoadingPanel();
+                    document.location = ResolveUrl('~/../ControlPanel/Login.aspx');
+                }" />
+        </dxcp:ASPxCallbackPanel> 
+    </div> 
+</asp:Content>

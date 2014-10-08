@@ -82,6 +82,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx">
+      <Link>SharedLibs\ErrorPage.aspx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Program\Main.aspx">
       <Link>SharedLibs\Program\Main.aspx</Link>
     </Content>
@@ -182,6 +185,14 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs</Link>
       <DependentUpon>SetLoginAttributeCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
+      <Link>SharedLibs\ErrorPage.aspx.cs</Link>
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.designer.cs">
+      <Link>SharedLibs\ErrorPage.aspx.designer.cs</Link>
+      <DependentUpon>ErrorPage.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.cs">
       <Link>SharedLibs\MasterPage\MPBase.Master.cs</Link>

@@ -41,7 +41,40 @@ namespace CodeX.Data.Model
                     ctx.Close();
             }
         }
-        #endregion        
+        #endregion
+        #region GetItemMovementPerPeriodeDetail
+        public static List<GetItemMovementPerPeriodeDetail> GetItemMovementPerPeriodeDetail(string movementDate, int locationID, string itemName, Int32 PageIndex, Int32 NumRows)
+        {
+            List<GetItemMovementPerPeriodeDetail> result = new List<GetItemMovementPerPeriodeDetail>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetItemMovementPerPeriodeDetail));
+                ctx.CommandText = "GetItemMovementPerPeriodeDetail";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", movementDate);
+                ctx.Add("LocationID", locationID);
+                ctx.Add("ItemName", itemName);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetItemMovementPerPeriodeDetail)helper.IDataReaderToObject(reader, new GetItemMovementPerPeriodeDetail()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetItemQtyOnOrder
         public static List<GetItemQtyOnOrder> GetItemQtyOnOrder(int itemID, int locationID, int type)
         {

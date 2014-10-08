@@ -18,7 +18,8 @@ namespace CodeX.Common
         {
             public const string CONTROL_PANEL = "CP";
             public const string FINANCE = "FN";
-            public const string INVENTORY = "IF";
+            public const string INFORMATION = "IF";
+            public const string INVENTORY = "IM";
             public const string STUDENT_MANAGEMENT = "SM";
             public const string TEACHER_PAGE = "TP";
         }
@@ -217,6 +218,15 @@ namespace CodeX.Common
                 public const string VIEW_ERROR_LOG = "CP090400";
 
                 public const string REPORT = "CP090000";
+            }
+            #endregion
+
+            #region Information
+            public static class Information
+            {
+                public const string STOCK_DETAIL_INFO = "IF020100";
+
+                public const string AP_SUPPLIER_INFORMATION = "IF030100";
             }
             #endregion
 
