@@ -4087,6 +4087,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectMatter
+        public static SubjectMatter GetSubjectMatter(Int32 SubjectMatterID)
+        {
+            return new SubjectMatterDao().Get(SubjectMatterID);
+        }
+        public static int InsertSubjectMatter(SubjectMatter record)
+        {
+            return new SubjectMatterDao().Insert(record);
+        }
+        public static int UpdateSubjectMatter(SubjectMatter record)
+        {
+            return new SubjectMatterDao().Update(record);
+        }
+        public static int DeleteSubjectMatter(Int32 SubjectMatterID)
+        {
+            return new SubjectMatterDao().Delete(SubjectMatterID);
+        }
+        public static List<SubjectMatter> GetSubjectMatterList(string filterExpression)
+        {
+            List<SubjectMatter> result = new List<SubjectMatter>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMatter));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMatter)helper.IDataReaderToObject(reader, new SubjectMatter()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SupplierCreditNote
         public static SupplierCreditNote GetSupplierCreditNote(Int32 CreditNoteID)
         {

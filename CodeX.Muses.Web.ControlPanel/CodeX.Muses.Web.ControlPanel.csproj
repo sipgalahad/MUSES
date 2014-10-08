@@ -106,6 +106,8 @@
     <Content Include="Global.asax" />
     <Content Include="Login2.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="MasterPage\MPSubjectPageTrxVisit.master" />
+    <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx" />
@@ -122,6 +124,9 @@
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
+    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
     <Content Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
@@ -263,6 +268,24 @@
       <Link>SharedLibs\MasterPage\MPBaseContent.master.designer.cs</Link>
       <DependentUpon>MPBaseContent.master.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.cs</Link>
+      <DependentUpon>MPBaseDetailPage.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.designer.cs</Link>
+      <DependentUpon>MPBaseDetailPage.master.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.cs</Link>
+      <DependentUpon>MPBaseDetailPageTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs</Link>
+      <DependentUpon>MPBaseDetailPageTrx.master.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.cs">
       <Link>SharedLibs\MasterPage\MPEntry.master.cs</Link>
       <DependentUpon>MPEntry.master</DependentUpon>
@@ -347,6 +370,20 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\MPSubjectPageTrxVisit.master.cs">
+      <DependentUpon>MPSubjectPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPSubjectPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSubjectPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SubjectBannerDtCtl.ascx.cs">
+      <DependentUpon>SubjectBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\SubjectBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SubjectBannerDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx.cs">
       <DependentUpon>LoginAttributeEntry.aspx</DependentUpon>
@@ -459,6 +496,27 @@
     </Compile>
     <Compile Include="Program\Master\Room\RoomList.aspx.designer.cs">
       <DependentUpon>RoomList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.cs">
+      <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.designer.cs">
+      <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx.cs">
+      <DependentUpon>SubjectGradeMajorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx.designer.cs">
+      <DependentUpon>SubjectGradeMajorEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectPageLauncher.aspx.cs">
+      <DependentUpon>SubjectPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectPageLauncher.aspx.designer.cs">
+      <DependentUpon>SubjectPageLauncher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx.cs">
       <DependentUpon>SubjectGradeMajorEntryCtl.ascx</DependentUpon>
@@ -820,6 +878,14 @@
   <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master">
       <Link>SharedLibs\MasterPage\MPBaseContent.master</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPage.master</Link>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master">
+      <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

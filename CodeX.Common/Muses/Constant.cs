@@ -229,6 +229,10 @@ namespace CodeX.Common
                 public const string VIEW_ERROR_LOG = "CP090400";
 
                 public const string REPORT = "CP090000";
+
+                public const string SUBJECT_PAGE = "CP99010000";
+                public const string SB_SUBJECT_GRADE_MAJOR = "CP99010100";
+                public const string SB_SUBJECT_MATTER = "CP99010200";
             }
             #endregion
 

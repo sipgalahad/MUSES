@@ -175,6 +175,38 @@ namespace CodeX.Web.Common
             }
         }
 
+        public static Int32 SubjectID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SubjectID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SubjectID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SubjectID"]);
+                            HttpContext.Current.Session["_SubjectID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_SubjectID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SubjectID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_SubjectID"] = value;
+            }
+        }
+
+
         public static String ListModuleID
         {
             get
