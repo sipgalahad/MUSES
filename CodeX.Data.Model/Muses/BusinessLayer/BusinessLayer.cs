@@ -9,6 +9,62 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region Bank
+        public static Bank GetBank(Int32 BankID)
+        {
+            return new BankDao().Get(BankID);
+        }
+        public static int InsertBank(Bank record)
+        {
+            return new BankDao().Insert(record);
+        }
+        public static int UpdateBank(Bank record)
+        {
+            return new BankDao().Update(record);
+        }
+        public static int DeleteBank(Int32 BankID)
+        {
+            return new BankDao().Delete(BankID);
+        }
+        public static List<Bank> GetBankList(string filterExpression)
+        {
+            List<Bank> result = new List<Bank>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Bank));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Bank)helper.IDataReaderToObject(reader, new Bank()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetBankMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Bank));
+                ctx.CommandText = helper.SelectMaxColumn("BankID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region BusinessPartners
         public static BusinessPartners GetBusinessPartners(Int32 BusinessPartnerID)
         {
@@ -1982,6 +2038,246 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseInvoiceDt
+        public static PurchaseInvoiceDt GetPurchaseInvoiceDt(Int32 ID)
+        {
+            return new PurchaseInvoiceDtDao().Get(ID);
+        }
+        public static int InsertPurchaseInvoiceDt(PurchaseInvoiceDt record)
+        {
+            return new PurchaseInvoiceDtDao().Insert(record);
+        }
+        public static int UpdatePurchaseInvoiceDt(PurchaseInvoiceDt record)
+        {
+            return new PurchaseInvoiceDtDao().Update(record);
+        }
+        public static int DeletePurchaseInvoiceDt(Int32 ID)
+        {
+            return new PurchaseInvoiceDtDao().Delete(ID);
+        }
+        public static List<PurchaseInvoiceDt> GetPurchaseInvoiceDtList(string filterExpression)
+        {
+            List<PurchaseInvoiceDt> result = new List<PurchaseInvoiceDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceDt)helper.IDataReaderToObject(reader, new PurchaseInvoiceDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PurchaseInvoiceDt> GetPurchaseInvoiceDtList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseInvoiceDt> result = new List<PurchaseInvoiceDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceDt)helper.IDataReaderToObject(reader, new PurchaseInvoiceDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetPurchaseInvoiceDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseInvoiceDtPayment
+        public static PurchaseInvoiceDtPayment GetPurchaseInvoiceDtPayment(Int32 ID)
+        {
+            return new PurchaseInvoiceDtPaymentDao().Get(ID);
+        }
+        public static int InsertPurchaseInvoiceDtPayment(PurchaseInvoiceDtPayment record)
+        {
+            return new PurchaseInvoiceDtPaymentDao().Insert(record);
+        }
+        public static int UpdatePurchaseInvoiceDtPayment(PurchaseInvoiceDtPayment record)
+        {
+            return new PurchaseInvoiceDtPaymentDao().Update(record);
+        }
+        public static int DeletePurchaseInvoiceDtPayment(Int32 ID)
+        {
+            return new PurchaseInvoiceDtPaymentDao().Delete(ID);
+        }
+        public static List<PurchaseInvoiceDtPayment> GetPurchaseInvoiceDtPaymentList(string filterExpression)
+        {
+            List<PurchaseInvoiceDtPayment> result = new List<PurchaseInvoiceDtPayment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceDtPayment));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceDtPayment)helper.IDataReaderToObject(reader, new PurchaseInvoiceDtPayment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseInvoiceHd
+        public static PurchaseInvoiceHd GetPurchaseInvoiceHd(Int32 PurchaseInvoiceID)
+        {
+            return new PurchaseInvoiceHdDao().Get(PurchaseInvoiceID);
+        }
+        public static int InsertPurchaseInvoiceHd(PurchaseInvoiceHd record)
+        {
+            return new PurchaseInvoiceHdDao().Insert(record);
+        }
+        public static int UpdatePurchaseInvoiceHd(PurchaseInvoiceHd record)
+        {
+            return new PurchaseInvoiceHdDao().Update(record);
+        }
+        public static int DeletePurchaseInvoiceHd(Int32 PurchaseInvoiceID)
+        {
+            return new PurchaseInvoiceHdDao().Delete(PurchaseInvoiceID);
+        }
+        public static List<PurchaseInvoiceHd> GetPurchaseInvoiceHdList(string filterExpression)
+        {
+            IDbContext ctx = DbFactory.Configure();
+            return GetPurchaseInvoiceHdList(filterExpression, ctx); ;
+        }
+        public static List<PurchaseInvoiceHd> GetPurchaseInvoiceHdList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseInvoiceHd> result = new List<PurchaseInvoiceHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceHd)helper.IDataReaderToObject(reader, new PurchaseInvoiceHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPurchaseInvoiceHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceHd));
+                ctx.CommandText = helper.SelectMaxColumn("PurchaseInvoiceID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public static Int32 GetPurchaseInvoiceHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region PurchaseInvoiceHdPayment
+        public static PurchaseInvoiceHdPayment GetPurchaseInvoiceHdPayment(Int32 ID)
+        {
+            return new PurchaseInvoiceHdPaymentDao().Get(ID);
+        }
+        public static int InsertPurchaseInvoiceHdPayment(PurchaseInvoiceHdPayment record)
+        {
+            return new PurchaseInvoiceHdPaymentDao().Insert(record);
+        }
+        public static int UpdatePurchaseInvoiceHdPayment(PurchaseInvoiceHdPayment record)
+        {
+            return new PurchaseInvoiceHdPaymentDao().Update(record);
+        }
+        public static int DeletePurchaseInvoiceHdPayment(Int32 ID)
+        {
+            return new PurchaseInvoiceHdPaymentDao().Delete(ID);
+        }
+        public static List<PurchaseInvoiceHdPayment> GetPurchaseInvoiceHdPaymentList(string filterExpression)
+        {
+            List<PurchaseInvoiceHdPayment> result = new List<PurchaseInvoiceHdPayment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseInvoiceHdPayment));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseInvoiceHdPayment)helper.IDataReaderToObject(reader, new PurchaseInvoiceHdPayment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseOrderDt
         public static PurchaseOrderDt GetPurchaseOrderDt(Int32 ID)
         {
@@ -3746,6 +4042,162 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SupplierPaymentDt
+        public static SupplierPaymentDt GetSupplierPaymentDt(Int32 SupplierPaymentID, Int32 PurchaseInvoiceID)
+        {
+            return new SupplierPaymentDtDao().Get(SupplierPaymentID, PurchaseInvoiceID);
+        }
+        public static int InsertSupplierPaymentDt(SupplierPaymentDt record)
+        {
+            return new SupplierPaymentDtDao().Insert(record);
+        }
+        public static int UpdateSupplierPaymentDt(SupplierPaymentDt record)
+        {
+            return new SupplierPaymentDtDao().Update(record);
+        }
+        public static int DeleteSupplierPaymentDt(Int32 SupplierPaymentID, Int32 PurchaseInvoiceID)
+        {
+            return new SupplierPaymentDtDao().Delete(SupplierPaymentID, PurchaseInvoiceID);
+        }
+        public static List<SupplierPaymentDt> GetSupplierPaymentDtList(string filterExpression)
+        {
+            List<SupplierPaymentDt> result = new List<SupplierPaymentDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierPaymentDt)helper.IDataReaderToObject(reader, new SupplierPaymentDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SupplierPaymentDt> GetSupplierPaymentDtList(string filterExpression, IDbContext ctx)
+        {
+            List<SupplierPaymentDt> result = new List<SupplierPaymentDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierPaymentDt)helper.IDataReaderToObject(reader, new SupplierPaymentDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetSupplierPaymentDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SupplierPaymentHd
+        public static SupplierPaymentHd GetSupplierPaymentHd(Int32 SupplierPaymentID)
+        {
+            return new SupplierPaymentHdDao().Get(SupplierPaymentID);
+        }
+        public static int InsertSupplierPaymentHd(SupplierPaymentHd record)
+        {
+            return new SupplierPaymentHdDao().Insert(record);
+        }
+        public static int UpdateSupplierPaymentHd(SupplierPaymentHd record)
+        {
+            return new SupplierPaymentHdDao().Update(record);
+        }
+        public static int DeleteSupplierPaymentHd(Int32 SupplierPaymentID)
+        {
+            return new SupplierPaymentHdDao().Delete(SupplierPaymentID);
+        }
+        public static List<SupplierPaymentHd> GetSupplierPaymentHdList(string filterExpression)
+        {
+            List<SupplierPaymentHd> result = new List<SupplierPaymentHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierPaymentHd)helper.IDataReaderToObject(reader, new SupplierPaymentHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSupplierPaymentHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentHd));
+                ctx.CommandText = helper.SelectMaxColumn("SupplierPaymentID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public static Int32 GetSupplierPaymentHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierPaymentHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

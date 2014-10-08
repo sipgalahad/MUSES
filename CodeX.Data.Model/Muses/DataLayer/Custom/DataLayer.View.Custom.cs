@@ -546,6 +546,130 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPurchaseInvoiceDt
+    public partial class vPurchaseInvoiceDt
+    {
+        public String ReferenceDateInString
+        {
+            get { return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public String PurchaseInvoiceDateInString
+        {
+            get { return _PurchaseInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public String PaymentDueDateInString
+        {
+            get { return _PaymentDueDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region vPurchaseInvoiceHd
+    public partial class vPurchaseInvoiceHd
+    {
+        public string PInvoiceDateInString
+        {
+            get
+            {
+                return _PurchaseInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public string DueDateInString
+        {
+            get
+            {
+                return _DueDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public Decimal CustomSisaHutang
+        {
+            get
+            {
+                Decimal sisa = _TotalNetTransactionAmount - _PaymentAmount;
+                return sisa;
+            }
+        }
+        public int CustomUmur
+        {
+            get
+            {
+                return Function.GetPatientAgeInDay(_DueDate, DateTime.Today);
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseInvoiceHdPayment
+    public partial class vPurchaseInvoiceHdPayment
+    {
+        public string DueDateInString
+        {
+            get
+            {
+                return _DueDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        //public Decimal CustomTotalHutang
+        //{
+        //    get
+        //    {
+        //        //masih belum dihitung PPH
+        //        Decimal total1 = (_TotalTransactionAmount - (_TotalDownPaymentAmount + TotalCreditNoteAmount + _FinalDiscount)) * ((100 + _VATPercentage) / 100);
+        //        Decimal total = total1 - _StampAmount - _ChargesAmount;
+        //        return total;
+        //    }
+        //}
+
+        public Decimal CustomTotalHutang
+        {
+            get
+            {
+                //masih belum dihitung PPH
+                Decimal FinalDiscount = (_FinalDiscount / 100) * _TotalTransactionAmount;
+                Decimal total1 = (_TotalTransactionAmount - (_TotalDownPaymentAmount + TotalCreditNoteAmount + FinalDiscount));
+                Decimal pph = (_PPHPercentage / 100) * total1;
+                Decimal total2 = total1 * ((100 + _VATPercentage) / 100);
+                Decimal total = total2 - pph - _StampAmount - _ChargesAmount;
+                return total;
+            }
+        }
+
+        public Decimal CustomSisaHutang
+        {
+            get
+            {
+                Decimal sisa = CustomTotalHutang - _PaymentAmount;
+                return sisa;
+            }
+        }
+
+        public Decimal VATAmount
+        {
+            get
+            {
+                //masih belum dihitung PPH
+                Decimal FinalDiscount = (_FinalDiscount / 100) * _TotalTransactionAmount;
+                Decimal total1 = (_TotalTransactionAmount - (_TotalDownPaymentAmount + TotalCreditNoteAmount + FinalDiscount));
+                Decimal vat = (_VATPercentage / 100) * total1;
+                return vat;
+            }
+        }
+
+        public Decimal PPHAmount
+        {
+            get
+            {
+                //masih belum dihitung PPH
+                Decimal FinalDiscount = (_FinalDiscount / 100) * _TotalTransactionAmount;
+                Decimal total1 = (_TotalTransactionAmount - (_TotalDownPaymentAmount + TotalCreditNoteAmount + FinalDiscount));
+                Decimal pph = (_PPHPercentage / 100) * total1;
+                return pph;
+            }
+        }
+    }
+    #endregion
     #region vPurchaseOrderDt
     public partial class vPurchaseOrderDt
     {
@@ -692,6 +816,35 @@ namespace CodeX.Data.Model
                 decimal PPN = (_VATPercentage / 100) * (_TransactionAmount - finalDisc);
                 decimal total = _TransactionAmount - finalDisc + PPN - _DownPaymentAmount;
                 return total;
+            }
+        }
+    }
+    #endregion
+    #region vPurchaseReceiveCredit
+    public partial class vPurchaseReceiveCredit
+    {
+        public Decimal CustomTotal
+        {
+            get
+            {
+                Decimal totalReceive = ((_TransactionAmount - _FinalDiscount) * ((100 + _VATPercentage) / 100)) - _ChargesAmount + _StampAmount;
+                return totalReceive;
+            }
+        }
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                Decimal subTotal = CustomTotal - _DownPaymentAmount - _CNAmount;
+                return subTotal;
+            }
+        }
+        public Decimal VATAmount
+        {
+            get
+            {
+                Decimal VATAmount = ((_TransactionAmount - _FinalDiscount) * (_VATPercentage / 100));
+                return VATAmount;
             }
         }
     }
@@ -1165,6 +1318,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSupplier
+    public partial class vSupplier
+    {
+        public String Address
+        {
+            get
+            {
+                return Function.GenerateAddress(_StreetName, _County, _District, _City, _State);
+            }
+        }
+        public String cfPhoneNo
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+
+                if (_PhoneNo1 != "")
+                    result.Append(_PhoneNo1);
+                if (_PhoneNo2 != "")
+                {
+                    if (result.ToString() != "")
+                        result.Append(" / ");
+                    result.Append(_PhoneNo2);
+                }
+                return result.ToString();
+            }
+        }
+    }
+    #endregion
     #region vSupplierCreditNote
     public partial class vSupplierCreditNote
     {
@@ -1184,6 +1366,26 @@ namespace CodeX.Data.Model
         public String TotalInString
         {
             get { return Function.NumberInWords(Convert.ToInt32(_CNAmount + VATAmount), true); }
+        }
+    }
+    #endregion
+    #region vSupplierPaymentHd
+    public partial class vSupplierPaymentHd
+    {
+        public string PaymentDateInString
+        {
+            get
+            {
+                return _PaymentDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public Decimal PaymentAmountHd
+        {
+            get
+            {
+                List<SupplierPaymentDt> lst = BusinessLayer.GetSupplierPaymentDtList(string.Format("SupplierPaymentID = {0}", _SupplierPaymentID));
+                return lst.Sum(p => p.PaymentAmount);
+            }
         }
     }
     #endregion

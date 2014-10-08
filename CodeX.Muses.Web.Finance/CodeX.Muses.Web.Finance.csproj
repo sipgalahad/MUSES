@@ -95,6 +95,17 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="MasterPage\SupplierBannerDtCtl.ascx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierList.aspx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx" />
+    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx" />
+    <Content Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -170,6 +181,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
       <Link>SharedLibs\ErrorPage.aspx.cs</Link>
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.designer.cs">
       <Link>SharedLibs\ErrorPage.aspx.designer.cs</Link>
@@ -273,11 +285,94 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPSupplierPageTrxVisit.master.cs">
+      <DependentUpon>MPSupplierPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPSupplierPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSupplierPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SupplierBannerDtCtl.ascx.cs">
+      <DependentUpon>SupplierBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\SupplierBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SupplierBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierList.aspx.cs">
+      <DependentUpon>APInvoiceSupplierList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierList.aspx.designer.cs">
+      <DependentUpon>APInvoiceSupplierList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx.cs">
+      <DependentUpon>APInvoiceSupplierPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx.designer.cs">
+      <DependentUpon>APInvoiceSupplierPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx.cs">
+      <DependentUpon>APInvoiceSupplierProcess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx.designer.cs">
+      <DependentUpon>APInvoiceSupplierProcess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx.cs">
+      <DependentUpon>APInvoiceSupplierProcessCreditNoteCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx.designer.cs">
+      <DependentUpon>APInvoiceSupplierProcessCreditNoteCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx.cs">
+      <DependentUpon>APInvoiceSupplierProcessCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx.designer.cs">
+      <DependentUpon>APInvoiceSupplierProcessCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx.cs">
+      <DependentUpon>APInvoiceSupplierProcessDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx.designer.cs">
+      <DependentUpon>APInvoiceSupplierProcessDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx.cs">
+      <DependentUpon>APInvoiceSupplierProcessEditCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx.designer.cs">
+      <DependentUpon>APInvoiceSupplierProcessEditCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx.cs">
+      <DependentUpon>APInvoiceSupplierVerification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx.designer.cs">
+      <DependentUpon>APInvoiceSupplierVerification.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx.cs">
+      <DependentUpon>APInvoiceSupplierVerificationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx.designer.cs">
+      <DependentUpon>APInvoiceSupplierVerificationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx.cs">
+      <DependentUpon>SupplierPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx.designer.cs">
+      <DependentUpon>SupplierPageLauncher.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Program\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
@@ -342,6 +437,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
       <Link>SharedLibs\MasterPage\MPTrx.master</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPSupplierPageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

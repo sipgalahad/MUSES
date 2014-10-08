@@ -103,6 +103,17 @@ namespace CodeX.Common
             public const string PRODUCT = "X001^001";
         }
 
+        public static class SupplierPaymentMethod
+        {
+            public const string TUNAI = "X178^001";
+            public const string TRANSFER = "X178^002";
+            public const string GIRO = "X178^003";
+            public const string CHEQUE = "X178^004";
+            public const string CREDIT_CARD = "X178^005";
+            public const string DEBIT_CARD = "X178^006";
+            public const string KOREKSI_FAKTUR = "X178^007";
+        }
+
         public static class ControlType
         {
             public const string TEXT_BOX = "X103^001";
@@ -218,6 +229,17 @@ namespace CodeX.Common
                 public const string VIEW_ERROR_LOG = "CP090400";
 
                 public const string REPORT = "CP090000";
+            }
+            #endregion
+
+            #region Finance
+            public static class Finance
+            {
+                public const string SUPPLIER_LIST = "FN050200";
+                public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
+                public const string AP_INVOICE_SUPPLIER_VERIFICATION = "FN050202";
+                public const string AP_INVOICE_SUPPLIER_PAYMENT = "FN050203";
+
             }
             #endregion
 
