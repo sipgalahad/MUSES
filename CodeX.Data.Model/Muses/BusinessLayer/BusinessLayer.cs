@@ -395,6 +395,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassStudentSubjectMark
+        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectMarkDao().Get(ClassSubjectTaskID, StudentID);
+        }
+        public static int InsertClassStudentSubjectMark(ClassStudentSubjectMark record)
+        {
+            return new ClassStudentSubjectMarkDao().Insert(record);
+        }
+        public static int UpdateClassStudentSubjectMark(ClassStudentSubjectMark record)
+        {
+            return new ClassStudentSubjectMarkDao().Update(record);
+        }
+        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectTaskID, StudentID);
+        }
+        public static List<ClassStudentSubjectMark> GetClassStudentSubjectMarkList(string filterExpression)
+        {
+            List<ClassStudentSubjectMark> result = new List<ClassStudentSubjectMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentSubjectMark> GetClassStudentSubjectMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentSubjectMark> result = new List<ClassStudentSubjectMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassSubject
         public static ClassSubject GetClassSubject(Int32 ClassSubjectID)
         {
@@ -1171,6 +1228,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region Holiday
+        public static Holiday GetHoliday(Int32 ID)
+        {
+            return new HolidayDao().Get(ID);
+        }
+        public static int InsertHoliday(Holiday record)
+        {
+            return new HolidayDao().Insert(record);
+        }
+        public static int UpdateHoliday(Holiday record)
+        {
+            return new HolidayDao().Update(record);
+        }
+        public static int DeleteHoliday(Int32 ID)
+        {
+            return new HolidayDao().Delete(ID);
+        }
+        public static List<Holiday> GetHolidayList(string filterExpression)
+        {
+            List<Holiday> result = new List<Holiday>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Holiday));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Holiday)helper.IDataReaderToObject(reader, new Holiday()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

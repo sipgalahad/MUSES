@@ -70,24 +70,88 @@ namespace CodeX.Muses.Web.TeacherPage.Program
 
         protected void cbpMeetingDetail_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
+            string filterExpression = "1 = 0";
+            if (hdnClassSubjectTaskID.Value != "")
+                filterExpression = string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value);
+            lstStudentMark = BusinessLayer.GetClassStudentSubjectMarkList(filterExpression);
+
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }
 
+        List<ClassStudentSubjectMark> lstStudentMark = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassStudent entity = (vClassStudent)e.Item.DataItem;
-                
+                ClassStudentSubjectMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
+                if (studentMark != null)
+                {
+                    TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
+                    txtStudentMark.Text = studentMark.Mark.ToString();
+                }
             }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ClassStudentSubjectMarkDao entityDtDao = new ClassStudentSubjectMarkDao(ctx);
+            try
+            {
+                string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
+
+                List<ClassStudentSubjectMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value), ctx);
+                foreach (String saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(',');
+                    int studentID = Convert.ToInt32(temp[0]);
+                    ClassStudentSubjectMark entityDt = lstStudentMark.FirstOrDefault(p => p.StudentID == studentID);
+                    if (temp[1] != "")
+                    {
+                        Int16 mark = Convert.ToInt16(temp[1]);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ClassStudentSubjectMark();
+                            entityDt.ClassSubjectTaskID = Convert.ToInt32(hdnClassSubjectTaskID.Value);
+                            entityDt.StudentID = studentID;
+                            entityDt.Mark = mark;
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            entityDt.Mark = mark;
+                            entityDtDao.Update(entityDt);
+                        }
+                    }
+                    else if(entityDt != null)
+                    {
+                        entityDtDao.Delete(entityDt.ClassSubjectTaskID, entityDt.StudentID);
+                    }
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                result = false;
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

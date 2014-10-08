@@ -511,6 +511,10 @@ namespace CodeX.Data.Model
                 return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             }
         }
+        public string cfGCPeriodScheduleType
+        {
+            get { return _GCPeriodScheduleType.Split('^')[1]; }
+        }
     }
     #endregion
     #region vPeriodSection

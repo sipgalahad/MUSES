@@ -179,6 +179,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
       <Link>SharedLibs\ErrorPage.aspx.cs</Link>
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.designer.cs">
       <Link>SharedLibs\ErrorPage.aspx.designer.cs</Link>

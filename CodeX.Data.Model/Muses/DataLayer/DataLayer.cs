@@ -720,6 +720,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassStudentSubjectMark
+    [Serializable]
+    [Table(Name = "ClassStudentSubjectMark")]
+    public class ClassStudentSubjectMark : DbDataModel
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _StudentID;
+        private Int16 _Mark;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Int16")]
+        public Int16 Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+    }
+
+    public class ClassStudentSubjectMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectMark));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectTaskID = "@p_ClassSubjectTaskID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassStudentSubjectMarkDao() { }
+        public ClassStudentSubjectMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentSubjectMark Get(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectTaskID, ClassSubjectTaskID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentSubjectMark)_helper.DataRowToObject(row, new ClassStudentSubjectMark());
+        }
+        public int Insert(ClassStudentSubjectMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentSubjectMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            ClassStudentSubjectMark record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentSubjectMarkDao().Get(ClassSubjectTaskID, StudentID);
+            else
+                record = Get(ClassSubjectTaskID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassSubject
     [Serializable]
     [Table(Name = "ClassSubject")]
@@ -2292,6 +2363,133 @@ namespace CodeX.Data.Model
                 record = new DirectPurchaseReturnHdDao().Get(DirectPurchaseReturnID);
             else
                 record = Get(DirectPurchaseReturnID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region Holiday
+    [Serializable]
+    [Table(Name = "Holiday")]
+    public class Holiday : DbDataModel
+    {
+        private Int32 _ID;
+        private Int16 _HolidayDate;
+        private Int16 _HolidayMonth;
+        private Int16? _HolidayYear;
+        private String _HolidayName;
+        private Boolean _IsAnnualHoliday;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "HolidayDate", DataType = "Int16")]
+        public Int16 HolidayDate
+        {
+            get { return _HolidayDate; }
+            set { _HolidayDate = value; }
+        }
+        [Column(Name = "HolidayMonth", DataType = "Int16")]
+        public Int16 HolidayMonth
+        {
+            get { return _HolidayMonth; }
+            set { _HolidayMonth = value; }
+        }
+        [Column(Name = "HolidayYear", DataType = "Int16", IsNullable = true)]
+        public Int16? HolidayYear
+        {
+            get { return _HolidayYear; }
+            set { _HolidayYear = value; }
+        }
+        [Column(Name = "HolidayName", DataType = "String")]
+        public String HolidayName
+        {
+            get { return _HolidayName; }
+            set { _HolidayName = value; }
+        }
+        [Column(Name = "IsAnnualHoliday", DataType = "Boolean")]
+        public Boolean IsAnnualHoliday
+        {
+            get { return _IsAnnualHoliday; }
+            set { _IsAnnualHoliday = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class HolidayDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Holiday));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public HolidayDao() { }
+        public HolidayDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Holiday Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Holiday)_helper.DataRowToObject(row, new Holiday());
+        }
+        public int Insert(Holiday record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Holiday record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            Holiday record;
+            if (_ctx.Transaction == null)
+                record = new HolidayDao().Get(ID);
+            else
+                record = Get(ID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

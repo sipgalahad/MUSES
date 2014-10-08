@@ -75,18 +75,15 @@ namespace CodeX.Web.CommonLibs.Service
                 IList list = (IList)obj;
                 return list;
             }
-            return GetListObject(methodName, filterExpression, pageCount);
+            return GetListObject(methodName, filterExpression);
         }
 
         [WebMethod()]
-        public object GetListObject(string methodName, string filterExpression, int pageCount = 0)
+        public object GetListObject(string methodName, string filterExpression)
         {
             MethodInfo method = typeof(BusinessLayer).GetMethod(methodName, new[] { typeof(string) });
             object obj = method.Invoke(null, new string[] { filterExpression });
             IList list = (IList)obj;
-            if (pageCount > 0)
-                for (int i = list.Count - 1; i >= pageCount; --i)
-                    list.RemoveAt(i);
             return list;
         }
 

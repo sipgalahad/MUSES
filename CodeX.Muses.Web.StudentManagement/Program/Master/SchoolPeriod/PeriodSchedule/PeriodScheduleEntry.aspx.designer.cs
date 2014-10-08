@@ -13,6 +13,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class PeriodScheduleEntry {
         
         /// <summary>
+        /// hdnMaxDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMaxDate;
+        
+        /// <summary>
+        /// hdnMinDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMinDate;
+        
+        /// <summary>
+        /// rptRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptRemarks;
+        
+        /// <summary>
         /// hdnEntryID control.
         /// </summary>
         /// <remarks>

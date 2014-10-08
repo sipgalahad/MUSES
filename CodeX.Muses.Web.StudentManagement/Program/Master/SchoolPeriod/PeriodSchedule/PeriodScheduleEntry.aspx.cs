@@ -22,6 +22,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE));
+            rptRemarks.DataSource = lstSc;
+            rptRemarks.DataBind();
+
+            SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
+            hdnMaxDate.Value = schoolPeriod.EndDate.ToString("yyyy-MM-dd");
+            hdnMinDate.Value = schoolPeriod.StartDate.ToString("yyyy-MM-dd");
+
             String filterExpression = string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             Methods.SetComboBoxField<StandardCode>(cboScheduleType, lstStandardCode, "StandardCodeName", "StandardCodeID");

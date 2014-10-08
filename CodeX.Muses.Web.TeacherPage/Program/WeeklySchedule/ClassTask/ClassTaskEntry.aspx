@@ -8,12 +8,31 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        $(function () {
+            $('#<%=btnSave.ClientID %>').click(function () {
+                var result = '';
+                $('.grdStudent tr:gt(0)').each(function () {
+                    var studentID = $(this).find('.keyField').html();
+                    var mark = $(this).find('.txtMark').val();
+                    if (result != '')
+                        result += '|';
+                    result += studentID + ',' + mark;
+                });
+                $('#<%=hdnListSaveValue.ClientID %>').val(result);
+                onCustomButtonClick('save');
+            });
+        });
+
         $('#ulMeetingViewList li').live('click', function (e) {
             if (e.target !== this)
                 return;
-            var id = $(this).find('.hdnClassMeetingID').val();
+            var id = $(this).find('.hdnClassSubjectTaskID').val();
             $('#<%=hdnClassSubjectTaskID.ClientID %>').val(id);
             $('#ulMeetingViewList li.selected').removeClass('selected');
             $(this).addClass('selected');
@@ -82,6 +101,7 @@
             openUserControlPopup(url, id, 'Entri Tugas', 600, 350);        
         });
     </script>
+    <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />
     <style type="text/css">
         #ulMeetingViewList .divMeetingDate        { float: left; width: 66px; margin: 3px 10px 0 0; background-color: #6BBD46; padding: 3px 10px; font-size: 20px; color: White; vertical-align: middle; text-align: center; }
@@ -135,6 +155,7 @@
                 </div> 
             </td>
             <td valign="top">
+                <h4><%=GetLabel("Nilai")%></h4>       
                 <dxcp:ASPxCallbackPanel ID="cbpMeetingDetail" runat="server" Width="100%" ClientInstanceName="cbpMeetingDetail"
                     ShowLoadingPanel="false" OnCallback="cbpMeetingDetail_Callback">
                     <ClientSideEvents Init="function(s,e){ onHistoryInit(); }" BeginCallback="function(s,e){ showLoadingPanel(); }"
@@ -142,7 +163,6 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <div style="height: 415px; overflow-y: scroll; overflow-x: hidden; font-size: 12px;">
-                                <h4 class="h4expanded"><%=GetLabel("Nilai")%></h4>                            
                                 <div class="containerTblEntryContent">
                                     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
                                         <tr>
@@ -154,7 +174,9 @@
                                                 <tr>
                                                     <td class="keyField"><%#Eval("StudentID") %></td>
                                                     <td><%#Eval("StudentName") %></td>
-                                                    <td align="center"><input type="text" class="number txtMark" value="" style="width:95%" /></td>
+                                                    <td align="center">
+                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="95%" />
+                                                    </td>
                                                 </tr>
                                             </ItemTemplate>
                                         </asp:Repeater>
