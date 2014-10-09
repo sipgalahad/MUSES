@@ -42,6 +42,69 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region GetAPSupplierInformation
+        public static List<GetAPSupplierInformation> GetAPSupplierInformationList(String MovementDate, Int32 PageIndex, Int32 NumRows)
+        {
+            List<GetAPSupplierInformation> result = new List<GetAPSupplierInformation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetAPSupplierInformation));
+                ctx.CommandText = "GetAPSupplierInformation";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetAPSupplierInformation)helper.IDataReaderToObject(reader, new GetAPSupplierInformation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetAPSupplierInformationDt
+        public static List<GetAPSupplierInformationDt> GetAPSupplierInformationDtList(String MovementDate, Int32 SupplierID, Int32 Start, Int32 End)
+        {
+            List<GetAPSupplierInformationDt> result = new List<GetAPSupplierInformationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetAPSupplierInformationDt));
+                ctx.CommandText = "GetAPSupplierInformationDt";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("SupplierID", SupplierID);
+                ctx.Add("Start", Start);
+                ctx.Add("End", End);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetAPSupplierInformationDt)helper.IDataReaderToObject(reader, new GetAPSupplierInformationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetItemMovementPerPeriodeDetail
         public static List<GetItemMovementPerPeriodeDetail> GetItemMovementPerPeriodeDetail(string movementDate, int locationID, string itemName, Int32 PageIndex, Int32 NumRows)
         {

@@ -6,6 +6,161 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vAPMovement
+    [Serializable]
+    [Table(Name = "vAPMovement")]
+    public partial class vAPMovement
+    {
+        private Int32 _MovementID;
+        private DateTime _MovementDate;
+        private String _TransactionCode;
+        private Int32 _TransactionID;
+        private String _TransactionNo;
+        private Int32 _TransactionDtID;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
+        private String _TransactionDescription;
+        private String _DetailDesc;
+        private Decimal _BalanceBEGIN;
+        private Decimal _BalanceIN;
+        private Decimal _BalanceOUT;
+        private Decimal _BalanceEND;
+        private Int32 _CreatedBy;
+        private String _CreatedByName;
+        private DateTime _CreatedDate;
+        private Int32 _LastUpdatedBy;
+        private String _LastUpdatedByName;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MovementID", DataType = "Int32")]
+        public Int32 MovementID
+        {
+            get { return _MovementID; }
+            set { _MovementID = value; }
+        }
+        [Column(Name = "MovementDate", DataType = "DateTime")]
+        public DateTime MovementDate
+        {
+            get { return _MovementDate; }
+            set { _MovementDate = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "TransactionDescription", DataType = "String")]
+        public String TransactionDescription
+        {
+            get { return _TransactionDescription; }
+            set { _TransactionDescription = value; }
+        }
+        [Column(Name = "DetailDesc", DataType = "String")]
+        public String DetailDesc
+        {
+            get { return _DetailDesc; }
+            set { _DetailDesc = value; }
+        }
+        [Column(Name = "BalanceBEGIN", DataType = "Decimal")]
+        public Decimal BalanceBEGIN
+        {
+            get { return _BalanceBEGIN; }
+            set { _BalanceBEGIN = value; }
+        }
+        [Column(Name = "BalanceIN", DataType = "Decimal")]
+        public Decimal BalanceIN
+        {
+            get { return _BalanceIN; }
+            set { _BalanceIN = value; }
+        }
+        [Column(Name = "BalanceOUT", DataType = "Decimal")]
+        public Decimal BalanceOUT
+        {
+            get { return _BalanceOUT; }
+            set { _BalanceOUT = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedByName", DataType = "String")]
+        public String LastUpdatedByName
+        {
+            get { return _LastUpdatedByName; }
+            set { _LastUpdatedByName = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
     #region vClassMeeting
     [Serializable]
     [Table(Name = "vClassMeeting")]

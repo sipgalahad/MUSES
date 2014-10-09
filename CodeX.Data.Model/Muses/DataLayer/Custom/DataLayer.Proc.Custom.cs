@@ -7,6 +7,29 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region GetAPSupplierInformationDt
+    public partial class GetAPSupplierInformationDt
+    {
+        public String PurchaseReceivedDateInString
+        {
+            get
+            {
+                if (_PurchaseReceivedDate.ToString("dd-MM-yyyy") == Constant.ConstantDate.DEFAULT_NULL)
+                    return "-";
+                return _PurchaseReceivedDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public String PurchaseInvoiceDateInString
+        {
+            get
+            {
+                if (_PurchaseInvoiceDate.ToString("dd-MM-yyyy") == Constant.ConstantDate.DEFAULT_NULL)
+                    return "-";
+                return _PurchaseInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region GetItemMovementPerPeriodeDetail
     public partial class GetItemMovementPerPeriodeDetail
     {

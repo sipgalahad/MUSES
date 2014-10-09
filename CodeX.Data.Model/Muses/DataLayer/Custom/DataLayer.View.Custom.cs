@@ -7,6 +7,15 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region vAPMovement
+    public partial class vAPMovement
+    {
+        public String MovementDateInString
+        {
+            get { return _MovementDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {
