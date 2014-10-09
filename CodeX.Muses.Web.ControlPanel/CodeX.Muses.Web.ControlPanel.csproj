@@ -122,6 +122,8 @@
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Holiday\HolidayEntry.aspx" />
+    <Content Include="Program\Master\Holiday\HolidayList.aspx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
@@ -482,6 +484,20 @@
     </Compile>
     <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx.designer.cs">
       <DependentUpon>DailyScheduleTypeDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Holiday\HolidayEntry.aspx.cs">
+      <DependentUpon>HolidayEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Holiday\HolidayEntry.aspx.designer.cs">
+      <DependentUpon>HolidayEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Holiday\HolidayList.aspx.cs">
+      <DependentUpon>HolidayList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Holiday\HolidayList.aspx.designer.cs">
+      <DependentUpon>HolidayList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Room\RoomEntry.aspx.cs">
       <DependentUpon>RoomEntry.aspx</DependentUpon>

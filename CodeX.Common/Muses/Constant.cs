@@ -206,6 +206,8 @@ namespace CodeX.Common
                 public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
 
+                public const string HOLIDAY = "CP010901";
+
                 public const string SITE_INFORMATION = "CP020101";
                 public const string MODULE_MANAGEMENT = "CP020201";
                 public const string MENU_MANAGEMENT = "CP020202";
