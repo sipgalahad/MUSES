@@ -174,6 +174,107 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Purchase Invoice HD-->
+  <searchdialog type="purchaseinvoicehd" methodname="GetvPurchaseInvoiceHdList" keyfieldname="PurchaseInvoiceNo" orderbyexpression="PurchaseInvoiceID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="PurchaseInvoiceNo" headertext="No. Bukti" width="100px" />
+      <gridcolumn datafield="PurchaseInvoiceDate" displaycustomfield="PInvoiceDateInString" horizontalalign="center" headertext="Tanggal" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PurchaseInvoiceNo" headertext="No. Bukti" description="" />
+      <intellisensetext datafield="PurchaseInvoiceDate" headertext="Tanggal" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Purchase Order HD-->
+  <searchdialog type="purchaseorderhd" methodname="GetvPurchaseOrderHdList" keyfieldname="PurchaseOrderNo" orderbyexpression="PurchaseOrderID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="PurchaseOrderNo" headertext="Pemesanan No" width="100px" />
+      <gridcolumn datafield="OrderDate" displaycustomfield="OrderDateInString" horizontalalign="center" headertext="Order Date" width="100px" />
+      <gridcolumn datafield="BusinessPartnerName" headertext="Supplier" width="100px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PurchaseOrderNo" headertext="Pemesanan No" description="" />
+      <intellisensetext datafield="OrderDate" headertext="Tanggal Pemesanan" description="" />
+      <intellisensetext datafield="BusinessPartnerName" headertext="Supplier" description="" />
+      <intellisensetext datafield="TransactionStatus" headertext="Status" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Purchase Receive HD-->
+  <searchdialog type="purchasereceivehd" methodname="GetvPurchaseReceiveHdList" keyfieldname="PurchaseReceiveNo" orderbyexpression="PurchaseReceiveID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="PurchaseReceiveNo" headertext="Pemesanan No" width="100px" />
+      <gridcolumn datafield="ReceiveDate" displaycustomfield="ReceivedDateInString" horizontalalign="center" headertext="Tanggal Penerimaan" width="100px" />
+      <gridcolumn datafield="SupplierName" headertext="Supplier" width="100px" />
+      <gridcolumn datafield="ReferenceNo" headertext="No Faktur" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PurchaseReceiveNo" headertext="Pemesanan No" description="" />
+      <intellisensetext datafield="ReceiveDate" headertext="Tanggal Penerimaan" description="" />
+      <intellisensetext datafield="SupplierName" headertext="Supplier" description="" />
+      <intellisensetext datafield="ReferenceNo" headertext="No Faktur" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Purchase Replacement Hd-->
+  <searchdialog type="purchasereplacementhd" methodname="GetvPurchaseReplacementHdList" keyfieldname="PurchaseReplacementNo" orderbyexpression="PurchaseReplacementID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="PurchaseReplacementNo" headertext="No Penggantian" width="100px" />
+      <gridcolumn datafield="LocationName" headertext="Lokasi" width="100px" />
+      <gridcolumn datafield="ReplacementDate" displaycustomfield="ReplacementDateInString" horizontalalign="center" headertext="Tanggal Penggantian" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PurchaseReplacementNo" headertext="No Penggantian" description="" />
+      <intellisensetext datafield="LocationName" headertext="Lokasi" description="" />
+      <intellisensetext datafield="ReplacementDate" headertext="Tanggal Penggantian" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Purchase Return Dt-->
+  <searchdialog type="purchasereturndt" methodname="GetvPurchaseReturnDtList" keyfieldname="ItemCode" orderbyexpression="ItemName1 ASC">
+    <gridcolumns>
+      <gridcolumn datafield="ItemCode" headertext="Kode Item" width="100px" />
+      <gridcolumn datafield="ItemName1" headertext="Nama Item" width="100px" />
+      <gridcolumn datafield="CustomQuantityItemUnit" headertext="Jumlah" width="100px" horizontalalign="right" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ItemCode" headertext="Kode Item" description="" />
+      <intellisensetext datafield="ItemName1" headertext="Nama Item" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Purchase Return HD-->
+  <searchdialog type="purchasereturnhd" methodname="GetvPurchaseReturnHdList" keyfieldname="PurchaseReturnNo" orderbyexpression="PurchaseReturnID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="PurchaseReturnNo" headertext="No. Retur" width="100px" />
+      <gridcolumn datafield="ReturnDate" displaycustomfield="ReturnDateInString" horizontalalign="center" headertext="Tanggal Pengembalian" width="100px" />
+      <gridcolumn datafield="SupplierName" headertext="Supplier" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PurchaseReturnNo" headertext="No. Retur" description="" />
+      <intellisensetext datafield="ReturnDate" headertext="ReturnDateInString" description="" />
+      <intellisensetext datafield="SupplierName" headertext="Supplier" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Purchase Request HD-->
+  <searchdialog type="purchaserequesthd" methodname="GetvPurchaseRequestHdList" keyfieldname="PurchaseRequestNo" orderbyexpression="PurchaseRequestID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="PurchaseRequestNo" headertext="No Permintaan" width="100px" />
+      <gridcolumn datafield="LocationName" headertext="Dari Lokasi" width="100px" />
+      <gridcolumn datafield="TransactionDate" displaycustomfield="TransactionDateInString" horizontalalign="center" headertext="Tanggal Transaksi" width="100px" />
+      <gridcolumn datafield="Remarks" headertext="Keterangan" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PurchaseRequestNo" headertext="No Permintaan" description="" />
+      <intellisensetext datafield="LocationName" headertext="Dari Lokasi" description="" />
+      <intellisensetext datafield="TransactionDate" headertext="Tanggal Permintaan" description="" />
+      <intellisensetext datafield="Remarks" headertext="Keterangan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Room -->
   <searchdialog type="room" methodname="GetRoomList" keyfieldname="RoomCode" orderbyexpression="RoomName ASC">
     <gridcolumns>

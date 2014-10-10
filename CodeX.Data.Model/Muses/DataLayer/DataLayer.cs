@@ -310,6 +310,216 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region BusinessPartnerTagField
+    [Serializable]
+    [Table(Name = "BusinessPartnerTagField")]
+    public class BusinessPartnerTagField : DbDataModel
+    {
+        private Int32 _BusinessPartnerID;
+        private String _TagField1;
+        private String _TagField2;
+        private String _TagField3;
+        private String _TagField4;
+        private String _TagField5;
+        private String _TagField6;
+        private String _TagField7;
+        private String _TagField8;
+        private String _TagField9;
+        private String _TagField10;
+        private String _TagField11;
+        private String _TagField12;
+        private String _TagField13;
+        private String _TagField14;
+        private String _TagField15;
+        private String _TagField16;
+        private String _TagField17;
+        private String _TagField18;
+        private String _TagField19;
+        private String _TagField20;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "TagField1", DataType = "String", IsNullable = true)]
+        public String TagField1
+        {
+            get { return _TagField1; }
+            set { _TagField1 = value; }
+        }
+        [Column(Name = "TagField2", DataType = "String", IsNullable = true)]
+        public String TagField2
+        {
+            get { return _TagField2; }
+            set { _TagField2 = value; }
+        }
+        [Column(Name = "TagField3", DataType = "String", IsNullable = true)]
+        public String TagField3
+        {
+            get { return _TagField3; }
+            set { _TagField3 = value; }
+        }
+        [Column(Name = "TagField4", DataType = "String", IsNullable = true)]
+        public String TagField4
+        {
+            get { return _TagField4; }
+            set { _TagField4 = value; }
+        }
+        [Column(Name = "TagField5", DataType = "String", IsNullable = true)]
+        public String TagField5
+        {
+            get { return _TagField5; }
+            set { _TagField5 = value; }
+        }
+        [Column(Name = "TagField6", DataType = "String", IsNullable = true)]
+        public String TagField6
+        {
+            get { return _TagField6; }
+            set { _TagField6 = value; }
+        }
+        [Column(Name = "TagField7", DataType = "String", IsNullable = true)]
+        public String TagField7
+        {
+            get { return _TagField7; }
+            set { _TagField7 = value; }
+        }
+        [Column(Name = "TagField8", DataType = "String", IsNullable = true)]
+        public String TagField8
+        {
+            get { return _TagField8; }
+            set { _TagField8 = value; }
+        }
+        [Column(Name = "TagField9", DataType = "String", IsNullable = true)]
+        public String TagField9
+        {
+            get { return _TagField9; }
+            set { _TagField9 = value; }
+        }
+        [Column(Name = "TagField10", DataType = "String", IsNullable = true)]
+        public String TagField10
+        {
+            get { return _TagField10; }
+            set { _TagField10 = value; }
+        }
+        [Column(Name = "TagField11", DataType = "String", IsNullable = true)]
+        public String TagField11
+        {
+            get { return _TagField11; }
+            set { _TagField11 = value; }
+        }
+        [Column(Name = "TagField12", DataType = "String", IsNullable = true)]
+        public String TagField12
+        {
+            get { return _TagField12; }
+            set { _TagField12 = value; }
+        }
+        [Column(Name = "TagField13", DataType = "String", IsNullable = true)]
+        public String TagField13
+        {
+            get { return _TagField13; }
+            set { _TagField13 = value; }
+        }
+        [Column(Name = "TagField14", DataType = "String", IsNullable = true)]
+        public String TagField14
+        {
+            get { return _TagField14; }
+            set { _TagField14 = value; }
+        }
+        [Column(Name = "TagField15", DataType = "String", IsNullable = true)]
+        public String TagField15
+        {
+            get { return _TagField15; }
+            set { _TagField15 = value; }
+        }
+        [Column(Name = "TagField16", DataType = "String", IsNullable = true)]
+        public String TagField16
+        {
+            get { return _TagField16; }
+            set { _TagField16 = value; }
+        }
+        [Column(Name = "TagField17", DataType = "String", IsNullable = true)]
+        public String TagField17
+        {
+            get { return _TagField17; }
+            set { _TagField17 = value; }
+        }
+        [Column(Name = "TagField18", DataType = "String", IsNullable = true)]
+        public String TagField18
+        {
+            get { return _TagField18; }
+            set { _TagField18 = value; }
+        }
+        [Column(Name = "TagField19", DataType = "String", IsNullable = true)]
+        public String TagField19
+        {
+            get { return _TagField19; }
+            set { _TagField19 = value; }
+        }
+        [Column(Name = "TagField20", DataType = "String", IsNullable = true)]
+        public String TagField20
+        {
+            get { return _TagField20; }
+            set { _TagField20 = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class BusinessPartnerTagFieldDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(BusinessPartnerTagField));
+        private bool _isAuditLog = false;
+        private const string p_BusinessPartnerID = "@p_BusinessPartnerID";
+        public BusinessPartnerTagFieldDao() { }
+        public BusinessPartnerTagFieldDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public BusinessPartnerTagField Get(Int32 BusinessPartnerID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BusinessPartnerID, BusinessPartnerID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (BusinessPartnerTagField)_helper.DataRowToObject(row, new BusinessPartnerTagField());
+        }
+        public int Insert(BusinessPartnerTagField record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(BusinessPartnerTagField record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BusinessPartnerID)
+        {
+            BusinessPartnerTagField record;
+            if (_ctx.Transaction == null)
+                record = new BusinessPartnerTagFieldDao().Get(BusinessPartnerID);
+            else
+                record = Get(BusinessPartnerID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassMeeting
     [Serializable]
     [Table(Name = "ClassMeeting")]
@@ -9248,6 +9458,97 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region Supplier
+    [Serializable]
+    [Table(Name = "Supplier")]
+    public class Supplier : DbDataModel
+    {
+        private Int32 _BusinessPartnerID;
+        private Decimal _MaxPOAmount;
+        private Boolean _IsPaymentHold;
+        private Int16 _LeadTime;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "MaxPOAmount", DataType = "Decimal")]
+        public Decimal MaxPOAmount
+        {
+            get { return _MaxPOAmount; }
+            set { _MaxPOAmount = value; }
+        }
+        [Column(Name = "IsPaymentHold", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsPaymentHold
+        {
+            get { return _IsPaymentHold; }
+            set { _IsPaymentHold = value; }
+        }
+        [Column(Name = "LeadTime", DataType = "Int16", IsNullable = true)]
+        public Int16 LeadTime
+        {
+            get { return _LeadTime; }
+            set { _LeadTime = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SupplierDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Supplier));
+        private bool _isAuditLog = false;
+        private const string p_BusinessPartnerID = "@p_BusinessPartnerID";
+        public SupplierDao() { }
+        public SupplierDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Supplier Get(Int32 BusinessPartnerID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BusinessPartnerID, BusinessPartnerID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Supplier)_helper.DataRowToObject(row, new Supplier());
+        }
+        public int Insert(Supplier record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Supplier record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BusinessPartnerID)
+        {
+            Supplier record;
+            if (_ctx.Transaction == null)
+                record = new SupplierDao().Get(BusinessPartnerID);
+            else
+                record = Get(BusinessPartnerID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SupplierCreditNote
     [Serializable]
     [Table(Name = "SupplierCreditNote")]
@@ -9405,6 +9706,147 @@ namespace CodeX.Data.Model
                 record = new SupplierCreditNoteDao().Get(CreditNoteID);
             else
                 record = Get(CreditNoteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SupplierItem
+    [Serializable]
+    [Table(Name = "SupplierItem")]
+    public partial class SupplierItem : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _BusinessPartnerID;
+        private Int32 _ItemID;
+        private String _SupplierItemCode;
+        private String _SupplierItemName;
+        private Int16 _LeadTime;
+        private Decimal _Price;
+        private Decimal _DiscountPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "SupplierItemCode", DataType = "String")]
+        public String SupplierItemCode
+        {
+            get { return _SupplierItemCode; }
+            set { _SupplierItemCode = value; }
+        }
+        [Column(Name = "SupplierItemName", DataType = "String")]
+        public String SupplierItemName
+        {
+            get { return _SupplierItemName; }
+            set { _SupplierItemName = value; }
+        }
+        [Column(Name = "LeadTime", DataType = "Int16", IsNullable = true)]
+        public Int16 LeadTime
+        {
+            get { return _LeadTime; }
+            set { _LeadTime = value; }
+        }
+        [Column(Name = "Price", DataType = "Decimal")]
+        public Decimal Price
+        {
+            get { return _Price; }
+            set { _Price = value; }
+        }
+        [Column(Name = "DiscountPercentage", DataType = "Decimal")]
+        public Decimal DiscountPercentage
+        {
+            get { return _DiscountPercentage; }
+            set { _DiscountPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SupplierItemDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SupplierItem));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public SupplierItemDao() { }
+        public SupplierItemDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SupplierItem Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SupplierItem)_helper.DataRowToObject(row, new SupplierItem());
+        }
+        public int Insert(SupplierItem record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SupplierItem record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            SupplierItem record;
+            if (_ctx.Transaction == null)
+                record = new SupplierItemDao().Get(ID);
+            else
+                record = Get(ID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -135,12 +135,10 @@ namespace CodeX.Common
 
         public static class BusinessObjectType
         {
-            public const string PATIENT = "X017^001";
-            public const string CUSTOMER = "X017^002";
-            public const string SUPPLIER = "X017^003";
-            public const string ITEM = "X017^004";
-            public const string USER = "X017^005";
-            public const string REFERRER = "X017^006";
+            public const string STUDENT = "X017^001";
+            public const string ITEM = "X017^002";
+            public const string USER = "X017^004";
+            public const string SUPPLIER = "X017^004";
         }
 
         public static class TransactionStatus

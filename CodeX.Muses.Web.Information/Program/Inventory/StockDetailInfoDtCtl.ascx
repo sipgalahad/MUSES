@@ -57,14 +57,15 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="height:330px; overflow-y: scroll;">
-                                <asp:GridView ID="grdPopupView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                <asp:GridView ID="grdPopupView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="MovementID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:BoundField DataField="MovementDateInString" HeaderText="Tanggal" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="110px"  />
-                                        <asp:BoundField DataField="QuantityBEGIN" HeaderText="Saldo Awal" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="70px" />
-                                        <asp:BoundField DataField="QuantityIN" HeaderText="Jml Masuk" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="70px" />
-                                        <asp:BoundField DataField="QuantityOUT" HeaderText="Jml Klr" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="70px" />
-                                        <asp:BoundField DataField="QuantityEND" HeaderText="Saldo Akhir" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="70px" />
+                                        <asp:BoundField DataField="MovementDateInString" HeaderText="Tanggal" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="110px"  />
+                                        <asp:BoundField DataField="QuantityBEGIN" HeaderText="Awal" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
+                                        <asp:BoundField DataField="QuantityIN" HeaderText="Masuk" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
+                                        <asp:BoundField DataField="QuantityOUT" HeaderText="Keluar" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
+                                        <asp:BoundField DataField="QuantityEND" HeaderText="Akhir" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="70px" />
+                                        <asp:TemplateField HeaderStyle-Width="10px" />
                                         <asp:TemplateField HeaderText="Transaksi">
                                             <ItemTemplate>
                                                 <%#Eval("TransactionDescription")%><br />

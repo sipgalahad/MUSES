@@ -57,13 +57,13 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(hdnLocationIDFrom, new ControlEntrySetting(false, false, false, "0"));
-            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(hdnFromLocationID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(txtFromLocationCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtFromLocationName, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
             
-            SetControlEntrySetting(txtLocationCodeTo, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtLocationNameTo, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtToLocationCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtToLocationName, new ControlEntrySetting(false, false, true));
             SetControlEntrySetting(txtItemOrderDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(txtItemOrderTime, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT)));
             
@@ -93,8 +93,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = "1 = 0";
-            if (hdnLocationIDFrom.Value != "")
-                filterExpression = string.Format("LocationID = {0} AND QuantityEND <= QuantityMIN AND IsDeleted = 0", hdnLocationIDFrom.Value);
+            if (hdnFromLocationID.Value != "")
+                filterExpression = string.Format("LocationID = {0} AND QuantityEND <= QuantityMIN AND IsDeleted = 0", hdnFromLocationID.Value);
 
             if (isCountPageCount)
             {
@@ -138,8 +138,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             ItemRequestHdDao entityHdDao = new ItemRequestHdDao(ctx);
             ItemRequestHd entityHd = new ItemRequestHd();
-            entityHd.FromLocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
-            entityHd.ToLocationID = Convert.ToInt32(hdnLocationIDTo.Value);
+            entityHd.FromLocationID = Convert.ToInt32(hdnFromLocationID.Value);
+            entityHd.ToLocationID = Convert.ToInt32(hdnToLocationID.Value);
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.TransactionTime = txtItemOrderTime.Text;
             entityHd.Remarks = txtNotes.Text;

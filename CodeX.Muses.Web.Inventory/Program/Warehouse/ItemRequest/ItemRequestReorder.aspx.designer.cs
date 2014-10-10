@@ -76,31 +76,31 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblLocation;
         
         /// <summary>
-        /// hdnLocationIDFrom control.
+        /// hdnFromLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationIDFrom;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFromLocationID;
         
         /// <summary>
-        /// txtLocationCode control.
+        /// txtFromLocationCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocationCode;
+        protected global::System.Web.UI.WebControls.TextBox txtFromLocationCode;
         
         /// <summary>
-        /// txtLocationName control.
+        /// txtFromLocationName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocationName;
+        protected global::System.Web.UI.WebControls.TextBox txtFromLocationName;
         
         /// <summary>
         /// txtNotes control.
@@ -121,31 +121,31 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblLocationTo;
         
         /// <summary>
-        /// hdnLocationIDTo control.
+        /// hdnToLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationIDTo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnToLocationID;
         
         /// <summary>
-        /// txtLocationCodeTo control.
+        /// txtToLocationCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocationCodeTo;
+        protected global::System.Web.UI.WebControls.TextBox txtToLocationCode;
         
         /// <summary>
-        /// txtLocationNameTo control.
+        /// txtToLocationName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocationNameTo;
+        protected global::System.Web.UI.WebControls.TextBox txtToLocationName;
         
         /// <summary>
         /// txtItemOrderDate control.

@@ -185,6 +185,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region BusinessPartnerTagField
+        public static BusinessPartnerTagField GetBusinessPartnerTagField(Int32 BusinessPartnerID)
+        {
+            return new BusinessPartnerTagFieldDao().Get(BusinessPartnerID);
+        }
+        public static int InsertBusinessPartnerTagField(BusinessPartnerTagField record)
+        {
+            return new BusinessPartnerTagFieldDao().Insert(record);
+        }
+        public static int UpdateBusinessPartnerTagField(BusinessPartnerTagField record)
+        {
+            return new BusinessPartnerTagFieldDao().Update(record);
+        }
+        public static int DeleteBusinessPartnerTagField(Int32 BusinessPartnerID)
+        {
+            return new BusinessPartnerTagFieldDao().Delete(BusinessPartnerID);
+        }
+        public static List<BusinessPartnerTagField> GetBusinessPartnerTagFieldList(string filterExpression)
+        {
+            List<BusinessPartnerTagField> result = new List<BusinessPartnerTagField>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BusinessPartnerTagField));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BusinessPartnerTagField)helper.IDataReaderToObject(reader, new BusinessPartnerTagField()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ClassMeeting
         public static ClassMeeting GetClassMeeting(Int32 ClassMeetingID)
         {
@@ -4207,6 +4247,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Supplier
+        public static Supplier GetSupplier(Int32 BusinessPartnerID)
+        {
+            return new SupplierDao().Get(BusinessPartnerID);
+        }
+        public static int InsertSupplier(Supplier record)
+        {
+            return new SupplierDao().Insert(record);
+        }
+        public static int UpdateSupplier(Supplier record)
+        {
+            return new SupplierDao().Update(record);
+        }
+        public static int DeleteSupplier(Int32 BusinessPartnerID)
+        {
+            return new SupplierDao().Delete(BusinessPartnerID);
+        }
+        public static List<Supplier> GetSupplierList(string filterExpression)
+        {
+            List<Supplier> result = new List<Supplier>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Supplier));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Supplier)helper.IDataReaderToObject(reader, new Supplier()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SupplierCreditNote
         public static SupplierCreditNote GetSupplierCreditNote(Int32 CreditNoteID)
         {
@@ -4259,6 +4339,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SupplierItem
+        public static SupplierItem GetSupplierItem(Int32 ID)
+        {
+            return new SupplierItemDao().Get(ID);
+        }
+        public static int InsertSupplierItem(SupplierItem record)
+        {
+            return new SupplierItemDao().Insert(record);
+        }
+        public static int UpdateSupplierItem(SupplierItem record)
+        {
+            return new SupplierItemDao().Update(record);
+        }
+        public static int DeleteSupplierItem(Int32 ID)
+        {
+            return new SupplierItemDao().Delete(ID);
+        }
+        public static List<SupplierItem> GetSupplierItemList(string filterExpression)
+        {
+            List<SupplierItem> result = new List<SupplierItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierItem)helper.IDataReaderToObject(reader, new SupplierItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

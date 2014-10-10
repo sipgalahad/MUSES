@@ -186,13 +186,9 @@ namespace CodeX.Data.Model
         private Decimal _IN_PurchaseReceive;
         private Decimal _IN_Distribution;
         private Decimal _IN_Adjustment;
-        private Decimal _IN_Return;
-        private Decimal _IN_Void;
-        private Decimal _OUT_Charges;
         private Decimal _OUT_Distribution;
         private Decimal _OUT_Adjustment;
         private Decimal _OUT_Consumption;
-        private Decimal _OUT_Void;
         private Decimal _OUT_Pemusnahan;
         private bool _IsDeleted;
 
@@ -238,24 +234,6 @@ namespace CodeX.Data.Model
             get { return _IN_Adjustment; }
             set { _IN_Adjustment = value; }
         }
-        [Column(Name = "IN_Return", DataType = "Decimal")]
-        public Decimal IN_Return
-        {
-            get { return _IN_Return; }
-            set { _IN_Return = value; }
-        }
-        [Column(Name = "IN_Void", DataType = "Decimal")]
-        public Decimal IN_Void
-        {
-            get { return _IN_Void; }
-            set { _IN_Void = value; }
-        }
-        [Column(Name = "OUT_Charges", DataType = "Decimal")]
-        public Decimal OUT_Charges
-        {
-            get { return _OUT_Charges; }
-            set { _OUT_Charges = value; }
-        }
         [Column(Name = "OUT_Distribution", DataType = "Decimal")]
         public Decimal OUT_Distribution
         {
@@ -273,12 +251,6 @@ namespace CodeX.Data.Model
         {
             get { return _OUT_Consumption; }
             set { _OUT_Consumption = value; }
-        }
-        [Column(Name = "OUT_Void", DataType = "Decimal")]
-        public Decimal OUT_Void
-        {
-            get { return _OUT_Void; }
-            set { _OUT_Void = value; }
         }
         [Column(Name = "OUT_Pemusnahan", DataType = "Decimal")]
         public Decimal OUT_Pemusnahan

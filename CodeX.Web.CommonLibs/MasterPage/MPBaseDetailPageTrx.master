@@ -23,10 +23,14 @@
     <input type="hidden" runat="server" id="hdnIsAdd" value="1" />
     <input type="hidden" runat="server" id="hdnIsAllowEdit" value="1" />
     <input type="hidden" runat="server" id="hdnIsAllowVoid" value="1" />
+    <input type="hidden" runat="server" id="hdnIsAllowPropose" value="0" />
     <input type="hidden" runat="server" id="hdnIsAllowNextPrev" value="1" />
+    <input type="hidden" runat="server" id="hdnIsAllowApprove" value="" />
+    <input type="hidden" runat="server" id="hdnIsAllowReopen" value="" />
     <input type="hidden" runat="server" id="hdnRowCount" value="0" />
     <input type="hidden" runat="server" id="hdnPageIndex" value="-1" />
     <input type="hidden" runat="server" id="hdnWatermark" value="" />
+    <input type="hidden" runat="server" id="hdnProposeText" value="" />
     <div style="position:relative;">
         <div runat="server" id="pnlWatermark" style="pointer-events:none;display:none; position:absolute; z-index:1000; height:170px;width:100%;text-align:center; padding-top: 50px; margin-top:180px;font-size: 40px;background-color: transparent; opacity: 0.45; color: #FF0000; overflow-y:hidden;" class="borderBox">
             <div style="-webkit-transform: rotate(-10deg); -moz-transform: rotate(-10deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);">
@@ -44,12 +48,19 @@
                     $('#<%=pnlWatermark.ClientID %>').show();
                     $('#<%=btnMPEntryVoid.ClientID %>').hide();
                     $('#<%=btnMPEntrySave.ClientID %>').hide();
+                    $('#<%=btnMPEntryPropose.ClientID %>').hide();
+                    if ($('#<%=hdnIsAllowReopen.ClientID %>').val() == '1')
+                        $('#<%=btnMPEntryReopen.ClientID %>').show();
+                    else
+                        $('#<%=btnMPEntryReopen.ClientID %>').hide();
                 }
 
                 function hideWatermark() {
                     $('#<%=pnlWatermark.ClientID %>').hide();
+                    $('#<%=btnMPEntryReopen.ClientID %>').hide();
                     if ($('#<%=hdnIsAdd.ClientID %>').val() == '1') {
                         $('#<%=btnMPEntryVoid.ClientID %>').hide();
+                        $('#<%=btnMPEntryPropose.ClientID %>').hide();
                     }
                     else {
                         if ($('#<%=hdnIsAllowEdit.ClientID %>').val() == '0')
@@ -61,6 +72,11 @@
                             $('#<%=btnMPEntryVoid.ClientID %>').hide();
                         else
                             $('#<%=btnMPEntryVoid.ClientID %>').show();
+
+                        if ($('#<%=hdnIsAllowPropose.ClientID %>').val() == '1' || $('#<%=hdnIsAllowApprove.ClientID %>').val() == '1')
+                            $('#<%=btnMPEntryPropose.ClientID %>').show();
+                        else
+                            $('#<%=btnMPEntryPropose.ClientID %>').hide();
                     }
                 }
 
@@ -98,8 +114,15 @@
                         if ($('#<%=pnlWatermark.ClientID %>').is(":visible")) {
                             $('#<%=btnMPEntrySave.ClientID %>').hide();
                             $('#<%=btnMPEntryVoid.ClientID %>').hide();
+                            $('#<%=btnMPEntryPropose.ClientID %>').hide();
+
+                            if ($('#<%=hdnIsAllowReopen.ClientID %>').val() == '1')
+                                $('#<%=btnMPEntryReopen.ClientID %>').show();
+                            else
+                                $('#<%=btnMPEntryReopen.ClientID %>').hide();
                         }
                         else {
+                            $('#<%=btnMPEntryReopen.ClientID %>').hide();
                             if ($('#<%=hdnIsAllowEdit.ClientID %>').val() == '0')
                                 $('#<%=btnMPEntrySave.ClientID %>').hide();
                             else
@@ -109,6 +132,11 @@
                                 $('#<%=btnMPEntryVoid.ClientID %>').show();
                             else
                                 $('#<%=btnMPEntryVoid.ClientID %>').hide();
+
+                            if ($('#<%=hdnIsAllowPropose.ClientID %>').val() == '1' || $('#<%=hdnIsAllowApprove.ClientID %>').val() == '1')
+                                $('#<%=btnMPEntryPropose.ClientID %>').show();
+                            else
+                                $('#<%=btnMPEntryPropose.ClientID %>').hide();
                         }
                     }
                     if (typeof onSetIsAddToolbar == 'function')
@@ -215,9 +243,26 @@
                                 cbpMPEntryProcess.PerformCallback('save|' + $('#<%=hdnIsAdd.ClientID %>').val());
                         }
                     });
+                    $('#<%=btnMPEntryPropose.ClientID %>').click(function () {
+                        if ($('#<%=hdnIsAllowApprove.ClientID %>').val() == '1') {
+                            showToastConfirmation('Are You Sure Want To Approve?', function (result) {
+                                if (result) cbpMPEntryProcess.PerformCallback('approve');
+                            });
+                        }
+                        else {
+                            showToastConfirmation('Are You Sure Want To Propose?', function (result) {
+                                if (result) cbpMPEntryProcess.PerformCallback('propose');
+                            });
+                        }
+                    });
                     $('#<%=btnMPEntryVoid.ClientID %>').click(function () {
                         showToastConfirmation('Are You Sure Want To Void?', function (result) {
                             if (result) cbpMPEntryProcess.PerformCallback('void');
+                        });
+                    });
+                    $('#<%=btnMPEntryReopen.ClientID %>').click(function () {
+                        showToastConfirmation('Are You Sure Want To Reopen?', function (result) {
+                            if (result) cbpMPEntryProcess.PerformCallback('reopen');
                         });
                     });
                     $('#<%=btnMPEntryPrev.ClientID %>').click(function () {
@@ -405,6 +450,39 @@
                             else
                                 showToast('Save Failed', '');
                     }
+                    else if(result[0] == 'propose'){
+                        if(result[1] == 'success'){
+                            cbpMPEntryContent.PerformCallback('load');
+                        }
+                        else{
+                            if(result[2] != '')
+                                showToast('Propose Failed', 'Error Message : ' + result[2]);
+                            else
+                                showToast('Propose Failed', '');
+                        }
+                    }
+                    else if(result[0] == 'approve'){
+                        if(result[1] == 'success'){
+                            cbpMPEntryContent.PerformCallback('load');
+                        }
+                        else{
+                            if(result[2] != '')
+                                showToast('Approve Failed', 'Error Message : ' + result[2]);
+                            else
+                                showToast('Approve Failed', '');
+                        }
+                    }
+                    else if(result[0] == 'reopen'){
+                        if(result[1] == 'success'){
+                            cbpMPEntryContent.PerformCallback('load');
+                        }
+                        else{
+                            if(result[2] != '')
+                                showToast('Reopen Failed', 'Error Message : ' + result[2]);
+                            else
+                                showToast('Reopen Failed', '');
+                        }
+                    }
                     else if(result[0] == 'void'){
                         if(result[1] == 'success'){
                             onMPEntryProcessVoidSuccess();
@@ -499,7 +577,9 @@
     <ul id="ulMPTrxToolbar" runat="server">
         <li id="btnMPEntryNew" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/add.png")%>' alt="" /><div><%=GetLabel("New")%></div></li>
         <li id="btnMPEntrySave" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+        <li id="btnMPEntryPropose" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/nurse_outstanding.png")%>' alt="" /><div><%=GetProposeText()%></div></li>
         <li id="btnMPEntryVoid" runat="server" CRUDMode="V"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
+        <li id="btnMPEntryReopen" runat="server" CRUDMode="O"><img src='<%=ResolveUrl("~/Libs/Images/Icon/nurse_outstanding.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
         <li id="btnMPEntryPrev" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/prev.png")%>' alt="" /><div><%=GetLabel("Prev")%></div></li>
         <li id="btnMPEntryNext" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/next.png")%>' alt="" /><div><%=GetLabel("Next")%></div></li>
         <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">                

@@ -53,7 +53,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(hdnLocationIDFrom, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
 
@@ -86,8 +86,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = "1 = 0";
-            if (hdnLocationIDFrom.Value != "")
-                filterExpression = string.Format("LocationID = {0} AND QuantityEND <= QuantityMIN AND IsDeleted = 0", hdnLocationIDFrom.Value);
+            if (hdnLocationID.Value != "")
+                filterExpression = string.Format("LocationID = {0} AND QuantityEND <= QuantityMIN AND IsDeleted = 0", hdnLocationID.Value);
 
             if (isCountPageCount)
             {
@@ -131,7 +131,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             PurchaseRequestHdDao entityHdDao = new PurchaseRequestHdDao(ctx);
             PurchaseRequestHd entityHd = new PurchaseRequestHd();
-            entityHd.FromLocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
+            entityHd.FromLocationID = Convert.ToInt32(hdnLocationID.Value);
             entityHd.TransactionDate = Helper.GetDatePickerValue(txtPurchaseRequestDate.Text);
             entityHd.TransactionTime = txtPurchaseRequestTime.Text;
             entityHd.Remarks = txtNotes.Text;

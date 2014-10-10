@@ -52,12 +52,12 @@
                 var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnLocationIDFrom.ClientID %>').val(result.LocationID);
+                        $('#<%=hdnLocationID.ClientID %>').val(result.LocationID);
                         $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
                         cbpView.PerformCallback('refresh');
                     }
                     else {
-                        $('#<%=hdnLocationIDFrom.ClientID %>').val('');
+                        $('#<%=hdnLocationID.ClientID %>').val('');
                         $('#<%=txtLocationCode.ClientID %>').val('');
                         $('#<%=txtLocationName.ClientID %>').val('');
                     }
@@ -174,7 +174,7 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" />
+                                <input type="hidden" id="hdnLocationID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />

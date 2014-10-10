@@ -40,12 +40,12 @@
 
             $('#<%=lblLocation.ClientID %>.lblLink').live('click', function () {
                 openSearchDialog('locationroleuser', getLocationFilterExpression(), function (value) {
-                    $('#<%=txtLocationCode.ClientID %>').val(value);
+                    $('#<%=txtFromLocationCode.ClientID %>').val(value);
                     onTxtLocationCodeChanged(value);
                 });
             });
 
-            $('#<%=txtLocationCode.ClientID %>').live('change', function () {
+            $('#<%=txtFromLocationCode.ClientID %>').live('change', function () {
                 onTxtLocationCodeChanged($(this).val());
             });
 
@@ -53,14 +53,14 @@
                 var filterExpression = getLocationFilterExpression() + "LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnLocationIDFrom.ClientID %>').val(result.LocationID);
-                        $('#<%=txtLocationName.ClientID %>').val(result.LocationName);
+                        $('#<%=hdnFromLocationID.ClientID %>').val(result.LocationID);
+                        $('#<%=txtFromLocationName.ClientID %>').val(result.LocationName);
                         cbpView.PerformCallback('refresh');
                     }
                     else {
-                        $('#<%=hdnLocationIDFrom.ClientID %>').val('');
-                        $('#<%=txtLocationCode.ClientID %>').val('');
-                        $('#<%=txtLocationName.ClientID %>').val('');
+                        $('#<%=hdnFromLocationID.ClientID %>').val('');
+                        $('#<%=txtFromLocationCode.ClientID %>').val('');
+                        $('#<%=txtFromLocationName.ClientID %>').val('');
                     }
                 });
             }
@@ -74,12 +74,12 @@
 
             $('#<%=lblLocationTo.ClientID %>.lblLink').live('click', function () {
                 openSearchDialog('locationroleuser', getLocationFilterExpressionTo(), function (value) {
-                    $('#<%=txtLocationCodeTo.ClientID %>').val(value);
+                    $('#<%=txtToLocationCode.ClientID %>').val(value);
                     onTxtLocationToCodeChanged(value);
                 });
             });
 
-            $('#<%=txtLocationCodeTo.ClientID %>').live('change', function () {
+            $('#<%=txtToLocationCode.ClientID %>').live('change', function () {
                 onTxtLocationToCodeChanged($(this).val());
             });
 
@@ -87,13 +87,13 @@
                 var filterExpression = getLocationFilterExpressionTo() + "LocationCode = '" + value + "'";
                 Methods.getObject('GetLocationUserAccessList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnLocationIDTo.ClientID %>').val(result.LocationID);
-                        $('#<%=txtLocationNameTo.ClientID %>').val(result.LocationName);
+                        $('#<%=hdnToLocationID.ClientID %>').val(result.LocationID);
+                        $('#<%=txtToLocationName.ClientID %>').val(result.LocationName);
                     }
                     else {
-                        $('#<%=hdnLocationIDTo.ClientID %>').val('');
-                        $('#<%=txtLocationCodeTo.ClientID %>').val('');
-                        $('#<%=txtLocationNameTo.ClientID %>').val('');
+                        $('#<%=hdnToLocationID.ClientID %>').val('');
+                        $('#<%=txtToLocationCode.ClientID %>').val('');
+                        $('#<%=txtToLocationName.ClientID %>').val('');
                     }
                 });
             }
@@ -203,7 +203,7 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocation"><%=GetLabel("Dari Lokasi")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDFrom" value="" runat="server" />
+                                <input type="hidden" id="hdnFromLocationID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -211,9 +211,9 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCode" Width="100%" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtFromLocationCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtFromLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -233,7 +233,7 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory lblLink" runat="server" id="lblLocationTo"><%=GetLabel("Kepada Lokasi")%></label></td>
                             <td>
-                                <input type="hidden" id="hdnLocationIDTo" value="" runat="server" />
+                                <input type="hidden" id="hdnToLocationID" value="" runat="server" />
                                 <table style="width: 100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
                                         <col style="width: 30%" />
@@ -241,9 +241,9 @@
                                         <col />
                                     </colgroup>
                                     <tr>
-                                        <td><asp:TextBox ID="txtLocationCodeTo" Width="100%" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtToLocationCode" Width="100%" runat="server" /></td>
                                         <td>&nbsp;</td>
-                                        <td><asp:TextBox ID="txtLocationNameTo" Width="100%" runat="server" ReadOnly="true" /></td>
+                                        <td><asp:TextBox ID="txtToLocationName" Width="100%" runat="server" ReadOnly="true" /></td>
                                     </tr>
                                 </table>
                             </td>

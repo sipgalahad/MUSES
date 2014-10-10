@@ -76,13 +76,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblLocation;
         
         /// <summary>
-        /// hdnLocationIDFrom control.
+        /// hdnLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationIDFrom;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationID;
         
         /// <summary>
         /// txtLocationCode control.

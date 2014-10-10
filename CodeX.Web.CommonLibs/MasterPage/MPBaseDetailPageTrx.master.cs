@@ -82,7 +82,22 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 //if (!IsAllowPrint) CRUDMode = CRUDMode.Replace("P", "");
                 hdnIsAllowEdit.Value = CRUDMode.Contains("U") ? "1" : "0";
                 hdnIsAllowNextPrev.Value = IsAllowNextPrev ? "1" : "0";
-                hdnIsAllowVoid.Value = CRUDMode.Contains("V") ? "1" : "0";
+                hdnIsAllowVoid.Value = CRUDMode.Contains("D") ? "1" : "0";
+                hdnIsAllowReopen.Value = CRUDMode.Contains("O") ? "1" : "0";
+
+                if (CRUDMode.Contains('A'))
+                {
+                    hdnProposeText.Value = GetLabel("Approve");
+                    hdnIsAllowApprove.Value = "1";
+                }
+                else if (CRUDMode.Contains('P'))
+                {
+                    hdnProposeText.Value = GetLabel("Propose");
+                    hdnIsAllowApprove.Value = "0";
+                    hdnIsAllowPropose.Value = "1";
+                }
+                else
+                    hdnIsAllowPropose.Value = "0";
 
                 foreach (Control c in ulMPTrxToolbar.Controls)
                 {
@@ -104,21 +119,34 @@ namespace CodeX.Web.CommonLibs.MasterPage
                     }
                 }
 
+                if (!CRUDMode.Contains("A") && !CRUDMode.Contains("P"))
+                    btnMPEntryPropose.Style.Add("display", "none");
+
                 if (rowCount < 1)
                 {
                     btnMPEntryNext.Style.Add("display", "none");
                     btnMPEntryPrev.Style.Add("display", "none");
                 }
                 if (isAdd)
+                {
                     btnMPEntryVoid.Style.Add("display", "none");
+                    btnMPEntryPropose.Style.Add("display", "none");
+                    btnMPEntryReopen.Style.Add("display", "none");
+                }
                 else
                 {
-                    //if (!CRUDMode.Contains("U"))
-                    //    btnMPEntrySave.Style.Add("display", "none");
+                    if (!CRUDMode.Contains("U"))
+                        btnMPEntrySave.Style.Add("display", "none");
                     if (BasePageEntry.isShowWatermark)
+                    {
                         hdnWatermark.Value = "1|" + BasePageEntry.watermarkText;
+                        btnMPEntryReopen.Style.Remove("display");
+                    }
                     else
+                    {
                         hdnWatermark.Value = "0";
+                        btnMPEntryReopen.Style.Add("display", "none");
+                    }
                     hdnPageIndex.Value = BasePageEntry.PageIndex.ToString();
                 }
             }
@@ -132,6 +160,11 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 if (!CRUDMode.Contains(liCRUDMode))
                     li.Style.Add("display", "none");
             }
+        }
+
+        protected string GetProposeText()
+        {
+            return hdnProposeText.Value;
         }
 
         protected void cbpMPEntryContent_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -184,6 +217,12 @@ namespace CodeX.Web.CommonLibs.MasterPage
             }
             else if (param[0] == "void")
                 BasePageEntry.OnBtnVoidClick(ref result);
+            else if (param[0] == "approve")
+                BasePageEntry.OnBtnApproveClick(ref result);
+            else if (param[0] == "propose")
+                BasePageEntry.OnBtnProposeClick(ref result);
+            else if (param[0] == "reopen")
+                BasePageEntry.OnBtnReopenClick(ref result);
             else if (param[0] == "customclick")
             {
                 BasePageEntry.OnBtnCustomClick(ref result, param[1], ref retval);

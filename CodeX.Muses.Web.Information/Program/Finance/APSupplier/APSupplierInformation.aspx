@@ -124,21 +124,21 @@
                                 <asp:Panel runat="server" ID="pnlGridView" CssClass="pnlContainerGrid" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:auto;">
                                     <asp:ListView runat="server" ID="lvwView">
                                         <EmptyDataTemplate>
-                                            <table id="tblView" runat="server" class="grdView notAllowSelect lvwView" cellspacing="0" rules="all" >
+                                            <table id="tblView" runat="server" class="lvwView grdBorder notAllowSelect grdView" cellspacing="0" rules="all" >
                                                 <tr>
-                                                    <th rowspan="2" style="width:120px"><%=GetLabel("Kode Supplier") %></th>
+                                                    <th rowspan="2" style="width:100px"><%=GetLabel("Kode Supplier") %></th>
                                                     <th rowspan="2"><%=GetLabel("Nama Supplier") %></th>
-                                                    <th rowspan="2" style="width:100px"><%=GetLabel("Saldo Awal") %></th>
-                                                    <th rowspan="2" style="width:100px"><%=GetLabel("Penambahan")%></th>
-                                                    <th rowspan="2" style="width:100px"><%=GetLabel("Pengurangan")%></th>
-                                                    <th colspan="5"><%=GetLabel("Saldo Akhir")%></th>
+                                                    <th rowspan="2" style="width:90px" class="thRight"><%=GetLabel("Saldo Awal") %></th>
+                                                    <th rowspan="2" style="width:90px" class="thRight"><%=GetLabel("Penambahan")%></th>
+                                                    <th rowspan="2" style="width:90px" class="thRight"><%=GetLabel("Pengurangan")%></th>
+                                                    <th colspan="5" class="thCenter"><%=GetLabel("SALDO AKHIR")%></th>
                                                 </tr>
                                                 <tr>
-                                                    <th style="width:100px"><%=GetLabel("0-30 hari")%></th>
-                                                    <th style="width:100px"><%=GetLabel(">30-60 hari")%></th>
-                                                    <th style="width:100px"><%=GetLabel(">60-90 hari")%></th>
-                                                    <th style="width:100px"><%=GetLabel(">90 hari")%></th>
-                                                    <th style="width:100px"><%=GetLabel("Total")%></th>
+                                                    <th style="width:90px" class="thRight"><%=GetLabel("0-30 hari")%></th>
+                                                    <th style="width:90px" class="thRight"><%=GetLabel(">30-60 hari")%></th>
+                                                    <th style="width:90px" class="thRight"><%=GetLabel(">60-90 hari")%></th>
+                                                    <th style="width:90px" class="thRight"><%=GetLabel(">90 hari")%></th>
+                                                    <th style="width:90px" class="thRight"><%=GetLabel("Total")%></th>
                                                 </tr>
                                                 <tr class="trEmpty">
                                                     <td colspan="10">

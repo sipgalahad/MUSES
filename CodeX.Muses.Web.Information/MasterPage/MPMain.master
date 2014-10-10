@@ -51,7 +51,7 @@
     <input type="hidden" runat="server" id="hdnLoginData" />
 
     <div class="applicationTopBar" style="height: 33px;">
-        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;"><%=GetLabel("Information")%></div>
+        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;"><%=GetLabel("Informasi")%></div>
         <div id="page-wrap" style="padding-top:7px;">
             <asp:Repeater ID="rptMenu" runat="server" OnItemDataBound="rptMenu_ItemDataBound">
                 <HeaderTemplate>

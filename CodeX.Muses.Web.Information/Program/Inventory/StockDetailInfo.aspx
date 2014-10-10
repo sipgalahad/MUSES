@@ -194,22 +194,18 @@
                                                 <th rowspan="2"><%=GetLabel("Nama Item")%></th>
                                                 <th rowspan="2" style="width:60px"><%=GetLabel("Satuan")%></th>
                                                 <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Awal")%></th>
-                                                <th colspan="5" class="thCenter"><%=GetLabel("Masuk")%></th>
-                                                <th colspan="5" class="thCenter"><%=GetLabel("Keluar")%></th>
+                                                <th colspan="3" class="thCenter"><%=GetLabel("Masuk")%></th>
+                                                <th colspan="3" class="thCenter"><%=GetLabel("Keluar")%></th>
                                                 <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Akhir")%></th>
                                             </tr>
                                             <tr>
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Retur")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Batal Pelayanan")%></th> 
-
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pelayanan")%></th> 
+ 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Batal Retur")%></th> 
                                             </tr>
                                             <tr class="trEmpty">
                                                 <td colspan="25">
@@ -225,22 +221,18 @@
                                                 <th rowspan="2"><%=GetLabel("Nama Item")%></th>
                                                 <th rowspan="2" style="width:60px"><%=GetLabel("Satuan")%></th>
                                                 <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Awal")%></th>
-                                                <th colspan="5" class="thCenter"><%=GetLabel("Masuk")%></th>
-                                                <th colspan="5" class="thCenter"><%=GetLabel("Keluar")%></th>
+                                                <th colspan="3" class="thCenter"><%=GetLabel("Masuk")%></th>
+                                                <th colspan="3" class="thCenter"><%=GetLabel("Keluar")%></th>
                                                 <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Akhir")%></th>
                                             </tr>
                                             <tr>
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Retur")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Batal Pelayanan")%></th> 
 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pelayanan")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
                                                 <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Batal Retur")%></th> 
                                             </tr>
                                             <tr runat="server" id="itemPlaceholder" ></tr>
                                         </table>
@@ -254,13 +246,9 @@
                                             <td align="right"><%# Eval("IN_PurchaseReceive")%></td>
                                             <td align="right"><%# Eval("IN_Distribution")%></td>
                                             <td align="right"><%# Eval("IN_Adjustment")%></td>
-                                            <td align="right"><%# Eval("IN_Return")%></td>
-                                            <td align="right"><%# Eval("IN_Void")%></td>
-                                            <td align="right"><%# Eval("OUT_Charges")%></td>
                                             <td align="right"><%# Eval("OUT_Distribution")%></td>
                                             <td align="right"><%# Eval("OUT_Adjustment")%></td>
                                             <td align="right"><%# Eval("OUT_Consumption")%></td>
-                                            <td align="right"><%# Eval("OUT_Void")%></td>
                                             <td align="right"><%# Eval("QuantityEND")%></td>
                                         </tr>
                                     </ItemTemplate>

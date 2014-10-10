@@ -37,7 +37,7 @@ namespace CodeX.Data.Model
         {
             get
             {
-                return _IN_QuantityBEGIN + _IN_PurchaseReceive + _IN_Distribution + _IN_Adjustment + _IN_Void + _IN_Return - _OUT_Adjustment - _OUT_Distribution - _OUT_Consumption - _OUT_Charges - _OUT_Void;
+                return _IN_QuantityBEGIN + _IN_PurchaseReceive + _IN_Distribution + _IN_Adjustment - _OUT_Adjustment - _OUT_Distribution - _OUT_Consumption;
             }
         }
     }
