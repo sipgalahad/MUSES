@@ -709,6 +709,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CreditCard
+        public static CreditCard GetCreditCard(Int32 CreditCardID)
+        {
+            return new CreditCardDao().Get(CreditCardID);
+        }
+        public static int InsertCreditCard(CreditCard record)
+        {
+            return new CreditCardDao().Insert(record);
+        }
+        public static int UpdateCreditCard(CreditCard record)
+        {
+            return new CreditCardDao().Update(record);
+        }
+        public static int DeleteCreditCard(Int32 CreditCardID)
+        {
+            return new CreditCardDao().Delete(CreditCardID);
+        }
+        public static List<CreditCard> GetCreditCardList(string filterExpression)
+        {
+            List<CreditCard> result = new List<CreditCard>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CreditCard));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CreditCard)helper.IDataReaderToObject(reader, new CreditCard()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCreditCardMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CreditCard));
+                ctx.CommandText = helper.SelectMaxColumn("CreditCardID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region DailySchedule
         public static DailySchedule GetDailySchedule(Int32 DailyScheduleID)
         {
@@ -1262,6 +1318,83 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(DirectPurchaseReturnHd));
                 ctx.CommandText = helper.SelectMaxColumn("DirectPurchaseReturnID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region EDCMachine
+        public static EDCMachine GetEDCMachine(Int32 EDCMachineID)
+        {
+            return new EDCMachineDao().Get(EDCMachineID);
+        }
+        public static int InsertEDCMachine(EDCMachine record)
+        {
+            return new EDCMachineDao().Insert(record);
+        }
+        public static int UpdateEDCMachine(EDCMachine record)
+        {
+            return new EDCMachineDao().Update(record);
+        }
+        public static int DeleteEDCMachine(Int32 EDCMachineID)
+        {
+            return new EDCMachineDao().Delete(EDCMachineID);
+        }
+        public static List<EDCMachine> GetEDCMachineList(string filterExpression)
+        {
+            List<EDCMachine> result = new List<EDCMachine>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EDCMachine));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((EDCMachine)helper.IDataReaderToObject(reader, new EDCMachine()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetEDCMachineRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EDCMachine));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "EDCMachineID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetEDCMachineMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(EDCMachine));
+                ctx.CommandText = helper.SelectMaxColumn("EDCMachineID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -2051,6 +2184,204 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetLocationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Location));
+                ctx.CommandText = helper.SelectMaxColumn("LocationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region MarginMarkupDt
+        public static MarginMarkupDt GetMarginMarkupDt(Int32 MarkupID, Int16 SequenceNo)
+        {
+            return new MarginMarkupDtDao().Get(MarkupID, SequenceNo);
+        }
+        public static int InsertMarginMarkupDt(MarginMarkupDt record)
+        {
+            return new MarginMarkupDtDao().Insert(record);
+        }
+        public static int UpdateMarginMarkupDt(MarginMarkupDt record)
+        {
+            return new MarginMarkupDtDao().Update(record);
+        }
+        public static int DeleteMarginMarkupDt(Int32 MarkupID, Int16 SequenceNo)
+        {
+            return new MarginMarkupDtDao().Delete(MarkupID, SequenceNo);
+        }
+        public static List<MarginMarkupDt> GetMarginMarkupDtList(string filterExpression)
+        {
+            List<MarginMarkupDt> result = new List<MarginMarkupDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarginMarkupDt)helper.IDataReaderToObject(reader, new MarginMarkupDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int16 GetMarginMarkupDtMaxSequenceNo(string filterExpression)
+        {
+            Int16 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupDt));
+                ctx.CommandText = helper.SelectMaxColumn("SequenceNo", filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                if (row != null)
+                    result = Convert.ToInt16(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region MarginMarkupHd
+        public static MarginMarkupHd GetMarginMarkupHd(Int32 MarkupID)
+        {
+            return new MarginMarkupHdDao().Get(MarkupID);
+        }
+        public static int InsertMarginMarkupHd(MarginMarkupHd record)
+        {
+            return new MarginMarkupHdDao().Insert(record);
+        }
+        public static int UpdateMarginMarkupHd(MarginMarkupHd record)
+        {
+            return new MarginMarkupHdDao().Update(record);
+        }
+        public static int DeleteMarginMarkupHd(Int32 MarkupID)
+        {
+            return new MarginMarkupHdDao().Delete(MarkupID);
+        }
+        public static List<MarginMarkupHd> GetMarginMarkupHdList(string filterExpression)
+        {
+            List<MarginMarkupHd> result = new List<MarginMarkupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarginMarkupHd)helper.IDataReaderToObject(reader, new MarginMarkupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<MarginMarkupHd> GetMarginMarkupHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<MarginMarkupHd> result = new List<MarginMarkupHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarginMarkupHd)helper.IDataReaderToObject(reader, new MarginMarkupHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetMarginMarkupHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetMarginMarkupHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "MarkupID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetMarginMarkupHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarginMarkupHd));
+                ctx.CommandText = helper.SelectMaxColumn("MarkupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

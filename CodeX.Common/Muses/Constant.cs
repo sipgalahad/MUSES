@@ -60,6 +60,7 @@ namespace CodeX.Common
             public const string BUSINESS_OBJECT_TYPE = "X017";
             public const string HEALTHCARE_OPERATING_GROUP = "X033";
             public const string RESTRICTION_TYPE = "X038";
+            public const string CARD_TYPE = "X102";
             public const string VALUE_TYPE = "X103";
             public const string REPORTING_PERIOD = "X106";
             public const string ADJUSTMENT_REASON = "X107";
@@ -68,6 +69,7 @@ namespace CodeX.Common
             public const string DELETE_REASON = "X129";
             public const string REPORT_TYPE = "X140";
             public const string DATA_SOURCE_TYPE = "X141";
+            public const string CARD_PROVIDER = "X142";
             public const string PURCHASE_ORDER_TYPE = "X145";
             public const string FRANCO_REGION = "X146";
             public const string CURRENCY_CODE = "X147";
@@ -203,6 +205,15 @@ namespace CodeX.Common
                 public const string SUBJECT = "CP010104";
                 public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
+                public const string LOCATION = "CP010107";
+                public const string LOCATION_PERMISSION = "CP010108";
+
+                public const string SUPPLIER = "CP010301";
+                public const string TERM = "CP010302";
+                public const string BANK = "CP010303";
+                public const string EDC_MACHINE = "CP010304";
+                public const string CREDIT_CARD_FEE = "CP010305";
+                public const string MARKUP_MARGIN = "CP010306";
 
                 public const string HOLIDAY = "CP010901";
 

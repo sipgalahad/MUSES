@@ -161,6 +161,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vBank
+    [Serializable]
+    [Table(Name = "vBank")]
+    public class vBank
+    {
+        private Int32 _BankID;
+        private String _BankCode;
+        private String _BankName;
+        private String _BankAccountNo;
+        private String _BankAccountName;
+        private String _SiteID;
+        private String _SiteName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "BankID", DataType = "Int32")]
+        public Int32 BankID
+        {
+            get { return _BankID; }
+            set { _BankID = value; }
+        }
+        [Column(Name = "BankCode", DataType = "String")]
+        public String BankCode
+        {
+            get { return _BankCode; }
+            set { _BankCode = value; }
+        }
+        [Column(Name = "BankName", DataType = "String")]
+        public String BankName
+        {
+            get { return _BankName; }
+            set { _BankName = value; }
+        }
+        [Column(Name = "BankAccountNo", DataType = "String")]
+        public String BankAccountNo
+        {
+            get { return _BankAccountNo; }
+            set { _BankAccountNo = value; }
+        }
+        [Column(Name = "BankAccountName", DataType = "String")]
+        public String BankAccountName
+        {
+            get { return _BankAccountName; }
+            set { _BankAccountName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vClassMeeting
     [Serializable]
     [Table(Name = "vClassMeeting")]
@@ -733,6 +797,98 @@ namespace CodeX.Data.Model
         {
             get { return _Major; }
             set { _Major = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vCreditCard
+    [Serializable]
+    [Table(Name = "vCreditCard")]
+    public class vCreditCard
+    {
+        private Int32 _CreditCardID;
+        private String _SiteID;
+        private String _SiteName;
+        private String _GCCardType;
+        private String _CardType;
+        private String _GCCardProvider;
+        private String _CardProvider;
+        private Int32 _EDCMachineID;
+        private String _EDCMachineCode;
+        private String _EDCMachineName;
+        private Decimal _CreditCardFee;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CreditCardID", DataType = "Int32")]
+        public Int32 CreditCardID
+        {
+            get { return _CreditCardID; }
+            set { _CreditCardID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "GCCardType", DataType = "String")]
+        public String GCCardType
+        {
+            get { return _GCCardType; }
+            set { _GCCardType = value; }
+        }
+        [Column(Name = "CardType", DataType = "String")]
+        public String CardType
+        {
+            get { return _CardType; }
+            set { _CardType = value; }
+        }
+        [Column(Name = "GCCardProvider", DataType = "String")]
+        public String GCCardProvider
+        {
+            get { return _GCCardProvider; }
+            set { _GCCardProvider = value; }
+        }
+        [Column(Name = "CardProvider", DataType = "String")]
+        public String CardProvider
+        {
+            get { return _CardProvider; }
+            set { _CardProvider = value; }
+        }
+        [Column(Name = "EDCMachineID", DataType = "Int32")]
+        public Int32 EDCMachineID
+        {
+            get { return _EDCMachineID; }
+            set { _EDCMachineID = value; }
+        }
+        [Column(Name = "EDCMachineCode", DataType = "String")]
+        public String EDCMachineCode
+        {
+            get { return _EDCMachineCode; }
+            set { _EDCMachineCode = value; }
+        }
+        [Column(Name = "EDCMachineName", DataType = "String")]
+        public String EDCMachineName
+        {
+            get { return _EDCMachineName; }
+            set { _EDCMachineName = value; }
+        }
+        [Column(Name = "CreditCardFee", DataType = "Decimal")]
+        public Decimal CreditCardFee
+        {
+            get { return _CreditCardFee; }
+            set { _CreditCardFee = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -1542,6 +1698,56 @@ namespace CodeX.Data.Model
         {
             get { return _NumberOfApprovedItems; }
             set { _NumberOfApprovedItems = value; }
+        }
+    }
+    #endregion
+    #region vEDCMachine
+    [Serializable]
+    [Table(Name = "vEDCMachine")]
+    public class vEDCMachine
+    {
+        private Int32 _EDCMachineID;
+        private String _EDCMachineCode;
+        private String _EDCMachineName;
+        private String _GCCardProvider;
+        private String _CardProvider;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "EDCMachineID", DataType = "Int32")]
+        public Int32 EDCMachineID
+        {
+            get { return _EDCMachineID; }
+            set { _EDCMachineID = value; }
+        }
+        [Column(Name = "EDCMachineCode", DataType = "String")]
+        public String EDCMachineCode
+        {
+            get { return _EDCMachineCode; }
+            set { _EDCMachineCode = value; }
+        }
+        [Column(Name = "EDCMachineName", DataType = "String")]
+        public String EDCMachineName
+        {
+            get { return _EDCMachineName; }
+            set { _EDCMachineName = value; }
+        }
+        [Column(Name = "GCCardProvider", DataType = "String")]
+        public String GCCardProvider
+        {
+            get { return _GCCardProvider; }
+            set { _GCCardProvider = value; }
+        }
+        [Column(Name = "CardProvider", DataType = "String")]
+        public String CardProvider
+        {
+            get { return _CardProvider; }
+            set { _CardProvider = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion
@@ -3115,6 +3321,168 @@ namespace CodeX.Data.Model
         {
             get { return _NumberOfApprovedItems; }
             set { _NumberOfApprovedItems = value; }
+        }
+    }
+    #endregion
+    #region vLocation
+    [Serializable]
+    [Table(Name = "vLocation")]
+    public class vLocation
+    {
+        private Int32 _LocationID;
+        private String _SiteID;
+        private String _LocationCode;
+        private String _LocationName;
+        private String _ShortName;
+        private Int32 _ParentID;
+        private String _ParentCode;
+        private String _ParentName;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private Int32 _RestrictionID;
+        private String _RestrictionCode;
+        private String _RestrictionName;
+        private Boolean _IsHeader;
+        private Boolean _IsHasChildren;
+        private Boolean _IsAvailable;
+        private Boolean _IsNettable;
+        private Boolean _IsAllowOverIssued;
+        private Boolean _IsHoldForTransaction;
+        private Boolean _IsDeleted;
+        private Int32 _Level;
+
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "LocationCode", DataType = "String")]
+        public String LocationCode
+        {
+            get { return _LocationCode; }
+            set { _LocationCode = value; }
+        }
+        [Column(Name = "LocationName", DataType = "String")]
+        public String LocationName
+        {
+            get { return _LocationName; }
+            set { _LocationName = value; }
+        }
+        [Column(Name = "ShortName", DataType = "String")]
+        public String ShortName
+        {
+            get { return _ShortName; }
+            set { _ShortName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentCode", DataType = "String")]
+        public String ParentCode
+        {
+            get { return _ParentCode; }
+            set { _ParentCode = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "RestrictionID", DataType = "Int32")]
+        public Int32 RestrictionID
+        {
+            get { return _RestrictionID; }
+            set { _RestrictionID = value; }
+        }
+        [Column(Name = "RestrictionCode", DataType = "String")]
+        public String RestrictionCode
+        {
+            get { return _RestrictionCode; }
+            set { _RestrictionCode = value; }
+        }
+        [Column(Name = "RestrictionName", DataType = "String")]
+        public String RestrictionName
+        {
+            get { return _RestrictionName; }
+            set { _RestrictionName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "IsHasChildren", DataType = "Boolean")]
+        public Boolean IsHasChildren
+        {
+            get { return _IsHasChildren; }
+            set { _IsHasChildren = value; }
+        }
+        [Column(Name = "IsAvailable", DataType = "Boolean")]
+        public Boolean IsAvailable
+        {
+            get { return _IsAvailable; }
+            set { _IsAvailable = value; }
+        }
+        [Column(Name = "IsNettable", DataType = "Boolean")]
+        public Boolean IsNettable
+        {
+            get { return _IsNettable; }
+            set { _IsNettable = value; }
+        }
+        [Column(Name = "IsAllowOverIssued", DataType = "Boolean")]
+        public Boolean IsAllowOverIssued
+        {
+            get { return _IsAllowOverIssued; }
+            set { _IsAllowOverIssued = value; }
+        }
+        [Column(Name = "IsHoldForTransaction", DataType = "Boolean")]
+        public Boolean IsHoldForTransaction
+        {
+            get { return _IsHoldForTransaction; }
+            set { _IsHoldForTransaction = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
         }
     }
     #endregion

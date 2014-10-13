@@ -1410,6 +1410,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CreditCard
+    [Serializable]
+    [Table(Name = "CreditCard")]
+    public class CreditCard : DbDataModel
+    {
+        private Int32 _CreditCardID;
+        private String _SiteID;
+        private String _GCCardType;
+        private String _GCCardProvider;
+        private Int32 _EDCMachineID;
+        private Decimal _CreditCardFee;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "CreditCardID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 CreditCardID
+        {
+            get { return _CreditCardID; }
+            set { _CreditCardID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCCardType", DataType = "String")]
+        public String GCCardType
+        {
+            get { return _GCCardType; }
+            set { _GCCardType = value; }
+        }
+        [Column(Name = "GCCardProvider", DataType = "String")]
+        public String GCCardProvider
+        {
+            get { return _GCCardProvider; }
+            set { _GCCardProvider = value; }
+        }
+        [Column(Name = "EDCMachineID", DataType = "Int32")]
+        public Int32 EDCMachineID
+        {
+            get { return _EDCMachineID; }
+            set { _EDCMachineID = value; }
+        }
+        [Column(Name = "CreditCardFee", DataType = "Decimal")]
+        public Decimal CreditCardFee
+        {
+            get { return _CreditCardFee; }
+            set { _CreditCardFee = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class CreditCardDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CreditCard));
+        private bool _isAuditLog = false;
+        private const string p_CreditCardID = "@p_CreditCardID";
+        public CreditCardDao() { }
+        public CreditCardDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CreditCard Get(Int32 CreditCardID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CreditCardID, CreditCardID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CreditCard)_helper.DataRowToObject(row, new CreditCard());
+        }
+        public int Insert(CreditCard record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CreditCard record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CreditCardID)
+        {
+            CreditCard record;
+            if (_ctx.Transaction == null)
+                record = new CreditCardDao().Get(CreditCardID);
+            else
+                record = Get(CreditCardID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region DailySchedule
     [Serializable]
     [Table(Name = "DailySchedule")]
@@ -2573,6 +2700,119 @@ namespace CodeX.Data.Model
                 record = new DirectPurchaseReturnHdDao().Get(DirectPurchaseReturnID);
             else
                 record = Get(DirectPurchaseReturnID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region EDCMachine
+    [Serializable]
+    [Table(Name = "EDCMachine")]
+    public class EDCMachine : DbDataModel
+    {
+        private Int32 _EDCMachineID;
+        private String _EDCMachineCode;
+        private String _EDCMachineName;
+        private String _GCCardProvider;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "EDCMachineID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 EDCMachineID
+        {
+            get { return _EDCMachineID; }
+            set { _EDCMachineID = value; }
+        }
+        [Column(Name = "EDCMachineCode", DataType = "String")]
+        public String EDCMachineCode
+        {
+            get { return _EDCMachineCode; }
+            set { _EDCMachineCode = value; }
+        }
+        [Column(Name = "EDCMachineName", DataType = "String")]
+        public String EDCMachineName
+        {
+            get { return _EDCMachineName; }
+            set { _EDCMachineName = value; }
+        }
+        [Column(Name = "GCCardProvider", DataType = "String")]
+        public String GCCardProvider
+        {
+            get { return _GCCardProvider; }
+            set { _GCCardProvider = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class EDCMachineDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(EDCMachine));
+        private bool _isAuditLog = false;
+        private const string p_EDCMachineID = "@p_EDCMachineID";
+        public EDCMachineDao() { }
+        public EDCMachineDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public EDCMachine Get(Int32 EDCMachineID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EDCMachineID, EDCMachineID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (EDCMachine)_helper.DataRowToObject(row, new EDCMachine());
+        }
+        public int Insert(EDCMachine record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(EDCMachine record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 EDCMachineID)
+        {
+            EDCMachine record;
+            if (_ctx.Transaction == null)
+                record = new EDCMachineDao().Get(EDCMachineID);
+            else
+                record = Get(EDCMachineID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -4378,6 +4618,241 @@ namespace CodeX.Data.Model
                 record = new LocationDao().Get(LocationID);
             else
                 record = Get(LocationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region MarginMarkupDt
+    [Serializable]
+    [Table(Name = "MarginMarkupDt")]
+    public class MarginMarkupDt : DbDataModel
+    {
+        private Int32 _MarkupID;
+        private Int16 _SequenceNo;
+        private Decimal _StartingValue;
+        private Decimal _EndingValue;
+        private Decimal _MarkupAmount;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MarkupID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 MarkupID
+        {
+            get { return _MarkupID; }
+            set { _MarkupID = value; }
+        }
+        [Column(Name = "SequenceNo", DataType = "Int16", IsPrimaryKey = true)]
+        public Int16 SequenceNo
+        {
+            get { return _SequenceNo; }
+            set { _SequenceNo = value; }
+        }
+        [Column(Name = "StartingValue", DataType = "Decimal")]
+        public Decimal StartingValue
+        {
+            get { return _StartingValue; }
+            set { _StartingValue = value; }
+        }
+        [Column(Name = "EndingValue", DataType = "Decimal")]
+        public Decimal EndingValue
+        {
+            get { return _EndingValue; }
+            set { _EndingValue = value; }
+        }
+        [Column(Name = "MarkupAmount", DataType = "Decimal")]
+        public Decimal MarkupAmount
+        {
+            get { return _MarkupAmount; }
+            set { _MarkupAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class MarginMarkupDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MarginMarkupDt));
+        private bool _isAuditLog = false;
+        private const string p_MarkupID = "@p_MarkupID";
+        private const string p_SequenceNo = "@p_SequenceNo";
+        public MarginMarkupDtDao() { }
+        public MarginMarkupDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MarginMarkupDt Get(Int32 MarkupID, Int16 SequenceNo)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MarkupID, MarkupID);
+            _ctx.Add(p_SequenceNo, SequenceNo);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MarginMarkupDt)_helper.DataRowToObject(row, new MarginMarkupDt());
+        }
+        public int Insert(MarginMarkupDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MarginMarkupDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MarkupID, Int16 SequenceNo)
+        {
+            MarginMarkupDt record;
+            if (_ctx.Transaction == null)
+                record = new MarginMarkupDtDao().Get(MarkupID, SequenceNo);
+            else
+                record = Get(MarkupID, SequenceNo);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region MarginMarkupHd
+    [Serializable]
+    [Table(Name = "MarginMarkupHd")]
+    public class MarginMarkupHd : DbDataModel
+    {
+        private Int32 _MarkupID;
+        private String _MarkupCode;
+        private String _MarkupName;
+        private Boolean _IsMarkupInPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MarkupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 MarkupID
+        {
+            get { return _MarkupID; }
+            set { _MarkupID = value; }
+        }
+        [Column(Name = "MarkupCode", DataType = "String")]
+        public String MarkupCode
+        {
+            get { return _MarkupCode; }
+            set { _MarkupCode = value; }
+        }
+        [Column(Name = "MarkupName", DataType = "String")]
+        public String MarkupName
+        {
+            get { return _MarkupName; }
+            set { _MarkupName = value; }
+        }
+        [Column(Name = "IsMarkupInPercentage", DataType = "Boolean")]
+        public Boolean IsMarkupInPercentage
+        {
+            get { return _IsMarkupInPercentage; }
+            set { _IsMarkupInPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class MarginMarkupHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MarginMarkupHd));
+        private bool _isAuditLog = false;
+        private const string p_MarkupID = "@p_MarkupID";
+        public MarginMarkupHdDao() { }
+        public MarginMarkupHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MarginMarkupHd Get(Int32 MarkupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MarkupID, MarkupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MarginMarkupHd)_helper.DataRowToObject(row, new MarginMarkupHd());
+        }
+        public int Insert(MarginMarkupHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MarginMarkupHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MarkupID)
+        {
+            MarginMarkupHd record;
+            if (_ctx.Transaction == null)
+                record = new MarginMarkupHdDao().Get(MarkupID);
+            else
+                record = Get(MarkupID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

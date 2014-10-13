@@ -115,15 +115,29 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx" />
+    <Content Include="Program\Master\Bank\BankEntry.aspx" />
+    <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
+    <Content Include="Program\Master\CreditCardFee\CreditCardFeeEntry.aspx" />
+    <Content Include="Program\Master\CreditCardFee\CreditCardFeeList.aspx" />
     <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx" />
     <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageList.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeEntry.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeList.aspx" />
     <Content Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx" />
+    <Content Include="Program\Master\EDCMachine\EDCMachineEntry.aspx" />
+    <Content Include="Program\Master\EDCMachine\EDCMachineList.aspx" />
     <Content Include="Program\Master\Holiday\HolidayEntry.aspx" />
     <Content Include="Program\Master\Holiday\HolidayList.aspx" />
+    <Content Include="Program\Master\LocationPermission\LocationPermissionEntry.aspx" />
+    <Content Include="Program\Master\LocationPermission\LocationPermissionList.aspx" />
+    <Content Include="Program\Master\Location\LocationEntry.aspx" />
+    <Content Include="Program\Master\Location\LocationItemEntryCtl.ascx" />
+    <Content Include="Program\Master\Location\LocationList.aspx" />
+    <Content Include="Program\Master\MarginMarkup\MarginMarkupDtEntryCtl.ascx" />
+    <Content Include="Program\Master\MarginMarkup\MarginMarkupEntry.aspx" />
+    <Content Include="Program\Master\MarginMarkup\MarginMarkupList.aspx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
@@ -132,9 +146,14 @@
     <Content Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
+    <Content Include="Program\Master\Supplier\SupplierEntry.aspx" />
+    <Content Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx" />
+    <Content Include="Program\Master\Supplier\SupplierList.aspx" />
     <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
     <Content Include="Program\Master\Teacher\TeacherList.aspx" />
+    <Content Include="Program\Master\Term\TermEntry.aspx" />
+    <Content Include="Program\Master\Term\TermList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapList.aspx" />
     <Content Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationEntry.aspx" />
@@ -436,6 +455,20 @@
     <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.designer.cs">
       <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\Bank\BankEntry.aspx.cs">
+      <DependentUpon>BankEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Bank\BankEntry.aspx.designer.cs">
+      <DependentUpon>BankEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Bank\BankList.aspx.cs">
+      <DependentUpon>BankList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Bank\BankList.aspx.designer.cs">
+      <DependentUpon>BankList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeEntry.aspx.cs">
       <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -449,6 +482,20 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
       <DependentUpon>ClassTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\CreditCardFee\CreditCardFeeEntry.aspx.cs">
+      <DependentUpon>CreditCardFeeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\CreditCardFee\CreditCardFeeEntry.aspx.designer.cs">
+      <DependentUpon>CreditCardFeeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\CreditCardFee\CreditCardFeeList.aspx.cs">
+      <DependentUpon>CreditCardFeeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\CreditCardFee\CreditCardFeeList.aspx.designer.cs">
+      <DependentUpon>CreditCardFeeList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx.cs">
       <DependentUpon>DailySchedulePackageEntry.aspx</DependentUpon>
@@ -485,6 +532,20 @@
     <Compile Include="Program\Master\DailyScheduleType\DailyScheduleTypeDtEntryCtl.ascx.designer.cs">
       <DependentUpon>DailyScheduleTypeDtEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\EDCMachine\EDCMachineEntry.aspx.cs">
+      <DependentUpon>EDCMachineEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\EDCMachine\EDCMachineEntry.aspx.designer.cs">
+      <DependentUpon>EDCMachineEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\EDCMachine\EDCMachineList.aspx.cs">
+      <DependentUpon>EDCMachineList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\EDCMachine\EDCMachineList.aspx.designer.cs">
+      <DependentUpon>EDCMachineList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\Holiday\HolidayEntry.aspx.cs">
       <DependentUpon>HolidayEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -498,6 +559,62 @@
     </Compile>
     <Compile Include="Program\Master\Holiday\HolidayList.aspx.designer.cs">
       <DependentUpon>HolidayList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\LocationPermission\LocationPermissionEntry.aspx.cs">
+      <DependentUpon>LocationPermissionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\LocationPermission\LocationPermissionEntry.aspx.designer.cs">
+      <DependentUpon>LocationPermissionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\LocationPermission\LocationPermissionList.aspx.cs">
+      <DependentUpon>LocationPermissionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\LocationPermission\LocationPermissionList.aspx.designer.cs">
+      <DependentUpon>LocationPermissionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationEntry.aspx.cs">
+      <DependentUpon>LocationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationEntry.aspx.designer.cs">
+      <DependentUpon>LocationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationItemEntryCtl.ascx.cs">
+      <DependentUpon>LocationItemEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationItemEntryCtl.ascx.designer.cs">
+      <DependentUpon>LocationItemEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationList.aspx.cs">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationList.aspx.designer.cs">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MarginMarkup\MarginMarkupDtEntryCtl.ascx.cs">
+      <DependentUpon>MarginMarkupDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MarginMarkup\MarginMarkupDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>MarginMarkupDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MarginMarkup\MarginMarkupEntry.aspx.cs">
+      <DependentUpon>MarginMarkupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MarginMarkup\MarginMarkupEntry.aspx.designer.cs">
+      <DependentUpon>MarginMarkupEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MarginMarkup\MarginMarkupList.aspx.cs">
+      <DependentUpon>MarginMarkupList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MarginMarkup\MarginMarkupList.aspx.designer.cs">
+      <DependentUpon>MarginMarkupList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Room\RoomEntry.aspx.cs">
       <DependentUpon>RoomEntry.aspx</DependentUpon>
@@ -555,6 +672,27 @@
     <Compile Include="Program\Master\Subject\SubjectList.aspx.designer.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierEntry.aspx.cs">
+      <DependentUpon>SupplierEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierEntry.aspx.designer.cs">
+      <DependentUpon>SupplierEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx.cs">
+      <DependentUpon>SupplierItemEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx.designer.cs">
+      <DependentUpon>SupplierItemEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierList.aspx.cs">
+      <DependentUpon>SupplierList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierList.aspx.designer.cs">
+      <DependentUpon>SupplierList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx.cs">
       <DependentUpon>TeacherSubjectEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -575,6 +713,20 @@
     </Compile>
     <Compile Include="Program\Master\Teacher\TeacherList.aspx.designer.cs">
       <DependentUpon>TeacherList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Term\TermEntry.aspx.cs">
+      <DependentUpon>TermEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Term\TermEntry.aspx.designer.cs">
+      <DependentUpon>TermEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Term\TermList.aspx.cs">
+      <DependentUpon>TermList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Term\TermList.aspx.designer.cs">
+      <DependentUpon>TermList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ProcessUtilities\DataUtilities\DataMigrationConfiguration\DataMigrationConfigurationColumnMapEntry.aspx.cs">
       <DependentUpon>DataMigrationConfigurationColumnMapEntry.aspx</DependentUpon>
