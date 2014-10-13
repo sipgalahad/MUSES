@@ -119,6 +119,10 @@
     <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
+    <Content Include="Program\Master\ProductBrand\ProductBrandEntry.aspx" />
+    <Content Include="Program\Master\ProductBrand\ProductBrandList.aspx" />
+    <Content Include="Program\Master\Manufacturer\ManufacturerEntry.aspx" />
+    <Content Include="Program\Master\Manufacturer\ManufacturerList.aspx" />
     <Content Include="Program\Master\CreditCardFee\CreditCardFeeEntry.aspx" />
     <Content Include="Program\Master\CreditCardFee\CreditCardFeeList.aspx" />
     <Content Include="Program\Master\DailySchedulePackage\DailySchedulePackageEntry.aspx" />
@@ -488,6 +492,34 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
       <DependentUpon>ClassTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProductBrand\ProductBrandEntry.aspx.cs">
+      <DependentUpon>ProductBrandEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProductBrand\ProductBrandEntry.aspx.designer.cs">
+      <DependentUpon>ProductBrandEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProductBrand\ProductBrandList.aspx.cs">
+      <DependentUpon>ProductBrandList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProductBrand\ProductBrandList.aspx.designer.cs">
+      <DependentUpon>ProductBrandList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Manufacturer\ManufacturerEntry.aspx.cs">
+      <DependentUpon>ManufacturerEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Manufacturer\ManufacturerEntry.aspx.designer.cs">
+      <DependentUpon>ManufacturerEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Manufacturer\ManufacturerList.aspx.cs">
+      <DependentUpon>ManufacturerList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Manufacturer\ManufacturerList.aspx.designer.cs">
+      <DependentUpon>ManufacturerList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\CreditCardFee\CreditCardFeeEntry.aspx.cs">
       <DependentUpon>CreditCardFeeEntry.aspx</DependentUpon>

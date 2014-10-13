@@ -5332,6 +5332,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region Manufacturer
+    [Serializable]
+    [Table(Name = "Manufacturer")]
+    public class Manufacturer : DbDataModel
+    {
+        private Int32 _ManufacturerID;
+        private String _ManufacturerCode;
+        private String _ManufacturerName;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ManufacturerID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ManufacturerID
+        {
+            get { return _ManufacturerID; }
+            set { _ManufacturerID = value; }
+        }
+        [Column(Name = "ManufacturerCode", DataType = "String")]
+        public String ManufacturerCode
+        {
+            get { return _ManufacturerCode; }
+            set { _ManufacturerCode = value; }
+        }
+        [Column(Name = "ManufacturerName", DataType = "String")]
+        public String ManufacturerName
+        {
+            get { return _ManufacturerName; }
+            set { _ManufacturerName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ManufacturerDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Manufacturer));
+        private bool _isAuditLog = false;
+        private const string p_ManufacturerID = "@p_ManufacturerID";
+        public ManufacturerDao() { }
+        public ManufacturerDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Manufacturer Get(Int32 ManufacturerID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ManufacturerID, ManufacturerID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Manufacturer)_helper.DataRowToObject(row, new Manufacturer());
+        }
+        public int Insert(Manufacturer record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Manufacturer record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ManufacturerID)
+        {
+            Manufacturer record;
+            if (_ctx.Transaction == null)
+                record = new ManufacturerDao().Get(ManufacturerID);
+            else
+                record = Get(ManufacturerID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region MarginMarkupDt
     [Serializable]
     [Table(Name = "MarginMarkupDt")]
@@ -6232,6 +6338,119 @@ namespace CodeX.Data.Model
                 record = new PeriodSectionDao().Get(PeriodSectionID);
             else
                 record = Get(PeriodSectionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ProductBrand
+    [Serializable]
+    [Table(Name = "ProductBrand")]
+    public class ProductBrand : DbDataModel
+    {
+        private Int32 _ProductBrandID;
+        private String _ProductBrandCode;
+        private String _ProductBrandName;
+        private Int32 _ManufacturerID;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProductBrandID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProductBrandID
+        {
+            get { return _ProductBrandID; }
+            set { _ProductBrandID = value; }
+        }
+        [Column(Name = "ProductBrandCode", DataType = "String")]
+        public String ProductBrandCode
+        {
+            get { return _ProductBrandCode; }
+            set { _ProductBrandCode = value; }
+        }
+        [Column(Name = "ProductBrandName", DataType = "String")]
+        public String ProductBrandName
+        {
+            get { return _ProductBrandName; }
+            set { _ProductBrandName = value; }
+        }
+        [Column(Name = "ManufacturerID", DataType = "Int32")]
+        public Int32 ManufacturerID
+        {
+            get { return _ManufacturerID; }
+            set { _ManufacturerID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProductBrandDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProductBrand));
+        private bool _isAuditLog = false;
+        private const string p_ProductBrandID = "@p_ProductBrandID";
+        public ProductBrandDao() { }
+        public ProductBrandDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProductBrand Get(Int32 ProductBrandID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProductBrandID, ProductBrandID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProductBrand)_helper.DataRowToObject(row, new ProductBrand());
+        }
+        public int Insert(ProductBrand record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProductBrand record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProductBrandID)
+        {
+            ProductBrand record;
+            if (_ctx.Transaction == null)
+                record = new ProductBrandDao().Get(ProductBrandID);
+            else
+                record = Get(ProductBrandID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

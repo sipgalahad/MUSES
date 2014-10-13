@@ -2358,6 +2358,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vProductBrand
+        public static List<vProductBrand> GetvProductBrandList(string filterExpression)
+        {
+            List<vProductBrand> result = new List<vProductBrand>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProductBrand));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProductBrand)helper.IDataReaderToObject(reader, new vProductBrand()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPurchaseInvoiceDt
         public static List<vPurchaseInvoiceDt> GetvPurchaseInvoiceDtList(string filterExpression)
         {

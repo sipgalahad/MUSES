@@ -2397,6 +2397,126 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Manufacturer
+        public static Manufacturer GetManufacturer(Int32 ManufacturerID)
+        {
+            return new ManufacturerDao().Get(ManufacturerID);
+        }
+        public static int InsertManufacturer(Manufacturer record)
+        {
+            return new ManufacturerDao().Insert(record);
+        }
+        public static int UpdateManufacturer(Manufacturer record)
+        {
+            return new ManufacturerDao().Update(record);
+        }
+        public static int DeleteManufacturer(Int32 ManufacturerID)
+        {
+            return new ManufacturerDao().Delete(ManufacturerID);
+        }
+        public static List<Manufacturer> GetManufacturerList(string filterExpression)
+        {
+            List<Manufacturer> result = new List<Manufacturer>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Manufacturer));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Manufacturer)helper.IDataReaderToObject(reader, new Manufacturer()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<Manufacturer> GetManufacturerList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<Manufacturer> result = new List<Manufacturer>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Manufacturer));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Manufacturer)helper.IDataReaderToObject(reader, new Manufacturer()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetManufacturerRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Manufacturer));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetManufacturerRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Manufacturer));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ManufacturerID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetManufacturerMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Manufacturer));
+                ctx.CommandText = helper.SelectMaxColumn("ManufacturerID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region MarginMarkupDt
         public static MarginMarkupDt GetMarginMarkupDt(Int32 MarkupID, Int16 SequenceNo)
         {
@@ -2775,6 +2895,127 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ProductBrand
+        public static ProductBrand GetProductBrand(Int32 ProductBrandID)
+        {
+            return new ProductBrandDao().Get(ProductBrandID);
+        }
+        public static int InsertProductBrand(ProductBrand record)
+        {
+            return new ProductBrandDao().Insert(record);
+        }
+        public static int UpdateProductBrand(ProductBrand record)
+        {
+            return new ProductBrandDao().Update(record);
+        }
+        public static int DeleteProductBrand(Int32 ProductBrandID)
+        {
+            return new ProductBrandDao().Delete(ProductBrandID);
+        }
+        public static List<ProductBrand> GetProductBrandList(string filterExpression)
+        {
+            List<ProductBrand> result = new List<ProductBrand>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductBrand));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProductBrand)helper.IDataReaderToObject(reader, new ProductBrand()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProductBrand> GetProductBrandList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ProductBrand> result = new List<ProductBrand>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductBrand));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProductBrand)helper.IDataReaderToObject(reader, new ProductBrand()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetProductBrandRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductBrand));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProductBrandRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductBrand));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ProductBrandID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProductBrandMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductBrand));
+                ctx.CommandText = helper.SelectMaxColumn("ProductBrandID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

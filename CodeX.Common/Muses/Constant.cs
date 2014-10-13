@@ -211,6 +211,8 @@ namespace CodeX.Common
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
+                public const string MANUFACTURER = "CP010203";
+                public const string PRODUCT_BRAND = "CP010204";
 
                 public const string SUPPLIER = "CP010301";
                 public const string TERM = "CP010302";

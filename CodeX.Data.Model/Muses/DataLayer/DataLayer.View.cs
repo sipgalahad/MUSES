@@ -4644,6 +4644,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProductBrand
+    [Serializable]
+    [Table(Name = "vProductBrand")]
+    public class vProductBrand
+    {
+        private Int32 _ProductBrandID;
+        private String _ProductBrandCode;
+        private String _ProductBrandName;
+        private Int32 _ManufacturerID;
+        private String _ManufacturerCode;
+        private String _ManufacturerName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ProductBrandID", DataType = "Int32")]
+        public Int32 ProductBrandID
+        {
+            get { return _ProductBrandID; }
+            set { _ProductBrandID = value; }
+        }
+        [Column(Name = "ProductBrandCode", DataType = "String")]
+        public String ProductBrandCode
+        {
+            get { return _ProductBrandCode; }
+            set { _ProductBrandCode = value; }
+        }
+        [Column(Name = "ProductBrandName", DataType = "String")]
+        public String ProductBrandName
+        {
+            get { return _ProductBrandName; }
+            set { _ProductBrandName = value; }
+        }
+        [Column(Name = "ManufacturerID", DataType = "Int32")]
+        public Int32 ManufacturerID
+        {
+            get { return _ManufacturerID; }
+            set { _ManufacturerID = value; }
+        }
+        [Column(Name = "ManufacturerCode", DataType = "String")]
+        public String ManufacturerCode
+        {
+            get { return _ManufacturerCode; }
+            set { _ManufacturerCode = value; }
+        }
+        [Column(Name = "ManufacturerName", DataType = "String")]
+        public String ManufacturerName
+        {
+            get { return _ManufacturerName; }
+            set { _ManufacturerName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vPurchaseOrderDt
     [Serializable]
     [Table(Name = "vPurchaseOrderDt")]
