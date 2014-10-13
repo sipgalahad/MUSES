@@ -1678,6 +1678,119 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemCost
+        public static ItemCost GetItemCost(Int32 ItemCostID)
+        {
+            return new ItemCostDao().Get(ItemCostID);
+        }
+        public static int InsertItemCost(ItemCost record)
+        {
+            return new ItemCostDao().Insert(record);
+        }
+        public static int UpdateItemCost(ItemCost record)
+        {
+            return new ItemCostDao().Update(record);
+        }
+        public static int DeleteItemCost(Int32 ItemCostID)
+        {
+            return new ItemCostDao().Delete(ItemCostID);
+        }
+        public static List<ItemCost> GetItemCostList(string filterExpression)
+        {
+            List<ItemCost> result = new List<ItemCost>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemCost));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemCost)helper.IDataReaderToObject(reader, new ItemCost()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ItemCost> GetItemCostList(string filterExpression, IDbContext ctx)
+        {
+            List<ItemCost> result = new List<ItemCost>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemCost));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemCost)helper.IDataReaderToObject(reader, new ItemCost()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ItemGroupMaster
+        public static ItemGroupMaster GetItemGroupMaster(Int32 ItemGroupID)
+        {
+            return new ItemGroupMasterDao().Get(ItemGroupID);
+        }
+        public static int InsertItemGroupMaster(ItemGroupMaster record)
+        {
+            return new ItemGroupMasterDao().Insert(record);
+        }
+        public static int UpdateItemGroupMaster(ItemGroupMaster record)
+        {
+            return new ItemGroupMasterDao().Update(record);
+        }
+        public static int DeleteItemGroupMaster(Int32 ItemGroupID)
+        {
+            return new ItemGroupMasterDao().Delete(ItemGroupID);
+        }
+        public static List<ItemGroupMaster> GetItemGroupMasterList(string filterExpression)
+        {
+            List<ItemGroupMaster> result = new List<ItemGroupMaster>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemGroupMaster));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemGroupMaster)helper.IDataReaderToObject(reader, new ItemGroupMaster()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetItemGroupMasterMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemGroupMaster));
+                ctx.CommandText = helper.SelectMaxColumn("ItemGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ItemMaster
         public static ItemMaster GetItemMaster(Int32 ItemID)
         {
@@ -1889,6 +2002,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemProduct
+        public static ItemProduct GetItemProduct(Int32 ItemID)
+        {
+            return new ItemProductDao().Get(ItemID);
+        }
+        public static int InsertItemProduct(ItemProduct record)
+        {
+            return new ItemProductDao().Insert(record);
+        }
+        public static int UpdateItemProduct(ItemProduct record)
+        {
+            return new ItemProductDao().Update(record);
+        }
+        public static int DeleteItemProduct(Int32 ItemID)
+        {
+            return new ItemProductDao().Delete(ItemID);
+        }
+        public static List<ItemProduct> GetItemProductList(string filterExpression)
+        {
+            List<ItemProduct> result = new List<ItemProduct>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemProduct));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemProduct)helper.IDataReaderToObject(reader, new ItemProduct()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ItemRequestHd
         public static ItemRequestHd GetItemRequestHd(Int32 ItemRequestID)
         {
@@ -2014,6 +2167,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ItemTagField
+        public static ItemTagField GetItemTagField(Int32 ItemID)
+        {
+            return new ItemTagFieldDao().Get(ItemID);
+        }
+        public static int InsertItemTagField(ItemTagField record)
+        {
+            return new ItemTagFieldDao().Insert(record);
+        }
+        public static int UpdateItemTagField(ItemTagField record)
+        {
+            return new ItemTagFieldDao().Update(record);
+        }
+        public static int DeleteItemTagField(Int32 ItemID)
+        {
+            return new ItemTagFieldDao().Delete(ItemID);
+        }
+        public static List<ItemTagField> GetItemTagFieldList(string filterExpression)
+        {
+            List<ItemTagField> result = new List<ItemTagField>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemTagField));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemTagField)helper.IDataReaderToObject(reader, new ItemTagField()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }
@@ -3578,6 +3771,23 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static List<RestrictionDt> GetRestrictionDtList(string filterExpression, IDbContext ctx)
+        {
+            List<RestrictionDt> result = new List<RestrictionDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RestrictionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RestrictionDt)helper.IDataReaderToObject(reader, new RestrictionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

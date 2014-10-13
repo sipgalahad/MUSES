@@ -65,6 +65,7 @@ namespace CodeX.Common
             public const string REPORTING_PERIOD = "X106";
             public const string ADJUSTMENT_REASON = "X107";
             public const string FILTER_PARAMETER_TYPE = "X108";
+            public const string ABC_CLASS = "X109";
             public const string TRANSACTION_STATUS = "X121";
             public const string DELETE_REASON = "X129";
             public const string REPORT_TYPE = "X140";
@@ -207,6 +208,9 @@ namespace CodeX.Common
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
                 public const string LOCATION = "CP010107";
                 public const string LOCATION_PERMISSION = "CP010108";
+
+                public const string ITEM_GROUP_MASTER = "CP010201";
+                public const string ITEM_PRODUCT = "CP010202";
 
                 public const string SUPPLIER = "CP010301";
                 public const string TERM = "CP010302";

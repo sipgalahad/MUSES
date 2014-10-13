@@ -130,8 +130,14 @@
     <Content Include="Program\Master\EDCMachine\EDCMachineList.aspx" />
     <Content Include="Program\Master\Holiday\HolidayEntry.aspx" />
     <Content Include="Program\Master\Holiday\HolidayList.aspx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemProductList.aspx" />
     <Content Include="Program\Master\LocationPermission\LocationPermissionEntry.aspx" />
     <Content Include="Program\Master\LocationPermission\LocationPermissionList.aspx" />
+    <Content Include="Program\Master\LocationPermission\LocationPermissionDtEntryCtl.ascx" />
     <Content Include="Program\Master\Location\LocationEntry.aspx" />
     <Content Include="Program\Master\Location\LocationItemEntryCtl.ascx" />
     <Content Include="Program\Master\Location\LocationList.aspx" />
@@ -560,6 +566,41 @@
     <Compile Include="Program\Master\Holiday\HolidayList.aspx.designer.cs">
       <DependentUpon>HolidayList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.cs">
+      <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.designer.cs">
+      <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.cs">
+      <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
+      <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.cs">
+      <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.cs">
+      <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.designer.cs">
+      <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.cs">
+      <DependentUpon>ItemProductList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.designer.cs">
+      <DependentUpon>ItemProductList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\LocationPermission\LocationPermissionEntry.aspx.cs">
       <DependentUpon>LocationPermissionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -573,6 +614,13 @@
     </Compile>
     <Compile Include="Program\Master\LocationPermission\LocationPermissionList.aspx.designer.cs">
       <DependentUpon>LocationPermissionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\LocationPermission\LocationPermissionDtEntryCtl.ascx.cs">
+      <DependentUpon>LocationPermissionDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\LocationPermission\LocationPermissionDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>LocationPermissionDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Location\LocationEntry.aspx.cs">
       <DependentUpon>LocationEntry.aspx</DependentUpon>

@@ -3100,6 +3100,217 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ItemCost
+    [Serializable]
+    [Table(Name = "ItemCost")]
+    public class ItemCost : DbDataModel
+    {
+        private Int32 _ItemCostID;
+        private Int32 _ItemID;
+        private String _SiteID;
+        private Decimal _PreviousMaterial;
+        private Decimal _CurrentMaterial;
+        private Decimal _TotalMaterial;
+        private Decimal _PreviousLabor;
+        private Decimal _CurrentLabor;
+        private Decimal _TotalLabor;
+        private Decimal _PreviousOverhead;
+        private Decimal _CurrentOverhead;
+        private Decimal _TotalOverhead;
+        private Decimal _PreviousSubContract;
+        private Decimal _CurrentSubContract;
+        private Decimal _TotalSubContract;
+        private Decimal _PreviousBurden;
+        private Decimal _CurrentBurden;
+        private Decimal _TotalBurden;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ItemCostID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ItemCostID
+        {
+            get { return _ItemCostID; }
+            set { _ItemCostID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "PreviousMaterial", DataType = "Decimal")]
+        public Decimal PreviousMaterial
+        {
+            get { return _PreviousMaterial; }
+            set { _PreviousMaterial = value; }
+        }
+        [Column(Name = "CurrentMaterial", DataType = "Decimal")]
+        public Decimal CurrentMaterial
+        {
+            get { return _CurrentMaterial; }
+            set { _CurrentMaterial = value; }
+        }
+        [Column(Name = "TotalMaterial", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal TotalMaterial
+        {
+            get { return _TotalMaterial; }
+            set { _TotalMaterial = value; }
+        }
+        [Column(Name = "PreviousLabor", DataType = "Decimal")]
+        public Decimal PreviousLabor
+        {
+            get { return _PreviousLabor; }
+            set { _PreviousLabor = value; }
+        }
+        [Column(Name = "CurrentLabor", DataType = "Decimal")]
+        public Decimal CurrentLabor
+        {
+            get { return _CurrentLabor; }
+            set { _CurrentLabor = value; }
+        }
+        [Column(Name = "TotalLabor", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal TotalLabor
+        {
+            get { return _TotalLabor; }
+            set { _TotalLabor = value; }
+        }
+        [Column(Name = "PreviousOverhead", DataType = "Decimal")]
+        public Decimal PreviousOverhead
+        {
+            get { return _PreviousOverhead; }
+            set { _PreviousOverhead = value; }
+        }
+        [Column(Name = "CurrentOverhead", DataType = "Decimal")]
+        public Decimal CurrentOverhead
+        {
+            get { return _CurrentOverhead; }
+            set { _CurrentOverhead = value; }
+        }
+        [Column(Name = "TotalOverhead", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal TotalOverhead
+        {
+            get { return _TotalOverhead; }
+            set { _TotalOverhead = value; }
+        }
+        [Column(Name = "PreviousSubContract", DataType = "Decimal")]
+        public Decimal PreviousSubContract
+        {
+            get { return _PreviousSubContract; }
+            set { _PreviousSubContract = value; }
+        }
+        [Column(Name = "CurrentSubContract", DataType = "Decimal")]
+        public Decimal CurrentSubContract
+        {
+            get { return _CurrentSubContract; }
+            set { _CurrentSubContract = value; }
+        }
+        [Column(Name = "TotalSubContract", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal TotalSubContract
+        {
+            get { return _TotalSubContract; }
+            set { _TotalSubContract = value; }
+        }
+        [Column(Name = "PreviousBurden", DataType = "Decimal")]
+        public Decimal PreviousBurden
+        {
+            get { return _PreviousBurden; }
+            set { _PreviousBurden = value; }
+        }
+        [Column(Name = "CurrentBurden", DataType = "Decimal")]
+        public Decimal CurrentBurden
+        {
+            get { return _CurrentBurden; }
+            set { _CurrentBurden = value; }
+        }
+        [Column(Name = "TotalBurden", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal TotalBurden
+        {
+            get { return _TotalBurden; }
+            set { _TotalBurden = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ItemCostDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemCost));
+        private bool _isAuditLog = false;
+        private const string p_ItemCostID = "@p_ItemCostID";
+        public ItemCostDao() { }
+        public ItemCostDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemCost Get(Int32 ItemCostID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemCostID, ItemCostID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemCost)_helper.DataRowToObject(row, new ItemCost());
+        }
+        public int Insert(ItemCost record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemCost record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ItemCostID)
+        {
+            ItemCost record;
+            if (_ctx.Transaction == null)
+                record = new ItemCostDao().Get(ItemCostID);
+            else
+                record = Get(ItemCostID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ItemDistributionDt
     [Serializable]
     [Table(Name = "ItemDistributionDt")]
@@ -3429,6 +3640,147 @@ namespace CodeX.Data.Model
                 record = new ItemDistributionHdDao().Get(DistributionID);
             else
                 record = Get(DistributionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ItemGroupMaster
+    [Serializable]
+    [Table(Name = "ItemGroupMaster")]
+    public class ItemGroupMaster : DbDataModel
+    {
+        private Int32 _ItemGroupID;
+        private String _GCItemType;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private String _ItemGroupName2;
+        private Boolean _IsHeader;
+        private Int32? _ParentID;
+        private Int16 _PrintOrder;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ItemGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "ItemGroupName2", DataType = "String", IsNullable = true)]
+        public String ItemGroupName2
+        {
+            get { return _ItemGroupName2; }
+            set { _ItemGroupName2 = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "PrintOrder", DataType = "Int16")]
+        public Int16 PrintOrder
+        {
+            get { return _PrintOrder; }
+            set { _PrintOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ItemGroupMasterDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemGroupMaster));
+        private bool _isAuditLog = false;
+        private const string p_ItemGroupID = "@p_ItemGroupID";
+        public ItemGroupMasterDao() { }
+        public ItemGroupMasterDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemGroupMaster Get(Int32 ItemGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemGroupID, ItemGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemGroupMaster)_helper.DataRowToObject(row, new ItemGroupMaster());
+        }
+        public int Insert(ItemGroupMaster record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemGroupMaster record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ItemGroupID)
+        {
+            ItemGroupMaster record;
+            if (_ctx.Transaction == null)
+                record = new ItemGroupMasterDao().Get(ItemGroupID);
+            else
+                record = Get(ItemGroupID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -3819,6 +4171,153 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ItemProduct
+    [Serializable]
+    [Table(Name = "ItemProduct")]
+    public class ItemProduct : DbDataModel
+    {
+        private Int32 _ItemID;
+        private Int32? _ProductBrandID;
+        private Int32? _RestrictionID;
+        private Int32? _MarkupID;
+        private Decimal _MarginPercentage;
+        private Boolean _IsInventoryItem;
+        private Boolean _IsControlExpired;
+        private Boolean _IsProductionItem;
+        private Boolean _IsUsingStandardPrice;
+        private String _GCABCClass;
+        private Decimal _CycleCountInterval;
+        private Decimal _HETAmount;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ItemID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ProductBrandID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProductBrandID
+        {
+            get { return _ProductBrandID; }
+            set { _ProductBrandID = value; }
+        }
+        [Column(Name = "RestrictionID", DataType = "Int32", IsNullable = true)]
+        public Int32? RestrictionID
+        {
+            get { return _RestrictionID; }
+            set { _RestrictionID = value; }
+        }
+        [Column(Name = "MarkupID", DataType = "Int32", IsNullable = true)]
+        public Int32? MarkupID
+        {
+            get { return _MarkupID; }
+            set { _MarkupID = value; }
+        }
+        [Column(Name = "MarginPercentage", DataType = "Decimal")]
+        public Decimal MarginPercentage
+        {
+            get { return _MarginPercentage; }
+            set { _MarginPercentage = value; }
+        }
+        [Column(Name = "IsInventoryItem", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsInventoryItem
+        {
+            get { return _IsInventoryItem; }
+            set { _IsInventoryItem = value; }
+        }
+        [Column(Name = "IsControlExpired", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsControlExpired
+        {
+            get { return _IsControlExpired; }
+            set { _IsControlExpired = value; }
+        }
+        [Column(Name = "IsProductionItem", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsProductionItem
+        {
+            get { return _IsProductionItem; }
+            set { _IsProductionItem = value; }
+        }
+        [Column(Name = "IsUsingStandardPrice", DataType = "Boolean")]
+        public Boolean IsUsingStandardPrice
+        {
+            get { return _IsUsingStandardPrice; }
+            set { _IsUsingStandardPrice = value; }
+        }
+        [Column(Name = "GCABCClass", DataType = "String", IsNullable = true)]
+        public String GCABCClass
+        {
+            get { return _GCABCClass; }
+            set { _GCABCClass = value; }
+        }
+        [Column(Name = "CycleCountInterval", DataType = "Decimal", IsNullable = true)]
+        public Decimal CycleCountInterval
+        {
+            get { return _CycleCountInterval; }
+            set { _CycleCountInterval = value; }
+        }
+        [Column(Name = "HETAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal HETAmount
+        {
+            get { return _HETAmount; }
+            set { _HETAmount = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ItemProductDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemProduct));
+        private bool _isAuditLog = false;
+        private const string p_ItemID = "@p_ItemID";
+        public ItemProductDao() { }
+        public ItemProductDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemProduct Get(Int32 ItemID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemID, ItemID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemProduct)_helper.DataRowToObject(row, new ItemProduct());
+        }
+        public int Insert(ItemProduct record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemProduct record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ItemID)
+        {
+            ItemProduct record;
+            if (_ctx.Transaction == null)
+                record = new ItemProductDao().Get(ItemID);
+            else
+                record = Get(ItemID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ItemRequestDt
     [Serializable]
     [Table(Name = "ItemRequestDt")]
@@ -4111,6 +4610,216 @@ namespace CodeX.Data.Model
                 record = new ItemRequestHdDao().Get(ItemRequestID);
             else
                 record = Get(ItemRequestID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ItemTagField
+    [Serializable]
+    [Table(Name = "ItemTagField")]
+    public class ItemTagField : DbDataModel
+    {
+        private Int32 _ItemID;
+        private String _TagField1;
+        private String _TagField2;
+        private String _TagField3;
+        private String _TagField4;
+        private String _TagField5;
+        private String _TagField6;
+        private String _TagField7;
+        private String _TagField8;
+        private String _TagField9;
+        private String _TagField10;
+        private String _TagField11;
+        private String _TagField12;
+        private String _TagField13;
+        private String _TagField14;
+        private String _TagField15;
+        private String _TagField16;
+        private String _TagField17;
+        private String _TagField18;
+        private String _TagField19;
+        private String _TagField20;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ItemID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "TagField1", DataType = "String", IsNullable = true)]
+        public String TagField1
+        {
+            get { return _TagField1; }
+            set { _TagField1 = value; }
+        }
+        [Column(Name = "TagField2", DataType = "String", IsNullable = true)]
+        public String TagField2
+        {
+            get { return _TagField2; }
+            set { _TagField2 = value; }
+        }
+        [Column(Name = "TagField3", DataType = "String", IsNullable = true)]
+        public String TagField3
+        {
+            get { return _TagField3; }
+            set { _TagField3 = value; }
+        }
+        [Column(Name = "TagField4", DataType = "String", IsNullable = true)]
+        public String TagField4
+        {
+            get { return _TagField4; }
+            set { _TagField4 = value; }
+        }
+        [Column(Name = "TagField5", DataType = "String", IsNullable = true)]
+        public String TagField5
+        {
+            get { return _TagField5; }
+            set { _TagField5 = value; }
+        }
+        [Column(Name = "TagField6", DataType = "String", IsNullable = true)]
+        public String TagField6
+        {
+            get { return _TagField6; }
+            set { _TagField6 = value; }
+        }
+        [Column(Name = "TagField7", DataType = "String", IsNullable = true)]
+        public String TagField7
+        {
+            get { return _TagField7; }
+            set { _TagField7 = value; }
+        }
+        [Column(Name = "TagField8", DataType = "String", IsNullable = true)]
+        public String TagField8
+        {
+            get { return _TagField8; }
+            set { _TagField8 = value; }
+        }
+        [Column(Name = "TagField9", DataType = "String", IsNullable = true)]
+        public String TagField9
+        {
+            get { return _TagField9; }
+            set { _TagField9 = value; }
+        }
+        [Column(Name = "TagField10", DataType = "String", IsNullable = true)]
+        public String TagField10
+        {
+            get { return _TagField10; }
+            set { _TagField10 = value; }
+        }
+        [Column(Name = "TagField11", DataType = "String", IsNullable = true)]
+        public String TagField11
+        {
+            get { return _TagField11; }
+            set { _TagField11 = value; }
+        }
+        [Column(Name = "TagField12", DataType = "String", IsNullable = true)]
+        public String TagField12
+        {
+            get { return _TagField12; }
+            set { _TagField12 = value; }
+        }
+        [Column(Name = "TagField13", DataType = "String", IsNullable = true)]
+        public String TagField13
+        {
+            get { return _TagField13; }
+            set { _TagField13 = value; }
+        }
+        [Column(Name = "TagField14", DataType = "String", IsNullable = true)]
+        public String TagField14
+        {
+            get { return _TagField14; }
+            set { _TagField14 = value; }
+        }
+        [Column(Name = "TagField15", DataType = "String", IsNullable = true)]
+        public String TagField15
+        {
+            get { return _TagField15; }
+            set { _TagField15 = value; }
+        }
+        [Column(Name = "TagField16", DataType = "String", IsNullable = true)]
+        public String TagField16
+        {
+            get { return _TagField16; }
+            set { _TagField16 = value; }
+        }
+        [Column(Name = "TagField17", DataType = "String", IsNullable = true)]
+        public String TagField17
+        {
+            get { return _TagField17; }
+            set { _TagField17 = value; }
+        }
+        [Column(Name = "TagField18", DataType = "String", IsNullable = true)]
+        public String TagField18
+        {
+            get { return _TagField18; }
+            set { _TagField18 = value; }
+        }
+        [Column(Name = "TagField19", DataType = "String", IsNullable = true)]
+        public String TagField19
+        {
+            get { return _TagField19; }
+            set { _TagField19 = value; }
+        }
+        [Column(Name = "TagField20", DataType = "String", IsNullable = true)]
+        public String TagField20
+        {
+            get { return _TagField20; }
+            set { _TagField20 = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ItemTagFieldDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemTagField));
+        private bool _isAuditLog = false;
+        private const string p_ItemID = "@p_ItemID";
+        public ItemTagFieldDao() { }
+        public ItemTagFieldDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemTagField Get(Int32 ItemID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ItemID, ItemID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemTagField)_helper.DataRowToObject(row, new ItemTagField());
+        }
+        public int Insert(ItemTagField record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemTagField record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ItemID)
+        {
+            ItemTagField record;
+            if (_ctx.Transaction == null)
+                record = new ItemTagFieldDao().Get(ItemID);
+            else
+                record = Get(ItemID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

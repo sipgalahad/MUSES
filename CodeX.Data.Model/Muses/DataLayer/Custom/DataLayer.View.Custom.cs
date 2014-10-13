@@ -242,6 +242,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemCost
+    public partial class vItemCost
+    {
+        public String cfTotalMaterial
+        {
+            get { return String.Format("{0:N2}", _TotalMaterial); }
+        }
+
+        public String cfTotalLabor
+        {
+            get { return String.Format("{0:N2}", _TotalLabor); }
+        }
+
+        public String cfTotalOverhead
+        {
+            get { return String.Format("{0:N2}", _TotalOverhead); }
+        }
+
+        public String cfTotalSubContract
+        {
+            get { return String.Format("{0:N2}", _TotalSubContract); }
+        }
+
+        public String cfTotalBurden
+        {
+            get { return String.Format("{0:N2}", _TotalBurden); }
+        }
+    }
+    #endregion
     #region vItemDistributionDt
     public partial class vItemDistributionDt
     {

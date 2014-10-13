@@ -19,6 +19,15 @@ namespace CodeX.Web.Common
 {
     public partial class Helper
     {
+        public static String GenerateItemCode(IDbContext ctx, String ItemName)
+        {
+            string itemName2Char = ItemName.Trim().Substring(0, 2).ToUpper();
+            ItemMaster im = BusinessLayer.GetItemMasterList(string.Format("ItemCode LIKE '{0}%'", itemName2Char), 1, 1, "ItemCode DESC", ctx).FirstOrDefault();
+            int newNumber = 1;
+            if (im != null)
+                newNumber = Convert.ToInt32(im.ItemCode.Substring(itemName2Char.Length)) + 1;
+            return string.Format("{0}{1}", itemName2Char, newNumber.ToString().PadLeft(5, '0'));
+        }
         public static string GetModuleID(string moduleName)
         {
             string result = "";

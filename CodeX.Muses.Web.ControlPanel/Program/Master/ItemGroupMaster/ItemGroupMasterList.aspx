@@ -1,10 +1,12 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="LocationPermissionList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.LocationPermissionList" %>
+    CodeBehind="ItemGroupMasterList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.ItemGroupMasterList" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -62,16 +64,21 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
-        $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/LocationPermission/LocationPermissionDtEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Transaksi', 900, 650);
-        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
+        <div style="padding-bottom:10px">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <colgroup>
+                    <col width="120px" />
+                </colgroup>
+                <tr>
+                    <td><label><%=GetLabel("Item Type")%></label></td>
+                    <td><dxe:ASPxComboBox ID="cboItemType" Width="400px" runat="server" ClientSideEvents-SelectedIndexChanged="function (s,e) {onRefreshControl(onGetFilterExpression());}" /></td>
+                </tr>
+            </table>
+        </div>
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
@@ -81,10 +88,22 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="RestrictionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="RestrictionCode" HeaderText="Restriction Code" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="RestrictionName" HeaderText="Restriction Name" />
-                                <asp:HyperLinkField HeaderText="Detail" Text="Detail" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ItemGroupID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:TemplateField HeaderStyle-Width="200px" >
+                                    <HeaderTemplate>
+                                        <div style="padding-left:3px">
+                                            <%=GetLabel("Item Group Code")%>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style='margin-left:<%# Eval("Level") %>0px;'><%# Eval("ItemGroupCode") %></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="ItemGroupName1" HeaderText="Item Group Name 1" />
+                                <asp:BoundField DataField="ItemGroupName2" HeaderText="Item Group Name 2" />
+                                <asp:BoundField DataField="ItemType" HeaderText="Item Type" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="PrintOrder" HeaderText="Print Order" HeaderStyle-CssClass="thRight" HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Right" />
+
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
