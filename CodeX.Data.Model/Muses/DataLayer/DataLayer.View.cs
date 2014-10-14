@@ -10870,6 +10870,8 @@ namespace CodeX.Data.Model
         private String _PeriodSectionName;
         private Int32 _ClassTypeID;
         private String _ClassTypeName;
+        private String _GCGrade;
+        private String _GCMajor;
         private Int32 _RoomID;
         private String _RoomName;
         private Int32 _TeacherID;
@@ -10942,6 +10944,18 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
         }
         [Column(Name = "RoomID", DataType = "Int32")]
         public Int32 RoomID

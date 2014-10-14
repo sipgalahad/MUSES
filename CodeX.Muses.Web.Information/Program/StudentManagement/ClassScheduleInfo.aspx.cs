@@ -17,7 +17,7 @@ using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Information.Program
 {
-    public partial class TeacherScheduleInfo : BasePageList
+    public partial class ClassScheduleInfo : BasePageList
     {
         protected int PageCount = 0;
         protected int RowCount = 0;
@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.Information.Program
         protected int CurrPage = 1;     
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Information.TEACHER_SCHEDULE_INFO;
+            return Constant.MenuCode.Information.CLASS_SCHEDULE_INFO;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -40,7 +40,7 @@ namespace CodeX.Muses.Web.Information.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            if (tacTeacher.Value != "")
+            if (tacSchoolClass.Value != "")
             {
                 if (cboSchoolPeriod.Value != null && cboSchoolPeriod.Value.ToString() != "0")
                 {
@@ -59,7 +59,7 @@ namespace CodeX.Muses.Web.Information.Program
                         entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                     ));
 
-                    lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacTeacher.Value));
+                    lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacSchoolClass.Value));
 
                     spnNumSlot.InnerHtml = lstClassSchedule.Count.ToString();
                     rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();

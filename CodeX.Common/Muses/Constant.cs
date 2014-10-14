@@ -309,7 +309,8 @@ namespace CodeX.Common
             #region Information
             public static class Information
             {
-                public const string TEACHER_INFO = "IF010100";
+                public const string TEACHER_SCHEDULE_INFO = "IF010100";
+                public const string CLASS_SCHEDULE_INFO = "IF010200";
 
                 public const string STOCK_DETAIL_INFO = "IF020100";
 
@@ -400,9 +401,9 @@ namespace CodeX.Common
                 public const string WS_CLASS_MEETING = "TP99010101";
                 public const string WS_CLASS_ATTENDANCE = "TP99010102";
                 public const string WS_CLASS_TASK = "TP99010103";
-
                 public const string WS_ATTENDANCE_HISTORY = "TP99010201";
                 public const string WS_STUDENT_MARK = "TP99010202";
+                public const string WS_SUBJECT_MATTER = "TP99010203";
             }
             #endregion
         }

@@ -105,6 +105,7 @@
     <Content Include="Program\WeeklySchedule\ClassTask\ClassTaskEntry.aspx" />
     <Content Include="Program\WeeklySchedule\ClassMeetingHistoryCtl.ascx" />
     <Content Include="Program\WeeklySchedule\StudentMarkInformation\StudentMarkInformation.aspx" />
+    <Content Include="Program\WeeklySchedule\SubjectMatter\SubjectMatterInformation.aspx" />
     <Content Include="Program\WeeklySchedule\WeeklyScheduleList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -354,6 +355,13 @@
     </Compile>
     <Compile Include="Program\WeeklySchedule\StudentMarkInformation\StudentMarkInformation.aspx.designer.cs">
       <DependentUpon>StudentMarkInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\SubjectMatter\SubjectMatterInformation.aspx.cs">
+      <DependentUpon>SubjectMatterInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\SubjectMatter\SubjectMatterInformation.aspx.designer.cs">
+      <DependentUpon>SubjectMatterInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\WeeklySchedule\WeeklyScheduleList.aspx.cs">
       <DependentUpon>WeeklyScheduleList.aspx</DependentUpon>
