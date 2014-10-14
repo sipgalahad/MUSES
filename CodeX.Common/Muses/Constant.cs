@@ -230,8 +230,7 @@ namespace CodeX.Common
                 public const string FA_ITEM_FROM_PURCHASE_RECEIVE = "AC010505";
 
                 public const string JOURNAL_ENTRY = "AC050100";
-                
-                public const string JOURNAL_LIST = "AC070100";
+                public const string JOURNAL_LIST = "AC050200";                
 
                 public const string UNBALANCE_JOURNAL = "AC080100";
                 public const string BALANCE_INFORMATION = "AC080200";
@@ -249,13 +248,13 @@ namespace CodeX.Common
                 public const string SUBJECT = "CP010104";
                 public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
-                public const string LOCATION = "CP010107";
-                public const string LOCATION_PERMISSION = "CP010108";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
                 public const string MANUFACTURER = "CP010203";
                 public const string PRODUCT_BRAND = "CP010204";
+                public const string LOCATION = "CP010205";
+                public const string LOCATION_PERMISSION = "CP010206";
 
                 public const string SUPPLIER = "CP010301";
                 public const string TERM = "CP010302";
@@ -396,6 +395,7 @@ namespace CodeX.Common
         }
         #endregion
 
+        #region TransactionCode
         public static class TransactionCode
         {
             public const string ITEM_REQUEST = "4104";
@@ -428,6 +428,7 @@ namespace CodeX.Common
             public const string JOURNAL = "72%";
             public const string JOURNAL_MEMORIAL_IKHTISAR = "7299";
         }
+        #endregion
 
         #region Setting Parameter
         public static partial class SettingParameter

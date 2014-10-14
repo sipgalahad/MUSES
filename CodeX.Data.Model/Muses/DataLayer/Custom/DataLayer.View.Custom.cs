@@ -504,6 +504,20 @@ namespace CodeX.Data.Model
                 return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             }
         }
+        public string RegistrationStartDateInDatePickerFormat
+        {
+            get
+            {
+                return _RegistrationStartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public string RegistrationEndDateInDatePickerFormat
+        {
+            get
+            {
+                return _RegistrationEndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
     }
     #endregion
     #region vPeriodClassType
