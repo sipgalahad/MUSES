@@ -97,12 +97,14 @@
     <Content Include="Global.asax" />
     <Content Include="MasterPage\MPClassSubjectPageTrxVisit.master" />
     <Content Include="MasterPage\ClassSubjectBannerDtCtl.ascx" />
+    <Content Include="Program\WeeklySchedule\ClassAttendanceInformation\ClassAttendanceInformation.aspx" />
     <Content Include="Program\WeeklySchedule\ClassTask\ClassTaskEntryCtl.ascx" />
     <Content Include="Program\WeeklySchedule\ClassMeetingPageLauncher.aspx" />
     <Content Include="Program\WeeklySchedule\ClassMeeting\ClassMeetingEntry.aspx" />
     <Content Include="Program\WeeklySchedule\ClassAttendance\ClassAttendanceEntry.aspx" />
     <Content Include="Program\WeeklySchedule\ClassTask\ClassTaskEntry.aspx" />
     <Content Include="Program\WeeklySchedule\ClassMeetingHistoryCtl.ascx" />
+    <Content Include="Program\WeeklySchedule\StudentMarkInformation\StudentMarkInformation.aspx" />
     <Content Include="Program\WeeklySchedule\WeeklyScheduleList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -297,6 +299,13 @@
     <Compile Include="MasterPage\ClassSubjectBannerDtCtl.ascx.designer.cs">
       <DependentUpon>ClassSubjectBannerDtCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassAttendanceInformation\ClassAttendanceInformation.aspx.cs">
+      <DependentUpon>ClassAttendanceInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\ClassAttendanceInformation\ClassAttendanceInformation.aspx.designer.cs">
+      <DependentUpon>ClassAttendanceInformation.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\WeeklySchedule\ClassTask\ClassTaskEntryCtl.ascx.cs">
       <DependentUpon>ClassTaskEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -338,6 +347,13 @@
     </Compile>
     <Compile Include="Program\WeeklySchedule\ClassMeetingHistoryCtl.ascx.designer.cs">
       <DependentUpon>ClassMeetingHistoryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\StudentMarkInformation\StudentMarkInformation.aspx.cs">
+      <DependentUpon>StudentMarkInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\WeeklySchedule\StudentMarkInformation\StudentMarkInformation.aspx.designer.cs">
+      <DependentUpon>StudentMarkInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\WeeklySchedule\WeeklyScheduleList.aspx.cs">
       <DependentUpon>WeeklyScheduleList.aspx</DependentUpon>

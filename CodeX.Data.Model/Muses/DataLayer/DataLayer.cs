@@ -1424,6 +1424,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private String _ClassTaskCode;
         private String _GCTaskType;
         private Int16 _FinalMarkPercentage;
         private DateTime _TaskDate;
@@ -1450,6 +1451,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "ClassTaskCode", DataType = "String")]
+        public String ClassTaskCode
+        {
+            get { return _ClassTaskCode; }
+            set { _ClassTaskCode = value; }
         }
         [Column(Name = "GCTaskType", DataType = "String")]
         public String GCTaskType

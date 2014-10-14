@@ -23,6 +23,10 @@
             <col style="width: 160px" />
         </colgroup>
         <tr>
+            <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
+            <td><asp:TextBox ID="txtClassTaskCode" Width="100px" runat="server" /></td>
+        </tr>
+        <tr>
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Topik")%></label></td>
             <td><asp:TextBox ID="txtTopic" Width="200px" runat="server" /></td>
         </tr>

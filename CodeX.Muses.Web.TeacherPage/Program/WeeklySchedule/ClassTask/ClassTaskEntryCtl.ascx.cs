@@ -43,6 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void OnControlEntrySetting()
         {
+            SetControlEntrySetting(txtClassTaskCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtTopic, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboTaskType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtFinalMarkPercentage, new ControlEntrySetting(true, true, true, "0"));
@@ -57,6 +58,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void EntityToControl(ClassSubjectTask entity)
         {
             hdnID.Value = entity.ClassSubjectTaskID.ToString();
+            txtClassTaskCode.Text = entity.ClassTaskCode;
             txtTopic.Text = entity.Topic;
             cboTaskType.Value = entity.GCTaskType;
             txtFinalMarkPercentage.Text = entity.FinalMarkPercentage.ToString();
@@ -70,6 +72,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void ControlToEntity(ClassSubjectTask entity)
         {
+            entity.ClassTaskCode = txtClassTaskCode.Text;
             entity.Topic = txtTopic.Text;
             entity.GCTaskType = cboTaskType.Value.ToString();
             entity.FinalMarkPercentage = Convert.ToInt16(txtFinalMarkPercentage.Text);

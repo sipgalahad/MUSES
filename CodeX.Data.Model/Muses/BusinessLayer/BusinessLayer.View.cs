@@ -319,6 +319,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassMeetingAttendance
+        public static List<vClassMeetingAttendance> GetvClassMeetingAttendanceList(string filterExpression)
+        {
+            List<vClassMeetingAttendance> result = new List<vClassMeetingAttendance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassMeetingAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassMeetingAttendance)helper.IDataReaderToObject(reader, new vClassMeetingAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassSchedule
         public static List<vClassSchedule> GetvClassScheduleList(string filterExpression)
         {
@@ -403,6 +427,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vClassSubjectCustom)helper.IDataReaderToObject(reader, new vClassSubjectCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vClassStudentSubjectMark
+        public static List<vClassStudentSubjectMark> GetvClassStudentSubjectMarkList(string filterExpression)
+        {
+            List<vClassStudentSubjectMark> result = new List<vClassStudentSubjectMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassStudentSubjectMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassStudentSubjectMark)helper.IDataReaderToObject(reader, new vClassStudentSubjectMark()));
             }
             catch (Exception ex)
             {

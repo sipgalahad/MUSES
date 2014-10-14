@@ -27,17 +27,21 @@
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
             });
+
+            registerViewListClickHandler();
         });
 
-        $('#ulMeetingViewList li').live('click', function (e) {
-            if (e.target !== this)
-                return;
-            var id = $(this).find('.hdnClassSubjectTaskID').val();
-            $('#<%=hdnClassSubjectTaskID.ClientID %>').val(id);
-            $('#ulMeetingViewList li.selected').removeClass('selected');
-            $(this).addClass('selected');
-            cbpMeetingDetail.PerformCallback();
-        });
+        function registerViewListClickHandler() {
+            $('#ulMeetingViewList li').click(function (e) {
+                if (!$(this).hasClass('selected')) {
+                    var id = $(this).find('.hdnClassSubjectTaskID').val();
+                    $('#<%=hdnClassSubjectTaskID.ClientID %>').val(id);
+                    $('#ulMeetingViewList li.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    cbpMeetingDetail.PerformCallback();
+                }
+            });
+        }
 
         function onHistoryInit() {
             if ($('#ulMeetingViewList li').length > 0)
@@ -64,6 +68,7 @@
 
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
+            registerViewListClickHandler();
 
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
@@ -75,6 +80,7 @@
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
+                $('#ulMeetingViewList li:eq(0)').click();
             }
             else
                 $('#ulMeetingViewList li:eq(0)').click();
@@ -136,7 +142,7 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value='<%# Eval("ClassSubjectTaskID") %>' class="hdnClassSubjectTaskID" />
                                         <div class="divMeetingDate"><%# Eval("TaskDate", "{0:dd MMM}")%><br /><%# Eval("TaskDate", "{0:yyyy}")%></div>
-                                        <div style="font-size: 24px; font-weight: 100;"><%#Eval("Topic") %></div>
+                                        <div style="font-size: 24px; font-weight: 100;"><%#Eval("Topic") %> (<%#Eval("ClassTaskCode")%>)</div>
                                         <div style="font-size: 12px;"><%#Eval("TaskType") %><br /><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
                                     </li>                        
                                 </ItemTemplate>

@@ -401,8 +401,8 @@ namespace CodeX.Common
                 public const string WS_CLASS_ATTENDANCE = "TP99010102";
                 public const string WS_CLASS_TASK = "TP99010103";
 
-                public const string WS_MEETING_HISTORY = "TP99010201";
-                public const string WS_ATTENDANCE_HISTORY = "TP99010202";
+                public const string WS_ATTENDANCE_HISTORY = "TP99010201";
+                public const string WS_STUDENT_MARK = "TP99010202";
             }
             #endregion
         }

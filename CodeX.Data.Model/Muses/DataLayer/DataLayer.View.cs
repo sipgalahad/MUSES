@@ -528,6 +528,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassMeetingAttendance
+    [Serializable]
+    [Table(Name = "vClassMeetingAttendance")]
+    public class vClassMeetingAttendance
+    {
+        private Int32 _ClassMeetingID;
+        private Int32 _ClassSubjectID;
+        private Int32 _StudentID;
+        private String _GCAttendanceStatus;
+        private String _AttendanceStatus;
+
+        [Column(Name = "ClassMeetingID", DataType = "Int32")]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "GCAttendanceStatus", DataType = "String")]
+        public String GCAttendanceStatus
+        {
+            get { return _GCAttendanceStatus; }
+            set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "AttendanceStatus", DataType = "String")]
+        public String AttendanceStatus
+        {
+            get { return _AttendanceStatus; }
+            set { _AttendanceStatus = value; }
+        }
+    }
+    #endregion
     #region vClassSchedule
     [Serializable]
     [Table(Name = "vClassSchedule")]
@@ -854,6 +897,42 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassStudentSubjectMark
+    [Serializable]
+    [Table(Name = "vClassStudentSubjectMark")]
+    public class vClassStudentSubjectMark
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _ClassSubjectID;
+        private Int32 _StudentID;
+        private Int16 _Mark;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Int16")]
+        public Int16 Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+    }
+    #endregion
     #region vClassSubjectTask
     [Serializable]
     [Table(Name = "vClassSubjectTask")]
@@ -861,6 +940,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private String _ClassTaskCode;
         private String _GCTaskType;
         private String _TaskType;
         private Int16 _FinalMarkPercentage;
@@ -884,6 +964,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "ClassTaskCode", DataType = "String")]
+        public String ClassTaskCode
+        {
+            get { return _ClassTaskCode; }
+            set { _ClassTaskCode = value; }
         }
         [Column(Name = "GCTaskType", DataType = "String")]
         public String GCTaskType
