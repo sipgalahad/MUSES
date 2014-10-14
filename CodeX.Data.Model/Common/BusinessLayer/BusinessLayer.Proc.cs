@@ -8,6 +8,53 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region GenerateTransactionNo
+        public static string GenerateTransactionNo(string transactionCode, DateTime transactionDate)
+        {
+            return GenerateTransactionNo(transactionCode, transactionDate, "", null);
+        }
+        public static string GenerateTransactionNo(string transactionCode, DateTime transactionDate, String transactionInitial = "", IDbContext ctx = null)
+        {
+            return GenerateTransactionNo(transactionCode, transactionDate, ctx, transactionInitial);
+        }
+        public static string GenerateTransactionNo(string transactionCode, DateTime transactionDate, IDbContext ctx = null, String transactionInitial = "")
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateTransactionNo";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@TransactionCode", transactionCode));
+            ctx.Command.Parameters.Add(new SqlParameter("@TransactionDate", transactionDate));
+            ctx.Command.Parameters.Add(new SqlParameter("@TransactionInitial", transactionInitial));
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.VarChar;
+            param.Size = 20;
+            param.Direction = ParameterDirection.Output;
+
+            ctx.Command.Parameters.Add(param);
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+
+            return (string)param.Value;
+        }
+        #endregion
         #region GetItemMasterPurchase
         public static List<GetItemMasterPurchase> GetItemMasterPurchaseList(string siteID, int itemID, int businessPartnerID)
         {
@@ -217,44 +264,6 @@ namespace CodeX.Data.Model
                 ctx.Close();
             }
             return result;
-        }
-        #endregion
-        #region GenerateTransactionNo
-        public static string GenerateTransactionNo(string transactionCode, DateTime transactionDate, IDbContext ctx = null)
-        {
-            bool IsCtxNull = false;
-            if (ctx == null)
-            {
-                IsCtxNull = true;
-                ctx = DbFactory.Configure();
-            }
-            ctx.CommandText = "GenerateTransactionNo";
-            ctx.CommandType = CommandType.StoredProcedure;
-            ctx.Command.Parameters.Add(new SqlParameter("@TransactionCode", transactionCode));
-            ctx.Command.Parameters.Add(new SqlParameter("@TransactionDate", transactionDate));
-            SqlParameter param = new SqlParameter();
-            param.ParameterName = "@Result";
-            param.SqlDbType = SqlDbType.VarChar;
-            param.Size = 20;
-            param.Direction = ParameterDirection.Output;
-
-            ctx.Command.Parameters.Add(param);
-
-            try
-            {
-                DaoBase.ExecuteNonQuery(ctx);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                if (IsCtxNull)
-                    ctx.Close();
-            }
-
-            return (string)param.Value;
         }
         #endregion
 

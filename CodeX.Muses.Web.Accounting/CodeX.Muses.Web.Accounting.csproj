@@ -89,6 +89,11 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Journal\JournalDocumentCtl.ascx" />
+    <Content Include="Program\Journal\JournalEntry.aspx" />
+    <Content Include="Program\Journal\JournalList.aspx" />
+    <Content Include="Program\Journal\JournalListDtCtl.ascx" />
+    <Content Include="Program\Journal\JournalTemplateCtl.ascx" />
     <Content Include="Program\Master\ChartOfAccount\ChartOfAccountEntry.aspx" />
     <Content Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx" />
     <Content Include="Program\Master\FADepreciationMethod\FADepreciationMethodEntry.aspx" />
@@ -271,6 +276,41 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\JournalDocumentCtl.ascx.cs">
+      <DependentUpon>JournalDocumentCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\JournalDocumentCtl.ascx.designer.cs">
+      <DependentUpon>JournalDocumentCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\JournalEntry.aspx.cs">
+      <DependentUpon>JournalEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\JournalEntry.aspx.designer.cs">
+      <DependentUpon>JournalEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\JournalList.aspx.cs">
+      <DependentUpon>JournalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\JournalList.aspx.designer.cs">
+      <DependentUpon>JournalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\JournalListDtCtl.ascx.cs">
+      <DependentUpon>JournalListDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\JournalListDtCtl.ascx.designer.cs">
+      <DependentUpon>JournalListDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\JournalTemplateCtl.ascx.cs">
+      <DependentUpon>JournalTemplateCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\JournalTemplateCtl.ascx.designer.cs">
+      <DependentUpon>JournalTemplateCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ChartOfAccount\ChartOfAccountEntry.aspx.cs">
       <DependentUpon>ChartOfAccountEntry.aspx</DependentUpon>

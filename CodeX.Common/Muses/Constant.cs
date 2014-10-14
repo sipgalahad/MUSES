@@ -86,6 +86,7 @@ namespace CodeX.Common
             public const string CHECK_COUNT_TYPE = "X177";
             public const string SUPPLIER_PAYMENT_METHOD = "X178";
             public const string GLACCOUNT_TYPE = "X180";
+            public const string JOURNAL_GROUP = "X188";
         }
 
         public static class SchoolPeriodStatus
@@ -141,6 +142,16 @@ namespace CodeX.Common
         public static class CustomerType
         {
             public const string PERSONAL = "X004^999";
+        }
+
+        public static class JournalGroup
+        {
+            public const string PENDAPATAN_PENERIMAAN = "X188^001";
+            public const string HUTANG_PIUTANG = "X188^002";
+            public const string INVENTORY = "X188^003";
+            public const string PHARMACY = "X188^004";
+            public const string FIXED_ASSET = "X188^005";
+            public const string MEMORIAL = "X188^006";
         }
 
         public static class BusinessObjectType
@@ -381,6 +392,7 @@ namespace CodeX.Common
                 public const string WS_MEETING_HISTORY = "TP99010201";
                 public const string WS_ATTENDANCE_HISTORY = "TP99010202";
             }
+            #endregion
         }
         #endregion
 
@@ -408,8 +420,14 @@ namespace CodeX.Common
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";
+
+            public const string FIXED_ASSET_ITEM_MOVEMENT = "7101";
+            public const string FIXED_ASSET_WRITE_OFF = "7102";
+
+            public const string JOURNAL_MEMORIAL = "7201";
+            public const string JOURNAL = "72%";
+            public const string JOURNAL_MEMORIAL_IKHTISAR = "7299";
         }
-        #endregion
 
         #region Setting Parameter
         public static partial class SettingParameter
