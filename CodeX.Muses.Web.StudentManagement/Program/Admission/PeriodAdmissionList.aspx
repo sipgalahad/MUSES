@@ -80,7 +80,7 @@
         <tr>
             <td style="width:100px"><%=GetLabel("Tahun Ajaran") %></td>
             <td>
-                <dxe:ASPxComboBox ID="cboSchoolPeriod" runat="server" ClientInstanceName="cboSchoolPeriod" Width="150px">
+                <dxe:ASPxComboBox ID="cboSchoolPeriod" runat="server" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e){ onCboSchoolPeriodValueChanged(s); }" />
                 </dxe:ASPxComboBox>
             </td>

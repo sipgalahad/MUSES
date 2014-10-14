@@ -10,6 +10,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common;
 using CodeX.Common;
 using CodeX.Data.Core.Dal;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -79,16 +80,29 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
             List<vTeacherSubject> lstEntity = BusinessLayer.GetvTeacherSubjectList(filterExpression, 14, pageIndex, "");
+            if (lstEntity.Count > 0)
+            {
+                string lstTeacherID = string.Join(",", lstEntity.Select(p => p.TeacherID).ToList());
+                lstTeacherClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("TeacherID IN ({0}) AND IsDeleted = 0", lstTeacherID));
+            }
+            else
+                lstTeacherClassSubject = new List<vClassSubject>();
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
+        List<vClassSubject> lstTeacherClassSubject = null;
         protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vTeacherSubject entity = e.Row.DataItem as vTeacherSubject;
+
+                int slotNum = lstTeacherClassSubject.Where(p => p.TeacherID == entity.TeacherID).Sum(p => p.NoMeetingHoursInWeek);
+                
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
+                HtmlGenericControl divSlotNum = e.Row.FindControl("divSlotNum") as HtmlGenericControl;
+                divSlotNum.InnerHtml = slotNum.ToString();
                 if (lstSelectedMember.Contains(entity.TeacherID.ToString()))
                     chkIsSelected.Checked = true;
             }

@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvPeriodAdmissionRowIndex(filterExpression, keyValue, "SchoolPeriodCode") + 1;
+                int row = BusinessLayer.GetvPeriodAdmissionRowIndex(filterExpression, keyValue, "PeriodAdmissionCode") + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -71,7 +71,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vPeriodAdmission> lstEntity = BusinessLayer.GetvPeriodAdmissionList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SchoolPeriodCode");
+            List<vPeriodAdmission> lstEntity = BusinessLayer.GetvPeriodAdmissionList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "PeriodAdmissionCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

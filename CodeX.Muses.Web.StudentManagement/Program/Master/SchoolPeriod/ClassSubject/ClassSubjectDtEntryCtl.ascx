@@ -228,6 +228,11 @@
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="TeacherCode" HeaderText="Kode" ItemStyle-CssClass="tdTeacherCode" HeaderStyle-Width="50px" />
                                         <asp:BoundField DataField="TeacherName" HeaderText="Nama" ItemStyle-CssClass="tdTeacherName" />
+                                        <asp:TemplateField HeaderStyle-CssClass="thRight" HeaderText="Jumlah Jam Mengajar" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right">
+                                            <ItemTemplate>
+                                                <div id="divSlotNum" runat="server" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

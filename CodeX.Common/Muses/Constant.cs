@@ -309,6 +309,8 @@ namespace CodeX.Common
             #region Information
             public static class Information
             {
+                public const string TEACHER_INFO = "IF010100";
+
                 public const string STOCK_DETAIL_INFO = "IF020100";
 
                 public const string AP_SUPPLIER_INFORMATION = "IF030100";

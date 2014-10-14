@@ -683,6 +683,7 @@ namespace CodeX.Data.Model
     public class vClassSubject
     {
         private Int32 _ClassSubjectID;
+        private Int32 _SchoolPeriodID;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
         private Int32 _PeriodClassTypeSubjectID;
@@ -702,6 +703,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
         }
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID

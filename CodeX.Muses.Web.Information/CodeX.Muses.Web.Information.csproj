@@ -81,6 +81,7 @@
     <Content Include="Program\Inventory\StockDetailInfoDtCtl.ascx" />
     <Content Include="Program\Main.aspx" />
     <Content Include="Program\RemoteLogon.aspx" />
+    <Content Include="Program\StudentManagement\TeacherScheduleInfo.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -197,6 +198,13 @@
     <Compile Include="Program\RemoteLogon.aspx.designer.cs">
       <DependentUpon>RemoteLogon.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\StudentManagement\TeacherScheduleInfo.aspx.cs">
+      <DependentUpon>TeacherScheduleInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\TeacherScheduleInfo.aspx.designer.cs">
+      <DependentUpon>TeacherScheduleInfo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +254,9 @@
   <ItemGroup>
     <Content Include="MasterPage\MPBaseContent.master" />
     <Content Include="MasterPage\MPMain.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

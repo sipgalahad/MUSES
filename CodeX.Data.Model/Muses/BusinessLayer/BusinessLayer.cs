@@ -9,6 +9,46 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region AdmissionSelection
+        public static AdmissionSelection GetAdmissionSelection(Int32 AdmissionSelectionID)
+        {
+            return new AdmissionSelectionDao().Get(AdmissionSelectionID);
+        }
+        public static int InsertAdmissionSelection(AdmissionSelection record)
+        {
+            return new AdmissionSelectionDao().Insert(record);
+        }
+        public static int UpdateAdmissionSelection(AdmissionSelection record)
+        {
+            return new AdmissionSelectionDao().Update(record);
+        }
+        public static int DeleteAdmissionSelection(Int32 AdmissionSelectionID)
+        {
+            return new AdmissionSelectionDao().Delete(AdmissionSelectionID);
+        }
+        public static List<AdmissionSelection> GetAdmissionSelectionList(string filterExpression)
+        {
+            List<AdmissionSelection> result = new List<AdmissionSelection>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionSelection));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionSelection)helper.IDataReaderToObject(reader, new AdmissionSelection()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Bank
         public static Bank GetBank(Int32 BankID)
         {

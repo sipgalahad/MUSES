@@ -7,6 +7,140 @@ using System.Data;
 
 namespace CodeX.Data.Model
 {
+    #region AdmissionSelection
+    [Serializable]
+    [Table(Name = "AdmissionSelection")]
+    public class AdmissionSelection : DbDataModel
+    {
+        private Int32 _AdmissionSelectionID;
+        private Int32 _SchoolPeriodID;
+        private Int32? _PeriodAdmissionID;
+        private String _SelectionName;
+        private Int16 _DisplayOrder;
+        private Int16 _FinalMarkPercentage;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "AdmissionSelectionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 AdmissionSelectionID
+        {
+            get { return _AdmissionSelectionID; }
+            set { _AdmissionSelectionID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsNullable = true)]
+        public Int32? PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "SelectionName", DataType = "String")]
+        public String SelectionName
+        {
+            get { return _SelectionName; }
+            set { _SelectionName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
+        public Int16 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class AdmissionSelectionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AdmissionSelection));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionSelectionID = "@p_AdmissionSelectionID";
+        public AdmissionSelectionDao() { }
+        public AdmissionSelectionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AdmissionSelection Get(Int32 AdmissionSelectionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionSelectionID, AdmissionSelectionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AdmissionSelection)_helper.DataRowToObject(row, new AdmissionSelection());
+        }
+        public int Insert(AdmissionSelection record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AdmissionSelection record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 AdmissionSelectionID)
+        {
+            AdmissionSelection record;
+            if (_ctx.Transaction == null)
+                record = new AdmissionSelectionDao().Get(AdmissionSelectionID);
+            else
+                record = Get(AdmissionSelectionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Bank
     [Serializable]
     [Table(Name = "Bank")]
