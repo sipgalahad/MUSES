@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class PeriodSelectionEntry {
+    public partial class PeriodAdmissionDtEntry {
         
         /// <summary>
         /// hdnEntryID control.

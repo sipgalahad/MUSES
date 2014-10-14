@@ -3717,6 +3717,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetPeriodAdmissionMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodAdmission));
+                ctx.CommandText = helper.SelectMaxColumn("PeriodAdmissionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region PeriodClassType
         public static PeriodClassType GetPeriodClassType(Int32 PeriodClassTypeID)

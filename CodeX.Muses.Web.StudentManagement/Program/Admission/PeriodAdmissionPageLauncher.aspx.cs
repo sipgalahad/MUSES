@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Data.Model;
+using CodeX.Web.Common;
+using CodeX.Common;
+
+namespace CodeX.Muses.Web.StudentManagement.Program
+{
+    public partial class PeriodAdmissionPageLauncher : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            AppSession.PeriodAdmissionID = Convert.ToInt32(Request.QueryString["id"]);
+
+            string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.PERIOD_ADMISSION_PAGE);
+            List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+            GetUserMenuAccess menu = lstMenu.OrderBy(p => p.MenuIndex).FirstOrDefault();
+            Response.Redirect(Page.ResolveUrl(menu.MenuUrl));
+        }
+    }
+}

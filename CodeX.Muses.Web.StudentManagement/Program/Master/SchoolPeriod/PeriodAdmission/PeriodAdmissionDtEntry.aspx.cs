@@ -14,7 +14,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class PeriodSelectionEntry : BasePageTrx
+    public partial class PeriodAdmissionDtEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {

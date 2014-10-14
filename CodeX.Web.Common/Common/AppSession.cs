@@ -9,6 +9,7 @@ namespace CodeX.Web.Common
 {
     public class AppSession
     {
+        #region Utility
         public static void SetSessionValue(string sessionName, string value)
         {
             sessionName = string.Format("_lgnAttr{0}", sessionName);
@@ -39,6 +40,20 @@ namespace CodeX.Web.Common
             return HttpContext.Current.Session[sessionName].ToString();
         }
 
+        public static void ClearSession()
+        {
+            if (HttpContext.Current.Request.Cookies["Muses"] != null)
+            {
+                HttpCookie myCookie = new HttpCookie("Muses");
+                myCookie.Expires = DateTime.Now.AddDays(-1d);
+                HttpContext.Current.Response.Cookies.Add(myCookie);
+            }
+
+            HttpContext.Current.Session.Clear();
+        }
+        #endregion
+
+        #region ClassSubject
         public static ClassSubjectModel ClassSubject
         {
             get
@@ -74,7 +89,9 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_ClassSubject"] = value;
             }
         }
-
+        #endregion
+        
+        #region UserLogin
         public static UserLogin UserLogin
         {
             get
@@ -131,19 +148,9 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_UserName"] = value;
             }
         }
-
-        public static void ClearSession()
-        {
-            if (HttpContext.Current.Request.Cookies["Muses"] != null)
-            {
-                HttpCookie myCookie = new HttpCookie("Muses");
-                myCookie.Expires = DateTime.Now.AddDays(-1d);
-                HttpContext.Current.Response.Cookies.Add(myCookie);
-            }
-
-            HttpContext.Current.Session.Clear();
-        }
-
+        #endregion
+        
+        #region SchoolPeriodID
         public static Int32 SchoolPeriodID
         {
             get
@@ -174,7 +181,9 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_SchoolPeriodID"] = value;
             }
         }
+        #endregion
 
+        #region StudentID
         public static Int32 StudentID
         {
             get
@@ -205,7 +214,9 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_StudentID"] = value;
             }
         }
-
+        #endregion
+        
+        #region SubjectID
         public static Int32 SubjectID
         {
             get
@@ -236,8 +247,9 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_SubjectID"] = value;
             }
         }
+        #endregion
 
-
+        #region ListModuleID
         public static String ListModuleID
         {
             get
@@ -268,7 +280,9 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_ListModuleID"] = value;
             }
         }
+        #endregion
 
+        #region BusinessPartnerID
         public static Int32 BusinessPartnerID
         {
             get
@@ -299,5 +313,39 @@ namespace CodeX.Web.Common
                 HttpContext.Current.Session["_BusinessPartnerID"] = value;
             }
         }
+        #endregion
+
+        #region PeriodAdmissionID
+        public static Int32 PeriodAdmissionID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_PeriodAdmissionID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_PeriodAdmissionID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_PeriodAdmissionID"]);
+                            HttpContext.Current.Session["_PeriodAdmissionID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_PeriodAdmissionID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_PeriodAdmissionID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_PeriodAdmissionID"] = value;
+            }
+        }
+        #endregion
     }
 }

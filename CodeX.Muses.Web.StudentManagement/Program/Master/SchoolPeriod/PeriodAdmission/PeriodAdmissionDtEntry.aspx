@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="PeriodAdmissionEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodSelectionEntry" %>
+    CodeBehind="PeriodAdmissionDtEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodAdmissionDtEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
