@@ -34,6 +34,7 @@ namespace CodeX.Web.Common
             moduleName = moduleName.ToLower();
             switch (moduleName)
             {
+                case "accounting": result = "AC"; break;
                 case "controlpanel": result = "CP"; break;
                 case "finance": result = "FN"; break;
                 case "inventory": result = "IM"; break;

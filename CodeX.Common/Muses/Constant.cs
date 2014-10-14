@@ -85,6 +85,7 @@ namespace CodeX.Common
             public const string SUPPLIER_CREDIT_NOTE_TYPE = "X176";
             public const string CHECK_COUNT_TYPE = "X177";
             public const string SUPPLIER_PAYMENT_METHOD = "X178";
+            public const string GLACCOUNT_TYPE = "X180";
         }
 
         public static class SchoolPeriodStatus
@@ -129,6 +130,12 @@ namespace CodeX.Common
         public static class AdjustmentType
         {
             public const string RECEIPTS = "X173^001";
+        }
+
+        public static class ItemStatus
+        {
+            public const string ACTIVE = "X181^001";
+            public const string IN_ACTIVE = "X181^999";
         }
 
         public static class CustomerType
@@ -197,6 +204,31 @@ namespace CodeX.Common
         #region Menu Code
         public static class MenuCode
         {
+            #region Accounting
+            public static class Accounting
+            {
+                public const string CHART_OF_ACCOUNT = "AC010100";
+                public const string SUB_LEDGER_TYPE = "AC010200";
+                public const string SUB_LEDGER = "AC010300";
+                public const string JOURNAL_TEMPLATE = "AC010400";
+                public const string PRODUCT_LINE = "AC010500";
+                public const string FA_DEPRECIATION_METHOD = "AC010501";
+                public const string FA_GROUP = "AC010502";
+                public const string FA_LOCATION = "AC010503";
+                public const string FA_ITEM = "AC010504";
+                public const string FA_ITEM_FROM_PURCHASE_RECEIVE = "AC010505";
+
+                public const string JOURNAL_ENTRY = "AC050100";
+                
+                public const string JOURNAL_LIST = "AC070100";
+
+                public const string UNBALANCE_JOURNAL = "AC080100";
+                public const string BALANCE_INFORMATION = "AC080200";
+                public const string BALANCE_INFORMATION_SUB_ACCOUNT = "AC080300";
+                public const string BALANCE_INFORMATION_PER_ACCOUNT = "AC080400";
+            }
+            #endregion
+
             #region ControlPanel
             public static class ControlPanel
             {

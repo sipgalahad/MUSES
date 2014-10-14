@@ -42,6 +42,35 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region GenerateFADepreciation
+        public static void GenerateFADepreciation(int FixedAssetID, int CreatedBy, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateFADepreciation";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@FixedAssetID", FixedAssetID));
+            ctx.Command.Parameters.Add(new SqlParameter("@CreatedBy", CreatedBy));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
         #region GetAPSupplierInformation
         public static List<GetAPSupplierInformation> GetAPSupplierInformationList(String MovementDate, Int32 PageIndex, Int32 NumRows)
         {

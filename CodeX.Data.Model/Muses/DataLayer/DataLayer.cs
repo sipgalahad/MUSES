@@ -520,6 +520,168 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ChartOfAccount
+    [Serializable]
+    [Table(Name = "ChartOfAccount")]
+    public class ChartOfAccount : DbDataModel
+    {
+        private Int32 _GLAccountID;
+        private String _SiteID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private Int32? _ParentGLAccount;
+        private String _GCGLAccountType;
+        private Int32? _SubLedgerID;
+        private String _Position;
+        private Boolean _IsHeader;
+        private Int16 _AccountLevel;
+        private Boolean _IsUsingDocumentControl;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "GLAccountID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "ParentGLAccount", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentGLAccount
+        {
+            get { return _ParentGLAccount; }
+            set { _ParentGLAccount = value; }
+        }
+        [Column(Name = "GCGLAccountType", DataType = "String", IsNullable = true)]
+        public String GCGLAccountType
+        {
+            get { return _GCGLAccountType; }
+            set { _GCGLAccountType = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "AccountLevel", DataType = "Int16")]
+        public Int16 AccountLevel
+        {
+            get { return _AccountLevel; }
+            set { _AccountLevel = value; }
+        }
+        [Column(Name = "IsUsingDocumentControl", DataType = "Boolean")]
+        public Boolean IsUsingDocumentControl
+        {
+            get { return _IsUsingDocumentControl; }
+            set { _IsUsingDocumentControl = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ChartOfAccountDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ChartOfAccount));
+        private bool _isAuditLog = false;
+        private const string p_GLAccountID = "@p_GLAccountID";
+        public ChartOfAccountDao() { }
+        public ChartOfAccountDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ChartOfAccount Get(Int32 GLAccountID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GLAccountID, GLAccountID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ChartOfAccount)_helper.DataRowToObject(row, new ChartOfAccount());
+        }
+        public int Insert(ChartOfAccount record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ChartOfAccount record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 GLAccountID)
+        {
+            ChartOfAccount record;
+            if (_ctx.Transaction == null)
+                record = new ChartOfAccountDao().Get(GLAccountID);
+            else
+                record = Get(GLAccountID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassMeeting
     [Serializable]
     [Table(Name = "ClassMeeting")]
@@ -2813,6 +2975,1560 @@ namespace CodeX.Data.Model
                 record = new EDCMachineDao().Get(EDCMachineID);
             else
                 record = Get(EDCMachineID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FADepreciation
+    [Serializable]
+    [Table(Name = "FADepreciation")]
+    public partial class FADepreciation : DbDataModel
+    {
+        private Int32 _FADepreciationID;
+        private Int32 _FixedAssetID;
+        private String _PeriodNo;
+        private DateTime _DepreciationDate;
+        private Decimal _AssetValue;
+        private Decimal _DepreciationAmount;
+        private Decimal _TotalDepreciationAmount;
+        private Int32? _GLJournalID;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FADepreciationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FADepreciationID
+        {
+            get { return _FADepreciationID; }
+            set { _FADepreciationID = value; }
+        }
+        [Column(Name = "FixedAssetID", DataType = "Int32")]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "PeriodNo", DataType = "String")]
+        public String PeriodNo
+        {
+            get { return _PeriodNo; }
+            set { _PeriodNo = value; }
+        }
+        [Column(Name = "DepreciationDate", DataType = "DateTime")]
+        public DateTime DepreciationDate
+        {
+            get { return _DepreciationDate; }
+            set { _DepreciationDate = value; }
+        }
+        [Column(Name = "AssetValue", DataType = "Decimal")]
+        public Decimal AssetValue
+        {
+            get { return _AssetValue; }
+            set { _AssetValue = value; }
+        }
+        [Column(Name = "DepreciationAmount", DataType = "Decimal")]
+        public Decimal DepreciationAmount
+        {
+            get { return _DepreciationAmount; }
+            set { _DepreciationAmount = value; }
+        }
+        [Column(Name = "TotalDepreciationAmount", DataType = "Decimal")]
+        public Decimal TotalDepreciationAmount
+        {
+            get { return _TotalDepreciationAmount; }
+            set { _TotalDepreciationAmount = value; }
+        }
+        [Column(Name = "GLJournalID", DataType = "Int32", IsNullable = true)]
+        public Int32? GLJournalID
+        {
+            get { return _GLJournalID; }
+            set { _GLJournalID = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FADepreciationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FADepreciation));
+        private bool _isAuditLog = false;
+        private const string p_FADepreciationID = "@p_FADepreciationID";
+        public FADepreciationDao() { }
+        public FADepreciationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FADepreciation Get(Int32 FADepreciationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FADepreciationID, FADepreciationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FADepreciation)_helper.DataRowToObject(row, new FADepreciation());
+        }
+        public int Insert(FADepreciation record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FADepreciation record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FADepreciationID)
+        {
+            FADepreciation record;
+            if (_ctx.Transaction == null)
+                record = new FADepreciationDao().Get(FADepreciationID);
+            else
+                record = Get(FADepreciationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FADepreciationMethod
+    [Serializable]
+    [Table(Name = "FADepreciationMethod")]
+    public class FADepreciationMethod : DbDataModel
+    {
+        private Int32 _MethodID;
+        private String _MethodCode;
+        private String _MethodName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MethodID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 MethodID
+        {
+            get { return _MethodID; }
+            set { _MethodID = value; }
+        }
+        [Column(Name = "MethodCode", DataType = "String")]
+        public String MethodCode
+        {
+            get { return _MethodCode; }
+            set { _MethodCode = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FADepreciationMethodDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FADepreciationMethod));
+        private bool _isAuditLog = false;
+        private const string p_MethodID = "@p_MethodID";
+        public FADepreciationMethodDao() { }
+        public FADepreciationMethodDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FADepreciationMethod Get(Int32 MethodID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MethodID, MethodID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FADepreciationMethod)_helper.DataRowToObject(row, new FADepreciationMethod());
+        }
+        public int Insert(FADepreciationMethod record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FADepreciationMethod record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MethodID)
+        {
+            FADepreciationMethod record;
+            if (_ctx.Transaction == null)
+                record = new FADepreciationMethodDao().Get(MethodID);
+            else
+                record = Get(MethodID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FAGroup
+    [Serializable]
+    [Table(Name = "FAGroup")]
+    public class FAGroup : DbDataModel
+    {
+        private Int32 _FAGroupID;
+        private String _FAGroupCode;
+        private String _FAGroupName;
+        private Int32 _MethodID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FAGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FAGroupID
+        {
+            get { return _FAGroupID; }
+            set { _FAGroupID = value; }
+        }
+        [Column(Name = "FAGroupCode", DataType = "String")]
+        public String FAGroupCode
+        {
+            get { return _FAGroupCode; }
+            set { _FAGroupCode = value; }
+        }
+        [Column(Name = "FAGroupName", DataType = "String")]
+        public String FAGroupName
+        {
+            get { return _FAGroupName; }
+            set { _FAGroupName = value; }
+        }
+        [Column(Name = "MethodID", DataType = "Int32")]
+        public Int32 MethodID
+        {
+            get { return _MethodID; }
+            set { _MethodID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAGroup));
+        private bool _isAuditLog = false;
+        private const string p_FAGroupID = "@p_FAGroupID";
+        public FAGroupDao() { }
+        public FAGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAGroup Get(Int32 FAGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FAGroupID, FAGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAGroup)_helper.DataRowToObject(row, new FAGroup());
+        }
+        public int Insert(FAGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FAGroupID)
+        {
+            FAGroup record;
+            if (_ctx.Transaction == null)
+                record = new FAGroupDao().Get(FAGroupID);
+            else
+                record = Get(FAGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FAGroupCOA
+    [Serializable]
+    [Table(Name = "FAGroupCOA")]
+    public class FAGroupCOA : DbDataModel
+    {
+        private String _SiteID;
+        private Int32 _FAGroupID;
+        private Int32? _GLAccount1;
+        private Int32? _GLAccount2;
+        private Int32? _GLAccount3;
+        private Int32? _GLAccount4;
+        private Int32? _GLAccount5;
+        private Int32? _GLAccount6;
+        private Int32? _SubLedger1;
+        private Int32? _SubLedger2;
+        private Int32? _SubLedger3;
+        private Int32? _SubLedger4;
+        private Int32? _SubLedger5;
+        private Int32? _SubLedger6;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FAGroupID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 FAGroupID
+        {
+            get { return _FAGroupID; }
+            set { _FAGroupID = value; }
+        }
+        [Column(Name = "GLAccount1", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount1
+        {
+            get { return _GLAccount1; }
+            set { _GLAccount1 = value; }
+        }
+        [Column(Name = "GLAccount2", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount2
+        {
+            get { return _GLAccount2; }
+            set { _GLAccount2 = value; }
+        }
+        [Column(Name = "GLAccount3", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount3
+        {
+            get { return _GLAccount3; }
+            set { _GLAccount3 = value; }
+        }
+        [Column(Name = "GLAccount4", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount4
+        {
+            get { return _GLAccount4; }
+            set { _GLAccount4 = value; }
+        }
+        [Column(Name = "GLAccount5", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount5
+        {
+            get { return _GLAccount5; }
+            set { _GLAccount5 = value; }
+        }
+        [Column(Name = "GLAccount6", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount6
+        {
+            get { return _GLAccount6; }
+            set { _GLAccount6 = value; }
+        }
+        [Column(Name = "SubLedger1", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger1
+        {
+            get { return _SubLedger1; }
+            set { _SubLedger1 = value; }
+        }
+        [Column(Name = "SubLedger2", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger2
+        {
+            get { return _SubLedger2; }
+            set { _SubLedger2 = value; }
+        }
+        [Column(Name = "SubLedger3", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger3
+        {
+            get { return _SubLedger3; }
+            set { _SubLedger3 = value; }
+        }
+        [Column(Name = "SubLedger4", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger4
+        {
+            get { return _SubLedger4; }
+            set { _SubLedger4 = value; }
+        }
+        [Column(Name = "SubLedger5", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger5
+        {
+            get { return _SubLedger5; }
+            set { _SubLedger5 = value; }
+        }
+        [Column(Name = "SubLedger6", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger6
+        {
+            get { return _SubLedger6; }
+            set { _SubLedger6 = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAGroupCOADao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAGroupCOA));
+        private bool _isAuditLog = false;
+        private const string p_FAGroupID = "@p_FAGroupID";
+        private const string p_SiteID = "@p_SiteID";
+        public FAGroupCOADao() { }
+        public FAGroupCOADao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAGroupCOA Get(String SiteID, Int32 FAGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FAGroupID, FAGroupID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAGroupCOA)_helper.DataRowToObject(row, new FAGroupCOA());
+        }
+        public int Insert(FAGroupCOA record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAGroupCOA record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String SiteID, Int32 FAGroupID)
+        {
+            FAGroupCOA record;
+            if (_ctx.Transaction == null)
+                record = new FAGroupCOADao().Get(SiteID, FAGroupID);
+            else
+                record = Get(SiteID, FAGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FALocation
+    [Serializable]
+    [Table(Name = "FALocation")]
+    public class FALocation : DbDataModel
+    {
+        private Int32 _FALocationID;
+        private String _SiteID;
+        private String _FALocationCode;
+        private String _FALocationName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FALocationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FALocationID
+        {
+            get { return _FALocationID; }
+            set { _FALocationID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FALocationCode", DataType = "String")]
+        public String FALocationCode
+        {
+            get { return _FALocationCode; }
+            set { _FALocationCode = value; }
+        }
+        [Column(Name = "FALocationName", DataType = "String")]
+        public String FALocationName
+        {
+            get { return _FALocationName; }
+            set { _FALocationName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FALocationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FALocation));
+        private bool _isAuditLog = false;
+        private const string p_FALocationID = "@p_FALocationID";
+        public FALocationDao() { }
+        public FALocationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FALocation Get(Int32 FALocationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FALocationID, FALocationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FALocation)_helper.DataRowToObject(row, new FALocation());
+        }
+        public int Insert(FALocation record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FALocation record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FALocationID)
+        {
+            FALocation record;
+            if (_ctx.Transaction == null)
+                record = new FALocationDao().Get(FALocationID);
+            else
+                record = Get(FALocationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FAItem
+    [Serializable]
+    [Table(Name = "FAItem")]
+    public class FAItem : DbDataModel
+    {
+        private Int32 _FixedAssetID;
+        private String _FixedAssetCode;
+        private String _FixedAssetName;
+        private String _SiteID;
+        private Int32 _FAGroupID;
+        private Int32 _FALocationID;
+        private Int32 _MethodID;
+        private Int32? _ItemID;
+        private String _SerialNumber;
+        private Boolean _IsContractItem;
+        private Int32? _BusinessPartnerID;
+        private String _BusinessPartnerName;
+        private String _ContractNumber;
+        private Int32? _PurchaseReceiveID;
+        private String _ProcurementNumber;
+        private DateTime _ProcurementDate;
+        private Decimal _ProcurementAmount;
+        private Decimal _ProcurementQuantity;
+        private String _GCProcurementUnit;
+        private DateTime _DepreciationStartDate;
+        private Int16 _DepreciationLength;
+        private Decimal _AssetFinalValue;
+        private String _Remarks;
+        private String _GCItemStatus;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FixedAssetID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "FixedAssetCode", DataType = "String")]
+        public String FixedAssetCode
+        {
+            get { return _FixedAssetCode; }
+            set { _FixedAssetCode = value; }
+        }
+        [Column(Name = "FixedAssetName", DataType = "String")]
+        public String FixedAssetName
+        {
+            get { return _FixedAssetName; }
+            set { _FixedAssetName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FAGroupID", DataType = "Int32")]
+        public Int32 FAGroupID
+        {
+            get { return _FAGroupID; }
+            set { _FAGroupID = value; }
+        }
+        [Column(Name = "FALocationID", DataType = "Int32")]
+        public Int32 FALocationID
+        {
+            get { return _FALocationID; }
+            set { _FALocationID = value; }
+        }
+        [Column(Name = "MethodID", DataType = "Int32")]
+        public Int32 MethodID
+        {
+            get { return _MethodID; }
+            set { _MethodID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "SerialNumber", DataType = "String", IsNullable = true)]
+        public String SerialNumber
+        {
+            get { return _SerialNumber; }
+            set { _SerialNumber = value; }
+        }
+        [Column(Name = "IsContractItem", DataType = "Boolean")]
+        public Boolean IsContractItem
+        {
+            get { return _IsContractItem; }
+            set { _IsContractItem = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String", IsNullable = true)]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "ContractNumber", DataType = "String", IsNullable = true)]
+        public String ContractNumber
+        {
+            get { return _ContractNumber; }
+            set { _ContractNumber = value; }
+        }
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "ProcurementNumber", DataType = "String", IsNullable = true)]
+        public String ProcurementNumber
+        {
+            get { return _ProcurementNumber; }
+            set { _ProcurementNumber = value; }
+        }
+        [Column(Name = "ProcurementDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ProcurementDate
+        {
+            get { return _ProcurementDate; }
+            set { _ProcurementDate = value; }
+        }
+        [Column(Name = "ProcurementAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcurementAmount
+        {
+            get { return _ProcurementAmount; }
+            set { _ProcurementAmount = value; }
+        }
+        [Column(Name = "ProcurementQuantity", DataType = "Decimal", IsNullable = true)]
+        public Decimal ProcurementQuantity
+        {
+            get { return _ProcurementQuantity; }
+            set { _ProcurementQuantity = value; }
+        }
+        [Column(Name = "GCProcurementUnit", DataType = "String", IsNullable = true)]
+        public String GCProcurementUnit
+        {
+            get { return _GCProcurementUnit; }
+            set { _GCProcurementUnit = value; }
+        }
+        [Column(Name = "DepreciationStartDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime DepreciationStartDate
+        {
+            get { return _DepreciationStartDate; }
+            set { _DepreciationStartDate = value; }
+        }
+        [Column(Name = "DepreciationLength", DataType = "Int16")]
+        public Int16 DepreciationLength
+        {
+            get { return _DepreciationLength; }
+            set { _DepreciationLength = value; }
+        }
+        [Column(Name = "AssetFinalValue", DataType = "Decimal")]
+        public Decimal AssetFinalValue
+        {
+            get { return _AssetFinalValue; }
+            set { _AssetFinalValue = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemStatus", DataType = "String")]
+        public String GCItemStatus
+        {
+            get { return _GCItemStatus; }
+            set { _GCItemStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAItemDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAItem));
+        private bool _isAuditLog = false;
+        private const string p_FixedAssetID = "@p_FixedAssetID";
+        public FAItemDao() { }
+        public FAItemDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAItem Get(Int32 FixedAssetID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FixedAssetID, FixedAssetID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAItem)_helper.DataRowToObject(row, new FAItem());
+        }
+        public int Insert(FAItem record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAItem record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FixedAssetID)
+        {
+            FAItem record;
+            if (_ctx.Transaction == null)
+                record = new FAItemDao().Get(FixedAssetID);
+            else
+                record = Get(FixedAssetID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FAItemCOA
+    [Serializable]
+    [Table(Name = "FAItemCOA")]
+    public class FAItemCOA : DbDataModel
+    {
+        private String _SiteID;
+        private Int32 _FixedAssetID;
+        private Int32? _GLAccount1;
+        private Int32? _GLAccount2;
+        private Int32? _GLAccount3;
+        private Int32? _GLAccount4;
+        private Int32? _GLAccount5;
+        private Int32? _GLAccount6;
+        private Int32? _SubLedger1;
+        private Int32? _SubLedger2;
+        private Int32? _SubLedger3;
+        private Int32? _SubLedger4;
+        private Int32? _SubLedger5;
+        private Int32? _SubLedger6;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FixedAssetID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "GLAccount1", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount1
+        {
+            get { return _GLAccount1; }
+            set { _GLAccount1 = value; }
+        }
+        [Column(Name = "GLAccount2", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount2
+        {
+            get { return _GLAccount2; }
+            set { _GLAccount2 = value; }
+        }
+        [Column(Name = "GLAccount3", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount3
+        {
+            get { return _GLAccount3; }
+            set { _GLAccount3 = value; }
+        }
+        [Column(Name = "GLAccount4", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount4
+        {
+            get { return _GLAccount4; }
+            set { _GLAccount4 = value; }
+        }
+        [Column(Name = "GLAccount5", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount5
+        {
+            get { return _GLAccount5; }
+            set { _GLAccount5 = value; }
+        }
+        [Column(Name = "GLAccount6", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAccount6
+        {
+            get { return _GLAccount6; }
+            set { _GLAccount6 = value; }
+        }
+        [Column(Name = "SubLedger1", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger1
+        {
+            get { return _SubLedger1; }
+            set { _SubLedger1 = value; }
+        }
+        [Column(Name = "SubLedger2", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger2
+        {
+            get { return _SubLedger2; }
+            set { _SubLedger2 = value; }
+        }
+        [Column(Name = "SubLedger3", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger3
+        {
+            get { return _SubLedger3; }
+            set { _SubLedger3 = value; }
+        }
+        [Column(Name = "SubLedger4", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger4
+        {
+            get { return _SubLedger4; }
+            set { _SubLedger4 = value; }
+        }
+        [Column(Name = "SubLedger5", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger5
+        {
+            get { return _SubLedger5; }
+            set { _SubLedger5 = value; }
+        }
+        [Column(Name = "SubLedger6", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger6
+        {
+            get { return _SubLedger6; }
+            set { _SubLedger6 = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAItemCOADao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAItemCOA));
+        private bool _isAuditLog = false;
+        private const string p_FixedAssetID = "@p_FixedAssetID";
+        private const string p_SiteID = "@p_SiteID";
+        public FAItemCOADao() { }
+        public FAItemCOADao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAItemCOA Get(String SiteID, Int32 FixedAssetID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FixedAssetID, FixedAssetID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAItemCOA)_helper.DataRowToObject(row, new FAItemCOA());
+        }
+        public int Insert(FAItemCOA record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAItemCOA record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String SiteID, Int32 FixedAssetID)
+        {
+            FAItemCOA record;
+            if (_ctx.Transaction == null)
+                record = new FAItemCOADao().Get(SiteID, FixedAssetID);
+            else
+                record = Get(SiteID, FixedAssetID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FAItemMovement
+    [Serializable]
+    [Table(Name = "FAItemMovement")]
+    public class FAItemMovement : DbDataModel
+    {
+        private Int32 _MovementID;
+        private String _MovementNo;
+        private DateTime _MovementDate;
+        private Int32 _FixedAssetID;
+        private Int32 _FromFALocationID;
+        private Int32 _ToFALocationID;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MovementID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 MovementID
+        {
+            get { return _MovementID; }
+            set { _MovementID = value; }
+        }
+        [Column(Name = "MovementNo", DataType = "String")]
+        public String MovementNo
+        {
+            get { return _MovementNo; }
+            set { _MovementNo = value; }
+        }
+        [Column(Name = "MovementDate", DataType = "DateTime")]
+        public DateTime MovementDate
+        {
+            get { return _MovementDate; }
+            set { _MovementDate = value; }
+        }
+        [Column(Name = "FixedAssetID", DataType = "Int32")]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "FromFALocationID", DataType = "Int32")]
+        public Int32 FromFALocationID
+        {
+            get { return _FromFALocationID; }
+            set { _FromFALocationID = value; }
+        }
+        [Column(Name = "ToFALocationID", DataType = "Int32")]
+        public Int32 ToFALocationID
+        {
+            get { return _ToFALocationID; }
+            set { _ToFALocationID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String", IsNullable = true)]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAItemMovementDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAItemMovement));
+        private bool _isAuditLog = false;
+        private const string p_MovementID = "@p_MovementID";
+        public FAItemMovementDao() { }
+        public FAItemMovementDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAItemMovement Get(Int32 MovementID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MovementID, MovementID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAItemMovement)_helper.DataRowToObject(row, new FAItemMovement());
+        }
+        public int Insert(FAItemMovement record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAItemMovement record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MovementID)
+        {
+            FAItemMovement record;
+            if (_ctx.Transaction == null)
+                record = new FAItemMovementDao().Get(MovementID);
+            else
+                record = Get(MovementID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region GLTransactionDt
+    [Serializable]
+    [Table(Name = "GLTransactionDt")]
+    public class GLTransactionDt : DbDataModel
+    {
+        private Int32 _TransactionDtID;
+        private Int32 _GLTransactionID;
+        private Int32 _GLAccount;
+        private Int32? _SubLedger;
+        private String _Position;
+        private Decimal _DebitAmount;
+        private Decimal _CreditAmount;
+        private String _ReferenceNo;
+        private Int16 _DisplayOrder;
+        private String _Remarks;
+        private String _GCItemDetailStatus;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "GLTransactionID", DataType = "Int32")]
+        public Int32 GLTransactionID
+        {
+            get { return _GLTransactionID; }
+            set { _GLTransactionID = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "DebitAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal DebitAmount
+        {
+            get { return _DebitAmount; }
+            set { _DebitAmount = value; }
+        }
+        [Column(Name = "CreditAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal CreditAmount
+        {
+            get { return _CreditAmount; }
+            set { _CreditAmount = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class GLTransactionDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(GLTransactionDt));
+        private bool _isAuditLog = false;
+        private const string p_TransactionDtID = "@p_TransactionDtID";
+        public GLTransactionDtDao() { }
+        public GLTransactionDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public GLTransactionDt Get(Int32 TransactionDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionDtID, TransactionDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (GLTransactionDt)_helper.DataRowToObject(row, new GLTransactionDt());
+        }
+        public int Insert(GLTransactionDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(GLTransactionDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionDtID)
+        {
+            GLTransactionDt record;
+            if (_ctx.Transaction == null)
+                record = new GLTransactionDtDao().Get(TransactionDtID);
+            else
+                record = Get(TransactionDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region GLTransactionHd
+    [Serializable]
+    [Table(Name = "GLTransactionHd")]
+    public class GLTransactionHd : DbDataModel
+    {
+        private Int32 _GLTransactionID;
+        private String _GCJournalGroup;
+        private String _TransactionCode;
+        private String _JournalNo;
+        private DateTime _JournalDate;
+        private Decimal _DebitAmount;
+        private Decimal _CreditAmount;
+        private String _Remarks;
+        private Boolean _IsGeneratedBySystem;
+        private String _GCTransactionStatus;
+        private String _GCVoidReason;
+        private String _VoidReason;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "GLTransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 GLTransactionID
+        {
+            get { return _GLTransactionID; }
+            set { _GLTransactionID = value; }
+        }
+        [Column(Name = "GCJournalGroup", DataType = "String")]
+        public String GCJournalGroup
+        {
+            get { return _GCJournalGroup; }
+            set { _GCJournalGroup = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "JournalNo", DataType = "String")]
+        public String JournalNo
+        {
+            get { return _JournalNo; }
+            set { _JournalNo = value; }
+        }
+        [Column(Name = "JournalDate", DataType = "DateTime")]
+        public DateTime JournalDate
+        {
+            get { return _JournalDate; }
+            set { _JournalDate = value; }
+        }
+        [Column(Name = "DebitAmount", DataType = "Decimal")]
+        public Decimal DebitAmount
+        {
+            get { return _DebitAmount; }
+            set { _DebitAmount = value; }
+        }
+        [Column(Name = "CreditAmount", DataType = "Decimal")]
+        public Decimal CreditAmount
+        {
+            get { return _CreditAmount; }
+            set { _CreditAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsGeneratedBySystem", DataType = "Boolean")]
+        public Boolean IsGeneratedBySystem
+        {
+            get { return _IsGeneratedBySystem; }
+            set { _IsGeneratedBySystem = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "GCVoidReason", DataType = "String", IsNullable = true)]
+        public String GCVoidReason
+        {
+            get { return _GCVoidReason; }
+            set { _GCVoidReason = value; }
+        }
+        [Column(Name = "VoidReason", DataType = "String", IsNullable = true)]
+        public String VoidReason
+        {
+            get { return _VoidReason; }
+            set { _VoidReason = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class GLTransactionHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(GLTransactionHd));
+        private bool _isAuditLog = false;
+        private const string p_GLTransactionID = "@p_GLTransactionID";
+        public GLTransactionHdDao() { }
+        public GLTransactionHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public GLTransactionHd Get(Int32 GLTransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GLTransactionID, GLTransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (GLTransactionHd)_helper.DataRowToObject(row, new GLTransactionHd());
+        }
+        public int Insert(GLTransactionHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(GLTransactionHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 GLTransactionID)
+        {
+            GLTransactionHd record;
+            if (_ctx.Transaction == null)
+                record = new GLTransactionHdDao().Get(GLTransactionID);
+            else
+                record = Get(GLTransactionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -5151,6 +6867,253 @@ namespace CodeX.Data.Model
                 record = new ItemTransactionHdDao().Get(TransactionID);
             else
                 record = Get(TransactionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region JournalTemplateDt
+    [Serializable]
+    [Table(Name = "JournalTemplateDt")]
+    public class JournalTemplateDt : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _TemplateID;
+        private Int32 _GLAccountID;
+        private Int32? _SubLedgerID;
+        private Decimal _AmountPercentage;
+        private String _Position;
+        private Int16 _DisplayOrder;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "TemplateID", DataType = "Int32")]
+        public Int32 TemplateID
+        {
+            get { return _TemplateID; }
+            set { _TemplateID = value; }
+        }
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "AmountPercentage", DataType = "Decimal")]
+        public Decimal AmountPercentage
+        {
+            get { return _AmountPercentage; }
+            set { _AmountPercentage = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class JournalTemplateDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(JournalTemplateDt));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public JournalTemplateDtDao() { }
+        public JournalTemplateDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public JournalTemplateDt Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (JournalTemplateDt)_helper.DataRowToObject(row, new JournalTemplateDt());
+        }
+        public int Insert(JournalTemplateDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(JournalTemplateDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            JournalTemplateDt record;
+            if (_ctx.Transaction == null)
+                record = new JournalTemplateDtDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region JournalTemplateHd
+    [Serializable]
+    [Table(Name = "JournalTemplateHd")]
+    public class JournalTemplateHd : DbDataModel
+    {
+        private Int32 _TemplateID;
+        private String _TemplateCode;
+        private String _TemplateName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TemplateID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TemplateID
+        {
+            get { return _TemplateID; }
+            set { _TemplateID = value; }
+        }
+        [Column(Name = "TemplateCode", DataType = "String")]
+        public String TemplateCode
+        {
+            get { return _TemplateCode; }
+            set { _TemplateCode = value; }
+        }
+        [Column(Name = "TemplateName", DataType = "String")]
+        public String TemplateName
+        {
+            get { return _TemplateName; }
+            set { _TemplateName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class JournalTemplateHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(JournalTemplateHd));
+        private bool _isAuditLog = false;
+        private const string p_TemplateID = "@p_TemplateID";
+        public JournalTemplateHdDao() { }
+        public JournalTemplateHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public JournalTemplateHd Get(Int32 TemplateID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TemplateID, TemplateID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (JournalTemplateHd)_helper.DataRowToObject(row, new JournalTemplateHd());
+        }
+        public int Insert(JournalTemplateHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(JournalTemplateHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TemplateID)
+        {
+            JournalTemplateHd record;
+            if (_ctx.Transaction == null)
+                record = new JournalTemplateHdDao().Get(TemplateID);
+            else
+                record = Get(TemplateID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -10856,6 +12819,408 @@ namespace CodeX.Data.Model
                 record = new SubjectMatterDao().Get(SubjectMatterID);
             else
                 record = Get(SubjectMatterID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubLedgerType
+    [Serializable]
+    [Table(Name = "SubLedgerType")]
+    public class SubLedgerType : DbDataModel
+    {
+        private Int32 _SubLedgerTypeID;
+        private String _SubLedgerTypeCode;
+        private String _SubLedgerTypeName;
+        private String _MethodName;
+        private String _FilterExpression;
+        private String _IDFieldName;
+        private String _CodeFieldName;
+        private String _DisplayFieldName;
+        private String _SearchDialogTypeName;
+        private String _TableName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SubLedgerTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SubLedgerTypeID
+        {
+            get { return _SubLedgerTypeID; }
+            set { _SubLedgerTypeID = value; }
+        }
+        [Column(Name = "SubLedgerTypeCode", DataType = "String")]
+        public String SubLedgerTypeCode
+        {
+            get { return _SubLedgerTypeCode; }
+            set { _SubLedgerTypeCode = value; }
+        }
+        [Column(Name = "SubLedgerTypeName", DataType = "String")]
+        public String SubLedgerTypeName
+        {
+            get { return _SubLedgerTypeName; }
+            set { _SubLedgerTypeName = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String")]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "IDFieldName", DataType = "String", IsNullable = true)]
+        public String IDFieldName
+        {
+            get { return _IDFieldName; }
+            set { _IDFieldName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String", IsNullable = true)]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "DisplayFieldName", DataType = "String", IsNullable = true)]
+        public String DisplayFieldName
+        {
+            get { return _DisplayFieldName; }
+            set { _DisplayFieldName = value; }
+        }
+        [Column(Name = "SearchDialogTypeName", DataType = "String", IsNullable = true)]
+        public String SearchDialogTypeName
+        {
+            get { return _SearchDialogTypeName; }
+            set { _SearchDialogTypeName = value; }
+        }
+        [Column(Name = "TableName", DataType = "String", IsNullable = true)]
+        public String TableName
+        {
+            get { return _TableName; }
+            set { _TableName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SubLedgerTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubLedgerType));
+        private bool _isAuditLog = false;
+        private const string p_SubLedgerTypeID = "@p_SubLedgerTypeID";
+        public SubLedgerTypeDao() { }
+        public SubLedgerTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubLedgerType Get(Int32 SubLedgerTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubLedgerTypeID, SubLedgerTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubLedgerType)_helper.DataRowToObject(row, new SubLedgerType());
+        }
+        public int Insert(SubLedgerType record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubLedgerType record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubLedgerTypeID)
+        {
+            SubLedgerType record;
+            if (_ctx.Transaction == null)
+                record = new SubLedgerTypeDao().Get(SubLedgerTypeID);
+            else
+                record = Get(SubLedgerTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubLedgerDt
+    [Serializable]
+    [Table(Name = "SubLedgerDt")]
+    public class SubLedgerDt : DbDataModel
+    {
+        private Int32 _SubLedgerDtID;
+        private Int32 _SubLedgerID;
+        private String _SubLedgerDtCode;
+        private String _SubLedgerDtName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SubLedgerDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SubLedgerDtID
+        {
+            get { return _SubLedgerDtID; }
+            set { _SubLedgerDtID = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SubLedgerDtCode", DataType = "String")]
+        public String SubLedgerDtCode
+        {
+            get { return _SubLedgerDtCode; }
+            set { _SubLedgerDtCode = value; }
+        }
+        [Column(Name = "SubLedgerDtName", DataType = "String")]
+        public String SubLedgerDtName
+        {
+            get { return _SubLedgerDtName; }
+            set { _SubLedgerDtName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SubLedgerDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubLedgerDt));
+        private bool _isAuditLog = false;
+        private const string p_SubLedgerDtID = "@p_SubLedgerDtID";
+        public SubLedgerDtDao() { }
+        public SubLedgerDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubLedgerDt Get(Int32 SubLedgerDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubLedgerDtID, SubLedgerDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubLedgerDt)_helper.DataRowToObject(row, new SubLedgerDt());
+        }
+        public int Insert(SubLedgerDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubLedgerDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubLedgerDtID)
+        {
+            SubLedgerDt record;
+            if (_ctx.Transaction == null)
+                record = new SubLedgerDtDao().Get(SubLedgerDtID);
+            else
+                record = Get(SubLedgerDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubLedgerHd
+    [Serializable]
+    [Table(Name = "SubLedgerHd")]
+    public class SubLedgerHd : DbDataModel
+    {
+        private Int32 _SubLedgerID;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private Int32 _SubLedgerTypeID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SubLedgerID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "SubLedgerTypeID", DataType = "Int32")]
+        public Int32 SubLedgerTypeID
+        {
+            get { return _SubLedgerTypeID; }
+            set { _SubLedgerTypeID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SubLedgerHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubLedgerHd));
+        private bool _isAuditLog = false;
+        private const string p_SubLedgerID = "@p_SubLedgerID";
+        public SubLedgerHdDao() { }
+        public SubLedgerHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubLedgerHd Get(Int32 SubLedgerID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubLedgerID, SubLedgerID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubLedgerHd)_helper.DataRowToObject(row, new SubLedgerHd());
+        }
+        public int Insert(SubLedgerHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubLedgerHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubLedgerID)
+        {
+            SubLedgerHd record;
+            if (_ctx.Transaction == null)
+                record = new SubLedgerHdDao().Get(SubLedgerID);
+            else
+                record = Get(SubLedgerID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

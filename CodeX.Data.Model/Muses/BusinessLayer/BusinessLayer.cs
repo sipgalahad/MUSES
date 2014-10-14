@@ -225,6 +225,79 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ChartOfAccount
+        public static ChartOfAccount GetChartOfAccount(Int32 GLAccountID)
+        {
+            return new ChartOfAccountDao().Get(GLAccountID);
+        }
+        public static int InsertChartOfAccount(ChartOfAccount record)
+        {
+            return new ChartOfAccountDao().Insert(record);
+        }
+        public static int UpdateChartOfAccount(ChartOfAccount record)
+        {
+            return new ChartOfAccountDao().Update(record);
+        }
+        public static int DeleteChartOfAccount(Int32 GLAccountID)
+        {
+            return new ChartOfAccountDao().Delete(GLAccountID);
+        }
+        public static List<ChartOfAccount> GetChartOfAccountList(string filterExpression)
+        {
+            List<ChartOfAccount> result = new List<ChartOfAccount>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ChartOfAccount));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ChartOfAccount)helper.IDataReaderToObject(reader, new ChartOfAccount()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ChartOfAccount> GetChartOfAccountList(string filterExpression, IDbContext ctx)
+        {
+            List<ChartOfAccount> result = new List<ChartOfAccount>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ChartOfAccount));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ChartOfAccount)helper.IDataReaderToObject(reader, new ChartOfAccount()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetChartOfAccountMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ChartOfAccount));
+                ctx.CommandText = helper.SelectMaxColumn("GLAccountID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassMeeting
         public static ClassMeeting GetClassMeeting(Int32 ClassMeetingID)
         {
@@ -1405,6 +1478,752 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region FADepreciation
+        public static FADepreciation GetFADepreciation(Int32 FADepreciationID)
+        {
+            return new FADepreciationDao().Get(FADepreciationID);
+        }
+        public static int InsertFADepreciation(FADepreciation record)
+        {
+            return new FADepreciationDao().Insert(record);
+        }
+        public static int UpdateFADepreciation(FADepreciation record)
+        {
+            return new FADepreciationDao().Update(record);
+        }
+        public static int DeleteFADepreciation(Int32 FADepreciationID)
+        {
+            return new FADepreciationDao().Delete(FADepreciationID);
+        }
+        public static List<FADepreciation> GetFADepreciationList(string filterExpression)
+        {
+            IDbContext ctx = DbFactory.Configure();
+            return GetFADepreciationList(filterExpression, ctx);
+        }
+        public static List<FADepreciation> GetFADepreciationList(string filterExpression, IDbContext ctx)
+        {
+            List<FADepreciation> result = new List<FADepreciation>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciation));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FADepreciation)helper.IDataReaderToObject(reader, new FADepreciation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FADepreciation> GetFADepreciationList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<FADepreciation> result = new List<FADepreciation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciation));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FADepreciation)helper.IDataReaderToObject(reader, new FADepreciation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFADepreciationRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciation));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFADepreciationRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciation));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FADepreciationID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region FADepreciationMethod
+        public static FADepreciationMethod GetFADepreciationMethod(Int32 MethodID)
+        {
+            return new FADepreciationMethodDao().Get(MethodID);
+        }
+        public static int InsertFADepreciationMethod(FADepreciationMethod record)
+        {
+            return new FADepreciationMethodDao().Insert(record);
+        }
+        public static int UpdateFADepreciationMethod(FADepreciationMethod record)
+        {
+            return new FADepreciationMethodDao().Update(record);
+        }
+        public static int DeleteFADepreciationMethod(Int32 MethodID)
+        {
+            return new FADepreciationMethodDao().Delete(MethodID);
+        }
+        public static List<FADepreciationMethod> GetFADepreciationMethodList(string filterExpression)
+        {
+            List<FADepreciationMethod> result = new List<FADepreciationMethod>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciationMethod));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FADepreciationMethod)helper.IDataReaderToObject(reader, new FADepreciationMethod()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FADepreciationMethod> GetFADepreciationMethodList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<FADepreciationMethod> result = new List<FADepreciationMethod>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciationMethod));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FADepreciationMethod)helper.IDataReaderToObject(reader, new FADepreciationMethod()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFADepreciationMethodRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciationMethod));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFADepreciationMethodRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciationMethod));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "MethodID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFADepreciationMethodMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FADepreciationMethod));
+                ctx.CommandText = helper.SelectMaxColumn("MethodID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region FAGroup
+        public static FAGroup GetFAGroup(Int32 FAGroupID)
+        {
+            return new FAGroupDao().Get(FAGroupID);
+        }
+        public static int InsertFAGroup(FAGroup record)
+        {
+            return new FAGroupDao().Insert(record);
+        }
+        public static int UpdateFAGroup(FAGroup record)
+        {
+            return new FAGroupDao().Update(record);
+        }
+        public static int DeleteFAGroup(Int32 FAGroupID)
+        {
+            return new FAGroupDao().Delete(FAGroupID);
+        }
+        public static List<FAGroup> GetFAGroupList(string filterExpression)
+        {
+            List<FAGroup> result = new List<FAGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAGroup)helper.IDataReaderToObject(reader, new FAGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetFAGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAGroup));
+                ctx.CommandText = helper.SelectMaxColumn("FAGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region FAGroupCOA
+        public static FAGroupCOA GetFAGroupCOA(String SiteID, Int32 FAGroupID)
+        {
+            return new FAGroupCOADao().Get(SiteID, FAGroupID);
+        }
+        public static int InsertFAGroupCOA(FAGroupCOA record)
+        {
+            return new FAGroupCOADao().Insert(record);
+        }
+        public static int UpdateFAGroupCOA(FAGroupCOA record)
+        {
+            return new FAGroupCOADao().Update(record);
+        }
+        public static int DeleteFAGroupCOA(String SiteID, Int32 FAGroupID)
+        {
+            return new FAGroupCOADao().Delete(SiteID, FAGroupID);
+        }
+        public static List<FAGroupCOA> GetFAGroupCOAList(string filterExpression)
+        {
+            List<FAGroupCOA> result = new List<FAGroupCOA>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAGroupCOA));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAGroupCOA)helper.IDataReaderToObject(reader, new FAGroupCOA()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region FALocation
+        public static FALocation GetFALocation(Int32 FALocationID)
+        {
+            return new FALocationDao().Get(FALocationID);
+        }
+        public static int InsertFALocation(FALocation record)
+        {
+            return new FALocationDao().Insert(record);
+        }
+        public static int UpdateFALocation(FALocation record)
+        {
+            return new FALocationDao().Update(record);
+        }
+        public static int DeleteFALocation(Int32 FALocationID)
+        {
+            return new FALocationDao().Delete(FALocationID);
+        }
+        public static List<FALocation> GetFALocationList(string filterExpression)
+        {
+            List<FALocation> result = new List<FALocation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FALocation)helper.IDataReaderToObject(reader, new FALocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FALocation> GetFALocationList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<FALocation> result = new List<FALocation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FALocation)helper.IDataReaderToObject(reader, new FALocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFALocationRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFALocationRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FALocationID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFALocationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.SelectMaxColumn("FALocationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region FAItem
+        public static FAItem GetFAItem(Int32 FixedAssetID)
+        {
+            return new FAItemDao().Get(FixedAssetID);
+        }
+        public static int InsertFAItem(FAItem record)
+        {
+            return new FAItemDao().Insert(record);
+        }
+        public static int UpdateFAItem(FAItem record)
+        {
+            return new FAItemDao().Update(record);
+        }
+        public static int DeleteFAItem(Int32 FixedAssetID)
+        {
+            return new FAItemDao().Delete(FixedAssetID);
+        }
+        public static List<FAItem> GetFAItemList(string filterExpression)
+        {
+            List<FAItem> result = new List<FAItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItem)helper.IDataReaderToObject(reader, new FAItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFAItemMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItem));
+                ctx.CommandText = helper.SelectMaxColumn("FixedAssetID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static List<FAItem> GetFAItemList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "", IDbContext ctx = null)
+        {
+            List<FAItem> result = new List<FAItem>();
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItem));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItem)helper.IDataReaderToObject(reader, new FAItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region FAItemCOA
+        public static FAItemCOA GetFAItemCOA(String SiteID, Int32 FixedAssetID)
+        {
+            return new FAItemCOADao().Get(SiteID, FixedAssetID);
+        }
+        public static int InsertFAItemCOA(FAItemCOA record)
+        {
+            return new FAItemCOADao().Insert(record);
+        }
+        public static int UpdateFAItemCOA(FAItemCOA record)
+        {
+            return new FAItemCOADao().Update(record);
+        }
+        public static int DeleteFAItemCOA(String SiteID, Int32 FixedAssetID)
+        {
+            return new FAItemCOADao().Delete(SiteID, FixedAssetID);
+        }
+        public static List<FAItemCOA> GetFAItemCOAList(string filterExpression)
+        {
+            List<FAItemCOA> result = new List<FAItemCOA>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItemCOA));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItemCOA)helper.IDataReaderToObject(reader, new FAItemCOA()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GLTransactionDt
+        public static GLTransactionDt GetGLTransactionDt(Int32 TransactionDtID)
+        {
+            return new GLTransactionDtDao().Get(TransactionDtID);
+        }
+        public static int InsertGLTransactionDt(GLTransactionDt record)
+        {
+            return new GLTransactionDtDao().Insert(record);
+        }
+        public static int UpdateGLTransactionDt(GLTransactionDt record)
+        {
+            return new GLTransactionDtDao().Update(record);
+        }
+        public static int DeleteGLTransactionDt(Int32 TransactionDtID)
+        {
+            return new GLTransactionDtDao().Delete(TransactionDtID);
+        }
+        public static List<GLTransactionDt> GetGLTransactionDtList(string filterExpression)
+        {
+            List<GLTransactionDt> result = new List<GLTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLTransactionDt)helper.IDataReaderToObject(reader, new GLTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<GLTransactionDt> GetGLTransactionDtList(string filterExpression, IDbContext ctx)
+        {
+            List<GLTransactionDt> result = new List<GLTransactionDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLTransactionDt)helper.IDataReaderToObject(reader, new GLTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static List<GLTransactionDt> GetGLTransactionDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<GLTransactionDt> result = new List<GLTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLTransactionDt)helper.IDataReaderToObject(reader, new GLTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGLTransactionDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGLTransactionDtRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionDt));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionDtID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GLTransactionHd
+        public static GLTransactionHd GetGLTransactionHd(Int32 GLTransactionID)
+        {
+            return new GLTransactionHdDao().Get(GLTransactionID);
+        }
+        public static int InsertGLTransactionHd(GLTransactionHd record)
+        {
+            return new GLTransactionHdDao().Insert(record);
+        }
+        public static int UpdateGLTransactionHd(GLTransactionHd record)
+        {
+            return new GLTransactionHdDao().Update(record);
+        }
+        public static int DeleteGLTransactionHd(Int32 GLTransactionID)
+        {
+            return new GLTransactionHdDao().Delete(GLTransactionID);
+        }
+        public static List<GLTransactionHd> GetGLTransactionHdList(string filterExpression)
+        {
+            List<GLTransactionHd> result = new List<GLTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLTransactionHd)helper.IDataReaderToObject(reader, new GLTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGLTransactionMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLTransactionHd));
+                ctx.CommandText = helper.SelectMaxColumn("GLTransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Holiday
         public static Holiday GetHoliday(Int32 ID)
         {
@@ -2331,6 +3150,166 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(ItemTransactionHd));
                 ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region JournalTemplateDt
+        public static JournalTemplateDt GetJournalTemplateDt(Int32 ID)
+        {
+            return new JournalTemplateDtDao().Get(ID);
+        }
+        public static int InsertJournalTemplateDt(JournalTemplateDt record)
+        {
+            return new JournalTemplateDtDao().Insert(record);
+        }
+        public static int UpdateJournalTemplateDt(JournalTemplateDt record)
+        {
+            return new JournalTemplateDtDao().Update(record);
+        }
+        public static int DeleteJournalTemplateDt(Int32 ID)
+        {
+            return new JournalTemplateDtDao().Delete(ID);
+        }
+        public static List<JournalTemplateDt> GetJournalTemplateDtList(string filterExpression)
+        {
+            List<JournalTemplateDt> result = new List<JournalTemplateDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JournalTemplateDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JournalTemplateDt)helper.IDataReaderToObject(reader, new JournalTemplateDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region JournalTemplateHd
+        public static JournalTemplateHd GetJournalTemplateHd(Int32 TemplateID)
+        {
+            return new JournalTemplateHdDao().Get(TemplateID);
+        }
+        public static int InsertJournalTemplateHd(JournalTemplateHd record)
+        {
+            return new JournalTemplateHdDao().Insert(record);
+        }
+        public static int UpdateJournalTemplateHd(JournalTemplateHd record)
+        {
+            return new JournalTemplateHdDao().Update(record);
+        }
+        public static int DeleteJournalTemplateHd(Int32 TemplateID)
+        {
+            return new JournalTemplateHdDao().Delete(TemplateID);
+        }
+        public static List<JournalTemplateHd> GetJournalTemplateHdList(string filterExpression)
+        {
+            List<JournalTemplateHd> result = new List<JournalTemplateHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JournalTemplateHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JournalTemplateHd)helper.IDataReaderToObject(reader, new JournalTemplateHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<JournalTemplateHd> GetJournalTemplateHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<JournalTemplateHd> result = new List<JournalTemplateHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JournalTemplateHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((JournalTemplateHd)helper.IDataReaderToObject(reader, new JournalTemplateHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJournalTemplateHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JournalTemplateHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJournalTemplateHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JournalTemplateHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TemplateID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetJournalTemplateHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(JournalTemplateHd));
+                ctx.CommandText = helper.SelectMaxColumn("TemplateID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -5017,6 +5996,249 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((SubjectMatter)helper.IDataReaderToObject(reader, new SubjectMatter()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubLedgerDt
+        public static SubLedgerDt GetSubLedgerDt(Int32 SubLedgerDtID)
+        {
+            return new SubLedgerDtDao().Get(SubLedgerDtID);
+        }
+        public static int InsertSubLedgerDt(SubLedgerDt record)
+        {
+            return new SubLedgerDtDao().Insert(record);
+        }
+        public static int UpdateSubLedgerDt(SubLedgerDt record)
+        {
+            return new SubLedgerDtDao().Update(record);
+        }
+        public static int DeleteSubLedgerDt(Int32 SubLedgerDtID)
+        {
+            return new SubLedgerDtDao().Delete(SubLedgerDtID);
+        }
+        public static List<SubLedgerDt> GetSubLedgerDtList(string filterExpression)
+        {
+            List<SubLedgerDt> result = new List<SubLedgerDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubLedgerDt)helper.IDataReaderToObject(reader, new SubLedgerDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubLedgerDt> GetSubLedgerDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SubLedgerDt> result = new List<SubLedgerDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubLedgerDt)helper.IDataReaderToObject(reader, new SubLedgerDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubLedgerDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubLedgerHd
+        public static SubLedgerHd GetSubLedgerHd(Int32 SubLedgerID)
+        {
+            return new SubLedgerHdDao().Get(SubLedgerID);
+        }
+        public static int InsertSubLedgerHd(SubLedgerHd record)
+        {
+            return new SubLedgerHdDao().Insert(record);
+        }
+        public static int UpdateSubLedgerHd(SubLedgerHd record)
+        {
+            return new SubLedgerHdDao().Update(record);
+        }
+        public static int DeleteSubLedgerHd(Int32 SubLedgerID)
+        {
+            return new SubLedgerHdDao().Delete(SubLedgerID);
+        }
+        public static List<SubLedgerHd> GetSubLedgerHdList(string filterExpression)
+        {
+            List<SubLedgerHd> result = new List<SubLedgerHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubLedgerHd)helper.IDataReaderToObject(reader, new SubLedgerHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubLedgerHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerHd));
+                ctx.CommandText = helper.SelectMaxColumn("SubLedgerID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubLedgerType
+        public static SubLedgerType GetSubLedgerType(Int32 SubLedgerTypeID)
+        {
+            return new SubLedgerTypeDao().Get(SubLedgerTypeID);
+        }
+        public static int InsertSubLedgerType(SubLedgerType record)
+        {
+            return new SubLedgerTypeDao().Insert(record);
+        }
+        public static int UpdateSubLedgerType(SubLedgerType record)
+        {
+            return new SubLedgerTypeDao().Update(record);
+        }
+        public static int DeleteSubLedgerType(Int32 SubLedgerTypeID)
+        {
+            return new SubLedgerTypeDao().Delete(SubLedgerTypeID);
+        }
+        public static List<SubLedgerType> GetSubLedgerTypeList(string filterExpression)
+        {
+            List<SubLedgerType> result = new List<SubLedgerType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubLedgerType)helper.IDataReaderToObject(reader, new SubLedgerType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubLedgerTypeRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerType));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubLedgerType> GetSubLedgerTypeList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SubLedgerType> result = new List<SubLedgerType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerType));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubLedgerType)helper.IDataReaderToObject(reader, new SubLedgerType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubLedgerTypeRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubLedgerType));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "SubLedgerTypeID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {
