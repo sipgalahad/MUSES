@@ -62,6 +62,12 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl('~/Program/Master/Student/StudentPageLauncher.aspx?id=' + id);
+            openWindowPopup(url, 'Student' + id, '1300', '650');
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -78,6 +84,7 @@
                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="StudentCode" HeaderText="Kode Siswa" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="StudentName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

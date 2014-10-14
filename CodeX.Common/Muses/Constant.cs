@@ -367,14 +367,18 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
                 public const string SP_SCHOOL_PERIOD_SECTION = "SM99010102";
                 public const string SP_SCHOOL_PERIOD_ADMISSION = "SM99010103";
-
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010201";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010202";
-
                 public const string SP_SCHOOL_CLASS = "SM99010301";
                 public const string SP_CLASS_SUBJECT = "SM99010302";
                 public const string SP_CLASS_SCHEDULE = "SM99010303";
                 public const string SP_CLASS_STUDENT = "SM99010304";
+
+                public const string STUDENT_PAGE = "SM99020000";
+                public const string ST_STUDENT_FAMILY = "SM99020101";
+                public const string ST_STUDENT_PAST_STUDY = "SM99020202";
+                public const string ST_FINAL_MARK_CHART = "SM99020201";
+                public const string ST_SUBJECT_CHART = "SM99020202";
             }
             #endregion
 
