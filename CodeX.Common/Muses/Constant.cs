@@ -370,6 +370,10 @@ namespace CodeX.Common
 
                 public const string PERIOD_ADMISSION = "SM020100";
 
+                public const string TEACHER_WEEKLY_SCHEDULE = "SM030100";
+
+                public const string CLASS_WEEKLY_SCHEDULE = "SM040100";
+
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
                 public const string SP_SCHOOL_PERIOD_SECTION = "SM99010102";
@@ -391,6 +395,14 @@ namespace CodeX.Common
                 public const string PA_PROSPECTIVE_STUDENT = "SM99030100";
                 public const string PA_ADMISSION_SELECTION = "SM99030200";
                 public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030300";
+
+                public const string CLASS_MEETING_PAGE = "SM99040000";
+                public const string WS_CLASS_MEETING = "SM99040101";
+                public const string WS_CLASS_ATTENDANCE = "SM99040102";
+                public const string WS_CLASS_TASK = "SM99040103";
+                public const string WS_ATTENDANCE_HISTORY = "SM99040201";
+                public const string WS_STUDENT_MARK = "SM99040202";
+                public const string WS_SUBJECT_MATTER = "SM99040203";
             }
             #endregion
 

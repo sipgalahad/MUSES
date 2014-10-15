@@ -4,32 +4,28 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using CodeX.Web.Common.UI;
-using CodeX.Web.Common;
-using DevExpress.Utils;
-using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Data.Model;
-using CodeX.Data.Core.Dal;
-using DevExpress.Web.ASPxEditors;
+using CodeX.Web.Common;
+using CodeX.Web.Common.UI;
+using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 using System.Web.UI.HtmlControls;
 
-
-namespace CodeX.Muses.Web.Information.Program
+namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class ClassScheduleInfo : BasePageList
+    public partial class ClassWeeklyScheduleList : BasePageList
     {
-        protected int PageCount = 0;
-        protected int RowCount = 0;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;     
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Information.CLASS_SCHEDULE_INFO;
+            return Constant.MenuCode.StudentManagement.CLASS_WEEKLY_SCHEDULE;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE));
+            rptRemarks.DataSource = lstSc;
+            rptRemarks.DataBind();
+
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}'", Constant.SchoolPeriodStatus.VOID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             cboSchoolPeriod.SelectedIndex = 0;
@@ -44,10 +40,6 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 if (cboSchoolPeriod.Value != null && cboSchoolPeriod.Value.ToString() != "0")
                 {
-                    List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE));
-                    rptRemarks.DataSource = lstSc;
-                    rptRemarks.DataBind();
-
                     SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SchoolPeriodID = {0}", cboSchoolPeriod.Value)).FirstOrDefault();
                     DailySchedulePackage entity = BusinessLayer.GetDailySchedulePackage(schoolPeriod.DailySchedulePackageID);
                     List<DailyScheduleTypeDt> lstEntityDt = BusinessLayer.GetDailyScheduleTypeDtList(string.Format("DailyScheduleTypeID IN ({0},{1},{2},{3},{4},{5}) AND IsDeleted = 0",
@@ -58,6 +50,7 @@ namespace CodeX.Muses.Web.Information.Program
                         entity.DailyScheduleTypeID5 == null ? "0" : entity.DailyScheduleTypeID5.ToString(),
                         entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                     ));
+
 
                     lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacSchoolClass.Value));
 

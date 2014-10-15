@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPPeriodAdmissionPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="ProspectiveStudentList.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.ProspectiveStudentList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
+    CodeBehind="SubjectMatterInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SubjectMatterInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -10,22 +10,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-        $(function () {
-            $('#divTransactionAdd').click(function () {
-                var url = ResolveUrl("~/Program/Admission/ProspectiveStudent/ProspectiveStudentDtEntryCtl.ascx");
-                openUserControlPopup(url, '', 'Calon Siswa', 1200, 600);
-            });
-        });
-
-        $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Admission/ProspectiveStudent/ProspectiveStudentDtEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Calon Siswa', 1200, 600);
-        });
     </script>
-
     <div class="divTransactionEntry">
-        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
@@ -37,15 +23,9 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="ProspectiveStudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ProspectiveStudentCode" HeaderText="Kode Calon Siswa" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
-                                <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
-                                    <ItemTemplate>
-                                        <div style='float:right;' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                <asp:TemplateField HeaderStyle-Width="10px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Information.Program {
+namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassScheduleInfo {
+    public partial class TeacherWeeklyScheduleList {
         
         /// <summary>
         /// cboSchoolPeriod control.
@@ -20,15 +20,6 @@ namespace CodeX.Muses.Web.Information.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
-        
-        /// <summary>
-        /// tacSchoolClass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolClass;
         
         /// <summary>
         /// cbpView control.

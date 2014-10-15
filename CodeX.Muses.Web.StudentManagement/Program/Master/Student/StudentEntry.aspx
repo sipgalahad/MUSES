@@ -20,6 +20,8 @@
                 $('#<%=txtAgeInMonth.ClientID %>').val(age.months);
                 $('#<%=txtAgeInDay.ClientID %>').val(age.days);
             });
+
+            setDatePicker('<%=txtDOB.ClientID %>');
             //#endregion
 
             registerCollapseExpandHandler();
@@ -102,6 +104,7 @@
                 });
             }
         }
+        //#endregion
 
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />

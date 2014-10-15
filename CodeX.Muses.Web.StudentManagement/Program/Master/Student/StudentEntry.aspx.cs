@@ -118,6 +118,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboSalutation.Value = entity.GCSalutation;
             cboSuffix.Value = entity.GCSuffix;
             cboTitle.Value = entity.GCTitle;
+            cboGender.Value = entity.GCGender;
             txtFirstName.Text = entity.FirstName;
             txtMiddleName.Text = entity.MiddleName;
             txtLastName.Text = entity.LastName;
@@ -148,6 +149,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtEmailAddress2.Text = entity.EmailAddress2;
             txtMobilePhoneNo1.Text = entity.MobilePhoneNo1;
             txtMobilePhoneNo2.Text = entity.MobilePhoneNo2;
+            txtTelephoneNo.Text = entity.PhoneNo1;
             #endregion
 
             #region Additional Information
@@ -163,9 +165,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             #region Student
             entity.StudentCode = txtStudentCode.Text;
-            entity.GCSalutation = cboSalutation.Value.ToString();
-            entity.GCSuffix = cboSuffix.Value.ToString();
-            entity.GCTitle = cboTitle.Value.ToString();
+            entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
+            entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
+            entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();
             entity.GCGender = cboGender.Value.ToString();
             entity.FirstName = txtFirstName.Text;
             entity.MiddleName = txtMiddleName.Text;
@@ -199,6 +201,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.EmailAddress2 = txtEmailAddress2.Text;
             entity.MobilePhoneNo1 = txtMobilePhoneNo1.Text;
             entity.MobilePhoneNo2 = txtMobilePhoneNo2.Text;
+            entityAddress.PhoneNo1 = txtTelephoneNo.Text;
             #endregion
 
             #region Additional Information
@@ -241,19 +244,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             StudentDao entityDao = new StudentDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
-            bool result = false;
+            bool result = true;
             try
             {
                 Student entity = new Student();
                 Address address = new Address();
                 ControlToEntity(entity,address);
                 addressDao.Insert(address);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetStudentMaxID(ctx).ToString();
                 ctx.CommitTransaction();
-                result = true;
             }
             catch (Exception ex)
             {
@@ -284,6 +287,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 addressDao.Update(address);
                 entityDao.Update(entity);
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {

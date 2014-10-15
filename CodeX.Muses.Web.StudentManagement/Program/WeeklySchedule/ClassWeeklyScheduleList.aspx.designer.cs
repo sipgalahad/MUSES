@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Information.Program {
+namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassScheduleInfo {
+    public partial class ClassWeeklyScheduleList {
         
         /// <summary>
         /// cboSchoolPeriod control.

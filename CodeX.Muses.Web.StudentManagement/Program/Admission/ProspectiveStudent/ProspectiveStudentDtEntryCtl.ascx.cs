@@ -16,6 +16,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override void InitializeDataControl(string param)
         {
+            hdnID.Value = param;
         }
     }
 }

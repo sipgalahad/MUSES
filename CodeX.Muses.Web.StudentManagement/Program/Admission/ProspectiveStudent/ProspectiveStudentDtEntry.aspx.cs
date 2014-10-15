@@ -18,26 +18,36 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString.Count > 0)
+            if (!Page.IsPostBack)
             {
-                hdnIsAdd.Value = "0";
-                String ID = Request.QueryString["id"];
-                hdnID.Value = ID;
-                String filterExpression = String.Format("ProspectiveStudentIDStudentID = {0}", Convert.ToInt32(ID));
-                vProspectiveStudent entity = BusinessLayer.GetvProspectiveStudentList(filterExpression)[0];
-                SetControlProperties();
-                EntityToControl(entity);
-            }
-            else
-            {
-                txtDOB.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-                SetControlProperties();
-                hdnIsAdd.Value = "1";
-            }
+                if (Request.QueryString.Count > 0)
+                {
+                    hdnIsAdd.Value = "0";
+                    String ID = Request.QueryString["id"];
+                    hdnID.Value = ID;
+                    String filterExpression = String.Format("ProspectiveStudentID = {0}", Convert.ToInt32(ID));
+                    vProspectiveStudent entity = BusinessLayer.GetvProspectiveStudentList(filterExpression)[0];
+                    SetControlProperties();
+                    EntityToControl(entity);
+                }
+                else
+                {
+                    txtDOB.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                    SetControlProperties();
+                    hdnIsAdd.Value = "1";
+                }
 
-            OnControlEntrySetting();
-            txtStudentCode.Focus();
+                OnControlEntrySetting();
+                txtStudentCode.Focus();
+            }
         }
+
+        #region Html Getter
+        protected string OnGetProvinceFilterExpression()
+        {
+            return string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROVINCE);
+        }
+        #endregion
 
         private void OnControlEntrySetting()
         {
@@ -94,6 +104,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboSalutation.Value = entity.GCSalutation;
             cboSuffix.Value = entity.GCSuffix;
             cboTitle.Value = entity.GCTitle;
+            cboGender.Value = entity.GCGender;
             txtFirstName.Text = entity.FirstName;
             txtMiddleName.Text = entity.MiddleName;
             txtLastName.Text = entity.LastName;
@@ -124,6 +135,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtEmailAddress2.Text = entity.EmailAddress2;
             txtMobilePhoneNo1.Text = entity.MobilePhoneNo1;
             txtMobilePhoneNo2.Text = entity.MobilePhoneNo2;
+            txtTelephoneNo.Text = entity.PhoneNo1;
             #endregion
         }
 
@@ -131,9 +143,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             #region Student
             entity.ProspectiveStudentCode = txtStudentCode.Text;
-            entity.GCSalutation = cboSalutation.Value.ToString();
-            entity.GCSuffix = cboSuffix.Value.ToString();
-            entity.GCTitle = cboTitle.Value.ToString();
+            entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
+            entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
+            entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();
             entity.GCGender = cboGender.Value.ToString();
             entity.FirstName = txtFirstName.Text;
             entity.MiddleName = txtMiddleName.Text;
@@ -167,6 +179,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.EmailAddress2 = txtEmailAddress2.Text;
             entity.MobilePhoneNo1 = txtMobilePhoneNo1.Text;
             entity.MobilePhoneNo2 = txtMobilePhoneNo2.Text;
+            entityAddress.PhoneNo1 = txtTelephoneNo.Text;
             #endregion
         }
 
@@ -201,20 +214,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
-            bool result = false;
+            bool result = true;
             try
             {
                 ProspectiveStudent entity = new ProspectiveStudent();
                 Address address = new Address();
                 ControlToEntity(entity, address);
                 addressDao.Insert(address);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetProspectiveStudentMaxID(ctx).ToString();
                 ctx.CommitTransaction();
-                result = true;
             }
             catch (Exception ex)
             {
@@ -245,6 +258,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 addressDao.Update(address);
                 entityDao.Update(entity);
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
@@ -265,6 +279,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string errMessage = "";
             string retval = "";
+            result = "save|";
             if (hdnIsAdd.Value == "1")
             {
                 if (OnBeforeSaveAddRecord(ref errMessage))

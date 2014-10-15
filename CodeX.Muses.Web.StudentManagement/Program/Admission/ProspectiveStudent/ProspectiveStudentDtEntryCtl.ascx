@@ -79,7 +79,6 @@
 	.stepmenu li a.disabled:after { border-left-color: #D0D0D0; cursor: default; }
 	.stepmenu li a:not(.disabled):hover { background: #FF1901; }
 	.stepmenu li a:not(.disabled):hover:after { border-left-color: #FF1901 !important; }
-		
 </style>
 
 <input type="hidden" runat="server" id="hdnID" value="" />
@@ -94,5 +93,5 @@
 	    </ul>
     </div>
 
-    <iframe style="width:100%;border:0;min-height:470px;max-height:470px" id="frmProspectiveStudent" />
+    <iframe style="width:100%;border:0;min-height:470px;max-height:470px; overflow:hidden;" id="frmProspectiveStudent" />
 </center>

@@ -7681,6 +7681,7 @@ namespace CodeX.Data.Model
         private String _EmailAddress2;
         private String _MobilePhoneNo1;
         private String _MobilePhoneNo2;
+        private String _PhoneNo1;
         private String _PictureFileName;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -7870,6 +7871,12 @@ namespace CodeX.Data.Model
         {
             get { return _MobilePhoneNo2; }
             set { _MobilePhoneNo2 = value; }
+        }
+        [Column(Name = "PhoneNo1", DataType = "String")]
+        public String PhoneNo1
+        {
+            get { return _PhoneNo1; }
+            set { _PhoneNo1 = value; }
         }
         [Column(Name = "PictureFileName", DataType = "String")]
         public String PictureFileName
@@ -11605,6 +11612,7 @@ namespace CodeX.Data.Model
         private String _EmailAddress2;
         private String _MobilePhoneNo1;
         private String _MobilePhoneNo2;
+        private String _PhoneNo1;
         private String _PictureFileName;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -11812,6 +11820,12 @@ namespace CodeX.Data.Model
         {
             get { return _MobilePhoneNo2; }
             set { _MobilePhoneNo2 = value; }
+        }
+        [Column(Name = "PhoneNo1", DataType = "String")]
+        public String PhoneNo1
+        {
+            get { return _PhoneNo1; }
+            set { _PhoneNo1 = value; }
         }
         [Column(Name = "PictureFileName", DataType = "String")]
         public String PictureFileName

@@ -13,6 +13,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPFrame" runat="server">
     <script type="text/javascript">
         $(function () {
+            //$("#ui-datepicker-div").wrap('<div style="position:absolute;top:0px;"></div>');
+
+            //#region DOB
+            $('#<%=txtDOB.ClientID %>').change(function () {
+                var age = Methods.getAgeFromDatePickerFormat($(this).val());
+                $('#<%=txtAgeInYear.ClientID %>').val(age.years);
+                $('#<%=txtAgeInMonth.ClientID %>').val(age.months);
+                $('#<%=txtAgeInDay.ClientID %>').val(age.days);
+            });
+
+            setDatePicker('<%=txtDOB.ClientID %>');
+            //#endregion
+
             registerCollapseExpandHandler();
 
             $('#btnNext').click(function () {
@@ -20,6 +33,85 @@
                     cbpMPEntryProcess.PerformCallback('save');
             });
         });
+
+        //#region Province
+        function onGetProvinceFilterExpression() {
+            var filterExpression = "<%=OnGetProvinceFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacProvinceButtonSearchClick() {
+            openSearchDialog('stdcode', onGetProvinceFilterExpression(), function (value) {
+                var filterExpression = onGetProvinceFilterExpression() + " AND StandardCodeID LIKE '%^" + value + "'";
+                Methods.getObject('GetStandardCodeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacProvince.setValue(result.cfStandardCodeID);
+                        tacProvince.setText(result.StandardCodeName);
+                    }
+                    else {
+                        tacProvince.setValue('');
+                        tacProvince.setText('');
+                    }
+                });
+            });
+        }
+
+        function onTacProvinceValueChanged() {
+        }
+        //#endregion
+
+        //#region ZipCode
+        function onGetZipCodeFilterExpression() {
+            var filterExpression = "IsDeleted = 0";
+            return filterExpression;
+        }
+
+        function onTacZipCodeButtonSearchClick() {
+            openSearchDialog('zipcodes', onGetZipCodeFilterExpression(), function (value) {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacZipCode.setValue(result.ID);
+                        tacZipCode.setText(result.ZipCode);
+                        entityToControlZipCode(result);
+                    }
+                    else {
+                        tacZipCode.setValue('');
+                        tacZipCode.setText('');
+                        entityToControlZipCode(result);
+                    }
+                });
+            });
+        }
+
+        function entityToControlZipCode(result) {
+            $('#<%=txtAddress.ClientID %>').val(result.StreetName);
+            $('#<%=txtCounty.ClientID %>').val(result.County);
+            $('#<%=txtDistrict.ClientID %>').val(result.District);
+            $('#<%=txtCity.ClientID %>').val(result.City);
+            var filterExpression = "StandardCodeID = '" + result.GCProvince + "'";
+            Methods.getObject('GetStandardCodeList', filterExpression, function (result1) {
+                if (result1 != null) {
+                    tacProvince.setValue(result1.cfStandardCodeID);
+                    tacProvince.setText(result1.StandardCodeName);
+                }
+                else {
+                    tacProvince.setValue('');
+                    tacProvince.setText('');
+                }
+            });
+        }
+
+        function onTacZipCodeValueChanged() {
+            var id = tacZipCode.getValue();
+            if (id != '') {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    entityToControlZipCode(result);
+                });
+            }
+        }
+        //#endregion
 
         function onAfterSaveSuccess(retval) {
             if ($('#<%=hdnIsAdd.ClientID %>').val() == '1')
