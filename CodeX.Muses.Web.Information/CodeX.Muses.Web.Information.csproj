@@ -74,6 +74,13 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Accounting\GLBalanceInformation.aspx" />
+    <Content Include="Program\Accounting\GLBalanceInformationCtl.ascx" />
+    <Content Include="Program\Accounting\GLBalanceInformationPerAccount.aspx" />
+    <Content Include="Program\Accounting\GLSubLedgerInformation.aspx" />
+    <Content Include="Program\Accounting\GLSubLedgerInformationCtl.ascx" />
+    <Content Include="Program\Accounting\LabaRugiInformation.aspx" />
+    <Content Include="Program\Accounting\UnbalanceJournalInformation.aspx" />
     <Content Include="Program\Finance\APSupplier\APSupplierInformation.aspx" />
     <Content Include="Program\Finance\APSupplier\APSupplierInformationDtCtl.ascx" />
     <Content Include="Program\Finance\APSupplier\APSupplierMovementInformationCtl.ascx" />
@@ -149,6 +156,55 @@
     </Compile>
     <Compile Include="MasterPage\MPMain.master.designer.cs">
       <DependentUpon>MPMain.master</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\GLBalanceInformation.aspx.cs">
+      <DependentUpon>GLBalanceInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\GLBalanceInformation.aspx.designer.cs">
+      <DependentUpon>GLBalanceInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\GLBalanceInformationCtl.ascx.cs">
+      <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\GLBalanceInformationCtl.ascx.designer.cs">
+      <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\GLBalanceInformationPerAccount.aspx.cs">
+      <DependentUpon>GLBalanceInformationPerAccount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\GLBalanceInformationPerAccount.aspx.designer.cs">
+      <DependentUpon>GLBalanceInformationPerAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\GLSubLedgerInformation.aspx.cs">
+      <DependentUpon>GLSubLedgerInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\GLSubLedgerInformation.aspx.designer.cs">
+      <DependentUpon>GLSubLedgerInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\GLSubLedgerInformationCtl.ascx.cs">
+      <DependentUpon>GLSubLedgerInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\GLSubLedgerInformationCtl.ascx.designer.cs">
+      <DependentUpon>GLSubLedgerInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\LabaRugiInformation.aspx.cs">
+      <DependentUpon>LabaRugiInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\LabaRugiInformation.aspx.designer.cs">
+      <DependentUpon>LabaRugiInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Accounting\UnbalanceJournalInformation.aspx.cs">
+      <DependentUpon>UnbalanceJournalInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Accounting\UnbalanceJournalInformation.aspx.designer.cs">
+      <DependentUpon>UnbalanceJournalInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Finance\APSupplier\APSupplierInformation.aspx.cs">
       <DependentUpon>APSupplierInformation.aspx</DependentUpon>

@@ -30,6 +30,46 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalanceDtPerSubLedger
+    public partial class GetGLBalanceDtPerSubLedger
+    {
+        public String JournalDateInString
+        {
+            get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region GetGLBalanceDtInformation
+    public partial class GetGLBalanceDtInformation
+    {
+        public String JournalDateInString
+        {
+            get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region GetGLBalancePerGLAccount
+    public partial class GetGLBalancePerGLAccount
+    {
+        public String JournalDateInString
+        {
+            get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region GetGLBalanceProfitLossPerPeriodPerLevel
+    public partial class GetGLBalanceProfitLossPerPeriodPerLevel
+    {
+        public Decimal cfBalanceEND
+        {
+            get { return _cfBalanceENDLastMonth + _cfProfitLoss; }
+        }
+        public Decimal BalanceEND
+        {
+            get { return _BalanceENDLastMonth + _ProfitLoss; }
+        }
+    }
+    #endregion
     #region GetItemMovementPerPeriodeDetail
     public partial class GetItemMovementPerPeriodeDetail
     {

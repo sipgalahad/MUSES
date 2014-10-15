@@ -16,6 +16,19 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vChartOfAccount
+    public partial class vChartOfAccount
+    {
+        public String cfIsHeader
+        {
+            get
+            {
+                if (_IsHeader) return "I";
+                return "A";
+            }
+        }
+    }
+    #endregion
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {
@@ -186,6 +199,18 @@ namespace CodeX.Data.Model
             get
             {
                 return _ReferenceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region vGLTransactionDt
+    public partial class vGLTransactionDt
+    {
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
             }
         }
     }

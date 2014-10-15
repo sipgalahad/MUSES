@@ -1523,6 +1523,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vGLBalancePerPeriodNo
+        public static List<vGLBalancePerPeriodNo> GetvGLBalancePerPeriodNoList(string filterExpression)
+        {
+            List<vGLBalancePerPeriodNo> result = new List<vGLBalancePerPeriodNo>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vGLBalancePerPeriodNo));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vGLBalancePerPeriodNo)helper.IDataReaderToObject(reader, new vGLBalancePerPeriodNo()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vGLTransactionDt
         public static List<vGLTransactionDt> GetvGLTransactionDtList(string filterExpression)
         {

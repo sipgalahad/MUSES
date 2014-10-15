@@ -3933,6 +3933,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLBalancePerPeriodNo
+    [Serializable]
+    [Table(Name = "vGLBalancePerPeriodNo")]
+    public class vGLBalancePerPeriodNo
+    {
+        private String _PeriodNo;
+        private Decimal _BalanceBEGIN;
+        private Decimal _BalanceDEBIT;
+        private Decimal _BalanceCREDIT;
+        private Decimal _BalanceEND;
+
+        [Column(Name = "PeriodNo", DataType = "String")]
+        public String PeriodNo
+        {
+            get { return _PeriodNo; }
+            set { _PeriodNo = value; }
+        }
+        [Column(Name = "BalanceBEGIN", DataType = "Decimal")]
+        public Decimal BalanceBEGIN
+        {
+            get { return _BalanceBEGIN; }
+            set { _BalanceBEGIN = value; }
+        }
+        [Column(Name = "BalanceDEBIT", DataType = "Decimal")]
+        public Decimal BalanceDEBIT
+        {
+            get { return _BalanceDEBIT; }
+            set { _BalanceDEBIT = value; }
+        }
+        [Column(Name = "BalanceCREDIT", DataType = "Decimal")]
+        public Decimal BalanceCREDIT
+        {
+            get { return _BalanceCREDIT; }
+            set { _BalanceCREDIT = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+    }
+    #endregion
     #region vGLTransactionDt
     [Serializable]
     [Table(Name = "vGLTransactionDt")]

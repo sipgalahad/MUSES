@@ -174,6 +174,416 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+
+    #region GetGLBalanceDtInformation
+    public partial class GetGLBalanceDtInformation
+    {
+        private Int32 _TransactionDtID;
+        private String _JournalNo;
+        private DateTime _JournalDate;
+        private String _Remarks;
+        private Decimal _DEBITAmount;
+        private Decimal _CREDITAmount;
+        private Decimal _BalanceEND;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "JournalNo", DataType = "String")]
+        public String JournalNo
+        {
+            get { return _JournalNo; }
+            set { _JournalNo = value; }
+        }
+        [Column(Name = "JournalDate", DataType = "DateTime")]
+        public DateTime JournalDate
+        {
+            get { return _JournalDate; }
+            set { _JournalDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "DEBITAmount", DataType = "Decimal")]
+        public Decimal DEBITAmount
+        {
+            get { return _DEBITAmount; }
+            set { _DEBITAmount = value; }
+        }
+        [Column(Name = "CREDITAmount", DataType = "Decimal")]
+        public Decimal CREDITAmount
+        {
+            get { return _CREDITAmount; }
+            set { _CREDITAmount = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+    }
+    #endregion
+    #region GetGLBalanceDtPerPeriod
+    public class GetGLBalanceDtPerPeriod
+    {
+        private Int32 _SubLedgerDtID;
+        private String _SubLedgerDtCode;
+        private String _SubLedgerDtName;
+        private Decimal _BalanceBEGIN;
+        private Decimal _BalanceCREDIT;
+        private Decimal _BalanceDEBIT;
+        private Decimal _BalanceEND;
+
+        [Column(Name = "SubLedgerDtID", DataType = "Int32")]
+        public Int32 SubLedgerDtID
+        {
+            get { return _SubLedgerDtID; }
+            set { _SubLedgerDtID = value; }
+        }
+        [Column(Name = "SubLedgerDtCode", DataType = "String")]
+        public String SubLedgerDtCode
+        {
+            get { return _SubLedgerDtCode; }
+            set { _SubLedgerDtCode = value; }
+        }
+        [Column(Name = "SubLedgerDtName", DataType = "String")]
+        public String SubLedgerDtName
+        {
+            get { return _SubLedgerDtName; }
+            set { _SubLedgerDtName = value; }
+        }
+        [Column(Name = "BalanceBEGIN", DataType = "Decimal")]
+        public Decimal BalanceBEGIN
+        {
+            get { return _BalanceBEGIN; }
+            set { _BalanceBEGIN = value; }
+        }
+        [Column(Name = "BalanceCREDIT", DataType = "Decimal")]
+        public Decimal BalanceCREDIT
+        {
+            get { return _BalanceCREDIT; }
+            set { _BalanceCREDIT = value; }
+        }
+        [Column(Name = "BalanceDEBIT", DataType = "Decimal")]
+        public Decimal BalanceDEBIT
+        {
+            get { return _BalanceDEBIT; }
+            set { _BalanceDEBIT = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+    }
+    #endregion
+    #region GetGLBalanceDtPerSubLedger
+    public partial class GetGLBalanceDtPerSubLedger
+    {
+        private Int32 _TransactionDtID;
+        private String _JournalNo;
+        private DateTime _JournalDate;
+        private String _Remarks;
+        private Decimal _DebitAmount;
+        private Decimal _CreditAmount;
+        private Decimal _BalanceEND;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "JournalNo", DataType = "String")]
+        public String JournalNo
+        {
+            get { return _JournalNo; }
+            set { _JournalNo = value; }
+        }
+        [Column(Name = "JournalDate", DataType = "DateTime")]
+        public DateTime JournalDate
+        {
+            get { return _JournalDate; }
+            set { _JournalDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "DebitAmount", DataType = "Decimal")]
+        public Decimal DebitAmount
+        {
+            get { return _DebitAmount; }
+            set { _DebitAmount = value; }
+        }
+        [Column(Name = "CreditAmount", DataType = "Decimal")]
+        public Decimal CreditAmount
+        {
+            get { return _CreditAmount; }
+            set { _CreditAmount = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+
+
+    }
+    #endregion
+    #region GetGLBalancePerGLAccount
+    public partial class GetGLBalancePerGLAccount
+    {
+        private Int32 _TransactionDtID;
+        private String _JournalNo;
+        private DateTime _JournalDate;
+        private String _Remarks;
+        private Decimal _DEBITAmount;
+        private Decimal _CREDITAmount;
+        private Decimal _BalanceEND;
+
+        [Column(Name = "TransactionDtID", DataType = "Int32")]
+        public Int32 TransactionDtID
+        {
+            get { return _TransactionDtID; }
+            set { _TransactionDtID = value; }
+        }
+        [Column(Name = "JournalNo", DataType = "String")]
+        public String JournalNo
+        {
+            get { return _JournalNo; }
+            set { _JournalNo = value; }
+        }
+        [Column(Name = "JournalDate", DataType = "DateTime")]
+        public DateTime JournalDate
+        {
+            get { return _JournalDate; }
+            set { _JournalDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "DEBITAmount", DataType = "Decimal")]
+        public Decimal DEBITAmount
+        {
+            get { return _DEBITAmount; }
+            set { _DEBITAmount = value; }
+        }
+        [Column(Name = "CREDITAmount", DataType = "Decimal")]
+        public Decimal CREDITAmount
+        {
+            get { return _CREDITAmount; }
+            set { _CREDITAmount = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+    }
+    #endregion
+    #region GetGLBalancePerPeriod
+    public class GetGLBalancePerPeriod
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _Position;
+        private Decimal _BalanceBEGIN;
+        private Decimal _BalanceDEBIT;
+        private Decimal _BalanceCREDIT;
+        private Decimal _BalanceEND;
+        private Int32 _Level;
+        private Boolean _IsHeader;
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "BalanceBEGIN", DataType = "Decimal")]
+        public Decimal BalanceBEGIN
+        {
+            get { return _BalanceBEGIN; }
+            set { _BalanceBEGIN = value; }
+        }
+        [Column(Name = "BalanceDEBIT", DataType = "Decimal")]
+        public Decimal BalanceDEBIT
+        {
+            get { return _BalanceDEBIT; }
+            set { _BalanceDEBIT = value; }
+        }
+        [Column(Name = "BalanceCREDIT", DataType = "Decimal")]
+        public Decimal BalanceCREDIT
+        {
+            get { return _BalanceCREDIT; }
+            set { _BalanceCREDIT = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+    }
+    #endregion
+    #region GetGLBalanceProfitLossPerPeriodPerLevel
+    public partial class GetGLBalanceProfitLossPerPeriodPerLevel
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _GCGLAccountType;
+        private String _GLAccountType;
+        private String _Position;
+        private Boolean _IsHeader;
+        private Int32 _Level;
+        private Decimal _BalanceBEGIN;
+        private Decimal _ProfitLoss;
+        private Decimal _BalanceENDLastMonth;
+        private Decimal _cfBalanceBEGIN;
+        private Decimal _cfProfitLoss;
+        private Decimal _cfBalanceENDLastMonth;
+        private Int32 _TotalRow;
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "GCGLAccountType", DataType = "String")]
+        public String GCGLAccountType
+        {
+            get { return _GCGLAccountType; }
+            set { _GCGLAccountType = value; }
+        }
+        [Column(Name = "GLAccountType", DataType = "String")]
+        public String GLAccountType
+        {
+            get { return _GLAccountType; }
+            set { _GLAccountType = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "BalanceBEGIN", DataType = "Decimal")]
+        public Decimal BalanceBEGIN
+        {
+            get { return _BalanceBEGIN; }
+            set { _BalanceBEGIN = value; }
+        }
+        [Column(Name = "ProfitLoss", DataType = "Decimal")]
+        public Decimal ProfitLoss
+        {
+            get { return _ProfitLoss; }
+            set { _ProfitLoss = value; }
+        }
+        [Column(Name = "BalanceENDLastMonth", DataType = "Decimal")]
+        public Decimal BalanceENDLastMonth
+        {
+            get { return _BalanceENDLastMonth; }
+            set { _BalanceENDLastMonth = value; }
+        }
+        [Column(Name = "cfBalanceBEGIN", DataType = "Decimal")]
+        public Decimal cfBalanceBEGIN
+        {
+            get { return _cfBalanceBEGIN; }
+            set { _cfBalanceBEGIN = value; }
+        }
+        [Column(Name = "cfProfitLoss", DataType = "Decimal")]
+        public Decimal cfProfitLoss
+        {
+            get { return _cfProfitLoss; }
+            set { _cfProfitLoss = value; }
+        }
+        [Column(Name = "cfBalanceENDLastMonth", DataType = "Decimal")]
+        public Decimal cfBalanceENDLastMonth
+        {
+            get { return _cfBalanceENDLastMonth; }
+            set { _cfBalanceENDLastMonth = value; }
+        }
+        [Column(Name = "TotalRow", DataType = "Int32")]
+        public Int32 TotalRow
+        {
+            get { return _TotalRow; }
+            set { _TotalRow = value; }
+        }
+    }
+    #endregion
     #region GetItemMovementPerPeriodeDetail
     [Serializable]
     [Table(Name = "GetItemMovementPerPeriodeDetail")]

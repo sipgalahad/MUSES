@@ -230,12 +230,7 @@ namespace CodeX.Common
                 public const string FA_ITEM_FROM_PURCHASE_RECEIVE = "AC010505";
 
                 public const string JOURNAL_ENTRY = "AC050100";
-                public const string JOURNAL_LIST = "AC050200";                
-
-                public const string UNBALANCE_JOURNAL = "AC080100";
-                public const string BALANCE_INFORMATION = "AC080200";
-                public const string BALANCE_INFORMATION_SUB_ACCOUNT = "AC080300";
-                public const string BALANCE_INFORMATION_PER_ACCOUNT = "AC080400";
+                public const string JOURNAL_LIST = "AC050200";
             }
             #endregion
 
@@ -315,6 +310,12 @@ namespace CodeX.Common
                 public const string STOCK_DETAIL_INFO = "IF020100";
 
                 public const string AP_SUPPLIER_INFORMATION = "IF030100";
+
+                public const string UNBALANCE_JOURNAL = "IF040100";
+                public const string BALANCE_INFORMATION = "IF040200";
+                public const string BALANCE_INFORMATION_SUB_ACCOUNT = "IF040300";
+                public const string BALANCE_INFORMATION_PER_ACCOUNT = "IF040400";
+                public const string LABA_RUGI_INFORMATION = "IF040500";
             }
             #endregion
 

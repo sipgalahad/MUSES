@@ -12,6 +12,62 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Chart Of Account -->
+  <searchdialog type="chartofaccount" methodname="GetvChartOfAccountList" keyfieldname="GLAccountNo" orderbyexpression="GLAccountNo ASC">
+    <gridcolumns>
+      <gridcolumn datafield="GLAccountNo" headertext="Kode" width="100px" />
+      <gridcolumn datafield="GLAccountName" headertext="Nama" width="300px" />
+      <gridcolumn datafield="GLAccountType" headertext="Tipe" width="150px" />
+      <gridcolumn datafield="Position" headertext="D/K" width="30px" />
+      <gridcolumn datafield="ParentGLAccountName" headertext="Induk" width="150px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="GLAccountName" headertext="Nama" description="" />
+      <intellisensetext datafield="GLAccountNo" headertext="Kode" description="" />
+      <intellisensetext datafield="GLAccountType" headertext="Tipe" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region vChart Of Account -->
+  <searchdialog type="vchartofaccount" methodname="GetvChartOfAccountList" keyfieldname="GLAccountNo" istreeview="1">
+    <gridcolumns>
+      <gridcolumn datafield="GLAccountNo" headertext="No. Perkiraan" width="100px" />
+      <gridcolumn datafield="GLAccountName" headertext="Nama Perkiraan" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="GLAccountName" headertext="Nama Perkiraan" description="" />
+      <intellisensetext datafield="GLAccountNo" headertext="No. Perkiraan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region FA Depreciation Method -->
+  <searchdialog type="fadepreciationmethod" methodname="GetFADepreciationMethodList" keyfieldname="MethodCode" orderbyexpression="MethodCode ASC">
+    <gridcolumns>
+      <gridcolumn datafield="MethodCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="MethodName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="MethodName" headertext="Nama" description="" />
+      <intellisensetext datafield="MethodCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region GLTransactionHd -->
+  <searchdialog type="gltransactionhd" methodname="GetvGLTransactionHdList" keyfieldname="JournalNo" orderbyexpression="GLTransactionID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="JournalNo" headertext="No Jurnal" width="150px" />
+      <gridcolumn datafield="JournalDateInString" headertext="Tanggal" width="220px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="150px" />
+      <gridcolumn datafield="Remarks" headertext="Catatan" width="200px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="JournalNo" headertext="No Jurnal" description="" />
+      <intellisensetext datafield="JournalDateInString" headertext="Tanggal" description="" />
+      <intellisensetext datafield="TransactionStatus" headertext="Status" description="" />
+      <intellisensetext datafield="Remarks" headertext="Catatan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Item -->
   <searchdialog type="item" methodname="GetItemMasterList" keyfieldname="ItemCode" orderbyexpression="ItemName1 ASC">
     <gridcolumns>
@@ -335,6 +391,30 @@
   </searchdialog>
 
   <!-- #EndRegion -->
+  <!-- #Region Sub Ledger Hd -->
+  <searchdialog type="subledgerhd" methodname="GetSubLedgerHdList" keyfieldname="SubLedgerCode" orderbyexpression="SubLedgerCode">
+    <gridcolumns>
+      <gridcolumn datafield="SubLedgerCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="SubLedgerName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubLedgerName" headertext="Nama" description="" />
+      <intellisensetext datafield="SubLedgerCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Sub Ledger Type -->
+  <searchdialog type="subledgertype" methodname="GetSubLedgerTypeList" keyfieldname="SubLedgerTypeCode" orderbyexpression="SubLedgerTypeCode">
+    <gridcolumns>
+      <gridcolumn datafield="SubLedgerTypeCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="SubLedgerTypeName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubLedgerTypeName" headertext="Nama" description="" />
+      <intellisensetext datafield="SubLedgerTypeCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Subject -->
   <searchdialog type="subject" methodname="GetSubjectList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
     <gridcolumns>
@@ -356,6 +436,32 @@
     <intellisensetexts>
       <intellisensetext datafield="SubjectName" headertext="Nama" description="" />
       <intellisensetext datafield="SubjectCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Supplier Credit Note -->
+  <searchdialog type="suppliercreditnote" methodname="GetvSupplierCreditNoteList" keyfieldname="CreditNoteNo" orderbyexpression="CreditNoteID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="CreditNoteNo" headertext="No. Nota Kredit" width="100px" />
+      <gridcolumn datafield="CreditNoteDate" displaycustomfield="CreditNoteDateInString" horizontalalign="center" headertext="Tanggal Nota Kredit" width="100px" />
+      <gridcolumn datafield="CreditNoteType" headertext="Tipe" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="CreditNoteNo" headertext="No. Nota Kredit" description="" />
+      <intellisensetext datafield="CreditNoteDate" headertext="CreditNoteDateInString" description="" />
+      <intellisensetext datafield="CreditNoteType" headertext="Tipe" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Supplier Payment HD-->
+  <searchdialog type="supplierpaymenthd" methodname="GetvSupplierPaymentHdList" keyfieldname="SupplierPaymentNo" orderbyexpression="SupplierPaymentID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="SupplierPaymentNo" headertext="No. Pembayaran" width="100px" />
+      <gridcolumn datafield="PaymentDate" displaycustomfield="PaymentDateInString" horizontalalign="center" headertext="Tanggal" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SupplierPaymentNo" headertext="No. Bukti" description="" />
+      <intellisensetext datafield="PaymentDate" headertext="Tanggal" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

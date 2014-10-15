@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Web.Common.UI;
+using CodeX.Web.Common;
+using DevExpress.Utils;
+using DevExpress.Web.ASPxCallbackPanel;
+using CodeX.Data.Model;
+using CodeX.Data.Core.Dal;
+using DevExpress.Web.ASPxEditors;
+using System.Globalization;
+using CodeX.Common;
+using System.Web.UI.HtmlControls;
+
+namespace CodeX.Web.Accounting.Program
+{
+    public partial class GLBalanceInformationPerAccount : BasePageList
+    {
+        protected int PageCount = 1;
+        protected int RowCount = 1;
+        protected int RowCountPerPage = 1;
+        protected int CurrPage = 1;
+
+        public override string OnGetMenuCode()
+        {
+            return Constant.MenuCode.Information.BALANCE_INFORMATION_PER_ACCOUNT;
+        }
+
+        protected override void InitializeDataControl(string filterExpression, string keyValue)
+        {
+            #region Data Month
+            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
+            {
+                MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
+                MonthNumber = a
+            });
+            cboMonth.TextField = "MonthName";
+            cboMonth.ValueField = "MonthNumber";
+            cboMonth.EnableCallbackMode = false;
+            cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            cboMonth.DropDownStyle = DropDownStyle.DropDownList;
+            cboMonth.DataBind();
+            cboMonth.Value = DateTime.Now.Month.ToString();
+
+            cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 99, 100).Reverse();
+            cboYear.EnableCallbackMode = false;
+            cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            cboYear.DropDownStyle = DropDownStyle.DropDownList;
+            cboYear.DataBind();
+            cboYear.SelectedIndex = 0;
+            #endregion
+
+            BindGridView(1, true, ref PageCount, ref RowCount);
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+        
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        {
+            List<GetGLBalanceDtInformation> lstEntity = null;
+
+            if (hdnGLAccountID.Value == "")
+            {
+                PageCount = 0;
+                lstEntity = new List<GetGLBalanceDtInformation>();
+                grdView.DataSource = lstEntity;
+                grdView.DataBind();
+            }
+            else
+            {
+                if (hdnSubLedgerDtID.Value == "") hdnSubLedgerDtID.Value = "0";
+                if (isCountPageCount)
+                {
+                    rowCount = BusinessLayer.GetGLBalanceDtInformationRowCount(Convert.ToInt32(hdnGLAccountID.Value), Convert.ToInt32(hdnSubLedgerDtID.Value), Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value));
+                    pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+                }
+                lstEntity = BusinessLayer.GetGLBalanceDtInformationList(Convert.ToInt32(hdnGLAccountID.Value), Convert.ToInt32(hdnSubLedgerDtID.Value), Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), pageIndex, Constant.GridViewPageSize.GRID_MASTER);
+                grdView.DataSource = lstEntity;
+                grdView.DataBind();
+            }
+        }
+
+        public override Control OnGetExportControl()
+        {
+            List<GetGLBalanceDtInformation> lstEntity = BusinessLayer.GetGLBalanceDtInformationList(Convert.ToInt32(hdnGLAccountID.Value), Convert.ToInt32(hdnSubLedgerDtID.Value), Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1, 5000);
+            grdView.DataSource = lstEntity;
+            grdView.DataBind();
+
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            HtmlGenericControl h4 = new HtmlGenericControl("h4");
+            h4.InnerHtml = String.Format("Account : {0} {1}", txtGLAccountName.Text, txtSubLedgerDtName.Text);
+            div.Controls.Add(h4);
+            div.Controls.Add(PanelContent1);
+            return div;
+        }
+    }
+}
