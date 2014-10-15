@@ -100,10 +100,13 @@
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
     <Content Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionEntry.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionList.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionPageLauncher.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentRemarksDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFamilyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentParentDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntry.aspx" />
@@ -394,6 +397,13 @@
     <Compile Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx.designer.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx.cs">
+      <DependentUpon>ProspectiveStudentResultList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentResultList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx.cs">
       <DependentUpon>ProspectiveStudentMarkEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -421,6 +431,20 @@
     </Compile>
     <Compile Include="Program\Admission\PeriodAdmissionPageLauncher.aspx.designer.cs">
       <DependentUpon>PeriodAdmissionPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx.cs">
+      <DependentUpon>ProspectiveStudentSurveyDtEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentSurveyDtEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentRemarksDtEntry.aspx.cs">
+      <DependentUpon>ProspectiveStudentRemarksDtEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentRemarksDtEntry.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentRemarksDtEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFamilyDtEntry.aspx.cs">
       <DependentUpon>ProspectiveStudentFamilyDtEntry.aspx</DependentUpon>

@@ -4168,6 +4168,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProspectiveStudentMark
+        public static ProspectiveStudentMark GetProspectiveStudentMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 ProspectiveStudentID)
+        {
+            return new ProspectiveStudentMarkDao().Get(PeriodAdmissionID, AdmissionSelectionID, ProspectiveStudentID);
+        }
+        public static int InsertProspectiveStudentMark(ProspectiveStudentMark record)
+        {
+            return new ProspectiveStudentMarkDao().Insert(record);
+        }
+        public static int UpdateProspectiveStudentMark(ProspectiveStudentMark record)
+        {
+            return new ProspectiveStudentMarkDao().Update(record);
+        }
+        public static int DeleteProspectiveStudentMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 ProspectiveStudentID)
+        {
+            return new ProspectiveStudentMarkDao().Delete(PeriodAdmissionID, AdmissionSelectionID, ProspectiveStudentID);
+        }
+        public static List<ProspectiveStudentMark> GetProspectiveStudentMarkList(string filterExpression)
+        {
+            List<ProspectiveStudentMark> result = new List<ProspectiveStudentMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentMark)helper.IDataReaderToObject(reader, new ProspectiveStudentMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProspectiveStudentMark> GetProspectiveStudentMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ProspectiveStudentMark> result = new List<ProspectiveStudentMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentMark)helper.IDataReaderToObject(reader, new ProspectiveStudentMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseInvoiceDt
         public static PurchaseInvoiceDt GetPurchaseInvoiceDt(Int32 ID)
         {

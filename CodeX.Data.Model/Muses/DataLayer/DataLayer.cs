@@ -9066,6 +9066,86 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProspectiveStudentMark
+    [Serializable]
+    [Table(Name = "ProspectiveStudentMark")]
+    public class ProspectiveStudentMark : DbDataModel
+    {
+        private Int32 _PeriodAdmissionID;
+        private Int32 _AdmissionSelectionID;
+        private Int32 _ProspectiveStudentID;
+        private Int16 _Mark;
+
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "AdmissionSelectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 AdmissionSelectionID
+        {
+            get { return _AdmissionSelectionID; }
+            set { _AdmissionSelectionID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Int16")]
+        public Int16 Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+    }
+
+    public class ProspectiveStudentMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentMark));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionSelectionID = "@p_AdmissionSelectionID";
+        private const string p_PeriodAdmissionID = "@p_PeriodAdmissionID";
+        private const string p_ProspectiveStudentID = "@p_ProspectiveStudentID";
+        public ProspectiveStudentMarkDao() { }
+        public ProspectiveStudentMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProspectiveStudentMark Get(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 ProspectiveStudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionSelectionID, AdmissionSelectionID);
+            _ctx.Add(p_PeriodAdmissionID, PeriodAdmissionID);
+            _ctx.Add(p_ProspectiveStudentID, ProspectiveStudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProspectiveStudentMark)_helper.DataRowToObject(row, new ProspectiveStudentMark());
+        }
+        public int Insert(ProspectiveStudentMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProspectiveStudentMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 ProspectiveStudentID)
+        {
+            ProspectiveStudentMark record;
+            if (_ctx.Transaction == null)
+                record = new ProspectiveStudentMarkDao().Get(PeriodAdmissionID, AdmissionSelectionID, ProspectiveStudentID);
+            else
+                record = Get(PeriodAdmissionID, AdmissionSelectionID, ProspectiveStudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PurchaseInvoiceDt
     [Serializable]
     [Table(Name = "PurchaseInvoiceDt")]

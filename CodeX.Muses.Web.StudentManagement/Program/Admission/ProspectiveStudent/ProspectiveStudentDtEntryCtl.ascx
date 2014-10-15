@@ -94,8 +94,8 @@
 		    <li><a href="#" url="ProspectiveStudentDtEntry.aspx" class="disabled"><%=GetLabel("Data Pribadi")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentParentDtEntry.aspx" class="disabled"><%=GetLabel("Data Orangtua / Wali")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentFamilyDtEntry.aspx" class="disabled"><%=GetLabel("Data Saudara Kandung")%></a></li>
-		    <li><a href="#" class="disabled"><%=GetLabel("Keterangan Lain")%></a></li>
-		    <li><a href="#" class="disabled"><%=GetLabel("Lembar Survei")%></a></li>
+		    <li><a href="#" url="ProspectiveStudentRemarksDtEntry.aspx" class="disabled"><%=GetLabel("Keterangan Lain")%></a></li>
+		    <li><a href="#" url="ProspectiveStudentSurveyDtEntry.aspx" class="disabled"><%=GetLabel("Lembar Survei")%></a></li>
 	    </ul>
     </div>
 

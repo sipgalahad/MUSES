@@ -402,6 +402,7 @@ namespace CodeX.Common
                 public const string PA_PROSPECTIVE_STUDENT = "SM99030100";
                 public const string PA_ADMISSION_SELECTION = "SM99030200";
                 public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030300";
+                public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030400";
 
                 public const string CLASS_MEETING_PAGE = "SM99040000";
                 public const string WS_CLASS_MEETING = "SM99040101";
