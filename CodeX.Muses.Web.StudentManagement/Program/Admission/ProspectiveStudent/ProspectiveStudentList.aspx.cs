@@ -22,7 +22,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            BindGridView();
         }
+
+        #region Bind Grid View
+        private void BindGridView()
+        {
+            string filterExpression = string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID);
+            List<vProspectiveStudent> lstEntity = BusinessLayer.GetvProspectiveStudentList(filterExpression);
+            grdView.DataSource = lstEntity;
+            grdView.DataBind();
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
+        }
+        #endregion
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {

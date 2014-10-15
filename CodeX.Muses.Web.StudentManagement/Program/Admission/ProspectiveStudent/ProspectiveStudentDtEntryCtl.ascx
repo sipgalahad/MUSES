@@ -10,23 +10,58 @@
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
     $(function () {
-        $('#ulProspectiveStudent li a').click(function (e) {
+        $('#ulProspectiveStudent li a').click(function () {
             if (!$(this).hasClass('disabled')) {
                 if (!$(this).hasClass('selected')) {
-                    $('#ulProspectiveStudent li a.selected').removeClass('selected');
-                    $(this).addClass('selected');
-
-                    $('#frmProspectiveStudent').attr('src', $(this).attr('url'));
-                    showLoadingPanel();
-                    e.preventDefault();
-
-                    setTimeout(function () {
-                        hideLoadingPanel();
-                    }, 1000);
+                    clickUlProspectiveStudent($(this));
                 }
             }
         });
+
+        setTimeout(function () {
+            showLoadingPanel();
+            setTimeout(function () {
+                hideLoadingPanel();
+            }, 1000);
+        }, 50);
+
+        clickUlProspectiveStudent($('#ulProspectiveStudent li:eq(0) a'));
     });
+
+    function clickUlProspectiveStudent($a) {
+        $('#ulProspectiveStudent li a.selected').removeClass('selected');
+        $a.addClass('selected');
+        $a.removeClass('disabled');
+
+        var id = $('#<%=hdnID.ClientID %>').val();
+        var src = $a.attr('url');
+        if (id != '')
+            src += "?id=" + id;
+        $('#frmProspectiveStudent').attr('src', src);
+        showLoadingPanel();
+
+        setTimeout(function () {
+            hideLoadingPanel();
+        }, 1000);
+    }
+
+    window.OnNextButtonClick = function () {
+        var idx = $('#ulProspectiveStudent li a.selected').index("#ulProspectiveStudent li a");
+        idx++;
+        $a = $('#ulProspectiveStudent li:eq(' + idx + ') a');
+        clickUlProspectiveStudent($a);
+    }
+
+    window.OnPrevButtonClick = function () {
+        var idx = $('#ulProspectiveStudent li a.selected').index("#ulProspectiveStudent li a");
+        idx--;
+        $a = $('#ulProspectiveStudent li:eq(' + idx + ') a');
+        clickUlProspectiveStudent($a);
+    }
+
+    window.OnSetHdnID = function (id) {
+        $('#<%=hdnID.ClientID %>').val(id);
+    }
 </script>
 
 <style type="text/css">
@@ -47,16 +82,17 @@
 		
 </style>
 
+<input type="hidden" runat="server" id="hdnID" value="" />
 <center>
     <div id="page-wrap" style="width:100%; text-align: center;">
 	    <ul class="stepmenu" id="ulProspectiveStudent">
-		    <li><a href="#" url="ProspectiveStudentDtEntry.aspx"><%=GetLabel("Data Pribadi")%></a></li>
-		    <li><a href="#" url="ProspectiveStudentParentDtEntry.aspx" class="selected"><%=GetLabel("Data Orangtua / Wali")%></a></li>
+		    <li><a href="#" url="ProspectiveStudentDtEntry.aspx" class="disabled"><%=GetLabel("Data Pribadi")%></a></li>
+		    <li><a href="#" url="ProspectiveStudentParentDtEntry.aspx" class="disabled"><%=GetLabel("Data Orangtua / Wali")%></a></li>
 		    <li><a href="#" class="disabled"><%=GetLabel("Data Saudara Kandung")%></a></li>
 		    <li><a href="#" class="disabled"><%=GetLabel("Keterangan Lain")%></a></li>
 		    <li><a href="#" class="disabled"><%=GetLabel("Lembar Survei")%></a></li>
 	    </ul>
     </div>
 
-    <iframe style="width:100%;border:0;min-height:470px;max-height:470px" id="frmProspectiveStudent" src="ProspectiveStudentDtEntry.aspx">
+    <iframe style="width:100%;border:0;min-height:470px;max-height:470px" id="frmProspectiveStudent" />
 </center>

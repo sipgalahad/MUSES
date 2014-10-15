@@ -4055,6 +4055,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProspectiveStudent
+        public static ProspectiveStudent GetProspectiveStudent(Int32 ProspectiveStudentID)
+        {
+            return new ProspectiveStudentDao().Get(ProspectiveStudentID);
+        }
+        public static int InsertProspectiveStudent(ProspectiveStudent record)
+        {
+            return new ProspectiveStudentDao().Insert(record);
+        }
+        public static int UpdateProspectiveStudent(ProspectiveStudent record)
+        {
+            return new ProspectiveStudentDao().Update(record);
+        }
+        public static int DeleteProspectiveStudent(Int32 ProspectiveStudentID)
+        {
+            return new ProspectiveStudentDao().Delete(ProspectiveStudentID);
+        }
+        public static List<ProspectiveStudent> GetProspectiveStudentList(string filterExpression)
+        {
+            List<ProspectiveStudent> result = new List<ProspectiveStudent>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudent)helper.IDataReaderToObject(reader, new ProspectiveStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProspectiveStudentMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudent));
+                ctx.CommandText = helper.SelectMaxColumn("ProspectiveStudentID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseInvoiceDt
         public static PurchaseInvoiceDt GetPurchaseInvoiceDt(Int32 ID)
         {
@@ -5860,6 +5916,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentPastStudy
+        public static StudentPastStudy GetStudentPastStudy(Int32 StudentPastStudyID)
+        {
+            return new StudentPastStudyDao().Get(StudentPastStudyID);
+        }
+        public static int InsertStudentPastStudy(StudentPastStudy record)
+        {
+            return new StudentPastStudyDao().Insert(record);
+        }
+        public static int UpdateStudentPastStudy(StudentPastStudy record)
+        {
+            return new StudentPastStudyDao().Update(record);
+        }
+        public static int DeleteStudentPastStudy(Int32 StudentPastStudyID)
+        {
+            return new StudentPastStudyDao().Delete(StudentPastStudyID);
+        }
+        public static List<StudentPastStudy> GetStudentPastStudyList(string filterExpression)
+        {
+            List<StudentPastStudy> result = new List<StudentPastStudy>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentPastStudy));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentPastStudy)helper.IDataReaderToObject(reader, new StudentPastStudy()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

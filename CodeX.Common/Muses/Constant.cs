@@ -36,6 +36,7 @@ namespace CodeX.Common
         public static class StandardCode
         {
             public const string SCHOOL_PERIOD_STATUS = "MS001";
+            public const string SCHOOL_TYPE = "MS002";
             public const string SCHOOL_GRADE = "MS003";
             public const string SCHOOL_MAJOR = "MS004";
             public const string STUDENT_ATTENDANCE = "MS005";
