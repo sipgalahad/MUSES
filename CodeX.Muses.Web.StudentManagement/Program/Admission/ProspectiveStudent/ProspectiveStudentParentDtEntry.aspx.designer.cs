@@ -10,6 +10,6 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ProspectiveStudentEntry {
+    public partial class ProspectiveStudentParentDtEntry {
     }
 }

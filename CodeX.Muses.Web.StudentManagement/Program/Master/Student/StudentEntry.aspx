@@ -298,7 +298,6 @@
                             <td class="tdLabel" valign="top"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>
-                        </tr>
                     </table>
                 </div>
             </td>

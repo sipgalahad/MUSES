@@ -103,7 +103,10 @@
     <Content Include="Program\Admission\PeriodAdmissionEntry.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionList.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionPageLauncher.aspx" />
-    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentEntry.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentParentDtEntry.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntry.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntryCtl.ascx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentList.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudent\ClassStudentQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\ClassSubject\ClassSubjectEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassSubject\ClassSubjectDtEntryCtl.ascx" />
@@ -253,6 +256,15 @@
       <Link>SharedLibs\MasterPage\MPEntry.master.designer.cs</Link>
       <DependentUpon>MPEntry.master.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.cs">
+      <Link>SharedLibs\MasterPage\MPFrame.master.cs</Link>
+      <DependentUpon>MPFrame.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master.designer.cs">
+      <Link>SharedLibs\MasterPage\MPFrame.master.designer.cs</Link>
+      <DependentUpon>MPFrame.master.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.cs">
       <Link>SharedLibs\MasterPage\MPList.master.cs</Link>
       <DependentUpon>MPList.master</DependentUpon>
@@ -383,12 +395,33 @@
     <Compile Include="Program\Admission\PeriodAdmissionPageLauncher.aspx.designer.cs">
       <DependentUpon>PeriodAdmissionPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentEntry.aspx.cs">
-      <DependentUpon>ProspectiveStudentEntry.aspx</DependentUpon>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentParentDtEntry.aspx.cs">
+      <DependentUpon>ProspectiveStudentParentDtEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentEntry.aspx.designer.cs">
-      <DependentUpon>ProspectiveStudentEntry.aspx</DependentUpon>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentParentDtEntry.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentParentDtEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntry.aspx.cs">
+      <DependentUpon>ProspectiveStudentDtEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntry.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentDtEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntryCtl.ascx.cs">
+      <DependentUpon>ProspectiveStudentDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>ProspectiveStudentDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentList.aspx.cs">
+      <DependentUpon>ProspectiveStudentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentList.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\ClassStudent\ClassStudentQuickPicksEntryCtl.ascx.cs">
       <DependentUpon>ClassStudentQuickPicksEntryCtl.ascx</DependentUpon>
@@ -631,6 +664,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPPeriodAdmissionPageTrx.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPFrame.master">
+      <Link>SharedLibs\MasterPage\MPFrame.master</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

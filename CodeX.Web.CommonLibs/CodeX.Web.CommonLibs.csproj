@@ -1038,6 +1038,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPFrame.master.cs">
+      <DependentUpon>MPFrame.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPFrame.master.designer.cs">
+      <DependentUpon>MPFrame.master</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\MPBaseDetailPageTrx2.master.cs">
       <DependentUpon>MPBaseDetailPageTrx2.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1222,6 +1229,7 @@
     <Content Include="MasterPage\MPBaseDetailPage.master" />
     <Content Include="MasterPage\MPBaseDetailPageTrx.master" />
     <Content Include="MasterPage\MPBaseDetailPageTrx2.master" />
+    <Content Include="MasterPage\MPFrame.master" />
     <None Include="Scripts\jquery\jqplot\syntaxhighlighter\LGPL-LICENSE" />
     <None Include="Scripts\jquery\jqplot\syntaxhighlighter\MIT-LICENSE" />
     <None Include="Scripts\TinyMce\classes\firebug\FIREBUG.LICENSE" />
