@@ -48,6 +48,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<Address> GetAddressList(string filterExpression, IDbContext ctx)
+        {
+            List<Address> result = new List<Address>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Address));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Address)helper.IDataReaderToObject(reader, new Address()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetAddressMaxID(IDbContext ctx)
         {
             Int32 result = 0;

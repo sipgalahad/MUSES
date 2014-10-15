@@ -3343,6 +3343,47 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vProspectiveStudentFamily
+        public static List<vProspectiveStudentFamily> GetvProspectiveStudentFamilyList(string filterExpression)
+        {
+            List<vProspectiveStudentFamily> result = new List<vProspectiveStudentFamily>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentFamily)helper.IDataReaderToObject(reader, new vProspectiveStudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vProspectiveStudentFamily> GetvProspectiveStudentFamilyList(string filterExpression, IDbContext ctx)
+        {
+            List<vProspectiveStudentFamily> result = new List<vProspectiveStudentFamily>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentFamily)helper.IDataReaderToObject(reader, new vProspectiveStudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region vPurchaseInvoiceDt
         public static List<vPurchaseInvoiceDt> GetvPurchaseInvoiceDtList(string filterExpression)
         {

@@ -25,6 +25,12 @@
             }, 1000);
         }, 50);
 
+        if ($('#<%=hdnID.ClientID %>').val() != '') {
+            $('#ulProspectiveStudent li a').each(function () {
+                $(this).removeClass('disabled');
+            });
+        }
+
         clickUlProspectiveStudent($('#ulProspectiveStudent li:eq(0) a'));
     });
 
@@ -87,7 +93,7 @@
 	    <ul class="stepmenu" id="ulProspectiveStudent">
 		    <li><a href="#" url="ProspectiveStudentDtEntry.aspx" class="disabled"><%=GetLabel("Data Pribadi")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentParentDtEntry.aspx" class="disabled"><%=GetLabel("Data Orangtua / Wali")%></a></li>
-		    <li><a href="#" class="disabled"><%=GetLabel("Data Saudara Kandung")%></a></li>
+		    <li><a href="#" url="ProspectiveStudentFamilyDtEntry.aspx" class="disabled"><%=GetLabel("Data Saudara Kandung")%></a></li>
 		    <li><a href="#" class="disabled"><%=GetLabel("Keterangan Lain")%></a></li>
 		    <li><a href="#" class="disabled"><%=GetLabel("Lembar Survei")%></a></li>
 	    </ul>

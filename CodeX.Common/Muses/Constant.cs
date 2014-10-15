@@ -51,6 +51,7 @@ namespace CodeX.Common
             public const string RELIGION = "0006";
             public const string NATIONALITY = "0212";
             public const string PROVINCE = "0347";
+            public const string FAMILY_RELATION = "0347";
             public const string ITEM_TYPE = "X001";
             public const string ITEM_UNIT = "X003";
             public const string OCCUPATION = "X012";
@@ -96,6 +97,12 @@ namespace CodeX.Common
             public const string START = "MS001^002";
             public const string END = "MS001^003";
             public const string VOID = "MS001^999";
+        }
+
+        public static class FamilyRelation
+        {
+            public const string FATHER = "0063^001";
+            public const string MOTHER = "0063^002";
         }
 
         public static class PurchaseReturnType

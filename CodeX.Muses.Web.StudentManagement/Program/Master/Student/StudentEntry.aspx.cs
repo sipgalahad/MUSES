@@ -49,8 +49,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}') AND IsActive = 1 AND IsDeleted = 0",
-                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER,
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}') AND IsActive = 1 AND IsDeleted = 0",
+                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.RELIGION,
                 Constant.StandardCode.NATIONALITY, Constant.StandardCode.SCHOOL_GRADE, Constant.StandardCode.STUDENT_STATUS, Constant.StandardCode.SCHOOL_MAJOR);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
@@ -62,6 +62,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboMajor, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_MAJOR).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboStudentStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
@@ -80,6 +81,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0));
@@ -126,6 +129,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtBirthPlace.Text = entity.CityOfBirth;
             txtDOB.Text = entity.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboNationality.Value = entity.GCNationality;
+            cboReligion.Value = entity.GCReligion;
             txtAgeInYear.Text = entity.AgeInYear.ToString();
             txtAgeInMonth.Text = entity.AgeInMonth.ToString();
             txtAgeInDay.Text = entity.AgeInDay.ToString();
@@ -182,6 +186,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             entity.DateOfBirth = Helper.GetDatePickerValue(txtDOB.Text);
             entity.GCNationality = cboNationality.Value.ToString();
+            entity.GCReligion = cboReligion.Value.ToString();
             #endregion
 
             #region Address

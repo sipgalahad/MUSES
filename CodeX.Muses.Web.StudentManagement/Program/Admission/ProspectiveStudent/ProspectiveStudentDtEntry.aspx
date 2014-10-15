@@ -105,7 +105,7 @@
         function onTacZipCodeValueChanged() {
             var id = tacZipCode.getValue();
             if (id != '') {
-                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ID = '" + value + "'";
                 Methods.getObject('GetZipCodesList', filterExpression, function (result) {
                     entityToControlZipCode(result);
                 });
@@ -185,6 +185,10 @@
                                     <td><dxe:ASPxComboBox ID="cboNationality" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Agama")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboReligion" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtBirthPlace" Width="100%" runat="server" /></td>
                                 </tr>
@@ -252,19 +256,19 @@
                                     <td><asp:TextBox ID="txtAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("County")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Desa / Kelurahan")%></label></td>
                                     <td><asp:TextBox ID="txtCounty" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("District")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kecamatan")%></label></td>
                                     <td><asp:TextBox ID="txtDistrict" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("City")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kota")%></label></td>
                                     <td><asp:TextBox ID="txtCity" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Province")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Provinsi")%></label></td>
                                     <td>
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacProvince" ClientInstanceName="tacProvince" MethodName="GetStandardCodeList" GetFilterExpressionFunction="onGetProvinceFilterExpression"
                                             SearchFields="StandardCodeName" TextField="StandardCodeName" ValueField="StandardCodeID" SearchText="${StandardCodeName} (<b>${cfStandardCodeID}</b>)" OrderByExpression="StandardCodeName">
@@ -284,7 +288,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telephone")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon")%></label></td>
                                     <td><asp:TextBox ID="txtTelephoneNo" Width="100%" runat="server" /></td>
                                 </tr>
                             </table>

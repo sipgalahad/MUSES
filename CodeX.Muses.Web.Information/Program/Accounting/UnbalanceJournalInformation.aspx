@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master"
     AutoEventWireup="true" CodeBehind="UnbalanceJournalInformation.aspx.cs" Inherits="Codex.Muses.Web.Information.Program.UnbalanceJournalInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -8,7 +8,7 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
         $(function () {
             $('#btnProcess').click(function () {

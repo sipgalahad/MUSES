@@ -4111,6 +4111,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProspectiveStudentFamily
+        public static ProspectiveStudentFamily GetProspectiveStudentFamily(Int32 FamilyID)
+        {
+            return new ProspectiveStudentFamilyDao().Get(FamilyID);
+        }
+        public static int InsertProspectiveStudentFamily(ProspectiveStudentFamily record)
+        {
+            return new ProspectiveStudentFamilyDao().Insert(record);
+        }
+        public static int UpdateProspectiveStudentFamily(ProspectiveStudentFamily record)
+        {
+            return new ProspectiveStudentFamilyDao().Update(record);
+        }
+        public static int DeleteProspectiveStudentFamily(Int32 FamilyID)
+        {
+            return new ProspectiveStudentFamilyDao().Delete(FamilyID);
+        }
+        public static List<ProspectiveStudentFamily> GetProspectiveStudentFamilyList(string filterExpression)
+        {
+            List<ProspectiveStudentFamily> result = new List<ProspectiveStudentFamily>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentFamily)helper.IDataReaderToObject(reader, new ProspectiveStudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProspectiveStudentFamily> GetProspectiveStudentFamilyList(string filterExpression, IDbContext ctx)
+        {
+            List<ProspectiveStudentFamily> result = new List<ProspectiveStudentFamily>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentFamily)helper.IDataReaderToObject(reader, new ProspectiveStudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseInvoiceDt
         public static PurchaseInvoiceDt GetPurchaseInvoiceDt(Int32 ID)
         {
