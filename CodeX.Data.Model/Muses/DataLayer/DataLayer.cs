@@ -8597,7 +8597,10 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo1;
         private String _MobilePhoneNo2;
         private String _PictureFileName;
-        private String _Remarks;
+        private String _GCBloodType;
+        private String _GCLanguage;
+        private Decimal _HomeDistance;
+        private String _MedicalHistory;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -8754,11 +8757,29 @@ namespace CodeX.Data.Model
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
         }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
+        [Column(Name = "GCBloodType", DataType = "String", IsNullable = true)]
+        public String GCBloodType
         {
-            get { return _Remarks; }
-            set { _Remarks = value; }
+            get { return _GCBloodType; }
+            set { _GCBloodType = value; }
+        }
+        [Column(Name = "GCLanguage", DataType = "String", IsNullable = true)]
+        public String GCLanguage
+        {
+            get { return _GCLanguage; }
+            set { _GCLanguage = value; }
+        }
+        [Column(Name = "HomeDistance", DataType = "Decimal", IsNullable = true)]
+        public Decimal HomeDistance
+        {
+            get { return _HomeDistance; }
+            set { _HomeDistance = value; }
+        }
+        [Column(Name = "MedicalHistory", DataType = "String", IsNullable = true)]
+        public String MedicalHistory
+        {
+            get { return _MedicalHistory; }
+            set { _MedicalHistory = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -8849,6 +8870,8 @@ namespace CodeX.Data.Model
         private String _LastName;
         private String _FullName;
         private String _FamilyName;
+        private String _CityOfBirth;
+        private DateTime _DateOfBirth;
         private String _GCSuffix;
         private String _GCReligion;
         private String _GCNationality;
@@ -8926,6 +8949,18 @@ namespace CodeX.Data.Model
         {
             get { return _FamilyName; }
             set { _FamilyName = value; }
+        }
+        [Column(Name = "CityOfBirth", DataType = "String", IsNullable = true)]
+        public String CityOfBirth
+        {
+            get { return _CityOfBirth; }
+            set { _CityOfBirth = value; }
+        }
+        [Column(Name = "DateOfBirth", DataType = "DateTime", IsNullable = true)]
+        public DateTime DateOfBirth
+        {
+            get { return _DateOfBirth; }
+            set { _DateOfBirth = value; }
         }
         [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
         public String GCSuffix

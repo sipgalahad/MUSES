@@ -42,6 +42,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Helper.SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true), "mpTrx");
+                Helper.SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, true), "mpTrx");
+                Helper.SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true), "mpTrx");
                 Helper.SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false), "mpTrx");
                 Helper.SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true), "mpTrx");
                 Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -115,6 +117,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string title = cboTitle.Value == null ? "" : cboTitle.Text;
             string Name = Helper.GenerateName(entity.LastName, entity.MiddleName, entity.FirstName);
             entity.FamilyName = Helper.GenerateFullName(Name, title, suffix);
+
+            entity.CityOfBirth = txtBirthPlace.Text;
+            entity.DateOfBirth = Helper.GetDatePickerValue(txtDOB.Text);
 
             entity.GCNationality = cboNationality.Value.ToString();
             entity.GCReligion = cboReligion.Value.ToString();

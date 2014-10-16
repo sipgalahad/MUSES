@@ -75,6 +75,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtFatherMiddleName, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtFatherLastName, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboFatherSuffix, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherBirthPlace, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherDOB, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboFatherReligion, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboFatherNationality, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboFatherEducationLevel, new ControlEntrySetting(true, true, true), "mpEntry");
@@ -100,6 +102,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtMotherMiddleName, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtMotherLastName, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMotherSuffix, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherBirthPlace, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherDOB, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMotherReligion, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMotherNationality, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMotherEducationLevel, new ControlEntrySetting(true, true, true), "mpEntry");
@@ -128,6 +132,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtFatherFirstName.Text = entityFather.FirstName;
             txtFatherMiddleName.Text = entityFather.MiddleName;
             txtFatherLastName.Text = entityFather.LastName;
+            txtFatherBirthPlace.Text = entityFather.CityOfBirth;
+            txtFatherDOB.Text = entityFather.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboFatherNationality.Value = entityFather.GCNationality;
             cboFatherReligion.Value = entityFather.GCReligion;
             cboFatherEducationLevel.Value = entityFather.GCEducationLevel;
@@ -159,6 +165,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtMotherFirstName.Text = entityMother.FirstName;
             txtMotherMiddleName.Text = entityMother.MiddleName;
             txtMotherLastName.Text = entityMother.LastName;
+            txtMotherBirthPlace.Text = entityMother.CityOfBirth;
+            txtMotherDOB.Text = entityMother.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboMotherNationality.Value = entityMother.GCNationality;
             cboMotherReligion.Value = entityMother.GCReligion;
             cboMotherEducationLevel.Value = entityMother.GCEducationLevel;
@@ -194,6 +202,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entityFather.FirstName = txtFatherFirstName.Text;
             entityFather.MiddleName = txtFatherMiddleName.Text;
             entityFather.LastName = txtFatherLastName.Text;
+            entityFather.CityOfBirth = txtFatherBirthPlace.Text;
+            entityFather.DateOfBirth = Helper.GetDatePickerValue(txtFatherDOB);
 
             string suffix = cboFatherSuffix.Value == null ? "" : cboFatherSuffix.Text;
             string title = cboFatherTitle.Value == null ? "" : cboFatherTitle.Text;
@@ -230,6 +240,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entityMother.FirstName = txtMotherFirstName.Text;
             entityMother.MiddleName = txtMotherMiddleName.Text;
             entityMother.LastName = txtMotherLastName.Text;
+            entityMother.CityOfBirth = txtMotherBirthPlace.Text;
+            entityMother.DateOfBirth = Helper.GetDatePickerValue(txtMotherDOB);
 
             suffix = cboMotherSuffix.Value == null ? "" : cboMotherSuffix.Text;
             title = cboMotherTitle.Value == null ? "" : cboMotherTitle.Text;

@@ -653,6 +653,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProspectiveStudentFamily
+    public partial class vProspectiveStudentFamily
+    {
+        public string DateOfBirthInDatePickerFormat
+        {
+            get { return _DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+    }
+    #endregion
     #region vPurchaseInvoiceDt
     public partial class vPurchaseInvoiceDt
     {

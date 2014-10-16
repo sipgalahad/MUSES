@@ -7691,7 +7691,10 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PhoneNo1;
         private String _PictureFileName;
-        private String _Remarks;
+        private String _GCBloodType;
+        private String _GCLanguage;
+        private Decimal _HomeDistance;
+        private String _MedicalHistory;
         private Boolean _IsDeleted;
 
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
@@ -7898,11 +7901,29 @@ namespace CodeX.Data.Model
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
         }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks
+        [Column(Name = "GCBloodType", DataType = "String")]
+        public String GCBloodType
         {
-            get { return _Remarks; }
-            set { _Remarks = value; }
+            get { return _GCBloodType; }
+            set { _GCBloodType = value; }
+        }
+        [Column(Name = "GCLanguage", DataType = "String")]
+        public String GCLanguage
+        {
+            get { return _GCLanguage; }
+            set { _GCLanguage = value; }
+        }
+        [Column(Name = "HomeDistance", DataType = "Decimal")]
+        public Decimal HomeDistance
+        {
+            get { return _HomeDistance; }
+            set { _HomeDistance = value; }
+        }
+        [Column(Name = "MedicalHistory", DataType = "String")]
+        public String MedicalHistory
+        {
+            get { return _MedicalHistory; }
+            set { _MedicalHistory = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -7915,7 +7936,7 @@ namespace CodeX.Data.Model
     #region vProspectiveStudentFamily
     [Serializable]
     [Table(Name = "vProspectiveStudentFamily")]
-    public class vProspectiveStudentFamily
+    public partial class vProspectiveStudentFamily
     {
         private Int32 _FamilyID;
         private Int32 _ProspectiveStudentID;
@@ -7928,6 +7949,8 @@ namespace CodeX.Data.Model
         private String _LastName;
         private String _FullName;
         private String _FamilyName;
+        private String _CityOfBirth;
+        private DateTime _DateOfBirth;
         private String _GCSuffix;
         private String _GCReligion;
         private String _GCNationality;
@@ -8016,6 +8039,18 @@ namespace CodeX.Data.Model
         {
             get { return _FamilyName; }
             set { _FamilyName = value; }
+        }
+        [Column(Name = "CityOfBirth", DataType = "String")]
+        public String CityOfBirth
+        {
+            get { return _CityOfBirth; }
+            set { _CityOfBirth = value; }
+        }
+        [Column(Name = "DateOfBirth", DataType = "DateTime")]
+        public DateTime DateOfBirth
+        {
+            get { return _DateOfBirth; }
+            set { _DateOfBirth = value; }
         }
         [Column(Name = "GCSuffix", DataType = "String")]
         public String GCSuffix

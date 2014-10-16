@@ -45,6 +45,7 @@ namespace CodeX.Common
             public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
             public const string TASK_TYPE = "MS009";
             public const string SCHOOL_TYPE = "MS010";
+            public const string LANGUAGE = "X012";
 
             public const string MARITAL_STATUS = "0002";
             public const string GENDER = "0003";
@@ -55,6 +56,7 @@ namespace CodeX.Common
             public const string PROVINCE = "0347";
             public const string ITEM_TYPE = "X001";
             public const string ITEM_UNIT = "X003";
+            public const string BLOOD_TYPE = "X009";
             public const string OCCUPATION = "X012";
             public const string EDUCATION = "X013";
             public const string SALUTATION = "X014";

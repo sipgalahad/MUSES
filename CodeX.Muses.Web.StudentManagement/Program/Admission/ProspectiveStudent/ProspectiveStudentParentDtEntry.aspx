@@ -222,6 +222,14 @@
                                     <td><dxe:ASPxComboBox ID="cboFatherSuffix" ClientInstanceName="cboFatherSuffix" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherBirthPlace" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Lahir")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kewarganegaraan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboFatherNationality" Width="120px" runat="server" /></td>
                                 </tr>
@@ -336,6 +344,14 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelar Belakang")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboMotherSuffix" ClientInstanceName="cboMotherSuffix" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherBirthPlace" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Lahir")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kewarganegaraan")%></label></td>
