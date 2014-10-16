@@ -50,9 +50,9 @@ namespace CodeX.Common
             public const string GENDER = "0003";
             public const string ETHNIC = "0005";
             public const string RELIGION = "0006";
+            public const string FAMILY_RELATION = "0063";
             public const string NATIONALITY = "0212";
             public const string PROVINCE = "0347";
-            public const string FAMILY_RELATION = "0347";
             public const string ITEM_TYPE = "X001";
             public const string ITEM_UNIT = "X003";
             public const string OCCUPATION = "X012";

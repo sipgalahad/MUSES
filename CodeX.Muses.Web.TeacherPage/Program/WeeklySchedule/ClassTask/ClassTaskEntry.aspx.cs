@@ -118,7 +118,7 @@ namespace CodeX.Muses.Web.TeacherPage.Program
                     ClassStudentSubjectMark entityDt = lstStudentMark.FirstOrDefault(p => p.StudentID == studentID);
                     if (temp[1] != "")
                     {
-                        Int16 mark = Convert.ToInt16(temp[1]);
+                        Decimal mark = Convert.ToDecimal(temp[1]);
                         if (entityDt == null)
                         {
                             entityDt = new ClassStudentSubjectMark();

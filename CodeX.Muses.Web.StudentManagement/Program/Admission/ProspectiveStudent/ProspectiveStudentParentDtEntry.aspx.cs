@@ -22,7 +22,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 hdnIsAdd.Value = "1";
                 String ID = Request.QueryString["id"];
-                hdnID.Value = ID;
+                Registration registration = BusinessLayer.GetRegistration(Convert.ToInt32(ID));
+                hdnID.Value = registration.ProspectiveStudentID.ToString();
 
                 SetControlProperties();
                 List<vProspectiveStudentFamily> lstEntity = BusinessLayer.GetvProspectiveStudentFamilyList(string.Format("ProspectiveStudentID = {0} AND GCFamilyRelation IN ('{1}','{2}')", hdnID.Value, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER));

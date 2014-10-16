@@ -905,7 +905,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
-        private Int16 _Mark;
+        private Decimal _Mark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
         public Int32 ClassSubjectTaskID
@@ -925,8 +925,8 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "Mark", DataType = "Int16")]
-        public Int16 Mark
+        [Column(Name = "Mark", DataType = "Decimal")]
+        public Decimal Mark
         {
             get { return _Mark; }
             set { _Mark = value; }
@@ -7920,6 +7920,7 @@ namespace CodeX.Data.Model
         private Int32 _FamilyID;
         private Int32 _ProspectiveStudentID;
         private String _GCFamilyRelation;
+        private String _FamilyRelation;
         private String _GCSalutation;
         private String _GCTitle;
         private String _FirstName;
@@ -7967,6 +7968,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCFamilyRelation; }
             set { _GCFamilyRelation = value; }
+        }
+        [Column(Name = "FamilyRelation", DataType = "String")]
+        public String FamilyRelation
+        {
+            get { return _FamilyRelation; }
+            set { _FamilyRelation = value; }
         }
         [Column(Name = "GCSalutation", DataType = "String")]
         public String GCSalutation

@@ -1233,7 +1233,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _StudentID;
-        private Int16 _Mark;
+        private Decimal _Mark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassSubjectTaskID
@@ -1247,8 +1247,8 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "Mark", DataType = "Int16")]
-        public Int16 Mark
+        [Column(Name = "Mark", DataType = "Decimal")]
+        public Decimal Mark
         {
             get { return _Mark; }
             set { _Mark = value; }
