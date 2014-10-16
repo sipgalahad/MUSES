@@ -54,11 +54,8 @@
         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
             <ItemTemplate>
                 <tr>
-                    <td class="keyField"><%#Eval("ProspectiveStudentID")%></td>
-                    <td>
-                        <%#Eval("ProspectiveStudentName") %>
-                        <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
-                    </td>
+                    <td class="keyField"><%#Eval("RegistrationID")%></td>
+                    <td><%#Eval("ProspectiveStudentName") %></td>
                     <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
                         <ItemTemplate>
                             <td align="center">

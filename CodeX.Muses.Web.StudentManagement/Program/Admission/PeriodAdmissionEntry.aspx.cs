@@ -44,6 +44,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             SetControlEntrySetting(txtPeriodAdmissionCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtPeriodAdmissionName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRegistrationStartDate, new ControlEntrySetting(true, true, false));
@@ -55,6 +56,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             txtPeriodAdmissionCode.Text = entity.PeriodAdmissionCode;
             txtPeriodAdmissionName.Text = entity.PeriodAdmissionName;
+            txtInitial.Text = entity.Initial;
             txtStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = entity.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRegistrationStartDate.Text = entity.RegistrationStartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -66,6 +68,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.PeriodAdmissionCode = txtPeriodAdmissionCode.Text;
             entity.PeriodAdmissionName = txtPeriodAdmissionName.Text;
+            entity.Initial = txtInitial.Text;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.RegistrationStartDate = Helper.GetDatePickerValue(txtRegistrationStartDate.Text);

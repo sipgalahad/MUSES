@@ -20,6 +20,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtPeriodAdmissionCode.ClientID %>').val('');
                 $('#<%=txtPeriodAdmissionName.ClientID %>').val('');
+                $('#<%=txtInitial.ClientID %>').val('');
                 $('#<%=txtStartDate.ClientID %>').val('');
                 $('#<%=txtEndDate.ClientID %>').val('');
                 $('#<%=txtRegistrationStartDate.ClientID %>').val('');
@@ -57,6 +58,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodAdmissionID);
             $('#<%=txtPeriodAdmissionCode.ClientID %>').val(entity.PeriodAdmissionCode);
             $('#<%=txtPeriodAdmissionName.ClientID %>').val(entity.PeriodAdmissionName);
+            $('#<%=txtInitial.ClientID %>').val(entity.Initial);
             $('#<%=txtStartDate.ClientID %>').val(entity.StartDateInDatePickerFormat);
             $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
             $('#<%=txtRegistrationStartDate.ClientID %>').val(entity.RegistrationStartDateInDatePickerFormat);
@@ -109,6 +111,10 @@
                                 <tr>
                                     <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtPeriodAdmissionName" Width="300px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label><%=GetLabel("Initial")%></label></td>
+                                    <td><asp:TextBox ID="txtInitial" MaxLength="3" Width="80px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Seleksi")%></label></td>
@@ -183,6 +189,7 @@
                                         <input type="hidden" value="<%#Eval("PeriodAdmissionID") %>" bindingfield="PeriodAdmissionID" />
                                         <input type="hidden" value="<%#Eval("PeriodAdmissionCode") %>" bindingfield="PeriodAdmissionCode" />
                                         <input type="hidden" value="<%#Eval("PeriodAdmissionName") %>" bindingfield="PeriodAdmissionName" />
+                                        <input type="hidden" value="<%#Eval("Initial") %>" bindingfield="Initial" />
                                         <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
                                         <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />
                                         <input type="hidden" value="<%#Eval("RegistrationStartDateInDatePickerFormat") %>" bindingfield="RegistrationStartDateInDatePickerFormat" />

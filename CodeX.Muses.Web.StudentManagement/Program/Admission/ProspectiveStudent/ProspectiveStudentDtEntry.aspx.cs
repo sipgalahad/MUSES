@@ -25,20 +25,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     hdnIsAdd.Value = "0";
                     String ID = Request.QueryString["id"];
                     hdnID.Value = ID;
-                    String filterExpression = String.Format("ProspectiveStudentID = {0}", Convert.ToInt32(ID));
-                    vProspectiveStudent entity = BusinessLayer.GetvProspectiveStudentList(filterExpression)[0];
+                    String filterExpression = String.Format("RegistrationID = {0}", Convert.ToInt32(ID));
+                    vRegistration entity = BusinessLayer.GetvRegistrationList(filterExpression)[0];
                     SetControlProperties();
                     EntityToControl(entity);
                 }
                 else
                 {
                     txtDOB.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                    txtRegistrationDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                    txtRegistrationTime.Text = DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT);
                     SetControlProperties();
                     hdnIsAdd.Value = "1";
                 }
 
                 OnControlEntrySetting();
-                txtStudentCode.Focus();
             }
         }
 
@@ -51,6 +52,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void OnControlEntrySetting()
         {
+            #region Registration Information
+            Helper.SetControlEntrySetting(txtRegistrationNo, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtRegistrationDate, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtRegistrationTime, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(cboRegistrationType, new ControlEntrySetting(true, true, true), "mpEntry");
+            #endregion
+
             #region Student Data
             Helper.SetControlEntrySetting(cboSalutation, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(cboTitle, new ControlEntrySetting(true, true, false), "mpEntry");
@@ -88,8 +96,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}') AND IsActive = 1 AND IsDeleted = 0",
-                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsActive = 1 AND IsDeleted = 0",
+                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.REGISTRATION_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
             Methods.SetComboBoxField(cboSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION).ToList(), "StandardCodeName", "StandardCodeID");
@@ -98,11 +106,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboRegistrationType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.REGISTRATION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
-        private void EntityToControl(vProspectiveStudent entity)
+        private void EntityToControl(vRegistration entity)
         {
-            txtStudentCode.Text = entity.ProspectiveStudentCode;
+            #region Registration Information
+            txtRegistrationNo.Text = entity.RegistrationNo;
+            txtRegistrationDate.Text = entity.RegistrationDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtRegistrationTime.Text = entity.RegistrationTime;
+            cboRegistrationType.Value = entity.GCRegistrationType;
+            #endregion
+
+            #region Student Information
             cboSalutation.Value = entity.GCSalutation;
             cboSuffix.Value = entity.GCSuffix;
             cboTitle.Value = entity.GCTitle;
@@ -118,6 +134,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtAgeInYear.Text = entity.AgeInYear.ToString();
             txtAgeInMonth.Text = entity.AgeInMonth.ToString();
             txtAgeInDay.Text = entity.AgeInDay.ToString();
+            #endregion
 
             #region Address
             txtAddress.Text = entity.StreetName;
@@ -142,10 +159,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
         }
 
-        private void ControlToEntity(ProspectiveStudent entity, Address entityAddress)
+        private void ControlToEntity(Registration entityRegistration, ProspectiveStudent entity, Address entityAddress)
         {
+            #region Registration Information
+            entityRegistration.RegistrationDate = Helper.GetDatePickerValue(txtRegistrationDate.Text);
+            entityRegistration.RegistrationTime = txtRegistrationTime.Text;
+            entityRegistration.GCRegistrationType = cboRegistrationType.Value.ToString();
+            #endregion
+
             #region Student
-            entity.ProspectiveStudentCode = txtStudentCode.Text;
+            entity.ProspectiveStudentCode = "";
             entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
             entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
             entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();
@@ -187,50 +210,35 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
         }
 
-        private bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("ProspectiveStudentCode = '{0}'", txtStudentCode.Text);
-            List<ProspectiveStudent> lst = BusinessLayer.GetProspectiveStudentList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " ProspectiveStudent with Code " + txtStudentCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        private bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            Int32 ID = Convert.ToInt32(hdnID.Value);
-            string FilterExpression = string.Format("ProspectiveStudentCode = '{0}' AND ProspectiveStudentID != {1}", txtStudentCode.Text, ID);
-            List<ProspectiveStudent> lst = BusinessLayer.GetProspectiveStudentList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " ProspectiveStudent with Code " + txtStudentCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
         private bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             IDbContext ctx = DbFactory.Configure(true);
+            RegistrationDao entityRegistrationDao = new RegistrationDao(ctx);
             ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
             bool result = true;
             try
             {
+                Registration entityRegistration = new Registration();
                 ProspectiveStudent entity = new ProspectiveStudent();
                 Address address = new Address();
-                ControlToEntity(entity, address);
+                ControlToEntity(entityRegistration, entity, address);
                 addressDao.Insert(address);
+
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
-                retval = BusinessLayer.GetProspectiveStudentMaxID(ctx).ToString();
+
+                entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, "014", ctx);
+                entityRegistration.PeriodAdmissionID = AppSession.PeriodAdmissionID;
+                entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
+                entityRegistration.ProspectiveStudentID = BusinessLayer.GetProspectiveStudentMaxID(ctx);
+                entityRegistration.CreatedBy = AppSession.UserLogin.UserID;
+                entityRegistrationDao.Insert(entityRegistration);
+                retval = BusinessLayer.GetRegistrationMaxID(ctx).ToString();
+
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -250,18 +258,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private bool OnSaveEditRecord(ref string errMessage)
         {
             IDbContext ctx = DbFactory.Configure(true);
+            RegistrationDao entityRegistrationDao = new RegistrationDao(ctx);
             ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
             bool result = true;
             try
             {
-                ProspectiveStudent entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
+                Registration entityRegistration = entityRegistrationDao.Get(Convert.ToInt32(hdnID.Value));
+                ProspectiveStudent entity = entityDao.Get(entityRegistration.ProspectiveStudentID);
                 Address address = addressDao.Get(entity.AddressID);
-                ControlToEntity(entity, address);
+                ControlToEntity(entityRegistration, entity, address);
 
+                entityRegistration.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 addressDao.Update(address);
                 entityDao.Update(entity);
+                entityRegistrationDao.Update(entityRegistration);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -286,25 +298,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             result = "save|";
             if (hdnIsAdd.Value == "1")
             {
-                if (OnBeforeSaveAddRecord(ref errMessage))
-                {
-                    if (OnSaveAddRecord(ref errMessage, ref retval))
-                        result += string.Format("success|{0}", retval);
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
+                if (OnSaveAddRecord(ref errMessage, ref retval))
+                    result += string.Format("success|{0}", retval);
                 else
                     result += string.Format("fail|{0}", errMessage);
             }
             else
             {
-                if (OnBeforeSaveEditRecord(ref errMessage))
-                {
-                    if (OnSaveEditRecord(ref errMessage))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
+                if (OnSaveEditRecord(ref errMessage))
+                    result += "success";
                 else
                     result += string.Format("fail|{0}", errMessage);
             }

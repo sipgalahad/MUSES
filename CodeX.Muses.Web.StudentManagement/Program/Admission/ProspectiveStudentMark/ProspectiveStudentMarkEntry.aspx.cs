@@ -28,14 +28,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptHeader.DataSource = lstAdmissionSelection;
             rptHeader.DataBind();
 
-            lstStudentMark = BusinessLayer.GetProspectiveStudentMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
+            lstStudentMark = BusinessLayer.GetRegistrationMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
 
-            List<vProspectiveStudent> lstStudent = BusinessLayer.GetvProspectiveStudentList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
+            List<vRegistration> lstStudent = BusinessLayer.GetvRegistrationList(string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }
 
-        List<ProspectiveStudentMark> lstStudentMark = null;
+        List<RegistrationMark> lstStudentMark = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -51,9 +51,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 AdmissionSelection admissionSelection = (AdmissionSelection)e.Item.DataItem;
-                vProspectiveStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vProspectiveStudent;
+                vRegistration student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vRegistration;
 
-                ProspectiveStudentMark entity = lstStudentMark.FirstOrDefault(p => p.AdmissionSelectionID == admissionSelection.AdmissionSelectionID && p.ProspectiveStudentID == student.ProspectiveStudentID);
+                RegistrationMark entity = lstStudentMark.FirstOrDefault(p => p.AdmissionSelectionID == admissionSelection.AdmissionSelectionID && p.RegistrationID == student.RegistrationID);
                 if (entity != null)
                 {
                     TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
@@ -71,30 +71,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            ProspectiveStudentMarkDao entityDtDao = new ProspectiveStudentMarkDao(ctx);
+            RegistrationMarkDao entityDtDao = new RegistrationMarkDao(ctx);
+            RegistrationDao entityRegistrationDao = new RegistrationDao(ctx);
             try
             {
                 string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
                 lstAdmissionSelection = BusinessLayer.GetAdmissionSelectionList(string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID));
-                List<ProspectiveStudentMark> lstStudentMark = BusinessLayer.GetProspectiveStudentMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID), ctx);
+                List<Registration> lstStudent = BusinessLayer.GetRegistrationList(string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID), ctx);
+                List<RegistrationMark> lstStudentMark = BusinessLayer.GetRegistrationMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID), ctx);
                 foreach (String saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(',');
-                    int studentID = Convert.ToInt32(temp[0]);
+                    int registrationID = Convert.ToInt32(temp[0]);
 
+                    Decimal finalMark = 0;
                     for (int ctr = 1; ctr < temp.Length; ++ctr)
                     {
-                        int admissionSelectionID = lstAdmissionSelection[ctr - 1].AdmissionSelectionID;
-                        ProspectiveStudentMark entityDt = lstStudentMark.FirstOrDefault(p => p.ProspectiveStudentID == studentID && p.AdmissionSelectionID == admissionSelectionID);
+                        AdmissionSelection admissionSelection = lstAdmissionSelection[ctr - 1];
+                        RegistrationMark entityDt = lstStudentMark.FirstOrDefault(p => p.RegistrationID == registrationID && p.AdmissionSelectionID == admissionSelection.AdmissionSelectionID);
                         if (temp[ctr] != "")
                         {
-                            Int16 mark = Convert.ToInt16(temp[ctr]);
+                            Decimal mark = Convert.ToDecimal(temp[ctr]);
                             if (entityDt == null)
                             {
-                                entityDt = new ProspectiveStudentMark();
+                                entityDt = new RegistrationMark();
                                 entityDt.PeriodAdmissionID = AppSession.PeriodAdmissionID;
-                                entityDt.AdmissionSelectionID = admissionSelectionID;
-                                entityDt.ProspectiveStudentID = studentID;
+                                entityDt.AdmissionSelectionID = admissionSelection.AdmissionSelectionID;
+                                entityDt.RegistrationID = registrationID;
                                 entityDt.Mark = mark;
                                 entityDtDao.Insert(entityDt);
                             }
@@ -103,12 +106,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 entityDt.Mark = mark;
                                 entityDtDao.Update(entityDt);
                             }
+
+                            finalMark += (mark * admissionSelection.FinalMarkPercentage / 100);
                         }
                         else if (entityDt != null)
                         {
-                            entityDtDao.Delete(entityDt.PeriodAdmissionID, entityDt.AdmissionSelectionID, entityDt.ProspectiveStudentID);
+                            entityDtDao.Delete(entityDt.PeriodAdmissionID, entityDt.AdmissionSelectionID, entityDt.RegistrationID);
                         }
                     }
+
+                    Registration registration = lstStudent.FirstOrDefault(p => p.RegistrationID == registrationID);
+                    registration.FinalMark = finalMark;
+                    registration.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityRegistrationDao.Update(registration);
                 }
                 ctx.CommitTransaction();
             }

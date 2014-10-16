@@ -36,7 +36,7 @@ namespace CodeX.Common
         public static class StandardCode
         {
             public const string SCHOOL_PERIOD_STATUS = "MS001";
-            public const string SCHOOL_TYPE = "MS002";
+            public const string REGISTRATION_TYPE = "MS002";
             public const string SCHOOL_GRADE = "MS003";
             public const string SCHOOL_MAJOR = "MS004";
             public const string STUDENT_ATTENDANCE = "MS005";
@@ -44,6 +44,7 @@ namespace CodeX.Common
             public const string SCHOOL_PERIOD_SCHEDULE_TYPE = "MS007";
             public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
             public const string TASK_TYPE = "MS009";
+            public const string SCHOOL_TYPE = "MS010";
 
             public const string MARITAL_STATUS = "0002";
             public const string GENDER = "0003";
@@ -217,6 +218,11 @@ namespace CodeX.Common
             public const string WRONG_ENTRY = "X129^001";
             public const string INACTIVE_RECORD = "X129^002";
             public const string OTHER = "X129^999";
+        }
+        public static class RegistrationStatus
+        {
+            public const string OPEN = "MS011^001";
+            public const string VOID = "MS011^007";
         }
         #endregion
 
@@ -434,6 +440,7 @@ namespace CodeX.Common
         #region TransactionCode
         public static class TransactionCode
         {
+            public const string REGISTRATION = "1101";
             public const string ITEM_REQUEST = "4104";
             public const string ITEM_CONSUMPTION = "4105";
             public const string ITEM_ADJUSTMENT = "4106";

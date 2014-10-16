@@ -26,6 +26,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             Helper.SetControlEntrySetting(txtPeriodAdmissionCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPeriodAdmissionName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtRegistrationStartDate, new ControlEntrySetting(true, true, false), "mpTrx");
@@ -92,6 +93,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.PeriodAdmissionCode = txtPeriodAdmissionCode.Text;
             entity.PeriodAdmissionName = txtPeriodAdmissionName.Text;
+            entity.Initial = txtInitial.Text;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.RegistrationStartDate = Helper.GetDatePickerValue(txtRegistrationStartDate.Text);

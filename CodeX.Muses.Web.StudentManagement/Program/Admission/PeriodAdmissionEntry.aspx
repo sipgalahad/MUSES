@@ -34,6 +34,10 @@
                         <td><asp:TextBox ID="txtPeriodAdmissionName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label><%=GetLabel("Initial")%></label></td>
+                        <td><asp:TextBox ID="txtInitial" MaxLength="3" Width="80px" runat="server" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Seleksi")%></label></td>
                         <td>
                             <table cellpadding="0" cellspacing="0">

@@ -15,6 +15,8 @@
         $(function () {
             //$("#ui-datepicker-div").wrap('<div style="position:absolute;top:0px;"></div>');
 
+            setDatePicker('<%=txtRegistrationDate.ClientID %>');
+
             //#region DOB
             $('#<%=txtDOB.ClientID %>').change(function () {
                 var age = Methods.getAgeFromDatePickerFormat($(this).val());
@@ -129,16 +131,41 @@
                 </colgroup>
                 <tr>
                     <td style="padding:5px;vertical-align:top" rowspan="2">
-                        <h4 class="h4expanded"><%=GetLabel("Data Siswa")%></h4>
+                        <h4 class="h4expanded"><%=GetLabel("Informasi Pendaftaran")%></h4>
                         <div class="containerTblEntryContent">
                             <table class="tblEntryContent" style="width:100%">
                                 <colgroup>
                                     <col style="width:180px"/>
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
-                                    <td><asp:TextBox ID="txtStudentCode" Width="100px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Pendaftaran")%></label></td>
+                                    <td><asp:TextBox ID="txtRegistrationNo" ReadOnly="true" Width="150px" runat="server" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%> - <%=GetLabel("Waktu")%></label></td>
+                                    <td>
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="padding-right: 1px; width: 145px"><asp:TextBox ID="txtRegistrationDate" Width="120px" CssClass="datepicker" runat="server" /></td>
+                                                <td style="width: 5px">&nbsp;</td>
+                                                <td><asp:TextBox ID="txtRegistrationTime" Width="100px" CssClass="time" runat="server" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Cara Pendaftaran")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboRegistrationType" Width="120px" runat="server" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                                
+                        <h4 class="h4expanded"><%=GetLabel("Data Siswa")%></h4>
+                        <div class="containerTblEntryContent">
+                            <table class="tblEntryContent" style="width:100%">
+                                <colgroup>
+                                    <col style="width:180px"/>
+                                </colgroup>
                                 <tr style="display:none">
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Salutation")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboSalutation" Width="120px" runat="server" /></td>
@@ -219,6 +246,8 @@
                                 </tr>
                             </table>
                         </div>
+                    </td>
+                    <td style="padding:5px;vertical-align:top">
                         <h4 class="h4expanded"><%=GetLabel("Data Kontak")%></h4>
                         <div class="containerTblEntryContent">
                             <table class="tblEntryContent" style="width:100%">
@@ -243,8 +272,6 @@
                                 </tr>
                             </table>
                         </div>
-                    </td>
-                    <td style="padding:5px;vertical-align:top">
                         <h4 class="h4expanded"><%=GetLabel("Alamat")%></h4>
                         <div class="containerTblEntryContent">
                             <table class="tblEntryContent" style="width:100%">

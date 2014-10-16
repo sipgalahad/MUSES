@@ -22,20 +22,25 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.PA_PROSPECTIVE_STUDENT_RESULT;
         }
         List<AdmissionSelection> lstAdmissionSelection = null;
+
+        protected int OnGetSelectionCount()
+        {
+            return lstAdmissionSelection.Count;
+        }
         protected override void InitializeDataControl()
         {
             lstAdmissionSelection = BusinessLayer.GetAdmissionSelectionList(string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID));
             rptHeader.DataSource = lstAdmissionSelection;
             rptHeader.DataBind();
 
-            lstStudentMark = BusinessLayer.GetProspectiveStudentMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
+            lstStudentMark = BusinessLayer.GetRegistrationMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
 
-            List<vProspectiveStudent> lstStudent = BusinessLayer.GetvProspectiveStudentList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
+            List<vRegistration> lstStudent = BusinessLayer.GetvRegistrationList(string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}' ORDER BY FinalMark DESC", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }
 
-        List<ProspectiveStudentMark> lstStudentMark = null;
+        List<RegistrationMark> lstStudentMark = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -51,9 +56,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 AdmissionSelection admissionSelection = (AdmissionSelection)e.Item.DataItem;
-                vProspectiveStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vProspectiveStudent;
+                vRegistration student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vRegistration;
 
-                ProspectiveStudentMark entity = lstStudentMark.FirstOrDefault(p => p.AdmissionSelectionID == admissionSelection.AdmissionSelectionID && p.ProspectiveStudentID == student.ProspectiveStudentID);
+                RegistrationMark entity = lstStudentMark.FirstOrDefault(p => p.AdmissionSelectionID == admissionSelection.AdmissionSelectionID && p.RegistrationID == student.RegistrationID);
                 if (entity != null)
                 {
                     HtmlGenericControl divStudentMark = (HtmlGenericControl)e.Item.FindControl("divStudentMark");

@@ -5052,6 +5052,47 @@ namespace CodeX.Data.Model
             return null;
         }
         #endregion
+        #region vRegistration
+        public static List<vRegistration> GetvRegistrationList(string filterExpression)
+        {
+            List<vRegistration> result = new List<vRegistration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRegistration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRegistration)helper.IDataReaderToObject(reader, new vRegistration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vRegistration> GetvRegistrationList(string filterExpression, IDbContext ctx)
+        {
+            List<vRegistration> result = new List<vRegistration>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRegistration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRegistration)helper.IDataReaderToObject(reader, new vRegistration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region vRestrictionDt
         public static List<vRestrictionDt> GetvRestrictionDtList(string filterExpression)
         {

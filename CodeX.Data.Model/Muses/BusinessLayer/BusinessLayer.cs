@@ -4168,63 +4168,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region ProspectiveStudentMark
-        public static ProspectiveStudentMark GetProspectiveStudentMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 ProspectiveStudentID)
-        {
-            return new ProspectiveStudentMarkDao().Get(PeriodAdmissionID, AdmissionSelectionID, ProspectiveStudentID);
-        }
-        public static int InsertProspectiveStudentMark(ProspectiveStudentMark record)
-        {
-            return new ProspectiveStudentMarkDao().Insert(record);
-        }
-        public static int UpdateProspectiveStudentMark(ProspectiveStudentMark record)
-        {
-            return new ProspectiveStudentMarkDao().Update(record);
-        }
-        public static int DeleteProspectiveStudentMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 ProspectiveStudentID)
-        {
-            return new ProspectiveStudentMarkDao().Delete(PeriodAdmissionID, AdmissionSelectionID, ProspectiveStudentID);
-        }
-        public static List<ProspectiveStudentMark> GetProspectiveStudentMarkList(string filterExpression)
-        {
-            List<ProspectiveStudentMark> result = new List<ProspectiveStudentMark>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(ProspectiveStudentMark));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((ProspectiveStudentMark)helper.IDataReaderToObject(reader, new ProspectiveStudentMark()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<ProspectiveStudentMark> GetProspectiveStudentMarkList(string filterExpression, IDbContext ctx)
-        {
-            List<ProspectiveStudentMark> result = new List<ProspectiveStudentMark>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(ProspectiveStudentMark));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((ProspectiveStudentMark)helper.IDataReaderToObject(reader, new ProspectiveStudentMark()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
         #region PurchaseInvoiceDt
         public static PurchaseInvoiceDt GetPurchaseInvoiceDt(Int32 ID)
         {
@@ -5173,6 +5116,136 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.SelectMaxColumn("PurchaseReturnID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region Registration
+        public static Registration GetRegistration(Int32 RegistrationID)
+        {
+            return new RegistrationDao().Get(RegistrationID);
+        }
+        public static int InsertRegistration(Registration record)
+        {
+            return new RegistrationDao().Insert(record);
+        }
+        public static int UpdateRegistration(Registration record)
+        {
+            return new RegistrationDao().Update(record);
+        }
+        public static int DeleteRegistration(Int32 RegistrationID)
+        {
+            return new RegistrationDao().Delete(RegistrationID);
+        }
+        public static List<Registration> GetRegistrationList(string filterExpression)
+        {
+            List<Registration> result = new List<Registration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Registration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Registration)helper.IDataReaderToObject(reader, new Registration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<Registration> GetRegistrationList(string filterExpression, IDbContext ctx)
+        {
+            List<Registration> result = new List<Registration>();            
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Registration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Registration)helper.IDataReaderToObject(reader, new Registration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetRegistrationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Registration));
+                ctx.CommandText = helper.SelectMaxColumn("RegistrationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region RegistrationMark
+        public static RegistrationMark GetRegistrationMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 RegistrationID)
+        {
+            return new RegistrationMarkDao().Get(PeriodAdmissionID, AdmissionSelectionID, RegistrationID);
+        }
+        public static int InsertRegistrationMark(RegistrationMark record)
+        {
+            return new RegistrationMarkDao().Insert(record);
+        }
+        public static int UpdateRegistrationMark(RegistrationMark record)
+        {
+            return new RegistrationMarkDao().Update(record);
+        }
+        public static int DeleteRegistrationMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 RegistrationID)
+        {
+            return new RegistrationMarkDao().Delete(PeriodAdmissionID, AdmissionSelectionID, RegistrationID);
+        }
+        public static List<RegistrationMark> GetRegistrationMarkList(string filterExpression)
+        {
+            List<RegistrationMark> result = new List<RegistrationMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationMark)helper.IDataReaderToObject(reader, new RegistrationMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RegistrationMark> GetRegistrationMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<RegistrationMark> result = new List<RegistrationMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationMark)helper.IDataReaderToObject(reader, new RegistrationMark()));
             }
             catch (Exception ex)
             {

@@ -1387,6 +1387,32 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRegistration
+    public partial class vRegistration
+    {
+        public int AgeInYear
+        {
+            get
+            {
+                return Function.GetPatientAgeInYear(_DateOfBirth, DateTime.Now);
+            }
+        }
+        public int AgeInMonth
+        {
+            get
+            {
+                return Function.GetPatientAgeInMonth(_DateOfBirth, DateTime.Now);
+            }
+        }
+        public int AgeInDay
+        {
+            get
+            {
+                return Function.GetPatientAgeInDay(_DateOfBirth, DateTime.Now);
+            }
+        }
+    }
+    #endregion
     #region vStockTakingHd
     public partial class vStockTakingHd
     {
