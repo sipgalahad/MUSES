@@ -4678,7 +4678,7 @@ namespace CodeX.Data.Model
     #region Holiday
     [Serializable]
     [Table(Name = "Holiday")]
-    public class Holiday : DbDataModel
+    public partial class Holiday : DbDataModel
     {
         private Int32 _ID;
         private Int16 _HolidayDate;

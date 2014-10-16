@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int RowCount = 1;
         protected int RowCountPerPage = 1;
         protected int CurrPage = 1;
-        private const string DEFAULT_GRDVIEW_FILTER = "BusinessPartnerID > 1 AND GCBusinessPartnerType = '{0}' AND (SiteID = '{1}' OR SiteID IS NULL) AND IsDeleted = 0";
+        private const string DEFAULT_GRDVIEW_FILTER = "GCBusinessPartnerType = '{0}' AND (SiteID = '{1}' OR SiteID IS NULL) AND IsDeleted = 0";
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.ControlPanel.SUPPLIER;

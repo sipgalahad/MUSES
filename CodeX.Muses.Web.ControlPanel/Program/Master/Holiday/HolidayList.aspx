@@ -74,7 +74,7 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="DateInString" HeaderText="Tanggal Libur"  HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="DateInString" HeaderText="Tanggal Libur"  HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="HolidayName" HeaderText="Nama Libur"  />
                                 <asp:CheckBoxField DataField="IsAnnualHoliday" HeaderText="Libur Tahunan" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" />
                             </Columns>

@@ -142,7 +142,7 @@ function customGridView2() {
             }
         });
 
-        $('.' + _self.gridID + ' > tbody > tr:gt(0):not(.trDetail):not(.trEmpty)').live("contextmenu", function (e) {
+        /*$('.' + _self.gridID + ' > tbody > tr:gt(0):not(.trDetail):not(.trEmpty)').live("contextmenu", function (e) {
             if (e.button === 2) {
                 e.preventDefault();
                 if ($('.' + _self.gridID + ' > tbody > tr').index($(this)) > 1) {
@@ -152,7 +152,7 @@ function customGridView2() {
                     showContextMenu($("#ctxMenuMPList"), e);
                 }
             }
-        });
+        });*/
 
         $(window).blur(function () {
             $("#ctxMenuMPList").hide();

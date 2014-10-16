@@ -15,6 +15,21 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region Holiday
+    public partial class Holiday
+    {
+        public string DateInString
+        {
+            get
+            {
+                if (_IsAnnualHoliday)
+                    return new DateTime(DateTime.Now.Year, _HolidayMonth, _HolidayDate).ToString(Constant.FormatString.DATE_FORMAT);
+                else
+                    return new DateTime((int)_HolidayYear, _HolidayMonth, _HolidayDate).ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region ItemRequestHd
     public partial class ItemRequestHd
     {

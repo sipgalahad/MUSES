@@ -61,7 +61,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("TransactionCode LIKE '%{0}%' AND TransactionName LIKE '%{1}%' AND IsDeleted = 0", hdnFilterItemCode.Value, hdnFilterItemName.Value);
+            string filterExpression = string.Format("TransactionCode LIKE '%{0}%' AND TransactionName LIKE '%{1}%' AND IsInventoryTransaction = 1", hdnFilterItemCode.Value, hdnFilterItemName.Value);
             return filterExpression;
         }
 

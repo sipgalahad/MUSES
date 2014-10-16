@@ -160,7 +160,7 @@
 
         $('.lnkEditItemPlanning').live('click', function () {
             var itemPlanningID = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/ItemProduct/ItemProductPlanningEntryCtl.ascx");
+            var url = ResolveUrl("~/Program/Master/ItemProduct/ItemPlanningEntryCtl.ascx");
             openUserControlPopup(url, itemPlanningID, 'Perencanaan Persediaan', 600, 500);
         });
 
@@ -218,8 +218,8 @@
                                         <th colspan="2" class="thCenter"><%=GetLabel("Satuan")%></th>                     
                                     </tr>
                                     <tr>
-                                        <th style="width:125px"><%=GetLabel("Kecil")%></th>  
-                                        <th style="width:125px"><%=GetLabel("Alternatif")%></th>  
+                                        <th style="width:125px" class="thCenter"><%=GetLabel("Kecil")%></th>  
+                                        <th style="width:125px" class="thCenter"><%=GetLabel("Alternatif")%></th>  
                                     </tr>
                                     <tr class="trEmpty">
                                         <td colspan="10">
@@ -239,8 +239,8 @@
                                         <th colspan="2" class="thCenter"><%=GetLabel("Satuan")%></th>                     
                                     </tr>
                                     <tr>
-                                        <th style="width:125px"><%=GetLabel("Kecil")%></th>  
-                                        <th style="width:125px"><%=GetLabel("Alternatif")%></th>  
+                                        <th style="width:125px" class="thCenter"><%=GetLabel("Kecil")%></th>  
+                                        <th style="width:125px" class="thCenter"><%=GetLabel("Alternatif")%></th>  
                                     </tr>
                                     <tr runat="server" id="itemPlaceholder" ></tr>
                                 </table>
@@ -297,12 +297,12 @@
                                                     <th style="width:50px" rowspan="2">&nbsp;</th>
                                                     <th style="width:300px;text-align:left" rowspan="2"><%=GetLabel("Site")%></th>
                                                     <th style="text-align:left" rowspan="2"><%=GetLabel("Default Supplier")%></th>
-                                                    <th colspan="3"><%=GetLabel("Harga")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("Harga")%></th>
                                                 </tr>
                                                 <tr>
-                                                    <th style="width:120px"><%=GetLabel("Rata-Rata")%></th>   
-                                                    <th style="width:120px"><%=GetLabel("Satuan Kecil")%></th>
-                                                    <th style="width:120px"><%=GetLabel("Satuan Besar")%></th>   
+                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Rata-Rata")%></th>   
+                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Satuan Kecil")%></th>
+                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Satuan Besar")%></th>   
                                                 </tr>
                                                 <tr class="trEmpty">
                                                     <td colspan="20">
@@ -318,12 +318,12 @@
                                                     <th style="width:50px" rowspan="2">&nbsp;</th>
                                                     <th style="width:300px;text-align:left" rowspan="2"><%=GetLabel("Site")%></th>
                                                     <th rowspan="2" style="text-align:left"><%=GetLabel("Default Supplier")%></th>
-                                                    <th colspan="3"><%=GetLabel("Harga")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("Harga")%></th>
                                                 </tr>
                                                 <tr>
-                                                    <th style="width:120px"><%=GetLabel("Rata-Rata")%></th>   
-                                                    <th style="width:120px"><%=GetLabel("Satuan Kecil")%></th>
-                                                    <th style="width:120px"><%=GetLabel("Satuan Besar")%></th>   
+                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Rata-Rata")%></th>   
+                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Satuan Kecil")%></th>
+                                                    <th style="width:120px" class="thCenter"><%=GetLabel("Satuan Besar")%></th>   
                                                 </tr>
                                                 <tr runat="server" id="itemPlaceholder" ></tr>
                                             </table>

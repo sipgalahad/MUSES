@@ -222,7 +222,7 @@
             </td>
             <td style="padding:5px;vertical-align:top">
                 <h4><%=GetLabel("Dipilih")%></h4>
-                <fieldset id="fsTrxPopup">
+                <fieldset id="fsTrxPopup" style="height: 400px; overflow-y: auto;">
                     <table id="tblSelectedItem" class="grdView notAllowSelect" cellspacing="0" rules="all" >
                         <tr id="trHeader2">
                             <th style="width:40px">&nbsp;</th>
