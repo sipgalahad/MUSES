@@ -70,7 +70,7 @@
                                 <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                     AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
-                                        <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                        <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="PurchaseRequestNo" HeaderText="Purchase Request No" HeaderStyle-Width="180px" />
                                         <asp:BoundField DataField="CustomPurchaseUnit" HeaderText="Diminta" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                         <asp:BoundField DataField="CustomUnitPrice" HeaderText="Harga / Satuan" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" />

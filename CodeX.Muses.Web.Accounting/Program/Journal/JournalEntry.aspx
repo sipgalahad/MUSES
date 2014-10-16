@@ -371,7 +371,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
         $('#btnGLAccount').live('click', function () {
             if ($(this).attr('enabled') == null) {
                 var accountID = $('#<%=hdnGLAccount1ID.ClientID %>').val();
-                var url = ResolveUrl('~/Program/Information/GLBalanceInformationCtl.ascx');
+                var url = ResolveUrl('~/Program/Journal/GLBalanceInformationCtl.ascx');
                 var id = accountID;
                 var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');
                 var period = date[2] + '|' + date[1];
@@ -384,7 +384,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
             if ($(this).attr('enabled') == null) {
                 var subLedgerDtID = $('#<%=hdnSubLedgerDt1ID.ClientID %>').val();
                 var glAccountID = $('#<%=hdnGLAccount1ID.ClientID %>').val();
-                var url = ResolveUrl('~/Program/Information/GLSubLedgerInformationCtl.ascx');
+                var url = ResolveUrl('~/Program/Journal/GLSubLedgerInformationCtl.ascx');
                 var code = $('#<%=txtSubLedgerDt1Code.ClientID %>').val();
                 var name = $('#<%=txtSubLedgerDt1Name.ClientID %>').val();
                 var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');

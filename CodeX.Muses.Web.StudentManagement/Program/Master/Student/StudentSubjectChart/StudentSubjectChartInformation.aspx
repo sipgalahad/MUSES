@@ -92,6 +92,6 @@
     </script>
 
     <div class="example-content">
-        <div id="chart" style="width:800px;height:500px"></div>
+        <div id="chart" style="width:800px;height:450px"></div>
     </div>
 </asp:Content>

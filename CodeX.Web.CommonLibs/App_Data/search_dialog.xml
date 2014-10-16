@@ -331,6 +331,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Restriction -->
+  <searchdialog type="restriction" methodname="GetRestrictionHdList" keyfieldname="RestrictionCode">
+    <gridcolumns>
+      <gridcolumn datafield="RestrictionCode" headertext="Kode Pembatasan" width="100px" />
+      <gridcolumn datafield="RestrictionName" headertext="Nama Pembatasan" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="RestrictionName" headertext="Nama Pembatasan" description="" />
+      <intellisensetext datafield="RestrictionCode" headertext="Kode Pembatasan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Room -->
   <searchdialog type="room" methodname="GetRoomList" keyfieldname="RoomCode" orderbyexpression="RoomName ASC">
     <gridcolumns>

@@ -19,6 +19,9 @@
         $(function () {
             registerCollapseExpandHandler();
 
+            setDatePicker('<%=txtFatherDOB.ClientID %>');
+            setDatePicker('<%=txtMotherDOB.ClientID %>');
+
             $('#<%=btnSave.ClientID %>').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry'))
                     onCustomButtonClick('save');

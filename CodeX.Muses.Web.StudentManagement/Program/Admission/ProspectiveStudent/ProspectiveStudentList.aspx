@@ -22,8 +22,35 @@
             var url = ResolveUrl("~/Program/Admission/ProspectiveStudent/ProspectiveStudentDtEntryCtl.ascx");
             openUserControlPopup(url, id, 'Calon Siswa', 1200, 600);
         });
-    </script>
 
+        $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            showToastConfirmation('Are You Sure Want To Delete?', function (result) {
+                if (result) {
+                    $('#<%=hdnEntryID.ClientID %>').val(id);
+                    cbpProcess.PerformCallback('delete');
+                }
+            });
+        });
+
+        function onAfterPopupControlClosing() {
+            cbpView.PerformCallback('refresh');
+        }
+
+        function onCbpProcesEndCallback(s) {
+            hideLoadingPanel();
+
+            var param = s.cpResult.split('|');
+            if (param[0] == 'delete') {
+                if (param[1] == 'fail')
+                    showToast('Delete Failed', 'Error Message : ' + param[2]);
+                else
+                    cbpView.PerformCallback('refresh');
+            }
+        }
+    </script>
+    
+    <input type="hidden" id="hdnEntryID" runat="server"/>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -56,4 +83,8 @@
             </PanelCollection>
         </dxcp:ASPxCallbackPanel>
     </div>
+    <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
+        ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
+        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+    </dxcp:ASPxCallbackPanel>
 </asp:Content>

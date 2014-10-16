@@ -37,7 +37,7 @@
 
             $('#<%=btnOrderListBack.ClientID %>').click(function () {
                 showLoadingPanel();
-                document.location = ResolveUrl('~/Program/WareHouse/ItemOrder/ApprovedItemRequestList.aspx?id=to');
+                document.location = ResolveUrl('~/Program/Warehouse/ItemRequest/Outstanding/ItemRequestOutstandingList.aspx');
             });
 
             $('.txtDistribution').change(function () {

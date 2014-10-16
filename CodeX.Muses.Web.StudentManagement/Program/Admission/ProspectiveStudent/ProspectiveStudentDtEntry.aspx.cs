@@ -234,6 +234,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Insert(entity);
 
                 entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
                 entityRegistration.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
                 entityRegistration.ProspectiveStudentID = BusinessLayer.GetProspectiveStudentMaxID(ctx);

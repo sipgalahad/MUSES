@@ -27,23 +27,30 @@ namespace CodeX.Report
             lblSupplierName.Text = entity.BusinessPartnerName;
             lblCreatedByName.Text = entity.CreatedByName;
 
-            string approvedByName = string.Empty;
-            string noSIPA = string.Empty;
-            if (entity.GCPurchaseOrderType == "X145^001") // Persediaan Farmasi
-            {
-                lblReportTitle.Text = "SURAT PESANAN OBAT DAN ALKES";
-                string filterExpression = string.Format(" ParameterCode IN ('{0}','{1}')", "PH0004", "PH0005");
-                List<SettingParameter> lstParam = BusinessLayer.GetSettingParameterList(filterExpression);
-                approvedByName = lstParam.Where(lst => lst.ParameterCode == "PH0004").FirstOrDefault().ParameterValue;
-                noSIPA = lstParam.Where(lst => lst.ParameterCode == "PH0005").FirstOrDefault().ParameterValue;
-            }
-            else
-            {
-                lblReportTitle.Text = "SURAT PEMESANAN BARANG";
-            }
+            //string approvedByName = string.Empty;
+            //string noSIPA = string.Empty;
+            //if (entity.GCPurchaseOrderType == "X145^001") // Persediaan Farmasi
+            //{
+            //    lblReportTitle.Text = "SURAT PESANAN OBAT DAN ALKES";
+            //    string filterExpression = string.Format(" ParameterCode IN ('{0}','{1}')", "PH0004", "PH0005");
+            //    List<SettingParameter> lstParam = BusinessLayer.GetSettingParameterList(filterExpression);
+            //    approvedByName = lstParam.Where(lst => lst.ParameterCode == "PH0004").FirstOrDefault().ParameterValue;
+            //    noSIPA = lstParam.Where(lst => lst.ParameterCode == "PH0005").FirstOrDefault().ParameterValue;
+            //}
+            //else
+            //{
+            //    lblReportTitle.Text = "SURAT PEMESANAN BARANG";
+            //}
 
-            lblApprovedByName.Text = approvedByName;
-            lblSIPANo.Text = noSIPA;
+            //lblApprovedByName.Text = approvedByName;
+            //lblSIPANo.Text = noSIPA;
+
+
+            lblReportTitle.Text = "SURAT PEMESANAN BARANG";
+
+
+            lblApprovedByName.Text = "Slamet";
+            lblSIPANo.Text = "20123021234";
         }
     }
 }

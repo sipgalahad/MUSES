@@ -597,7 +597,13 @@
             buttonImage: ResolveUrl("~/Libs/Images/calendar.gif"),
             buttonImageOnly: true
         });
-    }
+    } 
+    
+    $(function () {
+        $('.datepicker').each(function () {
+            $(this).attr('placeholder', 'dd-MM-yyyy');
+        });
+    });
     /*$(function () {
         $('.datepicker').datepicker({
             defaultDate: "w",

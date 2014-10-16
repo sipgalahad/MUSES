@@ -1460,6 +1460,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFamily
+    public partial class vStudentFamily
+    {
+        public string DateOfBirthInDatePickerFormat
+        {
+            get { return _DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+    }
+    #endregion
     #region vSupplier
     public partial class vSupplier
     {

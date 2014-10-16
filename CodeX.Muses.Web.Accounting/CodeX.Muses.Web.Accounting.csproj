@@ -89,6 +89,8 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
+    <Content Include="Program\Journal\GLSubLedgerInformationCtl.ascx" />
     <Content Include="Program\Journal\JournalDocumentCtl.ascx" />
     <Content Include="Program\Journal\JournalEntry.aspx" />
     <Content Include="Program\Journal\JournalList.aspx" />
@@ -276,6 +278,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.cs">
+      <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.designer.cs">
+      <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\GLSubLedgerInformationCtl.ascx.cs">
+      <DependentUpon>GLSubLedgerInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\GLSubLedgerInformationCtl.ascx.designer.cs">
+      <DependentUpon>GLSubLedgerInformationCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\JournalDocumentCtl.ascx.cs">
       <DependentUpon>JournalDocumentCtl.ascx</DependentUpon>

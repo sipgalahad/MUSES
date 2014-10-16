@@ -172,7 +172,6 @@
 <div style="height:440px; overflow-y:auto;overflow-x: hidden">
     <input type="hidden" id="hdnLocationID" value="" runat="server" />
     <input type="hidden" id="hdnFilterParam" value="" runat="server" />
-    <div class="pageTitle"><%=GetLabel("Item Balance")%></div>
     <table class="tblContentArea">
         <colgroup>
             <col style="width:100%"/>
@@ -260,20 +259,20 @@
                             <asp:Panel runat="server" ID="pnlEntryPopupGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                                 <asp:ListView runat="server" ID="lvwView">
                                     <EmptyDataTemplate>
-                                        <table id="tblView" runat="server" class="grdView notAllowSelect grdItemBalance" cellspacing="0" rules="all" >
+                                        <table id="tblView" runat="server" class="grdView grdBorder notAllowSelect grdItemBalance" cellspacing="0" rules="all" >
                                             <tr>
                                                 <th style="width:70px" rowspan="2">&nbsp;</th>
-                                                <th style="width:250px" rowspan="2" align="center"><%=GetLabel("Item")%></th>
-                                                <th colspan="2" align="center"><%=GetLabel("Reorder Point")%></th>
-                                                <th colspan="4" align="center"><%=GetLabel("Balance")%></th>
+                                                <th style="width:250px" rowspan="2"><%=GetLabel("Item")%></th>
+                                                <th colspan="2" class="thCenter"><%=GetLabel("Reorder Point")%></th>
+                                                <th colspan="4" class="thCenter"><%=GetLabel("Balance")%></th>
                                             </tr>
                                             <tr>
-                                                <th style="width:100px" align="center"><%=GetLabel("Minimum")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Maximum")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Beginning")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("In")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Out")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Ending")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Minimum")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Maximum")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Beginning")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("In")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Out")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Ending")%></th>
                                             </tr>
                                             <tr class="trEmpty">
                                                 <td colspan="8">
@@ -283,20 +282,20 @@
                                         </table>
                                     </EmptyDataTemplate>
                                     <LayoutTemplate>
-                                        <table id="tblView" runat="server" class="grdView notAllowSelect grdItemBalance" cellspacing="0" rules="all" >
+                                        <table id="tblView" runat="server" class="grdView grdBorder notAllowSelect grdItemBalance" cellspacing="0" rules="all" >
                                             <tr>
                                                 <th style="width:70px" rowspan="2">&nbsp;</th>
-                                                <th style="width:250px" rowspan="2" align="center"><%=GetLabel("Item")%></th>
-                                                <th colspan="2" align="center"><%=GetLabel("Reorder Point")%></th>
-                                                <th colspan="4" align="center"><%=GetLabel("Balance")%></th>
+                                                <th style="width:250px" rowspan="2"><%=GetLabel("Item")%></th>
+                                                <th colspan="2" class="thCenter"><%=GetLabel("Reorder Point")%></th>
+                                                <th colspan="4" class="thCenter"><%=GetLabel("Balance")%></th>
                                             </tr>
                                             <tr>
-                                                <th style="width:100px" align="center"><%=GetLabel("Minimum")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Maximum")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Beginning")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("In")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Out")%></th>
-                                                <th style="width:100px" align="center"><%=GetLabel("Ending")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Minimum")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Maximum")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Beginning")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("In")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Out")%></th>
+                                                <th style="width:100px" class="thCenter"><%=GetLabel("Ending")%></th>
                                             </tr>
                                             <tr runat="server" id="itemPlaceholder" ></tr>
                                         </table>

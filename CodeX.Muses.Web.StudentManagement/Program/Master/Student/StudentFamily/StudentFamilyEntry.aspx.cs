@@ -44,7 +44,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboEducationLevel, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboEducationLevel, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -123,7 +123,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             entity.GCNationality = cboNationality.Value.ToString();
             entity.GCReligion = cboReligion.Value.ToString();
-            entity.GCEducationLevel = cboEducationLevel.Value.ToString();
+            entity.GCEducationLevel = cboEducationLevel.Value == null ? "" : cboEducationLevel.Value.ToString();
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

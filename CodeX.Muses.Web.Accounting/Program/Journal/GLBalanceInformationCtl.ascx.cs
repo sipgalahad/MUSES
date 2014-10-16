@@ -6,28 +6,29 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeX.Web.Common.UI;
 using CodeX.Data.Model;
-using CodeX.Web.Common;
 using DevExpress.Web.ASPxCallbackPanel;
+using CodeX.Web.Common;
+using CodeX.Data.Core.Dal;
+using System.Data;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.Inventory.Program
+namespace CodeX.Web.Accounting.Program
 {
-    public partial class PurchaseRequestQtyOnOrderCtl : BaseViewPopupCtl
+    public partial class GLBalanceInformationCtl : BaseViewPopupCtl
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
         protected int RowCountPerPage = 1;
         public override void InitializeDataControl(string param)
         {
-            string[] temp = param.Split('|');
-            hdnLocationID.Value = temp[0];
-            hdnItemID.Value = temp[1];
-
-            Location location = BusinessLayer.GetLocation(Convert.ToInt32(temp[0]));
-            txtLocation.Text = string.Format("{0} ({1})", location.LocationName, location.LocationCode);
-
-            ItemMaster item = BusinessLayer.GetItemMaster(Convert.ToInt32(temp[1]));
-            txtItem.Text = string.Format("{0} ({1})", item.ItemName1, item.ItemCode);
+            List<String> lstParam = param.Split('|').ToList();
+            hdnGLAccountID.Value = lstParam[0];
+            ChartOfAccount coa = BusinessLayer.GetChartOfAccount(Convert.ToInt32(hdnGLAccountID.Value));
+            
+            txtGLAccountName.Text = coa.GLAccountName;
+            txtGLAccountNo.Text = coa.GLAccountNo;
+            hdnYear.Value = lstParam[1];
+            hdnMonth.Value = lstParam[2];
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_POPUP;
             BindGridView(1, true, ref PageCount, ref RowCount);
@@ -35,20 +36,20 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("FromLocationID = {0} AND ItemID = {1} AND GCItemDetailStatus NOT IN ('{2}','{3}') AND IsDeleted = 0", hdnLocationID.Value, hdnItemID.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
-
+            List<GetGLBalancePerGLAccount> lstEntity = null;
+            
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvPurchaseRequestDtRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_POPUP);
+                rowCount = BusinessLayer.GetGLBalancePerGLAccountRowCount(Convert.ToInt32(hdnGLAccountID.Value), Convert.ToInt32(hdnYear.Value), Convert.ToInt32(hdnMonth.Value));
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vPurchaseRequestDt> lstEntity = BusinessLayer.GetvPurchaseRequestDtList(filterExpression, Constant.GridViewPageSize.GRID_POPUP, pageIndex, "PurchaseRequestNo DESC");
+            lstEntity = BusinessLayer.GetGLBalancePerGLAccountList(Convert.ToInt32(hdnGLAccountID.Value), Convert.ToInt32(hdnYear.Value), Convert.ToInt32(hdnMonth.Value), pageIndex, Constant.GridViewPageSize.GRID_MASTER);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
-        protected void cbpEntryPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
             int rowCount = 1;

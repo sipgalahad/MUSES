@@ -44,5 +44,61 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
         }
+
+        #region Process Detail
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "delete")
+            {
+                if (OnDeleteEntityDt(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+
+        private bool OnDeleteEntityDt(ref string errMessage)
+        {
+            IDbContext ctx = DbFactory.Configure(true);
+            RegistrationDao entityRegistrationDao = new RegistrationDao(ctx);
+            ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
+            bool result = true;
+            try
+            {
+                Registration entityRegistration = entityRegistrationDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ProspectiveStudent entity = entityDao.Get(entityRegistration.ProspectiveStudentID);
+                if (entity.PeriodAdmissionID == AppSession.PeriodAdmissionID)
+                {
+                    entity.IsDeleted = true;
+                    entityDao.Update(entity);
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                }
+                entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.VOID;
+                entityRegistration.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityRegistrationDao.Update(entityRegistration);
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

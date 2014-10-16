@@ -15,6 +15,9 @@
         $(function () {
             registerCollapseExpandHandler();
 
+            setDatePicker('<%=txtFatherDOB.ClientID %>');
+            setDatePicker('<%=txtMotherDOB.ClientID %>');
+
             $('#btnNext').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry'))
                     cbpMPEntryProcess.PerformCallback('save');

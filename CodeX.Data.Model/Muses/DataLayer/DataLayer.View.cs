@@ -12461,7 +12461,7 @@ namespace CodeX.Data.Model
     #region vStudentFamily
     [Serializable]
     [Table(Name = "vStudentFamily")]
-    public class vStudentFamily
+    public partial class vStudentFamily
     {
         private Int32 _FamilyID;
         private Int32 _StudentID;

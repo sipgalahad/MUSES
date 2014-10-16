@@ -11,6 +11,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            setDatePicker('<%=txtDOB.ClientID %>');
+
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 cboFamilyRelation.SetValue('');
@@ -138,6 +140,13 @@
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelar Belakang")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboSuffix" ClientInstanceName="cboSuffix" Width="100%" runat="server" /></td>
                                 </tr>
+                            </table>
+                        </td>
+                        <td valign="top">
+                            <table>
+                                <colgroup>
+                                    <col style="width: 150px" />
+                                </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtBirthPlace" Width="100%" runat="server" /></td>
