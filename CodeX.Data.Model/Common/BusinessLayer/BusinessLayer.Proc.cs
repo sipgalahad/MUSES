@@ -171,6 +171,38 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetReportUserList
+        public static List<GetReportUserList> GetReportUserList(string siteID, int userID, string menuCode, string filterExpression)
+        {
+            List<GetReportUserList> result = new List<GetReportUserList>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetReportUserList));
+                ctx.CommandText = "GetReportUserList";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_UserID", userID);
+                ctx.Add("p_MenuCode", menuCode);
+                ctx.Add("p_AdditionalFilterExpression", filterExpression);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetReportUserList)helper.IDataReaderToObject(reader, new GetReportUserList()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetUserMenuAccess
         public static List<GetUserMenuAccess> GetUserMenuAccess(String moduleID, String SiteID, int userID, string additionalFilterExpression)
         {

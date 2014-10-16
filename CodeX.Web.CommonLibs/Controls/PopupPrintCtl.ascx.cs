@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using CodeX.Web.Common.UI;
 using CodeX.Web.Common;
 using System.Xml.Linq;
+using CodeX.Data.Model;
 
 namespace CodeX.Web.CommonLibs.Controls
 {
@@ -16,33 +17,9 @@ namespace CodeX.Web.CommonLibs.Controls
         {
             if (param != "")
             {
-                string moduleName = Helper.GetModuleName();
-                string ModuleID = Helper.GetModuleID(moduleName);
-
-                XDocument xdoc = Helper.LoadXMLFile(this, string.Format("right_panel/{0}.xml", ModuleID));
-                if (xdoc != null)
-                {
-                    var lstQuickMenu = (from pg in xdoc.Descendants("page").Where(p => p.Attribute("menucode").Value == param)
-                                        select new
-                                        {
-                                            Print = (from qm in pg.Descendants("print")
-                                                     select new
-                                                     {
-                                                         Title = qm.Attribute("title").Value,
-                                                         IsDisplayPrintCount = qm.Attribute("isDisplayPrintCount") == null ? "0" : qm.Attribute("isDisplayPrintCount").Value,
-                                                         ReportCode = qm.Attribute("reportcode").Value
-                                                     })
-
-                                        }).FirstOrDefault();
-                    if (lstQuickMenu != null)
-                    {
-                        if (lstQuickMenu.Print.Count() > 0)
-                        {
-                            rptPrint.DataSource = lstQuickMenu.Print;
-                            rptPrint.DataBind();
-                        }
-                    }
-                }
+                List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, param, "");
+                rptPrint.DataSource = lstReport;
+                rptPrint.DataBind();
             }
         }
     }

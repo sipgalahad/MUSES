@@ -57,6 +57,7 @@
     <Compile Include="Common\DataLayer\Base\ChartBase.cs" />
     <Compile Include="Common\DataLayer\Custom\DataLayer.Custom.cs" />
     <Compile Include="Common\DataLayer\Custom\DataLayer.Model.cs" />
+    <Compile Include="Common\DataLayer\Custom\DataLayer.Proc.Custom.cs" />
     <Compile Include="Common\DataLayer\Custom\DataLayer.View.Custom.cs" />
     <Compile Include="Common\DataLayer\DataLayer.cs" />
     <Compile Include="Common\DataLayer\DataLayer.Proc.cs" />

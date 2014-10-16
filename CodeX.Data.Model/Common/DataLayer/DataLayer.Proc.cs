@@ -239,6 +239,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetReportUserList
+    [Serializable]
+    [Table(Name = "GetReportUserList")]
+    public partial class GetReportUserList
+    {
+        private Int32 _ReportID;
+        private String _ReportCode;
+        private String _ReportTitle1;
+        private String _ReportTitle2;
+        private String _MenuCode;
+        private Int16 _DisplayOrder;
+        private Boolean _IsSelected;
+
+        [Column(Name = "ReportID", DataType = "Int32")]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+        [Column(Name = "ReportCode", DataType = "String")]
+        public String ReportCode
+        {
+            get { return _ReportCode; }
+            set { _ReportCode = value; }
+        }
+        [Column(Name = "ReportTitle1", DataType = "String")]
+        public String ReportTitle1
+        {
+            get { return _ReportTitle1; }
+            set { _ReportTitle1 = value; }
+        }
+        [Column(Name = "ReportTitle2", DataType = "String")]
+        public String ReportTitle2
+        {
+            get { return _ReportTitle2; }
+            set { _ReportTitle2 = value; }
+        }
+        [Column(Name = "MenuCode", DataType = "String")]
+        public String MenuCode
+        {
+            get { return _MenuCode; }
+            set { _MenuCode = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsSelected", DataType = "Boolean")]
+        public Boolean IsSelected
+        {
+            get { return _IsSelected; }
+            set { _IsSelected = value; }
+        }
+    }
+    #endregion
     #region GetUserMenuAccess
     [Serializable]
     [Table(Name = "GetUserMenuAccess")]
