@@ -6107,6 +6107,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFamily
+        public static StudentFamily GetStudentFamily(Int32 FamilyID)
+        {
+            return new StudentFamilyDao().Get(FamilyID);
+        }
+        public static int InsertStudentFamily(StudentFamily record)
+        {
+            return new StudentFamilyDao().Insert(record);
+        }
+        public static int UpdateStudentFamily(StudentFamily record)
+        {
+            return new StudentFamilyDao().Update(record);
+        }
+        public static int DeleteStudentFamily(Int32 FamilyID)
+        {
+            return new StudentFamilyDao().Delete(FamilyID);
+        }
+        public static List<StudentFamily> GetStudentFamilyList(string filterExpression)
+        {
+            List<StudentFamily> result = new List<StudentFamily>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFamily)helper.IDataReaderToObject(reader, new StudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentFamily> GetStudentFamilyList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentFamily> result = new List<StudentFamily>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFamily)helper.IDataReaderToObject(reader, new StudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region StudentPastStudy
         public static StudentPastStudy GetStudentPastStudy(Int32 StudentPastStudyID)
         {

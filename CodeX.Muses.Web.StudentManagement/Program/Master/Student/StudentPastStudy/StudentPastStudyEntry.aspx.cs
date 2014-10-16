@@ -42,7 +42,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("StudentID = {0} AND IsDeleted != 0", AppSession.StudentID);
+            string filterExpression = string.Format("StudentID = {0} AND IsDeleted = 0", AppSession.StudentID);
             List<vStudentPastStudy> lstEntity = BusinessLayer.GetvStudentPastStudyList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();

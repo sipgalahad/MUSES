@@ -5412,6 +5412,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentFamily
+        public static List<vStudentFamily> GetvStudentFamilyList(string filterExpression)
+        {
+            List<vStudentFamily> result = new List<vStudentFamily>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFamily));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFamily)helper.IDataReaderToObject(reader, new vStudentFamily()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentPastStudy
         public static List<vStudentPastStudy> GetvStudentPastStudyList(string filterExpression)
         {

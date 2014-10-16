@@ -11,9 +11,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            setDatePicker('<%=txtStartDate.ClientID %>');
-            setDatePicker('<%=txtEndDate.ClientID %>');
-
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 cboSchoolType.SetValue('');
@@ -142,8 +139,8 @@
                                 <asp:BoundField DataField="StudentPastStudyID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SchoolType" HeaderText="Tipe Sekolah" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="SchoolName" HeaderText="Nama Sekolah" HeaderStyle-Width="200px"/>
-                                <asp:BoundField DataField="StartYear" HeaderText="Tanggal Mulai" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
-                                <asp:BoundField DataField="EndYear" HeaderText="Tanggal Selesai" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="StartYear" HeaderText="Tahun Mulai" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="EndYear" HeaderText="Tahun Selesai" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:TemplateField HeaderStyle-Width="10px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan"/>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">

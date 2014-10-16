@@ -402,8 +402,9 @@ namespace CodeX.Common
                 public const string SP_CLASS_STUDENT = "SM99010304";
 
                 public const string STUDENT_PAGE = "SM99020000";
-                public const string ST_STUDENT_FAMILY = "SM99020101";
-                public const string ST_STUDENT_PAST_STUDY = "SM99020202";
+                public const string ST_STUDENT_PAST_STUDY = "SM99020101";
+                public const string ST_STUDENT_PARENT = "SM99020102";
+                public const string ST_STUDENT_FAMILY = "SM99020103";
                 public const string ST_FINAL_MARK_CHART = "SM99020201";
                 public const string ST_SUBJECT_CHART = "SM99020202";
 
