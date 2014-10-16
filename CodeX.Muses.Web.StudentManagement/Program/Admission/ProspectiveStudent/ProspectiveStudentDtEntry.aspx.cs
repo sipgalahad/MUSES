@@ -39,6 +39,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     hdnIsAdd.Value = "1";
                 }
 
+                hdnInitial.Value = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID).Initial;
+
                 OnControlEntrySetting();
             }
         }
@@ -231,7 +233,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
 
-                entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, "014", ctx);
+                entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
                 entityRegistration.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
                 entityRegistration.ProspectiveStudentID = BusinessLayer.GetProspectiveStudentMaxID(ctx);

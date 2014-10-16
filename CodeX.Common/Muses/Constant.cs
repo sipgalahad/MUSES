@@ -45,7 +45,8 @@ namespace CodeX.Common
             public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
             public const string TASK_TYPE = "MS009";
             public const string SCHOOL_TYPE = "MS010";
-            public const string LANGUAGE = "X012";
+            public const string LANGUAGE = "MS012";
+            public const string INFORMATION_SOURCE = "MS013";
 
             public const string MARITAL_STATUS = "0002";
             public const string GENDER = "0003";

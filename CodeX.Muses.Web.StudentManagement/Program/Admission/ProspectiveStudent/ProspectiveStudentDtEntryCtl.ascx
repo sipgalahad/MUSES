@@ -51,6 +51,10 @@
         }, 1000);
     }
 
+    window.OnFinishButtonClick = function () {
+        pcRightPanelContent.Hide();
+    }
+
     window.OnNextButtonClick = function () {
         var idx = $('#ulProspectiveStudent li a.selected').index("#ulProspectiveStudent li a");
         idx++;
