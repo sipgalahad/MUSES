@@ -29,23 +29,35 @@
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
+        var rowCount = parseInt('<%=RowCount %>');
+        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
+        var currPage = parseInt('<%=CurrPage %>');
         $(function () {
-            Methods.checkImageError('imgPatientImage', 'patient', 'hdnPatientGender');
+            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
-            });
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+            }, null, currPage);
         });
 
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
-            Methods.checkImageError('imgPatientImage', 'patient', 'hdnPatientGender');
+
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
+                var rowCount = parseInt(param[2]);
+                if (pageCount > 0)
+                    $('.grdStockDetail tr:eq(2)').click();
+
+                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
                     cbpView.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
             }
+            else
+                $('.grdStockDetail tr:eq(2)').click();
         }
         //#endregion
 
@@ -201,6 +213,7 @@
                         <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
                     </div>
                     <div class="containerPaging">
+                        <div class="divInformationNumEntries" id="informationNumEntries"></div>
                         <div class="wrapperPaging">
                             <div id="paging"></div>
                         </div>

@@ -111,9 +111,9 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="GLAccountName" ItemStyle-HorizontalAlign="Left" HeaderText="NAMA PERKIRAAN" HeaderStyle-HorizontalAlign="Left" />
-                                            <asp:BoundField DataField="BalanceENDLastMonth" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="Bulan Lalu" HeaderStyle-HorizontalAlign="Right"  />
-                                            <asp:BoundField DataField="ProfitLoss" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="Bulan Ini" HeaderStyle-HorizontalAlign="Right"  />
-                                            <asp:BoundField DataField="BalanceEND" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="100px" HeaderText="s/d Bulan Ini" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}"  HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="BalanceENDLastMonth" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="Bulan Lalu" HeaderStyle-CssClass="thRight"  />
+                                            <asp:BoundField DataField="ProfitLoss" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="Bulan Ini" HeaderStyle-CssClass="thRight"  />
+                                            <asp:BoundField DataField="BalanceEND" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="100px" HeaderText="s/d Bulan Ini" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}"  HeaderStyle-CssClass="thRight" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>

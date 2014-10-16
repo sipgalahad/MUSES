@@ -202,7 +202,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 foreach (ClassSchedule entity in lstClassSchedule)
                 {
-                    if (!lstDayNumber.Contains(entity.DayNumber.ToString()) && !lstHoursIndex.Contains(entity.HoursIndex.ToString()))
+                    if (!lstDayNumber.Contains(entity.DayNumber.ToString()) || !lstHoursIndex.Contains(entity.HoursIndex.ToString()))
                     {
                         entity.IsDeleted = true;
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;

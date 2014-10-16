@@ -23,6 +23,7 @@
 
             $('#hdnSelectedTrText').val('');
             $('#hdnSelectedTrValue').val('');
+            $('#hdnSelectedTrTeacherID').val(''); 
             $('#hdnSelectedTrRoomID').val('');
             $('#hdnSelectedTrRoomName').val('');
 
@@ -55,11 +56,12 @@
 
                 $('#hdnSelectedTrText').val(entity.SubjectName + '<br/>' + entity.TeacherName);
                 $('#hdnSelectedTrValue').val(entity.ClassSubjectID);
+                $('#hdnSelectedTrTeacherID').val(entity.TeacherID);
                 $('#hdnSelectedTrRoomID').val(entity.RoomID);
                 $('#hdnSelectedTrRoomName').val(entity.RoomName);
 
                 $('#tdSelectedSubject').html(entity.SubjectName);
-                $('#tdSelectedTeacher').html(entity.TeacherName);
+                $('#tdSelectedTeacher').html("<label class='lblLink' id='lblTeacher'>" + entity.TeacherName + "</label>");
                 pcClassSubject.Hide();
             }
         });
@@ -85,6 +87,7 @@
                     $('#<%=grdView.ClientID %> tr.selected').removeClass('selected');
                     $('#hdnSelectedTrText').val('');
                     $('#hdnSelectedTrValue').val('');
+                    $('#hdnSelectedTrTeacherID').val(''); 
                     $('#hdnSelectedTrRoomID').val('');
                     $('#hdnSelectedTrRoomName').val('');
 
@@ -177,6 +180,14 @@
                 pcClassSubject.Show();
             });
         });
+
+        $('#lblTeacher.lblLink').live('click', function () {
+            var teacherID = $('#hdnSelectedTrTeacherID').val();
+            if (teacherID != '') {
+                var url = ResolveUrl("~/Program/Master/SchoolPeriod/ClassSchedule/TeacherScheduleDtCtl.ascx");
+                openUserControlPopup(url, teacherID, 'Jadwal Guru', 1250, 550);
+            }
+        });
     </script>
     <input type="hidden" runat="server" id="hdnLstClassSubjectID" />
     <input type="hidden" runat="server" id="hdnLstRoomID" />
@@ -195,6 +206,7 @@
     </table>
     <input type="hidden" id="hdnSelectedTrText" value="" />
     <input type="hidden" id="hdnSelectedTrValue" value="" />
+    <input type="hidden" id="hdnSelectedTrTeacherID" value="" />
     <input type="hidden" id="hdnSelectedTrRoomID" value="" />
     <input type="hidden" id="hdnSelectedTrRoomName" value="" />
     <style type="text/css">
@@ -410,6 +422,7 @@
                                                 <ItemTemplate>
                                                     <%#Eval("SubjectName")%>
                                                     <input type="hidden" value="<%#Eval("ClassSubjectID") %>" bindingfield="ClassSubjectID" />
+                                                    <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                                     <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                                     <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                                     <input type="hidden" value="<%#Eval("RoomID") %>" bindingfield="RoomID" />

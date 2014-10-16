@@ -215,6 +215,19 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLTransactionHd
+    public partial class vGLTransactionHd
+    {
+        public string JournalDateInString
+        {
+            get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public Decimal Selisih
+        {
+            get { return _DebitAmount - _CreditAmount; }
+        }
+    }
+    #endregion
     #region vItemBalance
     public partial class vItemBalance
     {

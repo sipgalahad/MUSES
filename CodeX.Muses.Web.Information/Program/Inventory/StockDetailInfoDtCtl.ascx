@@ -68,12 +68,12 @@
                                         <asp:TemplateField HeaderStyle-Width="10px" />
                                         <asp:TemplateField HeaderText="Transaksi">
                                             <ItemTemplate>
-                                                <%#Eval("TransactionDescription")%><br />
+                                                <b><%#Eval("TransactionDescription")%></b><br />
                                                 <%#Eval("DetailDesc")%>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="TransactionNo" HeaderText="No Transaksi" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="150px"  />
-                                        <asp:BoundField DataField="CreatedByUserName" HeaderText="Petugas" HeaderStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
+                                        <asp:BoundField DataField="TransactionNo" HeaderText="No Transaksi" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="150px"  />
+                                        <asp:BoundField DataField="CreatedByUserName" HeaderText="Petugas" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="100px" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>

@@ -18,8 +18,10 @@ namespace CodeX.Muses.Web.Information.Program
 {
     public partial class APSupplierInformation : BasePageList
     {
-        protected int PageCount = 1;
-
+        protected int PageCount = 0;
+        protected int RowCount = 0;
+        protected int RowCountPerPage = 1;
+        protected int CurrPage = 1;     
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Information.AP_SUPPLIER_INFORMATION;
@@ -35,39 +37,17 @@ namespace CodeX.Muses.Web.Information.Program
         {
             txtDateFrom.Text = DateTime.Now.AddDays(-7).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtDateTo.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            BindGridView(1, true, ref PageCount);
+
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
-        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            int pageCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-
-                    BindGridView(1, true, ref pageCount);
-                    result = "refresh|" + pageCount;
-                }
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-        }
-
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             if (isCountPageCount)
             {
                 string filterExpression = string.Format("GCBusinessPartnerType = '{0}' AND IsDeleted = 0", Constant.BusinessObjectType.SUPPLIER);
-                int rowCount = BusinessLayer.GetBusinessPartnersRowCount(filterExpression);
+                rowCount = BusinessLayer.GetBusinessPartnersRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 12);
             }
 
@@ -76,6 +56,30 @@ namespace CodeX.Muses.Web.Information.Program
             List<GetAPSupplierInformation> lstEntity = BusinessLayer.GetAPSupplierInformationList(MovementDate, pageIndex, 12);
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
         }
 
         public override Control OnGetExportControl()

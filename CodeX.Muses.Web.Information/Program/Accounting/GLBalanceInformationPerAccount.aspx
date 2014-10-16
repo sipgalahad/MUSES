@@ -238,11 +238,11 @@
                                         <Columns>
                                             <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="JournalNo" ItemStyle-HorizontalAlign="Left" HeaderText="No. Voucher" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="150px" />
-                                            <asp:BoundField DataField="JournalDateInString" ItemStyle-HorizontalAlign="Center" HeaderText="Tanggal" HeaderStyle-Width="120px" />
+                                            <asp:BoundField DataField="JournalDateInString" ItemStyle-HorizontalAlign="Center" HeaderText="Tanggal" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
                                             <asp:BoundField DataField="Remarks" ItemStyle-HorizontalAlign="Left" HeaderText="Catatan" />
-                                            <asp:BoundField DataField="DEBITAmount" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="100px" HeaderText="DEBIT" HeaderStyle-HorizontalAlign="Right"  />
-                                            <asp:BoundField DataField="CREDITAmount" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="100px" HeaderText="KREDIT" HeaderStyle-HorizontalAlign="Right" />
-                                            <asp:BoundField DataField="BalanceEND" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="SALDO" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="DEBITAmount" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="100px" HeaderText="DEBIT" HeaderStyle-CssClass="thRight"  />
+                                            <asp:BoundField DataField="CREDITAmount" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="100px" HeaderText="KREDIT" HeaderStyle-CssClass="thRight" />
+                                            <asp:BoundField DataField="BalanceEND" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="SALDO" HeaderStyle-CssClass="thRight" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>

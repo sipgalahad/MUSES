@@ -72,7 +72,7 @@
             $tr = $(this).closest('tr');
             var subLedgerDtID = $tr.find('.keyField').html();
             var glAccountID = $('#<%=hdnGLAccountID.ClientID %>').val();
-            var url = ResolveUrl('~/Program/Information/GLSubLedgerInformationCtl.ascx');
+            var url = ResolveUrl('~/Program/Accounting/GLSubLedgerInformationCtl.ascx');
             var code = $(this).html();
             var name = $tr.find('.lblGLAccountName').html();
             var period = cboYear.GetValue() + '|' + cboMonth.GetValue();

@@ -83,7 +83,7 @@
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" >
                                         <Columns>
                                             <asp:BoundField DataField="GLTransactionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                            <asp:BoundField DataField="JournalDateInString" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" HeaderStyle-HorizontalAlign="Center"  HeaderText="Tanggal"/>
+                                            <asp:BoundField DataField="JournalDateInString" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter"  HeaderText="Tanggal"/>
                                             <asp:BoundField DataField="JournalNo" ItemStyle-HorizontalAlign="Left" HeaderText="No. Journal" />
                                             <asp:BoundField DataField="DebitAmount" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="100px" HeaderText="Debit" />
                                             <asp:BoundField DataField="CreditAmount" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="100px" HeaderText="Kredit" />

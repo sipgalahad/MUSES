@@ -193,19 +193,19 @@
                                                 <th class="keyField" rowspan="2">&nbsp;</th>
                                                 <th rowspan="2"><%=GetLabel("Nama Item")%></th>
                                                 <th rowspan="2" style="width:60px"><%=GetLabel("Satuan")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Awal")%></th>
+                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Awal")%></th>
                                                 <th colspan="3" class="thCenter"><%=GetLabel("Masuk")%></th>
                                                 <th colspan="3" class="thCenter"><%=GetLabel("Keluar")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Akhir")%></th>
+                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Akhir")%></th>
                                             </tr>
                                             <tr>
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
  
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
                                             </tr>
                                             <tr class="trEmpty">
                                                 <td colspan="25">
@@ -220,19 +220,19 @@
                                                 <th class="keyField" rowspan="2">&nbsp;</th>
                                                 <th rowspan="2"><%=GetLabel("Nama Item")%></th>
                                                 <th rowspan="2" style="width:60px"><%=GetLabel("Satuan")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Awal")%></th>
+                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Awal")%></th>
                                                 <th colspan="3" class="thCenter"><%=GetLabel("Masuk")%></th>
                                                 <th colspan="3" class="thCenter"><%=GetLabel("Keluar")%></th>
-                                                <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("Stok Akhir")%></th>
+                                                <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Stok Akhir")%></th>
                                             </tr>
                                             <tr>
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pembelian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
-                                                <th style="width:60px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Distribusi")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Penyesuaian")%></th> 
+                                                <th style="width:70px" class="thCenter" align="right"><%=GetLabel("Pemakaian")%></th> 
                                             </tr>
                                             <tr runat="server" id="itemPlaceholder" ></tr>
                                         </table>
@@ -242,14 +242,14 @@
                                             <td class="keyField"><%# Eval("ItemID")%></td>
                                             <td><label class="lblLink lblDetail"><%# Eval("ItemName1")%></label></td>
                                             <td><%# Eval("ItemUnit")%></td>
-                                            <td align="right"><%# Eval("IN_QuantityBEGIN")%></td>
-                                            <td align="right"><%# Eval("IN_PurchaseReceive")%></td>
-                                            <td align="right"><%# Eval("IN_Distribution")%></td>
-                                            <td align="right"><%# Eval("IN_Adjustment")%></td>
-                                            <td align="right"><%# Eval("OUT_Distribution")%></td>
-                                            <td align="right"><%# Eval("OUT_Adjustment")%></td>
-                                            <td align="right"><%# Eval("OUT_Consumption")%></td>
-                                            <td align="right"><%# Eval("QuantityEND")%></td>
+                                            <td align="right"><%# Eval("IN_QuantityBEGIN", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("IN_PurchaseReceive", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("IN_Distribution", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("IN_Adjustment", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("OUT_Distribution", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("OUT_Adjustment", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("OUT_Consumption", "{0:N2}")%></td>
+                                            <td align="right"><%# Eval("QuantityEND", "{0:N2}")%></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:ListView>

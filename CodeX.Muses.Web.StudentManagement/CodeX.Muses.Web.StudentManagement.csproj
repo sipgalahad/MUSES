@@ -121,6 +121,7 @@
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskEntryCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentMarkInformation\StudentMarkInformation.aspx" />
     <Content Include="Program\ClassMeeting\SubjectMatter\SubjectMatterInformation.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\ClassSchedule\TeacherScheduleDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudent\ClassStudentQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\ClassSubject\ClassSubjectEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassSubject\ClassSubjectDtEntryCtl.ascx" />
@@ -544,6 +545,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectMatterInformation.aspx.designer.cs">
       <DependentUpon>SubjectMatterInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassSchedule\TeacherScheduleDtCtl.ascx.cs">
+      <DependentUpon>TeacherScheduleDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassSchedule\TeacherScheduleDtCtl.ascx.designer.cs">
+      <DependentUpon>TeacherScheduleDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\ClassStudent\ClassStudentQuickPicksEntryCtl.ascx.cs">
       <DependentUpon>ClassStudentQuickPicksEntryCtl.ascx</DependentUpon>
