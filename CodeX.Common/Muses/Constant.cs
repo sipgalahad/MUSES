@@ -407,6 +407,7 @@ namespace CodeX.Common
                 public const string ST_STUDENT_FAMILY = "SM99020103";
                 public const string ST_FINAL_MARK_CHART = "SM99020201";
                 public const string ST_SUBJECT_CHART = "SM99020202";
+                public const string ST_STUDENT_HISTORY = "SM99020203";
 
                 public const string PERIOD_ADMISSION_PAGE = "SM99030000";
                 public const string PA_PROSPECTIVE_STUDENT = "SM99030100";

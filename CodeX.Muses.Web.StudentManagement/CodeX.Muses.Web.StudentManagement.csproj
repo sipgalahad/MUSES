@@ -140,6 +140,7 @@
     <Content Include="Program\Master\SchoolPeriod\PeriodSection\PeriodSectionEntry.aspx" />
     <Content Include="Program\Master\Student\StudentFamily\StudentParentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentFinalMarkChart\StudentFinalMarkChartInformation.aspx" />
+    <Content Include="Program\Master\Student\StudentHistory\StudentHistoryInformation.aspx" />
     <Content Include="Program\Master\Student\StudentSubjectChart\StudentSubjectChartInformation.aspx" />
     <Content Include="Program\Master\Student\StudentPastStudy\StudentPastStudyEntry.aspx" />
     <Content Include="Program\Master\Student\StudentFamily\StudentFamilyEntry.aspx" />
@@ -678,6 +679,13 @@
     </Compile>
     <Compile Include="Program\Master\Student\StudentFinalMarkChart\StudentFinalMarkChartInformation.aspx.designer.cs">
       <DependentUpon>StudentFinalMarkChartInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Student\StudentHistory\StudentHistoryInformation.aspx.cs">
+      <DependentUpon>StudentHistoryInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Student\StudentHistory\StudentHistoryInformation.aspx.designer.cs">
+      <DependentUpon>StudentHistoryInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Student\StudentSubjectChart\StudentSubjectChartInformation.aspx.cs">
       <DependentUpon>StudentSubjectChartInformation.aspx</DependentUpon>
