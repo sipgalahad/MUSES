@@ -28,8 +28,8 @@
                          [['X-1 / 1', 88], ['X-1 / 2', 90], ['XI-A1 / 1', 89], ['XI-A1 / 2', 89]]];
             function getLabels() {
                 var arr = new Array(4);
-                arr[0] = { label: 'Minimal', showLabel: true, lineWidth: 1 };
-                arr[1] = { label: 'Maximal', showLabel: true, lineWidth: 1 };
+                arr[0] = { label: 'Terrendah', showLabel: true, lineWidth: 1 };
+                arr[1] = { label: 'Tertinggi', showLabel: true, lineWidth: 1 };
                 arr[2] = { label: 'Rata-Rata', showLabel: true, lineWidth: 1 };
                 arr[3] = { label: 'Nilai Rapor', showLabel: true, lineWidth: 4, pointLabels: { show: true} };
                 return arr;

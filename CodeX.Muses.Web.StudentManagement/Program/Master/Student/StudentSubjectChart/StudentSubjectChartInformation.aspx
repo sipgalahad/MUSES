@@ -91,7 +91,73 @@
 
     </script>
 
-    <div class="example-content">
-        <div id="chart" style="width:800px;height:450px"></div>
-    </div>
+    <table style="width:100%">
+        <colgroup>
+            <col style="width:50%;" />
+        </colgroup>
+        <tr>
+            <td valign="top">
+                <div class="example-content">
+                    <div id="chart" style="width:600px;height:450px"></div>
+                </div>
+            </td>
+            <td valign="top">
+                <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
+                    <tr>
+                        <th rowspan="2"><%=GetLabel("Mata Pelajaran") %></th>
+                        <th class="thCenter" colspan="4"><%=GetLabel("Nilai") %></th>
+                    </tr>
+                    <tr>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("X-1 / 1")%></th>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("X-1 / 2")%></th>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("XI-A1 / 1")%></th>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("XI-A1 / 2")%></th>
+                    </tr>
+                    <tr>
+                        <td><%=GetLabel("Matematika")%></td>
+                        <td align="center">90</td>
+                        <td align="center">92</td>
+                        <td align="center">89</td>
+                        <td align="center">92</td>
+                    </tr>
+                    <tr>
+                        <td><%=GetLabel("Fisika") %></td>
+                        <td align="center">93</td>
+                        <td align="center">95</td>
+                        <td align="center">94</td>
+                        <td align="center">95</td>
+                    </tr>
+                    <tr>
+                        <td><%=GetLabel("Kimia") %></td>
+                        <td align="center">85</td>
+                        <td align="center">83</td>
+                        <td align="center">84</td>
+                        <td align="center">82</td>
+                    </tr>
+                    <tr>
+                        <td><%=GetLabel("Biologi") %></td>
+                        <td align="center">88</td>
+                        <td align="center">90</td>
+                        <td align="center">89</td>
+                        <td align="center">89</td>
+                    </tr>
+                    <tr>
+                        <td><%=GetLabel("Bahasa Indonesia")%></td>
+                        <td align="center">81</td>
+                        <td align="center">85</td>
+                        <td align="center">80</td>
+                        <td align="center">82</td>
+                    </tr>
+                    <tr>
+                        <td><%=GetLabel("Bahasa Inggris")%></td>
+                        <td align="center">87</td>
+                        <td align="center">84</td>
+                        <td align="center">83</td>
+                        <td align="center">89</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
 </asp:Content>
