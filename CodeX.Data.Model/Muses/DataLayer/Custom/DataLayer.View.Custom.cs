@@ -228,6 +228,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemAlternateUnitCustom
+    public partial class vItemAlternateUnitCustom
+    {
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _AlternateUnit + " = " + ConversionFactor + " " + _ItemUnit;
+            }
+        }
+    }
+    #endregion
     #region vItemBalance
     public partial class vItemBalance
     {

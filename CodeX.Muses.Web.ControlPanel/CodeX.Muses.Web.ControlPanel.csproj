@@ -119,6 +119,7 @@
     <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\Master\ProductBrand\ProductBrandEntry.aspx" />
     <Content Include="Program\Master\ProductBrand\ProductBrandList.aspx" />
     <Content Include="Program\Master\Manufacturer\ManufacturerEntry.aspx" />
@@ -492,6 +493,13 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
       <DependentUpon>ClassTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
+      <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ProductBrand\ProductBrandEntry.aspx.cs">
       <DependentUpon>ProductBrandEntry.aspx</DependentUpon>

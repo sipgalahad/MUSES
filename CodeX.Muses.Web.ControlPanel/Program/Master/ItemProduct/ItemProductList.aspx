@@ -164,11 +164,10 @@
             openUserControlPopup(url, itemPlanningID, 'Perencanaan Persediaan', 600, 500);
         });
 
-        $('.tdItemDrugDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html() + '|' + $(this).attr('type');
-            var url = ResolveUrl("~/Program/Master/ItemProduct/ItemDrugDetailCtl.ascx");
-            var headerText = $(this).html();
-            openUserControlPopup(url, id, headerText, 600, 500);
+        $('.tdAlternateUnit a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/ItemProduct/ItemAlternateUnitEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Alternate Unit', 600, 500);
         });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -253,7 +252,7 @@
                                     <td><%# Eval("ItemName1")%></td>
                                     <td><%# Eval("ItemGroupName1")%></td>
                                     <td align="center"><%# Eval("ItemUnit")%></td>
-                                    <td align="center" class="tdItemDrugDetail"><a type="10"><%=GetLabel("Alternate Unit")%></a></td>
+                                    <td align="center" class="tdAlternateUnit"><a type="10"><%=GetLabel("Alternate Unit")%></a></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>

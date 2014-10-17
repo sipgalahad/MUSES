@@ -1772,6 +1772,54 @@ namespace CodeX.Data.Model
             return null;
         }
         #endregion
+        #region vItemAlternateUnit
+        public static List<vItemAlternateUnit> GetvItemAlternateUnitList(string filterExpression)
+        {
+            List<vItemAlternateUnit> result = new List<vItemAlternateUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemAlternateUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemAlternateUnit)helper.IDataReaderToObject(reader, new vItemAlternateUnit()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vItemAlternateUnitCustom
+        public static List<vItemAlternateUnitCustom> GetvItemAlternateUnitCustomList(string filterExpression)
+        {
+            List<vItemAlternateUnitCustom> result = new List<vItemAlternateUnitCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemAlternateUnitCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemAlternateUnitCustom)helper.IDataReaderToObject(reader, new vItemAlternateUnitCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vItemBalance
         public static List<vItemBalance> GetvItemBalanceList(string filterExpression, IDbContext ctx)
         {

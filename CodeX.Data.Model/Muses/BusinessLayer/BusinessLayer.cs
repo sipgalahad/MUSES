@@ -2384,6 +2384,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemAlternateUnit
+        public static ItemAlternateUnit GetItemAlternateUnit(Int32 ID)
+        {
+            return new ItemAlternateUnitDao().Get(ID);
+        }
+        public static int InsertItemAlternateUnit(ItemAlternateUnit record)
+        {
+            return new ItemAlternateUnitDao().Insert(record);
+        }
+        public static int UpdateItemAlternateUnit(ItemAlternateUnit record)
+        {
+            return new ItemAlternateUnitDao().Update(record);
+        }
+        public static int DeleteItemAlternateUnit(Int32 ID)
+        {
+            return new ItemAlternateUnitDao().Delete(ID);
+        }
+        public static List<ItemAlternateUnit> GetItemAlternateUnitList(string filterExpression, IDbContext ctx)
+        {
+            List<ItemAlternateUnit> result = new List<ItemAlternateUnit>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemAlternateUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemAlternateUnit)helper.IDataReaderToObject(reader, new ItemAlternateUnit()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static List<ItemAlternateUnit> GetItemAlternateUnitList(string filterExpression)
+        {
+            List<ItemAlternateUnit> result = new List<ItemAlternateUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemAlternateUnit));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemAlternateUnit)helper.IDataReaderToObject(reader, new ItemAlternateUnit()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ItemDistributionDt
         public static ItemDistributionDt GetItemDistributionDt(Int32 ID)
         {

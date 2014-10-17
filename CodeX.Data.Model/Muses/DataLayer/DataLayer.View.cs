@@ -4497,6 +4497,106 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemAlternateUnit
+    [Serializable]
+    [Table(Name = "vItemAlternateUnit")]
+    public partial class vItemAlternateUnit
+    {
+        private Int32 _ID;
+        private Int32 _ItemID;
+        private String _GCAlternateUnit;
+        private String _AlternateUnit;
+        private Decimal _ConversionFactor;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "GCAlternateUnit", DataType = "String")]
+        public String GCAlternateUnit
+        {
+            get { return _GCAlternateUnit; }
+            set { _GCAlternateUnit = value; }
+        }
+        [Column(Name = "AlternateUnit", DataType = "String")]
+        public String AlternateUnit
+        {
+            get { return _AlternateUnit; }
+            set { _AlternateUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vItemAlternateUnitCustom
+    [Serializable]
+    [Table(Name = "vItemAlternateUnitCustom")]
+    public partial class vItemAlternateUnitCustom
+    {
+        private Int32 _ItemID;
+        private String _GCAlternateUnit;
+        private String _AlternateUnit;
+        private Decimal _ConversionFactor;
+        private String _GCItemUnit;
+        private String _ItemUnit;
+
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "GCAlternateUnit", DataType = "String")]
+        public String GCAlternateUnit
+        {
+            get { return _GCAlternateUnit; }
+            set { _GCAlternateUnit = value; }
+        }
+        [Column(Name = "AlternateUnit", DataType = "String")]
+        public String AlternateUnit
+        {
+            get { return _AlternateUnit; }
+            set { _AlternateUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal")]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "ItemUnit", DataType = "String")]
+        public String ItemUnit
+        {
+            get { return _ItemUnit; }
+            set { _ItemUnit = value; }
+        }
+    }
+    #endregion
     #region vItemBalance
     [Serializable]
     [Table(Name = "vItemBalance")]
