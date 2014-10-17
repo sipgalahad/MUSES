@@ -120,6 +120,7 @@
 </script>
 
 <div style="height:440px; overflow-y:auto">
+    <input type="hidden" id="hdnClassTypeName" value="" runat="server" />
     <input type="hidden" id="hdnNoOfClass" value="" runat="server" />
     <input type="hidden" id="hdnID" value="" runat="server" />
     <input type="hidden" id="hdnListSchoolClassCode" value="" runat="server" />
@@ -155,7 +156,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Nama" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
                                 <ItemTemplate>
-                                    <input type="text" class="txtSchoolClassName required" style="width:99%" validationgroup="mpEntryPopup"  />
+                                    <input type="text" class="txtSchoolClassName required" style="width:99%" validationgroup="mpEntryPopup" value='<%#Eval("Value") %>'  />
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Ruangan" HeaderStyle-Width="180px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">

@@ -32,6 +32,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", hdnID.Value)).FirstOrDefault();
             txtHeaderText.Text = entity.ClassTypeName;
             hdnNoOfClass.Value = entity.NoOfClass.ToString();
+            hdnClassTypeName.Value = entity.ClassTypeName;
 
             BindGridView();
         }
@@ -40,9 +41,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             List<Variable> lstVariable = new List<Variable>();
             int noOfClass = Convert.ToInt32(hdnNoOfClass.Value);
-            for (int i = 0; i < noOfClass; ++i)
+            for (int i = 1; i <= noOfClass; ++i)
             {
-                lstVariable.Add(new Variable { Code = "", Value = "" });
+                lstVariable.Add(new Variable { Code = "", Value = string.Format("{0}-{1}", hdnClassTypeName.Value, i) });
             }
 
             grdView.DataSource = lstVariable;
