@@ -31,6 +31,8 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
+
+            setAddEditDeleteVisibility();
         });
 
         //#region edit and delete
@@ -141,6 +143,28 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        function setAddEditDeleteVisibility() {
+            if ($('#<%=hdnClassRowCount.ClientID %>').val() != '0') {
+                $('#divTransactionAdd').hide();
+                $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
+                    $(this).find('.divDetailDelete').hide();
+                    $(this).find('.divDetailEdit').hide();
+                });
+            }
+            else {
+                $('#divTransactionAdd').show();
+                $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
+                    $(this).find('.divDetailDelete').show();
+                    $(this).find('.divDetailEdit').show();
+                });
+            }
+        }
+
+        function onCbpViewEndCallback() {
+            setAddEditDeleteVisibility();
+            hideLoadingPanel();
+        }
     </script>
     <table>
         <tr>
@@ -206,13 +230,14 @@
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
-                EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                EndCallback="function(s,e){ onCbpViewEndCallback(); }" />
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
                         <input type="hidden" id="hdnGCMajor" runat="server" value="" />
                         <input type="hidden" id="hdnGCGrade" runat="server" value="" />
+                        <input type="hidden" id="hdnClassRowCount" runat="server" value="" />
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>

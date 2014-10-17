@@ -35,6 +35,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "ClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
 
+            hdnMaxStudent.Value = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.MAX_STUDENT).ParameterValue;
+
             BindGridView();
 
             Helper.SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, true), "mpTrx");

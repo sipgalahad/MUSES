@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class GenerateSchoolClassEntryCtl {
         
         /// <summary>
+        /// hdnMaxStudent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMaxStudent;
+        
+        /// <summary>
         /// hdnClassTypeName control.
         /// </summary>
         /// <remarks>

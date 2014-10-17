@@ -48,6 +48,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", cboClassType.Value)).FirstOrDefault();
                 hdnGCGrade.Value = entity.GCGrade;
                 hdnGCMajor.Value = entity.GCMajor;
+
+                hdnClassRowCount.Value = BusinessLayer.GetSchoolClassRowCount(string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", cboClassType.Value)).ToString();
             }
             List<vPeriodClassTypeSubject> lstEntity = BusinessLayer.GetvPeriodClassTypeSubjectList(filterExpression);
             grdView.DataSource = lstEntity;

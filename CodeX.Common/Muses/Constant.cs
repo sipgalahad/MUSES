@@ -29,6 +29,7 @@ namespace CodeX.Common
         public static class SiteParameter
         {
             public const string IS_ITEM_DISTRIBUTION_AUTO_RECEIVED = "IM0002";
+            public const string MAX_STUDENT = "SM0001";
         }
         #endregion
 

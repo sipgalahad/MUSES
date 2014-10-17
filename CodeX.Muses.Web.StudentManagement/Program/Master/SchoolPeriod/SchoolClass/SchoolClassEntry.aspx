@@ -21,7 +21,7 @@
                 tacRoom.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
-                $('#<%=txtMaxStudent.ClientID %>').val('');
+                $('#<%=txtMaxStudent.ClientID %>').val($('#<%=hdnMaxStudent.ClientID %>').val());
                 $('#entryDetailContainer').show();
             });
 
@@ -143,6 +143,7 @@
             }
         }
     </script>
+    <input type="hidden" id="hdnMaxStudent" value="" runat="server" />
     <table>
         <tr>
             <td><%=GetLabel("Tipe Kelas") %></td>
@@ -154,7 +155,7 @@
         </tr>
     </table>
     <div class="divTransactionEntry">
-        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+        <span id="divTransactionAdd" class="divAdd" style="display:none"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
             <fieldset id="fsTrx" style="margin: 0">
                 <input type="hidden" value="" id="hdnEntryID" runat="server" />
