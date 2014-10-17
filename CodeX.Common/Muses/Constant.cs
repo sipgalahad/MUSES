@@ -284,10 +284,11 @@ namespace CodeX.Common
                 public const string TRANSACTION_NUMBERING = "CP020204";
                 public const string STANDARD_CODE = "CP020205";
                 public const string SETTING_PARAMETER = "CP020206";
-                public const string ZIPCODES = "CP020207";
-                public const string FILTER_PARAMETER = "CP020208";
-                public const string REPORT_CONFIGURATION = "CP020209";
-                public const string LOGIN_ATTRIBUTE = "CP020210";
+                public const string SITE_PARAMETER = "CP020207";
+                public const string ZIPCODES = "CP020208";
+                public const string FILTER_PARAMETER = "CP020209";
+                public const string REPORT_CONFIGURATION = "CP020210";
+                public const string LOGIN_ATTRIBUTE = "CP020211";
                 public const string USER_ROLES = "CP020301";
                 public const string USER_ACCOUNTS = "CP020302";
 
