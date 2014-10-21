@@ -42,7 +42,7 @@ namespace Codex.Muses.Web.Accounting.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "GLAccount No", "GLAccount Name" };
+            fieldListText = new string[] { "No Perkiraan", "Nama Perkiraan" };
             fieldListValue = new string[] { "GLAccountNo", "GLAccountName" };
         }
 

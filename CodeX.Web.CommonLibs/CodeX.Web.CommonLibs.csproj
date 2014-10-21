@@ -1045,26 +1045,12 @@
     <Compile Include="MasterPage\MPFrame.master.designer.cs">
       <DependentUpon>MPFrame.master</DependentUpon>
     </Compile>
-    <Compile Include="MasterPage\MPBaseDetailPageTrx2.master.cs">
-      <DependentUpon>MPBaseDetailPageTrx2.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MasterPage\MPBaseDetailPageTrx2.master.designer.cs">
-      <DependentUpon>MPBaseDetailPageTrx2.master</DependentUpon>
-    </Compile>
     <Compile Include="MasterPage\MPBaseContent.master.cs">
       <DependentUpon>MPBaseContent.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPage\MPBaseContent.master.designer.cs">
       <DependentUpon>MPBaseContent.master</DependentUpon>
-    </Compile>
-    <Compile Include="MasterPage\MPTrx2.master.cs">
-      <DependentUpon>MPTrx2.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MasterPage\MPTrx2.master.designer.cs">
-      <DependentUpon>MPTrx2.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPage\MPEntry.master.cs">
       <DependentUpon>MPEntry.master</DependentUpon>
@@ -1224,11 +1210,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MasterPage\MPTrx2.master" />
     <Content Include="MasterPage\MPBaseContent.master" />
     <Content Include="MasterPage\MPBaseDetailPage.master" />
     <Content Include="MasterPage\MPBaseDetailPageTrx.master" />
-    <Content Include="MasterPage\MPBaseDetailPageTrx2.master" />
     <Content Include="MasterPage\MPFrame.master" />
     <None Include="Scripts\jquery\jqplot\syntaxhighlighter\LGPL-LICENSE" />
     <None Include="Scripts\jquery\jqplot\syntaxhighlighter\MIT-LICENSE" />

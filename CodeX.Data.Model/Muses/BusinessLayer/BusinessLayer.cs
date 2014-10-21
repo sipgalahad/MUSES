@@ -822,6 +822,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region COABudget
+        public static COABudget GetCOABudget(Int32 ID)
+        {
+            return new COABudgetDao().Get(ID);
+        }
+        public static int InsertCOABudget(COABudget record)
+        {
+            return new COABudgetDao().Insert(record);
+        }
+        public static int UpdateCOABudget(COABudget record)
+        {
+            return new COABudgetDao().Update(record);
+        }
+        public static int DeleteCOABudget(Int32 ID)
+        {
+            return new COABudgetDao().Delete(ID);
+        }
+        public static List<COABudget> GetCOABudgetList(string filterExpression)
+        {
+            List<COABudget> result = new List<COABudget>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(COABudget));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((COABudget)helper.IDataReaderToObject(reader, new COABudget()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<COABudget> GetCOABudgetList(string filterExpression, IDbContext ctx)
+        {
+            List<COABudget> result = new List<COABudget>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(COABudget));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((COABudget)helper.IDataReaderToObject(reader, new COABudget()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region CreditCard
         public static CreditCard GetCreditCard(Int32 CreditCardID)
         {

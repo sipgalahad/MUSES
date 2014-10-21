@@ -242,6 +242,9 @@ namespace CodeX.Common
                 public const string JOURNAL_TEMPLATE = "AC010400";
                 public const string PRODUCT_LINE = "AC010500";
 
+                public const string COA_BUDGET_YEAR = "AC020100";
+                public const string COA_BUDGET_MONTH = "AC020200";
+
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
             }

@@ -89,6 +89,8 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Budgeting\COABudget\COABudgetYearList.aspx" />
+    <Content Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx" />
     <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
     <Content Include="Program\Journal\GLSubLedgerInformationCtl.ascx" />
     <Content Include="Program\Journal\JournalDocumentCtl.ascx" />
@@ -268,6 +270,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\COABudget\COABudgetYearList.aspx.cs">
+      <DependentUpon>COABudgetYearList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\COABudget\COABudgetYearList.aspx.designer.cs">
+      <DependentUpon>COABudgetYearList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx.cs">
+      <DependentUpon>COABudgetMonthList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx.designer.cs">
+      <DependentUpon>COABudgetMonthList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.cs">
       <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
