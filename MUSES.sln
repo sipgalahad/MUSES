@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module_HQ", "Module_HQ", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.AssetManagement", "CodeX.Muses.Web.AssetManagement\CodeX.Muses.Web.AssetManagement.csproj", "{2622CFEE-7149-4F68-8FCA-77E7E646198E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.ControlPanelHQ", "CodeX.Muses.Web.ControlPanelHQ\CodeX.Muses.Web.ControlPanelHQ.csproj", "{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,16 @@ Global
 		{2622CFEE-7149-4F68-8FCA-77E7E646198E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2622CFEE-7149-4F68-8FCA-77E7E646198E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2622CFEE-7149-4F68-8FCA-77E7E646198E}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -221,5 +233,6 @@ Global
 		{BA5CD2F1-0480-49D5-B088-D0DA0D549E43} = {854807FA-DCFA-48E5-8A26-D3DE1A7BCED5}
 		{2622CFEE-7149-4F68-8FCA-77E7E646198E} = {854807FA-DCFA-48E5-8A26-D3DE1A7BCED5}
 		{BB477D39-0A55-4F17-B656-143459C5E9AD} = {E0B255F5-AE9B-4FCB-B3BF-9BCF461D9FF9}
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5} = {23AC8C1F-AEED-4A4D-ACB0-2B72367E4810}
 	EndGlobalSection
 EndGlobal
