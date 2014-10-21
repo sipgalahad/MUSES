@@ -6,7 +6,6 @@ CodeBehind="FADepreciationMethodEntry.aspx.cs" Inherits="Codex.Muses.Web.Account
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <input type="hidden" id="hdnID" runat="server" value="" />
-    <div class="pageTitle"><%=GetLabel("Metode Penyusutan Aktiva Tetap")%></div>
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>

@@ -797,7 +797,6 @@ CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.FA
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnPurchaseReceiveDtID" runat="server" value="" />
-    <div class="pageTitle"><%=GetLabel("Daftar Aktiva Tetap")%></div>
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>
