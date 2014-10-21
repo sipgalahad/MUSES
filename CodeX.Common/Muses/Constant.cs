@@ -241,14 +241,20 @@ namespace CodeX.Common
                 public const string SUB_LEDGER = "AC010300";
                 public const string JOURNAL_TEMPLATE = "AC010400";
                 public const string PRODUCT_LINE = "AC010500";
-                public const string FA_DEPRECIATION_METHOD = "AC010501";
-                public const string FA_GROUP = "AC010502";
-                public const string FA_LOCATION = "AC010503";
-                public const string FA_ITEM = "AC010504";
-                public const string FA_ITEM_FROM_PURCHASE_RECEIVE = "AC010505";
 
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
+            }
+            #endregion
+
+            #region AssetManagement
+            public static class AssetManagement
+            {
+                public const string FA_DEPRECIATION_METHOD = "AM010100";
+                public const string FA_GROUP = "AM010200";
+                public const string FA_LOCATION = "AM010300";
+                public const string FA_ITEM = "AM010400";
+                public const string FA_ITEM_FROM_PURCHASE_RECEIVE = "AM010500";
             }
             #endregion
 

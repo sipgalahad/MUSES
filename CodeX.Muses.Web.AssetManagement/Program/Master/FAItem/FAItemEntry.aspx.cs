@@ -18,8 +18,8 @@ namespace Codex.Muses.Web.Accounting.Program
         public override string OnGetMenuCode()
         {
             if (hdnPurchaseReceiveDtID.Value == "")
-                return Constant.MenuCode.Accounting.FA_ITEM;
-            return Constant.MenuCode.Accounting.FA_ITEM_FROM_PURCHASE_RECEIVE;
+                return Constant.MenuCode.AssetManagement.FA_ITEM;
+            return Constant.MenuCode.AssetManagement.FA_ITEM_FROM_PURCHASE_RECEIVE;
         }
 
         protected string OnGetFilterExpressionSupplier()

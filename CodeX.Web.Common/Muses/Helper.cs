@@ -35,10 +35,10 @@ namespace CodeX.Web.Common
             switch (moduleName)
             {
                 case "accounting": result = "AC"; break;
+                case "assetmanagement": result = "AM"; break;
                 case "controlpanel": result = "CP"; break;
                 case "finance": result = "FN"; break;
                 case "inventory": result = "IM"; break;
-                case "teacherpage": result = "TP"; break;
                 default: result = "SM"; break;
             }
             return result;

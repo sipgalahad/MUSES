@@ -8,11 +8,12 @@ using CodeX.Web.Common.UI;
 using CodeX.Web.Common;
 using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
+using CodeX.Web.Common.UI;
 using CodeX.Common;
 
 namespace Codex.Muses.Web.Accounting.Program
 {
-    public partial class FAItemFromPurchaseReceiveList : BasePageList
+    public partial class FAItemList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,11 +21,22 @@ namespace Codex.Muses.Web.Accounting.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_ITEM_FROM_PURCHASE_RECEIVE;
+            return Constant.MenuCode.AssetManagement.FA_ITEM;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            hdnFilterExpression.Value = filterExpression;
+            hdnID.Value = keyValue;
+            filterExpression = GetFilterExpression();
+            if (keyValue != "")
+            {
+                int row = BusinessLayer.GetvFAItemRowIndex(filterExpression, keyValue) + 1;
+                CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
+            }
+            else
+                CurrPage = 1;
+
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -32,7 +44,7 @@ namespace Codex.Muses.Web.Accounting.Program
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
             fieldListText = new string[] { "Code", "Name" };
-            fieldListValue = new string[] { "ItemCode", "ItemName" };
+            fieldListValue = new string[] { "FixedAssetCode", "FixedAssetName" };
         }
 
         private string GetFilterExpression()
@@ -40,7 +52,7 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCItemDetailStatus = '{0}'", Constant.TransactionStatus.APPROVED);
+            filterExpression += String.Format("GCItemStatus = '{0}' AND IsDeleted = 0",Constant.ItemStatus.ACTIVE);
             return filterExpression;
         }
 
@@ -49,11 +61,11 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvPurchaseReceiveDtFixedAssetRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvFAItemRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vPurchaseReceiveDtFixedAsset> lstEntity = BusinessLayer.GetvPurchaseReceiveDtFixedAssetList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1, PurchaseReceiveID");
+            List<vFAItem> lstEntity = BusinessLayer.GetvFAItemList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -82,11 +94,30 @@ namespace Codex.Muses.Web.Accounting.Program
             panel.JSProperties["cpResult"] = result;
         }
 
+        protected override bool OnAddRecord(ref string url, ref string errMessage)
+        {
+            url = ResolveUrl("~/Program/Master/FAItem/FAItemEntry.aspx");
+            return true;
+        }
+
         protected override bool OnEditRecord(ref string url, ref string errMessage)
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/FAItem/FAItemEntry.aspx?id=pr|{0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/FAItem/FAItemEntry.aspx?id={0}", hdnID.Value));
+                return true;
+            }
+            return false;
+        }
+
+        protected override bool OnDeleteRecord(ref string errMessage)
+        {
+            if (hdnID.Value.ToString() != "")
+            {
+                FAItem entity = BusinessLayer.GetFAItem(Convert.ToInt32(hdnID.Value));
+                entity.IsDeleted = true;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateFAItem(entity);
                 return true;
             }
             return false;

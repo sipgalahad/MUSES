@@ -16,7 +16,7 @@ namespace Codex.Muses.Web.Accounting.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_LOCATION;
+            return Constant.MenuCode.AssetManagement.FA_LOCATION;
         }
 
         protected override void InitializeDataControl()

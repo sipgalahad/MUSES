@@ -6,12 +6,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BA5CD2F1-0480-49D5-B088-D0DA0D549E43}</ProjectGuid>
+    <ProjectGuid>{2622CFEE-7149-4F68-8FCA-77E7E646198E}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeX.Muses.Web.Accounting</RootNamespace>
-    <AssemblyName>CodeX.Muses.Web.Accounting</AssemblyName>
+    <RootNamespace>CodeX.Muses.Web.AssetManagement</RootNamespace>
+    <AssemblyName>CodeX.Muses.Web.AssetManagement</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
@@ -73,6 +73,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
     </Content>
@@ -85,29 +88,23 @@
     <Content Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx">
       <Link>SharedLibs\Program\RemoteLogon.aspx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx">
+      <Link>SharedLibs\Program\ReportViewer.aspx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
-    <Content Include="Program\Journal\GLSubLedgerInformationCtl.ascx" />
-    <Content Include="Program\Journal\JournalDocumentCtl.ascx" />
-    <Content Include="Program\Journal\JournalEntry.aspx" />
-    <Content Include="Program\Journal\JournalList.aspx" />
-    <Content Include="Program\Journal\JournalListDtCtl.ascx" />
-    <Content Include="Program\Journal\JournalTemplateCtl.ascx" />
-    <Content Include="Program\Master\ChartOfAccount\ChartOfAccountEntry.aspx" />
-    <Content Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx" />
-    <Content Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx" />
-    <Content Include="Program\Master\JournalTemplate\JournalTemplateDtViewCtl.ascx" />
-    <Content Include="Program\Master\JournalTemplate\JournalTemplateEntry.aspx" />
-    <Content Include="Program\Master\JournalTemplate\JournalTemplateList.aspx" />
-    <Content Include="Program\Master\SubLedgerType\SubLedgerTypeEntry.aspx" />
-    <Content Include="Program\Master\SubLedgerType\SubLedgerTypeList.aspx" />
-    <Content Include="Program\Master\SubLedger\SubLedgerDtEntryCtl.ascx" />
-    <Content Include="Program\Master\SubLedger\SubLedgerDtViewCtl.ascx" />
-    <Content Include="Program\Master\SubLedger\SubLedgerEntry.aspx" />
-    <Content Include="Program\Master\SubLedger\SubLedgerList.aspx" />
+    <Content Include="Program\Master\FADepreciationMethod\FADepreciationMethodEntry.aspx" />
+    <Content Include="Program\Master\FADepreciationMethod\FADepreciationMethodList.aspx" />
+    <Content Include="Program\Master\FAGroup\FAGroupEntry.aspx" />
+    <Content Include="Program\Master\FAGroup\FAGroupList.aspx" />
+    <Content Include="Program\Master\FAItem\FADepreciationEntryCtl.ascx" />
+    <Content Include="Program\Master\FAItem\FAItemEntry.aspx" />
+    <Content Include="Program\Master\FAItem\FAItemFromPurchaseReceiveList.aspx" />
+    <Content Include="Program\Master\FAItem\FAItemList.aspx" />
+    <Content Include="Program\Master\FALocation\FALocationEntry.aspx" />
+    <Content Include="Program\Master\FALocation\FALocationList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -152,6 +149,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
       <DependentUpon>MPListPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.designer.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.cs</Link>
@@ -261,6 +267,15 @@
       <Link>SharedLibs\Program\RemoteLogon.aspx.designer.cs</Link>
       <DependentUpon>RemoteLogon.aspx.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>
+      <DependentUpon>ReportViewer.aspx.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
       <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
       <DependentUpon>MethodService.asmx</DependentUpon>
@@ -269,156 +284,80 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.cs">
-      <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FADepreciationMethod\FADepreciationMethodEntry.aspx.cs">
+      <DependentUpon>FADepreciationMethodEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.designer.cs">
-      <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FADepreciationMethod\FADepreciationMethodEntry.aspx.designer.cs">
+      <DependentUpon>FADepreciationMethodEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\GLSubLedgerInformationCtl.ascx.cs">
-      <DependentUpon>GLSubLedgerInformationCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FADepreciationMethod\FADepreciationMethodList.aspx.cs">
+      <DependentUpon>FADepreciationMethodList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\GLSubLedgerInformationCtl.ascx.designer.cs">
-      <DependentUpon>GLSubLedgerInformationCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FADepreciationMethod\FADepreciationMethodList.aspx.designer.cs">
+      <DependentUpon>FADepreciationMethodList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalDocumentCtl.ascx.cs">
-      <DependentUpon>JournalDocumentCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FAGroup\FAGroupEntry.aspx.cs">
+      <DependentUpon>FAGroupEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalDocumentCtl.ascx.designer.cs">
-      <DependentUpon>JournalDocumentCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FAGroup\FAGroupEntry.aspx.designer.cs">
+      <DependentUpon>FAGroupEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalEntry.aspx.cs">
-      <DependentUpon>JournalEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\FAGroup\FAGroupList.aspx.cs">
+      <DependentUpon>FAGroupList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalEntry.aspx.designer.cs">
-      <DependentUpon>JournalEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\FAGroup\FAGroupList.aspx.designer.cs">
+      <DependentUpon>FAGroupList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalList.aspx.cs">
-      <DependentUpon>JournalList.aspx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FADepreciationEntryCtl.ascx.cs">
+      <DependentUpon>FADepreciationEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalList.aspx.designer.cs">
-      <DependentUpon>JournalList.aspx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FADepreciationEntryCtl.ascx.designer.cs">
+      <DependentUpon>FADepreciationEntryCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalListDtCtl.ascx.cs">
-      <DependentUpon>JournalListDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FAItemEntry.aspx.cs">
+      <DependentUpon>FAItemEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalListDtCtl.ascx.designer.cs">
-      <DependentUpon>JournalListDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FAItemEntry.aspx.designer.cs">
+      <DependentUpon>FAItemEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalTemplateCtl.ascx.cs">
-      <DependentUpon>JournalTemplateCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FAItemFromPurchaseReceiveList.aspx.cs">
+      <DependentUpon>FAItemFromPurchaseReceiveList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalTemplateCtl.ascx.designer.cs">
-      <DependentUpon>JournalTemplateCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FAItemFromPurchaseReceiveList.aspx.designer.cs">
+      <DependentUpon>FAItemFromPurchaseReceiveList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ChartOfAccount\ChartOfAccountEntry.aspx.cs">
-      <DependentUpon>ChartOfAccountEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FAItemList.aspx.cs">
+      <DependentUpon>FAItemList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ChartOfAccount\ChartOfAccountEntry.aspx.designer.cs">
-      <DependentUpon>ChartOfAccountEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\FAItem\FAItemList.aspx.designer.cs">
+      <DependentUpon>FAItemList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx.cs">
-      <DependentUpon>ChartOfAccountList.aspx</DependentUpon>
+    <Compile Include="Program\Master\FALocation\FALocationEntry.aspx.cs">
+      <DependentUpon>FALocationEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx.designer.cs">
-      <DependentUpon>ChartOfAccountList.aspx</DependentUpon>
+    <Compile Include="Program\Master\FALocation\FALocationEntry.aspx.designer.cs">
+      <DependentUpon>FALocationEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx.cs">
-      <DependentUpon>JournalTemplateDtEntryCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\FALocation\FALocationList.aspx.cs">
+      <DependentUpon>FALocationList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>JournalTemplateDtEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateDtViewCtl.ascx.cs">
-      <DependentUpon>JournalTemplateDtViewCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateDtViewCtl.ascx.designer.cs">
-      <DependentUpon>JournalTemplateDtViewCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateEntry.aspx.cs">
-      <DependentUpon>JournalTemplateEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateEntry.aspx.designer.cs">
-      <DependentUpon>JournalTemplateEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateList.aspx.cs">
-      <DependentUpon>JournalTemplateList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\JournalTemplate\JournalTemplateList.aspx.designer.cs">
-      <DependentUpon>JournalTemplateList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SubLedgerType\SubLedgerTypeEntry.aspx.cs">
-      <DependentUpon>SubLedgerTypeEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SubLedgerType\SubLedgerTypeEntry.aspx.designer.cs">
-      <DependentUpon>SubLedgerTypeEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SubLedgerType\SubLedgerTypeList.aspx.cs">
-      <DependentUpon>SubLedgerTypeList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SubLedgerType\SubLedgerTypeList.aspx.designer.cs">
-      <DependentUpon>SubLedgerTypeList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerDtEntryCtl.ascx.cs">
-      <DependentUpon>SubLedgerDtEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubLedgerDtEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerDtViewCtl.ascx.cs">
-      <DependentUpon>SubLedgerDtViewCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerDtViewCtl.ascx.designer.cs">
-      <DependentUpon>SubLedgerDtViewCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerEntry.aspx.cs">
-      <DependentUpon>SubLedgerEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerEntry.aspx.designer.cs">
-      <DependentUpon>SubLedgerEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerList.aspx.cs">
-      <DependentUpon>SubLedgerList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SubLedger\SubLedgerList.aspx.designer.cs">
-      <DependentUpon>SubLedgerList.aspx</DependentUpon>
+    <Compile Include="Program\Master\FALocation\FALocationList.aspx.designer.cs">
+      <DependentUpon>FALocationList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\licenses.licx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">
-      <Link>AppSetting.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
-      <Link>ConnectionString.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
@@ -447,6 +386,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">
+      <Link>AppSetting.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
+      <Link>ConnectionString.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master">
       <Link>SharedLibs\MasterPage\MPBase.Master</Link>
     </Content>
@@ -459,6 +408,8 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master">
       <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master">
       <Link>SharedLibs\MasterPage\MPEntry.master</Link>
     </Content>
@@ -468,8 +419,6 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master">
       <Link>SharedLibs\MasterPage\MPMain.master</Link>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
       <Link>SharedLibs\MasterPage\MPTrx.master</Link>
     </Content>
@@ -482,9 +431,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2175</DevelopmentServerPort>
+          <DevelopmentServerPort>9154</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/research/Muses/Accounting</IISUrl>
+          <IISUrl>http://localhost/research/Muses/AssetManagement</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

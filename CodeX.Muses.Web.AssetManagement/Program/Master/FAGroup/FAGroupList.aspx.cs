@@ -8,12 +8,11 @@ using CodeX.Web.Common.UI;
 using CodeX.Web.Common;
 using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
-using CodeX.Web.Common.UI;
 using CodeX.Common;
 
 namespace Codex.Muses.Web.Accounting.Program
 {
-    public partial class FAItemList : BasePageList
+    public partial class FAGroupList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -21,7 +20,7 @@ namespace Codex.Muses.Web.Accounting.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_ITEM;
+            return Constant.MenuCode.AssetManagement.FA_GROUP;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -31,7 +30,7 @@ namespace Codex.Muses.Web.Accounting.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvFAItemRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvFAGroupRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -44,7 +43,7 @@ namespace Codex.Muses.Web.Accounting.Program
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
             fieldListText = new string[] { "Code", "Name" };
-            fieldListValue = new string[] { "FixedAssetCode", "FixedAssetName" };
+            fieldListValue = new string[] { "MethodCode", "MethodName" };
         }
 
         private string GetFilterExpression()
@@ -52,7 +51,7 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCItemStatus = '{0}' AND IsDeleted = 0",Constant.ItemStatus.ACTIVE);
+            filterExpression += "IsDeleted = 0";
             return filterExpression;
         }
 
@@ -61,11 +60,11 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvFAItemRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvFAGroupRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vFAItem> lstEntity = BusinessLayer.GetvFAItemList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vFAGroup> lstEntity = BusinessLayer.GetvFAGroupList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -96,7 +95,7 @@ namespace Codex.Muses.Web.Accounting.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/FAItem/FAItemEntry.aspx");
+            url = ResolveUrl("~/Program/Master/FAGroup/FAGroupEntry.aspx");
             return true;
         }
 
@@ -104,7 +103,7 @@ namespace Codex.Muses.Web.Accounting.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/FAItem/FAItemEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/FAGroup/FAGroupEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -114,10 +113,10 @@ namespace Codex.Muses.Web.Accounting.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                FAItem entity = BusinessLayer.GetFAItem(Convert.ToInt32(hdnID.Value));
+                FAGroup entity = BusinessLayer.GetFAGroup(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateFAItem(entity);
+                BusinessLayer.UpdateFAGroup(entity);
                 return true;
             }
             return false;

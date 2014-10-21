@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace Codex.Muses.Web.Accounting.Program
 {
-    public partial class FAGroupList : BasePageList
+    public partial class FALocationList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace Codex.Muses.Web.Accounting.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_GROUP;
+            return Constant.MenuCode.AssetManagement.FA_LOCATION;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace Codex.Muses.Web.Accounting.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvFAGroupRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetFALocationRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -42,8 +42,8 @@ namespace Codex.Muses.Web.Accounting.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Code", "Name" };
-            fieldListValue = new string[] { "MethodCode", "MethodName" };
+            fieldListText = new string[] { "Kode Lokasi", "Nama Lokasi" };
+            fieldListValue = new string[] { "FALocationCode", "FALocationName" };
         }
 
         private string GetFilterExpression()
@@ -60,11 +60,11 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvFAGroupRowCount(filterExpression);
+                rowCount = BusinessLayer.GetFALocationRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vFAGroup> lstEntity = BusinessLayer.GetvFAGroupList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<FALocation> lstEntity = BusinessLayer.GetFALocationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -95,7 +95,7 @@ namespace Codex.Muses.Web.Accounting.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/FAGroup/FAGroupEntry.aspx");
+            url = ResolveUrl("~/Program/Master/FALocation/FALocationEntry.aspx");
             return true;
         }
 
@@ -103,7 +103,7 @@ namespace Codex.Muses.Web.Accounting.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/FAGroup/FAGroupEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/FALocation/FALocationEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -113,10 +113,10 @@ namespace Codex.Muses.Web.Accounting.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                FAGroup entity = BusinessLayer.GetFAGroup(Convert.ToInt32(hdnID.Value));
+                FALocation entity = BusinessLayer.GetFALocation(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateFAGroup(entity);
+                BusinessLayer.UpdateFALocation(entity);
                 return true;
             }
             return false;

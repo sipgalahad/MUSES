@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace Codex.Muses.Web.Accounting.Program
 {
-    public partial class FALocationList : BasePageList
+    public partial class FAItemFromPurchaseReceiveList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,30 +20,19 @@ namespace Codex.Muses.Web.Accounting.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_LOCATION;
+            return Constant.MenuCode.AssetManagement.FA_ITEM_FROM_PURCHASE_RECEIVE;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            hdnFilterExpression.Value = filterExpression;
-            hdnID.Value = keyValue;
-            filterExpression = GetFilterExpression();
-            if (keyValue != "")
-            {
-                int row = BusinessLayer.GetFALocationRowIndex(filterExpression, keyValue) + 1;
-                CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
-            }
-            else
-                CurrPage = 1;
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Kode Lokasi", "Nama Lokasi" };
-            fieldListValue = new string[] { "FALocationCode", "FALocationName" };
+            fieldListText = new string[] { "Code", "Name" };
+            fieldListValue = new string[] { "ItemCode", "ItemName" };
         }
 
         private string GetFilterExpression()
@@ -51,7 +40,7 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += "IsDeleted = 0";
+            filterExpression += string.Format("GCItemDetailStatus = '{0}'", Constant.TransactionStatus.APPROVED);
             return filterExpression;
         }
 
@@ -60,11 +49,11 @@ namespace Codex.Muses.Web.Accounting.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetFALocationRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvPurchaseReceiveDtFixedAssetRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<FALocation> lstEntity = BusinessLayer.GetFALocationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vPurchaseReceiveDtFixedAsset> lstEntity = BusinessLayer.GetvPurchaseReceiveDtFixedAssetList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1, PurchaseReceiveID");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -93,30 +82,11 @@ namespace Codex.Muses.Web.Accounting.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            url = ResolveUrl("~/Program/Master/FALocation/FALocationEntry.aspx");
-            return true;
-        }
-
         protected override bool OnEditRecord(ref string url, ref string errMessage)
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/FALocation/FALocationEntry.aspx?id={0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                FALocation entity = BusinessLayer.GetFALocation(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateFALocation(entity);
+                url = ResolveUrl(string.Format("~/Program/Master/FAItem/FAItemEntry.aspx?id=pr|{0}", hdnID.Value));
                 return true;
             }
             return false;

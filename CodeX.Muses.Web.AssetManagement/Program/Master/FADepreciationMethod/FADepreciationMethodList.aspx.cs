@@ -20,7 +20,7 @@ namespace Codex.Muses.Web.Accounting.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_DEPRECIATION_METHOD;
+            return Constant.MenuCode.AssetManagement.FA_DEPRECIATION_METHOD;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
