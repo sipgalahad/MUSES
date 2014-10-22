@@ -23,12 +23,12 @@ namespace CodeX.Web.CommonLibs.MasterPage
             base.OnInit(e);
             if (!Page.IsPostBack)
             {
+                moduleName = Helper.GetModuleName();
                 if (AppSession.UserLogin == null)
-                    Response.Redirect("~/../ControlPanel/Login.aspx");
+                    Response.Redirect(GetLoginUrl());
 
                 hdnLoginData.Value = string.Format("{0}|{1}|{2}", AppSession.UserLogin.UserName, "fromprogram", AppSession.UserLogin.SiteID);
 
-                moduleName = Helper.GetModuleName();
                 ModuleID = Helper.GetModuleID(moduleName);
                 lstMenu = BusinessLayer.GetUserMenuAccess(ModuleID, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "IsShowInPullDownMenu = 1 AND IsVisible = 1");
                 //lstMenu = BusinessLayer.GetMenuList(string.Format("ModuleID = '{0}'", ModuleID));
@@ -42,6 +42,14 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 rptModule.DataSource = lstModule;
                 rptModule.DataBind();
             }
+        }
+
+        protected string GetLoginUrl()
+        {
+            if (moduleName.Contains("HQ"))
+                return "~/../ControlPanelHQ/Login.aspx";
+            else
+                return "~/../ControlPanel/Login.aspx";
         }
 
         protected void rptModule_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -126,11 +134,6 @@ namespace CodeX.Web.CommonLibs.MasterPage
         protected List<GetUserMenuAccess> GetMenuChild(Int32 ParentID)
         {
             return lstMenu.Where(p => p.ParentID == ParentID).OrderBy(p => p.MenuIndex).ToList();
-        }
-
-        protected string GetHospitalName()
-        {
-            return AppSession.UserLogin.SiteName;
         }
 
         protected string GetUserInfo()

@@ -77,27 +77,35 @@ namespace Codex.Muses.Web.Accounting.Program
             {
                 vChartOfAccount entity = e.Item.DataItem as vChartOfAccount;
                 List<COABudget> lstEntityCOABudget = lstCOABudget.Where(p => p.GLAccount == entity.GLAccountID).ToList();
-                if (lstEntityCOABudget.Count > 0)
+
+                COABudget entityCOABudget = null;
+                for (int i = 1; i <= 12; ++i)
                 {
-                    COABudget entityCOABudget = null;
-                    for (int i = 1; i <= 12; ++i)
+                    HtmlInputText txtBudgetAmount = e.Item.FindControl("txtBudgetAmount" + i) as HtmlInputText;
+                    if (entity.IsHeader)
+                        txtBudgetAmount.Style.Add("display", "none");
+                    else
                     {
                         string periodNo = string.Format("{0}{1}", cboYear.Value, i.ToString("00"));
                         entityCOABudget = lstEntityCOABudget.FirstOrDefault(p => p.PeriodNo == periodNo);
                         if (entityCOABudget != null)
-                        {
-                            HtmlInputText txtBudgetAmount = e.Item.FindControl("txtBudgetAmount" + i) as HtmlInputText;
                             txtBudgetAmount.Value = entityCOABudget.BudgjetAmount.ToString();
-                        }
-                    }
-
-                    entityCOABudget = lstEntityCOABudget.FirstOrDefault(p => p.PeriodNo == cboYear.Value.ToString());
-                    if (entityCOABudget != null)
-                    {
-                        HtmlInputText txtBudgetAmountYear = e.Item.FindControl("txtBudgetAmountYear") as HtmlInputText;
-                        txtBudgetAmountYear.Value = entityCOABudget.BudgjetAmount.ToString();
                     }
                 }
+
+                HtmlInputText txtBudgetAmountYear = e.Item.FindControl("txtBudgetAmountYear") as HtmlInputText;
+                if (entity.IsHeader)
+                    txtBudgetAmountYear.Style.Add("display", "none");
+                else
+                {
+                    entityCOABudget = lstEntityCOABudget.FirstOrDefault(p => p.PeriodNo == cboYear.Value.ToString());
+                    if (entityCOABudget != null)
+                        txtBudgetAmountYear.Value = entityCOABudget.BudgjetAmount.ToString();
+                }
+
+                HtmlInputButton btnSave = e.Item.FindControl("btnSave") as HtmlInputButton;
+                if (entity.IsHeader)
+                    btnSave.Style.Add("display", "none");
             }
         }
 
@@ -123,35 +131,6 @@ namespace Codex.Muses.Web.Accounting.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
-        }
-
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            url = ResolveUrl("~/Program/Master/ChartOfAccount/ChartOfAccountEntry.aspx");
-            return true;
-        }
-
-        protected override bool OnEditRecord(ref string url, ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                url = ResolveUrl(string.Format("~/Program/Master/ChartOfAccount/ChartOfAccountEntry.aspx?id={0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                ChartOfAccount entity = BusinessLayer.GetChartOfAccount(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateChartOfAccount(entity);
-                return true;
-            }
-            return false;
         }
 
         #region Save

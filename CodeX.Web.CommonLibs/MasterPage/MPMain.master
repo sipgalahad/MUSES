@@ -158,6 +158,10 @@
             }
             hideLoadingPanel();
         }
+
+        function redirectToLoginPage() {
+            document.location = ResolveUrl("<%=GetLoginUrl() %>");
+        }
     </script>
 
     <input type="hidden" runat="server" id="hdnLoginData" />
@@ -276,7 +280,7 @@
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
                 EndCallback="function(s,e){                
                     hideLoadingPanel();
-                    document.location = ResolveUrl('~/../ControlPanel/Login.aspx');
+                    redirectToLoginPage();
                 }" />
         </dxcp:ASPxCallbackPanel> 
     </div> 

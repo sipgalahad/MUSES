@@ -95,6 +95,13 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Login.aspx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemProductList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -107,6 +114,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.cs">
       <Link>SharedLibs\Controls\ChangePasswordCtl.ascx.cs</Link>
       <DependentUpon>ChangePasswordCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\ChangePasswordCtl.ascx.designer.cs</Link>
@@ -115,6 +123,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.cs">
       <Link>SharedLibs\Controls\GeneralCtl.ascx.cs</Link>
       <DependentUpon>GeneralCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.cs</Link>
@@ -123,6 +132,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.cs">
       <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.cs</Link>
       <DependentUpon>MPEntryPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.designer.cs</Link>
@@ -131,6 +141,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.cs">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx.cs</Link>
       <DependentUpon>MPListPopupCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
@@ -139,6 +150,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.cs">
       <Link>SharedLibs\Controls\PopupPrintCtl.ascx.cs</Link>
       <DependentUpon>PopupPrintCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\PopupPrintCtl.ascx.designer.cs</Link>
@@ -147,6 +159,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.cs</Link>
       <DependentUpon>SetLoginAttributeCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs</Link>
@@ -155,6 +168,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
       <Link>SharedLibs\ErrorPage.aspx.cs</Link>
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.designer.cs">
       <Link>SharedLibs\ErrorPage.aspx.designer.cs</Link>
@@ -163,6 +177,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.cs">
       <Link>SharedLibs\MasterPage\MPBase.Master.cs</Link>
       <DependentUpon>MPBase.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBase.Master.designer.cs">
       <Link>SharedLibs\MasterPage\MPBase.Master.designer.cs</Link>
@@ -171,6 +186,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master.cs">
       <Link>SharedLibs\MasterPage\MPBaseContent.master.cs</Link>
       <DependentUpon>MPBaseContent.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseContent.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPBaseContent.master.designer.cs</Link>
@@ -179,6 +195,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.cs">
       <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.cs</Link>
       <DependentUpon>MPBaseDetailPage.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPage.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPBaseDetailPage.master.designer.cs</Link>
@@ -187,6 +204,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.cs">
       <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.cs</Link>
       <DependentUpon>MPBaseDetailPageTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPBaseDetailPageTrx.master.designer.cs</Link>
@@ -195,6 +213,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.cs">
       <Link>SharedLibs\MasterPage\MPEntry.master.cs</Link>
       <DependentUpon>MPEntry.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPEntry.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPEntry.master.designer.cs</Link>
@@ -203,6 +222,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.cs">
       <Link>SharedLibs\MasterPage\MPList.master.cs</Link>
       <DependentUpon>MPList.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPList.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPList.master.designer.cs</Link>
@@ -211,6 +231,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.cs">
       <Link>SharedLibs\MasterPage\MPMain.master.cs</Link>
       <DependentUpon>MPMain.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPMain.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPMain.master.designer.cs</Link>
@@ -219,6 +240,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master.cs">
       <Link>SharedLibs\MasterPage\MPTrx.master.cs</Link>
       <DependentUpon>MPTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master.designer.cs">
       <Link>SharedLibs\MasterPage\MPTrx.master.designer.cs</Link>
@@ -227,6 +249,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\Main.aspx.cs">
       <Link>SharedLibs\Program\Main.aspx.cs</Link>
       <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\Main.aspx.designer.cs">
       <Link>SharedLibs\Program\Main.aspx.designer.cs</Link>
@@ -235,6 +258,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.cs">
       <Link>SharedLibs\Program\RemoteLogon.aspx.cs</Link>
       <DependentUpon>RemoteLogon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.designer.cs">
       <Link>SharedLibs\Program\RemoteLogon.aspx.designer.cs</Link>
@@ -243,6 +267,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
       <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>
@@ -251,9 +276,59 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
       <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
       <DependentUpon>MethodService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.cs">
+      <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.designer.cs">
+      <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.cs">
+      <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
+      <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
+      <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.cs">
+      <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.cs">
+      <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.designer.cs">
+      <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.cs">
+      <DependentUpon>ItemProductList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.designer.cs">
+      <DependentUpon>ItemProductList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

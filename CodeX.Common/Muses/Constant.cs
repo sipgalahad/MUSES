@@ -21,7 +21,6 @@ namespace CodeX.Common
             public const string INFORMATION = "IF";
             public const string INVENTORY = "IM";
             public const string STUDENT_MANAGEMENT = "SM";
-            public const string TEACHER_PAGE = "TP";
         }
         #endregion
 
@@ -34,7 +33,7 @@ namespace CodeX.Common
         #endregion
 
         #region Standard Code
-        public static class StandardCode
+        public static partial class StandardCode
         {
             public const string SCHOOL_PERIOD_STATUS = "MS001";
             public const string REGISTRATION_TYPE = "MS002";
@@ -48,52 +47,6 @@ namespace CodeX.Common
             public const string SCHOOL_TYPE = "MS010";
             public const string LANGUAGE = "MS012";
             public const string INFORMATION_SOURCE = "MS013";
-
-            public const string MARITAL_STATUS = "0002";
-            public const string GENDER = "0003";
-            public const string ETHNIC = "0005";
-            public const string RELIGION = "0006";
-            public const string FAMILY_RELATION = "0063";
-            public const string NATIONALITY = "0212";
-            public const string PROVINCE = "0347";
-            public const string ITEM_TYPE = "X001";
-            public const string ITEM_UNIT = "X003";
-            public const string BLOOD_TYPE = "X009";
-            public const string OCCUPATION = "X012";
-            public const string EDUCATION = "X013";
-            public const string SALUTATION = "X014";
-            public const string TITLE = "X015";
-            public const string SUFFIX = "X016";
-            public const string BUSINESS_OBJECT_TYPE = "X017";
-            public const string HEALTHCARE_OPERATING_GROUP = "X033";
-            public const string RESTRICTION_TYPE = "X038";
-            public const string CARD_TYPE = "X102";
-            public const string VALUE_TYPE = "X103";
-            public const string REPORTING_PERIOD = "X106";
-            public const string ADJUSTMENT_REASON = "X107";
-            public const string FILTER_PARAMETER_TYPE = "X108";
-            public const string ABC_CLASS = "X109";
-            public const string TRANSACTION_STATUS = "X121";
-            public const string DELETE_REASON = "X129";
-            public const string REPORT_TYPE = "X140";
-            public const string DATA_SOURCE_TYPE = "X141";
-            public const string CARD_PROVIDER = "X142";
-            public const string PURCHASE_ORDER_TYPE = "X145";
-            public const string FRANCO_REGION = "X146";
-            public const string CURRENCY_CODE = "X147";
-            public const string CHARGES_TYPE = "X157";
-            public const string PURCHASE_RETURN_TYPE = "X161";
-            public const string PURCHASE_RETURN_REASON = "X162";
-            public const string RETURN_REASON = "X170";
-            public const string COENAM_RULE = "X172";
-            public const string ADJUSTMENT_TYPE = "X173";
-            public const string CONSUMPTION_TYPE = "X174";
-            public const string DIRECT_PURCHASE_TYPE = "X175";
-            public const string SUPPLIER_CREDIT_NOTE_TYPE = "X176";
-            public const string CHECK_COUNT_TYPE = "X177";
-            public const string SUPPLIER_PAYMENT_METHOD = "X178";
-            public const string GLACCOUNT_TYPE = "X180";
-            public const string JOURNAL_GROUP = "X188";
         }
 
         public static class SchoolPeriodStatus
@@ -104,125 +57,6 @@ namespace CodeX.Common
             public const string VOID = "MS001^999";
         }
 
-        public static class FamilyRelation
-        {
-            public const string FATHER = "0063^001";
-            public const string MOTHER = "0063^002";
-        }
-
-        public static class PurchaseReturnType
-        {
-            public const string REPLACEMENT = "X161^001";
-            public const string CREDIT_NOTE = "X161^002";
-        }
-
-        public static class ItemType
-        {
-            public const string PRODUCT = "X001^001";
-        }
-
-        public static class SupplierPaymentMethod
-        {
-            public const string TUNAI = "X178^001";
-            public const string TRANSFER = "X178^002";
-            public const string GIRO = "X178^003";
-            public const string CHEQUE = "X178^004";
-            public const string CREDIT_CARD = "X178^005";
-            public const string DEBIT_CARD = "X178^006";
-            public const string KOREKSI_FAKTUR = "X178^007";
-        }
-
-        public static class ControlType
-        {
-            public const string TEXT_BOX = "X103^001";
-            public const string COMBO_BOX = "X103^002";
-            public const string RADIO_BUTTON = "X103^003";
-            public const string CHECK_BOX = "X103^004";
-            public const string SEARCH_DIALOG = "X103^005";
-        }
-
-        public static class AdjustmentType
-        {
-            public const string RECEIPTS = "X173^001";
-        }
-
-        public static class ItemStatus
-        {
-            public const string ACTIVE = "X181^001";
-            public const string IN_ACTIVE = "X181^999";
-        }
-
-        public static class CustomerType
-        {
-            public const string PERSONAL = "X004^999";
-        }
-
-        public static class JournalGroup
-        {
-            public const string PENDAPATAN_PENERIMAAN = "X188^001";
-            public const string HUTANG_PIUTANG = "X188^002";
-            public const string INVENTORY = "X188^003";
-            public const string PHARMACY = "X188^004";
-            public const string FIXED_ASSET = "X188^005";
-            public const string MEMORIAL = "X188^006";
-        }
-
-        public static class BusinessObjectType
-        {
-            public const string STUDENT = "X017^001";
-            public const string ITEM = "X017^002";
-            public const string USER = "X017^004";
-            public const string SUPPLIER = "X017^004";
-        }
-
-        public static class TransactionStatus
-        {
-            public const string OPEN = "X121^001";
-            public const string WAIT_FOR_APPROVAL = "X121^002";
-            public const string APPROVED = "X121^003";
-            public const string CLOSED = "X121^004";
-            public const string PROCESSED = "X121^005";
-            public const string VOID = "X121^999";
-        }
-
-        public static class DistributionStatus
-        {
-            public const string OPEN = "X160^001";
-            public const string WAIT_FOR_APPROVAL = "X160^002";
-            public const string ON_DELIVERY = "X160^003";
-            public const string RECEIVED = "X160^004";
-            public const string VOID = "X160^999";
-        }
-
-        public static class FilterParameterType
-        {
-            public const string COMBO_BOX = "X108^001";
-            public const string CHECK_LIST = "X108^002";
-            public const string DATE = "X108^003";
-            public const string PAST_PERIOD = "X108^004";
-            public const string UPCOMING_PERIOD = "X108^005";
-            public const string FREE_TEXT = "X108^006";
-            public const string SEARCH_DIALOG = "X108^007";
-            public const string CUSTOM_COMBO_BOX = "X108^008";
-            public const string YEAR_COMBO_BOX = "X108^009";
-            public const string TEXT_BOX = "X108^010";
-            public const string RANGE = "X108^011";
-            public const string CONSTANT = "X108^012";
-            public const string SINGLE_DATE = "X108^013";
-        }
-
-        public static class DataSourceType
-        {
-            public const string VIEW = "X141^001";
-            public const string STORED_PROCEDURE = "X141^002";
-        }
-
-        public static class DeleteReason
-        {
-            public const string WRONG_ENTRY = "X129^001";
-            public const string INACTIVE_RECORD = "X129^002";
-            public const string OTHER = "X129^999";
-        }
         public static class RegistrationStatus
         {
             public const string OPEN = "MS011^001";
@@ -233,6 +67,17 @@ namespace CodeX.Common
         #region Menu Code
         public static class MenuCode
         {
+            #region Module HQ
+            #region ControlPanelHQ
+            public static class ControlPanelHQ
+            {
+                public const string ITEM_GROUP_MASTER = "CPHQ010101";
+                public const string ITEM_PRODUCT = "CPHQ010102";
+            }
+            #endregion
+            #endregion
+
+            #region Module Site
             #region Accounting
             public static class Accounting
             {
@@ -242,8 +87,8 @@ namespace CodeX.Common
                 public const string JOURNAL_TEMPLATE = "AC010400";
                 public const string PRODUCT_LINE = "AC010500";
 
-                public const string COA_BUDGET_YEAR = "AC020100";
-                public const string COA_BUDGET_MONTH = "AC020200";
+                public const string COA_BUDGET_YEAR = "AC030100";
+                public const string COA_BUDGET_MONTH = "AC030200";
 
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
@@ -435,20 +280,6 @@ namespace CodeX.Common
                 public const string WS_SUBJECT_MATTER = "SM99040203";
             }
             #endregion
-
-            #region TeacherPage
-            public static class TeacherPage
-            {
-                public const string WEEKLY_SCHEDULE = "TP010100";
-
-                public const string CLASS_MEETING_PAGE = "TP99010000";
-                public const string WS_CLASS_MEETING = "TP99010101";
-                public const string WS_CLASS_ATTENDANCE = "TP99010102";
-                public const string WS_CLASS_TASK = "TP99010103";
-                public const string WS_ATTENDANCE_HISTORY = "TP99010201";
-                public const string WS_STUDENT_MARK = "TP99010202";
-                public const string WS_SUBJECT_MATTER = "TP99010203";
-            }
             #endregion
         }
         #endregion

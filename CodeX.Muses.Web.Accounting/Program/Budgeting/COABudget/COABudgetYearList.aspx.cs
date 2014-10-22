@@ -75,11 +75,18 @@ namespace Codex.Muses.Web.Accounting.Program
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vChartOfAccount entity = e.Row.DataItem as vChartOfAccount;
-                COABudget entityCOABudget = lstCOABudget.FirstOrDefault(p => p.GLAccount == entity.GLAccountID);
-                if (entityCOABudget != null)
+                HtmlInputText txtBudgetAmount = e.Row.FindControl("txtBudgetAmount") as HtmlInputText;
+                HtmlInputButton btnSave = e.Row.FindControl("btnSave") as HtmlInputButton;
+                if (entity.IsHeader)
                 {
-                    HtmlInputText txtBudgetAmount = e.Row.FindControl("txtBudgetAmount") as HtmlInputText;
-                    txtBudgetAmount.Value = entityCOABudget.BudgjetAmount.ToString();
+                    txtBudgetAmount.Style.Add("display", "none");
+                    btnSave.Style.Add("display", "none");
+                }
+                else
+                {
+                    COABudget entityCOABudget = lstCOABudget.FirstOrDefault(p => p.GLAccount == entity.GLAccountID);
+                    if (entityCOABudget != null)
+                        txtBudgetAmount.Value = entityCOABudget.BudgjetAmount.ToString();
                 }
             }
         }
@@ -106,35 +113,6 @@ namespace Codex.Muses.Web.Accounting.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
-        }
-
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            url = ResolveUrl("~/Program/Master/ChartOfAccount/ChartOfAccountEntry.aspx");
-            return true;
-        }
-
-        protected override bool OnEditRecord(ref string url, ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                url = ResolveUrl(string.Format("~/Program/Master/ChartOfAccount/ChartOfAccountEntry.aspx?id={0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                ChartOfAccount entity = BusinessLayer.GetChartOfAccount(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateChartOfAccount(entity);
-                return true;
-            }
-            return false;
         }
 
         #region Save
