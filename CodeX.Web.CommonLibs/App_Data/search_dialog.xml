@@ -52,6 +52,42 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region FA Group -->
+  <searchdialog type="fagroup" methodname="GetFAGroupList" keyfieldname="FAGroupCode" orderbyexpression="FAGroupCode ASC">
+    <gridcolumns>
+      <gridcolumn datafield="FAGroupCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="FAGroupName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="FAGroupName" headertext="Nama" description="" />
+      <intellisensetext datafield="FAGroupCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region FA Item -->
+  <searchdialog type="faitem" methodname="GetFAItemList" keyfieldname="FixedAssetCode" orderbyexpression="FixedAssetCode ASC">
+    <gridcolumns>
+      <gridcolumn datafield="FixedAssetCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="FixedAssetName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="FixedAssetCode" headertext="Nama" description="" />
+      <intellisensetext datafield="FixedAssetName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region FA Location -->
+  <searchdialog type="falocation" methodname="GetFALocationList" keyfieldname="FALocationCode" orderbyexpression="FALocationCode ASC">
+    <gridcolumns>
+      <gridcolumn datafield="FALocationCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="FALocationName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="FALocationName" headertext="Nama" description="" />
+      <intellisensetext datafield="FALocationCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region GLTransactionHd -->
   <searchdialog type="gltransactionhd" methodname="GetvGLTransactionHdList" keyfieldname="JournalNo" orderbyexpression="GLTransactionID DESC">
     <gridcolumns>

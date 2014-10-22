@@ -84,7 +84,7 @@
                         <td><asp:TextBox runat="server" ID="txtSelisih" Width="120px" CssClass="txtCurrency" ReadOnly="true" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel" valign="top"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                        <td class="tdLabel" valign="top" style="padding-top: 5px"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                         <td><asp:TextBox runat="server" ID="txtRemarks" Width="220px" TextMode="MultiLine" Rows="2" /></td>
                     </tr>
                 </table>

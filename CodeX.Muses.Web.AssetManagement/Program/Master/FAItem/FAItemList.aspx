@@ -88,8 +88,7 @@
                                 <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="200px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="SerialNumber" HeaderText="Serial No" HeaderStyle-Width="100px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProcurementNumber" HeaderText="No Penerimaan" HeaderStyle-Width="150px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px"
-                                    ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="gridColumnLink lnkItem"
                                     HeaderText="Penyusutan" HeaderStyle-Width="80px">
                                     <ItemTemplate>

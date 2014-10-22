@@ -15,6 +15,23 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region FADepreciation
+    public partial class FADepreciation
+    {
+        public String DepreciationDateInString
+        {
+            get { return _DepreciationDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public String DepreciationYear
+        {
+            get { return _PeriodNo.Substring(0, 4); }
+        }
+        public String DepreciationPeriodNo
+        {
+            get { return _PeriodNo.Substring(4, 2); }
+        }
+    }
+    #endregion
     #region Holiday
     public partial class Holiday
     {

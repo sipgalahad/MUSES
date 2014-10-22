@@ -127,7 +127,6 @@ namespace Codex.Muses.Web.AssetManagement.Program
         protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
         {
             bool result = true;
-            
             try
             {
                 FAWriteOff faWriteOff = BusinessLayer.GetFAWriteOff(Convert.ToInt32(hdnFAWriteOffID.Value));

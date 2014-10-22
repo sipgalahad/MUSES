@@ -16,23 +16,25 @@ namespace Codex.Muses.Web.AssetManagement.Program
     public partial class FADepreciationEntryCtl : BaseViewPopupCtl
     {
         protected int PageCount = 1;
-        protected int CurrPage = 1;
+        protected int RowCount = 1;
+        protected int RowCountPerPage = 1;
         public override void InitializeDataControl(string param)
         {
             hdnFixedAssetID.Value = param;
-            BindGridView(CurrPage, true, ref PageCount);
+            RowCountPerPage = Constant.GridViewPageSize.GRID_POPUP;
+            BindGridView(1, true, ref PageCount, ref RowCount);
         }
 
-        protected void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
+        protected void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         { 
             String filterExpression = String.Format("FixedAssetID = {0}",hdnFixedAssetID.Value);
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetFADepreciationRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+                rowCount = BusinessLayer.GetFADepreciationRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_POPUP);
             }
 
-            List<FADepreciation> entity = BusinessLayer.GetFADepreciationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<FADepreciation> entity = BusinessLayer.GetFADepreciationList(filterExpression, Constant.GridViewPageSize.GRID_POPUP, pageIndex);
             grdPopupView.DataSource = entity;
             grdPopupView.DataBind();
         }
@@ -40,20 +42,20 @@ namespace Codex.Muses.Web.AssetManagement.Program
         protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
+            int rowCount = 1;
             string result = "";
             if (e.Parameter != null && e.Parameter != "")
             {
                 string[] param = e.Parameter.Split('|');
                 if (param[0] == "changepage")
                 {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
                     result = "changepage";
                 }
                 else // refresh
                 {
-
-                    BindGridView(1, true, ref pageCount);
-                    result = "refresh|" + pageCount;
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
                 }
             }
 

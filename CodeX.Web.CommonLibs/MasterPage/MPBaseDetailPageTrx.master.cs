@@ -78,7 +78,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
 
                 if (!IsAllowAdd) CRUDMode = CRUDMode.Replace("C", "");
                 if (!IsAllowEdit) CRUDMode = CRUDMode.Replace("U", "");
-                if (!IsAllowVoid) CRUDMode = CRUDMode.Replace("V", "");
+                if (!IsAllowVoid) CRUDMode = CRUDMode.Replace("D", "");
                 //if (!IsAllowPrint) CRUDMode = CRUDMode.Replace("P", "");
                 hdnIsAllowEdit.Value = CRUDMode.Contains("U") ? "1" : "0";
                 hdnIsAllowNextPrev.Value = IsAllowNextPrev ? "1" : "0";

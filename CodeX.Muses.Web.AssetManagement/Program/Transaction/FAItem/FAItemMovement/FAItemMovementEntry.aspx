@@ -131,8 +131,8 @@
                 if (param[1] == 'fail')
                     showToast('Save Failed', 'Error Message : ' + param[2]);
                 else {
-                    var OrderID = s.cpOrderID;
-                    onAfterSaveRecordDtSuccess(OrderID);
+                    //var OrderID = s.cpOrderID;
+                    //onAfterSaveRecordDtSuccess(OrderID);
                     $('#divTransactionAdd').click();
                     cbpView.PerformCallback('refresh');
                 }
@@ -190,7 +190,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="100%" /></td>
                                 </tr>
                             </table>
@@ -239,9 +239,6 @@
                                 <%=GetLabel("No Data To Display")%>
                             </EmptyDataTemplate>
                         </asp:GridView>
-                        <div style="width:100%;text-align:center">
-                            <span class="lblLink" id="lblAddData" style=" text-align:center"><%= GetLabel("Add Data")%></span>
-                        </div>
                     </asp:Panel>
                 </dx:PanelContent>
             </PanelCollection>
