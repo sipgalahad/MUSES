@@ -11,7 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common.UI;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace Codex.Muses.Web.AssetManagement.Program
 {
     public partial class FAItemList : BasePageList
     {

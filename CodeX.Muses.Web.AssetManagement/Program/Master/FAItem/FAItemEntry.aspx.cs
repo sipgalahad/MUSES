@@ -11,7 +11,7 @@ using CodeX.Data.Core.Dal;
 using System.Text;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace Codex.Muses.Web.AssetManagement.Program
 {
     public partial class FAItemEntry : BasePageEntry
     {

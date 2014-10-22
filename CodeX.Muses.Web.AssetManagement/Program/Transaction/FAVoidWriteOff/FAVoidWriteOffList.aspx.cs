@@ -4,37 +4,30 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using QIS.Medinfras.Data.Service;
-using QIS.Medinfras.Web.Common;
-using QIS.Medinfras.Web.Common.UI;
+using CodeX.Data.Model;
+using CodeX.Web.Common;
+using CodeX.Web.Common.UI;
 using DevExpress.Web.ASPxCallbackPanel;
-using QIS.Data.Core.Dal;
+using CodeX.Data.Core.Dal;
+using CodeX.Common;
 
-namespace QIS.Medinfras.Web.Accounting.Program
+namespace Codex.Muses.Web.AssetManagement.Program
 {
     public partial class FAVoidWriteOffList : BasePageList
     {
         protected int PageCount = 1;
+        protected int RowCount = 1;
+        protected int RowCountPerPage = 1;
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_VOID_WRITE_OFF;
+            return Constant.MenuCode.AssetManagement.FA_VOID_WRITE_OFF;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            hdnFilterExpression.Value = filterExpression;
-            hdnID.Value = keyValue;
-            filterExpression = GetFilterExpression();
-            if (keyValue != "")
-            {
-                int row = BusinessLayer.GetvFAItemRowIndex(filterExpression, keyValue) + 1;
-                CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
-            }
-            else
-                CurrPage = 1;
-
-            BindGridView(CurrPage, true, ref PageCount);
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
@@ -52,12 +45,12 @@ namespace QIS.Medinfras.Web.Accounting.Program
             return filterExpression;
         }
 
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetvFAItemRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvFAItemRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
@@ -69,20 +62,20 @@ namespace QIS.Medinfras.Web.Accounting.Program
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
+            int rowCount = 1;
             string result = "";
             if (e.Parameter != null && e.Parameter != "")
             {
                 string[] param = e.Parameter.Split('|');
                 if (param[0] == "changepage")
                 {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
                     result = "changepage";
                 }
                 else // refresh
                 {
-
-                    BindGridView(1, true, ref pageCount);
-                    result = "refresh|" + pageCount;
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
                 }
             }
 

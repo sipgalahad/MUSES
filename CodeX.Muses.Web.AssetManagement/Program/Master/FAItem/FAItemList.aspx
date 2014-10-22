@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master"
-    AutoEventWireup="true" CodeBehind="FAItemList.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.FAItemList" %>
+    AutoEventWireup="true" CodeBehind="FAItemList.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAItemList" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>

@@ -1,13 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/FixedAssetPage/MPBaseFixedAssetPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="FAWriteOffEntry.aspx.cs" Inherits="QIS.Medinfras.Web.Accounting.Program.FAWriteOffEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPFAItemPageTrxVisit.master" AutoEventWireup="true" 
+    CodeBehind="FAWriteOffEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAWriteOffEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
-<%@ Register Src="~/Program/FixedAsset/FixedAssetToolbarCtl.ascx" TagName="ToolbarCtl" TagPrefix="uc1" %>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="plhMPPatientPageNavigationPane" runat="server">
-    <uc1:ToolbarCtl ID="ctlToolbar" runat="server" />
-</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -40,8 +35,6 @@
             });
         }
 
-        
-
         function calculate() {
             var assetValue = parseFloat($('#<%=txtAssetValue.ClientID %>').attr('hiddenVal'));
             var writeOffAmount = parseFloat($('#<%=txtWriteOffAmount.ClientID %>').attr('hiddenVal'));
@@ -51,7 +44,6 @@
     </script>
     <input type="hidden" id="hdnFAWriteOffID" runat="server" value="" />
     <input type="hidden" id="hdnFixedAssetID" runat="server" value="" />
-    <div class="pageTitle"><%=GetLabel("Pemusnahan Aktiva Tetap")%></div>
     <table class="tblContentArea">
         <colgroup>
             <col width="50%"/>

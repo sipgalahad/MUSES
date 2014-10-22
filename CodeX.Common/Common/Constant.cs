@@ -89,6 +89,7 @@ namespace CodeX.Common
             public const string CHECK_COUNT_TYPE = "X177";
             public const string SUPPLIER_PAYMENT_METHOD = "X178";
             public const string GLACCOUNT_TYPE = "X180";
+            public const string WRITE_OFF_TYPE = "X182";
             public const string JOURNAL_GROUP = "X188";
         }
 

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Codex.Muses.Web.Accounting.Program {
+namespace Codex.Muses.Web.AssetManagement.Program {
     
     
     public partial class FAGroupList {

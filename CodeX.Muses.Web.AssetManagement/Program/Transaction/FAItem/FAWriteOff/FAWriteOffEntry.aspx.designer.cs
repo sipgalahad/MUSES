@@ -7,19 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QIS.Medinfras.Web.Accounting.Program {
+namespace Codex.Muses.Web.AssetManagement.Program {
     
     
     public partial class FAWriteOffEntry {
-        
-        /// <summary>
-        /// ctlToolbar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::QIS.Medinfras.Web.Accounting.Program.FixedAssetToolbarCtl ctlToolbar;
         
         /// <summary>
         /// hdnFAWriteOffID control.

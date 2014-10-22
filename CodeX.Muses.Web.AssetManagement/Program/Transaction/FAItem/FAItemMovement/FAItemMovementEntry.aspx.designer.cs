@@ -7,46 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QIS.Medinfras.Web.Accounting.Program {
+namespace Codex.Muses.Web.AssetManagement.Program {
     
     
     public partial class FAItemMovementEntry {
         
         /// <summary>
-        /// ctlToolbar control.
+        /// hdnRowCountPerPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::QIS.Medinfras.Web.Accounting.Program.FixedAssetToolbarCtl ctlToolbar;
-        
-        /// <summary>
-        /// hdnIsAdd control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAdd;
-        
-        /// <summary>
-        /// hdnMovementID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMovementID;
-        
-        /// <summary>
-        /// hdnFixedAssetID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFixedAssetID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRowCountPerPage;
         
         /// <summary>
         /// hdnFromLocationID control.
@@ -56,6 +29,33 @@ namespace QIS.Medinfras.Web.Accounting.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFromLocationID;
+        
+        /// <summary>
+        /// hdnPageCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPageCount;
+        
+        /// <summary>
+        /// hdnRowCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRowCount;
+        
+        /// <summary>
+        /// hdnEntryID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
         /// txtMovementNo control.
@@ -148,12 +148,12 @@ namespace QIS.Medinfras.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cbpViewProcess control.
+        /// cbpProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewProcess;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
     }
 }

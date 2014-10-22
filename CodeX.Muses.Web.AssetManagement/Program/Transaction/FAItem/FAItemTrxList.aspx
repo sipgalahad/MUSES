@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="FAItemTrxList.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.FAItemTrxList" %>
+    CodeBehind="FAItemTrxList.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAItemTrxList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -28,10 +28,14 @@
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
+        var rowCount = parseInt('<%=RowCount %>');
+        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
         var currPage = parseInt('<%=CurrPage %>');
         $(function () {
+            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             }, null, currPage);
         });
 
@@ -41,11 +45,16 @@
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
+                var rowCount = parseInt(param[2]);
                 if (pageCount > 0)
                     $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                else
+                    $('#<%=hdnID.ClientID %>').val('');
 
+                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
                     cbpView.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
             }
             else
@@ -55,11 +64,10 @@
 
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/Transaction/FAItemPageLauncher.aspx?id=' + id);
+            var url = ResolveUrl('~/Program/Transaction/FAItem/FAItemPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Student' + id, '1300', '650');
         });
     </script>
-    <div style="display:none"><asp:Button ID="btnOpenTransactionDt" runat="server" UseSubmitBehavior="false" OnClientClick="return onBeforeOpenTransactionDt();" OnClick="btnOpenTransactionDt_Click" /></div>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
@@ -94,6 +102,7 @@
             <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
         </div>
         <div class="containerPaging">
+            <div class="divInformationNumEntries" id="informationNumEntries"></div>
             <div class="wrapperPaging">
                 <div id="paging"></div>
             </div>

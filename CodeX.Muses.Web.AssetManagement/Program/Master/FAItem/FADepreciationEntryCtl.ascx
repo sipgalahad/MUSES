@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="FADepreciationEntryCtl.ascx.cs" 
-    Inherits="Codex.Muses.Web.Accounting.Program.FADepreciationEntryCtl" %>
+    Inherits="Codex.Muses.Web.AssetManagement.Program.FADepreciationEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>

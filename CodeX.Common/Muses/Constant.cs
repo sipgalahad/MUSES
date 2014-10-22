@@ -109,7 +109,7 @@ namespace CodeX.Common
                 public const string FA_ITEM_LIST = "AM020100";
                 public const string FA_ITEM_MOVEMENT = "AM020101";
                 public const string FA_WRITE_OFF = "AM020102";
-                public const string FA_VOID_WRITE_OFF = "AM020103";
+                public const string FA_VOID_WRITE_OFF = "AM020200";
             }
             #endregion
 

@@ -10,7 +10,7 @@ using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace Codex.Muses.Web.AssetManagement.Program
 {
     public partial class FADepreciationMethodEntry : BasePageEntry
     {

@@ -3779,126 +3779,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region FALocation
-    [Serializable]
-    [Table(Name = "FALocation")]
-    public class FALocation : DbDataModel
-    {
-        private Int32 _FALocationID;
-        private String _SiteID;
-        private String _FALocationCode;
-        private String _FALocationName;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-        private Int32 _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "FALocationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 FALocationID
-        {
-            get { return _FALocationID; }
-            set { _FALocationID = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
-        }
-        [Column(Name = "FALocationCode", DataType = "String")]
-        public String FALocationCode
-        {
-            get { return _FALocationCode; }
-            set { _FALocationCode = value; }
-        }
-        [Column(Name = "FALocationName", DataType = "String")]
-        public String FALocationName
-        {
-            get { return _FALocationName; }
-            set { _FALocationName = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32")]
-        public Int32 CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime")]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class FALocationDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(FALocation));
-        private bool _isAuditLog = false;
-        private const string p_FALocationID = "@p_FALocationID";
-        public FALocationDao() { }
-        public FALocationDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public FALocation Get(Int32 FALocationID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_FALocationID, FALocationID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (FALocation)_helper.DataRowToObject(row, new FALocation());
-        }
-        public int Insert(FALocation record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(FALocation record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 FALocationID)
-        {
-            FALocation record;
-            if (_ctx.Transaction == null)
-                record = new FALocationDao().Get(FALocationID);
-            else
-                record = Get(FALocationID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
     #region FAItem
     [Serializable]
     [Table(Name = "FAItem")]
@@ -4459,6 +4339,274 @@ namespace CodeX.Data.Model
                 record = new FAItemMovementDao().Get(MovementID);
             else
                 record = Get(MovementID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FALocation
+    [Serializable]
+    [Table(Name = "FALocation")]
+    public class FALocation : DbDataModel
+    {
+        private Int32 _FALocationID;
+        private String _SiteID;
+        private String _FALocationCode;
+        private String _FALocationName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FALocationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FALocationID
+        {
+            get { return _FALocationID; }
+            set { _FALocationID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FALocationCode", DataType = "String")]
+        public String FALocationCode
+        {
+            get { return _FALocationCode; }
+            set { _FALocationCode = value; }
+        }
+        [Column(Name = "FALocationName", DataType = "String")]
+        public String FALocationName
+        {
+            get { return _FALocationName; }
+            set { _FALocationName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FALocationDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FALocation));
+        private bool _isAuditLog = false;
+        private const string p_FALocationID = "@p_FALocationID";
+        public FALocationDao() { }
+        public FALocationDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FALocation Get(Int32 FALocationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FALocationID, FALocationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FALocation)_helper.DataRowToObject(row, new FALocation());
+        }
+        public int Insert(FALocation record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FALocation record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FALocationID)
+        {
+            FALocation record;
+            if (_ctx.Transaction == null)
+                record = new FALocationDao().Get(FALocationID);
+            else
+                record = Get(FALocationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region FAWriteOff
+    [Serializable]
+    [Table(Name = "FAWriteOff")]
+    public class FAWriteOff : DbDataModel
+    {
+        private Int32 _FAWriteOffID;
+        private String _FAWriteOffNo;
+        private DateTime _FAWriteOffDate;
+        private Int32 _FixedAssetID;
+        private String _GCAssetWriteOffType;
+        private String _GCAssetSalesType;
+        private Decimal _AssetValue;
+        private Decimal _WriteOffAmount;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FAWriteOffID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FAWriteOffID
+        {
+            get { return _FAWriteOffID; }
+            set { _FAWriteOffID = value; }
+        }
+        [Column(Name = "FAWriteOffNo", DataType = "String")]
+        public String FAWriteOffNo
+        {
+            get { return _FAWriteOffNo; }
+            set { _FAWriteOffNo = value; }
+        }
+        [Column(Name = "FAWriteOffDate", DataType = "DateTime")]
+        public DateTime FAWriteOffDate
+        {
+            get { return _FAWriteOffDate; }
+            set { _FAWriteOffDate = value; }
+        }
+        [Column(Name = "FixedAssetID", DataType = "Int32")]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "GCAssetWriteOffType", DataType = "String")]
+        public String GCAssetWriteOffType
+        {
+            get { return _GCAssetWriteOffType; }
+            set { _GCAssetWriteOffType = value; }
+        }
+        [Column(Name = "GCAssetSalesType", DataType = "String", IsNullable = true)]
+        public String GCAssetSalesType
+        {
+            get { return _GCAssetSalesType; }
+            set { _GCAssetSalesType = value; }
+        }
+        [Column(Name = "AssetValue", DataType = "Decimal")]
+        public Decimal AssetValue
+        {
+            get { return _AssetValue; }
+            set { _AssetValue = value; }
+        }
+        [Column(Name = "WriteOffAmount", DataType = "Decimal")]
+        public Decimal WriteOffAmount
+        {
+            get { return _WriteOffAmount; }
+            set { _WriteOffAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class FAWriteOffDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(FAWriteOff));
+        private bool _isAuditLog = false;
+        private const string p_FAWriteOffID = "@p_FAWriteOffID";
+        public FAWriteOffDao() { }
+        public FAWriteOffDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public FAWriteOff Get(Int32 FAWriteOffID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FAWriteOffID, FAWriteOffID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (FAWriteOff)_helper.DataRowToObject(row, new FAWriteOff());
+        }
+        public int Insert(FAWriteOff record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(FAWriteOff record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FAWriteOffID)
+        {
+            FAWriteOff record;
+            if (_ctx.Transaction == null)
+                record = new FAWriteOffDao().Get(FAWriteOffID);
+            else
+                record = Get(FAWriteOffID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

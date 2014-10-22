@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="FAVoidWriteOffList.aspx.cs" Inherits="QIS.Medinfras.Web.Accounting.Program.FAVoidWriteOffList" %>
+    CodeBehind="FAVoidWriteOffList.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAVoidWriteOffList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -28,10 +28,14 @@
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
+        var rowCount = parseInt('<%=RowCount %>');
+        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
         var currPage = parseInt('<%=CurrPage %>');
         $(function () {
+            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             }, null, currPage);
         });
 
@@ -41,11 +45,16 @@
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
+                var rowCount = parseInt(param[2]);
                 if (pageCount > 0)
                     $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                else
+                    $('#<%=hdnID.ClientID %>').val('');
 
+                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
                     cbpView.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
             }
             else
@@ -86,6 +95,7 @@
             <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
         </div>
         <div class="containerPaging">
+            <div class="divInformationNumEntries" id="informationNumEntries"></div>
             <div class="wrapperPaging">
                 <div id="paging"></div>
             </div>

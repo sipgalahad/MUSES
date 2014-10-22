@@ -4,18 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using QIS.Medinfras.Web.Common.UI;
-using QIS.Medinfras.Web.Common;
-using QIS.Medinfras.Data.Service;
-using QIS.Data.Core.Dal;
+using CodeX.Web.Common.UI;
+using CodeX.Web.Common;
+using CodeX.Data.Model;
+using CodeX.Data.Core.Dal;
+using CodeX.Common;
 
-namespace QIS.Medinfras.Web.Accounting.Program
+namespace Codex.Muses.Web.AssetManagement.Program
 {
     public partial class FAWriteOffEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Accounting.FA_WRITE_OFF;
+            return Constant.MenuCode.AssetManagement.FA_WRITE_OFF;
         }
 
         public String GetFAWriteOffDateFilterExpression() 
@@ -33,9 +34,9 @@ namespace QIS.Medinfras.Web.Accounting.Program
         protected override void InitializeDataControl()
         {
             hdnFixedAssetID.Value = AppSession.FixedAssetID.ToString();
-            string filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_PAYMENT_METHOD, Constant.StandardCode.TIPE_PEMUSNAHAN);
+            string filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_PAYMENT_METHOD, Constant.StandardCode.WRITE_OFF_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
-            Methods.SetComboBoxField(cboAssetWriteOffType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TIPE_PEMUSNAHAN).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboAssetWriteOffType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.WRITE_OFF_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboAssetSalesType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUPPLIER_PAYMENT_METHOD).ToList(), "StandardCodeName", "StandardCodeID");
 
             List<FAWriteOff> lstEntity = BusinessLayer.GetFAWriteOffList(String.Format("FixedAssetID = {0} AND GCTransactionStatus = '{1}'", hdnFixedAssetID.Value, Constant.TransactionStatus.APPROVED));

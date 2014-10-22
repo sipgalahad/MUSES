@@ -203,6 +203,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vFAItem
+    public partial class vFAItem
+    {
+        public String ProcurementDateInString
+        {
+            get { return _ProcurementDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
+    #region vFAItemMovement
+    public partial class vFAItemMovement
+    {
+        public String MovementDateInString
+        {
+            get { return _MovementDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public String MovementDateInDatePickerFormat
+        {
+            get { return _MovementDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+
+        private bool _IsAllowEditItem = false;
+        public bool IsAllowEditItem
+        {
+            get { return _IsAllowEditItem; }
+            set { _IsAllowEditItem = value; }
+        }
+    }
+    #endregion
     #region vGLTransactionDt
     public partial class vGLTransactionDt
     {

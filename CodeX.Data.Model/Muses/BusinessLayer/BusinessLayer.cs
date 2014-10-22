@@ -1900,126 +1900,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region FALocation
-        public static FALocation GetFALocation(Int32 FALocationID)
-        {
-            return new FALocationDao().Get(FALocationID);
-        }
-        public static int InsertFALocation(FALocation record)
-        {
-            return new FALocationDao().Insert(record);
-        }
-        public static int UpdateFALocation(FALocation record)
-        {
-            return new FALocationDao().Update(record);
-        }
-        public static int DeleteFALocation(Int32 FALocationID)
-        {
-            return new FALocationDao().Delete(FALocationID);
-        }
-        public static List<FALocation> GetFALocationList(string filterExpression)
-        {
-            List<FALocation> result = new List<FALocation>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FALocation));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((FALocation)helper.IDataReaderToObject(reader, new FALocation()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<FALocation> GetFALocationList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
-        {
-            List<FALocation> result = new List<FALocation>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FALocation));
-                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((FALocation)helper.IDataReaderToObject(reader, new FALocation()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetFALocationRowCount(string filterExpression)
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FALocation));
-                ctx.CommandText = helper.GetRowCount(filterExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetFALocationRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FALocation));
-                ctx.CommandText = helper.GetRowIndex(filterExpression, "FALocationID", keyValue, orderByExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetFALocationMaxID(IDbContext ctx)
-        {
-            Int32 result = 0;
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FALocation));
-                ctx.CommandText = helper.SelectMaxColumn("FALocationID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
         #region FAItem
         public static FAItem GetFAItem(Int32 FixedAssetID)
         {
@@ -2140,6 +2020,240 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region FAItemMovement
+        public static FAItemMovement GetFAItemMovement(Int32 MovementID)
+        {
+            return new FAItemMovementDao().Get(MovementID);
+        }
+        public static int InsertFAItemMovement(FAItemMovement record)
+        {
+            return new FAItemMovementDao().Insert(record);
+        }
+        public static int UpdateFAItemMovement(FAItemMovement record)
+        {
+            return new FAItemMovementDao().Update(record);
+        }
+        public static int DeleteFAItemMovement(Int32 MovementID)
+        {
+            return new FAItemMovementDao().Delete(MovementID);
+        }
+        public static List<FAItemMovement> GetFAItemMovementList(string filterExpression)
+        {
+            List<FAItemMovement> result = new List<FAItemMovement>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItemMovement));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItemMovement)helper.IDataReaderToObject(reader, new FAItemMovement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FAItemMovement> GetFAItemMovementList(string filterExpression, IDbContext ctx)
+        {
+            List<FAItemMovement> result = new List<FAItemMovement>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAItemMovement));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAItemMovement)helper.IDataReaderToObject(reader, new FAItemMovement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region FALocation
+        public static FALocation GetFALocation(Int32 FALocationID)
+        {
+            return new FALocationDao().Get(FALocationID);
+        }
+        public static int InsertFALocation(FALocation record)
+        {
+            return new FALocationDao().Insert(record);
+        }
+        public static int UpdateFALocation(FALocation record)
+        {
+            return new FALocationDao().Update(record);
+        }
+        public static int DeleteFALocation(Int32 FALocationID)
+        {
+            return new FALocationDao().Delete(FALocationID);
+        }
+        public static List<FALocation> GetFALocationList(string filterExpression)
+        {
+            List<FALocation> result = new List<FALocation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FALocation)helper.IDataReaderToObject(reader, new FALocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FALocation> GetFALocationList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<FALocation> result = new List<FALocation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FALocation)helper.IDataReaderToObject(reader, new FALocation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFALocationRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFALocationRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FALocationID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetFALocationMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FALocation));
+                ctx.CommandText = helper.SelectMaxColumn("FALocationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region FAWriteOff
+        public static FAWriteOff GetFAWriteOff(Int32 FAWriteOffID)
+        {
+            return new FAWriteOffDao().Get(FAWriteOffID);
+        }
+        public static int InsertFAWriteOff(FAWriteOff record)
+        {
+            return new FAWriteOffDao().Insert(record);
+        }
+        public static int UpdateFAWriteOff(FAWriteOff record)
+        {
+            return new FAWriteOffDao().Update(record);
+        }
+        public static int DeleteFAWriteOff(Int32 FAWriteOffID)
+        {
+            return new FAWriteOffDao().Delete(FAWriteOffID);
+        }
+        public static List<FAWriteOff> GetFAWriteOffList(string filterExpression)
+        {
+            List<FAWriteOff> result = new List<FAWriteOff>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAWriteOff));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAWriteOff)helper.IDataReaderToObject(reader, new FAWriteOff()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<FAWriteOff> GetFAWriteOffList(string filterExpression, IDbContext ctx)
+        {
+            List<FAWriteOff> result = new List<FAWriteOff>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(FAWriteOff));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((FAWriteOff)helper.IDataReaderToObject(reader, new FAWriteOff()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.FAItemEntry" %>
+CodeBehind="FAItemEntry.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAItemEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
