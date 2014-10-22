@@ -88,7 +88,7 @@
                     _self.idxSelectedRow = -1;
                     setTimeout(function () {
                         if (typeof _self.onValueChanged == 'function')
-                            _self.onValueChanged();
+                            _self.onValueChanged($(this));
                     }, 0);
                     setTimeout(function () {
                         $("#" + _self.clientID + " .divListAutoCompleteResult").empty();
@@ -198,7 +198,7 @@
         _self.idxSelectedRow = -1;
         setTimeout(function () {
             if (typeof _self.onValueChanged == 'function')
-                _self.onValueChanged();
+                _self.onValueChanged($("#" + _self.clientID + " .txtAutoComplete"));
         }, 0);
     }
 

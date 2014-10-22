@@ -337,6 +337,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ChartOfAccount> GetChartOfAccountList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ChartOfAccount> result = new List<ChartOfAccount>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ChartOfAccount));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ChartOfAccount)helper.IDataReaderToObject(reader, new ChartOfAccount()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region ClassMeeting
         public static ClassMeeting GetClassMeeting(Int32 ClassMeetingID)
