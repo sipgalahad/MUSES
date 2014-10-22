@@ -149,7 +149,40 @@ namespace CodeX.Web.Common
             }
         }
         #endregion
-        
+
+        #region FixedAssetID
+        public static Int32 FixedAssetID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_FixedAssetID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_FixedAssetID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_FixedAssetID"]);
+                            HttpContext.Current.Session["_FixedAssetID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_FixedAssetID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_FixedAssetID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_FixedAssetID"] = value;
+            }
+        }
+        #endregion
+
         #region SchoolPeriodID
         public static Int32 SchoolPeriodID
         {

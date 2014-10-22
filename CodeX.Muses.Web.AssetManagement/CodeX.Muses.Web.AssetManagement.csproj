@@ -95,6 +95,8 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="MasterPage\MPFAItemPageTrxVisit.master" />
+    <Content Include="MasterPage\FAItemBannerDtCtl.ascx" />
     <Content Include="Program\Master\FADepreciationMethod\FADepreciationMethodEntry.aspx" />
     <Content Include="Program\Master\FADepreciationMethod\FADepreciationMethodList.aspx" />
     <Content Include="Program\Master\FAGroup\FAGroupEntry.aspx" />
@@ -105,6 +107,8 @@
     <Content Include="Program\Master\FAItem\FAItemList.aspx" />
     <Content Include="Program\Master\FALocation\FALocationEntry.aspx" />
     <Content Include="Program\Master\FALocation\FALocationList.aspx" />
+    <Content Include="Program\Transaction\FAItemTrxList.aspx" />
+    <Content Include="Program\Transaction\FAItemPageLauncher.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -284,6 +288,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPFAItemPageTrxVisit.master.cs">
+      <DependentUpon>MPFAItemPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPFAItemPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPFAItemPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\FAItemBannerDtCtl.ascx.cs">
+      <DependentUpon>FAItemBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\FAItemBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>FAItemBannerDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\FADepreciationMethod\FADepreciationMethodEntry.aspx.cs">
       <DependentUpon>FADepreciationMethodEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -353,6 +371,20 @@
     </Compile>
     <Compile Include="Program\Master\FALocation\FALocationList.aspx.designer.cs">
       <DependentUpon>FALocationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\FAItemTrxList.aspx.cs">
+      <DependentUpon>FAItemTrxList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\FAItemTrxList.aspx.designer.cs">
+      <DependentUpon>FAItemTrxList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\FAItemPageLauncher.aspx.cs">
+      <DependentUpon>FAItemPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\FAItemPageLauncher.aspx.designer.cs">
+      <DependentUpon>FAItemPageLauncher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,6 +16,8 @@ namespace CodeX.Common
         #region Module
         public static class Module
         {
+            public const string ACCOUNTING = "AC";
+            public const string ASSET_MANAGEMENT = "AM";
             public const string CONTROL_PANEL = "CP";
             public const string FINANCE = "FN";
             public const string INFORMATION = "IF";
@@ -103,6 +105,11 @@ namespace CodeX.Common
                 public const string FA_LOCATION = "AM010300";
                 public const string FA_ITEM = "AM010400";
                 public const string FA_ITEM_FROM_PURCHASE_RECEIVE = "AM010500";
+
+                public const string FA_ITEM_LIST = "AM020100";
+                public const string FA_ITEM_MOVEMENT = "AM020101";
+                public const string FA_WRITE_OFF = "AM020102";
+                public const string FA_VOID_WRITE_OFF = "AM020103";
             }
             #endregion
 
