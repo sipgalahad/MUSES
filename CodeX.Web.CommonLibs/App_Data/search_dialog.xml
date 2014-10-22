@@ -144,6 +144,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Item Product -->
+  <searchdialog type="itemproduct" methodname="GetvItemProductList" keyfieldname="ItemCode" orderbyexpression="ItemName1 ASC">
+    <gridcolumns>
+      <gridcolumn datafield="ItemCode" headertext="Kode Item" width="100px" />
+      <gridcolumn datafield="ItemName1" headertext="Nama Item" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ItemName1" headertext="Nama Item" description="" />
+      <intellisensetext datafield="ItemCode" headertext="Kode Item" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Item Production HD-->
   <searchdialog type="itemproductionhd" methodname="GetvItemProductionHdList" keyfieldname="ProductionNo" orderbyexpression="ProductionID DESC">
     <gridcolumns>

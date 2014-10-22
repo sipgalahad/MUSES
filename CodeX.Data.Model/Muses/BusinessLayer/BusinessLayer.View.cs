@@ -1620,7 +1620,7 @@ namespace CodeX.Data.Model
             try
             {
                 DbHelper helper = new DbHelper(typeof(vGLSetting));
-                ctx.CommandText = helper.GetRowIndex(filterExpression, "vGLSettingID", keyValue, orderByExpression);
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
