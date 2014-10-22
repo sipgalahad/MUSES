@@ -1884,6 +1884,203 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SiteParameter
+    [Serializable]
+    [Table(Name = "SiteParameter")]
+    public class SiteParameter : DbDataModel
+    {
+        private String _SiteID;
+        private String _ParameterCode;
+        private String _ModuleID;
+        private String _ParameterName;
+        private String _GCParameterValueType;
+        private String _TableName;
+        private String _FilterExpression;
+        private String _ValueField;
+        private String _TextField;
+        private String _SearchDialogType;
+        private String _SearchDialogMethodName;
+        private String _SearchDialogFilterExpression;
+        private String _SearchDialogIDField;
+        private String _SearchDialogCodeField;
+        private String _SearchDialogNameField;
+        private String _ListText;
+        private String _ListValue;
+        private String _ParameterValue;
+        private String _Notes;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ParameterCode", DataType = "String", IsPrimaryKey = true)]
+        public String ParameterCode
+        {
+            get { return _ParameterCode; }
+            set { _ParameterCode = value; }
+        }
+        [Column(Name = "ModuleID", DataType = "String")]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
+        [Column(Name = "ParameterName", DataType = "String")]
+        public String ParameterName
+        {
+            get { return _ParameterName; }
+            set { _ParameterName = value; }
+        }
+        [Column(Name = "GCParameterValueType", DataType = "String")]
+        public String GCParameterValueType
+        {
+            get { return _GCParameterValueType; }
+            set { _GCParameterValueType = value; }
+        }
+        [Column(Name = "TableName", DataType = "String", IsNullable = true)]
+        public String TableName
+        {
+            get { return _TableName; }
+            set { _TableName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String", IsNullable = true)]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "ValueField", DataType = "String", IsNullable = true)]
+        public String ValueField
+        {
+            get { return _ValueField; }
+            set { _ValueField = value; }
+        }
+        [Column(Name = "TextField", DataType = "String", IsNullable = true)]
+        public String TextField
+        {
+            get { return _TextField; }
+            set { _TextField = value; }
+        }
+        [Column(Name = "SearchDialogType", DataType = "String", IsNullable = true)]
+        public String SearchDialogType
+        {
+            get { return _SearchDialogType; }
+            set { _SearchDialogType = value; }
+        }
+        [Column(Name = "SearchDialogMethodName", DataType = "String", IsNullable = true)]
+        public String SearchDialogMethodName
+        {
+            get { return _SearchDialogMethodName; }
+            set { _SearchDialogMethodName = value; }
+        }
+        [Column(Name = "SearchDialogFilterExpression", DataType = "String", IsNullable = true)]
+        public String SearchDialogFilterExpression
+        {
+            get { return _SearchDialogFilterExpression; }
+            set { _SearchDialogFilterExpression = value; }
+        }
+        [Column(Name = "SearchDialogIDField", DataType = "String", IsNullable = true)]
+        public String SearchDialogIDField
+        {
+            get { return _SearchDialogIDField; }
+            set { _SearchDialogIDField = value; }
+        }
+        [Column(Name = "SearchDialogCodeField", DataType = "String", IsNullable = true)]
+        public String SearchDialogCodeField
+        {
+            get { return _SearchDialogCodeField; }
+            set { _SearchDialogCodeField = value; }
+        }
+        [Column(Name = "SearchDialogNameField", DataType = "String", IsNullable = true)]
+        public String SearchDialogNameField
+        {
+            get { return _SearchDialogNameField; }
+            set { _SearchDialogNameField = value; }
+        }
+        [Column(Name = "ListText", DataType = "String", IsNullable = true)]
+        public String ListText
+        {
+            get { return _ListText; }
+            set { _ListText = value; }
+        }
+        [Column(Name = "ListValue", DataType = "String", IsNullable = true)]
+        public String ListValue
+        {
+            get { return _ListValue; }
+            set { _ListValue = value; }
+        }
+        [Column(Name = "ParameterValue", DataType = "String", IsNullable = true)]
+        public String ParameterValue
+        {
+            get { return _ParameterValue; }
+            set { _ParameterValue = value; }
+        }
+        [Column(Name = "Notes", DataType = "String", IsNullable = true)]
+        public String Notes
+        {
+            get { return _Notes; }
+            set { _Notes = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SiteParameterDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SiteParameter));
+        private bool _isAuditLog = false;
+        private const string p_SiteID = "@p_SiteID";
+        private const string p_ParameterCode = "@p_ParameterCode";
+        public SiteParameterDao() { }
+        public SiteParameterDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SiteParameter Get(String SiteID, String ParameterCode)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_ParameterCode, ParameterCode);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SiteParameter)_helper.DataRowToObject(row, new SiteParameter());
+        }
+        public int Insert(SiteParameter record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SiteParameter record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String SiteID, String ParameterCode)
+        {
+            SiteParameter record;
+            if (_ctx.Transaction == null)
+                record = new SiteParameterDao().Get(SiteID, ParameterCode);
+            else
+                record = Get(SiteID, ParameterCode);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StandardCode
     [Serializable]
     [Table(Name = "StandardCode")]

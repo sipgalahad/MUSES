@@ -128,6 +128,7 @@ namespace CodeX.Common
             public const string RADIO_BUTTON = "X103^003";
             public const string CHECK_BOX = "X103^004";
             public const string SEARCH_DIALOG = "X103^005";
+            public const string CUSTOM_COMBO_BOX = "X103^006";
         }
 
         public static class AdjustmentType

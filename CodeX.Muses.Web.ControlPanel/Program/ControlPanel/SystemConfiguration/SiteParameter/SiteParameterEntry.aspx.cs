@@ -56,6 +56,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                     cboParameterValue.DropDownStyle = DropDownStyle.DropDownList;
                     cboParameterValue.DataBind();
                 }
+                else if (entity.GCParameterValueType == Constant.ControlType.CUSTOM_COMBO_BOX)
+                {
+                    string[] lstText = entity.ListText.Split('|');
+                    string[] lstValue = entity.ListValue.Split('|');
+                    for (int i = 0; i < lstText.Length; ++i)
+                        cboParameterValue.Items.Add(new ListEditItem { Value = lstValue[i], Text = lstText[i] });
+                    cboParameterValue.CallbackPageSize = 50;
+                    cboParameterValue.EnableCallbackMode = false;
+                    cboParameterValue.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                    cboParameterValue.DropDownStyle = DropDownStyle.DropDownList;
+                }
                 EntityToControl(entity);
             }
             txtParameterName.Focus();
