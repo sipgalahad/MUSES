@@ -3976,6 +3976,140 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLSetting
+    [Serializable]
+    [Table(Name = "vGLSetting")]
+    public class vGLSetting
+    {
+        private Int32 _ID;
+        private String _GLSettingCode;
+        private String _GLSettingName;
+        private Int32 _GLAccount;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private Int32 _SubLedgerID;
+        private String _SearchDialogTypeName;
+        private String _IDFieldName;
+        private String _CodeFieldName;
+        private String _DisplayFieldName;
+        private String _MethodName;
+        private String _FilterExpression;
+        private Int32 _SubLedger;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "GLSettingCode", DataType = "String")]
+        public String GLSettingCode
+        {
+            get { return _GLSettingCode; }
+            set { _GLSettingCode = value; }
+        }
+        [Column(Name = "GLSettingName", DataType = "String")]
+        public String GLSettingName
+        {
+            get { return _GLSettingName; }
+            set { _GLSettingName = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SearchDialogTypeName", DataType = "String")]
+        public String SearchDialogTypeName
+        {
+            get { return _SearchDialogTypeName; }
+            set { _SearchDialogTypeName = value; }
+        }
+        [Column(Name = "IDFieldName", DataType = "String")]
+        public String IDFieldName
+        {
+            get { return _IDFieldName; }
+            set { _IDFieldName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "DisplayFieldName", DataType = "String")]
+        public String DisplayFieldName
+        {
+            get { return _DisplayFieldName; }
+            set { _DisplayFieldName = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String")]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32")]
+        public Int32 SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vGLTransactionDt
     [Serializable]
     [Table(Name = "vGLTransactionDt")]

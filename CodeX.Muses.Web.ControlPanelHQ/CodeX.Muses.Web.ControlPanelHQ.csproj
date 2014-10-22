@@ -96,6 +96,8 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -287,6 +289,20 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.designer.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.cs">
       <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>

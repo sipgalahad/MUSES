@@ -2258,6 +2258,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GLSetting
+        public static GLSetting GetGLSetting(Int32 ID)
+        {
+            return new GLSettingDao().Get(ID);
+        }
+        public static int InsertGLSetting(GLSetting record)
+        {
+            return new GLSettingDao().Insert(record);
+        }
+        public static int UpdateGLSetting(GLSetting record)
+        {
+            return new GLSettingDao().Update(record);
+        }
+        public static int DeleteGLSetting(Int32 ID)
+        {
+            return new GLSettingDao().Delete(ID);
+        }
+        public static List<GLSetting> GetGLSettingList(string filterExpression)
+        {
+            List<GLSetting> result = new List<GLSetting>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLSetting));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLSetting)helper.IDataReaderToObject(reader, new GLSetting()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GLTransactionDt
         public static GLTransactionDt GetGLTransactionDt(Int32 TransactionDtID)
         {

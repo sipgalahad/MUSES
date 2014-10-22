@@ -9,7 +9,6 @@ CodeBehind="SubLedgerTypeEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Pro
         
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
-    <div class="pageTitle"><%=GetLabel("SubLedgerType")%></div>
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>

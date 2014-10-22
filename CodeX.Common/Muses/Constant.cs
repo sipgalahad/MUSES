@@ -75,6 +75,8 @@ namespace CodeX.Common
             {
                 public const string ITEM_GROUP_MASTER = "CPHQ010101";
                 public const string ITEM_PRODUCT = "CPHQ010102";
+
+                public const string SITE_INFORMATION = "CPHQ020101";
             }
             #endregion
             #endregion
@@ -88,6 +90,8 @@ namespace CodeX.Common
                 public const string SUB_LEDGER = "AC010300";
                 public const string JOURNAL_TEMPLATE = "AC010400";
                 public const string PRODUCT_LINE = "AC010500";
+
+                public const string GL_SETTING = "AC020100";
 
                 public const string COA_BUDGET_YEAR = "AC030100";
                 public const string COA_BUDGET_MONTH = "AC030200";

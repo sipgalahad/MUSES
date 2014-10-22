@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="FAItemTrxList.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAItemTrxList" %>
+    CodeBehind="GLSettingList.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.GLSettingList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -61,12 +61,6 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
-        $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/Transaction/FAItem/FAItemPageLauncher.aspx?id=' + id);
-            openWindowPopup(url, 'FAItem' + id, '1300', '650');
-        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -80,15 +74,11 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="FixedAssetID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="FixedAssetCode" HeaderText="Kode" HeaderStyle-Width="180px" />
-                                <asp:BoundField DataField="FixedAssetName" HeaderText="Nama" />
-                                <asp:BoundField DataField="ItemCode" HeaderText="Kode Item" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="SerialNumber" HeaderText="Serial No" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="ProcurementNumber" HeaderText="No Penerimaan" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
+                                <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="GLSettingCode" HeaderText="Kode Setting" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="GLSettingName" HeaderText="Nama Setting" />
+                                <asp:BoundField DataField="GLAccountName" HeaderText="Perkiraan" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="SubLedgerName" HeaderText="Sub Perkiraan" HeaderStyle-Width="200px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

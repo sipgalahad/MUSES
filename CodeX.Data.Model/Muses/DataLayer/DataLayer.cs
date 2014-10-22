@@ -4612,6 +4612,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GLSetting
+    [Serializable]
+    [Table(Name = "GLSetting")]
+    public class GLSetting : DbDataModel
+    {
+        private Int32 _ID;
+        private String _GLSettingCode;
+        private String _GLSettingName;
+        private Int32 _GLAccount;
+        private Int32? _SubLedger;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "GLSettingCode", DataType = "String")]
+        public String GLSettingCode
+        {
+            get { return _GLSettingCode; }
+            set { _GLSettingCode = value; }
+        }
+        [Column(Name = "GLSettingName", DataType = "String")]
+        public String GLSettingName
+        {
+            get { return _GLSettingName; }
+            set { _GLSettingName = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class GLSettingDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(GLSetting));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public GLSettingDao() { }
+        public GLSettingDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public GLSetting Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (GLSetting)_helper.DataRowToObject(row, new GLSetting());
+        }
+        public int Insert(GLSetting record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(GLSetting record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            GLSetting record;
+            if (_ctx.Transaction == null)
+                record = new GLSettingDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region GLTransactionDt
     [Serializable]
     [Table(Name = "GLTransactionDt")]

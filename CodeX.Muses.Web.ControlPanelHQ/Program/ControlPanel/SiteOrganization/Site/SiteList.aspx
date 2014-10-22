@@ -1,5 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="FAItemTrxList.aspx.cs" Inherits="Codex.Muses.Web.AssetManagement.Program.FAItemTrxList" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
+    CodeBehind="SiteList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.SiteList" %>
+
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -15,7 +16,7 @@
 
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
-            cbpView.PerformCallback('refresh');
+            cbpView.PerformCallback();
         }
 
         function onGetCurrID() {
@@ -61,34 +62,23 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
-        $('.lnkDetail a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/Transaction/FAItem/FAItemPageLauncher.aspx?id=' + id);
-            openWindowPopup(url, 'FAItem' + id, '1300', '650');
-        });
     </script>
-    <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    <input type="hidden" value="" id="hdnID" runat="server" />
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                EndCallback="function(s,e){ onCbpViewEndCallback(); }" />
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="FixedAssetID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="FixedAssetCode" HeaderText="Kode" HeaderStyle-Width="180px" />
-                                <asp:BoundField DataField="FixedAssetName" HeaderText="Nama" />
-                                <asp:BoundField DataField="ItemCode" HeaderText="Kode Item" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="SerialNumber" HeaderText="Serial No" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="ProcurementNumber" HeaderText="No Penerimaan" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ProcurementDateInString" HeaderText="Tgl Penerimaan" HeaderStyle-Width="120px" ItemStyle-HorizontalAlign="Center" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
+                                <asp:BoundField DataField="SiteID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SiteID" HeaderText="Site Code" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="SiteName" HeaderText="Site Name" />
+                                <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="300px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
@@ -98,7 +88,7 @@
                 </dx:PanelContent>
             </PanelCollection>
         </dxcp:ASPxCallbackPanel>    
-        <div class="imgLoadingGrdView" id="containerImgLoadingView" >
+        <div class="imgLoadingGrdView" id="containerImgLoadingView">
             <img src='<%= ResolveUrl("~/Libs/Images/loading_small.gif")%>' alt='' />
         </div>
         <div class="containerPaging">

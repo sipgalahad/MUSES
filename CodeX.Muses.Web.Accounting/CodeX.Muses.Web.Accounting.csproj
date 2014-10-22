@@ -91,6 +91,8 @@
     <Content Include="Global.asax" />
     <Content Include="Program\Budgeting\COABudget\COABudgetYearList.aspx" />
     <Content Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx" />
+    <Content Include="Program\GLSetting\GLSetting\GLSettingList.aspx" />
+    <Content Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx" />
     <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
     <Content Include="Program\Journal\GLSubLedgerInformationCtl.ascx" />
     <Content Include="Program\Journal\JournalDocumentCtl.ascx" />
@@ -284,6 +286,20 @@
     </Compile>
     <Compile Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx.designer.cs">
       <DependentUpon>COABudgetMonthList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLSetting\GLSettingList.aspx.cs">
+      <DependentUpon>GLSettingList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLSetting\GLSettingList.aspx.designer.cs">
+      <DependentUpon>GLSettingList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx.cs">
+      <DependentUpon>GLSettingEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx.designer.cs">
+      <DependentUpon>GLSettingEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.cs">
       <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
