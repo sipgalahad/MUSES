@@ -68,7 +68,7 @@ namespace CodeX.Web.Accounting.Program
                         {
                             glTransactionDt.CreditAmount = amount * (entity.AmountPercentage / 100);
                         }
-                        glTransactionDt.DisplayOrder = Convert.ToInt16(entity.DisplayOrder + DetailPage.GetDisplayCount());
+                        glTransactionDt.DisplayOrder = Convert.ToInt16(entity.DisplayOrder);
                         glTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                         glTransactionDt.CreatedBy = AppSession.UserLogin.UserID;
                         glTransactionDtDao.Insert(glTransactionDt);

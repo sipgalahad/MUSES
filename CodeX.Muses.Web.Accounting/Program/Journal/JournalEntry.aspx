@@ -11,71 +11,16 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
-            if ($('#<%=hdnIsEditable.ClientID %>').val() == '1') {
-                $('#divTransactionAdd').show();
+            if (!isShowWatermark()) 
                 $('#divTemplatePick').show();
-            }
-            else {
-                $('#divTransactionAdd').hide();
+            else 
                 $('#divTemplatePick').hide();
-            }
-
-            $('#divTransactionAdd').click(function (evt) {
-                if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
-                    $('#<%=hdnEntryID.ClientID %>').val('');
-
-                    $('#<%=hdnGLAccount1ID.ClientID %>').val('');
-                    $('#<%=txtGLAccount1Code.ClientID %>').val('');
-                    $('#<%=txtGLAccount1Name.ClientID %>').val('');
-                    $('#<%=hdnSubLedgerID1.ClientID %>').val('');
-                    $('#<%=hdnSearchDialogTypeName1.ClientID %>').val('');
-                    $('#<%=hdnIDFieldName1.ClientID %>').val('');
-                    $('#<%=hdnCodeFieldName1.ClientID %>').val('');
-                    $('#<%=hdnDisplayFieldName1.ClientID %>').val('');
-                    $('#<%=hdnMethodName1.ClientID %>').val('');
-                    $('#<%=hdnFilterExpression1.ClientID %>').val('');
-                    $('#<%=txtReferenceNo.ClientID %>').val('');
-                    $('#<%=txtSaldoReference.ClientID %>').val('0').trigger('changeValue');
-                    onSubLedgerID1Changed();
-                    $('#<%=hdnSubLedgerDt1ID.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt1Code.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt1Name.ClientID %>').val('');
-                    $('#<%=txtAmountD.ClientID %>').val('0').trigger('changeValue');
-                    $('#<%=txtAmountK.ClientID %>').val('0').trigger('changeValue');
-                    $('#<%=txtDisplayOrder.ClientID %>').val($('#<%=hdnDisplayCount.ClientID %>').val());
-                    //$('#<%=txtRemarksDt.ClientID %>').val('');
-
-                    $('#btnGLAccount').attr('enabled', 'false');
-                    $('#btnSubLedger').attr('enabled', 'false');
-
-                    $('#entryDetailContainer').show();
-                }
-            });
-
-            $('#btnCancel').click(function () {
-                $('#entryDetailContainer').hide();
-            });
-
-            $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
-                    cbpProcess.PerformCallback('save');
-            });
-
-            $('#<%=txtAmountD.ClientID %>').change(function () {
-                $('#<%=txtAmountK.ClientID %>').val(0).trigger('changeValue');
-                $(this).trigger('changeValue');
-            });
-
-            $('#<%=txtAmountK.ClientID %>').change(function () {
-                $('#<%=txtAmountD.ClientID %>').val(0).trigger('changeValue');
-                $(this).trigger('changeValue');
-            });
 
             if (getIsAdd()) {
                 setDatePicker('<%=txtJournalDate.ClientID %>');
                 $('#<%=txtJournalDate.ClientID %>').datepicker('option', 'maxDate', '0');
                 var minDate = parseInt('<%=minDate %>');
-                if (minDate > -1) 
+                if (minDate > -1)
                     $('#<%=txtJournalDate.ClientID %>').datepicker('option', 'minDate', '-' + minDate);
             }
 
@@ -88,269 +33,473 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                     openUserControlPopup(url, id, 'Template', 600, 300);
                 }
             });
-        }
 
-        //#region Document
-        function onGetDocumentFilterExpression() {
-            var filterExpression = "ReferenceNo IS NOT NULL AND GLAccount = " + $('#<%=hdnGLAccount1ID.ClientID %>').val();
-            if ($('#<%=hdnSubLedgerDt1ID.ClientID %>').val() != "0" && $('#<%=hdnSubLedgerDt1ID.ClientID %>').val() != "") filterExpression += " AND SubLedger = " + $('#<%=hdnSubLedgerDt1ID.ClientID %>').val();
-            else filterExpression += " AND SubLedger IS NULL";
-            return filterExpression;
-        }
-
-        $('#lblDocument').live('click', function () {
-            if ($('#<%=hdnGLAccount1ID.ClientID %>').val() != '' && $('#<%=hdnGLAccount1ID.ClientID %>').val() != '0') {
-                openSearchDialog('glbalancedtdocument', onGetDocumentFilterExpression(), function (value) {
-                    $('#<%=txtReferenceNo.ClientID %>').val(value);
-                    onTxtReferenceNoChanged(value);
+            //#region Journal No
+            $('#lblJournalNo.lblLink').click(function () {
+                openSearchDialog('gltransactionhd', '', function (value) {
+                    $('#<%=txtJournalNo.ClientID %>').val(value);
+                    onTxtJournalNoChanged(value);
                 });
+            });
+
+            $('#<%=txtJournalNo.ClientID %>').change(function () {
+                onTxtJournalNoChanged($(this).val());
+            });
+
+            function onTxtJournalNoChanged(value) {
+                onLoadObject(value);
             }
-        });
+            //#endregion
 
-        $('#<%=txtReferenceNo.ClientID %>').live('change', function () {
-            onTxtReferenceNoChanged($(this).val());
-        });
+            //#region Load
+            if (!isShowWatermark()) {
+                $('#tblJournalEntry').show();
+                $('#tblJournalView').hide();
+                var GLTransactionID = $('#<%=hdnID.ClientID %>').val();
+                if (GLTransactionID != '0') {
+                    var filterExpression = "GLTransactionID = " + GLTransactionID + " AND GCItemDetailStatus != 'X121^999' ORDER BY DisplayOrder ASC";
+                    Methods.getListObject('GetvGLTransactionDtList', filterExpression, function (result) {
+                        for (var i = 0; i < result.length; ++i) {
+                            var entity = result[i];
+                            $newTr = $('#tmplEntity').html().replace('script1', 'script').replace('script1', 'script');
+                            $newTr = $newTr.replace(/\$\{idx}/g, idx);
+                            $newTr = $($newTr);
 
-        function onTxtReferenceNoChanged(value) {
-            var filterExpression = onGetDocumentFilterExpression() + " AND ReferenceNo = '" + value + "'";
-            Methods.getObject('GetGLBalanceDtDocumentList', filterExpression, function (result) {
-                if (result != null) {
-                    $('#<%=txtSaldoReference.ClientID %>').val(result.BalanceEND).trigger('changeValue');
+                            $newTr.insertBefore($('#trFooter'));
+
+                            $newTr.find('.txtCurrency').each(function () {
+                                $(this).trigger('changeValue');
+                            });
+
+                            var tempHelper = new CodeXClientAutoCompleteHelper();
+                            tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
+                            tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
+                            tempHelper.initializeControl();
+                            tempHelper.setValue(entity.GLAccount);
+                            tempHelper.setText(entity.GLAccountName);
+
+                            $newTr.find('.txtRemarks').val(entity.Remarks);
+                            $newTr.find('.txtDebit').val(entity.DebitAmount).trigger('changeValue');
+                            $newTr.find('.txtKredit').val(entity.CreditAmount).trigger('changeValue');
+                            $newTr.find('.txtDocumentNo').val(entity.ReferenceNo);
+                            $newTr.find('.hdnTransactionDtID').val(entity.TransactionDtID);
+
+                            if (entity.ReferenceNo == '')
+                                $newTr.find('.btnDocumentDetail').attr('enabled', false);
+                            else
+                                $newTr.find('.btnDocumentDetail').removeAttr('enabled');
+
+                            $newTr.find('.hdnSubLedgerID').val(entity.SubLedgerID);
+                            $newTr.find('.hdnSearchDialogTypeName').val(entity.SearchDialogTypeName);
+                            $newTr.find('.hdnFilterExpression').val(entity.FilterExpression);
+                            $newTr.find('.hdnIDFieldName').val(entity.IDFieldName);
+                            $newTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
+                            $newTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
+                            $newTr.find('.hdnMethodName').val(entity.MethodName);
+
+                            if (entity.SubLedgerID != '0') {
+                                var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
+                                template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
+                                template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
+                                template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
+                                template += "<//div><//script>";
+
+                                $newTr.find('.divSubLedgerTemplate').html(template);
+
+                                var tempHelper = new CodeXClientAutoCompleteHelper();
+                                tempHelper.init("SubCOA" + idx, entity.CodeFieldName + "," + entity.DisplayFieldName, entity.MethodName, entity.FilterExpression, "", entity.CodeFieldName);
+                                tempHelper.setClientSideEvents(onSubLedgerIDValueChanged);
+                                tempHelper.initializeControl();
+                                tempHelper.setValue(entity.SubLedger);
+                                tempHelper.setText(entity.SubLedgerName);
+
+                                $newTr.find('.tacSubCOA').find('.txtAutoComplete').removeAttr('readonly');
+                                $newTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').removeAttr('enabled');
+                            }
+
+                            idx++;
+                        }
+                        calculateTotalDebitKredit();
+                        addEntityRow();
+                    });
                 }
                 else {
-                    $('#<%=txtSaldoReference.ClientID %>').val('');
+                    addEntityRow();
+                    calculateTotalDebitKredit();
                 }
-            });
+            }
+            else {
+                $('#tblJournalEntry').hide();
+                $('#tblJournalView').show();
+
+                $('#tblJournalView').find('.txtCurrency').each(function () {
+                    $(this).trigger('changeValue');
+                });
+            }
+            //#endregion
         }
 
-        //#endregion
-        
-        //#region GL Account 1
-        function onGetGLAccountFilterExpression() {
+        $tacTr = null;
+        //#region COA
+        function onGetCOAFilterExpression() {
             var filterExpression = "IsHeader = 0 AND IsDeleted = 0";
             return filterExpression;
         }
 
-        $('#lblGLAccount1.lblLink').live('click', function () {
-            openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
-                $('#<%=txtGLAccount1Code.ClientID %>').val(value);
-                onTxtGLAccount1CodeChanged(value);
-                $('#<%=txtRemarksDt.ClientID %>').focus();
-            });
-        });
-
-        $('#<%=txtGLAccount1Code.ClientID %>').live('change', function () {
-            onTxtGLAccount1CodeChanged($(this).val());
-        });
-
-        function onTxtGLAccount1CodeChanged(value) {
-            var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
-            Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
-                if (result != null) {
-                    $('#<%=hdnGLAccount1ID.ClientID %>').val(result.GLAccountID);
-                    $('#<%=txtGLAccount1Name.ClientID %>').val(result.GLAccountName);
-
-                    $('#<%=hdnSubLedgerID1.ClientID %>').val(result.SubLedgerID);
-                    $('#<%=hdnSearchDialogTypeName1.ClientID %>').val(result.SearchDialogTypeName);
-                    $('#<%=hdnFilterExpression1.ClientID %>').val(result.FilterExpression);
-                    $('#<%=hdnIDFieldName1.ClientID %>').val(result.IDFieldName);
-                    $('#<%=hdnCodeFieldName1.ClientID %>').val(result.CodeFieldName);
-                    $('#<%=hdnDisplayFieldName1.ClientID %>').val(result.DisplayFieldName);
-                    $('#<%=hdnMethodName1.ClientID %>').val(result.MethodName);
-
-                    $('#btnGLAccount').removeAttr('enabled');
-                }
-                else {
-                    $('#<%=hdnGLAccount1ID.ClientID %>').val('');
-                    $('#<%=txtGLAccount1Code.ClientID %>').val('');
-                    $('#<%=txtGLAccount1Name.ClientID %>').val('');
-
-                    $('#<%=hdnSubLedgerID1.ClientID %>').val('');
-                    $('#<%=hdnSearchDialogTypeName1.ClientID %>').val('');
-                    $('#<%=hdnFilterExpression1.ClientID %>').val('');
-                    $('#<%=hdnIDFieldName1.ClientID %>').val('');
-                    $('#<%=hdnCodeFieldName1.ClientID %>').val('');
-                    $('#<%=hdnDisplayFieldName1.ClientID %>').val('');
-                    $('#<%=hdnMethodName1.ClientID %>').val('');
-
-                    $('#btnGLAccount').attr('enabled', 'false');
-                }
-                onSubLedgerID1Changed();
-                $('#<%=hdnSubLedgerDt1ID.ClientID %>').val('');
-                $('#<%=txtSubLedgerDt1Code.ClientID %>').val('');
-                $('#<%=txtSubLedgerDt1Name.ClientID %>').val('');
-            });
-        }
-
-        function onSubLedgerID1Changed() {
-            if ($('#<%=hdnSubLedgerID1.ClientID %>').val() == '0' || $('#<%=hdnSubLedgerID1.ClientID %>').val() == '') {
-                $('#<%=lblSubLedgerDt1.ClientID %>').attr('class', 'lblDisabled');
-                $('#btnSubLedger').attr('enabled', 'false');
-                $('#<%=txtSubLedgerDt1Code.ClientID %>').attr('readonly', 'readonly');
-            }
-            else {
-                $('#<%=lblSubLedgerDt1.ClientID %>').attr('class', 'lblLink lblMandatory');
-                $('#<%=txtSubLedgerDt1Code.ClientID %>').removeAttr('readonly');
-                $('#btnSubLedger').removeAttr('enabled');
-            }
-        }
-        //#endregion
-
-        //#region Sub Ledger 1
-        function onGetSubLedgerDt1FilterExpression() {
-            var filterExpression = $('#<%=hdnFilterExpression1.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnSubLedgerID1.ClientID %>').val());
-            return filterExpression;
-        }
-
-        $('#<%=lblSubLedgerDt1.ClientID %>.lblLink').live('click', function () {
-            if ($('#<%=hdnSearchDialogTypeName1.ClientID %>').val() != '') {
-                openSearchDialog($('#<%=hdnSearchDialogTypeName1.ClientID %>').val(), onGetSubLedgerDt1FilterExpression(), function (value) {
-                    $('#<%=txtSubLedgerDt1Code.ClientID %>').val(value);
-                    onTxtSubLedgerDt1CodeChanged(value);
-                });
-            }
-        });
-
-        $('#<%=txtSubLedgerDt1Code.ClientID %>').live('change', function () {
-            onTxtSubLedgerDt1CodeChanged($(this).val());
-        });
-
-        function onTxtSubLedgerDt1CodeChanged(value) {
-            if ($('#<%=hdnSearchDialogTypeName1.ClientID %>').val() != '') {
-                var filterExpression = onGetSubLedgerDt1FilterExpression() + " AND " + $('#<%=hdnCodeFieldName1.ClientID %>').val() + " = '" + value + "'";
-                Methods.getObject($('#<%=hdnMethodName1.ClientID %>').val(), filterExpression, function (result) {
+        $('.tacCOA .btnAutoCompleteSearchMore').die('click');
+        $('.tacCOA .btnAutoCompleteSearchMore').live('click', function () {
+            $tacTr = $(this).closest('tr');
+            openSearchDialog('chartofaccount', onGetCOAFilterExpression(), function (value) {
+                var filterExpression = onGetCOAFilterExpression() + " AND GLAccountNo = '" + value + "'";
+                Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+                    $tacCOA = $tacTr.find('.tacCOA');
                     if (result != null) {
-                        $('#<%=hdnSubLedgerDt1ID.ClientID %>').val(result[$('#<%=hdnIDFieldName1.ClientID %>').val()]);
-                        $('#<%=txtSubLedgerDt1Name.ClientID %>').val(result[$('#<%=hdnDisplayFieldName1.ClientID %>').val()]);
+                        $tacCOA.find('.hdnAutoCompleteValue').val(result.GLAccountID);
+                        $tacCOA.find('.hdnAutoCompleteText').val(result.GLAccountName);
+                        $tacCOA.find('.txtAutoComplete').val(result.GLAccountName);
                     }
                     else {
-                        $('#<%=hdnSubLedgerDt1ID.ClientID %>').val('');
-                        $('#<%=txtSubLedgerDt1Code.ClientID %>').val('');
-                        $('#<%=txtSubLedgerDt1Name.ClientID %>').val('');
+                        $tacCOA.find('.hdnAutoCompleteValue').val('');
+                        $tacCOA.find('.hdnAutoCompleteText').val('');
+                        $tacCOA.find('.txtAutoComplete').val('');
+                    }
+                    entityToControlCOA(result);
+                });
+                var trIdx = $('.trJournalEntry').index($tacTr);
+                if (trIdx == $('.trJournalEntry').length - 1)
+                    addEntityRow();
+                $tacTr = null;
+            });
+        });
+
+        function entityToControlCOA(entity) {
+            if (entity != null) {
+                $tacTr.find('.hdnSubLedgerID').val(entity.SubLedgerID);
+                $tacTr.find('.hdnSearchDialogTypeName').val(entity.SearchDialogTypeName);
+                $tacTr.find('.hdnFilterExpression').val(entity.FilterExpression);
+                $tacTr.find('.hdnIDFieldName').val(entity.IDFieldName);
+                $tacTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
+                $tacTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
+                $tacTr.find('.hdnMethodName').val(entity.MethodName);
+
+                var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
+                template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
+                template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
+                template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
+                template += "<//div><//script>";
+                                
+                $tacTr.find('.divSubLedgerTemplate').html(template);
+
+                var id = $tacTr.find('.tacSubCOA').attr('id');
+                var tempHelper = new CodeXClientAutoCompleteHelper();
+                tempHelper.init(id, entity.CodeFieldName + "," + entity.DisplayFieldName, entity.MethodName, entity.FilterExpression, "", entity.CodeFieldName);
+                tempHelper.setClientSideEvents(onSubLedgerIDValueChanged);
+                tempHelper.initializeControl();
+            }
+            else {
+                $tacTr.find('.hdnSubLedgerID').val('');
+                $tacTr.find('.hdnSearchDialogTypeName').val('');
+                $tacTr.find('.hdnFilterExpression').val('');
+                $tacTr.find('.hdnIDFieldName').val('');
+                $tacTr.find('.hdnCodeFieldName').val('');
+                $tacTr.find('.hdnDisplayFieldName').val('');
+                $tacTr.find('.hdnMethodName').val('');
+            }
+            $tacTr.find('.tacSubCOA').find('.hdnAutoCompleteValue').val('');
+            $tacTr.find('.tacSubCOA').find('.hdnAutoCompleteText').val('');
+            $tacTr.find('.tacSubCOA').find('.txtAutoComplete').val('');
+            var subLedgerID = $tacTr.find('.hdnSubLedgerID').val();
+            if (subLedgerID == '0' || subLedgerID == '') {
+                $tacTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').attr('enabled', false); 
+                $tacTr.find('.tacSubCOA').find('.txtAutoComplete').attr('readonly', 'readonly');
+            }
+            else {
+                $tacTr.find('.tacSubCOA').find('.txtAutoComplete').removeAttr('readonly');
+                $tacTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').removeAttr('enabled');
+            }
+        }
+
+        function onGLAccountIDValueChanged($s) {
+            if ($s.val() != '') {
+                $tacTr = $s.closest('tr');
+                var glAccountID = $tacTr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                if (glAccountID != '') {
+                    $tacTr.find('.btnCOADetail').removeAttr('enabled');
+
+                    var trIdx = $('.trJournalEntry').index($tacTr);
+                    if (trIdx == $('.trJournalEntry').length - 1)
+                        addEntityRow();
+                }
+                else
+                    $tacTr.find('.btnCOADetail').attr('enabled', false);
+
+                var filterExpression = onGetCOAFilterExpression() + " AND GLAccountID = " + glAccountID + "";
+                Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+                    entityToControlCOA(result);
+                    $tacTr = null;
+                });
+            }
+            else
+                $tacTr.find('.btnCOADetail').attr('enabled', false);
+        }
+        //#endregion
+
+        //#region Sub Ledger
+        $('.tacSubCOA .btnAutoCompleteSearchMore').die('click');
+        $('.tacSubCOA .btnAutoCompleteSearchMore').live('click', function () {
+            if ($(this).attr('enabled') == null) {
+                $tacTr = $(this).closest('tr');
+
+                var subLedgerID = $tacTr.find('.hdnSubLedgerID').val();
+                var searchDialogTypeName = $tacTr.find('.hdnSearchDialogTypeName').val();
+                var baseFilterExpression = $tacTr.find('.hdnFilterExpression').val();
+                var IDFieldName = $tacTr.find('.hdnIDFieldName').val();
+                var codeFieldName = $tacTr.find('.hdnCodeFieldName').val();
+                var displayFieldName = $tacTr.find('.hdnDisplayFieldName').val();
+                var methodName = $tacTr.find('.hdnMethodName').val();
+
+                if (subLedgerID != '') {
+                    openSearchDialog(searchDialogTypeName, baseFilterExpression, function (value) {
+                        var filterExpression = baseFilterExpression + " AND " + codeFieldName + " = '" + value + "'";
+                        Methods.getObject(methodName, filterExpression, function (result) {
+                            $tacSubCOA = $tacTr.find('.tacSubCOA');
+                            if (result != null) {
+                                $tacSubCOA.find('.hdnAutoCompleteValue').val(result[IDFieldName]);
+                                $tacSubCOA.find('.hdnAutoCompleteText').val(result[displayFieldName]);
+                                $tacSubCOA.find('.hdnAutoCompleteCode').val(result[codeFieldName]);
+                                $tacSubCOA.find('.txtAutoComplete').val(result[displayFieldName]);
+                            }
+                            else {
+                                $tacSubCOA.find('.hdnAutoCompleteValue').val('');
+                                $tacSubCOA.find('.hdnAutoCompleteText').val('');
+                                $tacSubCOA.find('.hdnAutoCompleteCode').val('');
+                                $tacSubCOA.find('.txtAutoComplete').val('');
+                            }
+                        });
+                        $tacTr = null;
+                    });
+                }
+            }
+        });
+
+        function onSubLedgerIDValueChanged($s) {
+            if ($s.val() != '') {
+                $tacTr = $s.closest('tr');
+                var subLedgerDtID = $tacTr.find('.tacSubCOA').find('.hdnAutoCompleteValue').val();
+                if (subLedgerDtID != '')
+                    $tacTr.find('.btnSubCOADetail').removeAttr('enabled');
+                else
+                    $tacTr.find('.btnSubCOADetail').attr('enabled', false);
+            }
+            else
+                $tacTr.find('.btnSubCOADetail').attr('enabled', false);
+        }
+        //#endregion
+
+        //#region Add Row
+        var idx = 1;
+        function addEntityRow() {
+            $newTr = $('#tmplEntity').html().replace('script1', 'script').replace('script1', 'script');
+            $newTr = $newTr.replace(/\$\{idx}/g, idx);
+            $newTr = $($newTr);
+            $newTr.insertBefore($('#trFooter'));
+
+            $newTr.find('.txtCurrency').each(function () {
+                $(this).trigger('changeValue');
+            });
+
+            var tempHelper = new CodeXClientAutoCompleteHelper();
+            tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
+            tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
+            tempHelper.initializeControl();
+
+            idx++;
+        }
+        //#endregion
+
+        //#region calculateTotalDebitKredit
+        function calculateTotalDebit() {
+            var totalDebit = 0;
+            $('#tblJournalEntry .txtDebit').each(function () {
+                totalDebit += parseFloat($(this).attr('hiddenVal'));
+            });
+            $('#txtTotalDebit').val(totalDebit).trigger('changeValue');
+        }
+
+        function calculateTotalKredit() {
+            var totalKredit = 0;
+            $('#tblJournalEntry .txtKredit').each(function () {
+                totalKredit += parseFloat($(this).attr('hiddenVal'));
+            });
+            $('#txtTotalKredit').val(totalKredit).trigger('changeValue');
+        }
+
+        function calculateTotalDebitKredit() {
+            calculateTotalDebit();
+            calculateTotalKredit();
+        }
+        //#endregion
+
+        //#region Delete Move Up Down
+        $('.imgDelete.imgLink').live('click', function () {
+            $tr = $(this).closest('tr');
+            var trIdx = $('.trJournalEntry').index($tr);
+            if (trIdx < $('.trJournalEntry').length - 1) {
+                showToastConfirmation('Are You Sure Want To Delete?', function (result) {
+                    if (result) {
+                        $tr.remove();
+
+                        calculateTotalDebitKredit();
                     }
                 });
+
             }
-        }
+        });
+
+        $('.imgUp.imgLink').live('click', function () {
+            $tr = $(this).closest('tr');
+            var glAccount = $tr.find('.tacCOA').find('.txtAutoComplete').val();
+            if (glAccount != '') {
+                var trIdx = $('.trJournalEntry').index($tr);
+                if (trIdx > 0)
+                    $tr.insertBefore($('.trJournalEntry:eq(' + (trIdx - 1) + ')'));
+            }
+        });
+
+        $('.imgDown.imgLink').live('click', function () {
+            $tr = $(this).closest('tr');
+            var glAccount = $tr.find('.tacCOA').find('.txtAutoComplete').val();
+            if (glAccount != '') {
+                var trIdx = $('.trJournalEntry').index($tr);
+                if (trIdx < $('.trJournalEntry').length - 2)
+                    $tr.insertAfter($('.trJournalEntry:eq(' + (trIdx + 1) + ')'));
+            }
+        });
         //#endregion
 
-        //#region Journal No
-        $('#lblJournalNo.lblLink').live('click', function () {
-            openSearchDialog('gltransactionhd', '', function (value) {
-                $('#<%=txtJournalNo.ClientID %>').val(value);
-                onTxtJournalNoChanged(value);
-            });
+        //#region Debit Kredit
+        $('.txtDebit').live('blur', function () {
+            $(this).trigger('changeValue');
+            var value = parseFloat($(this).attr('hiddenVal'));
+            if (value != 0)
+                $(this).closest('tr').find('.txtKredit').val('0').trigger('changeValue');
+            calculateTotalDebitKredit();
         });
 
-        $('#<%=txtJournalNo.ClientID %>').live('change', function () {
-            onTxtJournalNoChanged($(this).val());
+        $('.txtKredit').live('blur', function () {
+            $(this).trigger('changeValue');
+            var value = parseFloat($(this).attr('hiddenVal'));
+            if (value != 0)
+                $(this).closest('tr').find('.txtDebit').val('0').trigger('changeValue');
+            calculateTotalDebitKredit();
         });
 
-        function onTxtJournalNoChanged(value) {
-            onLoadObject(value);
-        }
+        $('.txtKredit').live('focus', function () {
+            var value = parseFloat($(this).attr('hiddenVal'));
+            if (value == 0) {
+                var debit = parseFloat($(this).closest('tr').find('.txtDebit').attr('hiddenVal'));
+                if (debit == 0) {
+                    var totalDebit = 0;
+                    $('#tblJournalEntry .txtDebit').each(function () {
+                        totalDebit += parseFloat($(this).attr('hiddenVal'));
+                    });
+                    var totalKredit = 0;
+                    $('#tblJournalEntry .txtKredit').each(function () {
+                        totalKredit += parseFloat($(this).attr('hiddenVal'));
+                    });
+                    $(this).val(totalDebit - totalKredit).trigger('changeValue');
+                }
+            }
+        });
         //#endregion
 
-        function onLoadCurrentRecord() {
-            onLoadObject($('#<%=txtJournalNo.ClientID %>').val());
-        }
-
-        function onAfterSaveRecordDtSuccess(GLTransactionID) {
-            if ($('#<%=hdnID.ClientID %>').val() == '' || $('#<%=hdnID.ClientID %>').val() == '0') {
-                $('#<%=hdnID.ClientID %>').val(GLTransactionID);
-                var filterExpression = 'GLTransactionID = ' + GLTransactionID;
-                Methods.getObject('GetGLTransactionHdList', filterExpression, function (result) {
-                    $('#<%=tdTransactionNoAdd.ClientID %>').attr('style', 'display:none');
-                    $('#<%=tdTransactionNoEdit.ClientID %>').removeAttr('style');
-                    $('#<%=txtJournalNo.ClientID %>').val(result.JournalNo);
-                    cboTransactionCode.SetEnabled(false);
-                    cbpView.PerformCallback('refresh');
-                });
-                onAfterCustomSaveSuccess();
-            } else {
-                cbpView.PerformCallback('refresh');
+        //#region Btn Detail Saldo Information 
+        $('.btnCOADetail').live('click', function () {
+            if ($(this).attr('enabled') == null) {
+                $tr = $(this).closest('tr');
+                var glAccountID = $tr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                var url = ResolveUrl('~/Program/Journal/GLBalanceInformationCtl.ascx');
+                var id = glAccountID;
+                var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');
+                var period = date[2] + '|' + date[1];
+                var param = id + '|' + period;
+                openUserControlPopup(url, param, 'Detail', 900, 600);
             }
-        }
+        });
 
-        var isAfterAdd = false;
-        function onCbpProcesEndCallback(s) {
-            hideLoadingPanel();
-            var param = s.cpResult.split('|');
-            if (param[0] == 'save') {
-                if (param[1] == 'fail')
-                    showToast('Save Failed', 'Error Message : ' + param[2]);
-                else {
-                    isAfterAdd = true;
-                    var GLTransactionID = s.cpGLTransactionID;
-                    onAfterSaveRecordDtSuccess(GLTransactionID);
-                }
-            }
-            else if (param[0] == 'delete') {
-                if (param[1] == 'fail')
-                    showToast('Delete Failed', 'Error Message : ' + param[2]);
-                else {
-                    isAfterAdd = false;
-                    cbpView.PerformCallback('refresh');
-                }
-            }
-        }
+        $('.btnSubCOADetail').live('click', function () {
+            if ($(this).attr('enabled') == null) {
+                $tr = $(this).closest('tr');
+                var glAccountID = $tr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                var url = ResolveUrl('~/Program/Journal/GLBalanceInformationCtl.ascx');
+                var id = glAccountID;
+                var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');
+                var period = date[2] + '|' + date[1];
+                var param = id + '|' + period;
+                openUserControlPopup(url, param, 'Detail', 900, 600);
 
-        //#region Paging
-        function onCbpViewEndCallback(s) {
-            hideLoadingPanel();
-            var param = s.cpResult.split('|');
-            if (param[0] == 'refresh') {
-                $('#<%=txtTotalDebet.ClientID %>').val(param[1]).trigger('changeValue');
-                $('#<%=txtTotalKredit.ClientID %>').val(param[2]).trigger('changeValue');
-                $('#<%=txtTotalSelisih.ClientID %>').val(param[3]).trigger('changeValue');
+                
+                $tacSubCOA = $tr.find('.tacSubCOA');
+                var glAccountID = $tr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                var subLedgerDtID = $tacSubCOA.find('.hdnAutoCompleteValue').val();
+                var url = ResolveUrl('~/Program/Journal/GLSubLedgerInformationCtl.ascx');
 
-                if (isAfterAdd)
-                    $('#divTransactionAdd').click();
+                var code = $tacSubCOA.find('.hdnAutoCompleteCode').val();
+                var name = $tacSubCOA.find('.txtAutoComplete').val();
+
+                var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');
+                var period = date[2] + '|' + date[1];
+                var param = glAccountID + '|' + subLedgerDtID + '|' + period + '|' + code + '|' + name;
+                openUserControlPopup(url, param, 'Detail', 900, 600);
             }
-        }
+        });
+
+        $('.btnDocumentDetail').live('click', function () {
+            if ($(this).attr('enabled') == null) {
+                $tr = $(this).closest('tr');
+                $tacSubCOA = $tr.find('.tacSubCOA');
+                var glAccountID = $tr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                var subLedgerDtID = $tacSubCOA.find('.hdnAutoCompleteValue').val();
+                if (subLedgerDtID == '')
+                    subLedgerDtID = '0';
+                var referenceNo = $tr.find('.txtDocumentNo').val();
+                var url = ResolveUrl('~/Program/Journal/JournalDocumentCtl.ascx');
+                var param = glAccountID + '|' + subLedgerDtID + '|' + referenceNo;
+                openUserControlPopup(url, param, 'Document Detail', 1000, 600);
+            }
+        });
         //#endregion
 
-        //#region Edit & Delete
-        $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
-            $row = $(this).closest('tr');
-            showToastConfirmation('Are You Sure Want To Delete?', function (result) {
-                if (result) {
-                    var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
-                    cbpProcess.PerformCallback('delete');
+        //#region Document No
+        $('.txtDocumentNo').live('change', function () {
+            if ($(this).val() == '') 
+                $(this).closest('tr').find('.btnDocumentDetail').attr('enabled', false);
+            else
+                $(this).closest('tr').find('.btnDocumentDetail').removeAttr('enabled');
+        });
+
+        $('.btnSearchDocument').die('click');
+        $('.btnSearchDocument').live('click', function () {
+            if ($(this).attr('enabled') == null) {
+                $tr = $(this).closest('tr');
+
+                var glAccountID = $tr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                var subLedgerDtID = $tr.find('.tacSubCOA').find('.hdnAutoCompleteValue').val();
+                if (subLedgerDtID == '')
+                    subLedgerDtID = '0';
+
+                if (glAccountID != '') {
+                    var filterExpression = "ReferenceNo IS NOT NULL AND GLAccount = " + glAccountID;
+                    if (subLedgerDtID != '0')
+                        filterExpression += " AND SubLedger = " + subLedgerDtID;
+                    else
+                        filterExpression += " AND SubLedger IS NULL";
+                    openSearchDialog('glbalancedtdocument', filterExpression, function (value) {
+                        $tr.find('.txtDocumentNo').val(value);
+                    });
                 }
-            });
+            }
         });
-
-        $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-            $('#<%=hdnEntryID.ClientID %>').val(entity.TransactionDtID);
-
-            $('#<%=hdnGLAccount1ID.ClientID %>').val(entity.GLAccount);
-            $('#<%=txtGLAccount1Code.ClientID %>').val(entity.GLAccountNo);
-            $('#<%=txtGLAccount1Name.ClientID %>').val(entity.GLAccountName);
-            $('#<%=hdnSubLedgerID1.ClientID %>').val(entity.SubLedgerID);
-            $('#<%=hdnSearchDialogTypeName1.ClientID %>').val(entity.SearchDialogTypeName);
-            $('#<%=hdnIDFieldName1.ClientID %>').val(entity.IDFieldName);
-            $('#<%=hdnCodeFieldName1.ClientID %>').val(entity.CodeFieldName);
-            $('#<%=hdnDisplayFieldName1.ClientID %>').val(entity.DisplayFieldName);
-            $('#<%=hdnMethodName1.ClientID %>').val(entity.MethodName);
-            $('#<%=hdnFilterExpression1.ClientID %>').val(entity.FilterExpression);
-
-            $('#btnGLAccount').removeAttr('enabled');
-            onSubLedgerID1Changed();
-            $('#<%=hdnSubLedgerDt1ID.ClientID %>').val(entity.SubLedger);
-            $('#<%=txtSubLedgerDt1Code.ClientID %>').val(entity.SubLedgerCode);
-            $('#<%=txtSubLedgerDt1Name.ClientID %>').val(entity.SubLedgerName);
-            $('#<%=txtAmountD.ClientID %>').val(entity.DebitAmount).trigger('changeValue');
-            $('#<%=txtAmountK.ClientID %>').val(entity.CreditAmount).trigger('changeValue');
-            $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
-            $('#<%=txtRemarksDt.ClientID %>').val(entity.Remarks);
-            $('#<%=txtReferenceNo.ClientID %>').val(entity.ReferenceNo);
-            $('#<%=txtSaldoReference.ClientID %>').val(entity.BalanceEND).trigger('changeValue');
-            $('#entryDetailContainer').show();
-        });
-
         //#endregion
 
         function onCboTransactionCodeValueChanged(s) {
@@ -365,47 +514,41 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
         }
 
         function onAfterSaveAddRecordEntryPopup(param) {
-            onAfterSaveRecordDtSuccess(param);
+            if (getIsAdd()) {
+                onAfterCustomSaveSuccess();
+                cbpMPEntryContent.PerformCallback('load');
+            }
         }
 
-        $('#btnGLAccount').live('click', function () {
-            if ($(this).attr('enabled') == null) {
-                var accountID = $('#<%=hdnGLAccount1ID.ClientID %>').val();
-                var url = ResolveUrl('~/Program/Journal/GLBalanceInformationCtl.ascx');
-                var id = accountID;
-                var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');
-                var period = date[2] + '|' + date[1];
-                var param = id + '|' + period;
-                openUserControlPopup(url, param, 'Detail', 900, 600);
-            }
-        });
+        function onBeforeSaveRecord() {
+            var saveParam = '';
+            var lstTransactionDtID = '';
+            $('.trJournalEntry').each(function () {
+                var glAccountID = $(this).find('.tacCOA').find('.hdnAutoCompleteValue').val();
+                if (glAccountID != '') {
+                    var subLedgerID = $(this).find('.tacSubCOA').find('.hdnAutoCompleteValue').val();
+                    var remarks = $(this).find('.txtRemarks').val();
+                    var debit = $(this).find('.txtDebit').attr('hiddenVal');
+                    var kredit = $(this).find('.txtKredit').attr('hiddenVal');
+                    var documentNo = $(this).find('.txtDocumentNo').val();
+                    var transactionDtID = $(this).find('.hdnTransactionDtID').val();
 
-        $('#btnSubLedger').live('click', function () {
-            if ($(this).attr('enabled') == null) {
-                var subLedgerDtID = $('#<%=hdnSubLedgerDt1ID.ClientID %>').val();
-                var glAccountID = $('#<%=hdnGLAccount1ID.ClientID %>').val();
-                var url = ResolveUrl('~/Program/Journal/GLSubLedgerInformationCtl.ascx');
-                var code = $('#<%=txtSubLedgerDt1Code.ClientID %>').val();
-                var name = $('#<%=txtSubLedgerDt1Name.ClientID %>').val();
-                var date = $('#<%=txtJournalDate.ClientID %>').val().split('-');
-                var period = date[2] + '|' + date[1];
-                var param = glAccountID + '|' + subLedgerDtID + '|' + period + '|' + code + '|' + name;
-                openUserControlPopup(url, param, 'Detail', 900, 600);
-            }
-        });
+                    if (transactionDtID != '0') {
+                        if (lstTransactionDtID != '')
+                            lstTransactionDtID += ',';
+                        lstTransactionDtID += transactionDtID;
+                    }
 
-        $('#btnReference').live('click', function () {
-            if ($('#<%=txtReferenceNo.ClientID %>').val() != '') {
-                var url = ResolveUrl('~/Program/Journal/JournalDocumentCtl.ascx');
-                var referenceNo = $('#<%=txtReferenceNo.ClientID %>').val();
-                var glAccount = $('#<%=hdnGLAccount1ID.ClientID %>').val();
-                var subLedgerDt = "0";
-                if ($('#<%=hdnSubLedgerDt1ID.ClientID %>').val() != "" && $('#<%=hdnSubLedgerDt1ID.ClientID %>').val() != "0")
-                    subLedgerDt = $('#<%=hdnSubLedgerDt1ID.ClientID %>').val();
-                var param = glAccount + '|' + subLedgerDt + '|' + referenceNo;
-                openUserControlPopup(url, param, 'Document Detail', 1000, 600);
-            }
-        });
+                    if (saveParam != '')
+                        saveParam += '|';
+                    saveParam += transactionDtID + ',' + glAccountID + ',' + subLedgerID + ',' + remarks + ',' + debit + ',' + kredit + ',' + documentNo;
+                }
+            });
+
+            $('#<%=hdnSaveParam.ClientID %>').val(saveParam);
+            $('#<%=hdnListTransactionDtID.ClientID %>').val(lstTransactionDtID);
+            return true;
+        }
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var transactionID = $('#<%=hdnID.ClientID %>').val();
@@ -429,8 +572,93 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
     <style type="text/css">
         .rblJournalGroup input[type="radio"]            { margin-left: 40px; margin-right: 1px; }
     </style>
+    <input type="hidden" id="hdnSaveParam" runat="server" />
+    <input type="hidden" id="hdnListTransactionDtID" runat="server" />
+    <script id="tmplEntity" type="text/x-jquery-tmpl">
+        <tr class="trJournalEntry">
+            <td align="center">
+                <input type="hidden" class="hdnTransactionDtID" value="0">
+                <img src='<%=ResolveUrl("~/Libs/Images/Button/delete.png") %>' class="imgLink imgDelete" title="Hapus"/>
+            </td>
+            <td align="center">
+                <img src='<%=ResolveUrl("~/Libs/Images/up-arrow.png") %>' class="imgLink imgUp" title="Move Up"/><br/>
+                <img src='<%=ResolveUrl("~/Libs/Images/down-arrow.png") %>' class="imgLink imgDown" title="Move Down"/>
+            </td>
+            <td align="center">
+                <input type="hidden" class="hdnSubLedgerID" />
+                <input type="hidden" class="hdnSearchDialogTypeName" />
+                <input type="hidden" class="hdnIDFieldName" />
+                <input type="hidden" class="hdnCodeFieldName" />
+                <input type="hidden" class="hdnDisplayFieldName" />
+                <input type="hidden" class="hdnMethodName" />
+                <input type="hidden" class="hdnFilterExpression" />
+                <div id="COA${idx}" class="tacCOA">
+                    <div>
+                        <div class="containerAutoComplete">
+                            <input type="hidden" class="hdnAutoCompleteValue" value="">
+                            <input type="hidden" class="hdnAutoCompleteText">
+                            <input type="hidden" class="hdnIsRequired" value="1">
+                            <input type="hidden" class="hdnValidationGroup" value="mpTrx">
+                            <input type="text" class="required txtAutoComplete" validationgroup="mpTrx" style="width:175px"/>
+                            <input type="button" class="btnAutoCompleteSearchMore btnSearch"/>
+                            <input type="button" class="btnCOADetail btnMore" value="..." enabled="false"/>
+                            <div class="divListAutoCompleteResultBox">
+                                <div class="divListAutoCompleteResult">
+                                </div>
+                            </div>
+                        </div>
+                        <script class="tmpltAutoComplete" type="text/x-jquery-tmpl">
+                            <div>
+                                ${GLAccountName} (<b>${GLAccountNo}</b>)
+                                <input type='hidden' value='${GLAccountName}' class='hdnAutoCompleteRowText'/>
+                                <input type='hidden' value='${GLAccountID}' class='hdnAutoCompleteRowValue'/>
+                            </div>
+                        </script1>
+                    </div>
+                </div>
+            </td>
+            <td align="center">
+                <div id="SubCOA${idx}" class="tacSubCOA">
+                    <div>
+                        <div class="containerAutoComplete">
+                            <input type="hidden" class="hdnAutoCompleteValue">
+                            <input type="hidden" class="hdnAutoCompleteCode">
+                            <input type="hidden" class="hdnAutoCompleteText">
+                            <input type="hidden" class="hdnIsRequired" value="1">
+                            <input type="hidden" class="hdnValidationGroup" value="mpTrx">
+                            <input type="text" readonly="readonly" class="required txtAutoComplete" validationgroup="mpTrx" style="width:175px"/>
+                            <input type="button" enabled="false" class="btnAutoCompleteSearchMore btnSearch"/>
+                            <input type="button" class="btnSubCOADetail btnMore" value="..." enabled="false"/>
+                            <div class="divListAutoCompleteResultBox">
+                                <div class="divListAutoCompleteResult">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divSubLedgerTemplate">
+                            <script class="tmpltAutoComplete" type="text/x-jquery-tmpl">
+                                <div>
+                                    ${GLAccountName} (<b>${GLAccountNo}</b>)
+                                    <input type='hidden' value='${GLAccountName}' class='hdnAutoCompleteRowText'/>
+                                    <input type='hidden' value='${GLAccountID}' class='hdnAutoCompleteRowValue'/>
+                                </div>
+                            </script1>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td align="center"><input type="text" validationgroup="mpTrx" class="txtRemarks" value="" style="width:99%" /></td>
+            <td align="center"><input type="text" validationgroup="mpTrx" class="txtCurrency txtDebit" value="0" style="width:99%" /></td>
+            <td align="center"><input type="text" validationgroup="mpTrx" class="txtCurrency txtKredit" value="0" style="width:99%" /></td>
+            <td align="center">
+                <input type="text" validationgroup="mpTrx" class="txtDocumentNo" value="" style="width:125px" />
+                <input type="button" class="btnSearchDocument btnSearch"/>
+                <input type="button" class="btnDocumentDetail btnMore" value="..." enabled="false"/>
+            </td>
+        </tr>
+    </script>
+
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" value="" />
-    <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnID" runat="server" value="0" />
     <input type="hidden" id="hdnLastPostingDate" runat="server" value="" />
     <input type="hidden" id="hdnIsEditable" runat="server" value="" />
     <input type="hidden" value="" id="hdnRecordFilterExpression" runat="server" />
@@ -446,7 +674,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Sumber Data") %></label></td>
-                        <td>
+                        <td colspan="4">
                             <dxe:ASPxComboBox ID="cboTransactionCode" ClientInstanceName="cboTransactionCode" Width="100%" runat="server">
                                 <ClientSideEvents ValueChanged="function(s,e){ onCboTransactionCodeValueChanged(s); }" />
                             </dxe:ASPxComboBox>
@@ -455,24 +683,22 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory lblLink" id="lblJournalNo"><%=GetLabel("Nomor Jurnal") %></label></td>
                         <td id="tdTransactionNoAdd" runat="server">
-                            <table  cellpadding="0" cellspacing="0" width="100%">
+                            <table  cellpadding="0" cellspacing="0">
                                 <colgroup>
                                     <col style="width: 50px" />
                                     <col style="width: 3px" />
-                                    <col style="width: 160px"/>
-                                    <col style="width: 100px" />
-                                    <col style="width: 140px"/>
+                                    <col style="width: 170px"/>
                                 </colgroup>
                                 <tr>
                                     <td><asp:TextBox ID="txtJournalPrefix" Width="100%" runat="server" /></td>
                                     <td>&nbsp;</td>
                                     <td><asp:TextBox ID="txtJournalNo1" Width="100%" runat="server" ReadOnly="true" /></td>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtJournalDate" CssClass="datepicker" Width="120px" /></td>
                                 </tr>
                             </table>
                         </td>
                         <td style="display:none;" id="tdTransactionNoEdit" runat="server"><asp:TextBox runat="server" ID="txtJournalNo" Width="220px" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal") %></label></td>
+                        <td><asp:TextBox runat="server" ID="txtJournalDate" CssClass="datepicker" Width="120px" /></td>
                     </tr>
                 </table>
             </td>
@@ -491,253 +717,84 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
         <tr>
             <td colspan="2">
                 <div class="divTransactionEntry">
-                    <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Barang")%></span>
-                    <span id="divTemplatePick" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Template")%></span>
-                    <br />
-                    <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
-                        <fieldset id="fsTrx" style="margin: 0">
-                            <input type="hidden" value="" id="hdnEntryID" runat="server" />
-                            <table style="width: 50%">
-                                <colgroup>
-                                    <col style="width: 150px" />
-                                </colgroup>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblGLAccount1"><%=GetLabel("Perkiraan")%></label></td>
-                                    <td>
-                                        <input type="hidden" id="hdnGLAccount1ID" runat="server" />
-                                        <input type="hidden" id="hdnSubLedgerID1" runat="server" />
-                                        <input type="hidden" id="hdnSearchDialogTypeName1" runat="server" />
-                                        <input type="hidden" id="hdnIDFieldName1" runat="server" />
-                                        <input type="hidden" id="hdnCodeFieldName1" runat="server" />
-                                        <input type="hidden" id="hdnDisplayFieldName1" runat="server" />
-                                        <input type="hidden" id="hdnMethodName1" runat="server" />
-                                        <input type="hidden" id="hdnFilterExpression1" runat="server" />
-                                        <table style="width:100%" cellpadding="0" cellspacing="0">
-                                            <colgroup>
-                                                <col style="width:30%"/>
-                                                <col style="width:3px"/>
-                                                <col/>
-                                            </colgroup>
-                                            <tr>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount1Code" Width="100%" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount1Name" ReadOnly="true" Width="100%" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><input type="button" id="btnGLAccount" class="btnMore" value="..." /></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblSubLedgerDt1"><%=GetLabel("Sub Perkiraan")%></label></td>
-                                    <td>
-                                        <input type="hidden" id="hdnSubLedgerDt1ID" runat="server" />
-                                        <table style="width:100%" cellpadding="0" cellspacing="0">
-                                            <colgroup>
-                                                <col style="width:30%"/>
-                                                <col style="width:3px"/>
-                                                <col/>
-                                            </colgroup>
-                                            <tr>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt1Code" Width="100%" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt1Name" ReadOnly="true" Width="100%" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><input type="button" id="btnSubLedger" class="btnMore" value="..." /></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel" style="width: 120px; vertical-align:top; padding-top:5px; "><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
-                                    <td><asp:TextBox ID="txtRemarksDt" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel" style="text-align:right; vertical-align:bottom;"><label class="lblNormal"><%=GetLabel("Jumlah") %></label></td>
-                                    <td>
-                                        <table cellpadding="0" cellspacing="0" style="width:100%">
-                                            <tr>
-                                                <td><div class="lblComponent" style="text-align:right;padding-right:5px;padding-right:5px; padding-bottom:4px;padding-top:4px"><%=GetLabel("Debit") %></div></td>
-                                                <td style="width:3px"></td>
-                                                <td><div class="lblComponent" style="text-align:right;padding-right:5px;padding-right:5px; padding-bottom:4px;padding-top:4px"><%=GetLabel("Kredit") %></div></td>
-                                            </tr>
-                                            <tr>
-                                                <td><asp:TextBox runat="server" ID="txtAmountD" CssClass="txtCurrency" Width="99%" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtAmountK" CssClass="txtCurrency" Width="99%" /></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal lblLink" id="lblDocument"><%=GetLabel("Dokumen") %></label></td>
-                                    <td>
-                                        <table cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td><asp:TextBox ID="txtReferenceNo" runat="server" Width="120px"/></td>
-                                                <td>&nbsp;</td>
-                                                <td><asp:TextBox ID="txtSaldoReference" runat="server" ReadOnly="true" CssClass="txtCurrency" Width="220px" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><input type="button" id="btnReference" class="btnMore" value="..." /></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Display Order") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtDisplayOrder" Width="120px" CssClass="txtNumeric" /></td>
-                                </tr>
-                                <tr>
-                                    <td> 
-                                        <input type="button" id="btnSave" class="btnWhite" value='<%=GetLabel("Commit") %>'/>
-                                        <input type="button" id="btnCancel" class="btnWhite" value='<%=GetLabel("Cancel") %>'/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                    </div>
-                </div>
-                <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
-                    ShowLoadingPanel="false" OnCallback="cbpView_Callback">
-                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
-                    <PanelCollection>
-                        <dx:PanelContent ID="PanelContent1" runat="server">
-                            <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
-                                position: relative;">
-                                <input type="hidden" value="0" id="hdnDisplayCount" runat="server" />
-                                <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
-                                    AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
-                                    <Columns>
-                                        <asp:BoundField DataField="TransactionDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                        <asp:TemplateField HeaderStyle-Width="120px" HeaderStyle-HorizontalAlign="Left">
-                                            <HeaderTemplate><%=GetLabel("Perkiraan")%></HeaderTemplate>
-                                            <ItemTemplate>
-                                                <div><%#Eval("GLAccountNo")%></div>
-                                                <div><%#Eval("SubLedgerCode")%></div>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-Width="300px" HeaderStyle-HorizontalAlign="Left">
-                                            <HeaderTemplate><%=GetLabel("Nama Perkiraan")%></HeaderTemplate>
-                                            <ItemTemplate>
-                                                <div><%#Eval("GLAccountName")%></div>
-                                                <div><%#Eval("SubLedgerName")%></div>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:BoundField DataField="Remarks" HeaderText="Keterangan Transaksi" HeaderStyle-HorizontalAlign="Left" />
-                                        <asp:TemplateField ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="110px" HeaderStyle-CssClass="thRight">
-                                            <HeaderTemplate>
-                                                <div style="text-align:right; padding-right:5px;">DEBET</div>    
-                                            </HeaderTemplate>
-                                            <ItemTemplate>
-                                                <%#Eval("Position").ToString() == "D" ? Eval("DebitAmount", "{0:N}") : "0"%>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="110px" HeaderStyle-CssClass="thRight">
-                                            <HeaderTemplate>
-                                                <div style="text-align:right; padding-right:5px;">KREDIT</div>    
-                                            </HeaderTemplate>
-                                            <ItemTemplate>
-                                                <%#Eval("Position").ToString() == "K" ? Eval("CreditAmount", "{0:N}") : "0"%>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderStyle-Width="10px" />
-                                        <asp:BoundField DataField="ReferenceNo" HeaderText="No. Dokumen" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="130px" />
-                                        <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
-                                            <ItemTemplate>
-                                                <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                                <div style='float:right;margin-right:10px;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                                <input type="hidden" value="<%#Eval("TransactionDtID") %>" bindingfield="TransactionDtID" />
-                                                <input type="hidden" value="<%#Eval("GLAccount") %>" bindingfield="GLAccount" />
-                                                <input type="hidden" value="<%#Eval("GLAccountNo") %>" bindingfield="GLAccountNo" />
-                                                <input type="hidden" value="<%#Eval("GLAccountName") %>" bindingfield="GLAccountName" />
-                                                <input type="hidden" value="<%#Eval("SubLedgerID") %>" bindingfield="SubLedgerID" />
-                                                <input type="hidden" value="<%#Eval("SearchDialogTypeName") %>" bindingfield="SearchDialogTypeName" />
-                                                <input type="hidden" value="<%#Eval("IDFieldName") %>" bindingfield="IDFieldName" />
-                                                <input type="hidden" value="<%#Eval("CodeFieldName") %>" bindingfield="CodeFieldName" />
-                                                <input type="hidden" value="<%#Eval("DisplayFieldName") %>" bindingfield="DisplayFieldName" />
-                                                <input type="hidden" value="<%#Eval("MethodName") %>" bindingfield="MethodName" />
-                                                <input type="hidden" value="<%#Eval("FilterExpression") %>" bindingfield="FilterExpression" />
-                                                <input type="hidden" value="<%#Eval("SubLedger") %>" bindingfield="SubLedger" />
-                                                <input type="hidden" value="<%#Eval("SubLedgerCode") %>" bindingfield="SubLedgerCode" />
-                                                <input type="hidden" value="<%#Eval("SubLedgerName") %>" bindingfield="SubLedgerName" />
-                                                
-                                                <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
-                                                <input type="hidden" value="<%#Eval("Position") %>" bindingfield="Position" />
-                                                <input type="hidden" value="<%#Eval("DebitAmount") %>" bindingfield="DebitAmount" />
-                                                <input type="hidden" value="<%#Eval("CreditAmount") %>" bindingfield="CreditAmount" />
-                                                <input type="hidden" value="<%#Eval("ReferenceNo") %>" bindingfield="ReferenceNo" />
-                                                <input type="hidden" value="<%#Eval("BalanceEND") %>" bindingfield="BalanceEND" />
-                                                <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <EmptyDataTemplate>
-                                        <%=GetLabel("No Data To Display")%>
-                                    </EmptyDataTemplate>
-                                </asp:GridView>
-                            </asp:Panel>
-                        </dx:PanelContent>
-                    </PanelCollection>
-                </dxcp:ASPxCallbackPanel>
-                <div>
-                    <table width="100%">
+                    <span id="divTemplatePick" class="divAdd"><%=GetLabel("Template")%></span>
+                    <table id="tblJournalEntry" style="display:none" class="grdView grdBorder notAllowSelect" cellspacing="0" rules="all" >
+                        <tr id="trHeader2">
+                            <th style="width:30px;"></th>
+                            <th style="width:20px;"></th>
+                            <th style="width:250px"><%=GetLabel("Perkiraan")%></th> 
+                            <th style="width:250px"><%=GetLabel("Sub Perkiraan")%></th> 
+                            <th><%=GetLabel("Keterangan")%></th> 
+                            <th class="thRight" style="width:110px"><%=GetLabel("DEBET")%></th> 
+                            <th class="thRight" style="width:110px"><%=GetLabel("KREDIT")%></th> 
+                            <th style="width:200px"><%=GetLabel("No. Dokumen")%></th> 
+                        </tr>
+                        <tr id="trFooter">
+                            <td colspan="5" align="right"><%=GetLabel("Total") %> : </td>
+                            <td align="center"><input id="txtTotalDebit" type="text" validationgroup="mpTrx" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
+                            <td align="center"><input id="txtTotalKredit" type="text" validationgroup="mpTrx" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    <table id="tblJournalView" style="display:none" class="grdView grdBorder notAllowSelect" cellspacing="0" rules="all" >
                         <tr>
-                            <td style="vertical-align:top">
-                                <div style="width: 550px;">
-                                    <div class="lblComponent" style="text-align:left; padding-left:5px;padding-right:5px; padding-bottom:4px;padding-top:4px"><%=GetLabel("Informasi Jurnal") %></div>
-                                    <div style="background-color: #EAEAEA;">
-                                        <table width="450px" cellpadding="0" cellspacing="0">
-                                            <colgroup>
-                                                <col width="200px" />
-                                                <col width="20px" />
-                                                <col />
-                                            </colgroup>
-                                            <tr>
-                                                <td align="right"><%=GetLabel("Dibuat Oleh / Tanggal") %></td>
-                                                <td align="center">:</td>
-                                                <td><div runat="server" id="divCreatedBy" style="color:Maroon"></div></td>
-                                            </tr>
-                                            <tr>
-                                                <td align="right"><%=GetLabel("Diubah Oleh / Tanggal") %></td>
-                                                <td align="center">:</td>
-                                                <td><div runat="server" id="divLastUpdatedBy" style="color:Maroon"></div></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp</td>
-                                                <td>&nbsp</td>
-                                                <td>&nbsp</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="float:right;">
-                                <table width="300px">
-                                    <colgroup>
-                                        <col width="120px" />
-                                    </colgroup>
-                                    <tr>
-                                        <td><div class="lblComponent" style="text-align:right;padding-right:5px;padding-bottom:4px;padding-top:4px"><%=GetLabel("TOTAL DEBET") %></div></td>
-                                        <td><asp:TextBox ID="txtTotalDebet" runat="server" CssClass="txtCurrency" Width="100%" ReadOnly="true" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div class="lblComponent" style="text-align:right;padding-right:5px; padding-bottom:4px;padding-top:4px"><%=GetLabel("TOTAL KREDIT") %></div></td>
-                                        <td><asp:TextBox ID="txtTotalKredit" runat="server" CssClass="txtCurrency" Width="100%" ReadOnly="true" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div class="lblComponent" style="text-align:right;padding-right:5px; padding-bottom:4px;padding-top:4px"><%=GetLabel("TOTAL SELISIH") %></div></td>
-                                        <td><asp:TextBox ID="txtTotalSelisih" runat="server" CssClass="txtCurrency" Width="100%" ReadOnly="true" /></td>
-                                    </tr>
-                                </table>                                
-                            </td>
+                            <th style="width:250px"><%=GetLabel("Perkiraan")%></th> 
+                            <th style="width:250px"><%=GetLabel("Sub Perkiraan")%></th> 
+                            <th><%=GetLabel("Keterangan")%></th> 
+                            <th class="thRight" style="width:110px"><%=GetLabel("DEBET")%></th> 
+                            <th class="thRight" style="width:110px"><%=GetLabel("KREDIT")%></th> 
+                            <th style="width:150px"><%=GetLabel("No. Dokumen")%></th> 
+                        </tr>
+                        <asp:Repeater ID="rptJournalViewDt" runat="server">
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%#Eval("GLAccountName") %></td>
+                                    <td><%#Eval("SubLedgerName")%></td>
+                                    <td><%#Eval("Remarks") %></td>
+                                    <td align="right"><%#Eval("DebitAmount", "{0:N2}") %></td>
+                                    <td align="right"><%#Eval("CreditAmount", "{0:N2}")%></td>
+                                    <td><%#Eval("ReferenceNo") %></td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <tr id="tr2">
+                            <td colspan="3" align="right"><%=GetLabel("Total") %> : </td>
+                            <td align="center"><input id="txtTotalDebitView" runat="server" type="text" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
+                            <td align="center"><input id="txtTotalKreditView" runat="server" type="text" readonly="readonly" class="txtCurrency" value="0" style="width:99%" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="lblComponent" style="text-align:left; padding-left:5px;padding-right:5px; padding-bottom:4px;padding-top:4px"><%=GetLabel("Informasi Jurnal") %></div>
+                <div style="background-color: #EAEAEA;">
+                    <table width="450px" cellpadding="0" cellspacing="0">
+                        <colgroup>
+                            <col width="200px" />
+                            <col width="20px" />
+                            <col />
+                        </colgroup>
+                        <tr>
+                            <td align="right"><%=GetLabel("Dibuat Oleh / Tanggal") %></td>
+                            <td align="center">:</td>
+                            <td><div runat="server" id="divCreatedBy" style="color:Maroon"></div></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><%=GetLabel("Diubah Oleh / Tanggal") %></td>
+                            <td align="center">:</td>
+                            <td><div runat="server" id="divLastUpdatedBy" style="color:Maroon"></div></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp</td>
+                            <td>&nbsp</td>
+                            <td>&nbsp</td>
                         </tr>
                     </table>
                 </div>
             </td>
         </tr>
     </table>
-    <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
-        ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
-        <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
-    </dxcp:ASPxCallbackPanel>
 </asp:Content>

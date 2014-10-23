@@ -2280,6 +2280,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GLBalanceDtDocument
+        public static GLBalanceDtDocument GetGLBalanceDtDocument(Int32 ID)
+        {
+            return new GLBalanceDtDocumentDao().Get(ID);
+        }
+        public static int InsertGLBalanceDtDocument(GLBalanceDtDocument record)
+        {
+            return new GLBalanceDtDocumentDao().Insert(record);
+        }
+        public static int UpdateGLBalanceDtDocument(GLBalanceDtDocument record)
+        {
+            return new GLBalanceDtDocumentDao().Update(record);
+        }
+        public static int DeleteGLBalanceDtDocument(Int32 ID)
+        {
+            return new GLBalanceDtDocumentDao().Delete(ID);
+        }
+        public static List<GLBalanceDtDocument> GetGLBalanceDtDocumentList(string filterExpression)
+        {
+            List<GLBalanceDtDocument> result = new List<GLBalanceDtDocument>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLBalanceDtDocument));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLBalanceDtDocument)helper.IDataReaderToObject(reader, new GLBalanceDtDocument()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<GLBalanceDtDocument> GetGLBalanceDtDocumentList(string filterExpression, IDbContext ctx)
+        {
+            List<GLBalanceDtDocument> result = new List<GLBalanceDtDocument>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLBalanceDtDocument));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLBalanceDtDocument)helper.IDataReaderToObject(reader, new GLBalanceDtDocument()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region GLSetting
         public static GLSetting GetGLSetting(Int32 ID)
         {

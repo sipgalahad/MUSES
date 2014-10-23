@@ -86,9 +86,10 @@
                     $("#" + _self.clientID + " .hdnAutoCompleteText").val('');
                     $("#" + _self.clientID + " .hdnAutoCompleteValue").val('');
                     _self.idxSelectedRow = -1;
+                    $txt = $(this);
                     setTimeout(function () {
                         if (typeof _self.onValueChanged == 'function')
-                            _self.onValueChanged($(this));
+                            _self.onValueChanged($txt);
                     }, 0);
                     setTimeout(function () {
                         $("#" + _self.clientID + " .divListAutoCompleteResult").empty();

@@ -105,20 +105,19 @@
                                             <%# Eval("GLAccountName")%></div>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="cfIsheader" HeaderText="I/A" HeaderStyle-Width="40px" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="Position" HeaderText="D/K" HeaderStyle-Width="40px" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="cfIsheader" HeaderText="I/A" HeaderStyle-Width="40px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="Position" HeaderText="D/K" HeaderStyle-Width="40px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="AccountLevel" HeaderText="Level" HeaderStyle-Width="40px"
-                                    HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center"  />
+                                   HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center"  />
                                 <asp:BoundField DataField="ParentGLAccountName" HeaderText="Perkiraan Induk" HeaderStyle-Width="250px"
                                     HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="GLAccountType" HeaderText="Kelompok Perkiraan" HeaderStyle-Width="150px"
                                     HeaderStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubLedger"
-                                    HeaderText="Sub Perkiraan" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="200px">
+                                    HeaderText="Sub Perkiraan" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px">
                                     <ItemTemplate>
                                         <input type="hidden" class="hdnSubLedgerID" value='<%#Eval("SubLedgerID") %>' />
-                                        <a>
-                                            <%#Eval("SubLedgerName") %></a>
+                                        <a><%#Eval("SubLedgerName") %></a>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

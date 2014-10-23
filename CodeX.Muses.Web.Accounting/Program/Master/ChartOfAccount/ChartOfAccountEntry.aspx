@@ -141,7 +141,7 @@ CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Pr
                                     <td>&nbsp;</td>
                                     <td><asp:TextBox runat="server" ID="txtSubLedgerName" Width="100%" /></td>
                                     <td>&nbsp;</td>
-                                    <td><input type="button" value="..." id="btnSubLedgerDt" /></td>
+                                    <td><input type="button" class="btnMore" value="..." id="btnSubLedgerDt" /></td>
                                 </tr>
                             </table>
                         </td>

@@ -93,11 +93,11 @@
     <Content Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx" />
-    <Content Include="Program\Journal\JournalEntry2.aspx" />
+    <Content Include="Program\Journal\JournalEntry.aspx" />
     <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
     <Content Include="Program\Journal\GLSubLedgerInformationCtl.ascx" />
     <Content Include="Program\Journal\JournalDocumentCtl.ascx" />
-    <Content Include="Program\Journal\JournalEntry.aspx" />
+    <Content Include="Program\Journal\JournalEntry2.aspx" />
     <Content Include="Program\Journal\JournalList.aspx" />
     <Content Include="Program\Journal\JournalListDtCtl.ascx" />
     <Content Include="Program\Journal\JournalTemplateCtl.ascx" />
@@ -302,12 +302,12 @@
     <Compile Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx.designer.cs">
       <DependentUpon>GLSettingEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalEntry2.aspx.cs">
-      <DependentUpon>JournalEntry2.aspx</DependentUpon>
+    <Compile Include="Program\Journal\JournalEntry.aspx.cs">
+      <DependentUpon>JournalEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalEntry2.aspx.designer.cs">
-      <DependentUpon>JournalEntry2.aspx</DependentUpon>
+    <Compile Include="Program\Journal\JournalEntry.aspx.designer.cs">
+      <DependentUpon>JournalEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\GLBalanceInformationCtl.ascx.cs">
       <DependentUpon>GLBalanceInformationCtl.ascx</DependentUpon>
@@ -330,12 +330,12 @@
     <Compile Include="Program\Journal\JournalDocumentCtl.ascx.designer.cs">
       <DependentUpon>JournalDocumentCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Journal\JournalEntry.aspx.cs">
-      <DependentUpon>JournalEntry.aspx</DependentUpon>
+    <Compile Include="Program\Journal\JournalEntry2.aspx.cs">
+      <DependentUpon>JournalEntry2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Journal\JournalEntry.aspx.designer.cs">
-      <DependentUpon>JournalEntry.aspx</DependentUpon>
+    <Compile Include="Program\Journal\JournalEntry2.aspx.designer.cs">
+      <DependentUpon>JournalEntry2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\JournalList.aspx.cs">
       <DependentUpon>JournalList.aspx</DependentUpon>
