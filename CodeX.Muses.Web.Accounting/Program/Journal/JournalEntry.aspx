@@ -116,7 +116,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                                 template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
                                 template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
                                 template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
-                                template += "<//div><//script>";
+                                template += "<\/div><\/script>";
 
                                 $newTr.find('.divSubLedgerTemplate').html(template);
 
@@ -197,12 +197,13 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                 $tacTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
                 $tacTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
                 $tacTr.find('.hdnMethodName').val(entity.MethodName);
+                $tacTr.find('.btnCOADetail').removeAttr('enabled');
 
                 var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
                 template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
                 template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
                 template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
-                template += "<//div><//script>";
+                template += "<\/div><\/script>";
 
                 $tacTr.find('.divSubLedgerTemplate').html(template);
 
@@ -220,6 +221,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                 $tacTr.find('.hdnCodeFieldName').val('');
                 $tacTr.find('.hdnDisplayFieldName').val('');
                 $tacTr.find('.hdnMethodName').val('');
+                $tacTr.find('.btnCOADetail').attr('enabled', false);
             }
             $tacTr.find('.tacSubCOA').find('.hdnAutoCompleteValue').val('');
             $tacTr.find('.tacSubCOA').find('.hdnAutoCompleteText').val('');
@@ -236,18 +238,14 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
         }
 
         function onGLAccountIDValueChanged($s) {
+            $tacTr = $s.closest('tr');
             if ($s.val() != '') {
-                $tacTr = $s.closest('tr');
                 var glAccountID = $tacTr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
-                if (glAccountID != '') {
-                    $tacTr.find('.btnCOADetail').removeAttr('enabled');
+                $tacTr.find('.btnCOADetail').removeAttr('enabled');
 
-                    var trIdx = $('.trJournalEntry').index($tacTr);
-                    if (trIdx == $('.trJournalEntry').length - 1)
-                        addEntityRow();
-                }
-                else
-                    $tacTr.find('.btnCOADetail').attr('enabled', false);
+                var trIdx = $('.trJournalEntry').index($tacTr);
+                if (trIdx == $('.trJournalEntry').length - 1)
+                    addEntityRow();
 
                 var filterExpression = onGetCOAFilterExpression() + " AND GLAccountID = " + glAccountID + "";
                 Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
@@ -284,12 +282,14 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                                 $tacSubCOA.find('.hdnAutoCompleteText').val(result[displayFieldName]);
                                 $tacSubCOA.find('.hdnAutoCompleteCode').val(result[codeFieldName]);
                                 $tacSubCOA.find('.txtAutoComplete').val(result[displayFieldName]);
+                                $tacSubCOA.find('.btnSubCOADetail').removeAttr('enabled');
                             }
                             else {
                                 $tacSubCOA.find('.hdnAutoCompleteValue').val('');
                                 $tacSubCOA.find('.hdnAutoCompleteText').val('');
                                 $tacSubCOA.find('.hdnAutoCompleteCode').val('');
                                 $tacSubCOA.find('.txtAutoComplete').val('');
+                                $tacSubCOA.find('.btnSubCOADetail').attr('enabled', false);
                             }
                         });
                         $tacTr = null;
@@ -585,7 +585,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                                 template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
                                 template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
                                 template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
-                                template += "<//div><//script>";
+                                template += "<\/div><\/script>";
 
                                 $newTr.find('.divSubLedgerTemplate').html(template);
 
