@@ -106,8 +106,8 @@ namespace CodeX.Web.Common.UI
                     ControlEntrySetting setting = (ControlEntrySetting)entry.Value;
                     switch (setting.DefaultValue.ToString())
                     {
-                        case Constant.DefaultValueEntry.DATE_NOW: SetControlValue(ctrl, DateTime.Now.ToString("dd-MMM-yyyy")); break;
-                        case Constant.DefaultValueEntry.TIME_NOW: SetControlValue(ctrl, DateTime.Now.ToString("HH:mm")); break;
+                        case Constant.DefaultValueEntry.DATE_NOW: SetControlValue(ctrl, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)); break;
+                        case Constant.DefaultValueEntry.TIME_NOW: SetControlValue(ctrl, DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT)); break;
                         default: SetControlValue(ctrl, setting.DefaultValue); break;
                     }
                 }
