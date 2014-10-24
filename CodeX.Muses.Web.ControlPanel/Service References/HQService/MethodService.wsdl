@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetSessionValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSessionValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSessionValueResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemMasterPurchase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="itemID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="businessPartnerID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemMasterPurchaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemMasterPurchaseResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemQtyOnOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="itemID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="locationID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemQtyOnOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemQtyOnOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLimitListObject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLimitListObjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLimitListObjectResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLimitListObject2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="orderByExpression" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLimitListObject2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLimitListObject2Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListObject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListObjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListObjectResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetObjectResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetValueResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="returnField" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetObjectValueResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectFromSession">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterValue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectFromSessionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetObjectFromSessionResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectValueFromSession">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterValue" />
+            <s:element minOccurs="0" maxOccurs="1" name="returnField" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetObjectValueFromSessionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetObjectValueFromSessionResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetControlHtml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="controlLocation" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryString" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetControlHtmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetControlHtmlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomObject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listParentValue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="selectedColumnID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="selectedColumnName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="valueColumn" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="valueColumnType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="orderByExpression" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="objectTypeName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomObjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCustomObjectResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMobileObject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMobileObjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMobileObjectResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMobileListObject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterExpression" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMobileListObjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMobileListObjectResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetSessionValueSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSessionValue" />
+  </wsdl:message>
+  <wsdl:message name="GetSessionValueSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSessionValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemMasterPurchaseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemMasterPurchase" />
+  </wsdl:message>
+  <wsdl:message name="GetItemMasterPurchaseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemMasterPurchaseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemQtyOnOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemQtyOnOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetItemQtyOnOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemQtyOnOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLimitListObjectSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLimitListObject" />
+  </wsdl:message>
+  <wsdl:message name="GetLimitListObjectSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLimitListObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLimitListObject2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetLimitListObject2" />
+  </wsdl:message>
+  <wsdl:message name="GetLimitListObject2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetLimitListObject2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetListObjectSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListObject" />
+  </wsdl:message>
+  <wsdl:message name="GetListObjectSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectSoapIn">
+    <wsdl:part name="parameters" element="tns:GetObject" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectSoapOut">
+    <wsdl:part name="parameters" element="tns:GetObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetValueSoapIn">
+    <wsdl:part name="parameters" element="tns:GetValue" />
+  </wsdl:message>
+  <wsdl:message name="GetValueSoapOut">
+    <wsdl:part name="parameters" element="tns:GetValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectValueSoapIn">
+    <wsdl:part name="parameters" element="tns:GetObjectValue" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectValueSoapOut">
+    <wsdl:part name="parameters" element="tns:GetObjectValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectFromSessionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetObjectFromSession" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectFromSessionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetObjectFromSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectValueFromSessionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetObjectValueFromSession" />
+  </wsdl:message>
+  <wsdl:message name="GetObjectValueFromSessionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetObjectValueFromSessionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetControlHtmlSoapIn">
+    <wsdl:part name="parameters" element="tns:GetControlHtml" />
+  </wsdl:message>
+  <wsdl:message name="GetControlHtmlSoapOut">
+    <wsdl:part name="parameters" element="tns:GetControlHtmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomObjectSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCustomObject" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomObjectSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCustomObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMobileObjectSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMobileObject" />
+  </wsdl:message>
+  <wsdl:message name="GetMobileObjectSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMobileObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMobileListObjectSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMobileListObject" />
+  </wsdl:message>
+  <wsdl:message name="GetMobileListObjectSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMobileListObjectResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MethodServiceSoap">
+    <wsdl:operation name="GetSessionValue">
+      <wsdl:input message="tns:GetSessionValueSoapIn" />
+      <wsdl:output message="tns:GetSessionValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemMasterPurchase">
+      <wsdl:input message="tns:GetItemMasterPurchaseSoapIn" />
+      <wsdl:output message="tns:GetItemMasterPurchaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemQtyOnOrder">
+      <wsdl:input message="tns:GetItemQtyOnOrderSoapIn" />
+      <wsdl:output message="tns:GetItemQtyOnOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLimitListObject">
+      <wsdl:input message="tns:GetLimitListObjectSoapIn" />
+      <wsdl:output message="tns:GetLimitListObjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLimitListObject2">
+      <wsdl:input message="tns:GetLimitListObject2SoapIn" />
+      <wsdl:output message="tns:GetLimitListObject2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListObject">
+      <wsdl:input message="tns:GetListObjectSoapIn" />
+      <wsdl:output message="tns:GetListObjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetObject">
+      <wsdl:input message="tns:GetObjectSoapIn" />
+      <wsdl:output message="tns:GetObjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValue">
+      <wsdl:input message="tns:GetValueSoapIn" />
+      <wsdl:output message="tns:GetValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectValue">
+      <wsdl:input message="tns:GetObjectValueSoapIn" />
+      <wsdl:output message="tns:GetObjectValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectFromSession">
+      <wsdl:input message="tns:GetObjectFromSessionSoapIn" />
+      <wsdl:output message="tns:GetObjectFromSessionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectValueFromSession">
+      <wsdl:input message="tns:GetObjectValueFromSessionSoapIn" />
+      <wsdl:output message="tns:GetObjectValueFromSessionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetControlHtml">
+      <wsdl:input message="tns:GetControlHtmlSoapIn" />
+      <wsdl:output message="tns:GetControlHtmlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomObject">
+      <wsdl:input message="tns:GetCustomObjectSoapIn" />
+      <wsdl:output message="tns:GetCustomObjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMobileObject">
+      <wsdl:input message="tns:GetMobileObjectSoapIn" />
+      <wsdl:output message="tns:GetMobileObjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMobileListObject">
+      <wsdl:input message="tns:GetMobileListObjectSoapIn" />
+      <wsdl:output message="tns:GetMobileListObjectSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MethodServiceSoap" type="tns:MethodServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSessionValue">
+      <soap:operation soapAction="http://tempuri.org/GetSessionValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemMasterPurchase">
+      <soap:operation soapAction="http://tempuri.org/GetItemMasterPurchase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemQtyOnOrder">
+      <soap:operation soapAction="http://tempuri.org/GetItemQtyOnOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLimitListObject">
+      <soap:operation soapAction="http://tempuri.org/GetLimitListObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLimitListObject2">
+      <soap:operation soapAction="http://tempuri.org/GetLimitListObject2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListObject">
+      <soap:operation soapAction="http://tempuri.org/GetListObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObject">
+      <soap:operation soapAction="http://tempuri.org/GetObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValue">
+      <soap:operation soapAction="http://tempuri.org/GetValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectValue">
+      <soap:operation soapAction="http://tempuri.org/GetObjectValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectFromSession">
+      <soap:operation soapAction="http://tempuri.org/GetObjectFromSession" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectValueFromSession">
+      <soap:operation soapAction="http://tempuri.org/GetObjectValueFromSession" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetControlHtml">
+      <soap:operation soapAction="http://tempuri.org/GetControlHtml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomObject">
+      <soap:operation soapAction="http://tempuri.org/GetCustomObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMobileObject">
+      <soap:operation soapAction="http://tempuri.org/GetMobileObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMobileListObject">
+      <soap:operation soapAction="http://tempuri.org/GetMobileListObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MethodServiceSoap12" type="tns:MethodServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSessionValue">
+      <soap12:operation soapAction="http://tempuri.org/GetSessionValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemMasterPurchase">
+      <soap12:operation soapAction="http://tempuri.org/GetItemMasterPurchase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemQtyOnOrder">
+      <soap12:operation soapAction="http://tempuri.org/GetItemQtyOnOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLimitListObject">
+      <soap12:operation soapAction="http://tempuri.org/GetLimitListObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLimitListObject2">
+      <soap12:operation soapAction="http://tempuri.org/GetLimitListObject2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListObject">
+      <soap12:operation soapAction="http://tempuri.org/GetListObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObject">
+      <soap12:operation soapAction="http://tempuri.org/GetObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValue">
+      <soap12:operation soapAction="http://tempuri.org/GetValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectValue">
+      <soap12:operation soapAction="http://tempuri.org/GetObjectValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectFromSession">
+      <soap12:operation soapAction="http://tempuri.org/GetObjectFromSession" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetObjectValueFromSession">
+      <soap12:operation soapAction="http://tempuri.org/GetObjectValueFromSession" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetControlHtml">
+      <soap12:operation soapAction="http://tempuri.org/GetControlHtml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomObject">
+      <soap12:operation soapAction="http://tempuri.org/GetCustomObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMobileObject">
+      <soap12:operation soapAction="http://tempuri.org/GetMobileObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMobileListObject">
+      <soap12:operation soapAction="http://tempuri.org/GetMobileListObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MethodService">
+    <wsdl:port name="MethodServiceSoap" binding="tns:MethodServiceSoap">
+      <soap:address location="http://localhost/publish2/Muses/ControlPanel/Libs/Service/MethodService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MethodServiceSoap12" binding="tns:MethodServiceSoap12">
+      <soap12:address location="http://localhost/publish2/Muses/ControlPanel/Libs/Service/MethodService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

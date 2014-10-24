@@ -10,79 +10,124 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class ItemProductList {
+    public partial class UserRolesMenuAccessEntryCtl {
         
         /// <summary>
-        /// btnSync control.
+        /// hdnFilterMenuCaption control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSync;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterMenuCaption;
         
         /// <summary>
-        /// hdnID control.
+        /// hdnFilterRead control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterRead;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// hdnPrevSelectedSite control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPrevSelectedSite;
         
         /// <summary>
-        /// hdnExpandID control.
+        /// hdnSelectedSite control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnExpandID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedSite;
         
         /// <summary>
-        /// hdnItemGroupID control.
+        /// hdnSelectedModule control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnItemGroupID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedModule;
         
         /// <summary>
-        /// txtItemGroupCode control.
+        /// hdnCRUDMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItemGroupCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCRUDMode;
         
         /// <summary>
-        /// txtItemGroupName control.
+        /// hdnListMenuID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItemGroupName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListMenuID;
         
         /// <summary>
-        /// cbpView control.
+        /// hdnRoleID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRoleID;
+        
+        /// <summary>
+        /// txtUserRoleName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUserRoleName;
+        
+        /// <summary>
+        /// Label2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label2;
+        
+        /// <summary>
+        /// ddlSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSite;
+        
+        /// <summary>
+        /// ddlModule control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlModule;
+        
+        /// <summary>
+        /// cbpMenuAccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMenuAccess;
         
         /// <summary>
         /// PanelContent1 control.
@@ -109,78 +154,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView grdView;
+        protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cbpViewDetail1 control.
+        /// cbpMenuAccessProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewDetail1;
-        
-        /// <summary>
-        /// PanelContent2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent2;
-        
-        /// <summary>
-        /// Panel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
-        
-        /// <summary>
-        /// lvwDetail1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView lvwDetail1;
-        
-        /// <summary>
-        /// cbpViewDetail2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewDetail2;
-        
-        /// <summary>
-        /// PanelContent3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent3;
-        
-        /// <summary>
-        /// Panel2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel2;
-        
-        /// <summary>
-        /// grdDetail2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdDetail2;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMenuAccessProcess;
     }
 }

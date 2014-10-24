@@ -9,6 +9,9 @@ using CodeX.Data.Model;
 using CodeX.Web.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
+using System.Web.Script.Serialization;
+using System.Reflection;
+using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
@@ -59,7 +62,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("GCItemType = '{0}' AND IsDeleted = 0", GCItemType);
+            filterExpression += string.Format("GCItemType = '{0}' AND ItemID IN (SELECT ItemID FROM SiteItem WHERE SiteID = '{1}' AND IsDeleted = 0) AND IsDeleted = 0", GCItemType, AppSession.UserLogin.SiteID);
             if (hdnItemGroupID.Value != "")
                 filterExpression += string.Format(" AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/{0}/%')", hdnItemGroupID.Value);
             return filterExpression;            
@@ -145,5 +148,179 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             grdDetail2.DataSource = lstHSU;
             grdDetail2.DataBind();
         }
+
+        #region Sync
+        class CResultItemMaster
+        {
+            public List<ItemMaster> ReturnObj { get; set; }
+            public DateTime TimeStamp { get; set; }
+        }
+        class CResultItemProduct
+        {
+            public List<ItemProduct> ReturnObj { get; set; }
+            public DateTime TimeStamp { get; set; }
+        }
+        class CResultItemPlanning
+        {
+            public List<ItemMaster> ReturnObj { get; set; }
+            public DateTime TimeStamp { get; set; }
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
+            HQService.MethodServiceSoapClient client = new HQService.MethodServiceSoapClient();
+
+            object serviceResult = client.GetMobileListObject("GetItemMasterList", "");
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            CResultItemMaster tempResult = jss.Deserialize<CResultItemMaster>(serviceResult.ToString());
+            List<ItemMaster> lstItemMaster = tempResult.ReturnObj;
+
+            client.GetMobileListObject("GetItemProductList", "");
+            jss = new JavaScriptSerializer();
+            CResultItemProduct tempResultProduct = jss.Deserialize<CResultItemProduct>(serviceResult.ToString());
+            List<ItemProduct> lstItemProduct = tempResultProduct.ReturnObj;
+
+            IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                string sqlInsert;
+                string fieldName = "";
+                string parameter = "";
+
+                #region Item Master
+                Type type1 = typeof(ItemMaster);
+                PropertyInfo[] propInfs = type1.GetProperties();
+                fieldName = GetInsertObjectFieldName(propInfs, "");                
+                fieldName += ",ConsolidateID";
+
+                foreach (ItemMaster entity in lstItemMaster)
+                {
+                    string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                    insertPerObj += string.Format(",{0}", entity.ItemID);
+                    if (parameter != "")
+                        parameter += ",";
+                    parameter += string.Format("({0})", insertPerObj);
+                }
+
+                sqlInsert = string.Format("INSERT INTO ItemMaster ");
+                sqlInsert += string.Format("({0}) ", fieldName);
+                sqlInsert += string.Format(" {0} ", "VALUES");
+                sqlInsert += string.Format("{0};", parameter);
+                #endregion
+
+                #region Item Product
+                fieldName = "";
+                parameter = "";
+                Type type2 = typeof(ItemProduct);
+                propInfs = type2.GetProperties();
+                fieldName = GetInsertObjectFieldName(propInfs, "");
+
+                foreach (ItemProduct entity in lstItemProduct)
+                {
+                    string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                    if (parameter != "")
+                        parameter += ",";
+                    parameter += string.Format("({0})", insertPerObj);
+                }
+
+                sqlInsert += "SELECT TOP 0 * INTO #TempTableItemProduct from ItemProduct;";
+                sqlInsert += string.Format("INSERT INTO #TempTableItemProduct ");
+                sqlInsert += string.Format("({0}) ", fieldName);
+                sqlInsert += string.Format(" {0} ", "VALUES");
+                sqlInsert += string.Format("{0};", parameter);
+
+                fieldName = GetInsertObjectFieldName(propInfs, "a.");
+                sqlInsert += string.Format("INSERT ItemProduct SELECT {0} FROM #TempTableItemProduct a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID;", fieldName.Replace("a.ItemID", "im.ItemID"));
+                sqlInsert += string.Format("DROP TABLE #TempTableItemProduct;");
+
+                sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
+                #endregion
+
+                ctx.CommandText = sqlInsert;
+                DaoBase.ExecuteNonQuery(ctx);
+                ctx.CommitTransaction();
+            }
+            catch(Exception ex)
+            {
+                errMessage = ex.Message;
+                ctx.RollBackTransaction();
+                result = false;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+
+            return result;
+        }
+
+        private string GetInsertObjectFieldName(PropertyInfo[] propInfs, string prefix)
+        {
+            string fieldName = "";
+            foreach (PropertyInfo prop in propInfs)
+            {
+                object[] custAttr = prop.GetCustomAttributes(false);
+                foreach (Attribute attrib in custAttr)
+                {
+                    ColumnAttribute schema = attrib as ColumnAttribute;
+                    if (schema != null && !schema.IsComputed && !schema.IsIdentity && !schema.IsTimeStamp)
+                    {
+                        if (fieldName != "")
+                            fieldName += ",";
+                        fieldName += string.Format("{0}{1}", prefix, schema.Name);
+                    }
+                }
+            }
+            return fieldName;
+        }
+
+        private string GetInsertObjectValue(PropertyInfo[] propInfs, object entity)
+        {
+            string insertPerObj = "";
+            foreach (PropertyInfo prop in propInfs)
+            {
+                object[] custAttr = prop.GetCustomAttributes(false);
+                foreach (Attribute attrib in custAttr)
+                {
+                    ColumnAttribute schema = attrib as ColumnAttribute;
+                    if (schema != null && !schema.IsComputed && !schema.IsIdentity && !schema.IsTimeStamp)
+                    {
+                        object fieldValue = prop.GetValue(entity, null);
+                        if (!schema.IsNullable)
+                            fieldValue = CheckIsNull(fieldValue, prop.PropertyType);
+
+                        if (insertPerObj != "")
+                            insertPerObj += ",";
+                        if (fieldValue != null && !(schema.IsNullable))
+                            insertPerObj += string.Format("'{0}'", fieldValue);
+                        else
+                            insertPerObj += "NULL";
+
+                    }
+                }
+            }
+            return insertPerObj;
+        }
+
+        private object CheckIsNull(object obj, Type type)
+        {
+            if (type.FullName.Contains("DateTime"))
+            {
+                if (obj is DBNull || obj == null)
+                    return Convert.ToDateTime("1900-01-01");
+                if (Convert.ToDateTime(obj).Year < 1900)
+                    return Convert.ToDateTime("1900-01-01");
+            }
+            else if (obj is DBNull || obj == null)
+            {
+                if (type.FullName.Contains("String")) return string.Empty;
+                //if (type.FullName.Contains("Int64")) return 0;
+                if (type.FullName.Contains("Boolean")) return false;
+                return null;
+            }
+            return obj;
+        }
+        #endregion
     }
 }

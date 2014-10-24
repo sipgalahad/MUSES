@@ -98,6 +98,12 @@
     <Content Include="Login.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -304,6 +310,48 @@
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
       <DependentUpon>SiteList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.cs">
+      <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.designer.cs">
+      <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.cs">
+      <DependentUpon>UserManagementList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.designer.cs">
+      <DependentUpon>UserManagementList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.cs">
+      <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.cs">
+      <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.designer.cs">
+      <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.cs">
+      <DependentUpon>UserRolesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.designer.cs">
+      <DependentUpon>UserRolesList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.cs">
       <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -350,6 +398,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Program\ControlPanel\SystemConfiguration\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">

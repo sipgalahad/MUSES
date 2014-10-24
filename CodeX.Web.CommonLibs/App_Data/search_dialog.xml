@@ -252,6 +252,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Journal Tempate Hd -->
+  <searchdialog type="journaltemplatehd" methodname="GetvJournalTemplateHdList" keyfieldname="TemplateCode" orderbyexpression="TemplateID ASC">
+    <gridcolumns>
+      <gridcolumn datafield="TemplateCode" headertext="Template Code" width="100px" />
+      <gridcolumn datafield="TemplateName" headertext="Template Name" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TemplateCode" headertext="Template Code" description="" />
+      <intellisensetext datafield="TemplateName" headertext="Template Name" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Location -->
   <searchdialog type="location" methodname="GetvLocationList" keyfieldname="LocationCode" istreeview="1">
     <gridcolumns>

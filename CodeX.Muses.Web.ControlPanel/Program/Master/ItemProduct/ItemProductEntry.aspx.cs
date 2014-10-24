@@ -226,6 +226,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             ItemTagFieldDao entityTagFieldDao = new ItemTagFieldDao(ctx);
             ItemCostDao entityCostDao = new ItemCostDao(ctx);
             ItemPlanningDao entityPlanningDao = new ItemPlanningDao(ctx);
+            SiteItemDao entitySiteItemDao = new SiteItemDao(ctx);
             try
             {
                 ItemMaster entity = new ItemMaster();
@@ -244,22 +245,25 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entityTagField.ItemID = entityProduct.ItemID;
                 entityTagFieldDao.Insert(entityTagField);
 
-                List<Site> lstSite = BusinessLayer.GetSiteList("", ctx);
-                foreach (Site healthcare in lstSite)
-                {
-                    ItemCost ic = new ItemCost();
-                    ic.ItemID = entityProduct.ItemID;
-                    ic.SiteID = healthcare.SiteID;
-                    ic.CreatedBy = AppSession.UserLogin.UserID;
-                    entityCostDao.Insert(ic);
+                ItemCost ic = new ItemCost();
+                ic.ItemID = entityProduct.ItemID;
+                ic.SiteID = AppSession.UserLogin.SiteID;
+                ic.CreatedBy = AppSession.UserLogin.UserID;
+                entityCostDao.Insert(ic);
 
-                    ItemPlanning ip = new ItemPlanning();
-                    ip.BusinessPartnerID = null;
-                    ip.ItemID = entityProduct.ItemID;
-                    ip.SiteID = healthcare.SiteID;
-                    ip.CreatedBy = AppSession.UserLogin.UserID;
-                    entityPlanningDao.Insert(ip);
-                }
+                ItemPlanning ip = new ItemPlanning();
+                ip.BusinessPartnerID = null;
+                ip.ItemID = entityProduct.ItemID;
+                ip.SiteID = AppSession.UserLogin.SiteID;
+                ip.CreatedBy = AppSession.UserLogin.UserID;
+                entityPlanningDao.Insert(ip);
+
+                SiteItem siteItem = new SiteItem();
+                siteItem.ItemID = entityProduct.ItemID;
+                siteItem.SiteID = AppSession.UserLogin.SiteID;
+                siteItem.CreatedBy = AppSession.UserLogin.UserID;
+                entitySiteItemDao.Insert(siteItem);
+
                 retval = entityProduct.ItemID.ToString();
                 ctx.CommitTransaction();
             }

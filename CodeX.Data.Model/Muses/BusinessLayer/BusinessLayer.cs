@@ -3247,6 +3247,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ItemProduct> GetItemProductList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ItemProduct> result = new List<ItemProduct>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemProduct));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemProduct)helper.IDataReaderToObject(reader, new ItemProduct()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region ItemRequestHd
         public static ItemRequestHd GetItemRequestHd(Int32 ItemRequestID)
@@ -6091,6 +6113,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SiteItem
+        public static SiteItem GetSiteItem(Int32 SiteItemID)
+        {
+            return new SiteItemDao().Get(SiteItemID);
+        }
+        public static int InsertSiteItem(SiteItem record)
+        {
+            return new SiteItemDao().Insert(record);
+        }
+        public static int UpdateSiteItem(SiteItem record)
+        {
+            return new SiteItemDao().Update(record);
+        }
+        public static int DeleteSiteItem(Int32 SiteItemID)
+        {
+            return new SiteItemDao().Delete(SiteItemID);
+        }
+        public static List<SiteItem> GetSiteItemList(string filterExpression)
+        {
+            List<SiteItem> result = new List<SiteItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteItem)helper.IDataReaderToObject(reader, new SiteItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }
