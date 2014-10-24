@@ -19,6 +19,11 @@ namespace CodeX.Muses.Web.ControlPanel
         {
             if (!Page.IsPostBack)
             {
+                if (Request.QueryString.Count > 0)
+                    hdnSiteID.Value = Request.QueryString["id"];
+                else
+                    hdnSiteID.Value = BusinessLayer.GetSiteList(string.Format("IsHeader = 0")).FirstOrDefault().SiteID;
+
                 txtUserName.Attributes.Add("validationgroup", "mpLogin");
                 txtPassword.Attributes.Add("validationgroup", "mpLogin");
                 Helper.AddCssClass(txtUserName, "required");
@@ -51,7 +56,7 @@ namespace CodeX.Muses.Web.ControlPanel
                     else
                         userLogin.UserFullName = user.FullName;
                     userLogin.TeacherID = user.TeacherID;
-                    Site site = BusinessLayer.GetSiteList("").FirstOrDefault();
+                    Site site = BusinessLayer.GetSite(hdnSiteID.Value);
                     userLogin.SiteID = site.SiteID;
                     userLogin.SiteName = site.SiteName;
                     List<vUserInRole> lstUserRole = BusinessLayer.GetvUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}'", userLogin.UserID, userLogin.SiteID));

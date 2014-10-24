@@ -37,6 +37,7 @@ namespace CodeX.Web.Common
                 case "accounting": result = "AC"; break;
                 case "assetmanagement": result = "AM"; break;
                 case "controlpanel": result = "CP"; break;
+                case "controlpanelhq": result = "CPHQ"; break;
                 case "finance": result = "FN"; break;
                 case "inventory": result = "IM"; break;
                 default: result = "SM"; break;

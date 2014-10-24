@@ -31,7 +31,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 BusinessPartners entity = BusinessLayer.GetBusinessPartners(BusinessPartnerID);
                 Supplier entitySup = BusinessLayer.GetSupplier(BusinessPartnerID);
                 BusinessPartnerTagField entityTagField = BusinessLayer.GetBusinessPartnerTagField(BusinessPartnerID);
-                vAddress entityAddress = BusinessLayer.GetvAddressList(string.Format("AddressID = {0}", entity.AddressID))[0];
+                vAddress entityAddress = BusinessLayer.GetvAddressList(string.Format("AddressID = '{0}'", entity.AddressID))[0];
 
                 SetControlProperties();
                 EntityToControl(entity, entitySup, entityAddress, entityTagField);

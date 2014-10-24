@@ -28,7 +28,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
                 hdnID.Value = SiteID;
                 SetControlProperties();
                 Site entity = BusinessLayer.GetSite(SiteID);
-                vAddress entityAddress = BusinessLayer.GetvAddressList(string.Format("AddressID = {0}", entity.AddressID))[0];
+                vAddress entityAddress = BusinessLayer.GetvAddressList(string.Format("AddressID = '{0}'", entity.AddressID))[0];
                 EntityToControl(entity, entityAddress);
             }
             else

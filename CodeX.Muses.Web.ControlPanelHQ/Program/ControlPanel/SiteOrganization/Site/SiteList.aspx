@@ -76,7 +76,16 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SiteID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SiteID" HeaderText="Site Code" HeaderStyle-Width="200px" />
+                                <asp:TemplateField HeaderStyle-Width="200px" >
+                                    <HeaderTemplate>
+                                        <div style="padding-left:3px">
+                                            <%=GetLabel("Site Code")%>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style='margin-left:<%# Eval("Level") %>0px;'><%# Eval("SiteID")%></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="SiteName" HeaderText="Site Name" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="300px" />
                             </Columns>

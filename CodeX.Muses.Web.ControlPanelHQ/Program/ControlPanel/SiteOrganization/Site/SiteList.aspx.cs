@@ -35,7 +35,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             hdnID.Value = keyValue;
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetSiteRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvSiteRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -50,11 +50,11 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             string filterExpression = hdnFilterExpression.Value;
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetSiteRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvSiteRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Site> lstEntity = BusinessLayer.GetSiteList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vSite> lstEntity = BusinessLayer.GetvSiteList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

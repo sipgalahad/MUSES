@@ -622,6 +622,8 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private String _SiteName;
         private String _GCOperatingGroup;
+        private String _ParentID;
+        private Boolean _IsHeader;
         private String _ShortName;
         private String _Initial;
         private String _LicenseNo;
@@ -638,6 +640,8 @@ namespace CodeX.Data.Model
         private String _State;
         private Int32 _ZipCodeID;
         private String _ZipCode;
+        private Int32 _Level;
+        private String _Path;
 
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -656,6 +660,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCOperatingGroup; }
             set { _GCOperatingGroup = value; }
+        }
+        [Column(Name = "ParentID", DataType = "String")]
+        public String ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
         }
         [Column(Name = "ShortName", DataType = "String")]
         public String ShortName
@@ -752,6 +768,18 @@ namespace CodeX.Data.Model
         {
             get { return _ZipCode; }
             set { _ZipCode = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
         }
     }
     #endregion

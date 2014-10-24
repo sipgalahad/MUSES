@@ -1785,6 +1785,8 @@ namespace CodeX.Data.Model
     {
         private String _SiteID;
         private String _SiteName;
+        private String _ParentID;
+        private Boolean _IsHeader;
         private String _GCOperatingGroup;
         private String _ShortName;
         private String _Initial;
@@ -1804,6 +1806,18 @@ namespace CodeX.Data.Model
         {
             get { return _SiteName; }
             set { _SiteName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "String", IsNullable = true)]
+        public String ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
         }
         [Column(Name = "GCOperatingGroup", DataType = "String")]
         public String GCOperatingGroup
@@ -1869,7 +1883,6 @@ namespace CodeX.Data.Model
         }
         public int Insert(Site record)
         {
-            record.LastUpdatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

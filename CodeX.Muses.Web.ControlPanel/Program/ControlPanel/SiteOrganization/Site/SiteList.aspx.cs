@@ -47,7 +47,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = hdnFilterExpression.Value;
+            string filterExpression = string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID);
+            if (hdnFilterExpression.Value != "")
+                filterExpression += string.Format(" AND {0}", hdnFilterExpression.Value);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetSiteRowCount(filterExpression);
