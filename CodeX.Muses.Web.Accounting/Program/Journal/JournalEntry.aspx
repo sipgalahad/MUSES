@@ -11,10 +11,14 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
-            if (!isShowWatermark()) 
+            if (!isShowWatermark()) {
                 $('#divTemplatePick').show();
-            else 
+                $('#divSaveTemplate').show();
+            }
+            else {
                 $('#divTemplatePick').hide();
+                $('#divSaveTemplate').hide();
+            }
 
             if (getIsAdd()) {
                 setDatePicker('<%=txtJournalDate.ClientID %>');
@@ -24,8 +28,18 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                     $('#<%=txtJournalDate.ClientID %>').datepicker('option', 'minDate', '-' + minDate);
             }
 
+            $('#divSaveTemplate').click(function () {
+                popupType = 'templateSave';
+                onBeforeSaveRecord();
+                showLoadingPanel();
+                var url = ResolveUrl('~/Program/Journal/JournalTemplateSaveCtl.ascx');
+                var id = $('#<%=hdnSaveParam.ClientID %>').val();
+                openUserControlPopup(url, id, 'Save As Template', 600, 300);
+            });
+
             $('#divTemplatePick').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    popupType = 'templatePick';
                     showLoadingPanel();
                     var url = ResolveUrl('~/Program/Journal/JournalTemplateCtl.ascx');
                     var glTransactionID = $('#<%=hdnID.ClientID %>').val();
@@ -91,7 +105,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
 
                             $newTr.find('.hdnSubLedgerID').val(entity.SubLedgerID);
                             $newTr.find('.hdnSearchDialogTypeName').val(entity.SearchDialogTypeName);
-                            $newTr.find('.hdnFilterExpression').val(entity.FilterExpression);
+                            $newTr.find('.hdnFilterExpression').val(entity.FilterExpression.replace('@SubLedgerID', entity.SubLedgerID));
                             $newTr.find('.hdnIDFieldName').val(entity.IDFieldName);
                             $newTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
                             $newTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
@@ -139,6 +153,8 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
             //#endregion
         }
 
+        var popupType = '';
+
         $tacTr = null;
         //#region COA
         function onGetCOAFilterExpression() {
@@ -176,7 +192,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
             if (entity != null) {
                 $tacTr.find('.hdnSubLedgerID').val(entity.SubLedgerID);
                 $tacTr.find('.hdnSearchDialogTypeName').val(entity.SearchDialogTypeName);
-                $tacTr.find('.hdnFilterExpression').val(entity.FilterExpression);
+                $tacTr.find('.hdnFilterExpression').val(entity.FilterExpression.replace('@SubLedgerID', entity.SubLedgerID));
                 $tacTr.find('.hdnIDFieldName').val(entity.IDFieldName);
                 $tacTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
                 $tacTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
@@ -187,7 +203,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                 template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
                 template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
                 template += "<//div><//script>";
-                                
+
                 $tacTr.find('.divSubLedgerTemplate').html(template);
 
                 var id = $tacTr.find('.tacSubCOA').attr('id');
@@ -210,7 +226,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
             $tacTr.find('.tacSubCOA').find('.txtAutoComplete').val('');
             var subLedgerID = $tacTr.find('.hdnSubLedgerID').val();
             if (subLedgerID == '0' || subLedgerID == '') {
-                $tacTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').attr('enabled', false); 
+                $tacTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').attr('enabled', false);
                 $tacTr.find('.tacSubCOA').find('.txtAutoComplete').attr('readonly', 'readonly');
             }
             else {
@@ -438,7 +454,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                 var param = id + '|' + period;
                 openUserControlPopup(url, param, 'Detail', 900, 600);
 
-                
+
                 $tacSubCOA = $tr.find('.tacSubCOA');
                 var glAccountID = $tr.find('.tacCOA').find('.hdnAutoCompleteValue').val();
                 var subLedgerDtID = $tacSubCOA.find('.hdnAutoCompleteValue').val();
@@ -472,7 +488,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
 
         //#region Document No
         $('.txtDocumentNo').live('change', function () {
-            if ($(this).val() == '') 
+            if ($(this).val() == '')
                 $(this).closest('tr').find('.btnDocumentDetail').attr('enabled', false);
             else
                 $(this).closest('tr').find('.btnDocumentDetail').removeAttr('enabled');
@@ -514,9 +530,82 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
         }
 
         function onAfterSaveAddRecordEntryPopup(param) {
-            if (getIsAdd()) {
-                onAfterCustomSaveSuccess();
-                cbpMPEntryContent.PerformCallback('load');
+            if (popupType == 'templatePick') {
+                var temp = param.split('|');
+                var templateID = temp[0];
+                var amount = parseFloat(temp[1]);
+                var filterExpression = "TemplateID = " + templateID + " AND IsDeleted = 0";
+                Methods.getListObject('GetvJournalTemplateDtList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('.trJournalEntry:last').remove();
+                        for (var i = 0; i < result.length; ++i) {
+                            var entity = result[i];
+                            $newTr = $('#tmplEntity').html().replace('script1', 'script').replace('script1', 'script');
+                            $newTr = $newTr.replace(/\$\{idx}/g, idx);
+                            $newTr = $($newTr);
+
+                            $newTr.insertBefore($('#trFooter'));
+
+                            $newTr.find('.txtCurrency').each(function () {
+                                $(this).trigger('changeValue');
+                            });
+
+                            var tempHelper = new CodeXClientAutoCompleteHelper();
+                            tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
+                            tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
+                            tempHelper.initializeControl();
+                            tempHelper.setValue(entity.GLAccount);
+                            tempHelper.setText(entity.GLAccountName);
+
+                            var debitAmount = 0;
+                            var creditAmount = 0;
+                            if (entity.Position == 'D')
+                                debitAmount = amount * entity.AmountPercentage / 100;
+                            else
+                                creditAmount = amount * entity.AmountPercentage / 100;
+
+                            $newTr.find('.txtDebit').val(debitAmount).trigger('changeValue');
+                            $newTr.find('.txtKredit').val(creditAmount).trigger('changeValue');
+
+                            if (entity.ReferenceNo == '')
+                                $newTr.find('.btnDocumentDetail').attr('enabled', false);
+                            else
+                                $newTr.find('.btnDocumentDetail').removeAttr('enabled');
+
+                            $newTr.find('.hdnSubLedgerID').val(entity.SubLedgerID);
+                            $newTr.find('.hdnSearchDialogTypeName').val(entity.SearchDialogTypeName);
+                            $newTr.find('.hdnFilterExpression').val(entity.FilterExpression.replace('@SubLedgerID', entity.SubLedgerID));
+                            $newTr.find('.hdnIDFieldName').val(entity.IDFieldName);
+                            $newTr.find('.hdnCodeFieldName').val(entity.CodeFieldName);
+                            $newTr.find('.hdnDisplayFieldName').val(entity.DisplayFieldName);
+                            $newTr.find('.hdnMethodName').val(entity.MethodName);
+
+                            if (entity.SubLedgerID != '0') {
+                                var template = "<script class='tmpltAutoComplete' type='text/x-jquery-tmpl'><div>";
+                                template += "${" + entity.DisplayFieldName + "} (<b>${" + entity.CodeFieldName + "}</b>";
+                                template += "<input type='hidden' value='${" + entity.DisplayFieldName + "}' class='hdnAutoCompleteRowText'/>";
+                                template += "<input type='hidden' value='${" + entity.IDFieldName + "}' class='hdnAutoCompleteRowValue'/>";
+                                template += "<//div><//script>";
+
+                                $newTr.find('.divSubLedgerTemplate').html(template);
+
+                                var tempHelper = new CodeXClientAutoCompleteHelper();
+                                tempHelper.init("SubCOA" + idx, entity.CodeFieldName + "," + entity.DisplayFieldName, entity.MethodName, entity.FilterExpression, "", entity.CodeFieldName);
+                                tempHelper.setClientSideEvents(onSubLedgerIDValueChanged);
+                                tempHelper.initializeControl();
+                                tempHelper.setValue(entity.SubLedger);
+                                tempHelper.setText(entity.SubLedgerName);
+
+                                $newTr.find('.tacSubCOA').find('.txtAutoComplete').removeAttr('readonly');
+                                $newTr.find('.tacSubCOA').find('.btnAutoCompleteSearchMore').removeAttr('enabled');
+                            }
+
+                            idx++;
+                        }
+                        calculateTotalDebitKredit();
+                        addEntityRow();
+                    }
+                });
             }
         }
 
@@ -718,6 +807,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
             <td colspan="2">
                 <div class="divTransactionEntry">
                     <span id="divTemplatePick" class="divAdd"><%=GetLabel("Template")%></span>
+                    <span id="divSaveTemplate" class="divAdd" style="margin-left: 50px;"><%=GetLabel("Save As Template")%></span>
                     <table id="tblJournalEntry" style="display:none" class="grdView grdBorder notAllowSelect" cellspacing="0" rules="all" >
                         <tr id="trHeader2">
                             <th style="width:30px;"></th>
