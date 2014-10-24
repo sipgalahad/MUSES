@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a83015d4-bac7-4118-bcf3-081788b8b75f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="e6d27d52-3475-4d56-a60a-f923de8f76c7" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -18,11 +18,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost/publish2/Muses/ControlPanel/Libs/Service/MethodService.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost/publish2/Muses/ControlPanel/Libs/Service/SyncService.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="MethodService.wsdl" MetadataType="Wsdl" ID="58144da3-6098-4160-a51f-34be56cd4663" SourceId="1" SourceUrl="http://localhost/publish2/Muses/ControlPanel/Libs/Service/MethodService.asmx?wsdl" />
-    <MetadataFile FileName="MethodService.disco" MetadataType="Disco" ID="d828a737-0cae-43aa-b98b-285b966194ac" SourceId="1" SourceUrl="http://localhost/publish2/Muses/ControlPanel/Libs/Service/MethodService.asmx?disco" />
+    <MetadataFile FileName="SyncService.disco" MetadataType="Disco" ID="8849d4e1-42e7-42dc-991b-bc815e4a8c0c" SourceId="1" SourceUrl="http://localhost/publish2/Muses/ControlPanel/Libs/Service/SyncService.asmx?disco" />
+    <MetadataFile FileName="SyncService.wsdl" MetadataType="Wsdl" ID="fce5a297-af55-4393-8f67-3d7f5bb13ad7" SourceId="1" SourceUrl="http://localhost/publish2/Muses/ControlPanel/Libs/Service/SyncService.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

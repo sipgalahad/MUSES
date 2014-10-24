@@ -150,36 +150,33 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
 
         #region Sync
-        class CResultItemMaster
+        class CResult
         {
-            public List<ItemMaster> ReturnObj { get; set; }
-            public DateTime TimeStamp { get; set; }
-        }
-        class CResultItemProduct
-        {
-            public List<ItemProduct> ReturnObj { get; set; }
-            public DateTime TimeStamp { get; set; }
-        }
-        class CResultItemPlanning
-        {
-            public List<ItemMaster> ReturnObj { get; set; }
+            public List<ItemMaster> ListItemMaster { get; set; }
+            public List<ItemProduct> ListItemProduct { get; set; }
             public DateTime TimeStamp { get; set; }
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
         {
             bool result = true;
-            HQService.MethodServiceSoapClient client = new HQService.MethodServiceSoapClient();
+            HQService.SyncServiceSoapClient client = new HQService.SyncServiceSoapClient();
 
-            object serviceResult = client.GetMobileListObject("GetItemMasterList", "");
+            //object serviceResult = client.GetMobileListObject("GetItemMasterList", "");
+            //JavaScriptSerializer jss = new JavaScriptSerializer();
+            //var tempResult = (IDictionary<string, object>)jss.DeserializeObject(serviceResult.ToString());
+            //Object[] lstObj = (Object[])tempResult["ReturnObj"];
+            //foreach (Object obj in lstObj)
+            //{
+            //    var temp = (IDictionary<string, object>)obj;
+            //    string test = temp["ItemID"].ToString();
+            //    IEnumerable<string> keys = temp.Select(x => x.Key);
+            //}
+            object serviceResult = client.GetItemMasterList("");
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            CResultItemMaster tempResult = jss.Deserialize<CResultItemMaster>(serviceResult.ToString());
-            List<ItemMaster> lstItemMaster = tempResult.ReturnObj;
-
-            client.GetMobileListObject("GetItemProductList", "");
-            jss = new JavaScriptSerializer();
-            CResultItemProduct tempResultProduct = jss.Deserialize<CResultItemProduct>(serviceResult.ToString());
-            List<ItemProduct> lstItemProduct = tempResultProduct.ReturnObj;
+            CResult tempResult = jss.Deserialize<CResult>(serviceResult.ToString());
+            List<ItemMaster> lstItemMaster = tempResult.ListItemMaster;
+            List<ItemProduct> lstItemProduct = tempResult.ListItemProduct;
 
             IDbContext ctx = DbFactory.Configure(true);
             try
@@ -191,7 +188,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 #region Item Master
                 Type type1 = typeof(ItemMaster);
                 PropertyInfo[] propInfs = type1.GetProperties();
-                fieldName = GetInsertObjectFieldName(propInfs, "");                
+                fieldName = GetInsertObjectFieldName(propInfs, "");
                 fieldName += ",ConsolidateID";
 
                 foreach (ItemMaster entity in lstItemMaster)
@@ -241,7 +238,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 DaoBase.ExecuteNonQuery(ctx);
                 ctx.CommitTransaction();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();

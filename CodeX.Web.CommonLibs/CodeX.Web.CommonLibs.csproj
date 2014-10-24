@@ -885,6 +885,7 @@
     <Content Include="Scripts\Webcam\webcam.js" />
     <Content Include="Scripts\Webcam\webcam.swf" />
     <Content Include="Service\MethodService.asmx" />
+    <Content Include="Service\SyncService.asmx" />
     <Content Include="Styles\common.css" />
     <Content Include="Styles\excel.css" />
     <Content Include="Styles\MetroBlue\medinfras.css" />
@@ -1139,6 +1140,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MethodService.asmx.cs">
       <DependentUpon>MethodService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Service\SyncService.asmx.cs">
+      <DependentUpon>SyncService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools\CSToJSEntityToControl.aspx.cs">
