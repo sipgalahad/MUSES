@@ -83,27 +83,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            url = ResolveUrl("~/Program/ControlPanel/SiteOrganization/Site/SiteEntry.aspx");
-            return true;
-        }
-
         protected override bool OnEditRecord(ref string url, ref string errMessage)
         {
             if (hdnID.Value.ToString() != "")
             {
                 url = ResolveUrl(string.Format("~/Program/ControlPanel/SiteOrganization/Site/SiteEntry.aspx?id={0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                BusinessLayer.DeleteSite(hdnID.Value);
                 return true;
             }
             return false;

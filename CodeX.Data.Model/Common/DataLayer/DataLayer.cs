@@ -9,7 +9,8 @@ namespace CodeX.Data.Model
     [Table(Name = "Address")]
     public class Address : DbDataModel
     {
-        private Int32 _AddressID;
+        private String _AddressID;
+        private String _GCAddressType;
         private String _StreetName;
         private String _District;
         private String _City;
@@ -22,11 +23,17 @@ namespace CodeX.Data.Model
         private String _FaxNo2;
         private Boolean _IsMailingAddress;
 
-        [Column(Name = "AddressID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 AddressID
+        [Column(Name = "AddressID", DataType = "String", IsPrimaryKey = true)]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }
+        }
+        [Column(Name = "GCAddressType", DataType = "String")]
+        public String GCAddressType
+        {
+            get { return _GCAddressType; }
+            set { _GCAddressType = value; }
         }
         [Column(Name = "StreetName", DataType = "String")]
         public String StreetName
@@ -34,19 +41,19 @@ namespace CodeX.Data.Model
             get { return _StreetName; }
             set { _StreetName = value; }
         }
-        [Column(Name = "District", DataType = "String")]
+        [Column(Name = "District", DataType = "String", IsNullable = true)]
         public String District
         {
             get { return _District; }
             set { _District = value; }
         }
-        [Column(Name = "City", DataType = "String")]
+        [Column(Name = "City", DataType = "String", IsNullable = true)]
         public String City
         {
             get { return _City; }
             set { _City = value; }
         }
-        [Column(Name = "County", DataType = "String")]
+        [Column(Name = "County", DataType = "String", IsNullable = true)]
         public String County
         {
             get { return _County; }
@@ -64,25 +71,25 @@ namespace CodeX.Data.Model
             get { return _ZipCode; }
             set { _ZipCode = value; }
         }
-        [Column(Name = "PhoneNo1", DataType = "String")]
+        [Column(Name = "PhoneNo1", DataType = "String", IsNullable = true)]
         public String PhoneNo1
         {
             get { return _PhoneNo1; }
             set { _PhoneNo1 = value; }
         }
-        [Column(Name = "PhoneNo2", DataType = "String")]
+        [Column(Name = "PhoneNo2", DataType = "String", IsNullable = true)]
         public String PhoneNo2
         {
             get { return _PhoneNo2; }
             set { _PhoneNo2 = value; }
         }
-        [Column(Name = "FaxNo1", DataType = "String")]
+        [Column(Name = "FaxNo1", DataType = "String", IsNullable = true)]
         public String FaxNo1
         {
             get { return _FaxNo1; }
             set { _FaxNo1 = value; }
         }
-        [Column(Name = "FaxNo2", DataType = "String")]
+        [Column(Name = "FaxNo2", DataType = "String", IsNullable = true)]
         public String FaxNo2
         {
             get { return _FaxNo2; }
@@ -107,7 +114,7 @@ namespace CodeX.Data.Model
         {
             _ctx = ctx;
         }
-        public Address Get(Int32 AddressID)
+        public Address Get(String AddressID)
         {
             _ctx.CommandText = _helper.GetRecord();
             _ctx.Add(p_AddressID, AddressID);
@@ -124,7 +131,7 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 AddressID)
+        public int Delete(String AddressID)
         {
             Address record;
             if (_ctx.Transaction == null)
@@ -1782,7 +1789,7 @@ namespace CodeX.Data.Model
         private String _ShortName;
         private String _Initial;
         private String _LicenseNo;
-        private Int64? _AddressID;
+        private String _AddressID;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
@@ -1822,8 +1829,8 @@ namespace CodeX.Data.Model
             get { return _LicenseNo; }
             set { _LicenseNo = value; }
         }
-        [Column(Name = "AddressID", DataType = "Int64", IsNullable = true)]
-        public Int64? AddressID
+        [Column(Name = "AddressID", DataType = "String", IsNullable = true)]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }

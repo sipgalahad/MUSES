@@ -43,6 +43,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsDeleted = 0", Constant.StandardCode.HEALTHCARE_OPERATING_GROUP));
             Methods.SetComboBoxField<StandardCode>(cboOperatingGroup, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+            hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.SITE).TagProperty;
         }
 
         protected override void OnControlEntrySetting()
@@ -108,54 +110,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entityAddress.PhoneNo1 = txtTelephoneNo.Text;
         }
 
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("SiteID = '{0}'", Request.Form[txtSiteID.UniqueID]);
-            List<Site> lst = BusinessLayer.GetSiteList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = "Site Code is already exist";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            SiteDao entityDao = new SiteDao(ctx);
-            AddressDao entityAddressDao = new AddressDao(ctx);
-            try
-            {
-                Site entity = new Site();
-                Address entityAddress = new Address();
-                ControlToEntity(entity, entityAddress);
-
-                entity.SiteID = Request.Form[txtSiteID.UniqueID];
-                entityAddressDao.Insert(entityAddress);
-                entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-
-                entityDao.Insert(entity);
-
-                retval = entity.SiteID;
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                errMessage = ex.Message;
-                result = false;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
             bool result = true;
@@ -165,7 +119,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 Site entity = entityDao.Get(hdnID.Value);
-                Address entityAddress = entityAddressDao.Get((int)entity.AddressID);
+                Address entityAddress = entityAddressDao.Get(entity.AddressID);
                 ControlToEntity(entity, entityAddress);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
 

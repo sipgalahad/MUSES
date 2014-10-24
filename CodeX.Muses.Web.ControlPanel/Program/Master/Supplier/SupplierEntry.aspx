@@ -61,6 +61,7 @@
         }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>

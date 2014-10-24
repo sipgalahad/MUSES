@@ -12,7 +12,7 @@ namespace CodeX.Data.Model
     [Table(Name = "vAddress")]
     public class vAddress
     {
-        private Int32 _AddressID;
+        private String _AddressID;
         private String _StreetName;
         private String _District;
         private String _City;
@@ -27,8 +27,8 @@ namespace CodeX.Data.Model
         private String _FaxNo2;
         private Boolean _IsMailingAddress;
 
-        [Column(Name = "AddressID", DataType = "Int32")]
-        public Int32 AddressID
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }
@@ -625,7 +625,7 @@ namespace CodeX.Data.Model
         private String _ShortName;
         private String _Initial;
         private String _LicenseNo;
-        private Int64 _AddressID;
+        private String _AddressID;
         private String _PhoneNo1;
         private String _PhoneNo2;
         private String _FaxNo1;
@@ -675,8 +675,8 @@ namespace CodeX.Data.Model
             get { return _LicenseNo; }
             set { _LicenseNo = value; }
         }
-        [Column(Name = "AddressID", DataType = "Int64")]
-        public Int64 AddressID
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }

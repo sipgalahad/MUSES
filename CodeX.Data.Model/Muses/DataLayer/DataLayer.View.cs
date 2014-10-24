@@ -7910,7 +7910,7 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
-        private Int32 _AddressID;
+        private String _AddressID;
         private String _StreetName;
         private String _District;
         private String _City;
@@ -8045,8 +8045,8 @@ namespace CodeX.Data.Model
             get { return _GCReligion; }
             set { _GCReligion = value; }
         }
-        [Column(Name = "AddressID", DataType = "Int32")]
-        public Int32 AddressID
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }
@@ -8193,7 +8193,7 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
-        private Int32 _OfficeAddressID;
+        private String _OfficeAddressID;
         private String _OfficeStreetName;
         private String _OfficeDistrict;
         private String _OfficeCity;
@@ -8334,8 +8334,8 @@ namespace CodeX.Data.Model
             get { return _Salary; }
             set { _Salary = value; }
         }
-        [Column(Name = "OfficeAddressID", DataType = "Int32")]
-        public Int32 OfficeAddressID
+        [Column(Name = "OfficeAddressID", DataType = "String")]
+        public String OfficeAddressID
         {
             get { return _OfficeAddressID; }
             set { _OfficeAddressID = value; }
@@ -11676,7 +11676,7 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
-        private Int32 _AddressID;
+        private String _AddressID;
         private String _StreetName;
         private String _District;
         private String _City;
@@ -11861,8 +11861,8 @@ namespace CodeX.Data.Model
             get { return _GCReligion; }
             set { _GCReligion = value; }
         }
-        [Column(Name = "AddressID", DataType = "Int32")]
-        public Int32 AddressID
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }
@@ -12438,7 +12438,7 @@ namespace CodeX.Data.Model
         private String _GCMajor;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
-        private Int32 _AddressID;
+        private String _AddressID;
         private String _StreetName;
         private String _District;
         private String _City;
@@ -12588,8 +12588,8 @@ namespace CodeX.Data.Model
             get { return _SchoolClassName; }
             set { _SchoolClassName = value; }
         }
-        [Column(Name = "AddressID", DataType = "Int32")]
-        public Int32 AddressID
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }
@@ -12718,7 +12718,7 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
-        private Int32 _OfficeAddressID;
+        private String _OfficeAddressID;
         private String _OfficeStreetName;
         private String _OfficeDistrict;
         private String _OfficeCity;
@@ -12859,8 +12859,8 @@ namespace CodeX.Data.Model
             get { return _Salary; }
             set { _Salary = value; }
         }
-        [Column(Name = "OfficeAddressID", DataType = "Int32")]
-        public Int32 OfficeAddressID
+        [Column(Name = "OfficeAddressID", DataType = "String")]
+        public String OfficeAddressID
         {
             get { return _OfficeAddressID; }
             set { _OfficeAddressID = value; }
@@ -13210,7 +13210,7 @@ namespace CodeX.Data.Model
         private Boolean _IsLogisticSupplier;
         private Boolean _IsPharmacySupplier;
         private Boolean _IsPaymentHold;
-        private Int64 _AddressID;
+        private String _AddressID;
         private String _PhoneNo1;
         private String _PhoneNo2;
         private String _StreetName;
@@ -13292,8 +13292,8 @@ namespace CodeX.Data.Model
             get { return _IsPaymentHold; }
             set { _IsPaymentHold = value; }
         }
-        [Column(Name = "AddressID", DataType = "Int64")]
-        public Int64 AddressID
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
         {
             get { return _AddressID; }
             set { _AddressID = value; }

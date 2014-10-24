@@ -176,6 +176,7 @@
         //#endregion
     </script>
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
+    <input type="hidden" id="hdnAddressPrefix" runat="server" value="0" />
     <div style="height: 410px; overflow-y:auto">
         <fieldset id="fsMPEntry">            
             <table class="tblContentArea" >

@@ -4514,6 +4514,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetProspectiveStudentFamilyMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFamily));
+                ctx.CommandText = helper.SelectMaxColumn("FamilyID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region PurchaseInvoiceDt
         public static PurchaseInvoiceDt GetPurchaseInvoiceDt(Int32 ID)

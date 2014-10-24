@@ -63,6 +63,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboStudentStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
+
+            hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.STUDENT).TagProperty;
         }
 
         protected override void OnControlEntrySetting()
@@ -255,12 +257,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Student entity = new Student();
                 Address address = new Address();
                 ControlToEntity(entity,address);
-                addressDao.Insert(address);
                 entity.SiteID = AppSession.UserLogin.SiteID;
-                entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
+                entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
-                retval = BusinessLayer.GetStudentMaxID(ctx).ToString();
+
+                entity.StudentID = BusinessLayer.GetStudentMaxID(ctx);
+                address.GCAddressType = Constant.AddressType.STUDENT;
+                entity.AddressID = address.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.StudentID);
+                addressDao.Insert(address);
+
+                entityDao.Update(entity);
+                
+                retval = entity.StudentID.ToString();
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

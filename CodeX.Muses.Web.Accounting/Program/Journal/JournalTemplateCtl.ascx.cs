@@ -38,62 +38,8 @@ namespace CodeX.Web.Accounting.Program
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            GLTransactionDtDao glTransactionDtDao = new GLTransactionDtDao(ctx);
-
-            try
-            {
-                int GLTransactionID = 0;
-                if (hdnGLTransactionID.Value != null && hdnGLTransactionID.Value != "")
-                    GLTransactionID = Convert.ToInt32(hdnGLTransactionID.Value);
-                DetailPage.SaveGLTransactionHd(ctx, ref GLTransactionID);
-                if (GLTransactionID != 0)
-                {
-                    List<JournalTemplateDt> lstJournalTemplate = BusinessLayer.GetJournalTemplateDtList(String.Format("TemplateID = {0}", hdnTemplateID.Value));
-
-                    foreach (JournalTemplateDt entity in lstJournalTemplate)
-                    {
-                        GLTransactionDt glTransactionDt = new GLTransactionDt();
-                        glTransactionDt.GLTransactionID = GLTransactionID;
-                        glTransactionDt.GLAccount = entity.GLAccountID;
-                        glTransactionDt.SubLedger = entity.SubLedgerID;
-                        glTransactionDt.Position = entity.Position;
-                        Decimal amount = Convert.ToDecimal(txtAmount.Text);
-                        if (entity.Position == "D")
-                        {
-                            glTransactionDt.DebitAmount = amount * (entity.AmountPercentage / 100);
-                        }
-                        else
-                        {
-                            glTransactionDt.CreditAmount = amount * (entity.AmountPercentage / 100);
-                        }
-                        glTransactionDt.DisplayOrder = Convert.ToInt16(entity.DisplayOrder);
-                        glTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                        glTransactionDt.CreatedBy = AppSession.UserLogin.UserID;
-                        glTransactionDtDao.Insert(glTransactionDt);
-                    }
-
-                    retval = GLTransactionID.ToString();
-                }
-                else 
-                {
-                    errMessage = "Jurnal Pada Periode ini Telah Diposting";
-                    result = false;
-                }
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                result = false;
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-            }
-            finally 
-            {
-                ctx.Close();
-            }
-            return result;
+            retval = string.Format("{0}|{1}", hdnTemplateID.Value, Convert.ToDecimal(txtAmount.Text));
+            return true;
         }
     }
 }

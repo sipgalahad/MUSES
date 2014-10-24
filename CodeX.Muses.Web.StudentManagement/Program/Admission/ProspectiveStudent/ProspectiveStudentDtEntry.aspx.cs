@@ -109,6 +109,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboRegistrationType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.REGISTRATION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+
+            hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT).TagProperty;
         }
 
         private void EntityToControl(vRegistration entity)
@@ -225,20 +227,25 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ProspectiveStudent entity = new ProspectiveStudent();
                 Address address = new Address();
                 ControlToEntity(entityRegistration, entity, address);
-                addressDao.Insert(address);
 
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
-                entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
+                entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
+
+                entity.ProspectiveStudentID = BusinessLayer.GetProspectiveStudentMaxID(ctx);
+                address.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT;
+                entity.AddressID = address.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.ProspectiveStudentID);
+                addressDao.Insert(address);
+                entityDao.Update(entity);
 
                 entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityRegistration.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
-                entityRegistration.ProspectiveStudentID = BusinessLayer.GetProspectiveStudentMaxID(ctx);
+                entityRegistration.ProspectiveStudentID = entity.ProspectiveStudentID;
                 entityRegistration.CreatedBy = AppSession.UserLogin.UserID;
                 entityRegistrationDao.Insert(entityRegistration);
                 retval = BusinessLayer.GetRegistrationMaxID(ctx).ToString();

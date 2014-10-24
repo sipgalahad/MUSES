@@ -22,6 +22,15 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
+        /// hdnAddressPrefix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAddressPrefix;
+        
+        /// <summary>
         /// txtSiteID control.
         /// </summary>
         /// <remarks>

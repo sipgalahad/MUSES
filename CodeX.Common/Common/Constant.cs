@@ -105,6 +105,16 @@ namespace CodeX.Common
             public const string CREDIT_NOTE = "X161^002";
         }
 
+        public static class AddressType
+        {
+            public const string SITE = "X301^001";
+            public const string BUSINESS_PARTNER = "X301^002";
+            public const string STUDENT = "X301^003";
+            public const string PROSPECTIVE_STUDENT = "X301^004";
+            public const string STUDENT_FAMILY = "X301^005";
+            public const string PROSPECTIVE_STUDENT_FAMILY = "X301^006";
+        }
+
         public static class ItemType
         {
             public const string PRODUCT = "X001^001";

@@ -53,6 +53,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<Site> listSite = BusinessLayer.GetSiteList("");
             listSite.Insert(0, new Site { SiteID = "", SiteName = "" });
             Methods.SetComboBoxField<Site>(cboSite, listSite, "SiteName", "SiteID");
+
+            hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.BUSINESS_PARTNER).TagProperty;
         }
 
         protected override void OnControlEntrySetting()
@@ -257,13 +259,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
                 entity.GCBusinessPartnerType = Constant.BusinessObjectType.SUPPLIER;
 
-                entityAddressDao.Insert(entityAddress);
-                entity.AddressID = BusinessLayer.GetAddressMaxID(ctx);
+                entity.AddressID = null;
 
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
 
                 entity.BusinessPartnerID = BusinessLayer.GetBusinessPartnersMaxID(ctx);
+                entityAddress.GCAddressType = Constant.AddressType.BUSINESS_PARTNER;
+                entity.AddressID = entityAddress.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.BusinessPartnerID);
+                entityAddressDao.Insert(entityAddress);
+                entityDao.Update(entity);
+
                 entitySup.BusinessPartnerID = entity.BusinessPartnerID;
                 entitySupDao.Insert(entitySup);
 
@@ -301,7 +307,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 BusinessPartners entity = entityDao.Get(BusinessPartnerID);
                 Supplier entitySup = entitySupDao.Get(BusinessPartnerID);
                 BusinessPartnerTagField entityTagField = entityTagFieldDao.Get(BusinessPartnerID);
-                Address entityAddress = entityAddressDao.Get((int)entity.AddressID);
+                Address entityAddress = entityAddressDao.Get(entity.AddressID);
 
                 ControlToEntity(entity, entitySup, entityAddress, entityTagField);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;

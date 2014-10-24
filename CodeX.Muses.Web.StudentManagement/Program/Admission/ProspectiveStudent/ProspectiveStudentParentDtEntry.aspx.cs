@@ -65,6 +65,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboMotherNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboMotherReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboMotherGCJob, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
+
+            hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY).TagProperty;
         }
 
         private void OnControlEntrySetting()
@@ -286,19 +288,30 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Address officeAddressMother = new Address();
                 ControlToEntity(entityFather, entityMother, officeAddressFather, officeAddressMother);
 
-                addressDao.Insert(officeAddressFather);
                 entityFather.ProspectiveStudentID = Convert.ToInt32(hdnID.Value);
                 entityFather.GCFamilyRelation = Constant.FamilyRelation.FATHER;
-                entityFather.OfficeAddressID = BusinessLayer.GetAddressMaxID(ctx);
+                entityFather.OfficeAddressID = null;
                 entityFather.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entityFather);
+
+                entityFather.FamilyID = BusinessLayer.GetProspectiveStudentFamilyMaxID(ctx);
+                officeAddressFather.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY;
+                entityFather.OfficeAddressID = officeAddressFather.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entityFather.FamilyID);
+                addressDao.Insert(officeAddressFather);
+                entityDao.Update(entityFather);
 
                 addressDao.Insert(officeAddressMother);
                 entityMother.ProspectiveStudentID = Convert.ToInt32(hdnID.Value);
                 entityMother.GCFamilyRelation = Constant.FamilyRelation.MOTHER;
-                entityMother.OfficeAddressID = BusinessLayer.GetAddressMaxID(ctx);
+                entityMother.OfficeAddressID = null;
                 entityMother.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entityMother);
+
+                entityMother.FamilyID = BusinessLayer.GetProspectiveStudentFamilyMaxID(ctx);
+                officeAddressFather.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY;
+                entityMother.OfficeAddressID = officeAddressMother.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entityMother.FamilyID);
+                addressDao.Insert(officeAddressMother);
+                entityDao.Update(entityMother);
 
                 ctx.CommitTransaction();
             }
@@ -328,9 +341,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ProspectiveStudentFamily entityFather = lstEntity.FirstOrDefault(p => p.GCFamilyRelation == Constant.FamilyRelation.FATHER);
                 ProspectiveStudentFamily entityMother = lstEntity.FirstOrDefault(p => p.GCFamilyRelation == Constant.FamilyRelation.MOTHER);
 
-                List<Address> lstOfficeAddress = BusinessLayer.GetAddressList(string.Format("AddressID IN ({0},{1})", entityFather.OfficeAddressID, entityMother.OfficeAddressID), ctx);
-                Address officeAddressFather = lstOfficeAddress.FirstOrDefault(p => p.AddressID == (int)entityFather.OfficeAddressID);
-                Address officeAddressMother = lstOfficeAddress.FirstOrDefault(p => p.AddressID == (int)entityMother.OfficeAddressID);
+                List<Address> lstOfficeAddress = BusinessLayer.GetAddressList(string.Format("AddressID IN ('{0}','{1}')", entityFather.OfficeAddressID, entityMother.OfficeAddressID), ctx);
+                Address officeAddressFather = lstOfficeAddress.FirstOrDefault(p => p.AddressID == entityFather.OfficeAddressID);
+                Address officeAddressMother = lstOfficeAddress.FirstOrDefault(p => p.AddressID == entityMother.OfficeAddressID);
                 
                 ControlToEntity(entityFather, entityMother, officeAddressFather, officeAddressMother);
 

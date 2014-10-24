@@ -124,6 +124,7 @@
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnInitial" runat="server" value="" />
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
+    <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
     <div style="height: 410px; overflow-y:auto">
         <fieldset id="fsMPEntry">            
             <table class="tblContentArea" >

@@ -10,7 +10,7 @@ namespace CodeX.Data.Model
     {
         #region Common Views
         #region Address
-        public static Address GetAddress(Int32 AddressID)
+        public static Address GetAddress(String AddressID)
         {
             return new AddressDao().Get(AddressID);
         }
@@ -22,7 +22,7 @@ namespace CodeX.Data.Model
         {
             return new AddressDao().Update(record);
         }
-        public static int DeleteAddress(Int32 AddressID)
+        public static int DeleteAddress(String AddressID)
         {
             return new AddressDao().Delete(AddressID);
         }
@@ -58,22 +58,6 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((Address)helper.IDataReaderToObject(reader, new Address()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        public static Int32 GetAddressMaxID(IDbContext ctx)
-        {
-            Int32 result = 0;
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Address));
-                ctx.CommandText = helper.SelectMaxColumn("AddressID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {
