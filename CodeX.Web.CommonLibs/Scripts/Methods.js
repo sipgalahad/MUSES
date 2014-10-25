@@ -331,7 +331,7 @@
 
     this.checkImageError = function (className, type, classGender) {
         setTimeout(function () {
-            if (type == 'patient') {
+            if (type == 'student') {
                 var imgUrlM = ResolveUrl("~/Libs/Images/patient_male.png");
                 var imgUrlF = ResolveUrl("~/Libs/Images/patient_female.png");
 

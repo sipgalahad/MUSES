@@ -33,6 +33,7 @@
         var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
         var currPage = parseInt('<%=CurrPage %>');
         $(function () {
+            Methods.checkImageError('imgStudentImage', 'student', 'hdnStudentGender');
             setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
@@ -41,6 +42,7 @@
         });
 
         function onCbpViewEndCallback(s) {
+            Methods.checkImageError('imgStudentImage', 'student', 'hdnStudentGender');
             hideLoadingPanel();
 
             var param = s.cpResult.split('|');
@@ -82,8 +84,54 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="StudentCode" HeaderText="Kode Siswa" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="StudentName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:TemplateField HeaderStyle-Width="600px">
+                                    <HeaderTemplate><%=GetLabel("Informasi Siswa")%></HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style="padding:3px">
+                                            <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="55px" width="40px" style="float:left;margin-right: 10px;" />
+                                            <div><%# Eval("StudentName") %></div>
+                                            <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
+                                            <table cellpadding="0" cellspacing="0">
+                                                <colgroup>
+                                                    <col style="width:100px"/>
+                                                    <col style="width:10px"/>
+                                                    <col style="width:80px"/>
+                                                    <col style="width:50px"/>
+                                                    <col style="width:10px"/>
+                                                    <col style="width:70px"/>
+                                                    <col style="width:60px"/>
+                                                    <col style="width:10px"/>
+                                                </colgroup>
+                                                <tr>
+                                                    <td style="text-align:right;font-size:0.9em;font-style:italic"><%=GetLabel("Nama Panggilan")%></td>
+                                                    <td>&nbsp;</td>
+                                                    <td><%# Eval("PreferredName")%></td>
+                                                    <td style="text-align:right;font-size:0.9em;font-style:italic"><%=GetLabel("NIS")%></td>
+                                                    <td>&nbsp;</td>
+                                                    <td><%# Eval("StudentCode")%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:right;font-size:0.9em;font-style:italic"><%=GetLabel("Tanggal Lahir")%></td>
+                                                    <td>&nbsp;</td>
+                                                    <td><%# Eval("DateOfBirthInString")%></td>
+                                                    <td style="text-align:right;font-size:0.9em;font-style:italic"><%=GetLabel("Umur")%></td>
+                                                    <td>&nbsp;</td>
+                                                    <td><%# Eval("StudentAge")%></td>
+                                                </tr>
+                                            </table>                                                                                    
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate><%=GetLabel("Informasi Kontak")%></HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style="padding:3px">
+                                            <div><%# Eval("HomeAddress")%></div>
+                                            <img src='<%= ResolveUrl("~/Libs/Images/homephone.png")%>' alt='' style="float:left;" /><div style="margin-left:30px"><%# Eval("PhoneNo1")%>&nbsp;</div>
+                                            <img src='<%= ResolveUrl("~/Libs/Images/mobilephone.png")%>' alt='' style="float:left;" /><div style="margin-left:30px"><%# Eval("MobilePhoneNo1")%>&nbsp;</div>                                                  
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" />
                             </Columns>
                             <EmptyDataTemplate>

@@ -1491,6 +1491,56 @@ namespace CodeX.Data.Model
     #region vStudent
     public partial class vStudent
     {
+        public String DateOfBirthInString
+        {
+            get { return _DateOfBirth.ToString("dd-MMM-yyyy"); }
+        }
+        public string StudentAge
+        {
+            get
+            {
+                string result;
+                int ageInYear, ageInMonth, ageInDay = 0;
+
+                ageInYear = Function.GetPatientAgeInYear(DateOfBirth, DateTime.Now);
+                ageInMonth = Function.GetPatientAgeInMonth(DateOfBirth, DateTime.Now);
+                ageInDay = Function.GetPatientAgeInDay(DateOfBirth, DateTime.Now);
+
+                if (ageInYear > 0)
+                    result = string.Format("{0}yr", ageInYear);
+                else if (ageInMonth > 0)
+                    result = string.Format("{0}mo", ageInMonth);
+                else
+                    result = string.Format("{0}day", ageInDay);
+
+                return result;
+            }
+        }
+        public String HomeAddress
+        {
+            get
+            {
+                return Function.GenerateAddress(_StreetName, _County, _District, _City, _State);
+            }
+        }
+        public String cfPhoneNo
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+
+                if (_PhoneNo1 != "")
+                    result.Append(_PhoneNo1);
+                //if (_PhoneNo2 != "")
+                //{
+                //    if (result.ToString() != "")
+                //        result.Append(" / ");
+                //    result.Append(_PhoneNo2);
+                //}
+                return result.ToString();
+            }
+        }
+        public String StudentImageUrl { get { return Function.GenerateStudentPictureFileName(_PictureFileName, _StudentCode); } }
         public int AgeInYear
         {
             get

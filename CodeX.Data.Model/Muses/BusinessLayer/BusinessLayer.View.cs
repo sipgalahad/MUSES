@@ -2418,6 +2418,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vItemMaster
+        public static List<vItemMaster> GetvItemMasterList(string filterExpression)
+        {
+            List<vItemMaster> result = new List<vItemMaster>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vItemMaster));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vItemMaster)helper.IDataReaderToObject(reader, new vItemMaster()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vItemMovement
         public static List<vItemMovement> GetvItemMovementList(string filterExpression)
         {

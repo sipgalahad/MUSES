@@ -15,6 +15,7 @@ namespace CodeX.Common
         static private string _CDXAppVirtualDirectory;
         static private string _CDXLibsPhysicalDirectory;
         static private string _CDXSiteName;
+        static private string _CDXStudentImagePath;
         static public string CDXTableLogFolder { get { return _CDXTableLogFolder; } }
         static public string CDXNameFormat { get { return _CDXNameFormat; } }
         static public string CDXVirtualDirectory { get { return _CDXVirtualDirectory; } }
@@ -22,6 +23,7 @@ namespace CodeX.Common
         static public string CDXAppVirtualDirectory { get { return _CDXAppVirtualDirectory; } }
         static public string CDXLibsPhysicalDirectory { get { return _CDXLibsPhysicalDirectory; } }
         static public string CDXSiteName { get { return _CDXSiteName; } }
+        static public string CDXStudentImagePath { get { return _CDXStudentImagePath; } }
 
         static AppConfigManager()
         {
@@ -33,6 +35,7 @@ namespace CodeX.Common
             _CDXAppVirtualDirectory = ConfigurationManager.AppSettings["CDXAppVirtualDirectory"];
             _CDXLibsPhysicalDirectory = ConfigurationManager.AppSettings["CDXLibsPhysicalDirectory"];
             _CDXSiteName = ConfigurationManager.AppSettings["CDXSiteName"];
+            _CDXStudentImagePath = ConfigurationManager.AppSettings["CDXStudentImagePath"];
         }
     }
 }

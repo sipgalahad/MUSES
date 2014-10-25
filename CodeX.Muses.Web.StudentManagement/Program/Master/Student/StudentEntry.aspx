@@ -299,10 +299,6 @@
                             <td><dxe:ASPxComboBox ID="cboMajor" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Foto")%></label></td>
-                            <td><asp:TextBox ID="txtPictureFileName" Width="100%" runat="server" /></td>
-                        </tr>
-                        <tr>
                             <td class="tdLabel" valign="top"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>

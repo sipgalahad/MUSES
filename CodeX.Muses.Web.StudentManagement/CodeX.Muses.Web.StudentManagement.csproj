@@ -138,6 +138,7 @@
     <Content Include="Program\Master\SchoolPeriod\PeriodAdmission\PeriodAdmissionDtEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodSchedule\PeriodScheduleEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodSection\PeriodSectionEntry.aspx" />
+    <Content Include="Program\Master\Student\ChangeStudentPhoto\ChangeStudentPhotoEntry.aspx" />
     <Content Include="Program\Master\Student\StudentFamily\StudentParentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentFinalMarkChart\StudentFinalMarkChartInformation.aspx" />
     <Content Include="Program\Master\Student\StudentHistory\StudentHistoryInformation.aspx" />
@@ -665,6 +666,13 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\PeriodSection\PeriodSectionEntry.aspx.designer.cs">
       <DependentUpon>PeriodSectionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Student\ChangeStudentPhoto\ChangeStudentPhotoEntry.aspx.cs">
+      <DependentUpon>ChangeStudentPhotoEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Student\ChangeStudentPhoto\ChangeStudentPhotoEntry.aspx.designer.cs">
+      <DependentUpon>ChangeStudentPhotoEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Student\StudentFamily\StudentParentEntry.aspx.cs">
       <DependentUpon>StudentParentEntry.aspx</DependentUpon>
