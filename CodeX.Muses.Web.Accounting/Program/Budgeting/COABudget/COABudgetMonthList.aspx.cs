@@ -89,7 +89,7 @@ namespace Codex.Muses.Web.Accounting.Program
                         string periodNo = string.Format("{0}{1}", cboYear.Value, i.ToString("00"));
                         entityCOABudget = lstEntityCOABudget.FirstOrDefault(p => p.PeriodNo == periodNo);
                         if (entityCOABudget != null)
-                            txtBudgetAmount.Value = entityCOABudget.BudgjetAmount.ToString();
+                            txtBudgetAmount.Value = entityCOABudget.BudgetAmount.ToString();
                     }
                 }
 
@@ -100,7 +100,7 @@ namespace Codex.Muses.Web.Accounting.Program
                 {
                     entityCOABudget = lstEntityCOABudget.FirstOrDefault(p => p.PeriodNo == cboYear.Value.ToString());
                     if (entityCOABudget != null)
-                        txtBudgetAmountYear.Value = entityCOABudget.BudgjetAmount.ToString();
+                        txtBudgetAmountYear.Value = entityCOABudget.BudgetAmount.ToString();
                 }
 
                 HtmlInputButton btnSave = e.Item.FindControl("btnSave") as HtmlInputButton;
@@ -198,7 +198,7 @@ namespace Codex.Muses.Web.Accounting.Program
                     entity = new COABudget();
                     entity.GLAccount = GLAccount;
                     entity.PeriodNo = periodNo;
-                    entity.BudgjetAmount = budgetAmount;
+                    entity.BudgetAmount = budgetAmount;
                     entity.IsDeleted = false;
                     entity.CreatedBy = AppSession.UserLogin.UserID;
                     stockTakingDtDao.Insert(entity);
@@ -206,7 +206,7 @@ namespace Codex.Muses.Web.Accounting.Program
             }
             else
             {
-                entity.BudgjetAmount = budgetAmount;
+                entity.BudgetAmount = budgetAmount;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 stockTakingDtDao.Update(entity);
             }

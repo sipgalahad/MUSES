@@ -93,6 +93,7 @@
     <Content Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx" />
+    <Content Include="Program\Information\ProfitLossInformation.aspx" />
     <Content Include="Program\Journal\JournalTemplateSaveCtl.ascx" />
     <Content Include="Program\Journal\JournalEntry.aspx" />
     <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
@@ -302,6 +303,13 @@
     </Compile>
     <Compile Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx.designer.cs">
       <DependentUpon>GLSettingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Information\ProfitLossInformation.aspx.cs">
+      <DependentUpon>ProfitLossInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Information\ProfitLossInformation.aspx.designer.cs">
+      <DependentUpon>ProfitLossInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\JournalTemplateSaveCtl.ascx.cs">
       <DependentUpon>JournalTemplateSaveCtl.ascx</DependentUpon>

@@ -98,6 +98,7 @@ namespace CodeX.Common
 
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
+                public const string PROFIT_LOSS_INFORMATION = "AC080500";
             }
             #endregion
 

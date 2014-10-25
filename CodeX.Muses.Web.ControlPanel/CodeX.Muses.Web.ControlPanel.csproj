@@ -395,6 +395,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx.cs">
       <Link>SharedLibs\Service\SyncService.asmx.cs</Link>
       <DependentUpon>SyncService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Tools\DataLayerGenerator.aspx.cs">
       <Link>SharedLibs\Tools\DataLayerGenerator.aspx.cs</Link>
