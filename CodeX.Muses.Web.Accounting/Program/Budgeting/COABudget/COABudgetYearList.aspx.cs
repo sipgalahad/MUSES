@@ -86,7 +86,7 @@ namespace Codex.Muses.Web.Accounting.Program
                 {
                     COABudget entityCOABudget = lstCOABudget.FirstOrDefault(p => p.GLAccount == entity.GLAccountID);
                     if (entityCOABudget != null)
-                        txtBudgetAmount.Value = entityCOABudget.BudgjetAmount.ToString();
+                        txtBudgetAmount.Value = entityCOABudget.BudgetAmount.ToString();
                 }
             }
         }
@@ -145,14 +145,14 @@ namespace Codex.Muses.Web.Accounting.Program
                     entity = new COABudget();
                     entity.GLAccount = GLAccount;
                     entity.PeriodNo = PeriodNo;
-                    entity.BudgjetAmount = budgetAmount;
+                    entity.BudgetAmount = budgetAmount;
                     entity.IsDeleted = false;
                     entity.CreatedBy = AppSession.UserLogin.UserID;
                     BusinessLayer.InsertCOABudget(entity);
                 }
                 else
                 {
-                    entity.BudgjetAmount = budgetAmount;
+                    entity.BudgetAmount = budgetAmount;
                     entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                     BusinessLayer.UpdateCOABudget(entity);
                 }

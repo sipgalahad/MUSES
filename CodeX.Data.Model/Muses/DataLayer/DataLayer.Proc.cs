@@ -490,8 +490,9 @@ namespace CodeX.Data.Model
         private Decimal _cfBalanceBEGIN;
         private Decimal _cfProfitLoss;
         private Decimal _cfBalanceENDLastMonth;
+        private Decimal _BudgetAmount;
         private Int32 _TotalRow;
-
+        
         [Column(Name = "GLAccountID", DataType = "Int32")]
         public Int32 GLAccountID
         {
@@ -575,6 +576,12 @@ namespace CodeX.Data.Model
         {
             get { return _cfBalanceENDLastMonth; }
             set { _cfBalanceENDLastMonth = value; }
+        }
+        [Column(Name = "BudgetAmount", DataType = "Decimal")]
+        public Decimal BudgetAmount
+        {
+            get { return _BudgetAmount; }
+            set { _BudgetAmount = value; }
         }
         [Column(Name = "TotalRow", DataType = "Int32")]
         public Int32 TotalRow

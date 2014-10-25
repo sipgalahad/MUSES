@@ -1721,7 +1721,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private String _PeriodNo;
         private Int32 _GLAccount;
-        private Decimal _BudgjetAmount;
+        private Decimal _BudgetAmount;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
@@ -1746,11 +1746,11 @@ namespace CodeX.Data.Model
             get { return _GLAccount; }
             set { _GLAccount = value; }
         }
-        [Column(Name = "BudgjetAmount", DataType = "Decimal")]
-        public Decimal BudgjetAmount
+        [Column(Name = "BudgetAmount", DataType = "Decimal")]
+        public Decimal BudgetAmount
         {
-            get { return _BudgjetAmount; }
-            set { _BudgjetAmount = value; }
+            get { return _BudgetAmount; }
+            set { _BudgetAmount = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
