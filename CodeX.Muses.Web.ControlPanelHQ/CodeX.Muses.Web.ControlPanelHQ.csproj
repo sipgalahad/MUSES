@@ -95,6 +95,21 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Login.aspx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
+    <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemProductList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -274,10 +289,101 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.designer.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.cs">
+      <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.designer.cs">
+      <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.cs">
+      <DependentUpon>UserManagementList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.designer.cs">
+      <DependentUpon>UserManagementList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.cs">
+      <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.cs">
+      <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.designer.cs">
+      <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.cs">
+      <DependentUpon>UserRolesList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.designer.cs">
+      <DependentUpon>UserRolesList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.cs">
+      <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.designer.cs">
+      <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.cs">
+      <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
+      <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
+      <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.cs">
+      <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.cs">
+      <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.designer.cs">
+      <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.cs">
+      <DependentUpon>ItemProductList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.designer.cs">
+      <DependentUpon>ItemProductList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Program\ControlPanel\SystemConfiguration\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
