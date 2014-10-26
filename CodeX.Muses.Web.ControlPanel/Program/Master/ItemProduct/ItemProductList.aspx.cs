@@ -289,11 +289,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
                         if (insertPerObj != "")
                             insertPerObj += ",";
-                        if (fieldValue != null && !(schema.IsNullable))
-                            insertPerObj += string.Format("'{0}'", fieldValue);
-                        else
+                        if (schema.IsNullable && (fieldValue == "" || fieldValue == null))
                             insertPerObj += "NULL";
-
+                        else
+                            insertPerObj += string.Format("'{0}'", fieldValue);
                     }
                 }
             }

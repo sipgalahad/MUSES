@@ -17,11 +17,12 @@ namespace CodeX.Muses.Web.StudentManagement.MasterPage
         {
             vStudent entity = BusinessLayer.GetvStudentList(string.Format("StudentID = {0}", AppSession.StudentID))[0];
             hdnTitleText.Value = entity.StudentName;
-            //divBusinessPartnerCode.InnerHtml = entity.BusinessPartnerCode;
-            //divContactPerson.InnerHtml = entity.ContactPerson;
-            //divPhoneNo.InnerHtml = entity.cfPhoneNo;
-            //divAddress.InnerHtml = entity.Address;
-            //hdnPatientGender.Value = entity.GCSex;
+            imgPatientImage.Src = entity.StudentImageUrl;
+            imgPatientImage.Attributes.Add("gender", entity.GCGender);
+            divStudentCode.InnerHtml = entity.StudentCode;
+            divDateOfBirth.InnerHtml = entity.DateOfBirth.ToString("dd/MM/yyyy");
+            divPhoneNo.InnerHtml = entity.cfPhoneNo;
+            divAddress.InnerHtml = entity.HomeAddress;
         }
 
         public string OnGetTitleText()

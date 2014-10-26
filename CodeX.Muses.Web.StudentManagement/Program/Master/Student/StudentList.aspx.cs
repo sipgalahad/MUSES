@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetStudentRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvStudentRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -60,11 +60,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetStudentRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvStudentRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Student> lstEntity = BusinessLayer.GetStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

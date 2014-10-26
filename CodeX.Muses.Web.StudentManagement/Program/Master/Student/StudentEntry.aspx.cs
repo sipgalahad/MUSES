@@ -111,7 +111,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Other Information
             SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtPictureFileName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboStudentStatus, new ControlEntrySetting(true, true, true));
             #endregion
@@ -162,7 +161,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboStudentStatus.Value = entity.GCStudentStatus;
             cboGrade.Value = entity.GCGrade;
             cboMajor.Value = entity.GCMajor;
-            txtPictureFileName.Text = entity.PictureFileName;
             txtRemarks.Text = entity.Remarks;
             #endregion
         }
@@ -215,7 +213,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.GCStudentStatus = cboStudentStatus.Value.ToString();
             entity.GCGrade = cboGrade.Value.ToString();
             entity.GCMajor = cboMajor.Value.ToString();
-            entity.PictureFileName = txtPictureFileName.Text;
             entity.Remarks = txtRemarks.Text;
             #endregion
         }
@@ -256,7 +253,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 Student entity = new Student();
                 Address address = new Address();
-                ControlToEntity(entity,address);
+                ControlToEntity(entity, address);
+                entity.PictureFileName = string.Format("{0}.jpg", entity.StudentCode);
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
