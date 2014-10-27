@@ -28,7 +28,7 @@ namespace CodeX.Web.Accounting.Program
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
             #region Data Month
-            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
+            cboMonth.DataSource = Enumerable.Range(1, 13).Select(a => new
             {
                 MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
                 MonthNumber = a

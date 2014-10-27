@@ -114,6 +114,7 @@
                                             <asp:BoundField DataField="BalanceENDLastMonth" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="Bulan Lalu" HeaderStyle-CssClass="thRight"  />
                                             <asp:BoundField DataField="ProfitLoss" ItemStyle-HorizontalAlign="Right" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}" HeaderStyle-Width="100px" HeaderText="Bulan Ini" HeaderStyle-CssClass="thRight"  />
                                             <asp:BoundField DataField="BalanceEND" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="100px" HeaderText="s/d Bulan Ini" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}"  HeaderStyle-CssClass="thRight" />
+                                            <asp:BoundField DataField="BudgetAmount" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="100px" HeaderText="Budget" DataFormatString="{0,15:#,##0.00 ;(#,##0.00);-}"  HeaderStyle-HorizontalAlign="Right" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>
