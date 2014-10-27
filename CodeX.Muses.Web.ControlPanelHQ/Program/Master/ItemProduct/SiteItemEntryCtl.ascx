@@ -87,7 +87,7 @@
             $selectedTr = $(this).closest('tr');
 
             $newTr = $('#tmplSelectedTestSite').html();
-            $newTr = $newTr.replace(/\$\{SiteName1}/g, $selectedTr.find('.tdSiteName1').html());
+            $newTr = $newTr.replace(/\$\{SiteName}/g, $selectedTr.find('.tdSiteName').html());
             $newTr = $newTr.replace(/\$\{SiteID}/g, $selectedTr.find('.keyField').html());
             $newTr = $($newTr);
             $newTr.insertBefore($('#trFooter'));
@@ -162,7 +162,7 @@
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="SiteName" HeaderText="Barang" SiteStyle-CssClass="SiteName" />
+                                        <asp:BoundField DataField="SiteName" HeaderText="Barang" ItemStyle-CssClass="tdSiteName" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
@@ -186,6 +186,17 @@
                             <th style="width:40px">&nbsp;</th>
                             <th align="center"><%=GetLabel("Site")%></th> 
                         </tr>
+                        <asp:Repeater ID="rptSelected" runat="server">
+                            <ItemTemplate>
+                                <tr class="trSelectedSite">
+                                    <td align="center">
+                                        <input type="checkbox" class="chkIsSelected2" />
+                                        <input type="hidden" class="keyField" value='<%#Eval("SiteID") %>' />
+                                    </td>
+                                    <td><%#Eval("SiteName")%></td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
                         <tr id="trFooter"></tr>
                     </table>
                 </fieldset>

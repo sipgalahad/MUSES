@@ -21,9 +21,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         public override void InitializeDataControl(string param)
         {
             hdnParam.Value = param;
-            List<SiteItem> lstSiteItem = BusinessLayer.GetSiteItemList(string.Format("ItemID = {0} AND IsDeleted = 0", hdnParam.Value));
+            List<vSiteItem> lstSiteItem = BusinessLayer.GetvSiteItemList(string.Format("ItemID = {0} AND IsDeleted = 0", hdnParam.Value));
             hdnSelectedMember.Value = String.Join(",", lstSiteItem.Select(p => p.SiteID).ToList());
+
+            rptSelected.DataSource = lstSiteItem;
+            rptSelected.DataBind();
+
             BindGridView(1, true, ref PageCount);
+
+            IsAdd = true;
         }
 
         protected void cbpPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -51,16 +57,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private string GetFilterExpression()
         {
-            return "IsDeleted = 0";
+            return "IsHeader = 0";
         }
 
         protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vItemBalance entity = e.Row.DataItem as vItemBalance;
+                Site entity = e.Row.DataItem as Site;
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
-                if (lstSelectedMember.Contains(entity.ItemID.ToString()))
+                if (lstSelectedMember.Contains(entity.SiteID))
                     chkIsSelected.Checked = true;
             }
         }
@@ -70,11 +76,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetvItemBalanceRowCount(filterExpression);
+                int rowCount = BusinessLayer.GetSiteRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 10);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            List<vItemBalance> lstEntity = BusinessLayer.GetvItemBalanceList(filterExpression, 10, pageIndex, "ItemName1 ASC");
+            List<Site> lstEntity = BusinessLayer.GetSiteList(filterExpression, 10, pageIndex, "SiteName ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -83,7 +89,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            SiteItemDao entityDao = new SiteItemDao(ctx);
+            SiteItemDao entityDao = new SiteItemDao(ctx);            
+            ItemCostDao entityCostDao = new ItemCostDao(ctx);
+            ItemPlanningDao entityPlanningDao = new ItemPlanningDao(ctx);
             try
             {
                 lstSelectedMember = hdnSelectedMember.Value.Split(',');
@@ -101,6 +109,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                         entity.IsDeleted = false;
                         entity.CreatedBy = AppSession.UserLogin.UserID;
                         entityDao.Insert(entity);
+
+                        ItemCost ic = new ItemCost();
+                        ic.ItemID = itemID;
+                        ic.SiteID = siteID;
+                        ic.CreatedBy = AppSession.UserLogin.UserID;
+                        entityCostDao.Insert(ic);
+
+                        ItemPlanning ip = new ItemPlanning();
+                        ip.BusinessPartnerID = null;
+                        ip.ItemID = itemID;
+                        ip.SiteID = siteID;
+                        ip.CreatedBy = AppSession.UserLogin.UserID;
+                        entityPlanningDao.Insert(ip);
                     }
                     else if (entity.IsDeleted)
                     {

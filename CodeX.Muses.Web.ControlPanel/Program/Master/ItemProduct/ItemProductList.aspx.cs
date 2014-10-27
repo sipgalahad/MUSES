@@ -154,7 +154,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             public List<ItemMaster> ListItemMaster { get; set; }
             public List<ItemProduct> ListItemProduct { get; set; }
-            public DateTime TimeStamp { get; set; }
+            public List<ItemTagField> ListItemTagField { get; set; }
+            public List<ItemPlanning> ListItemPlanning { get; set; }
+            public String TimeStamp { get; set; }
+            public Int32 RowCount { get; set; }
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
@@ -173,102 +176,187 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             //    IEnumerable<string> keys = temp.Select(x => x.Key);
             //}
 
+            int rowCountPerPage = 4;
             DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.BusinessObjectType.ITEM, AppSession.UserLogin.SiteID);
 
-            object serviceResult = client.GetItemMasterList(AppSession.UserLogin.SiteID, syncInfo.LastSyncDate, "");
+            int rowCount = -1;
+            object serviceResult = client.GetItemMasterList(AppSession.UserLogin.SiteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             CResult tempResult = jss.Deserialize<CResult>(serviceResult.ToString());
             List<ItemMaster> lstItemMaster = tempResult.ListItemMaster;
             List<ItemProduct> lstItemProduct = tempResult.ListItemProduct;
+            List<ItemTagField> lstItemTagField = tempResult.ListItemTagField;
+            List<ItemPlanning> lstItemPlanning = tempResult.ListItemPlanning;
 
-            IDbContext ctx = DbFactory.Configure(true);
-            try
+            rowCount = tempResult.RowCount;
+            decimal totalPageCount = Math.Ceiling((decimal)rowCount / rowCountPerPage);
+            for (int i = 1; i <= totalPageCount; ++i)
             {
-                string sqlInsert = "";
-                string fieldName = "";
-                string parameter = "";
-
-                #region Item Master
-                Type type1 = typeof(ItemMaster);
-                PropertyInfo[] propInfs = type1.GetProperties();
-                fieldName = GetInsertObjectFieldName(propInfs, "");
-                fieldName += ",ConsolidateID";
-
-                if (lstItemMaster.Count > 0)
+                if (i > 1)
                 {
-                    foreach (ItemMaster entity in lstItemMaster)
-                    {
-                        string insertPerObj = GetInsertObjectValue(propInfs, entity);
-                        insertPerObj += string.Format(",{0}", entity.ItemID);
-                        if (parameter != "")
-                            parameter += ",";
-                        parameter += string.Format("({0})", insertPerObj);
-                    }
-
-                    sqlInsert += "SELECT TOP 0 * INTO #TempTableItemMaster FROM ItemMaster;";
-                    sqlInsert += string.Format("INSERT INTO #TempTableItemMaster ");
-                    sqlInsert += string.Format("({0}) ", fieldName);
-                    sqlInsert += string.Format(" {0} ", "VALUES");
-                    sqlInsert += string.Format("{0};", parameter);
-                    sqlInsert += string.Format("INSERT INTO ItemMaster ");
-                    sqlInsert += string.Format("({0}) ", fieldName);
-                    sqlInsert += string.Format("SELECT {0} FROM #TempTableItemMaster WHERE ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster);", fieldName);
-
-                    sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
-                    sqlInsert += string.Format("FROM ItemMaster a INNER JOIN [#TempTableItemMaster] b ON a.ConsolidateID = b.ItemID;");
-                    sqlInsert += string.Format("DROP TABLE #TempTableItemMaster;");
+                    serviceResult = client.GetItemMasterList(AppSession.UserLogin.SiteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
+                    jss = new JavaScriptSerializer();
+                    tempResult = jss.Deserialize<CResult>(serviceResult.ToString());
+                    lstItemMaster = tempResult.ListItemMaster;
+                    lstItemProduct = tempResult.ListItemProduct;
+                    lstItemTagField = tempResult.ListItemTagField;
+                    lstItemPlanning = tempResult.ListItemPlanning;
                 }
-                #endregion
 
-                #region Item Product
-                if (lstItemProduct.Count > 0)
+                IDbContext ctx = DbFactory.Configure(true);
+                try
                 {
-                    fieldName = "";
-                    parameter = "";
-                    Type type2 = typeof(ItemProduct);
-                    propInfs = type2.GetProperties();
+                    string sqlInsertTempTable = "";
+                    string sqlInsert = "";
+                    string fieldName = "";
+                    string parameter = "";
+
+                    #region Item Master
+                    Type type1 = typeof(ItemMaster);
+                    PropertyInfo[] propInfs = type1.GetProperties();
                     fieldName = GetInsertObjectFieldName(propInfs, "");
+                    fieldName += ",ConsolidateID";
 
-                    foreach (ItemProduct entity in lstItemProduct)
+                    if (lstItemMaster.Count > 0)
                     {
-                        string insertPerObj = GetInsertObjectValue(propInfs, entity);
-                        if (parameter != "")
-                            parameter += ",";
-                        parameter += string.Format("({0})", insertPerObj);
+                        foreach (ItemMaster entity in lstItemMaster)
+                        {
+                            string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                            insertPerObj += string.Format(",{0}", entity.ItemID);
+                            if (parameter != "")
+                                parameter += ",";
+                            parameter += string.Format("({0})", insertPerObj);
+                        }
+
+                        sqlInsertTempTable += "SELECT TOP 0 * INTO #TempTableItemMaster FROM ItemMaster;";
+                        sqlInsertTempTable += string.Format("INSERT INTO #TempTableItemMaster ");
+                        sqlInsertTempTable += string.Format("({0}) ", fieldName);
+                        sqlInsertTempTable += string.Format(" {0} ", "VALUES");
+                        sqlInsertTempTable += string.Format("{0};", parameter);
+                        sqlInsert += string.Format("INSERT INTO ItemMaster ");
+                        sqlInsert += string.Format("({0}) ", fieldName);
+                        sqlInsert += string.Format("SELECT {0} FROM #TempTableItemMaster WHERE ConsolidateID NOT IN (SELECT ConsolidateID FROM ItemMaster);", fieldName);
+
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("FROM ItemMaster a INNER JOIN [#TempTableItemMaster] b ON a.ConsolidateID = b.ConsolidateID;");
+                        sqlInsert += string.Format("DROP TABLE #TempTableItemMaster;");
                     }
+                    #endregion
 
-                    sqlInsert += "SELECT TOP 0 * INTO #TempTableItemProduct FROM ItemProduct;";
-                    sqlInsert += string.Format("INSERT INTO #TempTableItemProduct ");
-                    sqlInsert += string.Format("({0}) ", fieldName);
-                    sqlInsert += string.Format(" {0} ", "VALUES");
-                    sqlInsert += string.Format("{0};", parameter);
+                    #region Item Product
+                    if (lstItemProduct.Count > 0)
+                    {
+                        fieldName = "";
+                        parameter = "";
+                        Type type2 = typeof(ItemProduct);
+                        propInfs = type2.GetProperties();
+                        fieldName = GetInsertObjectFieldName(propInfs, "");
 
-                    fieldName = GetInsertObjectFieldName(propInfs, "a.");
-                    sqlInsert += string.Format("INSERT ItemProduct SELECT {0} FROM #TempTableItemProduct a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster);", fieldName.Replace("a.ItemID", "im.ItemID"));
-                    sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
-                    sqlInsert += string.Format("FROM ItemProduct a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemProduct] b ON c.ConsolidateID = b.ItemID;");
+                        foreach (ItemProduct entity in lstItemProduct)
+                        {
+                            string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                            if (parameter != "")
+                                parameter += ",";
+                            parameter += string.Format("({0})", insertPerObj);
+                        }
 
-                    sqlInsert += string.Format("DROP TABLE #TempTableItemProduct;");
+                        sqlInsertTempTable += "SELECT TOP 0 * INTO #TempTableItemProduct FROM ItemProduct;";
+                        sqlInsertTempTable += string.Format("INSERT INTO #TempTableItemProduct ");
+                        sqlInsertTempTable += string.Format("({0}) ", fieldName);
+                        sqlInsertTempTable += string.Format(" {0} ", "VALUES");
+                        sqlInsertTempTable += string.Format("{0};", parameter);
+
+                        fieldName = GetInsertObjectFieldName(propInfs, "a.");
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("FROM ItemProduct a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemProduct] b ON c.ConsolidateID = b.ItemID;");
+                        sqlInsert += string.Format("INSERT ItemProduct SELECT {0} FROM #TempTableItemProduct a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemProduct ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
+
+                        sqlInsert += string.Format("DROP TABLE #TempTableItemProduct;");
+                    }
+                    #endregion
+
+                    #region Item Tag Field
+                    if (lstItemTagField.Count > 0)
+                    {
+                        fieldName = "";
+                        parameter = "";
+                        Type type2 = typeof(ItemTagField);
+                        propInfs = type2.GetProperties();
+                        fieldName = GetInsertObjectFieldName(propInfs, "");
+
+                        foreach (ItemTagField entity in lstItemTagField)
+                        {
+                            string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                            if (parameter != "")
+                                parameter += ",";
+                            parameter += string.Format("({0})", insertPerObj);
+                        }
+
+                        sqlInsertTempTable += "SELECT TOP 0 * INTO #TempTableItemTagField FROM ItemTagField;";
+                        sqlInsertTempTable += string.Format("INSERT INTO #TempTableItemTagField ");
+                        sqlInsertTempTable += string.Format("({0}) ", fieldName);
+                        sqlInsertTempTable += string.Format(" {0} ", "VALUES");
+                        sqlInsertTempTable += string.Format("{0};", parameter);
+
+                        fieldName = GetInsertObjectFieldName(propInfs, "a.");
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("FROM ItemTagField a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemTagField] b ON c.ConsolidateID = b.ItemID;");
+                        sqlInsert += string.Format("INSERT ItemTagField SELECT {0} FROM #TempTableItemTagField a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemTagField ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
+
+                        sqlInsert += string.Format("DROP TABLE #TempTableItemTagField;");
+                    }
+                    #endregion
+
+                    #region Item Planning
+                    if (lstItemPlanning.Count > 0)
+                    {
+                        fieldName = "";
+                        parameter = "";
+                        Type type2 = typeof(ItemPlanning);
+                        propInfs = type2.GetProperties();
+                        fieldName = GetInsertObjectFieldName(propInfs, "");
+
+                        foreach (ItemPlanning entity in lstItemPlanning)
+                        {
+                            string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                            if (parameter != "")
+                                parameter += ",";
+                            parameter += string.Format("({0})", insertPerObj);
+                        }
+
+                        sqlInsertTempTable += "SELECT TOP 0 * INTO #TempTableItemPlanning FROM ItemPlanning;";
+                        sqlInsertTempTable += string.Format("INSERT INTO #TempTableItemPlanning ");
+                        sqlInsertTempTable += string.Format("({0}) ", fieldName);
+                        sqlInsertTempTable += string.Format(" {0} ", "VALUES");
+                        sqlInsertTempTable += string.Format("{0};", parameter);
+
+                        fieldName = GetInsertObjectFieldName(propInfs, "a.");
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("FROM ItemPlanning a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemPlanning] b ON c.ConsolidateID = b.ItemID;");
+                        sqlInsert += string.Format("INSERT ItemPlanning SELECT {0} FROM #TempTableItemPlanning a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemPlanning ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
+
+                        sqlInsert += string.Format("DROP TABLE #TempTableItemPlanning;");
+                    }
+                    #endregion
+                    sqlInsert = sqlInsertTempTable + sqlInsert;
+                    sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
+                    sqlInsert += string.Format("UPDATE DBSyncInfo SET LastSyncDate = '{0}' WHERE GCBusinessObjectType = '{1}' AND SiteID = '{2}';", tempResult.TimeStamp, Constant.BusinessObjectType.ITEM, AppSession.UserLogin.SiteID);
+
+                    ctx.CommandText = sqlInsert;
+                    DaoBase.ExecuteNonQuery(ctx);
+                    ctx.CommitTransaction();
                 }
-                sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID);
-                sqlInsert += string.Format("UPDATE DBSyncInfo SET LastSyncDate = '{0}' WHERE GCBusinessObjectType = '{1}' AND SiteID = '{2}';", DateTime.Now, Constant.BusinessObjectType.ITEM, AppSession.UserLogin.SiteID);
-                #endregion
-
-                ctx.CommandText = sqlInsert;
-                DaoBase.ExecuteNonQuery(ctx);
-                ctx.CommitTransaction();
+                catch (Exception ex)
+                {
+                    errMessage = ex.Message;
+                    ctx.RollBackTransaction();
+                    result = false;
+                }
+                finally
+                {
+                    ctx.Close();
+                }
             }
-            catch (Exception ex)
-            {
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-                result = false;
-            }
-            finally
-            {
-                ctx.Close();
-            }
-
             return result;
         }
 

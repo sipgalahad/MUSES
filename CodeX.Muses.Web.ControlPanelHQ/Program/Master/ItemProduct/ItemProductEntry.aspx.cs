@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             String GCItemType = Constant.ItemType.PRODUCT;
             hdnGCItemType.Value = GCItemType;
 
-            if (Request.QueryString.Count > 1)
+            if (Request.QueryString.Count > 0)
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
@@ -224,8 +224,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             ItemMasterDao entityDao = new ItemMasterDao(ctx);
             ItemProductDao entityProductDao = new ItemProductDao(ctx);
             ItemTagFieldDao entityTagFieldDao = new ItemTagFieldDao(ctx);
-            ItemCostDao entityCostDao = new ItemCostDao(ctx);
-            ItemPlanningDao entityPlanningDao = new ItemPlanningDao(ctx);
+            //ItemCostDao entityCostDao = new ItemCostDao(ctx);
+            //ItemPlanningDao entityPlanningDao = new ItemPlanningDao(ctx);
             try
             {
                 ItemMaster entity = new ItemMaster();
@@ -244,22 +244,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entityTagField.ItemID = entityProduct.ItemID;
                 entityTagFieldDao.Insert(entityTagField);
 
-                List<Site> lstSite = BusinessLayer.GetSiteList("", ctx);
-                foreach (Site healthcare in lstSite)
-                {
-                    ItemCost ic = new ItemCost();
-                    ic.ItemID = entityProduct.ItemID;
-                    ic.SiteID = healthcare.SiteID;
-                    ic.CreatedBy = AppSession.UserLogin.UserID;
-                    entityCostDao.Insert(ic);
+                //List<Site> lstSite = BusinessLayer.GetSiteList("", ctx);
+                //foreach (Site healthcare in lstSite)
+                //{
+                //    ItemCost ic = new ItemCost();
+                //    ic.ItemID = entityProduct.ItemID;
+                //    ic.SiteID = healthcare.SiteID;
+                //    ic.CreatedBy = AppSession.UserLogin.UserID;
+                //    entityCostDao.Insert(ic);
 
-                    ItemPlanning ip = new ItemPlanning();
-                    ip.BusinessPartnerID = null;
-                    ip.ItemID = entityProduct.ItemID;
-                    ip.SiteID = healthcare.SiteID;
-                    ip.CreatedBy = AppSession.UserLogin.UserID;
-                    entityPlanningDao.Insert(ip);
-                }
+                //    ItemPlanning ip = new ItemPlanning();
+                //    ip.BusinessPartnerID = null;
+                //    ip.ItemID = entityProduct.ItemID;
+                //    ip.SiteID = healthcare.SiteID;
+                //    ip.CreatedBy = AppSession.UserLogin.UserID;
+                //    entityPlanningDao.Insert(ip);
+                //}
                 retval = entityProduct.ItemID.ToString();
                 ctx.CommitTransaction();
             }

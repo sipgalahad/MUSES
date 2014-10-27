@@ -3207,6 +3207,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ItemPlanning> GetItemPlanningList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ItemPlanning> result = new List<ItemPlanning>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemPlanning));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemPlanning)helper.IDataReaderToObject(reader, new ItemPlanning()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region ItemProduct
         public static ItemProduct GetItemProduct(Int32 ItemID)
@@ -3424,6 +3446,28 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(ItemTagField));
                 ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemTagField)helper.IDataReaderToObject(reader, new ItemTagField()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ItemTagField> GetItemTagFieldList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ItemTagField> result = new List<ItemTagField>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemTagField));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((ItemTagField)helper.IDataReaderToObject(reader, new ItemTagField()));

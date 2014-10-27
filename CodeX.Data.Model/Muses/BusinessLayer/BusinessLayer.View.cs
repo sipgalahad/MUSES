@@ -5301,6 +5301,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSiteItem
+        public static List<vSiteItem> GetvSiteItemList(string filterExpression)
+        {
+            List<vSiteItem> result = new List<vSiteItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSiteItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSiteItem)helper.IDataReaderToObject(reader, new vSiteItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStockTakingDt
         public static List<vStockTakingDt> GetvStockTakingDtList(string filterExpression)
         {

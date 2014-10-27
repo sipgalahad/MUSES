@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             String GCItemType = Constant.ItemType.PRODUCT;
             hdnGCItemType.Value = GCItemType;
 
-            if (Request.QueryString.Count > 1)
+            if (Request.QueryString.Count > 0)
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];

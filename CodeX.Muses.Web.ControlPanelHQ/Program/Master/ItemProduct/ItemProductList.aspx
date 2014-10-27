@@ -90,7 +90,7 @@
                 var pageCount = parseInt(param[1]);
                 var rowCount = parseInt(param[2]);
                 if (pageCount > 0)
-                    $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                    $('.grdDrug tr:eq(2)').click();
                 else
                     $('#<%=hdnID.ClientID %>').val('');
 
@@ -101,7 +101,7 @@
                 });
             }
             else
-                $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                $('.grdDrug tr:eq(2)').click();
         }
         //#endregion
 
@@ -173,7 +173,7 @@
         $('.tdSite a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Master/ItemProduct/SiteItemEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Alternate Unit', 600, 500);
+            openUserControlPopup(url, id, 'Site', 600, 500);
         });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -239,10 +239,11 @@
                                     <tr>  
                                         <th class="keyField" rowspan="2">&nbsp;</th>
                                         <th rowspan="2" style="width:20px">&nbsp;</th>
-                                        <th rowspan="2" style="width:70px;text-align:left"><%=GetLabel("Kode")%></th>  
-                                        <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Barang")%></th>                              
-                                        <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Barang")%></th>                              
+                                        <th rowspan="2" style="width:70px;"><%=GetLabel("Kode")%></th>  
+                                        <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Obat")%></th>                              
+                                        <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Obat")%></th>                              
                                         <th colspan="2" class="thCenter"><%=GetLabel("Satuan")%></th>                     
+                                        <th rowspan="2" style="width:70px" class="thCenter"><%=GetLabel("Site")%></th>
                                     </tr>
                                     <tr>
                                         <th style="width:125px" class="thCenter"><%=GetLabel("Kecil")%></th>  

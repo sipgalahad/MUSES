@@ -49,16 +49,24 @@ namespace CodeX.Muses.Web.ControlPanel.HQService {
         [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
         public System.DateTime lastSyncDate;
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
-        public string filterExpression;
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public int pageIndex;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public int rowCountPerPage;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public int rowCount;
         
         public GetItemMasterListRequestBody() {
         }
         
-        public GetItemMasterListRequestBody(string siteID, System.DateTime lastSyncDate, string filterExpression) {
+        public GetItemMasterListRequestBody(string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
             this.siteID = siteID;
             this.lastSyncDate = lastSyncDate;
-            this.filterExpression = filterExpression;
+            this.pageIndex = pageIndex;
+            this.rowCountPerPage = rowCountPerPage;
+            this.rowCount = rowCount;
         }
     }
     
@@ -128,12 +136,14 @@ namespace CodeX.Muses.Web.ControlPanel.HQService {
             return base.Channel.GetItemMasterList(request);
         }
         
-        public object GetItemMasterList(string siteID, System.DateTime lastSyncDate, string filterExpression) {
+        public object GetItemMasterList(string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
             CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequest inValue = new CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequest();
             inValue.Body = new CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequestBody();
             inValue.Body.siteID = siteID;
             inValue.Body.lastSyncDate = lastSyncDate;
-            inValue.Body.filterExpression = filterExpression;
+            inValue.Body.pageIndex = pageIndex;
+            inValue.Body.rowCountPerPage = rowCountPerPage;
+            inValue.Body.rowCount = rowCount;
             CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListResponse retVal = ((CodeX.Muses.Web.ControlPanel.HQService.SyncServiceSoap)(this)).GetItemMasterList(inValue);
             return retVal.Body.GetItemMasterListResult;
         }

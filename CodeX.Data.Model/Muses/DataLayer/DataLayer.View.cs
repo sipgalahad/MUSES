@@ -12284,6 +12284,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSiteItem
+    [Serializable]
+    [Table(Name = "vSiteItem")]
+    public class vSiteItem
+    {
+        private Int32 _SiteItemID;
+        private String _SiteID;
+        private String _SiteName;
+        private Int32 _ItemID;
+        private String _ItemName1;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SiteItemID", DataType = "Int32")]
+        public Int32 SiteItemID
+        {
+            get { return _SiteItemID; }
+            set { _SiteItemID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStockTakingDt
     [Serializable]
     [Table(Name = "vStockTakingDt")]

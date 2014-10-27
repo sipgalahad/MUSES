@@ -101,7 +101,7 @@
                 var pageCount = parseInt(param[1]);
                 var rowCount = parseInt(param[2]);
                 if (pageCount > 0)
-                    $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                    $('.grdDrug tr:eq(2)').click();
                 else
                     $('#<%=hdnID.ClientID %>').val('');
 
@@ -112,7 +112,7 @@
                 });
             }
             else
-                $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                $('.grdDrug tr:eq(2)').click();
         }
         //#endregion
 
