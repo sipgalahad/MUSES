@@ -15,6 +15,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            setStudentImage();
+
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
                 $('.grdStudent tr:gt(1)').each(function () {
@@ -75,8 +77,19 @@
                 <tr>
                     <td class="keyField"><%#Eval("StudentID") %></td>
                     <td>
-                        <%#Eval("StudentName") %>
-                        <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
+                        <table cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width: 35px;">
+                                    <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
+                                    <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
+                                    <div class="gridCircle divStudentImage"></div>
+                                </td>
+                                <td>
+                                    <%#Eval("StudentName") %>
+                                    <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                     <asp:Repeater ID="rptStudentAttendance" runat="server">
                         <ItemTemplate>

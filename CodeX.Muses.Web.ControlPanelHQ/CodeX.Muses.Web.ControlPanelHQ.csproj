@@ -291,90 +291,105 @@
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
       <DependentUpon>SiteEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.designer.cs">
       <DependentUpon>SiteEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.cs">
       <DependentUpon>SiteList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
       <DependentUpon>SiteList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.cs">
       <DependentUpon>UserManagementEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.designer.cs">
       <DependentUpon>UserManagementEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.cs">
       <DependentUpon>UserManagementList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx.designer.cs">
       <DependentUpon>UserManagementList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.cs">
       <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.designer.cs">
       <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.cs">
       <DependentUpon>UserRolesEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.designer.cs">
       <DependentUpon>UserRolesEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.cs">
       <DependentUpon>UserRolesList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx.designer.cs">
       <DependentUpon>UserRolesList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.cs">
       <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx.designer.cs">
       <DependentUpon>UserRolesMenuAccessEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.cs">
       <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx.designer.cs">
       <DependentUpon>ItemGroupMasterEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.cs">
       <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
       <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.cs">
       <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemPlanningEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.cs">
       <DependentUpon>ItemProductEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemProductEntry.aspx.designer.cs">
       <DependentUpon>ItemProductEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.cs">
       <DependentUpon>ItemProductList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.designer.cs">
       <DependentUpon>ItemProductList.aspx</DependentUpon>

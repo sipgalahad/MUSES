@@ -694,11 +694,14 @@ namespace CodeX.Data.Model
     #region vClassStudent
     [Serializable]
     [Table(Name = "vClassStudent")]
-    public class vClassStudent
+    public partial class vClassStudent
     {
         private Int32 _SchoolClassID;
         private Int32 _StudentID;
+        private String _StudentCode;
         private String _StudentName;
+        private String _GCGender;
+        private String _PictureFileName;
 
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID
@@ -712,11 +715,29 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
         [Column(Name = "StudentName", DataType = "String")]
         public String StudentName
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "PictureFileName", DataType = "String")]
+        public String PictureFileName
+        {
+            get { return _PictureFileName; }
+            set { _PictureFileName = value; }
         }
     }
     #endregion

@@ -59,6 +59,7 @@
         var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
         var currPage = parseInt('<%=CurrPage %>');
         $(function () {
+            setStudentImage();
             setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
@@ -88,6 +89,7 @@
         //#endregion
 
         function onCbpMeetingDetailEndCallback(s) {
+            setStudentImage();
             registerCollapseExpandHandler();
             hideLoadingPanel();
         }
@@ -179,7 +181,21 @@
                                             <ItemTemplate>
                                                 <tr>
                                                     <td class="keyField"><%#Eval("StudentID") %></td>
-                                                    <td><%#Eval("StudentName") %></td>
+                                                    <td>
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="width: 35px;">
+                                                                    <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
+                                                                    <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
+                                                                    <div class="gridCircle divStudentImage"></div>
+                                                                </td>
+                                                                <td>
+                                                                    <%#Eval("StudentName") %>
+                                                                    <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
                                                     <td align="center">
                                                         <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="95%" />
                                                     </td>

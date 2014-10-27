@@ -29,6 +29,12 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassStudent
+    public partial class vClassStudent
+    {
+        public String StudentImageUrl { get { return Function.GenerateStudentPictureFileName(_PictureFileName, _StudentCode); } }
+    }
+    #endregion
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {

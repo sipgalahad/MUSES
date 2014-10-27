@@ -5,6 +5,25 @@
     $(function () {
         $('#divImageHeaderBanner').hide();
     });
+
+    function setStudentImage() {
+        setTimeout(function () {
+            var imgUrlM = ResolveUrl("~/Libs/Images/patient_male.png");
+            var imgUrlF = ResolveUrl("~/Libs/Images/patient_female.png");
+
+            $('.imgStudentImage').each(function () {
+                $divStudentImage = $(this).parent().find('.divStudentImage');
+                $divStudentImage.attr('style', "background-image:url('" + this.src + "')");
+                $(this).error(function () {
+                    var gender = $(this).attr('gender');
+                    if (gender == '0003^F')
+                        $(this).parent().find('.divStudentImage').attr('style', "background-image:url('" + imgUrlF + "')");
+                    else
+                        $(this).parent().find('.divStudentImage').attr('style', "background-image:url('" + imgUrlM + "')");
+                }).attr('src', this.src);
+            });
+        }, 0);
+    }
 </script>
 
 <input type="hidden" id="hdnTitleText" runat="server" />
