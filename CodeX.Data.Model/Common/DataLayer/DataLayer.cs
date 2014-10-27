@@ -143,6 +143,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region DBSyncInfo
+    [Serializable]
+    [Table(Name = "DBSyncInfo")]
+    public class DBSyncInfo : DbDataModel
+    {
+        private String _GCBusinessObjectType;
+        private String _SiteID;
+        private DateTime _LastSyncDate;
+
+        [Column(Name = "GCBusinessObjectType", DataType = "String", IsPrimaryKey = true)]
+        public String GCBusinessObjectType
+        {
+            get { return _GCBusinessObjectType; }
+            set { _GCBusinessObjectType = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "LastSyncDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastSyncDate
+        {
+            get { return _LastSyncDate; }
+            set { _LastSyncDate = value; }
+        }
+    }
+
+    public class DBSyncInfoDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DBSyncInfo));
+        private bool _isAuditLog = false;
+        private const string p_GCBusinessObjectType = "@p_GCBusinessObjectType";
+        private const string p_SiteID = "@p_SiteID";
+        public DBSyncInfoDao() { }
+        public DBSyncInfoDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DBSyncInfo Get(String GCBusinessObjectType, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCBusinessObjectType, GCBusinessObjectType);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DBSyncInfo)_helper.DataRowToObject(row, new DBSyncInfo());
+        }
+        public int Insert(DBSyncInfo record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DBSyncInfo record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String GCBusinessObjectType, String SiteID)
+        {
+            DBSyncInfo record;
+            if (_ctx.Transaction == null)
+                record = new DBSyncInfoDao().Get(GCBusinessObjectType, SiteID);
+            else
+                record = Get(GCBusinessObjectType, SiteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region FilterParameter
     [Serializable]
     [Table(Name = "FilterParameter")]

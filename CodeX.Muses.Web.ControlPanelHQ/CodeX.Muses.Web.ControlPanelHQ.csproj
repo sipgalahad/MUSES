@@ -94,6 +94,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx">
+      <Link>SharedLibs\Service\SyncService.asmx</Link>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
@@ -106,6 +109,7 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
+    <Content Include="Program\Master\ItemProduct\SiteItemEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
@@ -286,6 +290,11 @@
       <DependentUpon>MethodService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx.cs">
+      <Link>SharedLibs\Service\SyncService.asmx.cs</Link>
+      <DependentUpon>SyncService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -365,6 +374,13 @@
     </Compile>
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
       <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\SiteItemEntryCtl.ascx.cs">
+      <DependentUpon>SiteItemEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\SiteItemEntryCtl.ascx.designer.cs">
+      <DependentUpon>SiteItemEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>

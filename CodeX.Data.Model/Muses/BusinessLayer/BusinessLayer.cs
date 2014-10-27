@@ -6156,6 +6156,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SiteItem> GetSiteItemList(string filterExpression, IDbContext ctx)
+        {
+            List<SiteItem> result = new List<SiteItem>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteItem)helper.IDataReaderToObject(reader, new SiteItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region StockTakingDt
         public static StockTakingDt GetStockTakingDt(Int32 StockTakingID, Int32 ItemID)

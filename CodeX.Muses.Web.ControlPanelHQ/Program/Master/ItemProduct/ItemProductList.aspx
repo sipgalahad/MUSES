@@ -169,6 +169,12 @@
             var url = ResolveUrl("~/Program/Master/ItemProduct/ItemAlternateUnitEntryCtl.ascx");
             openUserControlPopup(url, id, 'Alternate Unit', 600, 500);
         });
+
+        $('.tdSite a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/ItemProduct/SiteItemEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Alternate Unit', 600, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -215,6 +221,7 @@
                                         <th rowspan="2" style="text-align:left"><%=GetLabel("Nama Obat")%></th>                              
                                         <th rowspan="2" style="width:250px;text-align:left"><%=GetLabel("Kelompok Obat")%></th>                              
                                         <th colspan="2" class="thCenter"><%=GetLabel("Satuan")%></th>                     
+                                        <th rowspan="2" style="width:70px" class="thCenter"><%=GetLabel("Site")%></th>
                                     </tr>
                                     <tr>
                                         <th style="width:125px" class="thCenter"><%=GetLabel("Kecil")%></th>  
@@ -253,6 +260,7 @@
                                     <td><%# Eval("ItemGroupName1")%></td>
                                     <td align="center"><%# Eval("ItemUnit")%></td>
                                     <td align="center" class="tdAlternateUnit"><a type="10"><%=GetLabel("Alternate Unit")%></a></td>
+                                    <td align="center" class="tdSite"><a><%=GetLabel("Site")%></a></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:ListView>

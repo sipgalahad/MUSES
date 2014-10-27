@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="MyeqGcNTQn3bA3VZwlu98lkDHDA=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="DGmyT8yvmGNckg6uaiVg1MtoINM=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="SyncServiceSoap">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="SyncServiceSoap" contract="HQService.SyncServiceSoap" bindingType="basicHttpBinding" address="http://localhost/publish2/Muses/ControlPanel/Libs/Service/SyncService.asmx" bindingConfiguration="SyncServiceSoap">
+    <endpoint name="SyncServiceSoap" contract="HQService.SyncServiceSoap" bindingType="basicHttpBinding" address="http://localhost/publish2/Muses/ControlPanelHQ/Libs/Service/SyncService.asmx" bindingConfiguration="SyncServiceSoap">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost/publish2/Muses/ControlPanel/Libs/Service/SyncService.asmx</serializedValue>
+          <serializedValue>http://localhost/publish2/Muses/ControlPanelHQ/Libs/Service/SyncService.asmx</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

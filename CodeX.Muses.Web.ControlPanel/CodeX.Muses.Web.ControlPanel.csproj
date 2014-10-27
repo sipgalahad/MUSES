@@ -102,9 +102,6 @@
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
-    <Content Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx">
-      <Link>SharedLibs\Service\SyncService.asmx</Link>
-    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Tools\DataLayerGenerator.aspx">
       <Link>SharedLibs\Tools\DataLayerGenerator.aspx</Link>
     </Content>
@@ -207,13 +204,13 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
     <Content Include="Program\Tools\ViewErrorLog\ViewErrorLogList.aspx" />
-    <None Include="Service References\HQService\SyncService.disco" />
     <None Include="Service References\HQService\configuration91.svcinfo" />
     <None Include="Service References\HQService\configuration.svcinfo" />
     <None Include="Service References\HQService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\HQService\SyncService1.disco" />
     <Content Include="Temp\Test.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -222,7 +219,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <None Include="Service References\HQService\SyncService.wsdl" />
+    <None Include="Service References\HQService\SyncService1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.cs">
@@ -390,11 +387,6 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
       <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
       <DependentUpon>MethodService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx.cs">
-      <Link>SharedLibs\Service\SyncService.asmx.cs</Link>
-      <DependentUpon>SyncService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Tools\DataLayerGenerator.aspx.cs">

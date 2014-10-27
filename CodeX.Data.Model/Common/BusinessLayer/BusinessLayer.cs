@@ -66,6 +66,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region DBSyncInfo
+        public static DBSyncInfo GetDBSyncInfo(String GCBusinessObjectType, String SiteID)
+        {
+            return new DBSyncInfoDao().Get(GCBusinessObjectType, SiteID);
+        }
+        public static int InsertDBSyncInfo(DBSyncInfo record)
+        {
+            return new DBSyncInfoDao().Insert(record);
+        }
+        public static int UpdateDBSyncInfo(DBSyncInfo record)
+        {
+            return new DBSyncInfoDao().Update(record);
+        }
+        public static int DeleteDBSyncInfo(String GCBusinessObjectType, String SiteID)
+        {
+            return new DBSyncInfoDao().Delete(GCBusinessObjectType, SiteID);
+        }
+        public static List<DBSyncInfo> GetDBSyncInfoList(string filterExpression)
+        {
+            List<DBSyncInfo> result = new List<DBSyncInfo>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(DBSyncInfo));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((DBSyncInfo)helper.IDataReaderToObject(reader, new DBSyncInfo()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region FilterParameter
         public static FilterParameter GetFilterParameter(Int32 FilterParameterID)
         {

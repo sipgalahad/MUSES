@@ -15,7 +15,7 @@ namespace CodeX.Muses.Web.ControlPanel.HQService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="HQService.SyncServiceSoap")]
     public interface SyncServiceSoap {
         
-        // CODEGEN: Generating message contract since element name filterExpression from namespace http://tempuri.org/ is not marked nillable
+        // CODEGEN: Generating message contract since element name siteID from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetItemMasterList", ReplyAction="*")]
         CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListResponse GetItemMasterList(CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequest request);
     }
@@ -44,12 +44,20 @@ namespace CodeX.Muses.Web.ControlPanel.HQService {
     public partial class GetItemMasterListRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string siteID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public System.DateTime lastSyncDate;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
         public string filterExpression;
         
         public GetItemMasterListRequestBody() {
         }
         
-        public GetItemMasterListRequestBody(string filterExpression) {
+        public GetItemMasterListRequestBody(string siteID, System.DateTime lastSyncDate, string filterExpression) {
+            this.siteID = siteID;
+            this.lastSyncDate = lastSyncDate;
             this.filterExpression = filterExpression;
         }
     }
@@ -120,9 +128,11 @@ namespace CodeX.Muses.Web.ControlPanel.HQService {
             return base.Channel.GetItemMasterList(request);
         }
         
-        public object GetItemMasterList(string filterExpression) {
+        public object GetItemMasterList(string siteID, System.DateTime lastSyncDate, string filterExpression) {
             CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequest inValue = new CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequest();
             inValue.Body = new CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListRequestBody();
+            inValue.Body.siteID = siteID;
+            inValue.Body.lastSyncDate = lastSyncDate;
             inValue.Body.filterExpression = filterExpression;
             CodeX.Muses.Web.ControlPanel.HQService.GetItemMasterListResponse retVal = ((CodeX.Muses.Web.ControlPanel.HQService.SyncServiceSoap)(this)).GetItemMasterList(inValue);
             return retVal.Body.GetItemMasterListResult;
