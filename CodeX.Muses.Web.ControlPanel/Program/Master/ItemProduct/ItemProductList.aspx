@@ -14,8 +14,6 @@
     <script type="text/javascript">
         $(function () {
             $('#<%=btnSync.ClientID %>').click(function () {
-                //onCustomButtonClick('sync');
-
                 showLoadingPanel();
                 var e = new Image(1, 1);
                 e.src = "http://localhost:60025/buffertext/dummy.gif?" + Math.floor((Math.random() * 100) + 1) + "&type=sync&synctype=<%=GetBusinessObjectItem() %>";

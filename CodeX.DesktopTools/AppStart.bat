@@ -1,1 +1,1 @@
-start "" "\\192.168.90.199\ApplicationData\Tools\MedinfrasDesktopTools\CodeX.DesktopTools.exe"
+start "" "D:\Personal\Source\Git\MUSES\CodeX.DesktopTools\bin\Debug\CodeX.DesktopTools.exe"

@@ -28,6 +28,7 @@ namespace CodeX.DesktopTools
             public List<ItemProduct> ListItemProduct { get; set; }
             public List<ItemTagField> ListItemTagField { get; set; }
             public List<ItemPlanning> ListItemPlanning { get; set; }
+            public List<ItemAlternateUnit> ListItemAlternateUnit { get; set; }
             public String TimeStamp { get; set; }
             public Int32 RowCount { get; set; }
         }
@@ -57,9 +58,16 @@ namespace CodeX.DesktopTools
             List<ItemProduct> lstItemProduct = tempResult.ListItemProduct;
             List<ItemTagField> lstItemTagField = tempResult.ListItemTagField;
             List<ItemPlanning> lstItemPlanning = tempResult.ListItemPlanning;
+            List<ItemAlternateUnit> lstItemAlternateUnit = tempResult.ListItemAlternateUnit;
 
             rowCount = tempResult.RowCount;
             decimal totalPageCount = Math.Ceiling((decimal)rowCount / rowCountPerPage);
+
+            if (totalPageCount == 0)
+            {
+                if (lstItemPlanning.Count > 0 || lstItemAlternateUnit.Count > 0)
+                    totalPageCount = 1;
+            }
             for (int i = 1; i <= totalPageCount; ++i)
             {
                 if (i > 1)
@@ -71,6 +79,7 @@ namespace CodeX.DesktopTools
                     lstItemProduct = tempResult.ListItemProduct;
                     lstItemTagField = tempResult.ListItemTagField;
                     lstItemPlanning = tempResult.ListItemPlanning;
+                    lstItemAlternateUnit = tempResult.ListItemAlternateUnit;
                 }
 
                 IDbContext ctx = DbFactory.Configure(true);
@@ -206,6 +215,43 @@ namespace CodeX.DesktopTools
                         sqlInsert += string.Format("INSERT ItemPlanning SELECT {0} FROM #TempTableItemPlanning a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemPlanning ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
 
                         sqlInsert += string.Format("DROP TABLE #TempTableItemPlanning;");
+                    }
+                    #endregion
+
+                    #region Item Alternate Unit
+                    if (lstItemAlternateUnit.Count > 0)
+                    {
+                        fieldName = "";
+                        parameter = "";
+                        Type type2 = typeof(ItemAlternateUnit);
+                        propInfs = type2.GetProperties();
+                        fieldName = GetInsertObjectFieldName(propInfs, "a.");
+                        fieldName += ",a.ConsolidateID";
+
+                        foreach (ItemAlternateUnit entity in lstItemAlternateUnit)
+                        {
+                            string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                            insertPerObj += string.Format(",{0}", entity.ID);
+                            if (parameter != "")
+                                parameter += ",";
+                            parameter += string.Format("({0})", insertPerObj);
+                        }
+
+                        sqlInsertTempTable += "SELECT TOP 0 * INTO #TempTableItemAlternateUnit FROM ItemAlternateUnit;";
+                        sqlInsertTempTable += string.Format("INSERT INTO #TempTableItemAlternateUnit ");
+                        sqlInsertTempTable += string.Format("({0}) ", fieldName);
+                        sqlInsertTempTable += string.Format(" {0} ", "VALUES");
+                        sqlInsertTempTable += string.Format("{0};", parameter);
+
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b").Replace("a.ItemID = b.ItemID,", ""));
+                        sqlInsert += string.Format("FROM ItemAlternateUnit a INNER JOIN [#TempTableItemAlternateUnit] b ON a.ConsolidateID = b.ConsolidateID;");
+                        sqlInsert += string.Format("INSERT INTO ItemAlternateUnit ");
+                        sqlInsert += string.Format("({0}) ", fieldName);
+                        sqlInsert += string.Format("SELECT {0} FROM #TempTableItemAlternateUnit a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ConsolidateID NOT IN (SELECT ConsolidateID FROM ItemAlternateUnit);", fieldName.Replace("a.ItemID", "im.ItemID"));
+                        //sqlInsert += string.Format("INSERT ItemProduct 
+                        //SELECT {0} FROM #TempTableItemProduct a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemProduct ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
+                        
+                        sqlInsert += string.Format("DROP TABLE #TempTableItemAlternateUnit;");
                     }
                     #endregion
                     sqlInsert = sqlInsertTempTable + sqlInsert;

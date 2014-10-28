@@ -216,7 +216,7 @@
             </table>
         </div>
         <img height="30" style="cursor: pointer; float:left; margin-left: 5px; margin-top: 1px;" runat="server" id="imgOpenModule" />
-        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;">MUSES</div>
+        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;">VIDA</div>
         <div id="page-wrap" style="padding-top:7px;">
             <asp:Repeater ID="rptMenu" runat="server" OnItemDataBound="rptMenu_ItemDataBound">
                 <HeaderTemplate>

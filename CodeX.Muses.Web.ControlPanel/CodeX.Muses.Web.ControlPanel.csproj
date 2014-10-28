@@ -204,13 +204,6 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
     <Content Include="Program\Tools\ViewErrorLog\ViewErrorLogList.aspx" />
-    <None Include="Service References\HQService\configuration91.svcinfo" />
-    <None Include="Service References\HQService\configuration.svcinfo" />
-    <None Include="Service References\HQService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\HQService\SyncService1.disco" />
     <Content Include="Temp\Test.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -219,7 +212,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <None Include="Service References\HQService\SyncService1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\ChangePasswordCtl.ascx.cs">
@@ -1088,11 +1080,6 @@
       <DependentUpon>ViewErrorLogList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\HQService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Temp\Test.aspx.cs">
       <DependentUpon>Test.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1177,9 +1164,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\HQService\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

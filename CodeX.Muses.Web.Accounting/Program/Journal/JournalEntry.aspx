@@ -534,7 +534,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.J
                 var temp = param.split('|');
                 var templateID = temp[0];
                 var amount = parseFloat(temp[1]);
-                var filterExpression = "TemplateID = " + templateID + " AND IsDeleted = 0";
+                var filterExpression = "TemplateID = " + templateID + " AND IsDeleted = 0 ORDER BY DisplayOrder";
                 Methods.getListObject('GetvJournalTemplateDtList', filterExpression, function (result) {
                     if (result != null) {
                         $('.trJournalEntry:last').remove();

@@ -55,7 +55,7 @@
     <input type="hidden" id="hdnEntryID" runat="server"/>
     <table>
         <tr>
-            <td><%=GetLabel("Tipe Kelas") %></td>
+            <td><%=GetLabel("Kelas") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboClass" ClientInstanceName="cboClass" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboClassValueChanged(s); }" />

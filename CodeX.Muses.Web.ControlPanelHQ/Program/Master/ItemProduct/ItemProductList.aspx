@@ -179,7 +179,7 @@
 
         $('.tdSite a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/ItemProduct/SiteItemEntryCtl.ascx");
+            var url = ResolveUrl("~/Program/Master/ItemProduct/ItemSiteEntryCtl.ascx");
             openUserControlPopup(url, id, 'Site', 600, 500);
         });
     </script>

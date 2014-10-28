@@ -136,7 +136,7 @@ Inherits="CodeX.Muses.Web.ControlPanel.Program.ItemAlternateUnitEntryCtl" %>
                                                 <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField HeaderStyle-Width="300px" DataField="ItemUnit" HeaderText="Alternate Unit" ItemStyle-CssClass="tdAlternateUnit" />
+                                        <asp:BoundField HeaderStyle-Width="300px" DataField="AlternateUnit" HeaderText="Alternate Unit" ItemStyle-CssClass="tdAlternateUnit" />
                                         <asp:BoundField DataField="ConversionFactor" HeaderText="Conversion Factor" ItemStyle-CssClass="tdConversionFactor" />
                                     </Columns>
                                     <EmptyDataTemplate>

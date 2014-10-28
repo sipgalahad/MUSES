@@ -2730,6 +2730,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ItemAlternateUnit> GetItemAlternateUnitList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ItemAlternateUnit> result = new List<ItemAlternateUnit>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemAlternateUnit));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemAlternateUnit)helper.IDataReaderToObject(reader, new ItemAlternateUnit()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region ItemDistributionDt
         public static ItemDistributionDt GetItemDistributionDt(Int32 ID)

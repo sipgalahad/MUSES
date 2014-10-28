@@ -13,7 +13,7 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SiteItemEntryCtl : BaseEntryPopupCtl
+    public partial class ItemSiteEntryCtl : BaseEntryPopupCtl
     {
         protected int PageCount = 1;
         private string[] lstSelectedMember = null;

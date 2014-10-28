@@ -114,7 +114,7 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
-    <Content Include="Program\Master\ItemProduct\SiteItemEntryCtl.ascx" />
+    <Content Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
@@ -414,12 +414,12 @@
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
       <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ItemProduct\SiteItemEntryCtl.ascx.cs">
-      <DependentUpon>SiteItemEntryCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.cs">
+      <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ItemProduct\SiteItemEntryCtl.ascx.designer.cs">
-      <DependentUpon>SiteItemEntryCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>

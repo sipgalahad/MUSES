@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class SiteItemEntryCtl {
+    public partial class ItemSiteEntryCtl {
         
         /// <summary>
         /// hdnSelectedMember control.

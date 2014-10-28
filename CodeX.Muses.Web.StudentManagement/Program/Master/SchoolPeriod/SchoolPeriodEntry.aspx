@@ -29,6 +29,7 @@
                 <table class="tblEntryContent" style="width:50%">
                     <colgroup>
                         <col style="width:30%"/>
+                        <col style="width:300px"/>
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>

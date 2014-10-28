@@ -28,7 +28,7 @@ namespace CodeX.DesktopTools
             string ipAddress = GetIPAddress();
             string syncIPAddress = BusinessLayer.GetSiteParameter(siteID, Constant.SiteParameter.IP_ADDRESS_SYNC).ParameterValue;
 
-            if (ipAddress == syncIPAddress)
+            if (syncIPAddress == "" || ipAddress == syncIPAddress)
                 client = new SyncService.SyncServiceSoapClient();
         }
         public void Display()
