@@ -26,7 +26,7 @@ namespace CodeX.DesktopTools
             Process process = new Process();
             if (type == "report")
             {
-                string healthcareID = queryCollection["healthcareid"];
+                string siteID = queryCollection["siteid"];
                 string userID = queryCollection["userid"];
                 string userName = queryCollection["username"];
                 string userFullName = queryCollection["userfullname"];
@@ -35,14 +35,22 @@ namespace CodeX.DesktopTools
                 string param = queryCollection["param"];
                 string fileName = ConfigurationManager.AppSettings["ReportViewerApp"];
 
-                string[] args = { healthcareID, userID, userName, userFullName, reportID, param };
-
+                string[] args = { siteID, userID, userName, userFullName, reportID, param };
 
                 ProcessStartInfo processInfo = new ProcessStartInfo();
                 processInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 processInfo.FileName = "cmd.exe";
                 processInfo.Arguments = string.Format("/c START \"\" \"{0}\" \"{1}\"", fileName, String.Join("\" \"", args));
                 Process.Start(processInfo);
+            }
+            else if (type == "sync")
+            {
+                string syncType = queryCollection["synctype"];
+
+                string siteID = ConfigurationManager.AppSettings["SiteID"];
+                SyncService.SyncServiceSoapClient client = new SyncService.SyncServiceSoapClient();
+                client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["ReportViewerApp"]);
+                SyncProcess.Sync(client, siteID, syncType);
             }
         }
     }

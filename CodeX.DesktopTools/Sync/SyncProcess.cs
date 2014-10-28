@@ -15,6 +15,13 @@ namespace CodeX.DesktopTools
 {
     public class SyncProcess
     {
+        public static bool Sync(SyncService.SyncServiceSoapClient client, string siteID, string syncType)
+        {
+            if (syncType == Constant.BusinessObjectType.ITEM)
+                return SyncItem(client, siteID);
+            return false;
+        }
+
         class CResult
         {
             public List<ItemMaster> ListItemMaster { get; set; }
@@ -24,7 +31,7 @@ namespace CodeX.DesktopTools
             public String TimeStamp { get; set; }
             public Int32 RowCount { get; set; }
         }
-        public static bool SyncItem(SyncService.SyncServiceSoapClient client)
+        public static bool SyncItem(SyncService.SyncServiceSoapClient client, string siteID)
         {
             bool result = true;
 
@@ -40,8 +47,6 @@ namespace CodeX.DesktopTools
             //}
 
             int rowCountPerPage = 4;
-            string siteID = "001.01.01";
-            int userID = 1;
             DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.BusinessObjectType.ITEM, siteID);
 
             int rowCount = -1;
@@ -204,7 +209,7 @@ namespace CodeX.DesktopTools
                     }
                     #endregion
                     sqlInsert = sqlInsertTempTable + sqlInsert;
-                    sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", siteID, userID);
+                    sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", siteID, 0);
                     sqlInsert += string.Format("UPDATE DBSyncInfo SET LastSyncDate = '{0}' WHERE GCBusinessObjectType = '{1}' AND SiteID = '{2}';", tempResult.TimeStamp, Constant.BusinessObjectType.ITEM, siteID);
 
                     ctx.CommandText = sqlInsert;

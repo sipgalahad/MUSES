@@ -66,8 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextMenus.cs" />
-    <Compile Include="CommandDispatcher.cs" />
-    <Compile Include="SyncProcess.cs" />
+    <Compile Include="CommandListener\CommandDispatcher.cs" />
+    <Compile Include="Sync\SyncNotifyIcon.cs" />
+    <Compile Include="Sync\SyncProcess.cs" />
     <Compile Include="HttpServer\HttpCommand.cs" />
     <Compile Include="HttpServer\HttpCommandDispatcher.cs" />
     <Compile Include="HttpServer\ImageLocator.cs" />
