@@ -29,7 +29,10 @@ namespace CodeX.DesktopTools
             string syncIPAddress = BusinessLayer.GetSiteParameter(siteID, Constant.SiteParameter.IP_ADDRESS_SYNC).ParameterValue;
 
             if (syncIPAddress == "" || ipAddress == syncIPAddress)
+            {
                 client = new SyncService.SyncServiceSoapClient();
+                client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["SyncServiceAddress"]);
+            }
         }
         public void Display()
         {
@@ -46,7 +49,6 @@ namespace CodeX.DesktopTools
         private void SOAPClient()
         {
             client.InnerChannel.OperationTimeout = new TimeSpan(0, 10, 0);
-            client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["SyncServiceAddress"]);
             string result = "";
             try
             {
