@@ -21,6 +21,16 @@ namespace CodeX.DesktopTools
             ToolStripMenuItem item;
             ToolStripSeparator sep;
 
+            // Sync Form.
+            item = new ToolStripMenuItem();
+            item.Text = "Sync Form";
+            item.Click += new System.EventHandler(Exit_Click);
+            item.Image = Resources.Exit;
+            menu.Items.Add(item);
+
+            sep = new ToolStripSeparator();
+            menu.Items.Add(sep);
+
             // Exit.
             item = new ToolStripMenuItem();
             item.Text = "Exit";

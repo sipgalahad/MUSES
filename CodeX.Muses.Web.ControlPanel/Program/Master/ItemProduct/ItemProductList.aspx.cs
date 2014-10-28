@@ -149,6 +149,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             grdDetail2.DataBind();
         }
 
+        protected string GetBusinessObjectItem()
+        {
+            return Constant.BusinessObjectType.ITEM;
+        }
+
         #region Sync
         class CResult
         {

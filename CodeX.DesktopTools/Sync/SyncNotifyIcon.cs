@@ -46,7 +46,7 @@ namespace CodeX.DesktopTools
         private void SOAPClient()
         {
             client.InnerChannel.OperationTimeout = new TimeSpan(0, 10, 0);
-            client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["ReportViewerApp"]);
+            client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["SyncServiceAddress"]);
             string result = "";
             try
             {

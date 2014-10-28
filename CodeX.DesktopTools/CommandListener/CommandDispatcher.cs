@@ -20,7 +20,7 @@ namespace CodeX.DesktopTools
 {
     public class CommandDispatcher
     {
-        public static void ProcessCommand(NameValueCollection queryCollection)
+        public static void ProcessCommand(NotifyIcon ni, NameValueCollection queryCollection)
         {
             string type = queryCollection["type"];
             Process process = new Process();
@@ -49,8 +49,11 @@ namespace CodeX.DesktopTools
 
                 string siteID = ConfigurationManager.AppSettings["SiteID"];
                 SyncService.SyncServiceSoapClient client = new SyncService.SyncServiceSoapClient();
-                client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["ReportViewerApp"]);
+                client.Endpoint.Address = new System.ServiceModel.EndpointAddress(ConfigurationManager.AppSettings["SyncServiceAddress"]);
+                
+                ni.ShowBalloonTip(300, "New Notification", "Start Sync", ToolTipIcon.Info);
                 SyncProcess.Sync(client, siteID, syncType);
+                ni.ShowBalloonTip(300, "New Notification", "Sync Berhasil", ToolTipIcon.Info);
             }
         }
     }

@@ -11,9 +11,9 @@ namespace CodeX.DesktopTools
     {
         NotifyIcon ni;
         SyncNotifyIcon syncNotifyIcon;
-        public ProcessIcon()
+        public ProcessIcon(NotifyIcon ni1)
         {
-            ni = new NotifyIcon();
+            ni = ni1;
             syncNotifyIcon = new SyncNotifyIcon(ni);
         }
 

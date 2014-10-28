@@ -20,8 +20,10 @@ namespace CodeX.DesktopTools
 {
     public class HttpCommandDispatcher
     {
-        public HttpCommandDispatcher(System.Drawing.Image dummyImage)
+        NotifyIcon ni;
+        public HttpCommandDispatcher(NotifyIcon ni1, System.Drawing.Image dummyImage)
         {
+            ni = ni1;
             MemoryStream stream = new MemoryStream();
             dummyImage.Save(stream, System.Drawing.Imaging.ImageFormat.Gif);
             mDummyGif = stream.GetBuffer();
@@ -98,7 +100,7 @@ namespace CodeX.DesktopTools
                     queryString = GetQueryStringFromPostData(request);
                 }
                 NameValueCollection queryCollection = SplitNameValuePairs(queryString);
-                CommandDispatcher.ProcessCommand(queryCollection);
+                CommandDispatcher.ProcessCommand(ni, queryCollection);
             }
             catch (Exception e)
             {

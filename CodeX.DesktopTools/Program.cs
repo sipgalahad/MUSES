@@ -11,15 +11,16 @@ namespace CodeX.DesktopTools
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        static NotifyIcon ni;
         [STAThread]
         static void Main()
         {
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            ni = new NotifyIcon();
             // Show the system tray icon.					
-            using (ProcessIcon pi = new ProcessIcon())
+            using (ProcessIcon pi = new ProcessIcon(ni))
             {
                 pi.Display();
 
@@ -32,10 +33,10 @@ namespace CodeX.DesktopTools
 
         private static void StartHttpCommandDispatcher()
         {
+            HttpCommandDispatcher mCmdDispatcher = new HttpCommandDispatcher(ni, Properties.Resources.dummy);
             mCmdDispatcher.AddResourceLocator(new ImageLocator(Properties.Resources.ResourceManager));
             mCmdDispatcher.Start("http://localhost:60025/");
         }
 
-        private static HttpCommandDispatcher mCmdDispatcher = new HttpCommandDispatcher(Properties.Resources.dummy);
     }
 }
