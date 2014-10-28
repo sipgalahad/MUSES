@@ -5,11 +5,18 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
-
+    
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSync" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbsave.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Sync")%></div></li>
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
         $(function () {
+            $('#<%=btnSync.ClientID %>').click(function () {
+                onCustomButtonClick('sync');
+            });
+
             var grd = new customGridView2();
             grd.init('grdDrug', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 

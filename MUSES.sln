@@ -24,6 +24,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{E0B255F5-AE9B-4FCB-B3BF-9BCF461D9FF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.DesktopTools", "CodeX.DesktopTools\CodeX.DesktopTools.csproj", "{BB477D39-0A55-4F17-B656-143459C5E9AD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5} = {ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.ControlPanel", "CodeX.Muses.Web.ControlPanel\CodeX.Muses.Web.ControlPanel.csproj", "{4604E0BA-AD28-4D84-8522-C8356583EF83}"
 EndProject

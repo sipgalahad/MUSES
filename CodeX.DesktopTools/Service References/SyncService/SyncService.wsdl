@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetItemMasterList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lastSyncDate" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="pageIndex" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="rowCountPerPage" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="rowCount" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemMasterListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemMasterListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WaitMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WaitMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WaitMessageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMessageResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Join">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JoinResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Fork">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ForkResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetItemMasterListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemMasterList" />
+  </wsdl:message>
+  <wsdl:message name="GetItemMasterListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemMasterListResponse" />
+  </wsdl:message>
+  <wsdl:message name="WaitMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:WaitMessage" />
+  </wsdl:message>
+  <wsdl:message name="WaitMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:WaitMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="SendMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="JoinSoapIn">
+    <wsdl:part name="parameters" element="tns:Join" />
+  </wsdl:message>
+  <wsdl:message name="JoinSoapOut">
+    <wsdl:part name="parameters" element="tns:JoinResponse" />
+  </wsdl:message>
+  <wsdl:message name="ForkSoapIn">
+    <wsdl:part name="parameters" element="tns:Fork" />
+  </wsdl:message>
+  <wsdl:message name="ForkSoapOut">
+    <wsdl:part name="parameters" element="tns:ForkResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SyncServiceSoap">
+    <wsdl:operation name="GetItemMasterList">
+      <wsdl:input message="tns:GetItemMasterListSoapIn" />
+      <wsdl:output message="tns:GetItemMasterListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WaitMessage">
+      <wsdl:input message="tns:WaitMessageSoapIn" />
+      <wsdl:output message="tns:WaitMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <wsdl:input message="tns:SendMessageSoapIn" />
+      <wsdl:output message="tns:SendMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Join">
+      <wsdl:input message="tns:JoinSoapIn" />
+      <wsdl:output message="tns:JoinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Fork">
+      <wsdl:input message="tns:ForkSoapIn" />
+      <wsdl:output message="tns:ForkSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SyncServiceSoap" type="tns:SyncServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetItemMasterList">
+      <soap:operation soapAction="http://tempuri.org/GetItemMasterList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WaitMessage">
+      <soap:operation soapAction="http://tempuri.org/WaitMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap:operation soapAction="http://tempuri.org/SendMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Join">
+      <soap:operation soapAction="http://tempuri.org/Join" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Fork">
+      <soap:operation soapAction="http://tempuri.org/Fork" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SyncServiceSoap12" type="tns:SyncServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetItemMasterList">
+      <soap12:operation soapAction="http://tempuri.org/GetItemMasterList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WaitMessage">
+      <soap12:operation soapAction="http://tempuri.org/WaitMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Join">
+      <soap12:operation soapAction="http://tempuri.org/Join" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Fork">
+      <soap12:operation soapAction="http://tempuri.org/Fork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SyncService">
+    <wsdl:port name="SyncServiceSoap" binding="tns:SyncServiceSoap">
+      <soap:address location="http://localhost/research/Muses/ControlPanelHQ/Program/SyncService/SyncService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SyncServiceSoap12" binding="tns:SyncServiceSoap12">
+      <soap12:address location="http://localhost/research/Muses/ControlPanelHQ/Program/SyncService/SyncService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

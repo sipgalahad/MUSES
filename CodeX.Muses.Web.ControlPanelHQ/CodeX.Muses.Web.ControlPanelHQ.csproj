@@ -99,6 +99,11 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="Program\SyncService\SyncService.asmx" />
+    <Content Include="Temp\Comet\Chat.aspx" />
+    <Content Include="Temp\Comet\Dispatcher.asmx" />
+    <Content Include="Temp\Comet\Receiver.aspx" />
+    <Content Include="Temp\Comet\Sender.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx" />
@@ -304,6 +309,40 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\SyncService\Client.cs" />
+    <Compile Include="Program\SyncService\ClientAdapter.cs" />
+    <Compile Include="Program\SyncService\SyncService.asmx.cs">
+      <DependentUpon>SyncService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Temp\Comet\Chat.aspx.cs">
+      <DependentUpon>Chat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temp\Comet\Chat.aspx.designer.cs">
+      <DependentUpon>Chat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temp\Comet\Client.cs" />
+    <Compile Include="Temp\Comet\ClientAdapter.cs" />
+    <Compile Include="Temp\Comet\Dispatcher.asmx.cs">
+      <DependentUpon>Dispatcher.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Temp\Comet\Message.cs" />
+    <Compile Include="Temp\Comet\Receiver.aspx.cs">
+      <DependentUpon>Receiver.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temp\Comet\Receiver.aspx.designer.cs">
+      <DependentUpon>Receiver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temp\Comet\Sender.aspx.cs">
+      <DependentUpon>Sender.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temp\Comet\Sender.aspx.designer.cs">
+      <DependentUpon>Sender.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
       <DependentUpon>SiteEntry.aspx</DependentUpon>

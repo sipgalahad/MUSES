@@ -145,5 +145,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             grdDetail2.DataSource = lstHSU;
             grdDetail2.DataBind();
         }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            ClientAdapter.Instance.SendMessage("001.01.01", "Item");
+            return true;
+        }
     }
 }
