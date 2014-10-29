@@ -849,6 +849,27 @@ namespace CodeX.Data.Model
     #region vPurchaseOrderDt
     public partial class vPurchaseOrderDt
     {
+        public String CustomSupplierItem
+        {
+            get
+            {
+                if (_SupplierItemCode != "")
+                {
+                    if (_SupplierItemName != "")
+                        return string.Format("{0} ({1})", _SupplierItemName, _SupplierItemCode);
+                    return _SupplierItemCode;
+                }
+                return _SupplierItemName;
+            }
+        }
+
+        public String CustomTotalPurchaseUnit
+        {
+            get
+            {
+                return (_Quantity * _ConversionFactor).ToString("#,##0.00") + " " + _BaseUnit;
+            }
+        }
         public Decimal CustomSubTotal
         {
             get

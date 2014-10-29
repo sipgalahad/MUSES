@@ -53,13 +53,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.RELIGION,
                 Constant.StandardCode.NATIONALITY, Constant.StandardCode.SCHOOL_GRADE, Constant.StandardCode.STUDENT_STATUS, Constant.StandardCode.SCHOOL_MAJOR);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
 
             Methods.SetComboBoxField(cboSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGrade, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_GRADE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboMajor, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_MAJOR).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboMajor, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_MAJOR || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboStudentStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
@@ -110,7 +111,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             #region Other Information
             SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboStudentStatus, new ControlEntrySetting(true, true, true));
             #endregion
@@ -212,7 +213,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Additional Information
             entity.GCStudentStatus = cboStudentStatus.Value.ToString();
             entity.GCGrade = cboGrade.Value.ToString();
-            entity.GCMajor = cboMajor.Value.ToString();
+            if (cboMajor.Value != null)
+                entity.GCMajor = cboMajor.Value.ToString();
+            else
+                entity.GCMajor = "";
             entity.Remarks = txtRemarks.Text;
             #endregion
         }

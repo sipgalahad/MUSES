@@ -122,7 +122,7 @@
                             <col style="width:180px"/>
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("NIS")%></label></td>
                             <td><asp:TextBox ID="txtStudentCode" Width="100px" runat="server" /></td>
                         </tr>
                         <tr style="display:none">
@@ -299,7 +299,7 @@
                             <td><dxe:ASPxComboBox ID="cboMajor" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" valign="top"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
+                            <td class="tdLabel" valign="top" style="padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>
                     </table>

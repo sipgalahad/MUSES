@@ -19,7 +19,7 @@
 
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
-                $('.grdStudent tr:gt(1)').each(function () {
+                $('.grdStudent tr.trStudent').each(function () {
                     var studentID = $(this).find('.keyField').html();
                     var selected = $(this).find("input[type='radio']:checked");
                     var attendanceStatus = '';
@@ -33,7 +33,7 @@
                 onCustomButtonClick('save');
             });
 
-            $('.grdStudent tr:gt(1)').each(function () {
+            $('.grdStudent tr.trStudent').each(function () {
                 var hdnAttendance = $(this).find(".hdnAttendance").val();
                 if (hdnAttendance != '') {
                     $rdo = $(this).find("input[type='radio'][value='" + hdnAttendance + "']");
@@ -74,7 +74,7 @@
         </tr>
         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
             <ItemTemplate>
-                <tr>
+                <tr class="trStudent">
                     <td class="keyField"><%#Eval("StudentID") %></td>
                     <td>
                         <table cellpadding="0" cellspacing="0">

@@ -5260,6 +5260,8 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private String _DistributionNo;
         private Int32 _DistributionID;
+        private String _GCDistributionStatus;
+        private String _DistributionStatus;
         private Int32 _ItemID;
         private String _ItemCode;
         private String _ItemName1;
@@ -5299,6 +5301,18 @@ namespace CodeX.Data.Model
         {
             get { return _DistributionID; }
             set { _DistributionID = value; }
+        }
+        [Column(Name = "GCDistributionStatus", DataType = "String")]
+        public String GCDistributionStatus
+        {
+            get { return _GCDistributionStatus; }
+            set { _GCDistributionStatus = value; }
+        }
+        [Column(Name = "DistributionStatus", DataType = "String")]
+        public String DistributionStatus
+        {
+            get { return _DistributionStatus; }
+            set { _DistributionStatus = value; }
         }
         [Column(Name = "ItemID", DataType = "Int32")]
         public Int32 ItemID
@@ -8587,6 +8601,7 @@ namespace CodeX.Data.Model
         private Int32 _SupplierID;
         private String _SupplierCode;
         private String _SupplierName;
+        private Int32 _LocationID;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private Int32 _ItemID;
@@ -8609,6 +8624,7 @@ namespace CodeX.Data.Model
         private String _GCItemDetailStatus;
         private String _ReceivedInformation;
         private Decimal _ReceivedQuantity;
+        private Decimal _LineAmount;
         private Boolean _IsDeleted;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -8652,6 +8668,12 @@ namespace CodeX.Data.Model
         {
             get { return _SupplierName; }
             set { _SupplierName = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus
@@ -8784,6 +8806,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReceivedQuantity; }
             set { _ReceivedQuantity = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

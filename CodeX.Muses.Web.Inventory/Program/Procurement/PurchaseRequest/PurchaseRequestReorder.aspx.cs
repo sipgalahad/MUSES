@@ -166,14 +166,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                 }
                 List<vItemBalance> lstEntityItemBalance = BusinessLayer.GetvItemBalanceList(string.Format("ID IN ({0})", lstID), ctx);
 
-                string lstItemID = "";
-                foreach (vItemBalance entityItemBalance in lstEntityItemBalance)
-                {
-                    if (lstItemID != "")
-                        lstItemID += ",";
-                    lstItemID += entityItemBalance.ItemID.ToString();
-                }
-                List<ItemPlanning> lstItemPlanning = BusinessLayer.GetItemPlanningList(string.Format("SiteID = '{0}' AND ItemID IN ({0}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID), ctx);
+                string lstItemID = string.Join(",", lstEntityItemBalance.Select(p => p.ItemID).ToList());
+                List<ItemPlanning> lstItemPlanning = BusinessLayer.GetItemPlanningList(string.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID), ctx);
                 for (int ct = 0; ct < paramID.Length; ct++)
                 {
                     vItemBalance entityItemBalance = lstEntityItemBalance.FirstOrDefault(p => p.ID == Convert.ToInt32(paramID[ct]));

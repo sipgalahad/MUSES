@@ -78,9 +78,9 @@
                                 <Columns>
                                     <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                     <asp:BoundField DataField="ItemName1" HeaderText="Item Name" />
-                                    <asp:BoundField DataField="CustomItemUnit" HeaderText="Quantity" HeaderStyle-Width="120px" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
-                                    <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
-                                    <asp:BoundField DataField="CustomItemDistribution" HeaderText="Total" HeaderStyle-Width="120px" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
+                                    <asp:BoundField DataField="CustomItemUnit" HeaderText="Quantity" HeaderStyle-Width="120px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                    <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" HeaderStyle-Width="180px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                    <asp:BoundField DataField="CustomItemDistribution" HeaderText="Total" HeaderStyle-Width="120px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 </Columns>
                                 <EmptyDataTemplate>
                                     <%=GetLabel("No Data To Display")%>
