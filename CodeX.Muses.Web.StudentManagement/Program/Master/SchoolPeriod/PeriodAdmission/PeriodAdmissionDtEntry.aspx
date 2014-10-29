@@ -180,8 +180,16 @@
                                 <asp:BoundField DataField="PeriodAdmissionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="PeriodAdmissionCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="PeriodAdmissionName" HeaderText="Nama"/>
-                                <asp:BoundField DataField="StartDateInString" HeaderText="Tanggal Mulai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="EndDateInString" HeaderText="Tanggal Selesai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:TemplateField HeaderText="Tgl Seleksi" HeaderStyle-Width="250px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
+                                    <ItemTemplate>
+                                        <%#Eval("StartDateInString")%> s.d <%#Eval("EndDateInString")%>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Tgl Pendaftaran" HeaderStyle-Width="250px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
+                                    <ItemTemplate>
+                                        <%#Eval("RegistrationStartDateInString")%> s.d <%#Eval("RegistrationEndDateInString")%>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

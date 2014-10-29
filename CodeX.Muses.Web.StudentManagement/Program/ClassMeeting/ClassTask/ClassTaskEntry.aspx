@@ -17,7 +17,7 @@
         $(function () {
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
-                $('.grdStudent tr:gt(0)').each(function () {
+                $('.grdStudent tr.trStudent').each(function () {
                     var studentID = $(this).find('.keyField').html();
                     var mark = $(this).find('.txtMark').val();
                     if (result != '')
@@ -179,7 +179,7 @@
                                         </tr>
                                         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                             <ItemTemplate>
-                                                <tr>
+                                                <tr class="trStudent">
                                                     <td class="keyField"><%#Eval("StudentID") %></td>
                                                     <td>
                                                         <table cellpadding="0" cellspacing="0">

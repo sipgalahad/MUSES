@@ -30,6 +30,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
 
         #region Filter Expression Search Dialog
+        protected string GetPurchaseReturnCreditNote()
+        {
+            return Constant.PurchaseReturnType.CREDIT_NOTE;
+        }
         protected string OnGetFilterExpressionItemProduct()
         {
             return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);

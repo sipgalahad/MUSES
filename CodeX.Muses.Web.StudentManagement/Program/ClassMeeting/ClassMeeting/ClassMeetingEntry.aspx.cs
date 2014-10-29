@@ -98,7 +98,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entity.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                         entity.CreatedBy = AppSession.UserLogin.UserID;
                         entityDao.Insert(entity);
-                        AppSession.ClassSubject.ClassMeetingID = BusinessLayer.GetClassMeetingMaxID(ctx);
+
+                        ClassSubjectModel classSubject = new ClassSubjectModel();
+                        classSubject.ClassScheduleID = AppSession.ClassSubject.ClassScheduleID;
+                        classSubject.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                        classSubject.ClassMeetingID = BusinessLayer.GetClassMeetingMaxID(ctx);
+
+                        AppSession.ClassSubject = classSubject;
                     }
                     else
                     {

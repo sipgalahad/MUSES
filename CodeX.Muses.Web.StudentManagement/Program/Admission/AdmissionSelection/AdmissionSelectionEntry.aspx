@@ -141,7 +141,7 @@
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("AdmissionSelectionID") %>" bindingfield="AdmissionSelectionID" />
-                                        <input type="hidden" value="<%#Eval("SelectionName") %>" bindingfield="AdmissionSelectionName" />
+                                        <input type="hidden" value="<%#Eval("SelectionName") %>" bindingfield="SelectionName" />
                                         <input type="hidden" value="<%#Eval("FinalMarkPercentage") %>" bindingfield="FinalMarkPercentage" />
                                         <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
