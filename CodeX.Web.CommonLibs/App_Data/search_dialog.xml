@@ -28,6 +28,22 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Direct Purchase-->
+  <searchdialog type="directpurchase" methodname="GetvDirectPurchaseHdList" keyfieldname="DirectPurchaseNo" orderbyexpression="DirectPurchaseID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="DirectPurchaseNo" headertext="No. Pembelian Tunai" width="100px" />
+      <gridcolumn datafield="PurchaseDate" displaycustomfield="PurchaseDateInString" horizontalalign="center" headertext="Tanggal Pembelian" width="100px" />
+      <gridcolumn datafield="BusinessPartnerName" headertext="Supplier" width="100px" />
+      <gridcolumn datafield="LocationName" headertext="Lokasi" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="DirectPurchaseNo" headertext="No. Pembelian Tunai" description="" />
+      <intellisensetext datafield="PurchaseDate" headertext="Tanggal Pembelian" description="Format (yyyy-MM-dd)" />
+      <intellisensetext datafield="BusinessPartnerName" headertext="Supplier" description="" />
+      <intellisensetext datafield="LocationName" headertext="Lokasi" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region vChart Of Account -->
   <searchdialog type="vchartofaccount" methodname="GetvChartOfAccountList" keyfieldname="GLAccountNo" istreeview="1">
     <gridcolumns>

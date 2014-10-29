@@ -94,25 +94,15 @@
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
-    <Content Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx">
-      <Link>SharedLibs\Service\SyncService.asmx</Link>
-    </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
-    <Content Include="MasterPage\MPSitePageTrxVisit.master" />
-    <Content Include="MasterPage\SiteBannerDtCtl.ascx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteItem\SiteItemEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteItem\SiteItemQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteModule\SiteModuleEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteModule\SiteModuleQuickPicksEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SitePageLauncher.aspx" />
-    <Content Include="Program\SyncService\SyncService.asmx" />
-    <Content Include="Temp\Comet\Chat.aspx" />
-    <Content Include="Temp\Comet\Dispatcher.asmx" />
-    <Content Include="Temp\Comet\Receiver.aspx" />
-    <Content Include="Temp\Comet\Sender.aspx" />
-    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
-    <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx" />
@@ -121,11 +111,12 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesMenuAccessEntryCtl.ascx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterEntry.aspx" />
     <Content Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx" />
-    <Content Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemPlanningEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemProductList.aspx" />
+    <Content Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx" />
+    <Content Include="Program\SyncService\SyncService.asmx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -302,11 +293,6 @@
       <DependentUpon>MethodService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\CodeX.Web.CommonLibs\Service\SyncService.asmx.cs">
-      <Link>SharedLibs\Service\SyncService.asmx.cs</Link>
-      <DependentUpon>SyncService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -317,19 +303,12 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MasterPage\MPSitePageTrxVisit.master.cs">
-      <DependentUpon>MPSitePageTrxVisit.master</DependentUpon>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MasterPage\MPSitePageTrxVisit.master.designer.cs">
-      <DependentUpon>MPSitePageTrxVisit.master</DependentUpon>
-    </Compile>
-    <Compile Include="MasterPage\SiteBannerDtCtl.ascx.cs">
-      <DependentUpon>SiteBannerDtCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MasterPage\SiteBannerDtCtl.ascx.designer.cs">
-      <DependentUpon>SiteBannerDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.designer.cs">
+      <DependentUpon>SiteEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteItem\SiteItemEntry.aspx.cs">
       <DependentUpon>SiteItemEntry.aspx</DependentUpon>
@@ -344,6 +323,13 @@
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteItem\SiteItemQuickPicksEntryCtl.ascx.designer.cs">
       <DependentUpon>SiteItemQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteModule\SiteModuleEntry.aspx.cs">
       <DependentUpon>SiteModuleEntry.aspx</DependentUpon>
@@ -365,54 +351,6 @@
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SitePageLauncher.aspx.designer.cs">
       <DependentUpon>SitePageLauncher.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\SyncService\Client.cs" />
-    <Compile Include="Program\SyncService\ClientAdapter.cs" />
-    <Compile Include="Program\SyncService\SyncService.asmx.cs">
-      <DependentUpon>SyncService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Temp\Comet\Chat.aspx.cs">
-      <DependentUpon>Chat.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Temp\Comet\Chat.aspx.designer.cs">
-      <DependentUpon>Chat.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Temp\Comet\Client.cs" />
-    <Compile Include="Temp\Comet\ClientAdapter.cs" />
-    <Compile Include="Temp\Comet\Dispatcher.asmx.cs">
-      <DependentUpon>Dispatcher.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Temp\Comet\Message.cs" />
-    <Compile Include="Temp\Comet\Receiver.aspx.cs">
-      <DependentUpon>Receiver.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Temp\Comet\Receiver.aspx.designer.cs">
-      <DependentUpon>Receiver.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Temp\Comet\Sender.aspx.cs">
-      <DependentUpon>Sender.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Temp\Comet\Sender.aspx.designer.cs">
-      <DependentUpon>Sender.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
-      <DependentUpon>SiteEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.designer.cs">
-      <DependentUpon>SiteEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.cs">
-      <DependentUpon>SiteList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteList.aspx.designer.cs">
-      <DependentUpon>SiteList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.cs">
       <DependentUpon>UserManagementEntry.aspx</DependentUpon>
@@ -470,13 +408,6 @@
     <Compile Include="Program\Master\ItemGroupMaster\ItemGroupMasterList.aspx.designer.cs">
       <DependentUpon>ItemGroupMasterList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.cs">
-      <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.designer.cs">
-      <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -504,6 +435,19 @@
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemProductList.aspx.designer.cs">
       <DependentUpon>ItemProductList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.cs">
+      <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.designer.cs">
+      <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\SyncService\Client.cs" />
+    <Compile Include="Program\SyncService\ClientAdapter.cs" />
+    <Compile Include="Program\SyncService\SyncService.asmx.cs">
+      <DependentUpon>SyncService.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -574,9 +518,6 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
       <Link>SharedLibs\MasterPage\MPTrx.master</Link>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

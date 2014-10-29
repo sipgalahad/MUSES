@@ -164,7 +164,7 @@
                     $('#lblOldItem').attr('class', 'lblLink');
                     $('#<%=txtOldItemGroupCode.ClientID %>').removeAttr('readonly');
                     $('#<%=txtOldItemCode.ClientID %>').removeAttr('readonly');
-                    
+
                     $('#<%=txtQuantity.ClientID %>').val('1');
                     $('#<%=hdnEntryID.ClientID %>').val('');
                     $('#<%=hdnItemID.ClientID %>').val('');
