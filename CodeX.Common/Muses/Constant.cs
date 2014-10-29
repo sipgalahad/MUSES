@@ -19,6 +19,7 @@ namespace CodeX.Common
             public const string ACCOUNTING = "AC";
             public const string ASSET_MANAGEMENT = "AM";
             public const string CONTROL_PANEL = "CP";
+            public const string CONTROL_PANEL_HQ = "CPHQ";
             public const string FINANCE = "FN";
             public const string INFORMATION = "IF";
             public const string INVENTORY = "IM";
@@ -78,6 +79,13 @@ namespace CodeX.Common
                 public const string ITEM_PRODUCT = "CPHQ010102";
 
                 public const string SITE_INFORMATION = "CPHQ020101";
+
+                public const string SITE_PAGE = "CPHQ99010000";
+                public const string ST_SITE_MODULE = "CPHQ99010100";
+                public const string ST_SITE_SUPPLIER = "CPHQ99010200";
+                public const string ST_SITE_ITEM_GROUP = "CPHQ99010300";
+                public const string ST_SITE_ITEM = "CPHQ99010400";
+                public const string ST_SITE_COA = "CPHQ99010500";
             }
             #endregion
             #endregion

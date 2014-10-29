@@ -783,6 +783,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSiteModule
+    [Serializable]
+    [Table(Name = "vSiteModule")]
+    public class vSiteModule
+    {
+        private Int32 _SiteModuleID;
+        private String _SiteID;
+        private String _SiteName;
+        private String _ModuleID;
+        private String _ModuleName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SiteModuleID", DataType = "Int32")]
+        public Int32 SiteModuleID
+        {
+            get { return _SiteModuleID; }
+            set { _SiteModuleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "ModuleID", DataType = "String")]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
+        [Column(Name = "ModuleName", DataType = "String")]
+        public String ModuleName
+        {
+            get { return _ModuleName; }
+            set { _ModuleName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vUser
     [Serializable]
     [Table(Name = "vUser")]

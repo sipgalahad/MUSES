@@ -380,5 +380,38 @@ namespace CodeX.Web.Common
             }
         }
         #endregion
+
+        #region SiteID
+        public static String SiteID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SiteID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SiteID"] != null)
+                        {
+                            String value = HttpContext.Current.Request.Cookies["Muses"]["_SiteID"].ToString();
+                            HttpContext.Current.Session["_SiteID"] = value;
+                            return value;
+                        }
+                    }
+                    return "";
+                }
+                return HttpContext.Current.Session["_SiteID"].ToString();
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SiteID"] = value;
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_SiteID"] = value;
+            }
+        }
+        #endregion
     }
 }

@@ -1045,6 +1045,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SiteModule
+        public static SiteModule GetSiteModule(Int32 SiteModuleID)
+        {
+            return new SiteModuleDao().Get(SiteModuleID);
+        }
+        public static int InsertSiteModule(SiteModule record)
+        {
+            return new SiteModuleDao().Insert(record);
+        }
+        public static int UpdateSiteModule(SiteModule record)
+        {
+            return new SiteModuleDao().Update(record);
+        }
+        public static int DeleteSiteModule(Int32 SiteModuleID)
+        {
+            return new SiteModuleDao().Delete(SiteModuleID);
+        }
+        public static List<SiteModule> GetSiteModuleList(string filterExpression)
+        {
+            List<SiteModule> result = new List<SiteModule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteModule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteModule)helper.IDataReaderToObject(reader, new SiteModule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SiteModule> GetSiteModuleList(string filterExpression, IDbContext ctx)
+        {
+            List<SiteModule> result = new List<SiteModule>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteModule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteModule)helper.IDataReaderToObject(reader, new SiteModule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SiteParameter
         public static SiteParameter GetSiteParameter(String SiteID, String ParameterCode)
         {

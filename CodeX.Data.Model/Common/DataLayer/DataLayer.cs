@@ -1975,6 +1975,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SiteModule
+    [Serializable]
+    [Table(Name = "SiteModule")]
+    public class SiteModule : DbDataModel
+    {
+        private Int32 _SiteModuleID;
+        private String _SiteID;
+        private String _ModuleID;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteModuleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SiteModuleID
+        {
+            get { return _SiteModuleID; }
+            set { _SiteModuleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ModuleID", DataType = "String")]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SiteModuleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SiteModule));
+        private bool _isAuditLog = false;
+        private const string p_SiteModuleID = "@p_SiteModuleID";
+        public SiteModuleDao() { }
+        public SiteModuleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SiteModule Get(Int32 SiteModuleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteModuleID, SiteModuleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SiteModule)_helper.DataRowToObject(row, new SiteModule());
+        }
+        public int Insert(SiteModule record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SiteModule record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SiteModuleID)
+        {
+            SiteModule record;
+            if (_ctx.Transaction == null)
+                record = new SiteModuleDao().Get(SiteModuleID);
+            else
+                record = Get(SiteModuleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SiteParameter
     [Serializable]
     [Table(Name = "SiteParameter")]

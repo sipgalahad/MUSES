@@ -62,6 +62,12 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl('~/Program/ControlPanel/SiteOrganization/Site/SitePageLauncher.aspx?id=' + id);
+            openWindowPopup(url, 'Site' + id, '1300', '650');
+        });
     </script>
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -88,6 +94,11 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="SiteName" HeaderText="Site Name" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Short Name" HeaderStyle-Width="300px" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkDetail" HeaderText="Detail" HeaderStyle-Width="100px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsHeader").ToString() == "True" ? "style='display:none'" : ""%>>Detail</a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
