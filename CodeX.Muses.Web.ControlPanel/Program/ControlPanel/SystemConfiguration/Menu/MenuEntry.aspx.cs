@@ -80,6 +80,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(chkPropose, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkApprove, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkReopen, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkSync, new ControlEntrySetting(true, true, false));
 
         }
 
@@ -111,6 +112,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkPropose.Checked = IsCanPropose;
             chkApprove.Checked = IsCanApproval;
             chkReopen.Checked = IsCanReopen;
+            chkSync.Checked = IsCanSync;
         }
 
         private void ControlToEntity(MenuMaster entity)
@@ -320,6 +322,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 return CRUDMode.Contains("O");
             }
         }
+        private bool IsCanSync
+        {
+            get
+            {
+                return CRUDMode.Contains("S");
+            }
+        }
         #endregion
         private string GetCRUDModeControl
         {
@@ -333,7 +342,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 sbCRUDMode.Append(chkExport.Checked ? "E" : String.Empty).Append("-");
                 sbCRUDMode.Append(chkPropose.Checked ? "P" : String.Empty).Append("-");
                 sbCRUDMode.Append(chkApprove.Checked ? "A" : String.Empty).Append("-");
-                sbCRUDMode.Append(chkReopen.Checked ? "O" : String.Empty);
+                sbCRUDMode.Append(chkReopen.Checked ? "O" : String.Empty).Append("-");
+                sbCRUDMode.Append(chkSync.Checked ? "S" : String.Empty);
                 return sbCRUDMode.ToString();
             }
         }

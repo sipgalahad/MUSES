@@ -211,15 +211,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkDelete;
         
         /// <summary>
-        /// chkExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkExport;
-        
-        /// <summary>
         /// chkPropose control.
         /// </summary>
         /// <remarks>
@@ -245,5 +236,23 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkReopen;
+        
+        /// <summary>
+        /// chkExport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkExport;
+        
+        /// <summary>
+        /// chkSync control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkSync;
     }
 }

@@ -96,6 +96,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="MasterPage\SiteBannerDtCtl.ascx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteItem\SiteItemEntry.aspx" />
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SiteItem\SiteItemQuickPicksEntryCtl.ascx" />
@@ -302,6 +303,18 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\MPSitePageTrxVisit.master.cs">
+      <DependentUpon>MPSitePageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\MPSitePageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSitePageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SiteBannerDtCtl.ascx.cs">
+      <DependentUpon>SiteBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SiteBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SiteBannerDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SiteOrganization\Site\SiteEntry.aspx.cs">
       <DependentUpon>SiteEntry.aspx</DependentUpon>
@@ -518,6 +531,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\MasterPage\MPTrx.master">
       <Link>SharedLibs\MasterPage\MPTrx.master</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPSitePageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -495,7 +495,7 @@ namespace CodeX.Data.Model
                     arr[0] = "C";
                 else
                     arr[0] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean READ
@@ -508,7 +508,7 @@ namespace CodeX.Data.Model
                     arr[1] = "R";
                 else
                     arr[1] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean UPDATE
@@ -521,7 +521,7 @@ namespace CodeX.Data.Model
                     arr[2] = "U";
                 else
                     arr[2] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean DELETE
@@ -534,7 +534,7 @@ namespace CodeX.Data.Model
                     arr[3] = "D";
                 else
                     arr[3] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean EXPORT
@@ -547,7 +547,7 @@ namespace CodeX.Data.Model
                     arr[4] = "E";
                 else
                     arr[4] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean PROPOSE
@@ -560,7 +560,7 @@ namespace CodeX.Data.Model
                     arr[5] = "P";
                 else
                     arr[5] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean APPROVE
@@ -573,7 +573,7 @@ namespace CodeX.Data.Model
                     arr[6] = "A";
                 else
                     arr[6] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean REOPEN
@@ -586,7 +586,20 @@ namespace CodeX.Data.Model
                     arr[7] = "O";
                 else
                     arr[7] = "";
-                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
+            }
+        }
+        public Boolean SYNC
+        {
+            get { return CRUDModeUser.Contains("S"); }
+            set
+            {
+                string[] arr = CRUDModeUser.Split('-');
+                if (value)
+                    arr[8] = "S";
+                else
+                    arr[8] = "";
+                CRUDModeUser = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean ENABLED
@@ -625,6 +638,10 @@ namespace CodeX.Data.Model
         public Boolean OVISIBLE
         {
             get { return _CRUDModeUserSite.Contains("O"); }
+        }
+        public Boolean SVISIBLE
+        {
+            get { return _CRUDModeUserSite.Contains("S"); }
         }
     }
     #endregion
@@ -742,7 +759,7 @@ namespace CodeX.Data.Model
                     arr[1] = "R";
                 else
                     arr[1] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean UPDATE
@@ -755,7 +772,7 @@ namespace CodeX.Data.Model
                     arr[2] = "U";
                 else
                     arr[2] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean DELETE
@@ -768,7 +785,7 @@ namespace CodeX.Data.Model
                     arr[3] = "D";
                 else
                     arr[3] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean EXPORT
@@ -781,7 +798,7 @@ namespace CodeX.Data.Model
                     arr[4] = "E";
                 else
                     arr[4] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean PROPOSE
@@ -794,7 +811,7 @@ namespace CodeX.Data.Model
                     arr[5] = "P";
                 else
                     arr[5] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean APPROVE
@@ -807,7 +824,7 @@ namespace CodeX.Data.Model
                     arr[6] = "A";
                 else
                     arr[6] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean REOPEN
@@ -820,7 +837,20 @@ namespace CodeX.Data.Model
                     arr[7] = "O";
                 else
                     arr[7] = "";
-                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7];
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
+            }
+        }
+        public Boolean SYNC
+        {
+            get { return CRUDModeUserRole.Contains("S"); }
+            set
+            {
+                string[] arr = CRUDModeUserRole.Split('-');
+                if (value)
+                    arr[7] = "O";
+                else
+                    arr[7] = "";
+                CRUDModeUserRole = arr[0] + "-" + arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4] + "-" + arr[5] + "-" + arr[6] + "-" + arr[7] + "-" + arr[8];
             }
         }
         public Boolean ENABLED
@@ -859,6 +889,10 @@ namespace CodeX.Data.Model
         public Boolean OVISIBLE
         {
             get { return _CRUDModeMenu.Contains("O"); }
+        }
+        public Boolean SVISIBLE
+        {
+            get { return _CRUDModeMenu.Contains("S"); }
         }
     }
     #endregion

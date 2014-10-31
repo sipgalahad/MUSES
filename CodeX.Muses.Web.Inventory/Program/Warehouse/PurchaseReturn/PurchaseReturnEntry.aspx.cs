@@ -19,11 +19,6 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int PageCount = 1;
         protected int RowCount = 1;
 
-        protected string GetPurchaseReturnCreditNote()
-        {
-            return Constant.PurchaseReturnType.CREDIT_NOTE;
-        }
-
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Inventory.PURCHASE_RETURN;

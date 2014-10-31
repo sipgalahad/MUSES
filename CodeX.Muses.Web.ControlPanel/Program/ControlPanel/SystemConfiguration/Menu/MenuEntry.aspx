@@ -57,6 +57,7 @@
                 $('#<%=chkPropose.ClientID %>').prop('checked', false);
                 $('#<%=chkApprove.ClientID %>').prop('checked', false);
                 $('#<%=chkReopen.ClientID %>').prop('checked', false);
+                $('#<%=chkSync.ClientID %>').prop('checked', false);
 
                 $('#<%=chkCreate.ClientID %>').attr("disabled", true);
                 $('#<%=chkUpdate.ClientID %>').attr("disabled", true);
@@ -65,6 +66,7 @@
                 $('#<%=chkPropose.ClientID %>').attr("disabled", true);
                 $('#<%=chkApprove.ClientID %>').attr("disabled", true);
                 $('#<%=chkReopen.ClientID %>').attr("disabled", true);
+                $('#<%=chkSync.ClientID %>').attr("disabled", true);
             }
             else {
                 $('#<%=chkCreate.ClientID %>').removeAttr("disabled");
@@ -74,6 +76,7 @@
                 $('#<%=chkPropose.ClientID %>').removeAttr("disabled");
                 $('#<%=chkApprove.ClientID %>').removeAttr("disabled");
                 $('#<%=chkReopen.ClientID %>').removeAttr("disabled");
+                $('#<%=chkSync.ClientID %>').removeAttr("disabled");
             }
         }
     </script>
@@ -188,10 +191,13 @@
                                     <td><asp:CheckBox ID="chkDelete" runat="server" /> <%=GetLabel("Delete")%></td>
                                 </tr>
                                 <tr>
-                                    <td><asp:CheckBox ID="chkExport" runat="server" /> <%=GetLabel("Export")%></td>
                                     <td><asp:CheckBox ID="chkPropose" runat="server" /> <%=GetLabel("Propose")%></td>
                                     <td><asp:CheckBox ID="chkApprove" runat="server" /> <%=GetLabel("Approve")%></td>
                                     <td><asp:CheckBox ID="chkReopen" runat="server" /> <%=GetLabel("Re-Open")%></td>
+                                </tr>
+                                <tr>
+                                    <td><asp:CheckBox ID="chkExport" runat="server" /> <%=GetLabel("Export")%></td>
+                                    <td><asp:CheckBox ID="chkSync" runat="server" /> <%=GetLabel("Sync")%></td>
                                 </tr>
                             </table>
                         </td>

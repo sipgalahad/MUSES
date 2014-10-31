@@ -108,6 +108,7 @@
         $chkPropose = $tr.find('.chkMenuAccessPropose').find('input');
         $chkApprove = $tr.find('.chkMenuAccessApprove').find('input');
         $chkReopen = $tr.find('.chkMenuAccessReopen').find('input');
+        $chkSync = $tr.find('.chkMenuAccessSync').find('input');
         if ($(this).is(':checked')) {
             $chkCreate.removeAttr("disabled");
             $chkUpdate.removeAttr("disabled");
@@ -116,6 +117,7 @@
             $chkPropose.removeAttr("disabled");
             $chkApprove.removeAttr("disabled");
             $chkReopen.removeAttr("disabled");
+            $chkSync.removeAttr("disabled");
 
             $chkCreate.prop('checked', true);
             $chkUpdate.prop('checked', true);
@@ -124,6 +126,7 @@
             $chkPropose.prop('checked', true);
             $chkApprove.prop('checked', true);
             $chkReopen.prop('checked', true);
+            $chkSync.prop('checked', true);
         }
         else {
             $chkCreate.attr("disabled", true);
@@ -133,6 +136,7 @@
             $chkPropose.attr("disabled", true);
             $chkApprove.attr("disabled", true);
             $chkReopen.attr("disabled", true);
+            $chkSync.attr("disabled", true);
 
             $chkCreate.prop('checked', false);
             $chkUpdate.prop('checked', false);
@@ -141,6 +145,7 @@
             $chkPropose.prop('checked', false);
             $chkApprove.prop('checked', false);
             $chkReopen.prop('checked', false);
+            $chkSync.prop('checked', false);
         }
     });
 
@@ -167,6 +172,7 @@
             $chkPropose = $tr.find('.chkMenuAccessPropose').find('input');
             $chkApprove = $tr.find('.chkMenuAccessApprove').find('input');
             $chkReopen = $tr.find('.chkMenuAccessReopen').find('input');
+            $chkSync = $tr.find('.chkMenuAccessSync').find('input');
 
             CRUDMode += checkToChar($chkCreate, "C") + "-";
             CRUDMode += checkToChar($(this), "R") + "-";
@@ -175,7 +181,8 @@
             CRUDMode += checkToChar($chkExport, "E") + "-";
             CRUDMode += checkToChar($chkPropose, "P") + "-";
             CRUDMode += checkToChar($chkApprove, "A") + "-";
-            CRUDMode += checkToChar($chkReopen, "O");
+            CRUDMode += checkToChar($chkReopen, "O") + "-";
+            CRUDMode += checkToChar($chkSync, "S");
         });
         return CRUDMode;
     }
@@ -316,6 +323,15 @@
                             <ItemTemplate>
                                 <asp:CheckBox ID="chkVoid" runat="server" CssClass="chkMenuAccessReopen"
                                     Checked ='<%# Eval("REOPEN") %>' Visible='<%# Eval("OVISIBLE") %>' Enabled='<%# Eval("ENABLED") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderStyle-Width="70px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                            <HeaderTemplate>
+                                <%=GetLabel("Sync")%>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkSync" runat="server" CssClass="chkMenuAccessSync"
+                                    Checked ='<%# Eval("SYNC") %>' Visible='<%# Eval("SVISIBLE") %>' Enabled='<%# Eval("ENABLED") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

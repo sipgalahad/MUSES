@@ -47,11 +47,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             if (filterExpression != "")
                 filterExpression += " AND ";
             if (!AppSession.UserLogin.IsSysAdmin)
-                filterExpression += "UserID NOT IN (SELECT UserID FROM UserInRole WHERE RoleID = 1) AND IsDeleted = 0";
+                filterExpression += "UserID > 0 AND UserID NOT IN (SELECT UserID FROM UserInRole WHERE RoleID = 1) AND IsDeleted = 0";
             else if (AppSession.UserLogin.UserID != 1)
-                filterExpression += "UserID != 1 AND IsDeleted = 0";
+                filterExpression += "UserID > 1 AND IsDeleted = 0";
             else
-                filterExpression += "IsDeleted = 0";
+                filterExpression += "UserID > 0 AND IsDeleted = 0";
             return filterExpression;
         }
 
