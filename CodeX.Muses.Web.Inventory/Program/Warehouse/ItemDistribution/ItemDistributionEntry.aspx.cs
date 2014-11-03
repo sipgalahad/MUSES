@@ -262,7 +262,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 itemHdDao.Update(itemHd);
 
                 string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
-                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd);
+                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
                 foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
                 {
                     itemDt.GCItemDetailStatus = GCDistributionStatus;
@@ -287,39 +287,78 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override bool OnProposeRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemDistributionHdDao itemHdDao = new ItemDistributionHdDao(ctx);
+            ItemDistributionDtDao itemDtDao = new ItemDistributionDtDao(ctx);
             try
             {
-                ItemDistributionHd entity = BusinessLayer.GetItemDistributionHd(Convert.ToInt32(hdnDistributionID.Value));
-                ControlToEntityHd(entity);
-                entity.DeliveryRemarks = txtNotes.Text;
-                entity.GCDistributionStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateItemDistributionHd(entity);
-                return true;
+                ItemDistributionHd itemHd = itemHdDao.Get(Convert.ToInt32(hdnDistributionID.Value));
+                ControlToEntityHd(itemHd);
+                itemHd.GCDistributionStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
+                itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                itemHdDao.Update(itemHd);
+
+                string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
+                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
+                foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                {
+                    itemDt.GCItemDetailStatus = Constant.DistributionStatus.WAIT_FOR_APPROVAL;
+                    itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemDtDao.Update(itemDt);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnVoidRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ItemDistributionHdDao itemHdDao = new ItemDistributionHdDao(ctx);
+            ItemDistributionDtDao itemDtDao = new ItemDistributionDtDao(ctx);
             try
             {
-                ItemDistributionHd entity = BusinessLayer.GetItemDistributionHd(Convert.ToInt32(hdnDistributionID.Value));
-                entity.DeliveryRemarks = txtNotes.Text;
-                entity.GCDistributionStatus = Constant.DistributionStatus.VOID;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateItemDistributionHd(entity);
-                return true;
+                ItemDistributionHd itemHd = itemHdDao.Get(Convert.ToInt32(hdnDistributionID.Value));
+                ControlToEntityHd(itemHd);
+                itemHd.GCDistributionStatus = Constant.DistributionStatus.VOID;
+                itemHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                itemHdDao.Update(itemHd);
+
+                string filterExpressionItemDistributionHd = String.Format("DistributionID = {0} AND IsDeleted = 0", hdnDistributionID.Value);
+                List<ItemDistributionDt> lstItemDistributionDt = BusinessLayer.GetItemDistributionDtList(filterExpressionItemDistributionHd, ctx);
+                foreach (ItemDistributionDt itemDt in lstItemDistributionDt)
+                {
+                    itemDt.GCItemDetailStatus = Constant.DistributionStatus.VOID;
+                    itemDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    itemDtDao.Update(itemDt);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
         #endregion
 

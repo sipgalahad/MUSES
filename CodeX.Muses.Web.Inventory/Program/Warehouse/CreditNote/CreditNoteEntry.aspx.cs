@@ -54,7 +54,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region Filter Expression Search Dialog
         protected string GetSupplierFilterExpression()
         {
-            return string.Format("GCBusinessPartnerType = '{0}'", Constant.BusinessObjectType.SUPPLIER);
+            return string.Format("GCBusinessPartnerType = '{0}' AND IsDeleted = 0", Constant.BusinessObjectType.SUPPLIER);
         }
 
         protected string GetPurchaseReturnFilterExpression()

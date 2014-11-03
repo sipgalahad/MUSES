@@ -306,12 +306,14 @@
     </Compile>
     <Compile Include="MasterPage\MPSitePageTrxVisit.master.cs">
       <DependentUpon>MPSitePageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPage\MPSitePageTrxVisit.master.designer.cs">
       <DependentUpon>MPSitePageTrxVisit.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPage\SiteBannerDtCtl.ascx.cs">
       <DependentUpon>SiteBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPage\SiteBannerDtCtl.ascx.designer.cs">
       <DependentUpon>SiteBannerDtCtl.ascx</DependentUpon>
