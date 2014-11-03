@@ -49,7 +49,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         protected string OnGetFilterExpressionSupplier()
         {
-            return string.Format("GCBusinessPartnerType = '{0}'", Constant.BusinessObjectType.SUPPLIER);
+            return string.Format("GCBusinessPartnerType = '{0}' AND IsDeleted = 0", Constant.BusinessObjectType.SUPPLIER);
         }
         #endregion
 

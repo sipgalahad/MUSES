@@ -2792,6 +2792,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ItemDistributionDt> GetItemDistributionDtList(string filterExpression, IDbContext ctx)
+        {
+            List<ItemDistributionDt> result = new List<ItemDistributionDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemDistributionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemDistributionDt)helper.IDataReaderToObject(reader, new ItemDistributionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ItemDistributionHd
         public static ItemDistributionHd GetItemDistributionHd(Int32 DistributionID)
