@@ -224,5 +224,10 @@ namespace CodeX.Common
             public const string OTHER = "X129^999";
         }
         #endregion
+
+        public static class EventViewer 
+        {
+            public const int WM_COPYDATA = 0x004A;
+        }
     }
 }

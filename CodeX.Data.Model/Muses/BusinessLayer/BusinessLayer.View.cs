@@ -730,6 +730,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vDBSyncInfo
+        public static List<vDBSyncInfo> GetvDBSyncInfoList(string filterExpression)
+        {
+            List<vDBSyncInfo> result = new List<vDBSyncInfo>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vDBSyncInfo));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vDBSyncInfo)helper.IDataReaderToObject(reader, new vDBSyncInfo()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vDirectPurchaseDt
         public static List<vDirectPurchaseDt> GetvDirectPurchaseDtList(string filterExpression)
         {
