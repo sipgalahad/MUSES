@@ -52,6 +52,7 @@
     <Compile Include="Common\AppSessionReport.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\Enumeration.cs" />
+    <Compile Include="Common\EventViewer.cs" />
     <Compile Include="Muses\AppConfigManager.cs" />
     <Compile Include="Muses\Constant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
