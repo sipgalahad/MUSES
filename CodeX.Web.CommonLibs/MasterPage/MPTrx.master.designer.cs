@@ -175,6 +175,78 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMPEntryProcess;
         
         /// <summary>
+        /// pcSearchList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl.ASPxPopupControl pcSearchList;
+        
+        /// <summary>
+        /// PopupControlContentControl2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl.PopupControlContentControl PopupControlContentControl2;
+        
+        /// <summary>
+        /// plhPopupListFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhPopupListFilter;
+        
+        /// <summary>
+        /// rblExpandCollapse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rblExpandCollapse;
+        
+        /// <summary>
+        /// cbpSearchList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpSearchList;
+        
+        /// <summary>
+        /// PanelContent2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent2;
+        
+        /// <summary>
+        /// pnlQuickMenuArea control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlQuickMenuArea;
+        
+        /// <summary>
+        /// plhPopupListGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhPopupListGridView;
+        
+        /// <summary>
         /// ulMPTrxToolbar control.
         /// </summary>
         /// <remarks>

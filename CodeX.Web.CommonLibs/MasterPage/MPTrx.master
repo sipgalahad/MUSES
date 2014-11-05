@@ -5,6 +5,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxPopupControl" TagPrefix="dxpc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server"> 
     <input type="hidden" runat="server" id="hdnIsRefreshControlAfterSaveAddRecord" value="1" />
@@ -276,6 +278,114 @@
                     if (typeof onSetIsAddToolbar == 'function')
                         onSetIsAddToolbar(getIsAdd());
                 });
+
+                //#region Popup List
+                //#region Paging
+                var pageCount = parseInt('<%=PageCount %>');
+                var rowCount = parseInt('<%=RowCount %>');
+                var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
+                var currPage = parseInt('<%=CurrPage %>');
+                function onPcSearchPopupShown() {
+                    cbpSearchList.PerformCallback('refresh');
+                    if (typeof onPopupListShown == 'function')
+                        onPopupListShown();
+                }
+
+                function onCbpViewEndCallback(s) {
+                    hideLoadingPanel();
+
+                    var param = s.cpResult.split('|');
+                    if (param[0] == 'refresh') {
+                        var pageCount = parseInt(param[1]);
+                        var rowCount = parseInt(param[2]);
+                        setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
+                        setPaging($("#paging"), pageCount, function (page) {
+                            cbpSearchList.PerformCallback('changepage|' + page);
+                            setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+                        });
+                    }
+                }
+                //#endregion
+
+                $(function () {
+                    registerCollapseExpandHandler();
+
+                    $('#btnPopupListClearFilter').click(function () {
+                        if (typeof onPopupBtnClearFilterClick == 'function')
+                            onPopupBtnClearFilterClick();
+                    });
+
+                    $('#btnPopupListSearch').click(function () {
+                        cbpSearchList.PerformCallback('refresh');
+                    });
+
+                    $('.txtPopupListSearch').keypress(function (e) {
+                        var code = (e.keyCode ? e.keyCode : e.which);
+                        if (code == 13) { // enter
+                            $('#btnPopupListSearch').click();
+                        }
+                    });
+
+                    $("#<%=rblExpandCollapse.ClientID%> input").change(function () {
+                        if ($(this).val() == '1') {
+                            $('.tblList tr:gt(0) td.tdExpand').each(function () {
+                                $tr = $(this).parent().next();
+                                if (!$tr.is(":visible")) {
+                                    $(this).find('.divExpand').html('-');
+                                    $tr.show('slow');
+                                }
+                            });
+                        }
+                        else {
+                            $('.tblList tr:gt(0) td.tdExpand').each(function () {
+                                $tr = $(this).parent().next();
+                                if ($tr.is(":visible")) {
+                                    $(this).find('.divExpand').html('+');
+                                    $tr.hide('slow');
+                                }
+                            });
+                        }
+                    });
+                });
+
+                $(function () {
+                    if (typeof isShowExpandCollapseSearch == 'function') {
+                        var isShow = isShowExpandCollapseSearch();
+                        if (!isShow)
+                            $('#divExpandCollapse').hide();
+                    }
+                });
+
+                $('.tblList > tbody > tr:gt(0):not(.trEmpty)').live('click', function () {
+                    if (!isHoverTdExpand) {
+                        var value = $(this).find('.hdnKeyField').val();
+                        pcSearchList.Hide();
+                        onLoadObject(value);
+                    }
+                });
+
+                var isHoverTdExpand = false;
+                $('.tblList tr:gt(0) td.tdExpand').live({
+                    mouseenter: function () { isHoverTdExpand = true; },
+                    mouseleave: function () { isHoverTdExpand = false; }
+                });
+
+                $('.tblList tr:gt(0) td.tdExpand').live('click', function () {
+                    $("#<%=rblExpandCollapse.ClientID%> input:checked").removeAttr('checked');
+                    $tr = $(this).parent();
+                    $trDetail = $tr.next();
+                    if (!$trDetail.is(":visible")) {
+                        $(this).find('.divExpand').html('-');
+                        $tr.addClass('expanded');
+                        $trDetail.show('slow');
+                    }
+                    else {
+                        $(this).find('.divExpand').html('+');
+                        $tr.removeClass('expanded');
+                        $trDetail.hide('fast');
+                    }
+                });
+                //#endregion
             </script>
             <asp:ContentPlaceHolder ID="plhHeader" runat="server">                
             </asp:ContentPlaceHolder>
@@ -399,6 +509,64 @@
             </dxcp:ASPxCallbackPanel>
         </div>    
     </div>
+
+     <dxpc:ASPxPopupControl ID="pcSearchList" runat="server" ClientInstanceName="pcSearchList" EnableHierarchyRecreation="True"
+        FooterText="" HeaderText="List" Modal="True" AllowDragging="True" PopupHorizontalAlign="WindowCenter" Width="1100px" Height="550px"
+        PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
+        <ClientSideEvents Shown="function (s,e) { onPcSearchPopupShown(); }" 
+            Closing="function(s,e){  }" />
+        <ContentCollection>
+            <dxpc:PopupControlContentControl ID="PopupControlContentControl2" runat="server">
+                <div id="containerSearchResult" style="height:400px;overflow-y:auto;overflow-x:hidden;position:relative">
+                    
+                    <h4 class="h4expanded"><%=GetLabel("Search Information")%></h4>
+                    <div class="containerTblEntryContent">
+                        <asp:ContentPlaceHolder ID="plhPopupListFilter" runat="server">                
+                        </asp:ContentPlaceHolder>
+                        <table class="tblEntryContent">
+                            <colgroup>
+                                <col style="width:170px"/>
+                                <col style="width:300px"/>
+                            </colgroup>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <input type="button" id="btnPopupListSearch" value='<%=GetLabel("Cari") %>' />
+                                    <input type="button" id="btnPopupListClearFilter" value='<%=GetLabel("Hapus Pencarian") %>' />
+                                </td>
+                                <td>
+                                    <asp:RadioButtonList ID="rblExpandCollapse" runat="server" RepeatDirection="Horizontal">
+                                        <asp:ListItem Text="Expand All" Value="1"/>
+                                        <asp:ListItem Text="Collapse All" Value="2"/>
+                                    </asp:RadioButtonList>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <dxcp:ASPxCallbackPanel ID="cbpSearchList" runat="server" Width="100%" ClientInstanceName="cbpSearchList"
+                        ShowLoadingPanel="false" OnCallback="cbpSearchList_Callback">
+                        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                            EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                        <PanelCollection>
+                            <dx:PanelContent ID="PanelContent2" runat="server">
+                                <asp:Panel runat="server" ID="pnlQuickMenuArea" Style="width: 100%; margin-left: auto; margin-right: auto">
+                                    <asp:ContentPlaceHolder ID="plhPopupListGridView" runat="server">                
+                                    </asp:ContentPlaceHolder>
+                                </asp:Panel>
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dxcp:ASPxCallbackPanel>
+                    <div class="containerPaging">
+                        <div class="divInformationNumEntries" id="informationNumEntries"></div>
+                        <div class="wrapperPaging">
+                            <div id="paging"></div>
+                        </div>
+                    </div> 
+                </div>   
+            </dxpc:PopupControlContentControl>
+        </ContentCollection>
+    </dxpc:ASPxPopupControl> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhToolbar" runat="server"> 

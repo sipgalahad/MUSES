@@ -130,7 +130,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                         }
                     }
                 }
-                if(!CRUDMode.Contains("A") && !CRUDMode.Contains("P"))
+                if (!CRUDMode.Contains("A") && !CRUDMode.Contains("P"))
                     btnMPEntryPropose.Style.Add("display", "none");
 
                 if (rowCount < 1)
@@ -249,5 +249,35 @@ namespace CodeX.Web.CommonLibs.MasterPage
             panel.JSProperties["cpResult"] = result;
             panel.JSProperties["cpRetval"] = retval;
         }
+
+        #region Popup List
+        protected int PageCount = 0;
+        protected int RowCount = 0;
+        protected int RowCountPerPage = 1;
+        protected int CurrPage = 1;
+        protected void cbpSearchList_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BasePageEntry.BindSearchList(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BasePageEntry.BindSearchList(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+        #endregion
     }
 }

