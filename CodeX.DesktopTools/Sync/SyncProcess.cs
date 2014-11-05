@@ -17,7 +17,7 @@ namespace CodeX.DesktopTools
     {
         public static bool Sync(SyncService.SyncServiceSoapClient client, string siteID, string syncType)
         {
-            if (syncType == Constant.BusinessObjectType.ITEM)
+            if (syncType == Constant.DBSyncInfoType.ITEM)
                 return SyncItem(client, siteID);
             return false;
         }
@@ -48,7 +48,7 @@ namespace CodeX.DesktopTools
             //}
 
             int rowCountPerPage = 4;
-            DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.BusinessObjectType.ITEM, siteID);
+            DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.DBSyncInfoType.ITEM, siteID);
 
             int rowCount = -1;
             object serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
@@ -70,6 +70,12 @@ namespace CodeX.DesktopTools
             }
             for (int i = 1; i <= totalPageCount; ++i)
             {
+                EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Waiting");
+            }
+            
+            for (int i = 1; i <= totalPageCount; ++i)
+            {
+                EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Get Server Data");
                 if (i > 1)
                 {
                     serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
@@ -96,6 +102,7 @@ namespace CodeX.DesktopTools
                     fieldName = GetInsertObjectFieldName(propInfs, "");
                     fieldName += ",ConsolidateID";
 
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Sync Item Master");
                     if (lstItemMaster.Count > 0)
                     {
                         foreach (ItemMaster entity in lstItemMaster)
@@ -123,6 +130,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Product
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Sync Item Product");
                     if (lstItemProduct.Count > 0)
                     {
                         fieldName = "";
@@ -155,6 +163,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Tag Field
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Sync Item Tag Field");
                     if (lstItemTagField.Count > 0)
                     {
                         fieldName = "";
@@ -187,6 +196,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Planning
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Sync Item Tag Planning");
                     if (lstItemPlanning.Count > 0)
                     {
                         fieldName = "";
@@ -219,6 +229,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Alternate Unit
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Sync Item Alternate Unit");
                     if (lstItemAlternateUnit.Count > 0)
                     {
                         fieldName = "";
@@ -254,12 +265,19 @@ namespace CodeX.DesktopTools
                         sqlInsert += string.Format("DROP TABLE #TempTableItemAlternateUnit;");
                     }
                     #endregion
-                    sqlInsert = sqlInsertTempTable + sqlInsert;
-                    sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", siteID, 0);
-                    sqlInsert += string.Format("UPDATE DBSyncInfo SET LastSyncDate = '{0}' WHERE GCBusinessObjectType = '{1}' AND SiteID = '{2}';", tempResult.TimeStamp, Constant.BusinessObjectType.ITEM, siteID);
 
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Insert Into Temp Table");
+                    ctx.CommandText = sqlInsertTempTable;
+                    DaoBase.ExecuteNonQuery(ctx);
+
+                    sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", siteID, 0);
+                    sqlInsert += string.Format("UPDATE DBSyncInfo SET LastSyncDate = '{0}' WHERE GCDBSyncInfoType = '{1}' AND SiteID = '{2}';", tempResult.TimeStamp, Constant.DBSyncInfoType.ITEM, siteID);
+
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Update Table");
                     ctx.CommandText = sqlInsert;
                     DaoBase.ExecuteNonQuery(ctx);
+
+                    EventViewer.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, i.ToString(), "Done");
                     ctx.CommitTransaction();
                 }
                 catch (Exception ex)

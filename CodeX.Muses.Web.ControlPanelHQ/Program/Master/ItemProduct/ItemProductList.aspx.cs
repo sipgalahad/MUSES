@@ -148,7 +148,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
         {
-            ClientAdapter.Instance.SendMessage("001.01.01", Constant.BusinessObjectType.ITEM);
+            ClientAdapter.Instance.SendMessage("001.01.01", Constant.DBSyncInfoType.ITEM);
             return true;
         }
     }

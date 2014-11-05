@@ -148,15 +148,15 @@ namespace CodeX.Data.Model
     [Table(Name = "DBSyncInfo")]
     public class DBSyncInfo : DbDataModel
     {
-        private String _GCBusinessObjectType;
+        private String _GCDBSyncInfoType;
         private String _SiteID;
         private DateTime _LastSyncDate;
 
-        [Column(Name = "GCBusinessObjectType", DataType = "String", IsPrimaryKey = true)]
-        public String GCBusinessObjectType
+        [Column(Name = "GCDBSyncInfoType", DataType = "String", IsPrimaryKey = true)]
+        public String GCDBSyncInfoType
         {
-            get { return _GCBusinessObjectType; }
-            set { _GCBusinessObjectType = value; }
+            get { return _GCDBSyncInfoType; }
+            set { _GCDBSyncInfoType = value; }
         }
         [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
         public String SiteID
@@ -177,17 +177,17 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(DBSyncInfo));
         private bool _isAuditLog = false;
-        private const string p_GCBusinessObjectType = "@p_GCBusinessObjectType";
+        private const string p_GCDBSyncInfoType = "@p_GCDBSyncInfoType";
         private const string p_SiteID = "@p_SiteID";
         public DBSyncInfoDao() { }
         public DBSyncInfoDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public DBSyncInfo Get(String GCBusinessObjectType, String SiteID)
+        public DBSyncInfo Get(String GCDBSyncInfoType, String SiteID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_GCBusinessObjectType, GCBusinessObjectType);
+            _ctx.Add(p_GCDBSyncInfoType, GCDBSyncInfoType);
             _ctx.Add(p_SiteID, SiteID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (DBSyncInfo)_helper.DataRowToObject(row, new DBSyncInfo());
@@ -202,13 +202,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(String GCBusinessObjectType, String SiteID)
+        public int Delete(String GCDBSyncInfoType, String SiteID)
         {
             DBSyncInfo record;
             if (_ctx.Transaction == null)
-                record = new DBSyncInfoDao().Get(GCBusinessObjectType, SiteID);
+                record = new DBSyncInfoDao().Get(GCDBSyncInfoType, SiteID);
             else
-                record = Get(GCBusinessObjectType, SiteID);
+                record = Get(GCDBSyncInfoType, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

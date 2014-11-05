@@ -83,6 +83,7 @@ namespace CodeX.DesktopTools
                     else
                     {
                         ni.ShowBalloonTip(300, "New Notification", "Start Sync", ToolTipIcon.Info);
+                        EventViewer.SendMessageToEventViewer(result, "1", "Calculate Row");
                         SyncProcess.Sync(client, siteID, result);
                         ni.ShowBalloonTip(300, "New Notification", "Sync Berhasil", ToolTipIcon.Info);
                     }

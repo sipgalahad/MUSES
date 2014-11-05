@@ -91,6 +91,7 @@ namespace CodeX.Common
             public const string GLACCOUNT_TYPE = "X180";
             public const string WRITE_OFF_TYPE = "X182";
             public const string JOURNAL_GROUP = "X188";
+            public const string DB_SYNC_INFO_TYPE = "X302";
         }
 
         public static class FamilyRelation
@@ -173,6 +174,11 @@ namespace CodeX.Common
             public const string ITEM = "X017^002";
             public const string USER = "X017^004";
             public const string SUPPLIER = "X017^004";
+        }
+
+        public static class DBSyncInfoType
+        {
+            public const string ITEM = "X302^001";
         }
 
         public static class TransactionStatus
