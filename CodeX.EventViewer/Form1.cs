@@ -22,7 +22,7 @@ namespace CodeX.EventViewer
             InitializeComponent();
             Dictionary<String, String> list = new Dictionary<string, string>();
             
-            lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = {0} AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.BUSINESS_OBJECT_TYPE));
+            lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.BUSINESS_OBJECT_TYPE));
 
             foreach (StandardCode obj in lstStandardCode) 
             {
@@ -49,19 +49,17 @@ namespace CodeX.EventViewer
                     // MyStruct managed struct.
                     EventStruct eventStruct = (EventStruct)Marshal.PtrToStructure(cds.lpData, typeof(EventStruct));
 
-                    int count = lstViewItem.Where(x => x.SubItems[0].Text == eventStruct.ServiceCode && x.SubItems[5].Text == eventStruct.EID).Count();
-                    if (count == 0)
+                    ListViewItem lvi = lstViewItem.FirstOrDefault(x => x.SubItems[0].Text == eventStruct.ServiceCode && x.SubItems[5].Text == eventStruct.EID);
+                    if (lvi == null)
                     {
                         String ServiceName = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == eventStruct.ServiceCode).StandardCodeName;
-                        ListViewItem lvi = new ListViewItem(new[] { eventStruct.ServiceCode, ServiceName, eventStruct.EventDate.ToString(), eventStruct.Message, eventStruct.status ? "Success" : "Failure", eventStruct.EID });
+                        lvi = new ListViewItem(new[] { eventStruct.ServiceCode, ServiceName, eventStruct.EventDate.ToString(), eventStruct.Message, eventStruct.status ? "Success" : "Failure", eventStruct.EID });
                         lstViewItem.Add(lvi);
                         KeyValuePair<String, String> result = (KeyValuePair<String, String>)lstService.SelectedItem;
                         if (eventStruct.ServiceCode == result.Key) lstEvent.Items.Add(lvi);
                     }
                     else
                     {
-
-                        ListViewItem lvi = lstViewItem.FirstOrDefault(x => x.SubItems[0].Text == eventStruct.ServiceCode && x.SubItems[5].Text == eventStruct.EID);
                         lstEvent.Items.Remove(lvi);
                         lvi.SubItems[3].Text = eventStruct.Message;
                         KeyValuePair<String, String> result = (KeyValuePair<String, String>)lstService.SelectedItem;
