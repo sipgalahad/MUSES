@@ -112,6 +112,15 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMenuCaption;
         
         /// <summary>
+        /// hdnIsHeadQuarterPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsHeadQuarterPage;
+        
+        /// <summary>
         /// cbpMPListProcess control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,15 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnMPListPrint;
+        
+        /// <summary>
+        /// btnMPListSync control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnMPListSync;
         
         /// <summary>
         /// plhCustomButtonToolbar control.

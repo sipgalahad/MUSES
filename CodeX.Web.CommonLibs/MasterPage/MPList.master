@@ -85,6 +85,20 @@
                     //    openReportViewer(reportCode, $('#<%=hdnFilterExpression.ClientID %>').val());
 
                 });
+                $('#<%=btnMPListSync.ClientID %>').click(function () {
+                    if ($('#<%=hdnIsHeadQuarterPage.ClientID %>').val() == '0') {
+                        showLoadingPanel();
+                        var e = new Image(1, 1);
+                        e.src = "http://localhost:60025/buffertext/dummy.gif?" + Math.floor((Math.random() * 100) + 1) + "&type=sync&synctype=<%=GetDBSyncInfoType() %>";
+                        window.setTimeout(function () {
+                            hideLoadingPanel();
+                        }, 5000);
+                    }
+                    else {
+                        cbpMPListProcess.PerformCallback('sync');                        
+                    }
+                });
+
 
                 $('#<%=ctxMenuEdit.ClientID %>:not(.disabled)').click(function () {
                     if (isAllowEditRecord())
@@ -164,6 +178,7 @@
 
         <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
         <input type="hidden" id="hdnMenuCaption" runat="server" value="" />
+        <input type="hidden" id="hdnIsHeadQuarterPage" runat="server" value="" />
         <div style="display:none;height:0px; overflow:hidden;">
             <dxcp:ASPxCallbackPanel ID="cbpMPListProcess" runat="server" Width="100%" ClientInstanceName="cbpMPListProcess"
                 ShowLoadingPanel="false" OnCallback="cbpMPListProcess_Callback">
@@ -209,6 +224,18 @@
                                 showToast('Edit Failed', '');
                         }
                     }
+                    else if(result[0] == 'sync'){
+                        if(result[1] == 'success'){
+                            if (typeof onAfterSyncSuccess == 'function')
+                                onAfterSyncSuccess(s.cpType, s.cpRetval);
+                        }
+                        else{
+                            if(result[2] != '')
+                                showToast('Failed', 'Error Message : ' + result[2]);
+                            else
+                                showToast('Failed', '');
+                        }
+                    }
                     else if(result[0] == 'customclick'){
                         if(result[1] == 'success'){
                             if (typeof onAfterCustomClickSuccess == 'function')
@@ -233,7 +260,8 @@
         <li id="btnMPListAdd" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/add.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Add")%></div></li>
         <li id="btnMPListEdit" runat="server" CRUDMode="U"><img src='<%=ResolveUrl("~/Libs/Images/Icon/edit.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Edit")%></div></li>
         <li id="btnMPListDelete" runat="server" CRUDMode="D"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Delete")%></div></li>
-        <li id="btnMPListPrint" runat="server" CRUDMode="P"><img src='<%=ResolveUrl("~/Libs/Images/Icon/export.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Export")%></div></li>
+        <li id="btnMPListPrint" runat="server" CRUDMode="E"><img src='<%=ResolveUrl("~/Libs/Images/Icon/export.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Export")%></div></li>
+        <li id="btnMPListSync" runat="server" CRUDMode="S"><img src='<%=ResolveUrl("~/Libs/Images/Icon/sync.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Sync")%></div></li>
         <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">                
         </asp:ContentPlaceHolder>
     </ul>

@@ -146,10 +146,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             grdDetail2.DataBind();
         }
 
-        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        public override bool IsHeadQuarterPage()
         {
-            ClientAdapter.Instance.SendMessage("001.01.01", Constant.DBSyncInfoType.ITEM);
             return true;
+        }
+
+        protected override bool OnSyncRecord(ref string errMessage)
+        {
+            try
+            {
+                ClientAdapter.Instance.SendMessage("001.01.01", Constant.DBSyncInfoType.ITEM);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                return false;
+            }
         }
     }
 }

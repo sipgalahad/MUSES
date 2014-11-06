@@ -694,6 +694,7 @@ namespace CodeX.Data.Model
         private Int32 _LoginAttributeID;
         private String _LoginAttributeCode;
         private String _LoginAttributeName;
+        private String _LoginAttributeCaption;
         private String _SessionName;
         private String _MethodName;
         private String _FilterExpression;
@@ -723,6 +724,12 @@ namespace CodeX.Data.Model
         {
             get { return _LoginAttributeName; }
             set { _LoginAttributeName = value; }
+        }
+        [Column(Name = "LoginAttributeCaption", DataType = "String")]
+        public String LoginAttributeCaption
+        {
+            get { return _LoginAttributeCaption; }
+            set { _LoginAttributeCaption = value; }
         }
         [Column(Name = "SessionName", DataType = "String")]
         public String SessionName

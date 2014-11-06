@@ -75,6 +75,16 @@ namespace CodeX.Web.Common.UI
                 result += string.Format("fail|{0}", errMessage);
         }
 
+        public void OnBtnSyncClick(ref string result)
+        {
+            result = "delete|";
+            string errMessage = "";
+            if (OnSyncRecord(ref errMessage))
+                result += "success";
+            else
+                result += string.Format("fail|{0}", errMessage);
+        }
+
         public void OnBtnCustomClick(ref string result, string type, ref string retval)
         {
             result = "customclick|";
@@ -127,6 +137,11 @@ namespace CodeX.Web.Common.UI
             return false;
         }
 
+        protected virtual bool OnSyncRecord(ref string errMessage)
+        {
+            return false;
+        }
+
         protected virtual bool OnCustomButtonClick(string type, ref string errMessage)
         {
             return false;
@@ -151,6 +166,16 @@ namespace CodeX.Web.Common.UI
         {
             fieldListText = null;
             fieldListValue = null;
+        }
+
+        public virtual bool IsHeadQuarterPage()
+        {
+            return false;
+        }
+
+        public virtual String OnGetDBSyncInfoType()
+        {
+            return "";
         }
 
         public virtual String OnGetReportCode()

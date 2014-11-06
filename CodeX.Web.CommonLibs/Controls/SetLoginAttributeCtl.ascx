@@ -16,7 +16,7 @@
         <asp:Repeater ID="rptLoginAttribute" runat="server" OnItemDataBound="rptLoginAttribute_ItemDataBound">
             <ItemTemplate>
                 <tr>
-                    <td class="tdLabel"><label class="lblMandatory"><%#Eval("LoginAttributeName")%></label></td>
+                    <td class="tdLabel"><label class="lblMandatory"><%#Eval("LoginAttributeCaption")%></label></td>
                     <td>
                         <input type="hidden" id="hdnSessionName" runat="server" />
                         <dxe:ASPxComboBox ID="cboLoginAttribute" runat="server" Width="100%" />

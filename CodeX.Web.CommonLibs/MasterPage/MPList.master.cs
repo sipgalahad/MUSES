@@ -34,6 +34,10 @@ namespace CodeX.Web.CommonLibs.MasterPage
         {
             return menu.MenuCaption;
         }
+        protected String GetDBSyncInfoType()
+        {
+            return BasePageList.OnGetDBSyncInfoType();
+        }
         protected String GetBreadcrumbs()
         {
             List<GetUserMenuAccess> lstMenu = ((MPMain)((MPBaseContent)Master).Master).ListMenu;
@@ -114,6 +118,8 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 PopulateFilterParameter();
                 if (Request.Form["txtSearchView"] != null)
                     TextSearch = Request.Form["txtSearchView"].ToString();
+
+                hdnIsHeadQuarterPage.Value = BasePageList.IsHeadQuarterPage() ? "1" : "0";
             }
         }
 
@@ -170,6 +176,8 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 BasePageList.OnBtnEditClick(ref result, ref url);
             else if (param[0] == "delete")
                 BasePageList.OnBtnDeleteClick(ref result);
+            else if (param[0] == "sync")
+                BasePageList.OnBtnSyncClick(ref result);
             else if (param[0] == "customclick")
             {
                 BasePageList.OnBtnCustomClick(ref result, param[1], ref retval);

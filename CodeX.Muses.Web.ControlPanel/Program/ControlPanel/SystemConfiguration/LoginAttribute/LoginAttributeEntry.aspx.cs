@@ -40,6 +40,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtLoginAttributeCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtLoginAttributeName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtLoginAttributeCaption, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtSessionName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtMethodName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtFilterExpression, new ControlEntrySetting(true, true, false));
@@ -52,6 +53,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             txtLoginAttributeCode.Text = entity.LoginAttributeCode;
             txtLoginAttributeName.Text = entity.LoginAttributeName;
+            txtLoginAttributeCaption.Text = entity.LoginAttributeCaption;
             txtSessionName.Text = entity.SessionName;
             txtMethodName.Text = entity.MethodName;
             txtFilterExpression.Text = entity.FilterExpression;
@@ -64,6 +66,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.LoginAttributeCode = txtLoginAttributeCode.Text;
             entity.LoginAttributeName = txtLoginAttributeName.Text;
+            entity.LoginAttributeCaption = txtLoginAttributeCaption.Text;
             entity.SessionName = txtSessionName.Text;
             entity.MethodName = txtMethodName.Text;
             entity.FilterExpression = txtFilterExpression.Text;

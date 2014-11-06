@@ -132,6 +132,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return false;
         }
 
+        public override string OnGetDBSyncInfoType()
+        {
+            return Constant.DBSyncInfoType.ITEM;
+        }
+
         protected void cbpViewDetail1_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             List<vItemPlanning> lstHSU = BusinessLayer.GetvItemPlanningList(string.Format("ItemID = {0} AND IsDeleted = 0", hdnExpandID.Value));
@@ -144,11 +149,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<vItemCost> lstHSU = BusinessLayer.GetvItemCostList(string.Format("ItemID = {0} AND IsDeleted = 0", hdnExpandID.Value));
             grdDetail2.DataSource = lstHSU;
             grdDetail2.DataBind();
-        }
-
-        protected string GetBusinessObjectItem()
-        {
-            return Constant.BusinessObjectType.ITEM;
         }
     }
 }

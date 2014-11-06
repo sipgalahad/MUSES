@@ -22,6 +22,10 @@
                         <td><asp:TextBox ID="txtLoginAttributeName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Attribute Caption")%></label></td>
+                        <td><asp:TextBox ID="txtLoginAttributeCaption" Width="300px" runat="server" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Session Name")%></label></td>
                         <td><asp:TextBox ID="txtSessionName" Width="300px" runat="server" /></td>
                     </tr>
