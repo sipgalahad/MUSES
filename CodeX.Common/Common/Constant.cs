@@ -234,6 +234,7 @@ namespace CodeX.Common
         public static class EventViewer 
         {
             public const int WM_COPYDATA = 0x004A;
+            public const int WM_QUIT = 0x0010;
         }
     }
 }
