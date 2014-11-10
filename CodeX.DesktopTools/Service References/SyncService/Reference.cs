@@ -9,7 +9,588 @@
 //------------------------------------------------------------------------------
 
 namespace CodeX.DesktopTools.SyncService {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfVSyncItemTransactionHd", Namespace="http://tempuri.org/", ItemName="vSyncItemTransactionHd")]
+    [System.SerializableAttribute()]
+    public class ArrayOfVSyncItemTransactionHd : System.Collections.Generic.List<CodeX.DesktopTools.SyncService.vSyncItemTransactionHd> {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="vSyncItemTransactionHd", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class vSyncItemTransactionHd : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int TransactionIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TransactionCodeField;
+        
+        private System.DateTime TransactionDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TransactionNoField;
+        
+        private int FromLocationIDField;
+        
+        private int ToLocationIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCAdjustmentTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCConsumptionTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ReferenceNoField;
+        
+        private bool IsBySystemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RemarksField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCTransactionStatusField;
+        
+        private int CreatedByField;
+        
+        private System.DateTime CreatedDateField;
+        
+        private int LastUpdatedByField;
+        
+        private System.DateTime LastUpdatedDateField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int TransactionID {
+            get {
+                return this.TransactionIDField;
+            }
+            set {
+                if ((this.TransactionIDField.Equals(value) != true)) {
+                    this.TransactionIDField = value;
+                    this.RaisePropertyChanged("TransactionID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string TransactionCode {
+            get {
+                return this.TransactionCodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TransactionCodeField, value) != true)) {
+                    this.TransactionCodeField = value;
+                    this.RaisePropertyChanged("TransactionCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=2)]
+        public System.DateTime TransactionDate {
+            get {
+                return this.TransactionDateField;
+            }
+            set {
+                if ((this.TransactionDateField.Equals(value) != true)) {
+                    this.TransactionDateField = value;
+                    this.RaisePropertyChanged("TransactionDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string TransactionNo {
+            get {
+                return this.TransactionNoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TransactionNoField, value) != true)) {
+                    this.TransactionNoField = value;
+                    this.RaisePropertyChanged("TransactionNo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=4)]
+        public int FromLocationID {
+            get {
+                return this.FromLocationIDField;
+            }
+            set {
+                if ((this.FromLocationIDField.Equals(value) != true)) {
+                    this.FromLocationIDField = value;
+                    this.RaisePropertyChanged("FromLocationID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=5)]
+        public int ToLocationID {
+            get {
+                return this.ToLocationIDField;
+            }
+            set {
+                if ((this.ToLocationIDField.Equals(value) != true)) {
+                    this.ToLocationIDField = value;
+                    this.RaisePropertyChanged("ToLocationID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=6)]
+        public string GCAdjustmentType {
+            get {
+                return this.GCAdjustmentTypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCAdjustmentTypeField, value) != true)) {
+                    this.GCAdjustmentTypeField = value;
+                    this.RaisePropertyChanged("GCAdjustmentType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=7)]
+        public string GCConsumptionType {
+            get {
+                return this.GCConsumptionTypeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCConsumptionTypeField, value) != true)) {
+                    this.GCConsumptionTypeField = value;
+                    this.RaisePropertyChanged("GCConsumptionType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=8)]
+        public string ReferenceNo {
+            get {
+                return this.ReferenceNoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReferenceNoField, value) != true)) {
+                    this.ReferenceNoField = value;
+                    this.RaisePropertyChanged("ReferenceNo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=9)]
+        public bool IsBySystem {
+            get {
+                return this.IsBySystemField;
+            }
+            set {
+                if ((this.IsBySystemField.Equals(value) != true)) {
+                    this.IsBySystemField = value;
+                    this.RaisePropertyChanged("IsBySystem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=10)]
+        public string Remarks {
+            get {
+                return this.RemarksField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RemarksField, value) != true)) {
+                    this.RemarksField = value;
+                    this.RaisePropertyChanged("Remarks");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=11)]
+        public string GCTransactionStatus {
+            get {
+                return this.GCTransactionStatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCTransactionStatusField, value) != true)) {
+                    this.GCTransactionStatusField = value;
+                    this.RaisePropertyChanged("GCTransactionStatus");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=12)]
+        public int CreatedBy {
+            get {
+                return this.CreatedByField;
+            }
+            set {
+                if ((this.CreatedByField.Equals(value) != true)) {
+                    this.CreatedByField = value;
+                    this.RaisePropertyChanged("CreatedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=13)]
+        public System.DateTime CreatedDate {
+            get {
+                return this.CreatedDateField;
+            }
+            set {
+                if ((this.CreatedDateField.Equals(value) != true)) {
+                    this.CreatedDateField = value;
+                    this.RaisePropertyChanged("CreatedDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=14)]
+        public int LastUpdatedBy {
+            get {
+                return this.LastUpdatedByField;
+            }
+            set {
+                if ((this.LastUpdatedByField.Equals(value) != true)) {
+                    this.LastUpdatedByField = value;
+                    this.RaisePropertyChanged("LastUpdatedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=15)]
+        public System.DateTime LastUpdatedDate {
+            get {
+                return this.LastUpdatedDateField;
+            }
+            set {
+                if ((this.LastUpdatedDateField.Equals(value) != true)) {
+                    this.LastUpdatedDateField = value;
+                    this.RaisePropertyChanged("LastUpdatedDate");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfVSyncItemTransactionDt", Namespace="http://tempuri.org/", ItemName="vSyncItemTransactionDt")]
+    [System.SerializableAttribute()]
+    public class ArrayOfVSyncItemTransactionDt : System.Collections.Generic.List<CodeX.DesktopTools.SyncService.vSyncItemTransactionDt> {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="vSyncItemTransactionDt", Namespace="http://tempuri.org/")]
+    [System.SerializableAttribute()]
+    public partial class vSyncItemTransactionDt : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int IDField;
+        
+        private int TransactionIDField;
+        
+        private int ItemIDField;
+        
+        private decimal QuantityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCItemUnitField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCBaseUnitField;
+        
+        private decimal ConversionFactorField;
+        
+        private decimal BaseQuantityField;
+        
+        private decimal CostAmountField;
+        
+        private bool IsControlExpiredField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCAdjustmentReasonField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RemarksField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GCItemDetailStatusField;
+        
+        private int CreatedByField;
+        
+        private System.DateTime CreatedDateField;
+        
+        private int LastUpdatedByField;
+        
+        private System.DateTime LastUpdatedDateField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                if ((this.IDField.Equals(value) != true)) {
+                    this.IDField = value;
+                    this.RaisePropertyChanged("ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int TransactionID {
+            get {
+                return this.TransactionIDField;
+            }
+            set {
+                if ((this.TransactionIDField.Equals(value) != true)) {
+                    this.TransactionIDField = value;
+                    this.RaisePropertyChanged("TransactionID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=2)]
+        public int ItemID {
+            get {
+                return this.ItemIDField;
+            }
+            set {
+                if ((this.ItemIDField.Equals(value) != true)) {
+                    this.ItemIDField = value;
+                    this.RaisePropertyChanged("ItemID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
+        public decimal Quantity {
+            get {
+                return this.QuantityField;
+            }
+            set {
+                if ((this.QuantityField.Equals(value) != true)) {
+                    this.QuantityField = value;
+                    this.RaisePropertyChanged("Quantity");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public string GCItemUnit {
+            get {
+                return this.GCItemUnitField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCItemUnitField, value) != true)) {
+                    this.GCItemUnitField = value;
+                    this.RaisePropertyChanged("GCItemUnit");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        public string GCBaseUnit {
+            get {
+                return this.GCBaseUnitField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCBaseUnitField, value) != true)) {
+                    this.GCBaseUnitField = value;
+                    this.RaisePropertyChanged("GCBaseUnit");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=6)]
+        public decimal ConversionFactor {
+            get {
+                return this.ConversionFactorField;
+            }
+            set {
+                if ((this.ConversionFactorField.Equals(value) != true)) {
+                    this.ConversionFactorField = value;
+                    this.RaisePropertyChanged("ConversionFactor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=7)]
+        public decimal BaseQuantity {
+            get {
+                return this.BaseQuantityField;
+            }
+            set {
+                if ((this.BaseQuantityField.Equals(value) != true)) {
+                    this.BaseQuantityField = value;
+                    this.RaisePropertyChanged("BaseQuantity");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=8)]
+        public decimal CostAmount {
+            get {
+                return this.CostAmountField;
+            }
+            set {
+                if ((this.CostAmountField.Equals(value) != true)) {
+                    this.CostAmountField = value;
+                    this.RaisePropertyChanged("CostAmount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=9)]
+        public bool IsControlExpired {
+            get {
+                return this.IsControlExpiredField;
+            }
+            set {
+                if ((this.IsControlExpiredField.Equals(value) != true)) {
+                    this.IsControlExpiredField = value;
+                    this.RaisePropertyChanged("IsControlExpired");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=10)]
+        public string GCAdjustmentReason {
+            get {
+                return this.GCAdjustmentReasonField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCAdjustmentReasonField, value) != true)) {
+                    this.GCAdjustmentReasonField = value;
+                    this.RaisePropertyChanged("GCAdjustmentReason");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=11)]
+        public string Remarks {
+            get {
+                return this.RemarksField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RemarksField, value) != true)) {
+                    this.RemarksField = value;
+                    this.RaisePropertyChanged("Remarks");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=12)]
+        public string GCItemDetailStatus {
+            get {
+                return this.GCItemDetailStatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GCItemDetailStatusField, value) != true)) {
+                    this.GCItemDetailStatusField = value;
+                    this.RaisePropertyChanged("GCItemDetailStatus");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=13)]
+        public int CreatedBy {
+            get {
+                return this.CreatedByField;
+            }
+            set {
+                if ((this.CreatedByField.Equals(value) != true)) {
+                    this.CreatedByField = value;
+                    this.RaisePropertyChanged("CreatedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=14)]
+        public System.DateTime CreatedDate {
+            get {
+                return this.CreatedDateField;
+            }
+            set {
+                if ((this.CreatedDateField.Equals(value) != true)) {
+                    this.CreatedDateField = value;
+                    this.RaisePropertyChanged("CreatedDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=15)]
+        public int LastUpdatedBy {
+            get {
+                return this.LastUpdatedByField;
+            }
+            set {
+                if ((this.LastUpdatedByField.Equals(value) != true)) {
+                    this.LastUpdatedByField = value;
+                    this.RaisePropertyChanged("LastUpdatedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=16)]
+        public System.DateTime LastUpdatedDate {
+            get {
+                return this.LastUpdatedDateField;
+            }
+            set {
+                if ((this.LastUpdatedDateField.Equals(value) != true)) {
+                    this.LastUpdatedDateField = value;
+                    this.RaisePropertyChanged("LastUpdatedDate");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SyncService.SyncServiceSoap")]
@@ -18,6 +599,10 @@ namespace CodeX.DesktopTools.SyncService {
         // CODEGEN: Generating message contract since element name siteID from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetItemMasterList", ReplyAction="*")]
         CodeX.DesktopTools.SyncService.GetItemMasterListResponse GetItemMasterList(CodeX.DesktopTools.SyncService.GetItemMasterListRequest request);
+        
+        // CODEGEN: Generating message contract since element name siteID from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/PostItemTransaction", ReplyAction="*")]
+        CodeX.DesktopTools.SyncService.PostItemTransactionResponse PostItemTransaction(CodeX.DesktopTools.SyncService.PostItemTransactionRequest request);
         
         // CODEGEN: Generating message contract since element name siteID from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WaitMessage", ReplyAction="*")]
@@ -117,6 +702,86 @@ namespace CodeX.DesktopTools.SyncService {
         
         public GetItemMasterListResponseBody(object GetItemMasterListResult) {
             this.GetItemMasterListResult = GetItemMasterListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class PostItemTransactionRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="PostItemTransaction", Namespace="http://tempuri.org/", Order=0)]
+        public CodeX.DesktopTools.SyncService.PostItemTransactionRequestBody Body;
+        
+        public PostItemTransactionRequest() {
+        }
+        
+        public PostItemTransactionRequest(CodeX.DesktopTools.SyncService.PostItemTransactionRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class PostItemTransactionRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string siteID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        public System.DateTime lastSyncDate;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt;
+        
+        public PostItemTransactionRequestBody() {
+        }
+        
+        public PostItemTransactionRequestBody(string siteID, System.DateTime lastSyncDate, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt) {
+            this.siteID = siteID;
+            this.lastSyncDate = lastSyncDate;
+            this.lstItemTransactionHd = lstItemTransactionHd;
+            this.lstItemTransactionDt = lstItemTransactionDt;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class PostItemTransactionResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="PostItemTransactionResponse", Namespace="http://tempuri.org/", Order=0)]
+        public CodeX.DesktopTools.SyncService.PostItemTransactionResponseBody Body;
+        
+        public PostItemTransactionResponse() {
+        }
+        
+        public PostItemTransactionResponse(CodeX.DesktopTools.SyncService.PostItemTransactionResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class PostItemTransactionResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public bool PostItemTransactionResult;
+        
+        public PostItemTransactionResponseBody() {
+        }
+        
+        public PostItemTransactionResponseBody(bool PostItemTransactionResult) {
+            this.PostItemTransactionResult = PostItemTransactionResult;
         }
     }
     
@@ -417,6 +1082,22 @@ namespace CodeX.DesktopTools.SyncService {
             inValue.Body.rowCount = rowCount;
             CodeX.DesktopTools.SyncService.GetItemMasterListResponse retVal = ((CodeX.DesktopTools.SyncService.SyncServiceSoap)(this)).GetItemMasterList(inValue);
             return retVal.Body.GetItemMasterListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CodeX.DesktopTools.SyncService.PostItemTransactionResponse CodeX.DesktopTools.SyncService.SyncServiceSoap.PostItemTransaction(CodeX.DesktopTools.SyncService.PostItemTransactionRequest request) {
+            return base.Channel.PostItemTransaction(request);
+        }
+        
+        public bool PostItemTransaction(string siteID, System.DateTime lastSyncDate, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt) {
+            CodeX.DesktopTools.SyncService.PostItemTransactionRequest inValue = new CodeX.DesktopTools.SyncService.PostItemTransactionRequest();
+            inValue.Body = new CodeX.DesktopTools.SyncService.PostItemTransactionRequestBody();
+            inValue.Body.siteID = siteID;
+            inValue.Body.lastSyncDate = lastSyncDate;
+            inValue.Body.lstItemTransactionHd = lstItemTransactionHd;
+            inValue.Body.lstItemTransactionDt = lstItemTransactionDt;
+            CodeX.DesktopTools.SyncService.PostItemTransactionResponse retVal = ((CodeX.DesktopTools.SyncService.SyncServiceSoap)(this)).PostItemTransaction(inValue);
+            return retVal.Body.PostItemTransactionResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

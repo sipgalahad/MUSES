@@ -10,6 +10,8 @@ using CodeX.Common;
 using CodeX.Data.Core.Dal;
 using System.Reflection;
 using System.Web.Script.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CodeX.DesktopTools
 {
@@ -19,10 +21,64 @@ namespace CodeX.DesktopTools
         {
             if (syncType == Constant.DBSyncInfoType.ITEM)
                 return SyncItem(client, siteID);
+            //return SyncItemTransaction(client, siteID);
             return false;
         }
 
-        class CResult
+        #region Item Transaction
+        public static bool SyncItemTransaction(SyncService.SyncServiceSoapClient client, string siteID)
+        {
+            List<vSyncItemTransactionHd> lstItemTransactionHd = BusinessLayer.GetvSyncItemTransactionHdList("");
+            List<vSyncItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetvSyncItemTransactionDtList("");
+            DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.DBSyncInfoType.ITEM, siteID);
+            SyncService.ArrayOfVSyncItemTransactionHd lstHd = new SyncService.ArrayOfVSyncItemTransactionHd();
+            SyncService.ArrayOfVSyncItemTransactionDt lstDt = new SyncService.ArrayOfVSyncItemTransactionDt();
+
+            foreach (vSyncItemTransactionHd entityHd in lstItemTransactionHd)
+            {
+                SyncService.vSyncItemTransactionHd entityHdNew = new SyncService.vSyncItemTransactionHd();
+                CopyObject(entityHd, ref entityHdNew);
+                lstHd.Add(entityHdNew);
+            }
+            foreach (vSyncItemTransactionDt entityDt in lstItemTransactionDt)
+            {
+                SyncService.vSyncItemTransactionDt entityDtNew = new SyncService.vSyncItemTransactionDt();
+                CopyObject(entityDt, ref entityDtNew);
+                lstDt.Add(entityDtNew);
+            }            
+
+            client.PostItemTransaction(siteID, syncInfo.LastSyncDate, lstHd, lstDt);
+            return true;
+        }
+
+        public static void CopyObject<T>(object sourceObject, ref T destObject)
+        {
+            //	If either the source, or destination is null, return
+            if (sourceObject == null || destObject == null)
+                return;
+
+            //	Get the type of each object
+            Type sourceType = sourceObject.GetType();
+            Type targetType = destObject.GetType();
+
+            //	Loop through the source properties
+            foreach (PropertyInfo p in sourceType.GetProperties())
+            {
+                //	Get the matching property in the destination object
+                PropertyInfo targetObj = targetType.GetProperty(p.Name);
+                //	If there is none, skip
+                if (targetObj == null)
+                    continue;
+
+                //	Set the value in the destination
+                targetObj.SetValue(destObject, p.GetValue(sourceObject, null), null);
+            }
+        }
+
+        #endregion
+
+        #region Item
+        class CResultItem
         {
             public List<ItemMaster> ListItemMaster { get; set; }
             public List<ItemProduct> ListItemProduct { get; set; }
@@ -53,7 +109,7 @@ namespace CodeX.DesktopTools
             int rowCount = -1;
             object serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            CResult tempResult = jss.Deserialize<CResult>(serviceResult.ToString());
+            CResultItem tempResult = jss.Deserialize<CResultItem>(serviceResult.ToString());
             List<ItemMaster> lstItemMaster = tempResult.ListItemMaster;
             List<ItemProduct> lstItemProduct = tempResult.ListItemProduct;
             List<ItemTagField> lstItemTagField = tempResult.ListItemTagField;
@@ -80,7 +136,7 @@ namespace CodeX.DesktopTools
                 {
                     serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
                     jss = new JavaScriptSerializer();
-                    tempResult = jss.Deserialize<CResult>(serviceResult.ToString());
+                    tempResult = jss.Deserialize<CResultItem>(serviceResult.ToString());
                     lstItemMaster = tempResult.ListItemMaster;
                     lstItemProduct = tempResult.ListItemProduct;
                     lstItemTagField = tempResult.ListItemTagField;
@@ -154,7 +210,7 @@ namespace CodeX.DesktopTools
                         sqlInsertTempTable += string.Format("{0};", parameter);
 
                         fieldName = GetInsertObjectFieldName(propInfs, "a.");
-                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b").Replace("a.ItemID = b.ItemID,", ""));
                         sqlInsert += string.Format("FROM ItemProduct a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemProduct] b ON c.ConsolidateID = b.ItemID;");
                         sqlInsert += string.Format("INSERT ItemProduct SELECT {0} FROM #TempTableItemProduct a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemProduct ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
 
@@ -187,7 +243,7 @@ namespace CodeX.DesktopTools
                         sqlInsertTempTable += string.Format("{0};", parameter);
 
                         fieldName = GetInsertObjectFieldName(propInfs, "a.");
-                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b").Replace("a.ItemID = b.ItemID,", ""));
                         sqlInsert += string.Format("FROM ItemTagField a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemTagField] b ON c.ConsolidateID = b.ItemID;");
                         sqlInsert += string.Format("INSERT ItemTagField SELECT {0} FROM #TempTableItemTagField a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemTagField ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
 
@@ -220,7 +276,7 @@ namespace CodeX.DesktopTools
                         sqlInsertTempTable += string.Format("{0};", parameter);
 
                         fieldName = GetInsertObjectFieldName(propInfs, "a.");
-                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b").Replace("a.ItemID = b.ItemID,", ""));
                         sqlInsert += string.Format("FROM ItemPlanning a INNER JOIN ItemMaster c ON c.ItemID = a.ItemID INNER JOIN [#TempTableItemPlanning] b ON c.ConsolidateID = b.ItemID;");
                         sqlInsert += string.Format("INSERT ItemPlanning SELECT {0} FROM #TempTableItemPlanning a INNER JOIN ItemMaster im ON im.ConsolidateID = a.ItemID WHERE a.ItemID NOT IN (SELECT ConsolidateID FROM ItemMaster im INNER JOIN ItemPlanning ip ON ip.ItemID = im.ItemID);", fieldName.Replace("a.ItemID", "im.ItemID"));
 
@@ -293,7 +349,9 @@ namespace CodeX.DesktopTools
             }
             return result;
         }
+        #endregion
 
+        #region Utility
         private static string GetUpdateObjectFieldName(PropertyInfo[] propInfs, string tableName1, string tableName2)
         {
             string fieldName = "";
@@ -379,5 +437,6 @@ namespace CodeX.DesktopTools
             }
             return obj;
         }
+        #endregion
     }
 }

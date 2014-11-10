@@ -20,6 +20,74 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="PostItemTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="lastSyncDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="lstItemTransactionHd" type="tns:ArrayOfVSyncItemTransactionHd" />
+            <s:element minOccurs="0" maxOccurs="1" name="lstItemTransactionDt" type="tns:ArrayOfVSyncItemTransactionDt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfVSyncItemTransactionHd">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="vSyncItemTransactionHd" nillable="true" type="tns:vSyncItemTransactionHd" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="vSyncItemTransactionHd">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FromLocationID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ToLocationID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCAdjustmentType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCConsumptionType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReferenceNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsBySystem" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCTransactionStatus" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreatedBy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreatedDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedBy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedDate" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfVSyncItemTransactionDt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="vSyncItemTransactionDt" nillable="true" type="tns:vSyncItemTransactionDt" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="vSyncItemTransactionDt">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ItemID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCItemUnit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCBaseUnit" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ConversionFactor" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="BaseQuantity" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="CostAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsControlExpired" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCAdjustmentReason" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GCItemDetailStatus" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreatedBy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreatedDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedBy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedDate" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PostItemTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="PostItemTransactionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="WaitMessage">
         <s:complexType>
           <s:sequence>
@@ -73,6 +141,12 @@
   <wsdl:message name="GetItemMasterListSoapOut">
     <wsdl:part name="parameters" element="tns:GetItemMasterListResponse" />
   </wsdl:message>
+  <wsdl:message name="PostItemTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:PostItemTransaction" />
+  </wsdl:message>
+  <wsdl:message name="PostItemTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:PostItemTransactionResponse" />
+  </wsdl:message>
   <wsdl:message name="WaitMessageSoapIn">
     <wsdl:part name="parameters" element="tns:WaitMessage" />
   </wsdl:message>
@@ -102,6 +176,10 @@
       <wsdl:input message="tns:GetItemMasterListSoapIn" />
       <wsdl:output message="tns:GetItemMasterListSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="PostItemTransaction">
+      <wsdl:input message="tns:PostItemTransactionSoapIn" />
+      <wsdl:output message="tns:PostItemTransactionSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="WaitMessage">
       <wsdl:input message="tns:WaitMessageSoapIn" />
       <wsdl:output message="tns:WaitMessageSoapOut" />
@@ -123,6 +201,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetItemMasterList">
       <soap:operation soapAction="http://tempuri.org/GetItemMasterList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostItemTransaction">
+      <soap:operation soapAction="http://tempuri.org/PostItemTransaction" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -171,6 +258,15 @@
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetItemMasterList">
       <soap12:operation soapAction="http://tempuri.org/GetItemMasterList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostItemTransaction">
+      <soap12:operation soapAction="http://tempuri.org/PostItemTransaction" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -6275,6 +6275,54 @@ namespace CodeX.Data.Model
             return null;
         }
         #endregion
+        #region vSyncItemTransactionDt
+        public static List<vSyncItemTransactionDt> GetvSyncItemTransactionDtList(string filterExpression)
+        {
+            List<vSyncItemTransactionDt> result = new List<vSyncItemTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSyncItemTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSyncItemTransactionDt)helper.IDataReaderToObject(reader, new vSyncItemTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSyncItemTransactionHd
+        public static List<vSyncItemTransactionHd> GetvSyncItemTransactionHdList(string filterExpression)
+        {
+            List<vSyncItemTransactionHd> result = new List<vSyncItemTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSyncItemTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSyncItemTransactionHd)helper.IDataReaderToObject(reader, new vSyncItemTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTeacher
         public static List<vTeacher> GetvTeacherList(string filterExpression)
         {
