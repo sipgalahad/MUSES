@@ -147,6 +147,10 @@
       <Project>{E8019F76-DE58-43A7-984C-A1272D62EA45}</Project>
       <Name>CodeX.Data.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeX.EventViewer\CodeX.EventViewerApp.csproj">
+      <Project>{E0D359A2-F009-4728-8D15-70D660BAA23D}</Project>
+      <Name>CodeX.EventViewerApp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

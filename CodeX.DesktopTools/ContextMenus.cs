@@ -4,12 +4,13 @@ using System.Text;
 using System.Windows.Forms;
 using CodeX.DesktopTools.Properties;
 using System.Diagnostics;
+using CodeX.EventViewerApp;
 
 namespace CodeX.DesktopTools
 {
     class ContextMenus
     {
-
+        EventViewerForm obj = new EventViewerForm();
         /// <summary>
         /// Creates this instance.
         /// </summary>
@@ -24,7 +25,7 @@ namespace CodeX.DesktopTools
             // Sync Form.
             item = new ToolStripMenuItem();
             item.Text = "Sync Form";
-            item.Click += new System.EventHandler(Exit_Click);
+            item.Click += new System.EventHandler(OpenSyncForm);
             item.Image = Resources.Exit;
             menu.Items.Add(item);
 
@@ -49,7 +50,13 @@ namespace CodeX.DesktopTools
         void Exit_Click(object sender, EventArgs e)
         {
             // Quit without further ado.
+            obj.CloseForm();
             Application.Exit();
+        }
+
+        void OpenSyncForm(object sender, EventArgs e) 
+        {
+            obj.OpenForm();
         }
     }
 }

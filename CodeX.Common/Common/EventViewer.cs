@@ -13,6 +13,9 @@ namespace CodeX.Common
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
         public String ServiceCode;
 
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
+        public String EventName;
+
         public DateTime EventDate;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
@@ -79,12 +82,13 @@ namespace CodeX.Common
 
     #endregion
 
-    public static class EventViewer 
+    public static class EventViewerHelper
     {
-        public static bool SendMessageToEventViewer(String ServiceCode, String EventID, String Messge, Boolean Status = true)
+        public static bool SendMessageToEventViewer(String ServiceCode, String EventName, String EventID, String Messge, Boolean Status = true)
         {
             EventStruct entity = new EventStruct();
             entity.ServiceCode = ServiceCode;
+            entity.EventName = EventName;
             entity.EventDate = DateTime.Now;
             entity.EID = EventID;
             entity.Message = Messge;
@@ -95,7 +99,7 @@ namespace CodeX.Common
         public static bool SendMessageToEventViewer(EventStruct entity)
         {
             // Find the target window handle.
-            IntPtr hTargetWnd = NativeMethod.FindWindow(null, "Event Viewer");
+            IntPtr hTargetWnd = NativeMethod.FindWindow(null, "CodeX - Event Viewer");
             if (hTargetWnd == IntPtr.Zero)
             {
                 return false;

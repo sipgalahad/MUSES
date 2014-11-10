@@ -1,6 +1,6 @@
-﻿namespace CodeX.EventViewer
+﻿namespace CodeX.EventViewerApp
 {
-    partial class Form1
+    partial class EventViewerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@
             this.lstService = new System.Windows.Forms.ListBox();
             this.lstEvent = new System.Windows.Forms.ListView();
             this.colServiceCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colService = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colEventName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDateTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colMessages = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,13 +68,13 @@
             this.lstService.Name = "lstService";
             this.lstService.Size = new System.Drawing.Size(156, 262);
             this.lstService.TabIndex = 0;
-            this.lstService.Click += new System.EventHandler(this.lstService_Click);
+            this.lstService.SelectedIndexChanged += new System.EventHandler(this.lstService_SelectedIndexChanged);
             // 
             // lstEvent
             // 
             this.lstEvent.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colServiceCode,
-            this.colService,
+            this.colEventName,
             this.colDateTime,
             this.colMessages,
             this.colStatus,
@@ -94,9 +94,9 @@
             this.colServiceCode.Text = "ServiceCode";
             this.colServiceCode.Width = 0;
             // 
-            // colService
+            // colEventName
             // 
-            this.colService.Text = "Service";
+            this.colEventName.Text = "Event";
             // 
             // colDateTime
             // 
@@ -119,14 +119,15 @@
             this.colEID.Text = "Event ID";
             this.colEID.Width = 0;
             // 
-            // Form1
+            // EventViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(648, 262);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "Form1";
-            this.Text = "Event Viewer";
+            this.Name = "EventViewerForm";
+            this.Text = "CodeX - Event Viewer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EventViewerForm_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -141,7 +142,7 @@
         private System.Windows.Forms.ListBox lstService;
         private System.Windows.Forms.ListView lstEvent;
         private System.Windows.Forms.ColumnHeader colServiceCode;
-        private System.Windows.Forms.ColumnHeader colService;
+        private System.Windows.Forms.ColumnHeader colEventName;
         private System.Windows.Forms.ColumnHeader colDateTime;
         private System.Windows.Forms.ColumnHeader colMessages;
         private System.Windows.Forms.ColumnHeader colStatus;

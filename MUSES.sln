@@ -46,7 +46,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.AssetManage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.Muses.Web.ControlPanelHQ", "CodeX.Muses.Web.ControlPanelHQ\CodeX.Muses.Web.ControlPanelHQ.csproj", "{ED82ECC2-F64A-4320-9A29-5064A5BF3BE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.EventViewer", "CodeX.EventViewer\CodeX.EventViewer.csproj", "{E0D359A2-F009-4728-8D15-70D660BAA23D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeX.EventViewerApp", "CodeX.EventViewer\CodeX.EventViewerApp.csproj", "{E0D359A2-F009-4728-8D15-70D660BAA23D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

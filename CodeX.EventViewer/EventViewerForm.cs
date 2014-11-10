@@ -10,14 +10,15 @@ using CodeX.Common;
 using System.Runtime.InteropServices;
 using CodeX.Data.Model;
 
-namespace CodeX.EventViewer
+namespace CodeX.EventViewerApp
 {
-    public partial class Form1 : Form
+    public partial class EventViewerForm : Form
     {
         List<ListViewItem> lstViewItem = new List<ListViewItem>();
         List<StandardCode> lstStandardCode = null;
+        bool IsClose = false;
 
-        public Form1()
+        public EventViewerForm()
         {
             InitializeComponent();
             Dictionary<String, String> list = new Dictionary<string, string>();
@@ -29,10 +30,14 @@ namespace CodeX.EventViewer
                 lstService.Items.Add(obj.StandardCodeID);
                 list.Add(obj.StandardCodeID, obj.StandardCodeName);
             }
-
-            lstService.DataSource = new BindingSource(list, null);
-            lstService.ValueMember = "Key";
-            lstService.DisplayMember = "Value";
+            
+            if (list.Count() > 0) 
+            {
+                lstService.DataSource = new BindingSource(list, null);
+                lstService.ValueMember = "Key";
+                lstService.DisplayMember = "Value";
+            }
+            this.Visible = false;
         }
 
         protected override void WndProc(ref Message m)
@@ -52,8 +57,7 @@ namespace CodeX.EventViewer
                     ListViewItem lvi = lstViewItem.FirstOrDefault(x => x.SubItems[0].Text == eventStruct.ServiceCode && x.SubItems[5].Text == eventStruct.EID);
                     if (lvi == null)
                     {
-                        String ServiceName = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == eventStruct.ServiceCode).StandardCodeName;
-                        lvi = new ListViewItem(new[] { eventStruct.ServiceCode, ServiceName, eventStruct.EventDate.ToString(), eventStruct.Message, eventStruct.status ? "Success" : "Failure", eventStruct.EID });
+                        lvi = new ListViewItem(new[] { eventStruct.ServiceCode, eventStruct.EventName, eventStruct.EventDate.ToString(), eventStruct.Message, eventStruct.status ? "Success" : "Failure", eventStruct.EID });
                         lstViewItem.Add(lvi);
                         KeyValuePair<String, String> result = (KeyValuePair<String, String>)lstService.SelectedItem;
                         if (eventStruct.ServiceCode == result.Key) lstEvent.Items.Add(lvi);
@@ -68,15 +72,34 @@ namespace CodeX.EventViewer
                     }
                 }
             }
-
             base.WndProc(ref m);
         }
 
-        private void lstService_Click(object sender, EventArgs e)
+        public void CloseForm()
+        {
+            Application.Exit();
+            IsClose = true;
+        }
+        
+        public void OpenForm()
+        {
+            this.Visible = true;
+        }
+
+        private void lstService_SelectedIndexChanged(object sender, EventArgs e)
         {
             KeyValuePair<String, String> result = (KeyValuePair<String, String>)lstService.SelectedItem;
             lstEvent.Items.Clear();
             lstEvent.Items.AddRange(lstViewItem.Where(x => x.SubItems[0].Text == result.Key).ToArray());
+        }
+
+        private void EventViewerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!IsClose) 
+            {
+                e.Cancel = true;
+                this.Visible = false;
+            }
         }
     }
 }
