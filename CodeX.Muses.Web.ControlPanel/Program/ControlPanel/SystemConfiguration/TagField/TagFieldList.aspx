@@ -9,7 +9,7 @@ CodeBehind="TagFieldList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnTagFieldSave" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbsave.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Save")%></div></li>
+    <li id="btnTagFieldSave" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Save")%></div></li>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript">

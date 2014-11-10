@@ -9,8 +9,8 @@
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnProcess" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbapprove.png")%>' alt="" /><div><%=GetLabel("Verified")%></div></li>
-    <li id="btnDecline" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><div><%=GetLabel("Decline")%></div></li>   
+    <li id="btnProcess" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Verified")%></div></li>
+    <li id="btnDecline" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Decline")%></div></li>   
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhEntry" runat="server">   

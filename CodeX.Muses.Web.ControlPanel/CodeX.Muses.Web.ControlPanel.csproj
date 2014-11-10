@@ -106,7 +106,6 @@
       <Link>SharedLibs\Tools\DataLayerGenerator.aspx</Link>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="Login2.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="MasterPage\MPSubjectPageTrxVisit.master" />
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
@@ -392,13 +391,6 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Login2.aspx.cs">
-      <DependentUpon>Login2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Login2.aspx.designer.cs">
-      <DependentUpon>Login2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

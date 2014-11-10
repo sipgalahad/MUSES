@@ -173,7 +173,7 @@
     <ul id="ulMPEntryToolbar" runat="server">
         <li id="btnMPEntrySaveNew" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save_and_new.png")%>' alt="" /><div><%=GetLabel("Save & New")%></div></li>
         <li id="btnMPEntrySaveClose" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save_and_close.png")%>' alt="" /><div><%=GetLabel("Save & Close")%></div></li>
-        <li id="btnMPEntryCancel" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbcancel.png")%>' alt="" /><div><%=GetLabel("Cancel")%></div></li>
+        <li id="btnMPEntryCancel" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/cancel.png")%>' alt="" /><div><%=GetLabel("Cancel")%></div></li>
     </ul>
     <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">                
     </asp:ContentPlaceHolder>

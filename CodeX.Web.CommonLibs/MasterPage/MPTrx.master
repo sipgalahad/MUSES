@@ -573,9 +573,9 @@
     <ul id="ulMPTrxToolbar" runat="server">
         <li id="btnMPEntryNew" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/add.png")%>' alt="" /><div><%=GetLabel("New")%></div></li>
         <li id="btnMPEntrySave" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
-        <li id="btnMPEntryPropose" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/nurse_outstanding.png")%>' alt="" /><div><%=GetProposeText()%></div></li>
-        <li id="btnMPEntryVoid" runat="server" CRUDMode="V"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
-        <li id="btnMPEntryReopen" runat="server" CRUDMode="O"><img src='<%=ResolveUrl("~/Libs/Images/Icon/nurse_outstanding.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
+        <li id="btnMPEntryPropose" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetProposeText()%></div></li>
+        <li id="btnMPEntryVoid" runat="server" CRUDMode="V"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
+        <li id="btnMPEntryReopen" runat="server" CRUDMode="O"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
         <li id="btnMPEntryPrev" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/prev.png")%>' alt="" /><div><%=GetLabel("Prev")%></div></li>
         <li id="btnMPEntryNext" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/next.png")%>' alt="" /><div><%=GetLabel("Next")%></div></li>
         <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">                

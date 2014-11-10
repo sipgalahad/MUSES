@@ -9,7 +9,7 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnProcessPurchaseRequest" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbnew.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Process")%></div></li>
-    <li id="btnPurchaseRequestHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
+    <li id="btnPurchaseRequestHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">

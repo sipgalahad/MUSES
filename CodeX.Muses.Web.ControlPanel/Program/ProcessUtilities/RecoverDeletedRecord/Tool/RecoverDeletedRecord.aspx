@@ -88,7 +88,7 @@
             </tr>
         </table>
         <ul>
-            <li id="btnMPListRestore" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbedit.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Restore")%></div></li>
+            <li id="btnMPListRestore" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/edit.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Restore")%></div></li>
             <li id="btnMPListBack" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/back.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Back")%></div></li>
         </ul>
     </div>

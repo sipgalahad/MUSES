@@ -10,8 +10,8 @@ CodeBehind="ItemDistributionApprovalList.aspx.cs" Inherits="CodeX.Muses.Web.Inve
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnItemDistributionHdItem" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbnew.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Item")%></div></li>
-    <li id="btnItemDistributionHdApprove" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbapprove.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Approve")%></div></li>
-    <li id="btnItemDistributionHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
+    <li id="btnItemDistributionHdApprove" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Approve")%></div></li>
+    <li id="btnItemDistributionHdDecline" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Decline")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">

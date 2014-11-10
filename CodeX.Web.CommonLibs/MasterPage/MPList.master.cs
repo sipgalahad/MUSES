@@ -78,7 +78,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 if (!IsAllowAdd) CRUDMode = CRUDMode.Replace("C", "");
                 if (!IsAllowEdit) CRUDMode = CRUDMode.Replace("U", "");
                 if (!IsAllowDelete) CRUDMode = CRUDMode.Replace("D", "");
-                if (!IsAllowPrint) CRUDMode = CRUDMode.Replace("P", "");
+                if (!IsAllowPrint) CRUDMode = CRUDMode.Replace("E", "");
 
                 foreach (Control c in ulMPListToolbar.Controls)
                 {

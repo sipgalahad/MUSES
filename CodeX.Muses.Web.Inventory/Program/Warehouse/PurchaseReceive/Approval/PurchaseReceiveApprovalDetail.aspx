@@ -8,7 +8,7 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnPurchaseReceiveDetailApprove" crudmode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbapprove.png")%>' alt="" /><br style="clear: both" /><div><%=GetLabel("Approve")%></div></li>
+    <li id="btnPurchaseReceiveDetailApprove" crudmode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><br style="clear: both" /><div><%=GetLabel("Approve")%></div></li>
     <li id="btnPurchaseReceiveBack" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/back.png")%>' alt="" /><div><%=GetLabel("Back")%></div></li>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">

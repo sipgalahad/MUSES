@@ -9,7 +9,7 @@
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnReportPagePrint" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbprint.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Print")%></div></li>
+    <li id="btnReportPagePrint" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Print")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhEntry" runat="server">

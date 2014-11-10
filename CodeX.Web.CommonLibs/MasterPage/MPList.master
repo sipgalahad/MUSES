@@ -260,8 +260,8 @@
         <li id="btnMPListAdd" runat="server" CRUDMode="C"><img src='<%=ResolveUrl("~/Libs/Images/Icon/add.png")%>' alt="" /><br style="clear:both"/> <div><%=GetLabel("Add")%></div></li>
         <li id="btnMPListEdit" runat="server" CRUDMode="U"><img src='<%=ResolveUrl("~/Libs/Images/Icon/edit.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Edit")%></div></li>
         <li id="btnMPListDelete" runat="server" CRUDMode="D"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Delete")%></div></li>
-        <li id="btnMPListPrint" runat="server" CRUDMode="E"><img src='<%=ResolveUrl("~/Libs/Images/Icon/export.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Export")%></div></li>
-        <li id="btnMPListSync" runat="server" CRUDMode="S"><img src='<%=ResolveUrl("~/Libs/Images/Icon/export.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Sync")%></div></li>
+        <li id="btnMPListPrint" runat="server" CRUDMode="E"><img src='<%=ResolveUrl("~/Libs/Images/Icon/download.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Export")%></div></li>
+        <li id="btnMPListSync" runat="server" CRUDMode="S"><img src='<%=ResolveUrl("~/Libs/Images/Icon/sync_cloud.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Sync")%></div></li>
         <asp:ContentPlaceHolder ID="plhCustomButtonToolbar" runat="server">                
         </asp:ContentPlaceHolder>
     </ul>

@@ -8,9 +8,9 @@
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnApprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbapprove.png")%>' alt="" /><div><%=GetLabel("Approve")%></div></li>
-    <li id="btnUnapprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbvoid.png")%>' alt="" /><div><%=GetLabel("Decline")%></div></li>
-    <li id="btnVoid" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbcancel.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
+    <li id="btnApprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Approve")%></div></li>
+    <li id="btnUnapprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/cancel.png")%>' alt="" /><div><%=GetLabel("Decline")%></div></li>
+    <li id="btnVoid" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Void")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">

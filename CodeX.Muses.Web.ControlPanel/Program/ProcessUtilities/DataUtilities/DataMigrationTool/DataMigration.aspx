@@ -254,11 +254,11 @@
             </tr>
         </table>
         <ul>
-            <li id="btnMPListEdit" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbedit.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Edit")%></div></li>
-            <li id="btnMPListDelete" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbdelete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Delete")%></div></li>
-            <li id="btnMPListSave" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbsave.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Save")%></div></li>
-            <li id="btnMPListProcessedData" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbset.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Processed Data")%></div></li>
-            <li id="btnMPListSaveAll" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbsave.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Save All")%></div></li>
+            <li id="btnMPListEdit" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/edit.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Edit")%></div></li>
+            <li id="btnMPListDelete" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Delete")%></div></li>
+            <li id="btnMPListSave" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Save")%></div></li>
+            <li id="btnMPListProcessedData" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Processed Data")%></div></li>
+            <li id="btnMPListSaveAll" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Save All")%></div></li>
         </ul>
     </div>
     
