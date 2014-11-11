@@ -134,7 +134,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override string OnGetDBSyncInfoType()
         {
-            return Constant.DBSyncInfoType.ITEM;
+            return Constant.DBSyncInfoCode.ITEM;
         }
 
         protected void cbpViewDetail1_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

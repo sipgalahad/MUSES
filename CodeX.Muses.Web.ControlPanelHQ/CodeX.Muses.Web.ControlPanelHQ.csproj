@@ -117,6 +117,7 @@
     <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemProductList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx" />
+    <Content Include="Program\ProcessUtilities\SyncProcess\SyncProcessList.aspx" />
     <Content Include="Program\SyncService\SyncService.asmx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -457,6 +458,13 @@
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\SyncProcess\SyncProcessList.aspx.cs">
+      <DependentUpon>SyncProcessList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ProcessUtilities\SyncProcess\SyncProcessList.aspx.designer.cs">
+      <DependentUpon>SyncProcessList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\SyncService\Client.cs" />
     <Compile Include="Program\SyncService\ClientAdapter.cs" />

@@ -730,30 +730,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vDBSyncInfo
-        public static List<vDBSyncInfo> GetvDBSyncInfoList(string filterExpression)
-        {
-            List<vDBSyncInfo> result = new List<vDBSyncInfo>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vDBSyncInfo));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vDBSyncInfo)helper.IDataReaderToObject(reader, new vDBSyncInfo()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region vDirectPurchaseDt
         public static List<vDirectPurchaseDt> GetvDirectPurchaseDtList(string filterExpression)
         {
@@ -6298,6 +6274,28 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vSyncItemTransactionDt> GetvSyncItemTransactionDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vSyncItemTransactionDt> result = new List<vSyncItemTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSyncItemTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSyncItemTransactionDt)helper.IDataReaderToObject(reader, new vSyncItemTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region vSyncItemTransactionHd
         public static List<vSyncItemTransactionHd> GetvSyncItemTransactionHdList(string filterExpression)
@@ -6308,6 +6306,28 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(vSyncItemTransactionHd));
                 ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSyncItemTransactionHd)helper.IDataReaderToObject(reader, new vSyncItemTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vSyncItemTransactionHd> GetvSyncItemTransactionHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vSyncItemTransactionHd> result = new List<vSyncItemTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSyncItemTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vSyncItemTransactionHd)helper.IDataReaderToObject(reader, new vSyncItemTransactionHd()));

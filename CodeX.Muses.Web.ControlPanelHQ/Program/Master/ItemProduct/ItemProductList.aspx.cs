@@ -155,7 +155,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                ClientAdapter.Instance.SendMessage("001.01.01", Constant.DBSyncInfoType.ITEM);
+                ClientAdapter.Instance.SendMessage("001.01.01", Constant.DBSyncInfoCode.ITEM);
                 return true;
             }
             catch (Exception ex)

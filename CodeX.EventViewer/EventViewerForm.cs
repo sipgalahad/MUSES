@@ -15,7 +15,7 @@ namespace CodeX.EventViewerApp
     public partial class EventViewerForm : Form
     {
         List<ListViewItem> lstViewItem = new List<ListViewItem>();
-        List<StandardCode> lstStandardCode = null;
+        List<vDBSyncInfoDt> lstSyncInfo = null;
         bool IsClose = false;
 
         public EventViewerForm()
@@ -23,12 +23,12 @@ namespace CodeX.EventViewerApp
             InitializeComponent();
             Dictionary<String, String> list = new Dictionary<string, string>();
 
-            lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.DB_SYNC_INFO_TYPE));
+            lstSyncInfo = BusinessLayer.GetvDBSyncInfoDtList(String.Format("IsDeleted = 0"));
 
-            foreach (StandardCode obj in lstStandardCode) 
+            foreach (vDBSyncInfoDt obj in lstSyncInfo) 
             {
-                lstService.Items.Add(obj.StandardCodeID);
-                list.Add(obj.StandardCodeID, obj.StandardCodeName);
+                lstService.Items.Add(obj.DBSyncInfoCode);
+                list.Add(obj.DBSyncInfoCode, obj.DBSyncInfoName);
             }
             
             if (list.Count() > 0) 

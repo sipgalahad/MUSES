@@ -21,6 +21,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     [System.Web.Script.Services.ScriptService]
     public class SyncService : System.Web.Services.WebService
     {
+        #region Get From Server
         #region Sync Item
         [WebMethod()]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -97,7 +98,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return new JavaScriptSerializer().Serialize(returnObj);
         }
         #endregion
+        #endregion
 
+        #region Post From Server
         #region Sync Item Transaction
         [WebMethod()]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -194,8 +197,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 ctx.Close();
             }
-            return true;
+            return result;
         }
+        #endregion
+
+        #region Utility
         private static string GetUpdateObjectFieldName(PropertyInfo[] propInfs, string tableName1, string tableName2)
         {
             string fieldName = "";
@@ -281,7 +287,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return obj;
         }
         #endregion
-
+        #endregion
 
         [WebMethod()]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]

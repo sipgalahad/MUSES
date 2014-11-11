@@ -143,20 +143,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region DBSyncInfo
+    #region DBSyncInfoDt
     [Serializable]
-    [Table(Name = "DBSyncInfo")]
-    public class DBSyncInfo : DbDataModel
+    [Table(Name = "DBSyncInfoDt")]
+    public class DBSyncInfoDt : DbDataModel
     {
-        private String _GCDBSyncInfoType;
+        private Int32 _DBSyncInfoID;
         private String _SiteID;
         private DateTime _LastSyncDate;
 
-        [Column(Name = "GCDBSyncInfoType", DataType = "String", IsPrimaryKey = true)]
-        public String GCDBSyncInfoType
+        [Column(Name = "DBSyncInfoID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 DBSyncInfoID
         {
-            get { return _GCDBSyncInfoType; }
-            set { _GCDBSyncInfoType = value; }
+            get { return _DBSyncInfoID; }
+            set { _DBSyncInfoID = value; }
         }
         [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
         public String SiteID
@@ -172,43 +172,163 @@ namespace CodeX.Data.Model
         }
     }
 
-    public class DBSyncInfoDao
+    public class DBSyncInfoDtDao
     {
         private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(DBSyncInfo));
+        private readonly DbHelper _helper = new DbHelper(typeof(DBSyncInfoDt));
         private bool _isAuditLog = false;
-        private const string p_GCDBSyncInfoType = "@p_GCDBSyncInfoType";
+        private const string p_DBSyncInfoID = "@p_DBSyncInfoID";
         private const string p_SiteID = "@p_SiteID";
-        public DBSyncInfoDao() { }
-        public DBSyncInfoDao(IDbContext ctx)
+        public DBSyncInfoDtDao() { }
+        public DBSyncInfoDtDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public DBSyncInfo Get(String GCDBSyncInfoType, String SiteID)
+        public DBSyncInfoDt Get(Int32 DBSyncInfoID, String SiteID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_GCDBSyncInfoType, GCDBSyncInfoType);
+            _ctx.Add(p_DBSyncInfoID, DBSyncInfoID);
             _ctx.Add(p_SiteID, SiteID);
             DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (DBSyncInfo)_helper.DataRowToObject(row, new DBSyncInfo());
+            return (row == null) ? null : (DBSyncInfoDt)_helper.DataRowToObject(row, new DBSyncInfoDt());
         }
-        public int Insert(DBSyncInfo record)
+        public int Insert(DBSyncInfoDt record)
         {
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
-        public int Update(DBSyncInfo record)
+        public int Update(DBSyncInfoDt record)
         {
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(String GCDBSyncInfoType, String SiteID)
+        public int Delete(Int32 DBSyncInfoID, String SiteID)
         {
-            DBSyncInfo record;
+            DBSyncInfoDt record;
             if (_ctx.Transaction == null)
-                record = new DBSyncInfoDao().Get(GCDBSyncInfoType, SiteID);
+                record = new DBSyncInfoDtDao().Get(DBSyncInfoID, SiteID);
             else
-                record = Get(GCDBSyncInfoType, SiteID);
+                record = Get(DBSyncInfoID, SiteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region DBSyncInfoHd
+    [Serializable]
+    [Table(Name = "DBSyncInfoHd")]
+    public class DBSyncInfoHd : DbDataModel
+    {
+        private Int32 _DBSyncInfoID;
+        private String _DBSyncInfoCode;
+        private String _DBSyncInfoName;
+        private String _ModuleID;
+        private Int32 _RowCount;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "DBSyncInfoID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 DBSyncInfoID
+        {
+            get { return _DBSyncInfoID; }
+            set { _DBSyncInfoID = value; }
+        }
+        [Column(Name = "DBSyncInfoCode", DataType = "String")]
+        public String DBSyncInfoCode
+        {
+            get { return _DBSyncInfoCode; }
+            set { _DBSyncInfoCode = value; }
+        }
+        [Column(Name = "DBSyncInfoName", DataType = "String")]
+        public String DBSyncInfoName
+        {
+            get { return _DBSyncInfoName; }
+            set { _DBSyncInfoName = value; }
+        }
+        [Column(Name = "ModuleID", DataType = "String")]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
+        [Column(Name = "RowCount", DataType = "Int32")]
+        public Int32 RowCount
+        {
+            get { return _RowCount; }
+            set { _RowCount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class DBSyncInfoHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(DBSyncInfoHd));
+        private bool _isAuditLog = false;
+        private const string p_DBSyncInfoID = "@p_DBSyncInfoID";
+        public DBSyncInfoHdDao() { }
+        public DBSyncInfoHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public DBSyncInfoHd Get(Int32 DBSyncInfoID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_DBSyncInfoID, DBSyncInfoID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (DBSyncInfoHd)_helper.DataRowToObject(row, new DBSyncInfoHd());
+        }
+        public int Insert(DBSyncInfoHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(DBSyncInfoHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 DBSyncInfoID)
+        {
+            DBSyncInfoHd record;
+            if (_ctx.Transaction == null)
+                record = new DBSyncInfoHdDao().Get(DBSyncInfoID);
+            else
+                record = Get(DBSyncInfoID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -80,6 +80,8 @@ namespace CodeX.Common
 
                 public const string SITE_INFORMATION = "CPHQ020101";
 
+                public const string SYNC_PROCESS = "CPHQ080100";
+
                 public const string SITE_PAGE = "CPHQ99010000";
                 public const string ST_SITE_MODULE = "CPHQ99010100";
                 public const string ST_SITE_SUPPLIER = "CPHQ99010200";

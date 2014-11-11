@@ -11,6 +11,7 @@ using CodeX.Data.Core.Dal;
 using System.Reflection;
 using System.Web.Script.Serialization;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CodeX.DesktopTools
@@ -19,38 +20,58 @@ namespace CodeX.DesktopTools
     {
         public static bool Sync(SyncService.SyncServiceSoapClient client, string siteID, string syncType)
         {
-            if (syncType == Constant.DBSyncInfoType.ITEM)
-                return SyncItem(client, siteID);
-            //return SyncItemTransaction(client, siteID);
+            vDBSyncInfoDt syncInfo = BusinessLayer.GetvDBSyncInfoDtList(string.Format("DBSyncInfoCode = '{0}' AND SiteID = '{1}'", syncType, siteID))[0];
+            if (syncType == Constant.DBSyncInfoCode.ITEM)
+                return SyncItem(client, siteID, syncInfo);
+            else if (syncType == Constant.DBSyncInfoCode.ITEM_TRANSACTION)
+                return SyncItemTransaction(client, siteID, syncInfo);
             return false;
         }
 
+        #region Post To Server
         #region Item Transaction
-        public static bool SyncItemTransaction(SyncService.SyncServiceSoapClient client, string siteID)
+        public static bool SyncItemTransaction(SyncService.SyncServiceSoapClient client, string siteID, vDBSyncInfoDt syncInfo)
         {
-            List<vSyncItemTransactionHd> lstItemTransactionHd = BusinessLayer.GetvSyncItemTransactionHdList("");
-            List<vSyncItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetvSyncItemTransactionDtList("");
-            DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.DBSyncInfoType.ITEM, siteID);
-            SyncService.ArrayOfVSyncItemTransactionHd lstHd = new SyncService.ArrayOfVSyncItemTransactionHd();
-            SyncService.ArrayOfVSyncItemTransactionDt lstDt = new SyncService.ArrayOfVSyncItemTransactionDt();
+            string filterExpression = "";
+            if (syncInfo.LastSyncDate.Year > 1900)
+                filterExpression = string.Format("CreatedDate > '{0}' OR (LastUpdatedDate IS NOT NULL AND LastUpdatedDate > '{0}')", syncInfo.LastSyncDate);
+            else
+                filterExpression = "";
+            int rowCount = BusinessLayer.GetItemTransactionHdRowCount(filterExpression);
 
-            foreach (vSyncItemTransactionHd entityHd in lstItemTransactionHd)
+            decimal totalPageCount = Math.Ceiling((decimal)rowCount /  syncInfo.RowCount);
+            for (int i = 1; i <= totalPageCount; ++i)
             {
-                SyncService.vSyncItemTransactionHd entityHdNew = new SyncService.vSyncItemTransactionHd();
-                CopyObject(entityHd, ref entityHdNew);
-                lstHd.Add(entityHdNew);
+                List<vSyncItemTransactionHd> lstItemTransactionHd = BusinessLayer.GetvSyncItemTransactionHdList(filterExpression, syncInfo.RowCount, i);
+
+                string filterExpressionDt = string.Format("TransactionID IN ({0})", String.Join(",", lstItemTransactionHd.Select(p => p.TransactionID).ToList()));
+                List<vSyncItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetvSyncItemTransactionDtList(filterExpression);
+                SyncService.ArrayOfVSyncItemTransactionHd lstHd = new SyncService.ArrayOfVSyncItemTransactionHd();
+                SyncService.ArrayOfVSyncItemTransactionDt lstDt = new SyncService.ArrayOfVSyncItemTransactionDt();
+
+                foreach (vSyncItemTransactionHd entityHd in lstItemTransactionHd)
+                {
+                    SyncService.vSyncItemTransactionHd entityHdNew = new SyncService.vSyncItemTransactionHd();
+                    CopyObject(entityHd, ref entityHdNew);
+                    lstHd.Add(entityHdNew);
+                }
+                foreach (vSyncItemTransactionDt entityDt in lstItemTransactionDt)
+                {
+                    SyncService.vSyncItemTransactionDt entityDtNew = new SyncService.vSyncItemTransactionDt();
+                    CopyObject(entityDt, ref entityDtNew);
+                    lstDt.Add(entityDtNew);
+                }
+
+                client.PostItemTransaction(siteID, syncInfo.LastSyncDate, lstHd, lstDt);
             }
-            foreach (vSyncItemTransactionDt entityDt in lstItemTransactionDt)
-            {
-                SyncService.vSyncItemTransactionDt entityDtNew = new SyncService.vSyncItemTransactionDt();
-                CopyObject(entityDt, ref entityDtNew);
-                lstDt.Add(entityDtNew);
-            }            
-
-            client.PostItemTransaction(siteID, syncInfo.LastSyncDate, lstHd, lstDt);
+            DBSyncInfoDt syncInfoDt = BusinessLayer.GetDBSyncInfoDt(syncInfo.DBSyncInfoID, siteID);
+            syncInfoDt.LastSyncDate = DateTime.Now;
+            BusinessLayer.UpdateDBSyncInfoDt(syncInfoDt);
             return true;
         }
+        #endregion
 
+        #region Utility
         public static void CopyObject<T>(object sourceObject, ref T destObject)
         {
             //	If either the source, or destination is null, return
@@ -74,9 +95,10 @@ namespace CodeX.DesktopTools
                 targetObj.SetValue(destObject, p.GetValue(sourceObject, null), null);
             }
         }
-
+        #endregion
         #endregion
 
+        #region Get From Server
         #region Item
         class CResultItem
         {
@@ -88,7 +110,7 @@ namespace CodeX.DesktopTools
             public String TimeStamp { get; set; }
             public Int32 RowCount { get; set; }
         }
-        public static bool SyncItem(SyncService.SyncServiceSoapClient client, string siteID)
+        public static bool SyncItem(SyncService.SyncServiceSoapClient client, string siteID, vDBSyncInfoDt syncInfo)
         {
             bool result = true;
 
@@ -103,8 +125,8 @@ namespace CodeX.DesktopTools
             //    IEnumerable<string> keys = temp.Select(x => x.Key);
             //}
 
-            int rowCountPerPage = 4;
-            DBSyncInfo syncInfo = BusinessLayer.GetDBSyncInfo(Constant.DBSyncInfoType.ITEM, siteID);
+            
+            int rowCountPerPage = syncInfo.RowCount;
 
             int rowCount = -1;
             object serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
@@ -126,12 +148,12 @@ namespace CodeX.DesktopTools
             }
             for (int i = 1; i <= totalPageCount; ++i)
             {
-                EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Waiting");
+                EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Waiting");
             }
             
             for (int i = 1; i <= totalPageCount; ++i)
             {
-                EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Get Server Data");
+                EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Get Server Data");
                 if (i > 1)
                 {
                     serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
@@ -158,7 +180,7 @@ namespace CodeX.DesktopTools
                     fieldName = GetInsertObjectFieldName(propInfs, "");
                     fieldName += ",ConsolidateID";
 
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Sync Item Master");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Sync Item Master");
                     if (lstItemMaster.Count > 0)
                     {
                         foreach (ItemMaster entity in lstItemMaster)
@@ -186,7 +208,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Product
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Sync Item Product");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Sync Item Product");
                     if (lstItemProduct.Count > 0)
                     {
                         fieldName = "";
@@ -219,7 +241,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Tag Field
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Sync Item Tag Field");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Sync Item Tag Field");
                     if (lstItemTagField.Count > 0)
                     {
                         fieldName = "";
@@ -252,7 +274,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Planning
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Sync Item Tag Planning");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Sync Item Tag Planning");
                     if (lstItemPlanning.Count > 0)
                     {
                         fieldName = "";
@@ -285,7 +307,7 @@ namespace CodeX.DesktopTools
                     #endregion
 
                     #region Item Alternate Unit
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Sync Item Alternate Unit");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Sync Item Alternate Unit");
                     if (lstItemAlternateUnit.Count > 0)
                     {
                         fieldName = "";
@@ -322,18 +344,18 @@ namespace CodeX.DesktopTools
                     }
                     #endregion
 
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Insert Into Temp Table");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Insert Into Temp Table");
                     ctx.CommandText = sqlInsertTempTable;
                     DaoBase.ExecuteNonQuery(ctx);
 
                     sqlInsert += string.Format("INSERT SiteItem SELECT '{0}',ItemID,0,{1},GETDATE(),{1},GETDATE() FROM ItemMaster WHERE ItemID NOT IN (SELECT ItemID FROM SiteItem);", siteID, 0);
-                    sqlInsert += string.Format("UPDATE DBSyncInfo SET LastSyncDate = '{0}' WHERE GCDBSyncInfoType = '{1}' AND SiteID = '{2}';", tempResult.TimeStamp, Constant.DBSyncInfoType.ITEM, siteID);
+                    sqlInsert += string.Format("UPDATE DBSyncInfoDt SET LastSyncDate = '{0}' WHERE DBSyncInfoID = {1} AND SiteID = '{2}';", tempResult.TimeStamp, syncInfo.DBSyncInfoID, siteID);
 
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Update Table");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Update Table");
                     ctx.CommandText = sqlInsert;
                     DaoBase.ExecuteNonQuery(ctx);
 
-                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoType.ITEM, "Sync", i.ToString(), "Done");
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Done");
                     ctx.CommitTransaction();
                 }
                 catch (Exception ex)
@@ -437,6 +459,7 @@ namespace CodeX.DesktopTools
             }
             return obj;
         }
+        #endregion
         #endregion
     }
 }

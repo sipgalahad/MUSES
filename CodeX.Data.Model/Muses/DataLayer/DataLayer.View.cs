@@ -1280,42 +1280,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vDBSyncInfo
-    [Serializable]
-    [Table(Name = "vDBSyncInfo")]
-    public class vDBSyncInfo
-    {
-        private String _GCBusinessObjectType;
-        private String _BusinessObjectType;
-        private String _SiteID;
-        private DateTime _LastSyncDate;
-
-        [Column(Name = "GCBusinessObjectType", DataType = "String")]
-        public String GCBusinessObjectType
-        {
-            get { return _GCBusinessObjectType; }
-            set { _GCBusinessObjectType = value; }
-        }
-        [Column(Name = "BusinessObjectType", DataType = "String")]
-        public String BusinessObjectType
-        {
-            get { return _BusinessObjectType; }
-            set { _BusinessObjectType = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
-        }
-        [Column(Name = "LastSyncDate", DataType = "DateTime")]
-        public DateTime LastSyncDate
-        {
-            get { return _LastSyncDate; }
-            set { _LastSyncDate = value; }
-        }
-    }
-    #endregion
     #region vDirectPurchaseDt
     [Serializable]
     [Table(Name = "vDirectPurchaseDt")]

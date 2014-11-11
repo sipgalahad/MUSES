@@ -66,34 +66,74 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region DBSyncInfo
-        public static DBSyncInfo GetDBSyncInfo(String GCBusinessObjectType, String SiteID)
+        #region DBSyncInfoDt
+        public static DBSyncInfoDt GetDBSyncInfoDt(Int32 DBSyncInfoID, String SiteID)
         {
-            return new DBSyncInfoDao().Get(GCBusinessObjectType, SiteID);
+            return new DBSyncInfoDtDao().Get(DBSyncInfoID, SiteID);
         }
-        public static int InsertDBSyncInfo(DBSyncInfo record)
+        public static int InsertDBSyncInfoDt(DBSyncInfoDt record)
         {
-            return new DBSyncInfoDao().Insert(record);
+            return new DBSyncInfoDtDao().Insert(record);
         }
-        public static int UpdateDBSyncInfo(DBSyncInfo record)
+        public static int UpdateDBSyncInfoDt(DBSyncInfoDt record)
         {
-            return new DBSyncInfoDao().Update(record);
+            return new DBSyncInfoDtDao().Update(record);
         }
-        public static int DeleteDBSyncInfo(String GCBusinessObjectType, String SiteID)
+        public static int DeleteDBSyncInfoDt(Int32 DBSyncInfoID, String SiteID)
         {
-            return new DBSyncInfoDao().Delete(GCBusinessObjectType, SiteID);
+            return new DBSyncInfoDtDao().Delete(DBSyncInfoID, SiteID);
         }
-        public static List<DBSyncInfo> GetDBSyncInfoList(string filterExpression)
+        public static List<DBSyncInfoDt> GetDBSyncInfoDtList(string filterExpression)
         {
-            List<DBSyncInfo> result = new List<DBSyncInfo>();
+            List<DBSyncInfoDt> result = new List<DBSyncInfoDt>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(DBSyncInfo));
+                DbHelper helper = new DbHelper(typeof(DBSyncInfoDt));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((DBSyncInfo)helper.IDataReaderToObject(reader, new DBSyncInfo()));
+                        result.Add((DBSyncInfoDt)helper.IDataReaderToObject(reader, new DBSyncInfoDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region DBSyncInfoHd
+        public static DBSyncInfoHd GetDBSyncInfoHd(Int32 DBSyncInfoID)
+        {
+            return new DBSyncInfoHdDao().Get(DBSyncInfoID);
+        }
+        public static int InsertDBSyncInfoHd(DBSyncInfoHd record)
+        {
+            return new DBSyncInfoHdDao().Insert(record);
+        }
+        public static int UpdateDBSyncInfoHd(DBSyncInfoHd record)
+        {
+            return new DBSyncInfoHdDao().Update(record);
+        }
+        public static int DeleteDBSyncInfoHd(Int32 DBSyncInfoID)
+        {
+            return new DBSyncInfoHdDao().Delete(DBSyncInfoID);
+        }
+        public static List<DBSyncInfoHd> GetDBSyncInfoHdList(string filterExpression)
+        {
+            List<DBSyncInfoHd> result = new List<DBSyncInfoHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(DBSyncInfoHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((DBSyncInfoHd)helper.IDataReaderToObject(reader, new DBSyncInfoHd()));
             }
             catch (Exception ex)
             {

@@ -113,6 +113,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vDBSyncInfoDt
+    [Serializable]
+    [Table(Name = "vDBSyncInfoDt")]
+    public class vDBSyncInfoDt
+    {
+        private Int32 _DBSyncInfoID;
+        private String _DBSyncInfoCode;
+        private String _DBSyncInfoName;
+        private String _ModuleID;
+        private Int32 _RowCount;
+        private String _SiteID;
+        private DateTime _LastSyncDate;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "DBSyncInfoID", DataType = "Int32")]
+        public Int32 DBSyncInfoID
+        {
+            get { return _DBSyncInfoID; }
+            set { _DBSyncInfoID = value; }
+        }
+        [Column(Name = "DBSyncInfoCode", DataType = "String")]
+        public String DBSyncInfoCode
+        {
+            get { return _DBSyncInfoCode; }
+            set { _DBSyncInfoCode = value; }
+        }
+        [Column(Name = "DBSyncInfoName", DataType = "String")]
+        public String DBSyncInfoName
+        {
+            get { return _DBSyncInfoName; }
+            set { _DBSyncInfoName = value; }
+        }
+        [Column(Name = "ModuleID", DataType = "String")]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
+        [Column(Name = "RowCount", DataType = "Int32")]
+        public Int32 RowCount
+        {
+            get { return _RowCount; }
+            set { _RowCount = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "LastSyncDate", DataType = "DateTime")]
+        public DateTime LastSyncDate
+        {
+            get { return _LastSyncDate; }
+            set { _LastSyncDate = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vFilterParameter
     [Serializable]
     [Table(Name = "vFilterParameter")]
