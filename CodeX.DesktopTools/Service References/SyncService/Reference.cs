@@ -601,6 +601,10 @@ namespace CodeX.DesktopTools.SyncService {
         CodeX.DesktopTools.SyncService.GetItemMasterListResponse GetItemMasterList(CodeX.DesktopTools.SyncService.GetItemMasterListRequest request);
         
         // CODEGEN: Generating message contract since element name siteID from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetLocationList", ReplyAction="*")]
+        CodeX.DesktopTools.SyncService.GetLocationListResponse GetLocationList(CodeX.DesktopTools.SyncService.GetLocationListRequest request);
+        
+        // CODEGEN: Generating message contract since element name siteID from namespace http://tempuri.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/PostItemTransaction", ReplyAction="*")]
         CodeX.DesktopTools.SyncService.PostItemTransactionResponse PostItemTransaction(CodeX.DesktopTools.SyncService.PostItemTransactionRequest request);
         
@@ -706,6 +710,94 @@ namespace CodeX.DesktopTools.SyncService {
         
         public GetItemMasterListResponseBody(object GetItemMasterListResult) {
             this.GetItemMasterListResult = GetItemMasterListResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetLocationListRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetLocationList", Namespace="http://tempuri.org/", Order=0)]
+        public CodeX.DesktopTools.SyncService.GetLocationListRequestBody Body;
+        
+        public GetLocationListRequest() {
+        }
+        
+        public GetLocationListRequest(CodeX.DesktopTools.SyncService.GetLocationListRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetLocationListRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int DBSyncInfoID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string siteID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public System.DateTime lastSyncDate;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        public int pageIndex;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public int rowCountPerPage;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+        public int rowCount;
+        
+        public GetLocationListRequestBody() {
+        }
+        
+        public GetLocationListRequestBody(int DBSyncInfoID, string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
+            this.DBSyncInfoID = DBSyncInfoID;
+            this.siteID = siteID;
+            this.lastSyncDate = lastSyncDate;
+            this.pageIndex = pageIndex;
+            this.rowCountPerPage = rowCountPerPage;
+            this.rowCount = rowCount;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetLocationListResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetLocationListResponse", Namespace="http://tempuri.org/", Order=0)]
+        public CodeX.DesktopTools.SyncService.GetLocationListResponseBody Body;
+        
+        public GetLocationListResponse() {
+        }
+        
+        public GetLocationListResponse(CodeX.DesktopTools.SyncService.GetLocationListResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetLocationListResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public object GetLocationListResult;
+        
+        public GetLocationListResponseBody() {
+        }
+        
+        public GetLocationListResponseBody(object GetLocationListResult) {
+            this.GetLocationListResult = GetLocationListResult;
         }
     }
     
@@ -1091,6 +1183,24 @@ namespace CodeX.DesktopTools.SyncService {
             inValue.Body.rowCount = rowCount;
             CodeX.DesktopTools.SyncService.GetItemMasterListResponse retVal = ((CodeX.DesktopTools.SyncService.SyncServiceSoap)(this)).GetItemMasterList(inValue);
             return retVal.Body.GetItemMasterListResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CodeX.DesktopTools.SyncService.GetLocationListResponse CodeX.DesktopTools.SyncService.SyncServiceSoap.GetLocationList(CodeX.DesktopTools.SyncService.GetLocationListRequest request) {
+            return base.Channel.GetLocationList(request);
+        }
+        
+        public object GetLocationList(int DBSyncInfoID, string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
+            CodeX.DesktopTools.SyncService.GetLocationListRequest inValue = new CodeX.DesktopTools.SyncService.GetLocationListRequest();
+            inValue.Body = new CodeX.DesktopTools.SyncService.GetLocationListRequestBody();
+            inValue.Body.DBSyncInfoID = DBSyncInfoID;
+            inValue.Body.siteID = siteID;
+            inValue.Body.lastSyncDate = lastSyncDate;
+            inValue.Body.pageIndex = pageIndex;
+            inValue.Body.rowCountPerPage = rowCountPerPage;
+            inValue.Body.rowCount = rowCount;
+            CodeX.DesktopTools.SyncService.GetLocationListResponse retVal = ((CodeX.DesktopTools.SyncService.SyncServiceSoap)(this)).GetLocationList(inValue);
+            return retVal.Body.GetLocationListResult;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

@@ -12,7 +12,7 @@ using System.Web.Security;
 using System.Web.UI.HtmlControls;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
     public partial class UserManagementEntry : BasePageEntry
     {

@@ -249,6 +249,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SupplierDao entitySupDao = new SupplierDao(ctx);
             AddressDao entityAddressDao = new AddressDao(ctx);
             BusinessPartnerTagFieldDao entityTagFieldDao = new BusinessPartnerTagFieldDao(ctx);
+            SiteBusinessPartnerDao entitySiteBusinessPartnerDao = new SiteBusinessPartnerDao(ctx);
             try
             {
                 BusinessPartners entity = new BusinessPartners();
@@ -275,6 +276,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
                 entityTagField.BusinessPartnerID = entity.BusinessPartnerID;
                 entityTagFieldDao.Insert(entityTagField);
+
+                SiteBusinessPartner SiteBusinessPartner = new SiteBusinessPartner();
+                SiteBusinessPartner.BusinessPartnerID = entity.BusinessPartnerID;
+                SiteBusinessPartner.SiteID = AppSession.UserLogin.SiteID;
+                SiteBusinessPartner.CreatedBy = AppSession.UserLogin.UserID;
+                entitySiteBusinessPartnerDao.Insert(SiteBusinessPartner);
 
                 retval = entity.BusinessPartnerID.ToString();
 

@@ -21,10 +21,14 @@ namespace CodeX.DesktopTools
         public static bool Sync(SyncService.SyncServiceSoapClient client, string siteID, string syncType)
         {
             vDBSyncInfoDt syncInfo = BusinessLayer.GetvDBSyncInfoDtList(string.Format("DBSyncInfoCode = '{0}' AND SiteID = '{1}'", syncType, siteID))[0];
-            if (syncType == Constant.DBSyncInfoCode.ITEM)
-                return SyncItem(client, siteID, syncInfo);
-            else if (syncType == Constant.DBSyncInfoCode.ITEM_TRANSACTION)
-                return SyncItemTransaction(client, siteID, syncInfo);
+
+            switch (syncType)
+            {
+                case Constant.DBSyncInfoCode.ITEM:return SyncItem(client, siteID, syncInfo);
+                case Constant.DBSyncInfoCode.LOCATION: return SyncLocation(client, siteID, syncInfo);
+                case Constant.DBSyncInfoCode.ITEM_TRANSACTION: return SyncItemTransaction(client, siteID, syncInfo);
+            }
+                
             return false;
         }
 
@@ -358,6 +362,112 @@ namespace CodeX.DesktopTools
                     DaoBase.ExecuteNonQuery(ctx);
 
                     EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Done");
+                    ctx.CommitTransaction();
+                }
+                catch (Exception ex)
+                {
+                    //errMessage = ex.Message;
+                    ctx.RollBackTransaction();
+                    result = false;
+                }
+                finally
+                {
+                    ctx.Close();
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region Location
+        class CResultLocation
+        {
+            public List<Location> ListLocation { get; set; }
+            public String TimeStamp { get; set; }
+            public Int32 RowCount { get; set; }
+        }
+        public static bool SyncLocation(SyncService.SyncServiceSoapClient client, string siteID, vDBSyncInfoDt syncInfo)
+        {
+            bool result = true;
+            int rowCountPerPage = syncInfo.RowCount;
+
+            int rowCount = -1;
+            object serviceResult = client.GetLocationList(syncInfo.DBSyncInfoID, siteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            CResultLocation tempResult = jss.Deserialize<CResultLocation>(serviceResult.ToString());
+            List<Location> lstLocation = tempResult.ListLocation;
+
+            rowCount = tempResult.RowCount;
+            decimal totalPageCount = Math.Ceiling((decimal)rowCount / rowCountPerPage);
+
+            for (int i = 1; i <= totalPageCount; ++i)
+            {
+                EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.LOCATION, "Sync", i.ToString(), "Waiting");
+            }
+
+            for (int i = 1; i <= totalPageCount; ++i)
+            {
+                EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.LOCATION, "Sync", i.ToString(), "Get Server Data");
+                if (i > 1)
+                {
+                    serviceResult = client.GetItemMasterList(syncInfo.DBSyncInfoID, siteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
+                    jss = new JavaScriptSerializer();
+                    tempResult = jss.Deserialize<CResultLocation>(serviceResult.ToString());
+                    lstLocation = tempResult.ListLocation;
+                }
+
+                IDbContext ctx = DbFactory.Configure(true);
+                try
+                {
+                    string sqlInsertTempTable = "";
+                    string sqlInsert = "";
+                    string fieldName = "";
+                    string parameter = "";
+
+                    #region Location
+                    Type type1 = typeof(Location);
+                    PropertyInfo[] propInfs = type1.GetProperties();
+                    fieldName = GetInsertObjectFieldName(propInfs, "");
+                    fieldName += ",ConsolidateID";
+
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Sync Location");
+                    if (lstLocation.Count > 0)
+                    {
+                        foreach (Location entity in lstLocation)
+                        {
+                            string insertPerObj = GetInsertObjectValue(propInfs, entity);
+                            insertPerObj += string.Format(",{0}", entity.LocationID);
+                            if (parameter != "")
+                                parameter += ",";
+                            parameter += string.Format("({0})", insertPerObj);
+                        }
+
+                        sqlInsertTempTable += "SELECT TOP 0 * INTO #TempTableLocation FROM Location;";
+                        sqlInsertTempTable += string.Format("INSERT INTO #TempTableLocation ");
+                        sqlInsertTempTable += string.Format("({0}) ", fieldName);
+                        sqlInsertTempTable += string.Format(" {0} ", "VALUES");
+                        sqlInsertTempTable += string.Format("{0};", parameter);
+                        sqlInsert += string.Format("INSERT INTO Location ");
+                        sqlInsert += string.Format("({0}) ", fieldName);
+                        sqlInsert += string.Format("SELECT {0} FROM #TempTableLocation WHERE ConsolidateID NOT IN (SELECT ConsolidateID FROM Location);", fieldName);
+
+                        sqlInsert += string.Format("UPDATE a SET {0} ", GetUpdateObjectFieldName(propInfs, "a", "b"));
+                        sqlInsert += string.Format("FROM Location a INNER JOIN [#TempTableLocation] b ON a.ConsolidateID = b.ConsolidateID;");
+                        sqlInsert += string.Format("DROP TABLE #TempTableLocation;");
+                    }
+                    #endregion
+
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.LOCATION, "Sync", i.ToString(), "Insert Into Temp Table");
+                    ctx.CommandText = sqlInsertTempTable;
+                    DaoBase.ExecuteNonQuery(ctx);
+
+                    sqlInsert += string.Format("UPDATE DBSyncInfoDt SET LastSyncDate = '{0}' WHERE DBSyncInfoID = {1} AND SiteID = '{2}';", tempResult.TimeStamp, syncInfo.DBSyncInfoID, siteID);
+
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.LOCATION, "Sync", i.ToString(), "Update Table");
+                    ctx.CommandText = sqlInsert;
+                    DaoBase.ExecuteNonQuery(ctx);
+
+                    EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.LOCATION, "Sync", i.ToString(), "Done");
                     ctx.CommitTransaction();
                 }
                 catch (Exception ex)

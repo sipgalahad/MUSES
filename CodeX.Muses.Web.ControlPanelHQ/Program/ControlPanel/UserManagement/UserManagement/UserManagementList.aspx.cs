@@ -11,7 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.Security;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
     public partial class UserManagementList : BasePageList
     {

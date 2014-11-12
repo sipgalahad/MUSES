@@ -13242,6 +13242,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SiteBusinessPartner
+    [Serializable]
+    [Table(Name = "SiteBusinessPartner")]
+    public class SiteBusinessPartner : DbDataModel
+    {
+        private Int32 _SiteBusinessPartnerID;
+        private String _SiteID;
+        private Int32 _BusinessPartnerID;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteBusinessPartnerID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SiteBusinessPartnerID
+        {
+            get { return _SiteBusinessPartnerID; }
+            set { _SiteBusinessPartnerID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SiteBusinessPartnerDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SiteBusinessPartner));
+        private bool _isAuditLog = false;
+        private const string p_SiteBusinessPartnerID = "@p_SiteBusinessPartnerID";
+        public SiteBusinessPartnerDao() { }
+        public SiteBusinessPartnerDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SiteBusinessPartner Get(Int32 SiteBusinessPartnerID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteBusinessPartnerID, SiteBusinessPartnerID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SiteBusinessPartner)_helper.DataRowToObject(row, new SiteBusinessPartner());
+        }
+        public int Insert(SiteBusinessPartner record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SiteBusinessPartner record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SiteBusinessPartnerID)
+        {
+            SiteBusinessPartner record;
+            if (_ctx.Transaction == null)
+                record = new SiteBusinessPartnerDao().Get(SiteBusinessPartnerID);
+            else
+                record = Get(SiteBusinessPartnerID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SiteItem
     [Serializable]
     [Table(Name = "SiteItem")]
@@ -13343,6 +13449,112 @@ namespace CodeX.Data.Model
                 record = new SiteItemDao().Get(SiteItemID);
             else
                 record = Get(SiteItemID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SiteItemGroup
+    [Serializable]
+    [Table(Name = "SiteItemGroup")]
+    public class SiteItemGroup : DbDataModel
+    {
+        private Int32 _SiteItemGroupID;
+        private String _SiteID;
+        private Int32 _ItemGroupID;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SiteItemGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SiteItemGroupID
+        {
+            get { return _SiteItemGroupID; }
+            set { _SiteItemGroupID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SiteItemGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SiteItemGroup));
+        private bool _isAuditLog = false;
+        private const string p_SiteItemGroupID = "@p_SiteItemGroupID";
+        public SiteItemGroupDao() { }
+        public SiteItemGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SiteItemGroup Get(Int32 SiteItemGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteItemGroupID, SiteItemGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SiteItemGroup)_helper.DataRowToObject(row, new SiteItemGroup());
+        }
+        public int Insert(SiteItemGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SiteItemGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SiteItemGroupID)
+        {
+            SiteItemGroup record;
+            if (_ctx.Transaction == null)
+                record = new SiteItemGroupDao().Get(SiteItemGroupID);
+            else
+                record = Get(SiteItemGroupID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -11,7 +11,7 @@ using CodeX.Web.Common;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
     public partial class ItemPlanningEntryCtl : BaseEntryPopupCtl
     {

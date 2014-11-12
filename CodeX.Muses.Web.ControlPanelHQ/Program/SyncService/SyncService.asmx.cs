@@ -10,7 +10,7 @@ using System.Collections;
 using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
     /// <summary>
     /// Summary description for MethodService
@@ -102,6 +102,39 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
 
             Object returnObj = new { ListItemMaster = ListItemMaster, ListItemProduct = ListItemProduct, ListItemTagField = ListItemTagField, ListItemPlanning = ListItemPlanning, ListItemAlternateUnit = ListItemAlternateUnit, Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), RowCount = rowCount };
+            return new JavaScriptSerializer().Serialize(returnObj);
+        }
+        #endregion
+
+        #region Sync Location
+        [WebMethod()]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetLocationList(Int32 DBSyncInfoID, String siteID, DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount)
+        {
+            int maxRow = pageIndex * rowCountPerPage;
+            string filterExpression = "";
+            if (lastSyncDate.Year > 1900)
+            {
+                if (filterExpression != "")
+                    filterExpression += " AND ";
+                filterExpression += string.Format("SiteID = '{0}' AND (CreatedDate > '{1}' OR (LastUpdatedDate IS NOT NULL AND LastUpdatedDate > '{1}'))", siteID, lastSyncDate);
+            }
+            else
+                filterExpression = string.Format("SiteID = '{0}'", siteID);
+            if (rowCount < 0)
+                rowCount = BusinessLayer.GetLocationRowCount(filterExpression);
+            List<Location> ListLocation = BusinessLayer.GetLocationList(filterExpression, rowCountPerPage, pageIndex, "");
+            foreach (Location entity in ListLocation)
+                entity.OriginalValue = null;
+
+            if (maxRow >= rowCount)
+            {
+                DBSyncInfoDt DBSyncInfo = BusinessLayer.GetDBSyncInfoDt(DBSyncInfoID, siteID);
+                DBSyncInfo.LastSyncDate = DateTime.Now;
+                BusinessLayer.UpdateDBSyncInfoDt(DBSyncInfo);
+            }
+
+            Object returnObj = new { ListLocation = ListLocation, Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), RowCount = rowCount };
             return new JavaScriptSerializer().Serialize(returnObj);
         }
         #endregion

@@ -9,7 +9,7 @@ using CodeX.Web.Common;
 using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
-using CodeX.Muses.Web.ControlPanel.Program;
+using CodeX.Muses.Web.ControlPanelHQ.Program;
 
 namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vDBSyncInfoDt> lstEntity = BusinessLayer.GetvDBSyncInfoDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vDBSyncInfoDt> lstEntity = BusinessLayer.GetvDBSyncInfoDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "DBSyncInfoCode ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

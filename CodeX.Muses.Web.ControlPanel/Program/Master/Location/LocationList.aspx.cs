@@ -25,12 +25,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<Site> lstSite = BusinessLayer.GetSiteList("");
-            Methods.SetComboBoxField<Site>(cboSite, lstSite, "SiteName", "SiteID");
-            cboSite.SelectedIndex = 0;
-            if (Request.Form["siteID"] != null)
-                cboSite.Value = Request.Form["siteID"].ToString();
-
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();
@@ -57,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", cboSite.Value);
+            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
             return filterExpression;
         }
 
@@ -101,7 +95,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl(string.Format("~/Program/Master/Location/LocationEntry.aspx?id=add|{0}", cboSite.Value));
+            url = ResolveUrl(string.Format("~/Program/Master/Location/LocationEntry.aspx?id=add|{0}", AppSession.UserLogin.SiteID));
             return true;
         }
 

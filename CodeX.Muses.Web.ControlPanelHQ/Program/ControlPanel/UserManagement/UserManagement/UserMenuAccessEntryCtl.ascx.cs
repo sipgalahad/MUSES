@@ -12,7 +12,7 @@ using CodeX.Data.Core.Dal;
 using System.Text;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
     public partial class UserMenuAccessEntryCtl : BaseViewPopupCtl
     {

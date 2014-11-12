@@ -16,10 +16,6 @@
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
         });
 
-        function onCboSiteValueChanged(s) {
-            cbpView.PerformCallback('refresh');
-        }
-
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
             cbpView.PerformCallback('refresh');
@@ -77,16 +73,6 @@
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
-    <table cellpadding="0" cellspacing="0">
-        <tr>
-            <td style="width:100px"><%=GetLabel("Site") %></td>
-            <td>
-                <dxe:ASPxComboBox ID="cboSite" runat="server" ClientInstanceName="cboSite" Width="150px">
-                    <ClientSideEvents ValueChanged="function(s,e){ onCboSiteValueChanged(s); }" />
-                </dxe:ASPxComboBox>
-            </td>
-        </tr>
-    </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">

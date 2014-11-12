@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="ItemGroupMasterEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.ItemGroupMasterEntry" %>
+    CodeBehind="ItemGroupMasterEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.ItemGroupMasterEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>

@@ -3872,6 +3872,49 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<Location> GetLocationList(string filterExpression, int numRows, int pageIndex, string orderByExpression)
+        {
+            List<Location> result = new List<Location>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Location));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Location)helper.IDataReaderToObject(reader, new Location()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetLocationRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Location));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         public static Int32 GetLocationMaxID(IDbContext ctx)
         {
             Int32 result = 0;
@@ -6221,6 +6264,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SiteBusinessPartner
+        public static SiteBusinessPartner GetSiteBusinessPartner(Int32 SiteBusinessPartnerID)
+        {
+            return new SiteBusinessPartnerDao().Get(SiteBusinessPartnerID);
+        }
+        public static int InsertSiteBusinessPartner(SiteBusinessPartner record)
+        {
+            return new SiteBusinessPartnerDao().Insert(record);
+        }
+        public static int UpdateSiteBusinessPartner(SiteBusinessPartner record)
+        {
+            return new SiteBusinessPartnerDao().Update(record);
+        }
+        public static int DeleteSiteBusinessPartner(Int32 SiteBusinessPartnerID)
+        {
+            return new SiteBusinessPartnerDao().Delete(SiteBusinessPartnerID);
+        }
+        public static List<SiteBusinessPartner> GetSiteBusinessPartnerList(string filterExpression)
+        {
+            List<SiteBusinessPartner> result = new List<SiteBusinessPartner>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteBusinessPartner));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteBusinessPartner)helper.IDataReaderToObject(reader, new SiteBusinessPartner()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SiteItem
         public static SiteItem GetSiteItem(Int32 SiteItemID)
         {
@@ -6274,6 +6357,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SiteItemGroup
+        public static SiteItemGroup GetSiteItemGroup(Int32 SiteItemGroupID)
+        {
+            return new SiteItemGroupDao().Get(SiteItemGroupID);
+        }
+        public static int InsertSiteItemGroup(SiteItemGroup record)
+        {
+            return new SiteItemGroupDao().Insert(record);
+        }
+        public static int UpdateSiteItemGroup(SiteItemGroup record)
+        {
+            return new SiteItemGroupDao().Update(record);
+        }
+        public static int DeleteSiteItemGroup(Int32 SiteItemGroupID)
+        {
+            return new SiteItemGroupDao().Delete(SiteItemGroupID);
+        }
+        public static List<SiteItemGroup> GetSiteItemGroupList(string filterExpression)
+        {
+            List<SiteItemGroup> result = new List<SiteItemGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteItemGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteItemGroup)helper.IDataReaderToObject(reader, new SiteItemGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

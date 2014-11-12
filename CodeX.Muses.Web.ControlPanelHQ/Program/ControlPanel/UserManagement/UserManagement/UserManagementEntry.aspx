@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="UserManagementEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.UserManagementEntry" %>
+    CodeBehind="UserManagementEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.UserManagementEntry" %>
 
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>

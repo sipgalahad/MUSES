@@ -45,6 +45,7 @@ namespace CodeX.Common
         public static class DBSyncInfoCode
         {
             public const string ITEM = "CP001";
+            public const string LOCATION = "CP002";
             public const string ITEM_TRANSACTION = "IM001";
         }
 

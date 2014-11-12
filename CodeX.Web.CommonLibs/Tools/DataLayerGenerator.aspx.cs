@@ -42,39 +42,41 @@ namespace CodeX.Web.CommonLibs
             string lastUpdatedDateDao = "";
             foreach (SysColumns col in lstColumns)
             {
-                if (col.Name == "CreatedDate")
-                    createdDateDao = "\nrecord.CreatedDate = DateTime.Now;";
-                else if (col.Name == "LastUpdatedDate")
-                    lastUpdatedDateDao = "\nrecord.LastUpdatedDate = DateTime.Now;";
-
-                string colType = col.Type;
-                string identity = "";
-                if (col.IsIdentity)
-                    identity = ", IsIdentity = true";
-                string nullable = "";
-                if (col.IsNullable)
+                if (col.Name != "ConsolidateID")
                 {
-                    nullable = ", IsNullable = true";
-                    if (colType.Contains("Int"))
-                        colType += "?";
+                    if (col.Name == "CreatedDate")
+                        createdDateDao = "\nrecord.CreatedDate = DateTime.Now;";
+                    else if (col.Name == "LastUpdatedDate")
+                        lastUpdatedDateDao = "\nrecord.LastUpdatedDate = DateTime.Now;";
+
+                    string colType = col.Type;
+                    string identity = "";
+                    if (col.IsIdentity)
+                        identity = ", IsIdentity = true";
+                    string nullable = "";
+                    if (col.IsNullable)
+                    {
+                        nullable = ", IsNullable = true";
+                        if (colType.Contains("Int"))
+                            colType += "?";
+                    }
+                    listMember += string.Format("private {0} _{1};\n", colType, col.Name);
+
+                    string primaryKey = "";
+                    if (listPK.Contains(col.Name))
+                    {
+                        primaryKey = ", IsPrimaryKey = true";
+                        if (paramPK != "")
+                            paramPK += ", ";
+                        paramPK += string.Format("{0} {1}", col.Type, col.Name);
+
+                        if (passParamPK != "")
+                            passParamPK += ", ";
+                        passParamPK += string.Format("{0}", col.Name);
+                    }
+                    listField += string.Format("[Column(Name = \"{0}\", DataType = \"{1}\"{2}{3}{4})]\n", col.Name, col.Type, primaryKey, identity, nullable);
+                    listField += string.Format("public {1} {0}\n{{\nget {{ return _{0}; }}\nset {{ _{0} = value; }}\n}}\n", col.Name, colType);
                 }
-                listMember += string.Format("private {0} _{1};\n", colType, col.Name);
-
-                string primaryKey = "";
-                if (listPK.Contains(col.Name))
-                {
-                    primaryKey = ", IsPrimaryKey = true";
-                    if (paramPK != "")
-                        paramPK += ", ";
-                    paramPK += string.Format("{0} {1}", col.Type, col.Name);
-
-                    if (passParamPK != "")
-                        passParamPK += ", ";
-                    passParamPK += string.Format("{0}", col.Name);
-                }
-                listField += string.Format("[Column(Name = \"{0}\", DataType = \"{1}\"{2}{3}{4})]\n", col.Name, col.Type, primaryKey, identity, nullable);
-                listField += string.Format("public {1} {0}\n{{\nget {{ return _{0}; }}\nset {{ _{0} = value; }}\n}}\n", col.Name, colType);
-
             }
 
             String result = "";

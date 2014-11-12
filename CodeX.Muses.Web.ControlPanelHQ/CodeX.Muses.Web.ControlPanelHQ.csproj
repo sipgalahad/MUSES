@@ -120,6 +120,12 @@
     <Content Include="Program\Master\ItemProduct\ItemProductEntry.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemProductList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx" />
+    <Content Include="Program\Master\Location\LocationEntry.aspx" />
+    <Content Include="Program\Master\Location\LocationItemEntryCtl.ascx" />
+    <Content Include="Program\Master\Location\LocationList.aspx" />
+    <Content Include="Program\Master\Supplier\SupplierEntry.aspx" />
+    <Content Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx" />
+    <Content Include="Program\Master\Supplier\SupplierList.aspx" />
     <Content Include="Program\ProcessUtilities\SyncProcess\SyncProcessList.aspx" />
     <Content Include="Program\SyncService\SyncService.asmx" />
     <Content Include="Web.config" />
@@ -470,6 +476,48 @@
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemSiteEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemSiteEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationEntry.aspx.cs">
+      <DependentUpon>LocationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationEntry.aspx.designer.cs">
+      <DependentUpon>LocationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationItemEntryCtl.ascx.cs">
+      <DependentUpon>LocationItemEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationItemEntryCtl.ascx.designer.cs">
+      <DependentUpon>LocationItemEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationList.aspx.cs">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Location\LocationList.aspx.designer.cs">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierEntry.aspx.cs">
+      <DependentUpon>SupplierEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierEntry.aspx.designer.cs">
+      <DependentUpon>SupplierEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx.cs">
+      <DependentUpon>SupplierItemEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx.designer.cs">
+      <DependentUpon>SupplierItemEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierList.aspx.cs">
+      <DependentUpon>SupplierList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Supplier\SupplierList.aspx.designer.cs">
+      <DependentUpon>SupplierList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ProcessUtilities\SyncProcess\SyncProcessList.aspx.cs">
       <DependentUpon>SyncProcessList.aspx</DependentUpon>

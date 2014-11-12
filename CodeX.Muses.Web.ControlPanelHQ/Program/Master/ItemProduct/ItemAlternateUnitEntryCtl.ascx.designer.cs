@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanel.Program {
+namespace CodeX.Muses.Web.ControlPanelHQ.Program {
     
     
     public partial class ItemAlternateUnitEntryCtl {

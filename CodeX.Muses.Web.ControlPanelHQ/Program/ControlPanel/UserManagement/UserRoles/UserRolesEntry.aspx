@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="UserRolesEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.UserRolesEntry" %>
+    CodeBehind="UserRolesEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.UserRolesEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <input type="hidden" id="hdnID" runat="server" value="" />

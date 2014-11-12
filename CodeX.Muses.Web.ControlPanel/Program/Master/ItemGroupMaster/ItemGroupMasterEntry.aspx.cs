@@ -116,6 +116,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ItemGroupMasterDao entityDao = new ItemGroupMasterDao(ctx);
+            SiteItemGroupDao entitySiteItemGroupDao = new SiteItemGroupDao(ctx);
             bool result = false;
             try
             {
@@ -123,7 +124,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 ControlToEntity(entity);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
-                retval = BusinessLayer.GetItemGroupMasterMaxID(ctx).ToString();
+                entity.ItemGroupID = BusinessLayer.GetItemGroupMasterMaxID(ctx);
+
+                SiteItemGroup siteItemGroup = new SiteItemGroup();
+                siteItemGroup.ItemGroupID = entity.ItemGroupID;
+                siteItemGroup.SiteID = AppSession.UserLogin.SiteID;
+                siteItemGroup.CreatedBy = AppSession.UserLogin.UserID;
+                entitySiteItemGroupDao.Insert(siteItemGroup);
+
+                retval = entity.ItemGroupID.ToString();
                 ctx.CommitTransaction();
                 result = true;
             }

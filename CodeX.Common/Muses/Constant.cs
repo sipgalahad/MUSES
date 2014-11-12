@@ -77,6 +77,11 @@ namespace CodeX.Common
             {
                 public const string ITEM_GROUP_MASTER = "CPHQ010101";
                 public const string ITEM_PRODUCT = "CPHQ010102";
+                public const string LOCATION = "CPHQ010103";
+                public const string LOCATION_ITEM = "CPHQ010104";
+
+                public const string SUPPLIER = "CPHQ010201";
+                public const string CUSTOMER = "CPHQ010202";
 
                 public const string SITE_INFORMATION = "CPHQ020101";
 
