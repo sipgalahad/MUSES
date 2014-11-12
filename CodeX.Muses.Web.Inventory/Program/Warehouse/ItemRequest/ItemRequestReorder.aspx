@@ -9,7 +9,7 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnReorderItemRequestProcess" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbnew.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Process")%></div></li>
+    <li id="btnReorderItemRequestProcess" CRUDMode="R" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Process")%></div></li>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">   
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />

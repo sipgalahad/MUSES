@@ -7,7 +7,7 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnDataMigrationColumnMap" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbnew.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Column Map")%></div></li> 
+    <li id="btnDataMigrationColumnMap" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Column Map")%></div></li> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhList" runat="server">

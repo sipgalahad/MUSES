@@ -93,6 +93,7 @@
                                 <asp:BoundField DataField="DBSyncInfoCode" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="DBSyncInfoCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="DBSyncInfoName" HeaderText="Nama" />
+                                <asp:BoundField DataField="LastSyncDate" DataFormatString="{0:dd-MMM-yyyy HH:mm:ss}" HeaderText="Terakhir Sync" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

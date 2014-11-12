@@ -138,9 +138,11 @@
     <Content Include="Images\Icon\edit.png" />
     <Content Include="Images\Icon\export.png" />
     <Content Include="Images\Icon\close_pane.png" />
+    <Content Include="Images\Icon\list.png" />
     <Content Include="Images\Icon\menu.png" />
     <Content Include="Images\Icon\next.png" />
     <Content Include="Images\Icon\print.png" />
+    <Content Include="Images\Icon\redo.png" />
     <Content Include="Images\Icon\set.png" />
     <Content Include="Images\Icon\prev.png" />
     <Content Include="Images\Icon\save.png" />
@@ -151,7 +153,6 @@
     <Content Include="Images\Icon\sync.png" />
     <Content Include="Images\Icon\sync_cloud.png" />
     <Content Include="Images\Icon\tbinfo.png" />
-    <Content Include="Images\Icon\tbnew.png" />
     <Content Include="Images\info.png" />
     <Content Include="Images\Loading.gif" />
     <Content Include="Images\loading_small.gif" />

@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Sync Item
         [WebMethod()]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public object GetItemMasterList(String siteID, DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount)
+        public object GetItemMasterList(Int32 DBSyncInfoID, String siteID, DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount)
         {
             int maxRow = pageIndex * rowCountPerPage;
             string filterExpression = "";
@@ -94,6 +94,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             foreach (ItemAlternateUnit entity in ListItemAlternateUnit)
                 entity.OriginalValue = null;
 
+            if (maxRow >= rowCount)
+            {
+                DBSyncInfoDt DBSyncInfo = BusinessLayer.GetDBSyncInfoDt(DBSyncInfoID, siteID);
+                DBSyncInfo.LastSyncDate = DateTime.Now;
+                BusinessLayer.UpdateDBSyncInfoDt(DBSyncInfo);
+            }
+
             Object returnObj = new { ListItemMaster = ListItemMaster, ListItemProduct = ListItemProduct, ListItemTagField = ListItemTagField, ListItemPlanning = ListItemPlanning, ListItemAlternateUnit = ListItemAlternateUnit, Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), RowCount = rowCount };
             return new JavaScriptSerializer().Serialize(returnObj);
         }
@@ -104,7 +111,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Sync Item Transaction
         [WebMethod()]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public bool PostItemTransaction(String siteID, DateTime lastSyncDate, List<vSyncItemTransactionHd> lstItemTransactionHd, List<vSyncItemTransactionDt> lstItemTransactionDt)
+        public bool PostItemTransaction(Int32 DBSyncInfoID, String siteID, DateTime lastSyncDate, List<vSyncItemTransactionHd> lstItemTransactionHd, List<vSyncItemTransactionDt> lstItemTransactionDt)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
@@ -179,6 +186,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 }
                 #endregion
 
+                sqlInsert += string.Format("UPDATE DBSyncInfoDt SET LastSyncDate = '{0}' WHERE DBSyncInfoID = {1} AND SiteID = '{2}';", DateTime.Now, DBSyncInfoID, siteID);
                 ctx.CommandText = sqlInsertTempTable;
                 DaoBase.ExecuteNonQuery(ctx);
 

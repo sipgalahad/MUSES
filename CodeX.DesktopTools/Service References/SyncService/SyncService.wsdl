@@ -5,6 +5,7 @@
       <s:element name="GetItemMasterList">
         <s:complexType>
           <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DBSyncInfoID" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="lastSyncDate" type="s:dateTime" />
             <s:element minOccurs="1" maxOccurs="1" name="pageIndex" type="s:int" />
@@ -23,6 +24,7 @@
       <s:element name="PostItemTransaction">
         <s:complexType>
           <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DBSyncInfoID" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="siteID" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="lastSyncDate" type="s:dateTime" />
             <s:element minOccurs="0" maxOccurs="1" name="lstItemTransactionHd" type="tns:ArrayOfVSyncItemTransactionHd" />
@@ -42,16 +44,16 @@
           <s:element minOccurs="1" maxOccurs="1" name="TransactionDate" type="s:dateTime" />
           <s:element minOccurs="0" maxOccurs="1" name="TransactionNo" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="FromLocationID" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="ToLocationID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ToLocationID" nillable="true" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="GCAdjustmentType" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="GCConsumptionType" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="ReferenceNo" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="IsBySystem" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReferenceNo" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="GCTransactionStatus" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="CreatedBy" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="CreatedDate" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedBy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedBy" nillable="true" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedDate" type="s:dateTime" />
         </s:sequence>
       </s:complexType>
@@ -77,7 +79,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="GCItemDetailStatus" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="CreatedBy" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="CreatedDate" type="s:dateTime" />
-          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedBy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedBy" nillable="true" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedDate" type="s:dateTime" />
         </s:sequence>
       </s:complexType>

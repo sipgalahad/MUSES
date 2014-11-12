@@ -41,7 +41,7 @@ namespace CodeX.DesktopTools.SyncService {
         
         private int FromLocationIDField;
         
-        private int ToLocationIDField;
+        private System.Nullable<int> ToLocationIDField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string GCAdjustmentTypeField;
@@ -49,10 +49,10 @@ namespace CodeX.DesktopTools.SyncService {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string GCConsumptionTypeField;
         
+        private bool IsBySystemField;
+        
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ReferenceNoField;
-        
-        private bool IsBySystemField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string RemarksField;
@@ -64,7 +64,7 @@ namespace CodeX.DesktopTools.SyncService {
         
         private System.DateTime CreatedDateField;
         
-        private int LastUpdatedByField;
+        private System.Nullable<int> LastUpdatedByField;
         
         private System.DateTime LastUpdatedDateField;
         
@@ -144,7 +144,7 @@ namespace CodeX.DesktopTools.SyncService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=5)]
-        public int ToLocationID {
+        public System.Nullable<int> ToLocationID {
             get {
                 return this.ToLocationIDField;
             }
@@ -182,20 +182,7 @@ namespace CodeX.DesktopTools.SyncService {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=8)]
-        public string ReferenceNo {
-            get {
-                return this.ReferenceNoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ReferenceNoField, value) != true)) {
-                    this.ReferenceNoField = value;
-                    this.RaisePropertyChanged("ReferenceNo");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=9)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=8)]
         public bool IsBySystem {
             get {
                 return this.IsBySystemField;
@@ -204,6 +191,19 @@ namespace CodeX.DesktopTools.SyncService {
                 if ((this.IsBySystemField.Equals(value) != true)) {
                     this.IsBySystemField = value;
                     this.RaisePropertyChanged("IsBySystem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=9)]
+        public string ReferenceNo {
+            get {
+                return this.ReferenceNoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReferenceNoField, value) != true)) {
+                    this.ReferenceNoField = value;
+                    this.RaisePropertyChanged("ReferenceNo");
                 }
             }
         }
@@ -261,7 +261,7 @@ namespace CodeX.DesktopTools.SyncService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=14)]
-        public int LastUpdatedBy {
+        public System.Nullable<int> LastUpdatedBy {
             get {
                 return this.LastUpdatedByField;
             }
@@ -347,7 +347,7 @@ namespace CodeX.DesktopTools.SyncService {
         
         private System.DateTime CreatedDateField;
         
-        private int LastUpdatedByField;
+        private System.Nullable<int> LastUpdatedByField;
         
         private System.DateTime LastUpdatedDateField;
         
@@ -557,7 +557,7 @@ namespace CodeX.DesktopTools.SyncService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=15)]
-        public int LastUpdatedBy {
+        public System.Nullable<int> LastUpdatedBy {
             get {
                 return this.LastUpdatedByField;
             }
@@ -644,25 +644,29 @@ namespace CodeX.DesktopTools.SyncService {
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
     public partial class GetItemMasterListRequestBody {
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int DBSyncInfoID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
         public string siteID;
         
-        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
         public System.DateTime lastSyncDate;
         
-        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
         public int pageIndex;
         
-        [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
         public int rowCountPerPage;
         
-        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
         public int rowCount;
         
         public GetItemMasterListRequestBody() {
         }
         
-        public GetItemMasterListRequestBody(string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
+        public GetItemMasterListRequestBody(int DBSyncInfoID, string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
+            this.DBSyncInfoID = DBSyncInfoID;
             this.siteID = siteID;
             this.lastSyncDate = lastSyncDate;
             this.pageIndex = pageIndex;
@@ -728,22 +732,26 @@ namespace CodeX.DesktopTools.SyncService {
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
     public partial class PostItemTransactionRequestBody {
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int DBSyncInfoID;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
         public string siteID;
         
-        [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
         public System.DateTime lastSyncDate;
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
         public CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd;
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
         public CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt;
         
         public PostItemTransactionRequestBody() {
         }
         
-        public PostItemTransactionRequestBody(string siteID, System.DateTime lastSyncDate, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt) {
+        public PostItemTransactionRequestBody(int DBSyncInfoID, string siteID, System.DateTime lastSyncDate, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt) {
+            this.DBSyncInfoID = DBSyncInfoID;
             this.siteID = siteID;
             this.lastSyncDate = lastSyncDate;
             this.lstItemTransactionHd = lstItemTransactionHd;
@@ -1072,9 +1080,10 @@ namespace CodeX.DesktopTools.SyncService {
             return base.Channel.GetItemMasterList(request);
         }
         
-        public object GetItemMasterList(string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
+        public object GetItemMasterList(int DBSyncInfoID, string siteID, System.DateTime lastSyncDate, int pageIndex, int rowCountPerPage, int rowCount) {
             CodeX.DesktopTools.SyncService.GetItemMasterListRequest inValue = new CodeX.DesktopTools.SyncService.GetItemMasterListRequest();
             inValue.Body = new CodeX.DesktopTools.SyncService.GetItemMasterListRequestBody();
+            inValue.Body.DBSyncInfoID = DBSyncInfoID;
             inValue.Body.siteID = siteID;
             inValue.Body.lastSyncDate = lastSyncDate;
             inValue.Body.pageIndex = pageIndex;
@@ -1089,9 +1098,10 @@ namespace CodeX.DesktopTools.SyncService {
             return base.Channel.PostItemTransaction(request);
         }
         
-        public bool PostItemTransaction(string siteID, System.DateTime lastSyncDate, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt) {
+        public bool PostItemTransaction(int DBSyncInfoID, string siteID, System.DateTime lastSyncDate, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionHd lstItemTransactionHd, CodeX.DesktopTools.SyncService.ArrayOfVSyncItemTransactionDt lstItemTransactionDt) {
             CodeX.DesktopTools.SyncService.PostItemTransactionRequest inValue = new CodeX.DesktopTools.SyncService.PostItemTransactionRequest();
             inValue.Body = new CodeX.DesktopTools.SyncService.PostItemTransactionRequestBody();
+            inValue.Body.DBSyncInfoID = DBSyncInfoID;
             inValue.Body.siteID = siteID;
             inValue.Body.lastSyncDate = lastSyncDate;
             inValue.Body.lstItemTransactionHd = lstItemTransactionHd;

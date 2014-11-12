@@ -45,6 +45,8 @@ namespace CodeX.DesktopTools
                 List<vSyncItemTransactionHd> lstItemTransactionHd = BusinessLayer.GetvSyncItemTransactionHdList(filterExpression, syncInfo.RowCount, i);
 
                 string filterExpressionDt = string.Format("TransactionID IN ({0})", String.Join(",", lstItemTransactionHd.Select(p => p.TransactionID).ToList()));
+                if (i == totalPageCount)
+                    filterExpressionDt += string.Format(" OR CreatedDate > '{0}' OR (LastUpdatedDate IS NOT NULL AND LastUpdatedDate > '{0}')", syncInfo.LastSyncDate);
                 List<vSyncItemTransactionDt> lstItemTransactionDt = BusinessLayer.GetvSyncItemTransactionDtList(filterExpression);
                 SyncService.ArrayOfVSyncItemTransactionHd lstHd = new SyncService.ArrayOfVSyncItemTransactionHd();
                 SyncService.ArrayOfVSyncItemTransactionDt lstDt = new SyncService.ArrayOfVSyncItemTransactionDt();
@@ -62,7 +64,7 @@ namespace CodeX.DesktopTools
                     lstDt.Add(entityDtNew);
                 }
 
-                client.PostItemTransaction(siteID, syncInfo.LastSyncDate, lstHd, lstDt);
+                client.PostItemTransaction(syncInfo.DBSyncInfoID, siteID, syncInfo.LastSyncDate, lstHd, lstDt);
             }
             DBSyncInfoDt syncInfoDt = BusinessLayer.GetDBSyncInfoDt(syncInfo.DBSyncInfoID, siteID);
             syncInfoDt.LastSyncDate = DateTime.Now;
@@ -129,7 +131,7 @@ namespace CodeX.DesktopTools
             int rowCountPerPage = syncInfo.RowCount;
 
             int rowCount = -1;
-            object serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
+            object serviceResult = client.GetItemMasterList(syncInfo.DBSyncInfoID, siteID, syncInfo.LastSyncDate, 1, rowCountPerPage, rowCount);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             CResultItem tempResult = jss.Deserialize<CResultItem>(serviceResult.ToString());
             List<ItemMaster> lstItemMaster = tempResult.ListItemMaster;
@@ -156,7 +158,7 @@ namespace CodeX.DesktopTools
                 EventViewerHelper.SendMessageToEventViewer(Constant.DBSyncInfoCode.ITEM, "Sync", i.ToString(), "Get Server Data");
                 if (i > 1)
                 {
-                    serviceResult = client.GetItemMasterList(siteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
+                    serviceResult = client.GetItemMasterList(syncInfo.DBSyncInfoID, siteID, syncInfo.LastSyncDate, i, rowCountPerPage, rowCount);
                     jss = new JavaScriptSerializer();
                     tempResult = jss.Deserialize<CResultItem>(serviceResult.ToString());
                     lstItemMaster = tempResult.ListItemMaster;
