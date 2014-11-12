@@ -48,6 +48,11 @@ namespace CodeX.Common
             public const string ITEM_TRANSACTION = "IM001";
         }
 
+        public static class MasterCode
+        {
+            public const string ITEM = "XXX001";
+        }
+
         #region Standard Code
         public static partial class StandardCode
         {
@@ -97,6 +102,12 @@ namespace CodeX.Common
             public const string GLACCOUNT_TYPE = "X180";
             public const string WRITE_OFF_TYPE = "X182";
             public const string JOURNAL_GROUP = "X188";
+        }
+
+        public static class PrefixType
+        {
+            public const string FIXED_TYPE = "X302^001";
+            public const string N_FIRST_DIGIT = "X302^002";
         }
 
         public static class FamilyRelation

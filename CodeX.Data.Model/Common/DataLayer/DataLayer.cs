@@ -1284,6 +1284,153 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region MasterCoding
+    [Serializable]
+    [Table(Name = "MasterCoding")]
+    public class MasterCoding : DbDataModel
+    {
+        private String _MasterCode;
+        private String _MasterName;
+        private String _GCPrefixType;
+        private String _DefaultPrefix;
+        private String _DefaultPrefixType;
+        private Int16 _PrefixLength;
+        private Boolean _IsBySite;
+        private Int16 _CounterDigit;
+        private Boolean _IsAllowChangeInitial;
+        private String _TableName;
+        private String _CodeFieldName;
+        private String _NameFieldName;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MasterCode", DataType = "String", IsPrimaryKey = true)]
+        public String MasterCode
+        {
+            get { return _MasterCode; }
+            set { _MasterCode = value; }
+        }
+        [Column(Name = "MasterName", DataType = "String")]
+        public String MasterName
+        {
+            get { return _MasterName; }
+            set { _MasterName = value; }
+        }
+        [Column(Name = "GCPrefixType", DataType = "String")]
+        public String GCPrefixType
+        {
+            get { return _GCPrefixType; }
+            set { _GCPrefixType = value; }
+        }
+        [Column(Name = "DefaultPrefix", DataType = "String")]
+        public String DefaultPrefix
+        {
+            get { return _DefaultPrefix; }
+            set { _DefaultPrefix = value; }
+        }
+        [Column(Name = "DefaultPrefixType", DataType = "String")]
+        public String DefaultPrefixType
+        {
+            get { return _DefaultPrefixType; }
+            set { _DefaultPrefixType = value; }
+        }
+        [Column(Name = "PrefixLength", DataType = "Int16")]
+        public Int16 PrefixLength
+        {
+            get { return _PrefixLength; }
+            set { _PrefixLength = value; }
+        }
+        [Column(Name = "IsBySite", DataType = "Boolean")]
+        public Boolean IsBySite
+        {
+            get { return _IsBySite; }
+            set { _IsBySite = value; }
+        }
+        [Column(Name = "CounterDigit", DataType = "Int16")]
+        public Int16 CounterDigit
+        {
+            get { return _CounterDigit; }
+            set { _CounterDigit = value; }
+        }
+        [Column(Name = "IsAllowChangeInitial", DataType = "Boolean")]
+        public Boolean IsAllowChangeInitial
+        {
+            get { return _IsAllowChangeInitial; }
+            set { _IsAllowChangeInitial = value; }
+        }
+        [Column(Name = "TableName", DataType = "String")]
+        public String TableName
+        {
+            get { return _TableName; }
+            set { _TableName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "NameFieldName", DataType = "String")]
+        public String NameFieldName
+        {
+            get { return _NameFieldName; }
+            set { _NameFieldName = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class MasterCodingDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MasterCoding));
+        private bool _isAuditLog = false;
+        private const string p_MasterCode = "@p_MasterCode";
+        public MasterCodingDao() { }
+        public MasterCodingDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MasterCoding Get(String MasterCode)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MasterCode, MasterCode);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MasterCoding)_helper.DataRowToObject(row, new MasterCoding());
+        }
+        public int Insert(MasterCoding record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MasterCoding record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String MasterCode)
+        {
+            MasterCoding record;
+            if (_ctx.Transaction == null)
+                record = new MasterCodingDao().Get(MasterCode);
+            else
+                record = Get(MasterCode);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PivotSettingDt
     [Serializable]
     [Table(Name = "PivotSettingDt")]

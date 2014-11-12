@@ -47,9 +47,11 @@ namespace CodeX.Web.Common.UI
         #region Button Event
         public void RefreshControl()
         {
+            IsAdd = true;
             SetControlEnabled(true);
             ReInitControl();
             SetControlProperties();
+            OnAddRecord();
         }
 
         public void OnBtnSaveClick(ref string result, bool isAdd)
@@ -232,6 +234,11 @@ namespace CodeX.Web.Common.UI
         #endregion
 
         #region Virtual Function
+        public virtual void OnAddRecord()
+        {
+
+        }
+
         protected virtual void InitializeDataControl()
         {
 

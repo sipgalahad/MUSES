@@ -84,6 +84,7 @@
     <Content Include="App_Data\lang\id.txt" />
     <Content Include="App_Data\right_panel\PM.xml" />
     <Content Include="Controls\ChangePasswordCtl.ascx" />
+    <Content Include="Controls\MasterCodingCtl.ascx" />
     <Content Include="Controls\MPListPopupCtl.ascx" />
     <Content Include="Controls\SetLoginAttributeCtl.ascx" />
     <Content Include="Controls\PopupInfoCtl.ascx" />
@@ -924,6 +925,13 @@
     </Compile>
     <Compile Include="Controls\ChangePasswordCtl.ascx.designer.cs">
       <DependentUpon>ChangePasswordCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MasterCodingCtl.ascx.cs">
+      <DependentUpon>MasterCodingCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\MasterCodingCtl.ascx.designer.cs">
+      <DependentUpon>MasterCodingCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\MPListPopupCtl.ascx.cs">
       <DependentUpon>MPListPopupCtl.ascx</DependentUpon>

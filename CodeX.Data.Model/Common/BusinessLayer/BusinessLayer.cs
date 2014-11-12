@@ -684,6 +684,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region MasterCoding
+        public static MasterCoding GetMasterCoding(String MasterCode)
+        {
+            return new MasterCodingDao().Get(MasterCode);
+        }
+        public static int InsertMasterCoding(MasterCoding record)
+        {
+            return new MasterCodingDao().Insert(record);
+        }
+        public static int UpdateMasterCoding(MasterCoding record)
+        {
+            return new MasterCodingDao().Update(record);
+        }
+        public static int DeleteMasterCoding(String MasterCode)
+        {
+            return new MasterCodingDao().Delete(MasterCode);
+        }
+        public static List<MasterCoding> GetMasterCodingList(string filterExpression)
+        {
+            List<MasterCoding> result = new List<MasterCoding>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MasterCoding));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MasterCoding)helper.IDataReaderToObject(reader, new MasterCoding()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PivotSettingDt
         public static PivotSettingDt GetPivotSettingDt(Int32 ID)
         {

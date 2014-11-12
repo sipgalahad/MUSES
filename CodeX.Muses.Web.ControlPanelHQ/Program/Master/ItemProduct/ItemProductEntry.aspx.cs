@@ -41,7 +41,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtItemCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.ITEM);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void SetControlProperties()
@@ -66,7 +73,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override void OnControlEntrySetting()
         {
             #region Item Information
-            SetControlEntrySetting(txtItemCode, new ControlEntrySetting(false, false, false));
+            //SetControlEntrySetting(txtItemCode, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtItemName1, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtItemName2, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(hdnItemGroupID, new ControlEntrySetting(true, true));
@@ -116,7 +123,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void EntityToControl(vItemProduct entity, ItemTagField entityTagField)
         {
             #region Item Information
-            txtItemCode.Text = entity.ItemCode;
+            ctlEntityCode.SetText(entity.ItemCode);
             txtItemName1.Text = entity.ItemName1;
             txtItemName2.Text = entity.ItemName2;
             hdnItemGroupID.Value = entity.ItemGroupID.ToString();
@@ -232,7 +239,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 ItemProduct entityProduct = new ItemProduct();
                 ItemTagField entityTagField = new ItemTagField();
                 ControlToEntity(entity, entityProduct, entityTagField);
-                entity.ItemCode = Helper.GenerateItemCode(ctx, entity.ItemName1);
+                entity.ItemCode = ctlEntityCode.GetCode(entity.ItemName1, ctx);
                 entity.GCItemType = hdnGCItemType.Value;
 
                 entity.CreatedBy = AppSession.UserLogin.UserID;
@@ -291,6 +298,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 ItemProduct entityProduct = entityProductDao.Get(ItemID);
                 ItemTagField entityTagField = entityTagFieldDao.Get(ItemID);
                 ControlToEntity(entity, entityProduct, entityTagField);
+                entity.ItemCode = ctlEntityCode.GetCode(entity.ItemName1, ctx);
 
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityProduct.LastUpdatedBy = AppSession.UserLogin.UserID;

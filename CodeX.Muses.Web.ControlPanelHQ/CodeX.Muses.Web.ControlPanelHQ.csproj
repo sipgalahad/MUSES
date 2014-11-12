@@ -67,6 +67,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx">
       <Link>SharedLibs\Controls\GeneralCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MasterCodingCtl.ascx">
+      <Link>SharedLibs\Controls\MasterCodingCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx">
       <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx</Link>
     </Content>
@@ -145,6 +148,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.cs</Link>
       <DependentUpon>GeneralCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MasterCodingCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MasterCodingCtl.ascx.cs</Link>
+      <DependentUpon>MasterCodingCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MasterCodingCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MasterCodingCtl.ascx.designer.cs</Link>
+      <DependentUpon>MasterCodingCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.cs">
       <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.cs</Link>

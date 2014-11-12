@@ -298,6 +298,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GenerateMasterCode
+        public static string GenerateMasterCode(string masterCode, String initial, String siteID, String entityName, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateMasterCode";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@MasterCode", masterCode));
+            ctx.Command.Parameters.Add(new SqlParameter("@Initial", initial));
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", siteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@EntityName", entityName));
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.VarChar;
+            param.Size = 20;
+            param.Direction = ParameterDirection.Output;
+
+            ctx.Command.Parameters.Add(param);
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+
+            return (string)param.Value;
+        }
+        #endregion
 
         public static List<dynamic> GetDataReport(string procedureName, List<Variable> lstVariable)
         {

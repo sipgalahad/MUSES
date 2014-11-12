@@ -31,13 +31,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCItemType;
         
         /// <summary>
-        /// txtItemCode control.
+        /// ctlEntityCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtItemCode;
+        protected global::CodeX.Web.CommonLibs.Controls.MasterCodingCtl ctlEntityCode;
         
         /// <summary>
         /// txtItemName1 control.
