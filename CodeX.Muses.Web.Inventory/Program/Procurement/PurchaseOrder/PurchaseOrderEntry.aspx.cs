@@ -137,7 +137,11 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected string GetFilterExpression()
         {
-            return hdnRecordFilterExpression.Value;
+            string filterExpression = hdnRecordFilterExpression.Value;
+            if (filterExpression != "")
+                filterExpression += " AND ";
+            filterExpression += string.Format("TransactionCode = '{0}'", Constant.TransactionCode.PURCHASE_ORDER);
+            return filterExpression;
         }
 
         public override int OnGetRowCount()
@@ -258,7 +262,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 PurchaseOrderHd entityHd = new PurchaseOrderHd();
                 ControlToEntityHd(entityHd);
-                entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_ORDER, entityHd.OrderDate, ctx);
+                entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
+                entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.OrderDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();

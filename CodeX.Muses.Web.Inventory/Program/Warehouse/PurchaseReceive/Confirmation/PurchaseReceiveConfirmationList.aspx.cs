@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("GCTransactionStatus = '{0}' AND PurchaseReceiveID IN (SELECT PurchaseReceiveID From PurchaseReceiveDt WHERE PurchaseOrderID IN (SELECT PurchaseOrderID FROM vPurchaseOrderDt WHERE ReceivedQuantity < Quantity))", Constant.TransactionStatus.OPEN);
+            filterExpression += String.Format("TransactionCode = '{0}' AND GCTransactionStatus = '{1}' AND PurchaseReceiveID IN (SELECT PurchaseReceiveID From PurchaseReceiveDt WHERE PurchaseOrderID IN (SELECT PurchaseOrderID FROM vPurchaseOrderDt WHERE ReceivedQuantity < Quantity))", Constant.TransactionCode.PURCHASE_RECEIVE, Constant.TransactionStatus.OPEN);
 
             if (isCountPageCount)
             {

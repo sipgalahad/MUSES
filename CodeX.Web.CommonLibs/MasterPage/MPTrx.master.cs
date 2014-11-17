@@ -30,7 +30,10 @@ namespace CodeX.Web.CommonLibs.MasterPage
         private GetUserMenuAccess menu;
         protected String GetMenuCaption()
         {
-            return menu.MenuCaption;
+            string menuCaption = BasePageEntry.OnGetMenuCaption();
+            if (menuCaption == "")
+                return menu.MenuCaption;
+            return menuCaption;
         }
         protected String GetBreadcrumbs()
         {

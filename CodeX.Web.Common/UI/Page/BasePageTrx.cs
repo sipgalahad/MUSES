@@ -363,6 +363,11 @@ namespace CodeX.Web.Common.UI
         #endregion
 
         #region Virtual Function
+
+        public virtual string OnGetMenuCaption()
+        {
+            return "";
+        }
         protected virtual void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
         }

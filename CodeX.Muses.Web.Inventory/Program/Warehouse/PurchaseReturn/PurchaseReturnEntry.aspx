@@ -62,7 +62,7 @@
 
             //#region Purchase Return No
             $('#lblReturnNo.lblLink').click(function () {
-                openSearchDialog('purchasereturnhd', '', function (value) {
+                openSearchDialog('purchasereturnhd', "<%=GetFilterExpression() %>", function (value) {
                     $('#<%=txtReturnNo.ClientID %>').val(value);
                     onTxtPurchaseReturnNoChanged(value);
                 });

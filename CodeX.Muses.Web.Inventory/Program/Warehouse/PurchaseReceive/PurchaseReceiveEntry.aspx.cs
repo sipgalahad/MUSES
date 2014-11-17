@@ -134,7 +134,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region Load Entity
         protected string GetFilterExpression()
         {
-            return hdnRecordFilterExpression.Value;
+            string filterExpression = "";
+            if (filterExpression != "")
+                filterExpression += " AND ";
+            filterExpression += string.Format("TransactionCode = '{0}'", Constant.TransactionCode.PURCHASE_RECEIVE);
+            return filterExpression;
         }
 
         public override int OnGetRowCount()
@@ -283,7 +287,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 PurchaseReceiveHd entityHd = new PurchaseReceiveHd();
                 ControlToEntityHd(ctx, entityHd);
-                entityHd.PurchaseReceiveNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_RECEIVE, entityHd.ReceivedDate, ctx);
+                entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_RECEIVE;
+                entityHd.PurchaseReceiveNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.ReceivedDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
@@ -358,6 +363,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             PurchaseOrderHdDao purchaseOrderHdDao = new PurchaseOrderHdDao(ctx);
             PurchaseOrderDtDao purchaseOrderDtDao = new PurchaseOrderDtDao(ctx);
             PurchaseRequestPODao purchaseRequestPODao = new PurchaseRequestPODao(ctx);
+            PurchaseReceivePODao purchaseReceivePODao = new PurchaseReceivePODao(ctx);
             PurchaseReceiveHdDao purchaseHdDao = new PurchaseReceiveHdDao(ctx);
             PurchaseReceiveDtDao purchaseDtDao = new PurchaseReceiveDtDao(ctx);
             ItemPlanningDao itemPlanningDao = new ItemPlanningDao(ctx);
@@ -399,6 +405,13 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                     if (purchaseDt.PurchaseOrderID != null)
                     {
+                        PurchaseReceivePO entityPRPO = new PurchaseReceivePO();
+                        entityPRPO.PurchaseOrderID = (int)purchaseDt.PurchaseOrderID;
+                        entityPRPO.PurchaseReceiveID = entity.PurchaseReceiveID;
+                        entityPRPO.ItemID = purchaseDt.ItemID;
+                        entityPRPO.ReceivedQuantity = purchaseDt.Quantity;
+                        purchaseReceivePODao.Insert(entityPRPO);
+
                         PurchaseOrderDt poDt = BusinessLayer.GetPurchaseOrderDtList(string.Format("PurchaseOrderID = {0} AND ItemID = {1} AND GCItemDetailStatus != '{2}'", purchaseDt.PurchaseOrderID, purchaseDt.ItemID, Constant.TransactionStatus.VOID), ctx).FirstOrDefault();
                         if (poDt != null)
                         {

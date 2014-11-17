@@ -5255,6 +5255,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PurchaseReceivePO
+        public static PurchaseReceivePO GetPurchaseReceivePO(Int32 ID)
+        {
+            return new PurchaseReceivePODao().Get(ID);
+        }
+        public static int InsertPurchaseReceivePO(PurchaseReceivePO record)
+        {
+            return new PurchaseReceivePODao().Insert(record);
+        }
+        public static int UpdatePurchaseReceivePO(PurchaseReceivePO record)
+        {
+            return new PurchaseReceivePODao().Update(record);
+        }
+        public static int DeletePurchaseReceivePO(Int32 ID)
+        {
+            return new PurchaseReceivePODao().Delete(ID);
+        }
+        public static List<PurchaseReceivePO> GetPurchaseReceivePOList(string filterExpression)
+        {
+            List<PurchaseReceivePO> result = new List<PurchaseReceivePO>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReceivePO));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReceivePO)helper.IDataReaderToObject(reader, new PurchaseReceivePO()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PurchaseReplacementDt
         public static PurchaseReplacementDt GetPurchaseReplacementDt(Int32 ID)
         {

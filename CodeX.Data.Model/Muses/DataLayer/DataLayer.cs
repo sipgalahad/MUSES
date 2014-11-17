@@ -10637,6 +10637,7 @@ namespace CodeX.Data.Model
     public class PurchaseOrderHd : DbDataModel
     {
         private Int32 _PurchaseOrderID;
+        private String _TransactionCode;
         private DateTime _OrderDate;
         private String _PurchaseOrderNo;
         private Int32? _LocationID;
@@ -10666,6 +10667,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseOrderID; }
             set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "OrderDate", DataType = "DateTime")]
         public DateTime OrderDate
@@ -11110,6 +11117,7 @@ namespace CodeX.Data.Model
     public class PurchaseReceiveHd : DbDataModel
     {
         private Int32 _PurchaseReceiveID;
+        private String _TransactionCode;
         private DateTime _ReceivedDate;
         private String _ReceivedTime;
         private String _PurchaseReceiveNo;
@@ -11147,6 +11155,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "ReceivedDate", DataType = "DateTime")]
         public DateTime ReceivedDate
@@ -11373,6 +11387,89 @@ namespace CodeX.Data.Model
                 record = new PurchaseReceiveHdDao().Get(PurchaseReceiveID);
             else
                 record = Get(PurchaseReceiveID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PurchaseReceivePO
+    [Serializable]
+    [Table(Name = "PurchaseReceivePO")]
+    public class PurchaseReceivePO : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _PurchaseReceiveID;
+        private Int32 _ItemID;
+        private Int32 _PurchaseOrderID;
+        private Decimal _ReceivedQuantity;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "PurchaseReceiveID", DataType = "Int32")]
+        public Int32 PurchaseReceiveID
+        {
+            get { return _PurchaseReceiveID; }
+            set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "PurchaseOrderID", DataType = "Int32")]
+        public Int32 PurchaseOrderID
+        {
+            get { return _PurchaseOrderID; }
+            set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "ReceivedQuantity", DataType = "Decimal")]
+        public Decimal ReceivedQuantity
+        {
+            get { return _ReceivedQuantity; }
+            set { _ReceivedQuantity = value; }
+        }
+    }
+
+    public class PurchaseReceivePODao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PurchaseReceivePO));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public PurchaseReceivePODao() { }
+        public PurchaseReceivePODao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PurchaseReceivePO Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PurchaseReceivePO)_helper.DataRowToObject(row, new PurchaseReceivePO());
+        }
+        public int Insert(PurchaseReceivePO record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PurchaseReceivePO record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            PurchaseReceivePO record;
+            if (_ctx.Transaction == null)
+                record = new PurchaseReceivePODao().Get(ID);
+            else
+                record = Get(ID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -12258,6 +12355,7 @@ namespace CodeX.Data.Model
     public class PurchaseReturnHd : DbDataModel
     {
         private Int32 _PurchaseReturnID;
+        private String _TransactionCode;
         private DateTime _ReturnDate;
         private String _PurchaseReturnNo;
         private Int32 _PurchaseReceiveID;
@@ -12282,6 +12380,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReturnID; }
             set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "ReturnDate", DataType = "DateTime")]
         public DateTime ReturnDate

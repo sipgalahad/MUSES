@@ -174,7 +174,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
             entityHd.IsIncludeVAT = false;
             entityHd.TransactionAmount = Total;
-            entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_ORDER, entityHd.OrderDate, ctx);
+            entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
+            entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.OrderDate, ctx);
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             entityHd.FinalDiscount = Convert.ToDecimal(0.00);
             //entityHd.TaxAmount = Convert.ToDecimal(0.00);

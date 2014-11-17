@@ -109,20 +109,32 @@ namespace CodeX.Muses.Web.Inventory.Program
             return hdnIsEditable.Value;
         }
 
+        protected string GetFilterExpression()
+        {
+            string filterExpression = "";
+            if (filterExpression != "")
+                filterExpression += " AND ";
+            filterExpression += string.Format("TransactionCode = '{0}'", Constant.TransactionCode.PURCHASE_RETURN);
+            return filterExpression;
+        }
+
         public override int OnGetRowCount()
         {
-            return BusinessLayer.GetvPurchaseReturnHdRowCount("");
+            string filterExpression = GetFilterExpression();
+            return BusinessLayer.GetvPurchaseReturnHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
-            vPurchaseReturnHd entity = BusinessLayer.GetvPurchaseReturnHd("", PageIndex, "PurchaseReturnID DESC");
+            string filterExpression = GetFilterExpression();
+            vPurchaseReturnHd entity = BusinessLayer.GetvPurchaseReturnHd(filterExpression, PageIndex, "PurchaseReturnID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
-            PageIndex = BusinessLayer.GetvPurchaseReturnHdRowIndex("", keyValue, "PurchaseReturnID DESC");
+            string filterExpression = GetFilterExpression();
+            PageIndex = BusinessLayer.GetvPurchaseReturnHdRowIndex(filterExpression, keyValue, "PurchaseReturnID DESC");
             vPurchaseReturnHd entity = BusinessLayer.GetvPurchaseReturnHd("", PageIndex, "PurchaseReturnID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
@@ -220,7 +232,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 PurchaseReturnHd entityHd = new PurchaseReturnHd();
                 ControlToEntity(entityHd);
-                entityHd.PurchaseReturnNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_RETURN, entityHd.ReturnDate, ctx);
+                entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_RETURN;
+                entityHd.PurchaseReturnNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.ReturnDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();

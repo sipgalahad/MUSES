@@ -9031,6 +9031,7 @@ namespace CodeX.Data.Model
     public partial class vPurchaseOrderHd
     {
         private Int32 _PurchaseOrderID;
+        private String _TransactionCode;
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
@@ -9071,6 +9072,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseOrderID; }
             set { _PurchaseOrderID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "LocationID", DataType = "Int32")]
         public Int32 LocationID
@@ -10276,6 +10283,7 @@ namespace CodeX.Data.Model
     public partial class vPurchaseReceiveHd
     {
         private Int32 _PurchaseReceiveID;
+        private String _TransactionCode;
         private String _PurchaseReceiveNo;
         private DateTime _ReceivedDate;
         private String _ReceivedTime;
@@ -10317,6 +10325,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "PurchaseReceiveNo", DataType = "String")]
         public String PurchaseReceiveNo
@@ -11656,6 +11670,7 @@ namespace CodeX.Data.Model
     public partial class vPurchaseReturnHd
     {
         private Int32 _PurchaseReturnID;
+        private String _TransactionCode;
         private DateTime _ReturnDate;
         private String _PurchaseReturnNo;
         private Int32 _PurchaseReceiveID;
@@ -11685,6 +11700,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReturnID; }
             set { _PurchaseReturnID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "ReturnDate", DataType = "DateTime")]
         public DateTime ReturnDate
