@@ -9,6 +9,8 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="qis" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -19,6 +21,15 @@
                 openUserControlPopup(url, '', 'Quick Picks', 1000, 600);
             });
         });
+
+        function onTxtSearchViewSearchClick(s) {
+            setTimeout(function () {
+                s.SetBlur();
+                var filterExpression = s.GenerateFilterExpression();
+                $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
+                cbpView.PerformCallback('refresh');
+            }, 0);
+        }
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
@@ -77,9 +88,20 @@
             cbpView.PerformCallback('refresh');
         }
     </script>
+    <input type="hidden" id="hdnFilterExpression" runat="server"/>
     <input type="hidden" id="hdnEntryID" runat="server"/>
     <div class="divTransactionEntry">
+        <div style="float:right;" runat="server" id="divFilter">
+            <qis:QISIntellisenseTextBox runat="server" ClientInstanceName="txtSearchView" ID="txtSearchView" Width="300px" Watermark="Search">
+                <IntellisenseHints>
+                    <cdx:QISIntellisenseHint FieldName="ItemName1" Text="Nama" />
+                    <cdx:QISIntellisenseHint FieldName="ItemCode" Text="Kode" />
+                </IntellisenseHints>
+                <ClientSideEvents SearchClick="function(s){ onTxtSearchViewSearchClick(s); }" />
+            </qis:QISIntellisenseTextBox>
+        </div>
         <span id="divQuickPicks" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+        <div style="margin-bottom: 20px;"></div>
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
@@ -92,7 +114,8 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SiteItemID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ItemName1" HeaderText="Item"/>
+                                <asp:BoundField DataField="ItemCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="ItemName1" HeaderText="Nama"/>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

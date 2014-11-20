@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
     public partial class SiteItemEntry {
         
         /// <summary>
+        /// hdnFilterExpression control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        
+        /// <summary>
         /// hdnEntryID control.
         /// </summary>
         /// <remarks>
@@ -20,6 +29,24 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        
+        /// <summary>
+        /// divFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFilter;
+        
+        /// <summary>
+        /// txtSearchView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.QISIntellisenseTextBox txtSearchView;
         
         /// <summary>
         /// cbpView control.

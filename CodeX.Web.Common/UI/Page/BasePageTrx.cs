@@ -10,8 +10,8 @@ using System.Web;
 using System.Web.UI.HtmlControls;
 using DevExpress.Web.ASPxEditors;
 using CodeX.Common;
-using CodeX.Web.CustomControl;
 using CodeX.Data.Model;
+using CodeX.Web.CustomControl;
 
 namespace CodeX.Web.Common.UI
 {
@@ -69,8 +69,8 @@ namespace CodeX.Web.Common.UI
                 pageIndex++;
                 if (pageIndex == rowCount)
                     pageIndex = 0;
-                OnLoadEntity(pageIndex, ref isShowWatermark, ref watermarkText);
                 SetControlProperties();
+                OnLoadEntity(pageIndex, ref isShowWatermark, ref watermarkText);
             }
         }
 
@@ -79,8 +79,8 @@ namespace CodeX.Web.Common.UI
             LoadWords();
             SetControlRequired();
             SetControlEnabled(false);
-            OnLoadEntity(keyValue, ref pageIndex, ref isShowWatermark, ref watermarkText);
             SetControlProperties();
+            OnLoadEntity(keyValue, ref pageIndex, ref isShowWatermark, ref watermarkText);
         }
 
         public void LoadPage(int pageIndex, ref bool isShowWatermark, ref string watermarkText)
@@ -88,8 +88,8 @@ namespace CodeX.Web.Common.UI
             LoadWords();
             SetControlRequired();
             SetControlEnabled(false);
-            OnLoadEntity(pageIndex, ref isShowWatermark, ref watermarkText);
             SetControlProperties();
+            OnLoadEntity(pageIndex, ref isShowWatermark, ref watermarkText);
         }
 
         public void PrevPageIndex(int rowCount, ref int pageIndex, ref bool isShowWatermark, ref string watermarkText)
@@ -102,8 +102,8 @@ namespace CodeX.Web.Common.UI
                 pageIndex--;
                 if (pageIndex < 0)
                     pageIndex = rowCount - 1;
-                OnLoadEntity(pageIndex, ref isShowWatermark, ref watermarkText);
                 SetControlProperties();
+                OnLoadEntity(pageIndex, ref isShowWatermark, ref watermarkText);
             }
         }
 
@@ -111,8 +111,8 @@ namespace CodeX.Web.Common.UI
         {
             SetControlEnabled(true);
             ReInitControl();
-            OnAddRecord();
             SetControlProperties();
+            OnAddRecord();
         }
 
         public void RefreshControl()
@@ -120,8 +120,8 @@ namespace CodeX.Web.Common.UI
             SetControlRequired();
             SetControlEnabled(true);
             ReInitControl();
-            OnAddRecord();
             SetControlProperties();
+            OnAddRecord();
         }
 
         public void OnBtnSaveClick(ref string result, ref string retval, bool isAdd)
@@ -363,7 +363,6 @@ namespace CodeX.Web.Common.UI
         #endregion
 
         #region Virtual Function
-
         public virtual string OnGetMenuCaption()
         {
             return "";

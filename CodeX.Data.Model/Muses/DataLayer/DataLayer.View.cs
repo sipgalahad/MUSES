@@ -12342,6 +12342,7 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private String _SiteName;
         private Int32 _ItemID;
+        private String _ItemCode;
         private String _ItemName1;
         private Boolean _IsDeleted;
 
@@ -12368,6 +12369,12 @@ namespace CodeX.Data.Model
         {
             get { return _ItemID; }
             set { _ItemID = value; }
+        }
+        [Column(Name = "ItemCode", DataType = "String")]
+        public String ItemCode
+        {
+            get { return _ItemCode; }
+            set { _ItemCode = value; }
         }
         [Column(Name = "ItemName1", DataType = "String")]
         public String ItemName1

@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("ModuleName LIKE '%{1}%' AND IsDeleted = 0 AND ModuleID NOT IN (SELECT ModuleID FROM SiteModule WHERE SiteID = '{0}' AND IsDeleted = 0)", AppSession.SiteID, hdnFilterItem.Value);
+            string filterExpression = string.Format("ModuleName LIKE '%{1}%' AND ModuleID NOT IN (SELECT ModuleID FROM SiteModule WHERE SiteID = '{0}' AND IsDeleted = 0)", AppSession.SiteID, hdnFilterItem.Value);
             return filterExpression;
         }
 

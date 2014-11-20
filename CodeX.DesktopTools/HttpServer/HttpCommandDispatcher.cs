@@ -123,7 +123,8 @@ namespace CodeX.DesktopTools
                     int separatorPos = args[i].IndexOf('=');
                     if (separatorPos > 0 && separatorPos < args[i].Length)
                     {
-                        queryCollection[args[i].Substring(0, separatorPos)] = System.Web.HttpUtility.UrlDecode(args[i].Substring(separatorPos + 1), System.Text.Encoding.UTF8);
+                        //queryCollection[args[i].Substring(0, separatorPos)] = System.Web.HttpUtility.UrlDecode(args[i].Substring(separatorPos + 1), System.Text.Encoding.UTF8);
+                        queryCollection[args[i].Substring(0, separatorPos)] = (args[i].Substring(separatorPos + 1));
                     }
                 }
             }

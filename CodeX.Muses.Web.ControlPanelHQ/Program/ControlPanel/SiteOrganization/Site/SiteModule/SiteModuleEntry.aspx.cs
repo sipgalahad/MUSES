@@ -36,9 +36,18 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
         }
 
         #region Bind Grid View
+        private string GetFilterExpression()
+        {
+            string filterExpression = hdnFilterExpression.Value;
+            if (filterExpression != "")
+                filterExpression += " AND ";
+            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.SiteID);
+            return filterExpression;
+        }
+
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.SiteID);
+            string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvSiteModuleRowCount(filterExpression);
