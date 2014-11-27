@@ -255,6 +255,8 @@ namespace CodeX.Data.Model
         private String _ReportCode;
         private String _ReportTitle1;
         private String _ReportTitle2;
+        private Int32? _ParentID;
+        private Boolean _IsHeader;
         private String _MenuCode;
         private Int16 _DisplayOrder;
         private Boolean _IsSelected;
@@ -282,6 +284,18 @@ namespace CodeX.Data.Model
         {
             get { return _ReportTitle2; }
             set { _ReportTitle2 = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
         }
         [Column(Name = "MenuCode", DataType = "String")]
         public String MenuCode

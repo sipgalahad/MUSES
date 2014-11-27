@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <papersize type="A4_landscape" size="A4" landscape="1" printwidth="297" printheight="209" width="297" height="201" pagecontent="705px" printpagecontent="740px"/>
+  <!--<papersize type="A4_landscape" size="A4" landscape="1" printwidth="280" printheight="195" width="297" height="201" pagecontent="705px" printpagecontent="740px"/>-->
+  <papersize type="A4_portrait" size="A4" landscape="0" printwidth="210" printheight="296" width="210" height="285" pagecontent="272mm" printpagecontent="283mm"/>
+</root>

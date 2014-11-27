@@ -1706,6 +1706,8 @@ namespace CodeX.Data.Model
         private String _GCDataSourceType;
         private String _ObjectTypeName;
         private String _AdditionalFilterExpression;
+        private Int32? _ParentID;
+        private Boolean _IsHeader;
         private Boolean _IsShowHeader;
         private Boolean _IsShowParameter;
         private Int16 _TopMargin;
@@ -1771,6 +1773,18 @@ namespace CodeX.Data.Model
             get { return _AdditionalFilterExpression; }
             set { _AdditionalFilterExpression = value; }
         }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
         [Column(Name = "IsShowHeader", DataType = "Boolean")]
         public Boolean IsShowHeader
         {
@@ -1832,7 +1846,6 @@ namespace CodeX.Data.Model
             set { _LastUpdatedDate = value; }
         }
     }
-
 
     public class ReportMasterDao
     {

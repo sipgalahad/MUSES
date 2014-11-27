@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!-- #Region Free Text -->
+  <type type="X108^006">
+    <!-- #Region FP000001 -->
+    <filterparameter code="FP001" name="Free Text" caption="Free Text" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
+</root>
