@@ -14,6 +14,8 @@ using DevExpress.Web.ASPxEditors;
 using System.Text;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
+using System.IO;
+using System.Xml.Linq;
 
 namespace CodeX.Web.CommonLibs.Program
 {
@@ -30,6 +32,7 @@ namespace CodeX.Web.CommonLibs.Program
         {
             switch (ModuleID)
             {
+                case Constant.Module.INVENTORY: return Constant.MenuCode.Inventory.REPORT;
                 default: return Constant.MenuCode.ControlPanel.REPORT;
             }
         }
@@ -43,28 +46,29 @@ namespace CodeX.Web.CommonLibs.Program
         }
 
         private String ModuleID = "";
-        List<GetUserMenuAccess> lstAllMenu = null;
+        List<GetReportUserList> lstAllReport = null;
         protected override void InitializeDataControl()
         {
             string moduleName = Helper.GetModuleName();
             ModuleID = Helper.GetModuleID(moduleName);
-            lstAllMenu = BusinessLayer.GetUserMenuAccess(ModuleID, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, string.Format("(ParentCode = '{0}' OR ParentID IN (SELECT MenuID FROM Menu WHERE ParentID = (SELECT MenuID FROM Menu WHERE MenuCode = '{0}')))", OnGetMenuCode()));
-            List<GetUserMenuAccess> lstMenuParent = lstAllMenu.Where(p => p.ParentCode == OnGetMenuCode()).OrderBy(p => p.MenuIndex).ToList();
-            PopulateNodes(lstMenuParent, tvwView.Nodes);
+            string reportCode = OnGetMenuCode();
+            lstAllReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.ReportType.REPORT, ModuleID, reportCode, "");
+            List<GetReportUserList> lstReportParent = lstAllReport.Where(p => p.ParentID == null).OrderBy(p => p.DisplayOrder).ToList();
+            PopulateNodes(lstReportParent, tvwView.Nodes);
         }
 
-        private void PopulateNodes(List<GetUserMenuAccess> lstMenu, TreeNodeCollection nodes)
+        private void PopulateNodes(List<GetReportUserList> lstReport, TreeNodeCollection nodes)
         {
-            foreach (GetUserMenuAccess menu in lstMenu)
+            foreach (GetReportUserList report in lstReport)
             {
-                Int32 childCount = lstAllMenu.Where(p => p.ParentID == menu.MenuID).Count();
+                Int32 childCount = lstAllReport.Where(p => p.ParentID == report.ReportID).Count();
                 TreeNode tn = new TreeNode();
-                tn.Text = menu.MenuCaption;
-                tn.Value = menu.MenuID.ToString();
+                tn.Text = report.ReportTitle1;
+                tn.Value = report.ReportID.ToString();
                 if (childCount > 0)
                     tn.SelectAction = TreeNodeSelectAction.Expand;
                 else
-                    tn.NavigateUrl = string.Format("{0}|{1}", menu.MenuID, menu.MenuCode);
+                    tn.NavigateUrl = string.Format("{0}|{1}", report.ReportID, report.ReportCode);
                 nodes.Add(tn);
 
                 tn.PopulateOnDemand = (childCount > 0);
@@ -73,7 +77,7 @@ namespace CodeX.Web.CommonLibs.Program
 
          private void PopulateSubLevel(Int32 parentID, TreeNode parentNode)
          {
-             PopulateNodes(lstAllMenu.Where(p => p.ParentID == parentID).OrderBy(p => p.MenuIndex).ToList(), parentNode.ChildNodes);
+             PopulateNodes(lstAllReport.Where(p => p.ParentID == parentID).OrderBy(p => p.DisplayOrder).ToList(), parentNode.ChildNodes);
          }
 
         protected void tvwView_TreeNodePopulate(object sender, TreeNodeEventArgs e)
@@ -88,10 +92,128 @@ namespace CodeX.Web.CommonLibs.Program
 
         private void BindGridView()
         {
-            List<vReportParameter> lstReportParameter = BusinessLayer.GetvReportParameterList(string.Format("ReportCode = '{0}' AND IsDeleted = 0 ORDER BY DisplayOrder ASC", Request.Form[hdnReportCode.UniqueID]));
+            ReportMaster reportMaster = BusinessLayer.GetReportMasterList(string.Format("ReportCode = '{0}'", Request.Form[hdnReportCode.UniqueID])).FirstOrDefault();
+            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ClassName));
+            string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+            if (!File.Exists(physicalPath))
+                return;
+            XDocument xdocReport = XDocument.Load(physicalPath);
+            List<ReportParameter> lstReportParameter = (from sd in xdocReport.Descendants("parameter")
+                                                        select new ReportParameter
+                                                          {
+                                                              FilterParameterCode = sd.Attribute("code").Value,
+                                                              IsRequired = sd.Attribute("isrequired") != null ? sd.Attribute("isrequired").Value == "1" : false,
+                                                          }).ToList<ReportParameter>();
+
+            reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ClassName));
+            physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+            if (!File.Exists(physicalPath))
+                return;
+            XDocument xdocFilterParameter = XDocument.Load(physicalPath);
+            string filterExpression = String.Empty;
+
+            for (int i = 0; i < lstReportParameter.Count; ++i)
+            {
+                ReportParameter reportParameter = lstReportParameter[i];
+                var temp = (from sd in xdocFilterParameter.Descendants("filterparameter").Where(p => p.Attribute("code").Value == lstReportParameter[i].FilterParameterCode)
+                                       select new
+                                       {
+                                           FilterParameterName = sd.Attribute("name").Value,
+                                           FilterParameterCaption = sd.Attribute("caption").Value,
+                                           GCFilterParameterType = sd.Parent.Attribute("type").Value,
+                                           FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : "",
+                                           DefaultValue = sd.Attribute("defaultvalue") != null ? sd.Attribute("defaultvalue").Value : "",
+
+                                           TxtCssClass = sd.Attribute("txtcssclass") != null ? sd.Attribute("txtcssclass").Value : "",
+
+                                           MethodName = sd.Attribute("methodname") != null ? sd.Attribute("methodname").Value : "",
+                                           TextFieldName = sd.Attribute("textfieldname") != null ? sd.Attribute("textfieldname").Value : "",
+                                           ValueFieldName = sd.Attribute("valuefieldname") != null ? sd.Attribute("valuefieldname").Value : "",
+                                           FilterExpression = sd.Attribute("filterexpression") != null ? sd.Attribute("filterexpression").Value : "",
+                                           ClientInstanceName = sd.Attribute("clientinstancename") != null ? sd.Attribute("clientinstancename").Value : "",
+
+                                           SearchDialogIDField = sd.Attribute("searchdialogidfield") != null ? sd.Attribute("searchdialogidfield").Value : "",
+                                           SearchDialogCodeField = sd.Attribute("searchdialogcodefield") != null ? sd.Attribute("searchdialogcodefield").Value : "",
+                                           SearchDialogNameField = sd.Attribute("searchdialognamefield") != null ? sd.Attribute("searchdialognamefield").Value : "",
+                                           SearchDialogMethodName = sd.Attribute("searchdialogmethodname") != null ? sd.Attribute("searchdialogmethodname").Value : "",
+                                           SearchDialogType = sd.Attribute("searchdialogtype") != null ? sd.Attribute("searchdialogtype").Value : "",
+                                           SearchDialogFilterExpression = sd.Attribute("searchdialogfilterexpression") != null ? sd.Attribute("searchdialogfilterexpression").Value : "",
+
+                                           ListText = sd.Attribute("listtext") != null ? sd.Attribute("listtext").Value : "",
+                                           ListValue = sd.Attribute("listvalue") != null ? sd.Attribute("listvalue").Value : "",
+
+                                           YearMinusNYear = sd.Attribute("listvalue") != null ? Convert.ToInt32(sd.Attribute("yearminusnyear").Value) : 0,
+                                           YearPlusNYear = sd.Attribute("listvalue") != null ? Convert.ToInt32(sd.Attribute("yearplusnyear").Value) : 0,
+
+                                           IsAllowSelectAll = sd.Attribute("isallowselectall") != null ? sd.Parent.Attribute("isallowselectall").Value == "1" : true
+                                       }).FirstOrDefault();
+                reportParameter.FilterParameterCaption = temp.FilterParameterCaption;
+                reportParameter.GCFilterParameterType = temp.GCFilterParameterType;
+                reportParameter.DefaultValue = temp.DefaultValue;
+                reportParameter.FieldName = temp.FieldName;
+
+                reportParameter.TxtCssClass = temp.TxtCssClass;
+
+                reportParameter.MethodName = temp.MethodName;
+                reportParameter.TextFieldName = temp.TextFieldName;
+                reportParameter.ValueFieldName = temp.ValueFieldName;
+                reportParameter.FilterExpression = temp.FilterExpression;
+                reportParameter.ClientInstanceName = temp.ClientInstanceName;
+
+                reportParameter.SearchDialogIDField = temp.SearchDialogIDField;
+                reportParameter.SearchDialogCodeField = temp.SearchDialogCodeField;
+                reportParameter.SearchDialogNameField = temp.SearchDialogNameField;
+                reportParameter.SearchDialogType = temp.SearchDialogType;
+                reportParameter.SearchDialogFilterExpression = temp.SearchDialogFilterExpression;
+                reportParameter.SearchDialogMethodName = temp.SearchDialogMethodName;
+
+                reportParameter.ListText = temp.ListText;
+                reportParameter.ListValue = temp.ListValue;
+
+                reportParameter.YearMinusNYear = temp.YearMinusNYear;
+                reportParameter.YearPlusNYear = temp.YearPlusNYear;
+
+                reportParameter.IsAllowSelectAll = temp.IsAllowSelectAll;
+            }
+
             rptReportParameter.DataSource = lstReportParameter;
             rptReportParameter.DataBind();
         }
+
+        #region ReportParameter
+        class ReportParameter
+        {
+            public string FilterParameterCode { get; set; }
+            public string FilterParameterCaption { get; set; }
+            public bool IsRequired { get; set; }
+            public string GCFilterParameterType { get; set; }
+            public string DefaultValue { get; set; }
+            public string FieldName { get; set; }
+
+            public string TxtCssClass { get; set; }
+
+            public string MethodName { get; set; }
+            public string TextFieldName { get; set; }
+            public string ValueFieldName { get; set; }
+            public string FilterExpression { get; set; }
+            public string ClientInstanceName { get; set; }
+
+            public string SearchDialogIDField { get; set; }
+            public string SearchDialogCodeField { get; set; }
+            public string SearchDialogNameField { get; set; }
+            public string SearchDialogType { get; set; }
+            public string SearchDialogFilterExpression { get; set; }
+            public string SearchDialogMethodName { get; set; }
+
+            public string ListText { get; set; }
+            public string ListValue { get; set; }
+
+            public int YearMinusNYear { get; set; }
+            public int YearPlusNYear { get; set; }
+
+            public bool IsAllowSelectAll { get; set; }
+        }
+        #endregion
 
         protected void cbpReportParameter_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
@@ -102,53 +224,9 @@ namespace CodeX.Web.CommonLibs.Program
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                vReportParameter entity = (vReportParameter)e.Item.DataItem;
+                ReportParameter entity = (ReportParameter)e.Item.DataItem;
                 entity.FilterExpression = GetFilterExpression(entity.FilterExpression);
                 HtmlGenericControl div = null;
-                //if (entity.Type == "1")
-                //{
-                //    div = (HtmlGenericControl)e.Item.FindControl("divTxt");
-                //    TextBox txt = (TextBox)e.Item.FindControl("txtValue");
-                //    txt.Text = text;
-                //    SetControlEntrySetting(txt, new ControlEntrySetting(true, true, entity.IsRequired));
-                //    //ctl = (TextBox)e.Item.FindControl("txtVitalSignType");
-                //}
-                //else if (entity.Type == "2")
-                //{
-                //    div = (HtmlGenericControl)e.Item.FindControl("divDdl");
-                //    ASPxComboBox ddl = (ASPxComboBox)e.Item.FindControl("cboNewValue");
-
-                //    MethodInfo method = typeof(BusinessLayer).GetMethod(entity.MethodName, new[] { typeof(string) });
-                //    object obj = method.Invoke(null, new string[] { entity.FilterExpression });
-                //    IList list = (IList)obj;
-
-                //    ddl.DataSource = list;
-                //    ddl.TextField = entity.TextField;
-                //    ddl.ValueField = entity.ValueField;
-                //    ddl.CallbackPageSize = 50;
-                //    ddl.EnableCallbackMode = false;
-                //    ddl.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
-                //    ddl.DropDownStyle = DropDownStyle.DropDownList;
-                //    ddl.DataBind();
-
-                //    if (!entity.IsRequired)
-                //    {
-                //        ddl.Items.Insert(0, new ListEditItem { Text = "", Value = "" });
-                //    }
-
-                //    ddl.Text = text.Trim();
-                //    if (ddl.Value != null && ddl.Text == ddl.Value.ToString())
-                //        ddl.SelectedIndex = -1;
-
-                //    SetControlEntrySetting(ddl, new ControlEntrySetting(true, true, entity.IsRequired));
-                //}
-                //else if (entity.Type == "3")
-                //{
-                //    div = (HtmlGenericControl)e.Item.FindControl("divChk");
-                //    CheckBox chk = (CheckBox)e.Item.FindControl("chkValue");
-                //    chk.Checked = (text == entity.ValueChecked);
-                //}
-
                 if (entity.GCFilterParameterType == Constant.FilterParameterType.CONSTANT)
                 {
                     HtmlTableRow trReportParameter = (HtmlTableRow)e.Item.FindControl("trReportParameter");

@@ -94,6 +94,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx">
       <Link>SharedLibs\Program\RemoteLogon.aspx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx">
+      <Link>SharedLibs\Program\ReportPage.aspx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx">
       <Link>SharedLibs\Program\ReportViewer.aspx</Link>
     </Content>
@@ -338,6 +341,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.designer.cs">
       <Link>SharedLibs\Program\RemoteLogon.aspx.designer.cs</Link>
       <DependentUpon>RemoteLogon.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx.cs">
+      <Link>SharedLibs\Program\ReportPage.aspx.cs</Link>
+      <DependentUpon>ReportPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportPage.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportPage.aspx.designer.cs</Link>
+      <DependentUpon>ReportPage.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>

@@ -11,6 +11,7 @@ using System.Text;
 using System.Web.UI.HtmlControls;
 using System.Xml.Linq;
 using CodeX.Web.Common;
+using CodeX.Common;
 
 namespace CodeX.Web.CommonLibs.MasterPage
 {
@@ -36,7 +37,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 if (xdoc != null)
                 {
                     string menuCode = BasePageContent.OnGetMenuCode();
-                    List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, menuCode, "");
+                    List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.ReportType.FORM, ModuleID, menuCode, "");
                     if (lstReport.Count > 0)
                         btnMPEntryPrint.Style.Remove("display");
                 }

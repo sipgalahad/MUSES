@@ -257,7 +257,6 @@ namespace CodeX.Data.Model
         private String _ReportTitle2;
         private Int32? _ParentID;
         private Boolean _IsHeader;
-        private String _MenuCode;
         private Int16 _DisplayOrder;
         private Boolean _IsSelected;
 
@@ -296,12 +295,6 @@ namespace CodeX.Data.Model
         {
             get { return _IsHeader; }
             set { _IsHeader = value; }
-        }
-        [Column(Name = "MenuCode", DataType = "String")]
-        public String MenuCode
-        {
-            get { return _MenuCode; }
-            set { _MenuCode = value; }
         }
         [Column(Name = "DisplayOrder", DataType = "Int16")]
         public Int16 DisplayOrder

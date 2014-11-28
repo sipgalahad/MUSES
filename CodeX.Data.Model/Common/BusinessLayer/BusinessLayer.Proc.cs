@@ -172,7 +172,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetReportUserList
-        public static List<GetReportUserList> GetReportUserList(string siteID, int userID, string menuCode, string filterExpression)
+        public static List<GetReportUserList> GetReportUserList(string siteID, int userID, string GCReportType, string moduleID, string menuCode, string filterExpression)
         {
             List<GetReportUserList> result = new List<GetReportUserList>();
             IDbContext ctx = DbFactory.Configure();
@@ -184,6 +184,8 @@ namespace CodeX.Data.Model
                 //Add Parameter
                 ctx.Add("p_SiteID", siteID);
                 ctx.Add("p_UserID", userID);
+                ctx.Add("p_GCReportType", GCReportType);
+                ctx.Add("p_ModuleID", moduleID);
                 ctx.Add("p_MenuCode", menuCode);
                 ctx.Add("p_AdditionalFilterExpression", filterExpression);
 

@@ -201,7 +201,7 @@
                 #toolbarArea        { display: none; }
                 .pageContent        { min-height:<%=paperPrintPageContent %> !important; }
             }
-            .tblReport .tdDetail, .tblHeader td { padding-right:0.1cm; padding-left:0.1cm;  }
+            .tblReport .tdDetail, .tblHeader th { padding-right:0.1cm; padding-left:0.1cm;  }
             thead th            { font-weight: bold; }
             .tblHeader th            { border-bottom: 1px solid; }
             .tblHeader:nth-child(1) th            { border-top: 1px solid; }

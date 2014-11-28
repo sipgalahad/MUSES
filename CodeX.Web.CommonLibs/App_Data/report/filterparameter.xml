@@ -2,8 +2,16 @@
 <root>
   <!-- #Region Free Text -->
   <type type="X108^006">
-    <!-- #Region FP000001 -->
+    <!-- #Region FP001 - Free Text -->
     <filterparameter code="FP001" name="Free Text" caption="Free Text" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
+
+  <!-- #Region Date Past Period -->
+  <type type="X108^004">
+    <!-- #Region DT001 - Movement Date Past Period -->
+    <filterparameter code="DT001" name="Movement Date Past Period" caption="Tanggal" fieldname="MovementDate" />
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->

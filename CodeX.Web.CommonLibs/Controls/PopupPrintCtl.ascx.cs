@@ -8,6 +8,7 @@ using CodeX.Web.Common.UI;
 using CodeX.Web.Common;
 using System.Xml.Linq;
 using CodeX.Data.Model;
+using CodeX.Common;
 
 namespace CodeX.Web.CommonLibs.Controls
 {
@@ -17,7 +18,9 @@ namespace CodeX.Web.CommonLibs.Controls
         {
             if (param != "")
             {
-                List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, param, "");
+                string moduleName = Helper.GetModuleName();
+                string ModuleID = Helper.GetModuleID(moduleName);
+                List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.ReportType.FORM, ModuleID, param, "");
                 rptPrint.DataSource = lstReport;
                 rptPrint.DataBind();
             }

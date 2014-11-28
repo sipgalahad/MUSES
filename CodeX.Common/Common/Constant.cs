@@ -117,6 +117,12 @@ namespace CodeX.Common
             public const string MOTHER = "0063^002";
         }
 
+        public static class ReportType
+        {
+            public const string REPORT = "X140^001";
+            public const string FORM = "X140^002";
+        }
+
         public static class PurchaseReturnType
         {
             public const string REPLACEMENT = "X161^001";

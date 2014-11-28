@@ -92,8 +92,8 @@ namespace CodeX.Web.CommonLibs.Program
                                            Name = sd.Attribute("name").Value,
                                            Caption = sd.Attribute("caption").Value,
                                            Type = sd.Parent.Attribute("type").Value,
-                                           FieldName = sd.Attribute("fieldname") != null ? sd.Parent.Attribute("fieldname").Value : "",
-                                           IsAllowSelectAll = sd.Attribute("isallowselectall") != null ? sd.Parent.Attribute("isallowselectall").Value == "1" : true
+                                           FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : "",
+                                           IsAllowSelectAll = sd.Attribute("isallowselectall") != null ? sd.Attribute("isallowselectall").Value == "1" : true
                                        }).FirstOrDefault();
 
                 string filterParameter = String.Empty;
@@ -339,7 +339,7 @@ namespace CodeX.Web.CommonLibs.Program
                                     HeaderText = sd.Attribute("headertext").Value,
                                     Width = sd.Attribute("width") != null ? Convert.ToInt32(sd.Attribute("width").Value) : 0,
                                     IsShowSubTotal = sd.Attribute("isshowsubtotal") != null ? sd.Attribute("isshowsubtotal").Value == "1" : false,
-                                    InnerHtml = sd.Attribute("innerhtml") != null ? sd.Attribute("innerhtml").Value : "",
+                                    InnerHtml = sd.Value,
                                     Align = sd.Attribute("align") != null ? sd.Attribute("align").Value : "left",
                                 }).ToList<TemplateField>();
             #endregion
@@ -485,6 +485,8 @@ namespace CodeX.Web.CommonLibs.Program
                     string align = "";
                     if (FieldType == "currency" || FieldType == "number" || FieldType == "autonumber")
                         align = " align='right'";
+                    else if (FieldType == "date" || FieldType == "time")
+                        align = " align='center'";
                     else
                         align = " align='left'";
 
@@ -720,8 +722,21 @@ namespace CodeX.Web.CommonLibs.Program
                                 lc.Text += "<tr>";
                                 foreach (TemplateField tf in _lstTemplateField)
                                 {
+
                                     if (tf.FieldType == "customfield")
-                                        lc.Text += string.Format("<td align='{1}'>{0}</td>", tf.InnerHtml, tf.Align);
+                                    {
+                                        string innerHtml = tf.InnerHtml;
+                                        Regex regex = new Regex("{([(a-zA-Z0-9_.,)]*)}");
+                                        MatchCollection collection = regex.Matches(innerHtml);
+                                        foreach (Match m in collection)
+                                        {
+                                            var columnName = m.Groups[1].Value;
+                                            innerHtml = innerHtml.Replace("{" + columnName + "}", DataBinder.Eval(container1.DataItem, columnName).ToString());
+                                        }
+                                        lc.Text += string.Format("<td align='{1}' class='tdDetail'>{0}</td>", innerHtml, tf.Align);
+                                    }
+                                    else if (tf.FieldType == "date")
+                                        lc.Text += string.Format("<td align='center' class='tdDetail'>{0:dd-MMM-yyyy}</td>", DataBinder.Eval(container1.DataItem, tf.FieldName));
                                     else if (tf.FieldType == "autonumber")
                                         lc.Text += string.Format("<td align='right' class='tdDetail tdAutoNumber'>{0}.</td>", container1.ItemIndex + 1);
                                     else if (tf.FieldType == "currency")
