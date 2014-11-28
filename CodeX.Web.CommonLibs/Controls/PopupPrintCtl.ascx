@@ -23,7 +23,7 @@
 </script>
 <asp:Repeater ID="rptPrint" runat="server">
     <ItemTemplate>
-        <input type="radio" name="rboRegistrationPrint" value="1" <%#Eval("IsSelected").ToString() == "True" ? "checked='checked'" : "" %> reportcode='<%# Eval("ReportCode")%>' /><%# Eval("cfReportTitle")%><br />
+        <input type="radio" name="rboRegistrationPrint" value="1" <%#Eval("IsSelected").ToString() == "True" ? "checked='checked'" : "" %> reportcode='<%# Eval("ReportCode")%>' /><%# Eval("ReportName")%><br />
     </ItemTemplate>
 </asp:Repeater>
 

@@ -15,9 +15,9 @@
     <field fieldname="QuantityEND" headertext="Saldo Akhir" width="10" fieldtype="currency"/>
     <field headertext="Transaksi" fieldtype="customfield">
       <![CDATA[
-          <div>{TransactionDescription}</div>
-          <div>{DetailDesc}</div>
-        ]]>
+        <div>{TransactionDescription}</div>
+        <div>{DetailDesc}</div>
+      ]]>
     </field>
   </fields>
 </root>

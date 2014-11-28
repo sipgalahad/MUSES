@@ -17,7 +17,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             hdnReportID.Value = param;
             ReportMaster entity = BusinessLayer.GetReportMaster(Convert.ToInt32(hdnReportID.Value));
-            txtHeaderText.Text = string.Format("{0} - {1}", entity.ReportCode, entity.ReportTitle1);
+            txtHeaderText.Text = string.Format("{0} - {1}", entity.ReportCode, entity.ReportName);
 
             BindGridView();
 

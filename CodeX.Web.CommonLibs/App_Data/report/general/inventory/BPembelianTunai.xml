@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvDirectPurchaseDtList" datasourcehd="GetvDirectPurchaseHdList" filterexpressionhd="" headertext="Bukti Pembelian Tunai" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="8pt"/>
+  <parameters>
+    <parameter code="FP001"/>
+  </parameters>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="ItemName1" headertext="Item"/>
+    <field headertext="Quantity" width="10" fieldtype="customfield" align="right">
+      <![CDATA[
+        {Quantity} {ItemUnit}
+      ]]>
+    </field>
+    <field fieldname="UnitPrice" headertext="Harga" width="10" fieldtype="currency"/>
+    <field fieldname="DiscountPercentage" headertext="Disc %" width="10" fieldtype="currency"/>
+    <field fieldname="CustomSubTotal" headertext="Total" width="15" fieldtype="currency" isshowsubtotal="1"/>
+  </fields>
+  <headertemplate>
+    <![CDATA[
+    <table style="width:100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col style="width:60%"/>
+      </colgroup>
+      <tr>
+        <td valign="top">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:110px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>No Permintaan</td><td align="center">:</td><td>{DirectRequestNo}</td></tr>
+            <tr><td>Lokasi</td><td align="center">:</td><td>{LocationName}</td></tr>
+          </table>
+        </td>
+        <td valign="top">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:110px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>Tanggal Pembelian</td><td align="center">:</td><td>{PurchaseDateInString}</td></tr>
+          </table>           	
+        </td>
+      </tr>
+    </table>
+    ]]>
+  </headertemplate>
+  <footertemplate>
+    <![CDATA[
+     <table style="width:100%;" cellspacing="0" cellpadding="0">
+       <tr>
+        <td align="right" class="tdReportTotal">
+          <table>
+            <colgroup>
+             <col style="width:90px"/>
+             <col style="width:5px"/>
+             <col style="width:60px"/>
+            </colgroup> 
+            <tr>
+              <td>Total</td>
+              <td>:</td>
+              <td align="right">{TransactionAmount,N}</td>
+            </tr>
+          </table>          
+        </td>
+       </tr>
+     </table>
+     <table style="width:100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col style="width:50%"/>
+      </colgroup>
+      <tr>
+        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">Dibuat Oleh</td>
+        <td valign="top" align="center">Disetujui Oleh</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="tdSignature">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
+        <td valign="top" align="center">
+          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
+        </td>
+      </tr>
+    </table>
+    ]]>
+  </footertemplate>
+</root>

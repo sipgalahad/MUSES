@@ -78,7 +78,7 @@ namespace CodeX.Web.CommonLibs.Program
 
         private string GenerateFilterExpression(List<ReportParameter> lstReportParameter)
         {
-            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ClassName));
+            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
             if (!File.Exists(physicalPath))
                 return "";
@@ -170,7 +170,7 @@ namespace CodeX.Web.CommonLibs.Program
         private void BindGridView()
         {
             #region Load Report File
-            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ClassName));
+            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
             if (!File.Exists(physicalPath))
                 return;
@@ -275,7 +275,10 @@ namespace CodeX.Web.CommonLibs.Program
                 foreach (Match m in collection)
                 {
                     var columnName = m.Groups[1].Value;
-                    var fieldValue = entityHd.GetType().GetProperty(columnName).GetValue(entityHd, null).ToString();
+                    var prop = entityHd.GetType().GetProperty(columnName);
+                    if (prop == null)
+                        throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, tempReportSetting.DataSourceHd));
+                    var fieldValue = prop.GetValue(entityHd, null).ToString();
                     headerTemplate = headerTemplate.Replace("{" + columnName + "}", fieldValue);
                 }
 
@@ -301,7 +304,10 @@ namespace CodeX.Web.CommonLibs.Program
                 foreach (Match m in collection)
                 {
                     var columnName = m.Groups[1].Value;
-                    var fieldValue = entityHd.GetType().GetProperty(columnName).GetValue(entityHd, null).ToString();
+                    var prop = entityHd.GetType().GetProperty(columnName);
+                    if (prop == null)
+                        throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, tempReportSetting.DataSourceHd));
+                    var fieldValue = prop.GetValue(entityHd, null).ToString();
                     footerTemplate = footerTemplate.Replace("{" + columnName + ",N}", Convert.ToDecimal(fieldValue).ToString("N"));
                 }
 
@@ -310,7 +316,10 @@ namespace CodeX.Web.CommonLibs.Program
                 foreach (Match m in collection)
                 {
                     var columnName = m.Groups[1].Value;
-                    var fieldValue = entityHd.GetType().GetProperty(columnName).GetValue(entityHd, null).ToString();
+                    var prop = entityHd.GetType().GetProperty(columnName);
+                    if (prop == null)
+                        throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, tempReportSetting.DataSourceHd));
+                    var fieldValue = prop.GetValue(entityHd, null).ToString();
                     footerTemplate = footerTemplate.Replace("{" + columnName + "}", fieldValue);
                 }
 
@@ -727,8 +736,16 @@ namespace CodeX.Web.CommonLibs.Program
                                     if (tf.FieldType == "customfield")
                                     {
                                         string innerHtml = tf.InnerHtml;
-                                        Regex regex = new Regex("{([(a-zA-Z0-9_.,)]*)}");
+                                        Regex regex = new Regex("{([(a-zA-Z0-9_.,)]*),N}");
                                         MatchCollection collection = regex.Matches(innerHtml);
+                                        foreach (Match m in collection)
+                                        {
+                                            var columnName = m.Groups[1].Value;
+                                            innerHtml = innerHtml.Replace("{" + columnName + ",N}", DataBinder.Eval(container1.DataItem, columnName, "{0:N}").ToString());
+                                        }
+
+                                        regex = new Regex("{([(a-zA-Z0-9_.,)]*)}");
+                                        collection = regex.Matches(innerHtml);
                                         foreach (Match m in collection)
                                         {
                                             var columnName = m.Groups[1].Value;

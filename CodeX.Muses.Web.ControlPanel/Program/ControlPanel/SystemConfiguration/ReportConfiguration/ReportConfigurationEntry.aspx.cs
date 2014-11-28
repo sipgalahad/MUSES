@@ -29,6 +29,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 ReportMaster entity = BusinessLayer.GetReportMaster(Convert.ToInt32(ID));
                 EntityToControl(entity);
+                if (entity.ParentID != null && entity.ParentID > 0)
+                {
+                    ReportMaster entityParent = BusinessLayer.GetReportMaster((int)entity.ParentID);
+                    txtParentCode.Text = entityParent.ReportCode;
+                    txtParentName.Text = entityParent.ReportName;
+                }
             }
             else
             {
@@ -40,47 +46,45 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}') AND IsDeleted = 0", Constant.StandardCode.REPORT_TYPE, Constant.StandardCode.DATA_SOURCE_TYPE));
+            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}') AND IsDeleted = 0", Constant.StandardCode.REPORT_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboReportType, lst.Where(p => p.ParentID == Constant.StandardCode.REPORT_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboDataSourceType, lst.Where(p => p.ParentID == Constant.StandardCode.DATA_SOURCE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             cboReportType.SelectedIndex = 0;
-            cboDataSourceType.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtReportCode, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtReportTitle1, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtReportTitle2, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtReportName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboReportType, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtClassName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboDataSourceType, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtObjectTypeName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtAdditionalFilterExpression, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtReportUrl, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(hdnParentID, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtParentName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(chkIsHeader, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(ReportMaster entity)
         {
             txtReportCode.Text = entity.ReportCode;
-            txtReportTitle1.Text = entity.ReportTitle1;
-            txtReportTitle2.Text = entity.ReportTitle2;
+            txtReportName.Text = entity.ReportName;
             cboReportType.Value = entity.GCReportType;
-            txtClassName.Text = entity.ClassName;
-            cboDataSourceType.Value = entity.GCDataSourceType;
-            txtObjectTypeName.Text = entity.ObjectTypeName;
-            txtAdditionalFilterExpression.Text = entity.AdditionalFilterExpression;
+            txtReportUrl.Text = entity.ReportUrl;
+            chkIsHeader.Checked = entity.IsHeader;
+            hdnParentID.Value = entity.ParentID.ToString();
+            chkIsHeader.Checked = entity.IsHeader;
         }
 
         private void ControlToEntity(ReportMaster entity)
         {
             entity.ReportCode = txtReportCode.Text;
-            entity.ReportTitle1 = txtReportTitle1.Text;
-            entity.ReportTitle2 = txtReportTitle2.Text;
+            entity.ReportName = txtReportName.Text;
             entity.GCReportType = cboReportType.Value.ToString();
-            entity.ClassName = txtClassName.Text;
-            entity.GCDataSourceType = cboDataSourceType.Value.ToString();
-            entity.ObjectTypeName = txtObjectTypeName.Text;
-            entity.AdditionalFilterExpression = txtAdditionalFilterExpression.Text;
+            entity.ReportUrl = txtReportUrl.Text;
+            if (hdnParentID.Value == "" || hdnParentID.Value.ToString() == "0")
+                entity.ParentID = null;
+            else
+                entity.ParentID = Convert.ToInt32(hdnParentID.Value);
+            entity.IsHeader = chkIsHeader.Checked;
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)

@@ -1698,21 +1698,14 @@ namespace CodeX.Data.Model
     public class ReportMaster : DbDataModel
     {
         private Int32 _ReportID;
+        private String _ModuleID;
         private String _ReportCode;
-        private String _ReportTitle1;
-        private String _ReportTitle2;
+        private String _ReportName;
         private String _GCReportType;
-        private String _ClassName;
-        private String _GCDataSourceType;
-        private String _ObjectTypeName;
-        private String _AdditionalFilterExpression;
+        private String _ReportUrl;
         private Int32? _ParentID;
         private Boolean _IsHeader;
-        private Boolean _IsShowHeader;
-        private Boolean _IsShowParameter;
-        private Int16 _TopMargin;
-        private Boolean _IsDirectPrint;
-        private Boolean _IsUsingDotMatrix;
+        private Int16 _DisplayOrder;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -1725,23 +1718,23 @@ namespace CodeX.Data.Model
             get { return _ReportID; }
             set { _ReportID = value; }
         }
+        [Column(Name = "ModuleID", DataType = "String", IsNullable = true)]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
         [Column(Name = "ReportCode", DataType = "String")]
         public String ReportCode
         {
             get { return _ReportCode; }
             set { _ReportCode = value; }
         }
-        [Column(Name = "ReportTitle1", DataType = "String")]
-        public String ReportTitle1
+        [Column(Name = "ReportName", DataType = "String")]
+        public String ReportName
         {
-            get { return _ReportTitle1; }
-            set { _ReportTitle1 = value; }
-        }
-        [Column(Name = "ReportTitle2", DataType = "String", IsNullable = true)]
-        public String ReportTitle2
-        {
-            get { return _ReportTitle2; }
-            set { _ReportTitle2 = value; }
+            get { return _ReportName; }
+            set { _ReportName = value; }
         }
         [Column(Name = "GCReportType", DataType = "String")]
         public String GCReportType
@@ -1749,29 +1742,11 @@ namespace CodeX.Data.Model
             get { return _GCReportType; }
             set { _GCReportType = value; }
         }
-        [Column(Name = "ClassName", DataType = "String")]
-        public String ClassName
+        [Column(Name = "ReportUrl", DataType = "String")]
+        public String ReportUrl
         {
-            get { return _ClassName; }
-            set { _ClassName = value; }
-        }
-        [Column(Name = "GCDataSourceType", DataType = "String", IsNullable = true)]
-        public String GCDataSourceType
-        {
-            get { return _GCDataSourceType; }
-            set { _GCDataSourceType = value; }
-        }
-        [Column(Name = "ObjectTypeName", DataType = "String", IsNullable = true)]
-        public String ObjectTypeName
-        {
-            get { return _ObjectTypeName; }
-            set { _ObjectTypeName = value; }
-        }
-        [Column(Name = "AdditionalFilterExpression", DataType = "String", IsNullable = true)]
-        public String AdditionalFilterExpression
-        {
-            get { return _AdditionalFilterExpression; }
-            set { _AdditionalFilterExpression = value; }
+            get { return _ReportUrl; }
+            set { _ReportUrl = value; }
         }
         [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
         public Int32? ParentID
@@ -1785,35 +1760,11 @@ namespace CodeX.Data.Model
             get { return _IsHeader; }
             set { _IsHeader = value; }
         }
-        [Column(Name = "IsShowHeader", DataType = "Boolean")]
-        public Boolean IsShowHeader
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
         {
-            get { return _IsShowHeader; }
-            set { _IsShowHeader = value; }
-        }
-        [Column(Name = "IsShowParameter", DataType = "Boolean")]
-        public Boolean IsShowParameter
-        {
-            get { return _IsShowParameter; }
-            set { _IsShowParameter = value; }
-        }
-        [Column(Name = "TopMargin", DataType = "Int16")]
-        public Int16 TopMargin
-        {
-            get { return _TopMargin; }
-            set { _TopMargin = value; }
-        }
-        [Column(Name = "IsDirectPrint", DataType = "Boolean")]
-        public Boolean IsDirectPrint
-        {
-            get { return _IsDirectPrint; }
-            set { _IsDirectPrint = value; }
-        }
-        [Column(Name = "IsUsingDotMatrix", DataType = "Boolean")]
-        public Boolean IsUsingDotMatrix
-        {
-            get { return _IsUsingDotMatrix; }
-            set { _IsUsingDotMatrix = value; }
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

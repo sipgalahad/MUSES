@@ -61,12 +61,6 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
-        $('.lnkFilterParameter a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/ControlPanel/SystemConfiguration/ReportConfiguration/ReportParameterEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Report Parameter', 600, 500);
-        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -81,11 +75,18 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ReportID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ReportCode" HeaderText="Report Code" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="ReportTitle1" HeaderText="Report Title" />
-                                <asp:BoundField DataField="ReportTitle2" HeaderText="Alternate Title" />
+                                 <asp:TemplateField HeaderStyle-Width="200px" >
+                                    <HeaderTemplate>
+                                        <div style="padding-left:3px">
+                                            <%=GetLabel("Report Code")%>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style='margin-left:<%# Eval("Level") %>0px;'><%# Eval("ReportCode")%></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="ReportName" HeaderText="Report Name" />
                                 <asp:BoundField DataField="ReportType" HeaderText="Report Type" HeaderStyle-Width="150px" />
-                                <asp:HyperLinkField HeaderText="Filter Parameter" Text="Filter Parameter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkFilterParameter" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

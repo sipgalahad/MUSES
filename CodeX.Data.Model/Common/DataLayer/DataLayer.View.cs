@@ -381,17 +381,15 @@ namespace CodeX.Data.Model
     public class vReportMaster
     {
         private Int32 _ReportID;
+        private String _ModuleID;
         private String _ReportCode;
-        private String _ReportTitle1;
-        private String _ReportTitle2;
+        private String _ReportName;
         private String _GCReportType;
         private String _ReportType;
-        private String _ClassName;
-        private String _GCDataSourceType;
-        private String _DataSourceType;
-        private String _ObjectTypeName;
-        private String _AdditionalFilterExpression;
-        private Boolean _IsDeleted;
+        private Boolean _IsHeader;
+        private Int32 _ParentID;
+        private Int32 _Level;
+        private String _Path;
 
         [Column(Name = "ReportID", DataType = "Int32")]
         public Int32 ReportID
@@ -399,23 +397,23 @@ namespace CodeX.Data.Model
             get { return _ReportID; }
             set { _ReportID = value; }
         }
+        [Column(Name = "ModuleID", DataType = "String")]
+        public String ModuleID
+        {
+            get { return _ModuleID; }
+            set { _ModuleID = value; }
+        }
         [Column(Name = "ReportCode", DataType = "String")]
         public String ReportCode
         {
             get { return _ReportCode; }
             set { _ReportCode = value; }
         }
-        [Column(Name = "ReportTitle1", DataType = "String")]
-        public String ReportTitle1
+        [Column(Name = "ReportName", DataType = "String")]
+        public String ReportName
         {
-            get { return _ReportTitle1; }
-            set { _ReportTitle1 = value; }
-        }
-        [Column(Name = "ReportTitle2", DataType = "String")]
-        public String ReportTitle2
-        {
-            get { return _ReportTitle2; }
-            set { _ReportTitle2 = value; }
+            get { return _ReportName; }
+            set { _ReportName = value; }
         }
         [Column(Name = "GCReportType", DataType = "String")]
         public String GCReportType
@@ -429,41 +427,29 @@ namespace CodeX.Data.Model
             get { return _ReportType; }
             set { _ReportType = value; }
         }
-        [Column(Name = "ClassName", DataType = "String")]
-        public String ClassName
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
         {
-            get { return _ClassName; }
-            set { _ClassName = value; }
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
         }
-        [Column(Name = "GCDataSourceType", DataType = "String")]
-        public String GCDataSourceType
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
         {
-            get { return _GCDataSourceType; }
-            set { _GCDataSourceType = value; }
+            get { return _ParentID; }
+            set { _ParentID = value; }
         }
-        [Column(Name = "DataSourceType", DataType = "String")]
-        public String DataSourceType
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
         {
-            get { return _DataSourceType; }
-            set { _DataSourceType = value; }
+            get { return _Level; }
+            set { _Level = value; }
         }
-        [Column(Name = "ObjectTypeName", DataType = "String")]
-        public String ObjectTypeName
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
         {
-            get { return _ObjectTypeName; }
-            set { _ObjectTypeName = value; }
-        }
-        [Column(Name = "AdditionalFilterExpression", DataType = "String")]
-        public String AdditionalFilterExpression
-        {
-            get { return _AdditionalFilterExpression; }
-            set { _AdditionalFilterExpression = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
+            get { return _Path; }
+            set { _Path = value; }
         }
     }
     #endregion

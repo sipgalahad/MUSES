@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvStockTakingDtList" datasourcehd="GetvStockTakingHdList" filterexpressionhd="StockTakingID = 100" headertext="Form Stock Opname dengan Saldo" filterexpression="StockTakingID = 100" papertype="A4_portrait" fontsize="8pt"/>
+  <fields>
+    <field fieldtype="autonumber" headertext="No" width="3"/>
+    <field fieldname="ItemCode" headertext="Kode"/>
+    <field fieldname="ItemName1" headertext="Deskripsi"/>
+    <field fieldname="ItemUnit" headertext="Satuan" width="10"/>
+    <field headertext="Selisih" width="10" fieldtype="customfield" align="center">
+      <![CDATA[
+          _________________________
+        ]]>
+    </field>
+  </fields>
+  <headertemplate>
+    <![CDATA[
+    <table style="width:100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col style="width:50%"/>
+      </colgroup>
+      <tr>
+        <td valign="top">
+         <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col style="width:150px"/>
+              <col style="width:20px"/>
+            </colgroup>      
+            <tr><td>No Stock Opname</td><td align="center">:</td><td>{StockTakingNo}</td></tr>
+            <tr><td>Tanggal Stock Opname</td><td align="center">:</td><td>{FormDateInString}</td></tr>
+            <tr><td>Lokasi</td><td align="center">:</td><td>{LocationCode} - {LocationName}</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    ]]>
+  </headertemplate>
+  <footertemplate>
+    <![CDATA[
+     <table style="width:100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col style="width:50%"/>
+      </colgroup>
+      <tr>
+        <td colspan="2" style="padding-top:0.5cm">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">Dibuat Oleh</td>
+        <td valign="top" align="center">Disetujui Oleh</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding-top:1.7cm">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top" align="center">__________________</td>
+        <td valign="top" align="center">__________________</td>
+      </tr>
+    </table>
+    ]]>
+  </footertemplate>
+</root>

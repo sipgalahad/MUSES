@@ -64,7 +64,7 @@ namespace CodeX.Web.CommonLibs.Program
             {
                 Int32 childCount = lstAllReport.Where(p => p.ParentID == report.ReportID).Count();
                 TreeNode tn = new TreeNode();
-                tn.Text = report.ReportTitle1;
+                tn.Text = report.ReportName;
                 tn.Value = report.ReportID.ToString();
                 if (childCount > 0)
                     tn.SelectAction = TreeNodeSelectAction.Expand;
@@ -94,7 +94,7 @@ namespace CodeX.Web.CommonLibs.Program
         private void BindGridView()
         {
             ReportMaster reportMaster = BusinessLayer.GetReportMasterList(string.Format("ReportCode = '{0}'", Request.Form[hdnReportCode.UniqueID])).FirstOrDefault();
-            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ClassName));
+            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/general/{0}.xml", reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
             if (!File.Exists(physicalPath))
                 return;
@@ -106,7 +106,7 @@ namespace CodeX.Web.CommonLibs.Program
                                                               IsRequired = sd.Attribute("isrequired") != null ? sd.Attribute("isrequired").Value == "1" : false,
                                                           }).ToList<ReportParameter>();
 
-            reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ClassName));
+            reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
             physicalPath = HttpContext.Current.Request.MapPath(reportXML);
             if (!File.Exists(physicalPath))
                 return;

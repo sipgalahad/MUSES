@@ -249,12 +249,11 @@ namespace CodeX.Data.Model
     #region GetReportUserList
     [Serializable]
     [Table(Name = "GetReportUserList")]
-    public partial class GetReportUserList
+    public class GetReportUserList
     {
         private Int32 _ReportID;
         private String _ReportCode;
-        private String _ReportTitle1;
-        private String _ReportTitle2;
+        private String _ReportName;
         private Int32? _ParentID;
         private Boolean _IsHeader;
         private Int16 _DisplayOrder;
@@ -272,17 +271,11 @@ namespace CodeX.Data.Model
             get { return _ReportCode; }
             set { _ReportCode = value; }
         }
-        [Column(Name = "ReportTitle1", DataType = "String")]
-        public String ReportTitle1
+        [Column(Name = "ReportName", DataType = "String")]
+        public String ReportName
         {
-            get { return _ReportTitle1; }
-            set { _ReportTitle1 = value; }
-        }
-        [Column(Name = "ReportTitle2", DataType = "String")]
-        public String ReportTitle2
-        {
-            get { return _ReportTitle2; }
-            set { _ReportTitle2 = value; }
+            get { return _ReportName; }
+            set { _ReportName = value; }
         }
         [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
         public Int32? ParentID

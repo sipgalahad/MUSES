@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" filterexpressionhd="" headertext="SURAT PESANAN OBAT DAN ALKES" subheadertext="Dengan Nilai" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="8pt"/>
+  <table datasource="GetvPurchaseOrderDtList" datasourcehd="GetvPurchaseOrderHdList" filterexpressionhd="" headertext="SURAT PESANAN OBAT DAN ALKES" subheadertext="Tanpa Nilai" filterexpression="IsDeleted = 0" papertype="A4_portrait" fontsize="8pt"/>
   <parameters>
     <parameter code="FP001"/>
   </parameters>
@@ -8,10 +8,6 @@
     <field fieldtype="autonumber" headertext="No" width="3"/>
     <field fieldname="ItemName1" headertext="Item"/>
     <field fieldname="Quantity" headertext="Quantity" width="10" fieldtype="number"/>
-    <field fieldname="UnitPrice" headertext="Harga" width="15" fieldtype="currency"/>
-    <field fieldname="DiscountPercentage1" headertext="Disc 1" width="10" fieldtype="currency"/>
-    <field fieldname="DiscountPercentage2" headertext="Disc 2" width="10" fieldtype="currency"/>
-    <field fieldname="CustomSubTotal" headertext="Total" width="15" fieldtype="currency"/>
   </fields>
   <headertemplate>
     <![CDATA[
@@ -42,24 +38,6 @@
   </headertemplate>
   <footertemplate>
     <![CDATA[
-     <table style="width:100%;" cellspacing="0" cellpadding="0">
-       <tr>
-        <td align="right" class="tdReportTotal">
-          <table>
-            <colgroup>
-             <col style="width:90px"/>
-             <col style="width:5px"/>
-             <col style="width:60px"/>
-            </colgroup> 
-            <tr>
-              <td>Total</td>
-              <td>:</td>
-              <td align="right">{TransactionAmount,N}</td>
-            </tr>
-          </table>          
-        </td>
-       </tr>
-     </table>
      <table style="width:100%" cellspacing="0" cellpadding="0">
       <colgroup>
         <col style="width:50%"/>
@@ -75,10 +53,9 @@
         <td colspan="2" class="tdSignature">&nbsp;</td>
       </tr>
       <tr>
-        <td valign="top" align="center"><span style="border-bottom:1px solid">{CreatedByName}</span></td>
+        <td valign="top" align="center"><div style="border-bottom:1px solid;width:120px;">{CreatedByName}</div></td>
         <td valign="top" align="center">
-          <span style="border-bottom:1px solid">Slamet</span></br>
-          <div style="margin-top:0.1cm">123123123</div>
+          <div style="border-bottom:1px solid;width:120px;">&nbsp;</div></br>
         </td>
       </tr>
     </table>

@@ -31,22 +31,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtReportCode;
         
         /// <summary>
-        /// txtReportTitle1 control.
+        /// txtReportName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReportTitle1;
-        
-        /// <summary>
-        /// txtReportTitle2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtReportTitle2;
+        protected global::System.Web.UI.WebControls.TextBox txtReportName;
         
         /// <summary>
         /// cboReportType control.
@@ -58,39 +49,48 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReportType;
         
         /// <summary>
-        /// txtClassName control.
+        /// txtReportUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtClassName;
+        protected global::System.Web.UI.WebControls.TextBox txtReportUrl;
         
         /// <summary>
-        /// cboDataSourceType control.
+        /// hdnParentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboDataSourceType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentID;
         
         /// <summary>
-        /// txtObjectTypeName control.
+        /// txtParentCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtObjectTypeName;
+        protected global::System.Web.UI.WebControls.TextBox txtParentCode;
         
         /// <summary>
-        /// txtAdditionalFilterExpression control.
+        /// txtParentName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAdditionalFilterExpression;
+        protected global::System.Web.UI.WebControls.TextBox txtParentName;
+        
+        /// <summary>
+        /// chkIsHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
     }
 }

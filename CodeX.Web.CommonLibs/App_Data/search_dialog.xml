@@ -417,6 +417,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Report Master -->
+  <searchdialog type="reportmaster" methodname="GetvReportMasterList" keyfieldname="ReportCode" istreeview="1">
+    <gridcolumns>
+      <gridcolumn datafield="ReportCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="ReportName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ReportName" headertext="Nama" description="" />
+      <intellisensetext datafield="ReportCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Restriction -->
   <searchdialog type="restriction" methodname="GetRestrictionHdList" keyfieldname="RestrictionCode">
     <gridcolumns>
