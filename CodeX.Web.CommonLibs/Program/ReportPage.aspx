@@ -244,7 +244,7 @@
                                                                 <div id="divSd" runat="server" visible="false">
                                                                     <input type="hidden" runat="server" id="hdnSdNewID" class="hdnSdID" />
                                                                     <input type="hidden" class="hdnSearchDialogType" value='<%#Eval("SearchDialogType") %>' />
-                                                                    <input type="hidden" class="hdnSearchDialogFilterExpression" value="<%#Eval("SearchDialogFilterExpression") %>" />
+                                                                    <input type="hidden" id="hdnSearchDialogFilterExpression" runat="server" class="hdnSearchDialogFilterExpression" />
                                                                     <input type="hidden" class="hdnSearchDialogCodeField" value='<%#Eval("SearchDialogCodeField") %>' />
                                                                     <input type="hidden" class="hdnSearchDialogMethodName" value='<%#Eval("SearchDialogMethodName") %>' />
                                                                     <input type="hidden" class="hdnSearchDialogIDField" value='<%#Eval("SearchDialogIDField") %>' />

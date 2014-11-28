@@ -72,6 +72,7 @@ namespace CodeX.Web.CommonLibs.Program
         {
             StringBuilder sbResult = new StringBuilder(value);
             sbResult.Replace("@SiteID", AppSession.UserLogin.SiteID);
+            sbResult.Replace("@UserID", AppSession.UserLogin.UserID.ToString());
             return sbResult.ToString();
         }
 

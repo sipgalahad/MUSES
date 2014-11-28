@@ -25,6 +25,7 @@ namespace CodeX.Web.CommonLibs.Program
         {
             StringBuilder sbResult = new StringBuilder(value);
             sbResult.Replace("@SiteID", AppSession.UserLogin.SiteID);
+            sbResult.Replace("@UserID", AppSession.UserLogin.UserID.ToString());
             return sbResult.ToString();
         }
 
@@ -132,12 +133,12 @@ namespace CodeX.Web.CommonLibs.Program
                                            FilterExpression = sd.Attribute("filterexpression") != null ? sd.Attribute("filterexpression").Value : "",
                                            ClientInstanceName = sd.Attribute("clientinstancename") != null ? sd.Attribute("clientinstancename").Value : "",
 
-                                           SearchDialogIDField = sd.Attribute("searchdialogidfield") != null ? sd.Attribute("searchdialogidfield").Value : "",
-                                           SearchDialogCodeField = sd.Attribute("searchdialogcodefield") != null ? sd.Attribute("searchdialogcodefield").Value : "",
-                                           SearchDialogNameField = sd.Attribute("searchdialognamefield") != null ? sd.Attribute("searchdialognamefield").Value : "",
-                                           SearchDialogMethodName = sd.Attribute("searchdialogmethodname") != null ? sd.Attribute("searchdialogmethodname").Value : "",
-                                           SearchDialogType = sd.Attribute("searchdialogtype") != null ? sd.Attribute("searchdialogtype").Value : "",
-                                           SearchDialogFilterExpression = sd.Attribute("searchdialogfilterexpression") != null ? sd.Attribute("searchdialogfilterexpression").Value : "",
+                                           SearchDialogIDField = sd.Attribute("sdidfield") != null ? sd.Attribute("sdidfield").Value : "",
+                                           SearchDialogCodeField = sd.Attribute("sdcodefield") != null ? sd.Attribute("sdcodefield").Value : "",
+                                           SearchDialogNameField = sd.Attribute("sdnamefield") != null ? sd.Attribute("sdnamefield").Value : "",
+                                           SearchDialogMethodName = sd.Attribute("sdmethodname") != null ? sd.Attribute("sdmethodname").Value : "",
+                                           SearchDialogType = sd.Attribute("sdtype") != null ? sd.Attribute("sdtype").Value : "",
+                                           SearchDialogFilterExpression = sd.Attribute("sdfilterexpression") != null ? sd.Attribute("sdfilterexpression").Value : "",
 
                                            ListText = sd.Attribute("listtext") != null ? sd.Attribute("listtext").Value : "",
                                            ListValue = sd.Attribute("listvalue") != null ? sd.Attribute("listvalue").Value : "",

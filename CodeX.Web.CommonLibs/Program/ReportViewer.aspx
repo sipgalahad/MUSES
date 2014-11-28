@@ -202,6 +202,7 @@
                 .pageContent        { min-height:<%=paperPrintPageContent %> !important; }
             }
             .tblReport .tdDetail, .tblHeader th { padding-right:0.1cm; padding-left:0.1cm;  }
+            .tdDetail           { vertical-align: top; }
             thead th            { font-weight: bold; }
             .tblHeader th            { border-bottom: 1px solid; }
             .tblHeader:nth-child(1) th            { border-top: 1px solid; }

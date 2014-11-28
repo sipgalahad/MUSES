@@ -3,6 +3,8 @@
   <table datasource="GetvItemMovementList" headertext="Laporan Kartu Persediaan" subheadertext="Dengan Nilai" filterexpression="1 = 1 ORDER BY MovementDate" papertype="A4_portrait" fontsize="8pt"/>
   <parameters>
     <parameter code="DT001"/>
+    <parameter code="CB001"/>
+    <parameter code="SD001"/>
   </parameters>
   <fields>
     <field fieldtype="autonumber" headertext="No" width="3"/>

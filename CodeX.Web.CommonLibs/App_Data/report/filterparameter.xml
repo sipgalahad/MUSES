@@ -15,4 +15,20 @@
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
+
+  <!-- #Region ComboBox -->
+  <type type="X108^001">
+    <!-- #Region CB001 - Location User -->
+    <filterparameter code="CB001" name="Cbo Location User" caption="Lokasi" fieldname="LocationID" methodname="GetLocationUserAccessList" filterexpression="@SiteID;@UserID;;" valuefieldname="LocationID" textfieldname="LocationName" clientinstancename="cboLocation" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
+
+  <!-- #Region Search Dialog -->
+  <type type="X108^007">
+    <!-- #Region SD001 - Item Balance -->
+    <filterparameter code="SD001" name="SD Item Balance" caption="Item" fieldname="ItemID" sdtype="itembalance" sdmethodname="GetvItemBalanceList" sdfilterexpression="LocationID = [cboLocation] AND IsDeleted = 0" sdidfield="ItemID" sdcodefield="ItemCode" sdnamefield="ItemName1" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
 </root>
