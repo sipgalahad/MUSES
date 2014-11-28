@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvItemMovementList" headertext="Laporan Kartu Persediaan" subheadertext="Dengan Nilai" filterexpression="1 = 1 ORDER BY MovementDate" papertype="A4_portrait" fontsize="8pt"/>
+  <table datasource="GetvItemMovementList" headertext="Laporan Kartu Persediaan" subheadertext="Dengan Nilai" filterexpression="1 = 1 ORDER BY MovementDate" papertype="A4_portrait" fontsize="8pt" isshowparameter="1"/>
   <parameters>
-    <parameter code="DT001"/>
-    <parameter code="CB001"/>
-    <parameter code="SD001"/>
+    <parameter code="DT001" isshowassubtitle="1"/>
+    <parameter code="CB001" isrequired="1"/>
+    <parameter code="SD001" isrequired="1"/>
   </parameters>
   <fields>
     <field fieldtype="autonumber" headertext="No" width="3"/>

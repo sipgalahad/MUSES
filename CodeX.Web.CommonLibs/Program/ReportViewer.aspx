@@ -10,6 +10,7 @@
 </head>
 <body>
     <form id="myForm" runat="server">
+        <input type="hidden" value="" id="hdnReportFileName" runat="server" />
         <input type="hidden" value="" id="hdnID" runat="server" />
         <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
         <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-1.4.3.js")%>' type='text/javascript'></script>
@@ -139,7 +140,8 @@
             
             .tdReportTotal *                { font-weight: bold; font-size: 8pt; }
             
-            h1 { font-weight: bold; font-size: 12pt; margin-bottom: 0.5cm }
+            h1 { font-weight: bold; font-size: 14pt; margin-bottom: 0.5cm }
+            h2 { font-weight: bold; font-size: 12pt; margin-top: -0.5cm; margin-bottom: 0.5cm }
         </div>
 
         <style type="text/css">
@@ -230,6 +232,8 @@
             .separator                      { color :#ADADAD; margin: 0 10px; }
             h1 { font-weight: bold; font-size: 12pt; margin-bottom: 0.5cm }
             h2 { font-weight: bold; font-size: 10pt; margin-bottom: 0.5cm; margin-top: -0.5cm; }
+            .tblReportParameterDt td:nth-child(1)          { width: 70px; font-weight: bold; }
+            .tblReportParameterDt td:nth-child(2)          { width: 10px; }
         </style>
     </head>
     <body>
@@ -283,6 +287,7 @@
                             <center><h1 id="headerText" runat="server" style="display: none"></h1></center><br style="display: none" />
                             <center><h2 id="subHeaderText" runat="server" style="display: none"></h2></center><br style="display: none" />
                             <div id="divContainerReportHeader" class="divContainerReportHeader" runat="server" style="display:none"></div>
+                            <div id="divContainerReportParameter" class="divContainerReportParameter" runat="server"></div>
                         </div>
                         <table class="tblReport" style="width:100%" cellpadding="0" cellspacing="0">
                             <thead>

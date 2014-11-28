@@ -98,6 +98,7 @@ namespace CodeX.Web.CommonLibs.Program
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
             if (!File.Exists(physicalPath))
                 return;
+
             XDocument xdocReport = XDocument.Load(physicalPath);
             List<ReportParameter> lstReportParameter = (from sd in xdocReport.Descendants("parameter")
                                                         select new ReportParameter
@@ -145,8 +146,6 @@ namespace CodeX.Web.CommonLibs.Program
 
                                            YearMinusNYear = sd.Attribute("listvalue") != null ? Convert.ToInt32(sd.Attribute("yearminusnyear").Value) : 0,
                                            YearPlusNYear = sd.Attribute("listvalue") != null ? Convert.ToInt32(sd.Attribute("yearplusnyear").Value) : 0,
-
-                                           IsAllowSelectAll = sd.Attribute("isallowselectall") != null ? sd.Parent.Attribute("isallowselectall").Value == "1" : true
                                        }).FirstOrDefault();
                 reportParameter.FilterParameterCaption = temp.FilterParameterCaption;
                 reportParameter.GCFilterParameterType = temp.GCFilterParameterType;
@@ -173,8 +172,6 @@ namespace CodeX.Web.CommonLibs.Program
 
                 reportParameter.YearMinusNYear = temp.YearMinusNYear;
                 reportParameter.YearPlusNYear = temp.YearPlusNYear;
-
-                reportParameter.IsAllowSelectAll = temp.IsAllowSelectAll;
             }
 
             rptReportParameter.DataSource = lstReportParameter;
@@ -211,8 +208,6 @@ namespace CodeX.Web.CommonLibs.Program
 
             public int YearMinusNYear { get; set; }
             public int YearPlusNYear { get; set; }
-
-            public bool IsAllowSelectAll { get; set; }
         }
         #endregion
 
@@ -274,11 +269,11 @@ namespace CodeX.Web.CommonLibs.Program
 
                     if (entity.SearchDialogCodeField == entity.SearchDialogNameField)
                         txtSdNewText.Visible = false;
-                    if (entity.IsAllowSelectAll)
+                    if (!entity.IsRequired)
                         lbl.Attributes.Add("class", "lblLink lblReport");
                     else
                         lbl.Attributes.Add("class", "lblLink lblReport lblMandatory");
-                    Helper.SetControlEntrySetting(txtSdNewCode, new ControlEntrySetting(true, true, !entity.IsAllowSelectAll), "mpReport");
+                    Helper.SetControlEntrySetting(txtSdNewCode, new ControlEntrySetting(true, true, entity.IsRequired), "mpReport");
                 }
                 else if (entity.GCFilterParameterType == Constant.FilterParameterType.COMBO_BOX || entity.GCFilterParameterType == Constant.FilterParameterType.CUSTOM_COMBO_BOX || entity.GCFilterParameterType == Constant.FilterParameterType.YEAR_COMBO_BOX)
                 {
@@ -320,11 +315,11 @@ namespace CodeX.Web.CommonLibs.Program
                         cboValue.DropDownStyle = DropDownStyle.DropDownList;
                         cboValue.DataBind();
                     }
-                    if (entity.IsAllowSelectAll)
+                    if (!entity.IsRequired)
                         cboValue.Items.Insert(0, new ListEditItem { Value = "", Text = "" });
 
                     cboValue.SelectedIndex = 0;
-                    Helper.SetControlEntrySetting(cboValue, new ControlEntrySetting(true, true, !entity.IsAllowSelectAll), "mpReport");
+                    Helper.SetControlEntrySetting(cboValue, new ControlEntrySetting(true, true, entity.IsRequired), "mpReport");
                 }
                 else
                 {
@@ -383,23 +378,25 @@ namespace CodeX.Web.CommonLibs.Program
                     if (hdnGCFilterParameterType.Value == Constant.FilterParameterType.TEXT_BOX || hdnGCFilterParameterType.Value == Constant.FilterParameterType.CONSTANT)
                     {
                         TextBox txtValue = (TextBox)itemDt.FindControl("txtValue");
-                        param += txtValue.Text;
+                        param += string.Format("{0};{0}", txtValue.Text);
                     }
                     else if (hdnGCFilterParameterType.Value == Constant.FilterParameterType.SINGLE_DATE)
                     {
                         TextBox txtDteValue = (TextBox)itemDt.FindControl("txtDteValue");
-                        param += Helper.GetDatePickerValue(txtDteValue.Text).ToString("yyyyMMdd");
+                        DateTime date = Helper.GetDatePickerValue(txtDteValue.Text);
+                        param += string.Format("{0};{1}", date.ToString("yyyyMMdd"), date.ToString("dd-MMM-yyyy"));
                     }
                     else if (hdnGCFilterParameterType.Value == Constant.FilterParameterType.SEARCH_DIALOG)
                     {
                         HtmlInputHidden hdnSdNewID = (HtmlInputHidden)itemDt.FindControl("hdnSdNewID");
-                        param += hdnSdNewID.Value;
+                        TextBox txtSdNewText = (TextBox)itemDt.FindControl("txtSdNewText");
+                        param += string.Format("{0};{1}", hdnSdNewID.Value, Request.Form[txtSdNewText.UniqueID]);
                     }
                     else if (hdnGCFilterParameterType.Value == Constant.FilterParameterType.COMBO_BOX || hdnGCFilterParameterType.Value == Constant.FilterParameterType.CUSTOM_COMBO_BOX || hdnGCFilterParameterType.Value == Constant.FilterParameterType.YEAR_COMBO_BOX)
                     {
                         ASPxComboBox cboValue = (ASPxComboBox)itemDt.FindControl("cboValue");
                         if (cboValue.Value != null && cboValue.Value.ToString() != "")
-                            param += cboValue.Value.ToString();
+                            param += string.Format("{0};{1}", cboValue.Value, cboValue.Text);
                     }
                     else
                     {
@@ -448,7 +445,7 @@ namespace CodeX.Web.CommonLibs.Program
                             //Tomorrow
                             case "X106^057": endDate = DateTime.Today.AddDays(1); break;
                         }
-                        param += string.Format("{0};{1}", startDate.ToString("yyyyMMdd"), endDate.ToString("yyyyMMdd"));
+                        param += string.Format("{0}{1};{2} s/d {3}", startDate.ToString("yyyyMMdd"), endDate.ToString("yyyyMMdd"), startDate.ToString("dd-MMM-yyyy"), endDate.ToString("dd-MMM-yyyy"));
                     }
                     ctr++;
                 }

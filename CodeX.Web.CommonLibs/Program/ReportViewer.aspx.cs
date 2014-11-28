@@ -34,6 +34,8 @@ namespace CodeX.Web.CommonLibs.Program
                     throw new Exception(string.Format("Report with code {0} is not defined", reportCode));
                 reportMaster = lstReportMaster[0];
 
+                hdnReportFileName.Value = reportMaster.ReportName;
+
                 hdnFilterExpression.Value = "";
 
                 divReportProperties.InnerHtml = string.Format("VIDA - {0}, Print Date/Time:{1}, User ID:{2}", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
@@ -76,7 +78,7 @@ namespace CodeX.Web.CommonLibs.Program
             return sbResult.ToString();
         }
 
-        private string GenerateFilterExpression(List<ReportParameter> lstReportParameter)
+        private string GenerateFilterExpression(List<ReportParameter> lstReportParameter, bool isShowParameter)
         {
             string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
             string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
@@ -84,6 +86,8 @@ namespace CodeX.Web.CommonLibs.Program
                 return "";
             XDocument xdocFilterParameter = XDocument.Load(physicalPath);
             string filterExpression = String.Empty;
+            string displayParameter = "<table class='tblReportParameter' style='width:100%' cellpadding='0' cellspacing='0'><colgroup><col style='width:50%'></colgroup>";
+            int ctrParameter = 1;
             for (int i = 0; i < lstReportParameter.Count; ++i)
             {
                 var reportParameter = (from sd in xdocFilterParameter.Descendants("filterparameter").Where(p => p.Attribute("code").Value == lstReportParameter[i].Code)
@@ -93,10 +97,10 @@ namespace CodeX.Web.CommonLibs.Program
                                            Name = sd.Attribute("name").Value,
                                            Caption = sd.Attribute("caption").Value,
                                            Type = sd.Parent.Attribute("type").Value,
-                                           FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : "",
-                                           IsAllowSelectAll = sd.Attribute("isallowselectall") != null ? sd.Attribute("isallowselectall").Value == "1" : true
+                                           FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : ""
                                        }).FirstOrDefault();
 
+                string paramText = "";
                 string filterParameter = String.Empty;
                 if (reportParameter.Type == Constant.FilterParameterType.FREE_TEXT)
                 {
@@ -114,14 +118,16 @@ namespace CodeX.Web.CommonLibs.Program
                         if (i > 0 && filterExpression != "")
                             filterExpression += " AND ";
                         string[] date = param[i].Split(';');
-                        string startDate = date[0];
-                        string endDate = date[1];
+                        paramText = date[1];
+                        string startDate = date[0].Substring(0, 8);
+                        string endDate = date[0].Substring(8, 8);
                         filterParameter = string.Format("{0} BETWEEN '{1}' AND '{2}'", reportParameter.FieldName, startDate, endDate);
                         filterExpression += filterParameter;
                     }
                     else if (reportParameter.Type == Constant.FilterParameterType.SINGLE_DATE)
                     {
                         string[] paramSplit = param[i].Split(';');
+                        paramText = paramSplit[1];
                         string value = paramSplit[0];
                         if (i > 0 && filterExpression != "")
                             filterExpression += " AND ";
@@ -132,12 +138,13 @@ namespace CodeX.Web.CommonLibs.Program
                     {
                         string[] paramSplit = param[i].Split(';');
                         string value = paramSplit[0];
+                        paramText = paramSplit[1];
                         if (i > 0 && filterExpression != "")
                         {
-                            if (!reportParameter.IsAllowSelectAll || value != "")
+                            if (lstReportParameter[i].IsRequired || value != "")
                                 filterExpression += " AND ";
                         }
-                        if (!reportParameter.IsAllowSelectAll || value != "")
+                        if (lstReportParameter[i].IsRequired || value != "")
                             filterParameter = string.Format("{0} = '{1}'", reportParameter.FieldName, value);
                         filterExpression += filterParameter;
                     }
@@ -146,6 +153,7 @@ namespace CodeX.Web.CommonLibs.Program
                         if (i > 0 && filterExpression != "")
                             filterExpression += " AND ";
                         string[] paramSplit = param[i].Split(';');
+                        paramText = paramSplit[1];
                         StringBuilder sbFilterExpressionVal = new StringBuilder();
                         StringBuilder sbTemp = new StringBuilder();
 
@@ -162,7 +170,25 @@ namespace CodeX.Web.CommonLibs.Program
                         filterExpression += filterParameter;
                     }
                 }
+                if (paramText != "")
+                {
+                    if (ctrParameter % 2 == 1)
+                    {
+                        displayParameter += "<tr>";
+                        displayParameter += string.Format("<td valign='top'><table class='tblReportParameterDt' cellpadding='0' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                    }
+                    else if (ctrParameter % 2 == 0)
+                    {
+                        displayParameter += string.Format("<td valign='top' align='right'><table cellpadding='0' class='tblReportParameterDt' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                        displayParameter += "</tr>";
+                    }
+                    ctrParameter++;
+                }
             }
+            if (isShowParameter)
+                divContainerReportParameter.InnerHtml = displayParameter;
+            else
+                divContainerReportParameter.Style.Add("display", "none");
             return filterExpression;
         }
         #endregion
@@ -189,6 +215,7 @@ namespace CodeX.Web.CommonLibs.Program
                                          TotalText = sd.Attribute("totaltext") != null ? sd.Attribute("totaltext").Value : "",
                                          IsShowTotal = sd.Attribute("isshowtotal") != null ? sd.Attribute("isshowtotal").Value == "1" : false,
                                          IsShowHeaderFooter = sd.Attribute("isshowheaderfooter") != null ? sd.Attribute("isshowheaderfooter").Value == "1" : true,
+                                         IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false
                                      }).FirstOrDefault();
             fontSize = tempReportSetting.FontSize;
@@ -219,7 +246,7 @@ namespace CodeX.Web.CommonLibs.Program
                                                      Code = sd.Attribute("code").Value,
                                                      IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false
                                                  }).ToList<ReportParameter>();
-            reportFilterExpression = GenerateFilterExpression(lstReportParameter);
+            reportFilterExpression = GenerateFilterExpression(lstReportParameter, tempReportSetting.IsShowParameter);
             #endregion
 
             #region Load Paper
@@ -410,6 +437,7 @@ namespace CodeX.Web.CommonLibs.Program
         {
             public string Code { get; set; }
             public bool IsShowParameter { get; set; }
+            public bool IsRequired { get; set; }
         }
         #endregion
 
@@ -828,7 +856,7 @@ namespace CodeX.Web.CommonLibs.Program
             //Response.Write("<html><head><style type='text/css'>.grdView > tbody > tr > td {color:green; border:1px solid;}</style></head>" + stringWrite.ToString() + "</html>");
             //Response.End();
 
-            string attachment = string.Format("attachment;filename=\"{0}.xls\"", "test");
+            string attachment = string.Format("attachment;filename=\"{0}.xls\"", hdnReportFileName.Value);
             HttpContext.Current.Response.ClearContent();
             HttpContext.Current.Response.AddHeader("content-disposition", attachment);
             HttpContext.Current.Response.ContentType = "application/ms-excel";

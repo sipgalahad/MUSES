@@ -31,6 +31,15 @@ namespace CodeX.Web.CommonLibs.Program {
         protected global::System.Web.UI.HtmlControls.HtmlForm myForm;
         
         /// <summary>
+        /// hdnReportFileName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnReportFileName;
+        
+        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>
@@ -173,6 +182,15 @@ namespace CodeX.Web.CommonLibs.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerReportHeader;
+        
+        /// <summary>
+        /// divContainerReportParameter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerReportParameter;
         
         /// <summary>
         /// rptReport control.
