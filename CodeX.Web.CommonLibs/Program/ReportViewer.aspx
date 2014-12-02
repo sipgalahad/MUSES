@@ -15,8 +15,32 @@
         <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
         <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-1.4.3.js")%>' type='text/javascript'></script>
         <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-1.7.min.js")%>' type='text/javascript'></script>
+        <script src='<%= ResolveUrl("~/Libs/Scripts/jquery/jquery-barcode.js")%>' type='text/javascript'></script>
         <script type="text/javascript">
+            function generateBarcode($elm) {
+                var value = $elm.html();
+                var btype = 'code128';
+                var renderer = 'bmp';
+
+                var settings = {
+                    output: renderer,
+                    bgColor: '#FFFFFF',
+                    color: '#000000',
+                    barWidth: 1,
+                    barHeight: 40,
+                    moduleSize: 5,
+                    posX: 1,
+                    posY: 20,
+                    addQuietZone: 1
+                };
+                $elm.html("").show().barcode(value, btype, settings);
+            }
+
             $(function () {
+                $('.barcode').each(function () {
+                    generateBarcode($(this));
+                });
+
                 var height = $(window).height() - $('#toolbarArea').height() - 20;
                 $('#pageArea').height(height);
 
@@ -119,7 +143,7 @@
             * {
                 box-sizing: border-box;
                 -moz-box-sizing: border-box;
-                font: <%=fontSize%> "Tahoma";
+                font: <%=fontSize%> "<%=fontFamily%>";
             }
             .tblReport .tdDetail, .tblHeader td { padding-right:0.1cm; padding-left:0.1cm;  }
             thead td            { font-weight: bold; }
@@ -158,10 +182,10 @@
             * {
                 box-sizing: border-box;
                 -moz-box-sizing: border-box;
-                font: <%=fontSize%> "Tahoma";
+                font: <%=fontSize%> "<%=fontFamily%>";
             }
             .siteInformation *, .pageFooter * {
-                font: 8pt "Tahoma";
+                font: 8pt "<%=fontFamily%>";
             }
             
             #pageArea
@@ -181,6 +205,7 @@
                 position: relative;
             }
             #toolbarArea { background-color: #E0E0E0;  border: 1px #ADADAD solid; border-radius: 3px; width: 400px; position: relative; padding: 5px 5px; }
+            #toolbarArea, #toolbarArea *  { font-family: Segoe UI; font-size: 9pt; }
             p
             { page-break-before: always
             }

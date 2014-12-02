@@ -66,6 +66,7 @@ namespace CodeX.Web.CommonLibs.Program
         protected string paperPrintPageContent = "";
         protected string paperPageContent = "";
         protected string fontSize = "";
+        protected string fontFamily = "";
         protected string paperPortraitLandscape = "";
 
         #region Generate Filter Expression
@@ -281,6 +282,7 @@ namespace CodeX.Web.CommonLibs.Program
                                          SubHeaderText = sd.Attribute("subheadertext") != null ? sd.Attribute("subheadertext").Value : "",
                                          PaperType = sd.Attribute("papertype").Value,
                                          FontSize = sd.Attribute("fontsize") != null ? sd.Attribute("fontsize").Value : "9pt",
+                                         FontFamily = sd.Attribute("fontfamily") != null ? sd.Attribute("fontfamily").Value : "Tahoma",
                                          TotalText = sd.Attribute("totaltext") != null ? sd.Attribute("totaltext").Value : "",
                                          IsShowTotal = sd.Attribute("isshowtotal") != null ? sd.Attribute("isshowtotal").Value == "1" : false,
                                          IsDataSourceFromSP = sd.Attribute("isdatasourcefromsp") != null ? sd.Attribute("isdatasourcefromsp").Value == "1" : false,
@@ -289,6 +291,7 @@ namespace CodeX.Web.CommonLibs.Program
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false
                                      }).FirstOrDefault();
             fontSize = tempReportSetting.FontSize;
+            fontFamily = tempReportSetting.FontFamily;
 
             if (!tempReportSetting.IsShowHeaderFooter)
             {
