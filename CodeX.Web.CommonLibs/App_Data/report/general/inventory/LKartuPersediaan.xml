@@ -10,9 +10,9 @@
     <field fieldtype="autonumber" headertext="No" width="3"/>
     <field fieldname="MovementDate" headertext="Tanggal" width="10" fieldtype="date"/>
     <field fieldname="QuantityBEGIN" headertext="Saldo Awal" width="10" fieldtype="number"/>
-    <field fieldname="QuantityIN" headertext="Jml Msk" width="10" fieldtype="currency"/>
-    <field fieldname="QuantityOUT" headertext="Jml Klr" width="10" fieldtype="currency"/>
-    <field fieldname="QuantityEND" headertext="Saldo Akhir" width="10" fieldtype="currency"/>
+    <field fieldname="QuantityIN" headertext="Jml Msk" width="10" fieldtype="number"/>
+    <field fieldname="QuantityOUT" headertext="Jml Klr" width="10" fieldtype="number"/>
+    <field fieldname="QuantityEND" headertext="Saldo Akhir" width="10" fieldtype="number"/>
     <field headertext="Transaksi" fieldtype="customfield">
       <![CDATA[
         <div>{TransactionDescription}</div>

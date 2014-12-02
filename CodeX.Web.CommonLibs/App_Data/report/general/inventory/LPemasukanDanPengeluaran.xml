@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetItemMovementPerPeriodeDetail" isdatasourcefromsp="1" headertext="Laporan Pemakaian &amp; Pengeluaran" papertype="A4_landscape" fontsize="8pt" isshowparameter="1" isshowheaderborder="1"/>
+  <parameters>
+    <parameter code="DT001" isshowassubtitle="1"/>
+    <parameter code="CB001" isrequired="1"/>
+  </parameters>
+  <fields>
+    <field fieldtype="autonumber" rowspan="2" headertext="No" width="3"/>
+    <field fieldname="ItemName1" rowspan="2" headertext="Item" />
+    <field fieldname="ItemUnit" rowspan="2" headertext="Satuan" width="8" />
+    <field fieldname="IN_QuantityBEGIN" rowspan="2" headertext="Saldo Awal" width="5" fieldtype="number"/>
+    <boundfield text="Masuk" colspan="4">
+      <field fieldname="IN_PurchaseReceive" headertext="Pembelian" width="5" fieldtype="number"/>
+      <field fieldname="IN_Distribution" headertext="Distribusi" width="5" fieldtype="number"/>
+      <field fieldname="IN_Adjustment" headertext="Penyesuaian" width="5" fieldtype="number"/>
+      <field fieldname="IN_PriceChanged" headertext="Ubah Harga" width="5" fieldtype="number"/>
+    </boundfield>
+    <boundfield text="Keluar" colspan="5">
+      <field fieldname="OUT_Distribution" headertext="Distribusi" width="5" fieldtype="number"/>
+      <field fieldname="OUT_Adjustment" headertext="Penyesuaian" width="5" fieldtype="number"/>
+      <field fieldname="OUT_Pemusnahan" headertext="Pemusnahan" width="5" fieldtype="number"/>
+      <field fieldname="OUT_Consumption" headertext="Pemakaian" width="5" fieldtype="number"/>
+      <field fieldname="OUT_PriceChanged" headertext="Ubah Harga" width="5" fieldtype="number"/>
+    </boundfield>
+    <field fieldname="QuantityEND" rowspan="2" headertext="Saldo Akhir" width="5" fieldtype="number"/>
+  </fields>
+</root>

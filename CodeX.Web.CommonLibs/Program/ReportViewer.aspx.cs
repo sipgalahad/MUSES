@@ -78,6 +78,55 @@ namespace CodeX.Web.CommonLibs.Program
             return sbResult.ToString();
         }
 
+        private List<Variable> GenerateFilterExpressionSP(List<ReportParameter> lstReportParameter, bool isShowParameter)
+        {
+            string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
+            string physicalPath = HttpContext.Current.Request.MapPath(reportXML);
+            if (!File.Exists(physicalPath))
+                return null;
+            XDocument xdocFilterParameter = XDocument.Load(physicalPath);
+
+            List<Variable> lstVariable = new List<Variable>();
+            string displayParameter = "<table class='tblReportParameter' style='width:100%' cellpadding='0' cellspacing='0'><colgroup><col style='width:50%'></colgroup>";
+            int ctrParameter = 1;
+            for (int i = 0; i < lstReportParameter.Count; ++i)
+            {
+                var reportParameter = (from sd in xdocFilterParameter.Descendants("filterparameter").Where(p => p.Attribute("code").Value == lstReportParameter[i].Code)
+                                       select new
+                                       {
+                                           Code = sd.Attribute("code").Value,
+                                           Name = sd.Attribute("name").Value,
+                                           Caption = sd.Attribute("caption").Value,
+                                           Type = sd.Parent.Attribute("type").Value,
+                                           FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : ""
+                                       }).FirstOrDefault();
+                string[] paramSplit = param[i].Split(';');
+                string value = paramSplit[0];
+                string paramText = paramSplit[1];
+                lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = value });
+
+                if (paramText != "")
+                {
+                    if (ctrParameter % 2 == 1)
+                    {
+                        displayParameter += "<tr>";
+                        displayParameter += string.Format("<td valign='top'><table class='tblReportParameterDt' cellpadding='0' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                    }
+                    else if (ctrParameter % 2 == 0)
+                    {
+                        displayParameter += string.Format("<td valign='top' align='right'><table cellpadding='0' class='tblReportParameterDt' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                        displayParameter += "</tr>";
+                    }
+                    ctrParameter++;
+                }
+            }
+            if (isShowParameter)
+                divContainerReportParameter.InnerHtml = displayParameter;
+            else
+                divContainerReportParameter.Style.Add("display", "none");
+            return lstVariable;
+        }
+
         private string GenerateFilterExpression(List<ReportParameter> lstReportParameter, bool isShowParameter)
         {
             string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
@@ -214,6 +263,7 @@ namespace CodeX.Web.CommonLibs.Program
                                          FontSize = sd.Attribute("fontsize") != null ? sd.Attribute("fontsize").Value : "9pt",
                                          TotalText = sd.Attribute("totaltext") != null ? sd.Attribute("totaltext").Value : "",
                                          IsShowTotal = sd.Attribute("isshowtotal") != null ? sd.Attribute("isshowtotal").Value == "1" : false,
+                                         IsDataSourceFromSP = sd.Attribute("isdatasourcefromsp") != null ? sd.Attribute("isdatasourcefromsp").Value == "1" : false,
                                          IsShowHeaderFooter = sd.Attribute("isshowheaderfooter") != null ? sd.Attribute("isshowheaderfooter").Value == "1" : true,
                                          IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false
@@ -246,7 +296,8 @@ namespace CodeX.Web.CommonLibs.Program
                                                      Code = sd.Attribute("code").Value,
                                                      IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false
                                                  }).ToList<ReportParameter>();
-            reportFilterExpression = GenerateFilterExpression(lstReportParameter, tempReportSetting.IsShowParameter);
+            if (!tempReportSetting.IsDataSourceFromSP)
+                reportFilterExpression = GenerateFilterExpression(lstReportParameter, tempReportSetting.IsShowParameter);
             #endregion
 
             #region Load Paper
@@ -387,13 +438,22 @@ namespace CodeX.Web.CommonLibs.Program
             {
                 rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0);
 
-                string filterExpressionDt = reportFilterExpression;
-                if (filterExpressionDt != "" && tempReportSetting.FilterExpression != "")
-                    filterExpressionDt += " AND ";
-                filterExpressionDt += tempReportSetting.FilterExpression;
+                object obj = null;
+                if (!tempReportSetting.IsDataSourceFromSP)
+                {
+                    string filterExpressionDt = reportFilterExpression;
+                    if (filterExpressionDt != "" && tempReportSetting.FilterExpression != "")
+                        filterExpressionDt += " AND ";
+                    filterExpressionDt += tempReportSetting.FilterExpression;
 
-                MethodInfo method = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSource, new[] { typeof(string) });
-                object obj = method.Invoke(null, new object[] { filterExpressionDt });
+                    MethodInfo method = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSource, new[] { typeof(string) });
+                    obj = method.Invoke(null, new object[] { filterExpressionDt });
+                }
+                else
+                {
+                    List<Variable> lstVariable = GenerateFilterExpressionSP(lstReportParameter, tempReportSetting.IsShowParameter);
+                    obj = BusinessLayer.GetDataReport(tempReportSetting.DataSource, lstVariable);
+                }
 
                 rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalText);
 

@@ -603,10 +603,12 @@ namespace CodeX.Data.Model
         private Decimal _IN_PurchaseReceive;
         private Decimal _IN_Distribution;
         private Decimal _IN_Adjustment;
+        private Decimal _IN_PriceChanged;
         private Decimal _OUT_Distribution;
         private Decimal _OUT_Adjustment;
         private Decimal _OUT_Consumption;
         private Decimal _OUT_Pemusnahan;
+        private Decimal _OUT_PriceChanged;
         private bool _IsDeleted;
 
         [Column(Name = "ItemID", DataType = "int")]
@@ -651,6 +653,12 @@ namespace CodeX.Data.Model
             get { return _IN_Adjustment; }
             set { _IN_Adjustment = value; }
         }
+        [Column(Name = "IN_PriceChanged", DataType = "Decimal")]
+        public Decimal IN_PriceChanged
+        {
+            get { return _IN_PriceChanged; }
+            set { _IN_PriceChanged = value; }
+        }
         [Column(Name = "OUT_Distribution", DataType = "Decimal")]
         public Decimal OUT_Distribution
         {
@@ -674,6 +682,12 @@ namespace CodeX.Data.Model
         {
             get { return _OUT_Pemusnahan; }
             set { _OUT_Pemusnahan = value; }
+        }
+        [Column(Name = "OUT_PriceChanged", DataType = "Decimal")]
+        public Decimal OUT_PriceChanged
+        {
+            get { return _OUT_PriceChanged; }
+            set { _OUT_PriceChanged = value; }
         }
         [Column(Name = "IsDeleted", DataType = "bool")]
         public bool IsDeleted
