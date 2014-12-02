@@ -116,6 +116,11 @@
             }
         </script>
         <div style="display:none;" id="divStyleExcel">
+            * {
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                font: <%=fontSize%> "Tahoma";
+            }
             .tblReport .tdDetail, .tblHeader td { padding-right:0.1cm; padding-left:0.1cm;  }
             thead td            { font-weight: bold; }
             .tblHeader td            { border-bottom: 1px solid; }
@@ -140,8 +145,8 @@
             
             .tdReportTotal *                { font-weight: bold; font-size: 8pt; }
             
-            h1 { font-weight: bold; font-size: 14pt; margin-bottom: 0.5cm }
-            h2 { font-weight: bold; font-size: 12pt; margin-top: -0.5cm; margin-bottom: 0.5cm }
+            h1 { font-weight: bold; font-size: 12pt; margin-bottom: 0.5cm }
+            h2 { font-weight: bold; font-size: 10pt; margin-bottom: 0.5cm; margin-top: -0.5cm; }
         </div>
 
         <style type="text/css">

@@ -107,17 +107,27 @@ namespace CodeX.Web.CommonLibs.Program
 
                 if (paramText != "")
                 {
-                    if (ctrParameter % 2 == 1)
+                    if (lstReportParameter[i].IsShowAsSubTitle)
                     {
-                        displayParameter += "<tr>";
-                        displayParameter += string.Format("<td valign='top'><table class='tblReportParameterDt' cellpadding='0' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                        subHeaderText.Style.Remove("display");
+                        if (subHeaderText.InnerHtml != "")
+                            subHeaderText.InnerHtml += "<br/>";
+                        subHeaderText.InnerHtml += string.Format("{0} : {1}", reportParameter.Caption, paramText);
                     }
-                    else if (ctrParameter % 2 == 0)
+                    else
                     {
-                        displayParameter += string.Format("<td valign='top' align='right'><table cellpadding='0' class='tblReportParameterDt' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
-                        displayParameter += "</tr>";
+                        if (ctrParameter % 2 == 1)
+                        {
+                            displayParameter += "<tr>";
+                            displayParameter += string.Format("<td valign='top'><table class='tblReportParameterDt' cellpadding='0' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                        }
+                        else if (ctrParameter % 2 == 0)
+                        {
+                            displayParameter += string.Format("<td valign='top' align='right'><table cellpadding='0' class='tblReportParameterDt' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                            displayParameter += "</tr>";
+                        }
+                        ctrParameter++;
                     }
-                    ctrParameter++;
                 }
             }
             if (isShowParameter)
@@ -221,17 +231,27 @@ namespace CodeX.Web.CommonLibs.Program
                 }
                 if (paramText != "")
                 {
-                    if (ctrParameter % 2 == 1)
+                    if (lstReportParameter[i].IsShowAsSubTitle)
                     {
-                        displayParameter += "<tr>";
-                        displayParameter += string.Format("<td valign='top'><table class='tblReportParameterDt' cellpadding='0' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                        subHeaderText.Style.Remove("display");
+                        if (subHeaderText.InnerHtml != "")
+                            subHeaderText.InnerHtml += "<br/>";
+                        subHeaderText.InnerHtml += string.Format("{0} : {1}", reportParameter.Caption, paramText);
                     }
-                    else if (ctrParameter % 2 == 0)
+                    else
                     {
-                        displayParameter += string.Format("<td valign='top' align='right'><table cellpadding='0' class='tblReportParameterDt' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
-                        displayParameter += "</tr>";
+                        if (ctrParameter % 2 == 1)
+                        {
+                            displayParameter += "<tr>";
+                            displayParameter += string.Format("<td valign='top'><table class='tblReportParameterDt' cellpadding='0' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                        }
+                        else if (ctrParameter % 2 == 0)
+                        {
+                            displayParameter += string.Format("<td valign='top' align='right'><table cellpadding='0' class='tblReportParameterDt' cellspacing='0'><tr><td>{0}</td><td>:</td><td>{1}</td></tr></table></td>", reportParameter.Caption, paramText);
+                            displayParameter += "</tr>";
+                        }
+                        ctrParameter++;
                     }
-                    ctrParameter++;
                 }
             }
             if (isShowParameter)
@@ -294,7 +314,7 @@ namespace CodeX.Web.CommonLibs.Program
                                                    select new ReportParameter
                                                  {
                                                      Code = sd.Attribute("code").Value,
-                                                     IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false
+                                                     IsShowAsSubTitle = sd.Attribute("isshowassubtitle") != null ? sd.Attribute("isshowassubtitle").Value == "1" : false
                                                  }).ToList<ReportParameter>();
             if (!tempReportSetting.IsDataSourceFromSP)
                 reportFilterExpression = GenerateFilterExpression(lstReportParameter, tempReportSetting.IsShowParameter);
@@ -496,7 +516,7 @@ namespace CodeX.Web.CommonLibs.Program
         class ReportParameter
         {
             public string Code { get; set; }
-            public bool IsShowParameter { get; set; }
+            public bool IsShowAsSubTitle { get; set; }
             public bool IsRequired { get; set; }
         }
         #endregion
