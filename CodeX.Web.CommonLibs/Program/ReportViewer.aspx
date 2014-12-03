@@ -187,11 +187,9 @@
             .siteInformation *, .pageFooter * {
                 font: 8pt "<%=fontFamily%>";
             }
-            
-            #pageArea
+            @media screen 
             {
-                width: 100%;            
-                overflow-y: scroll;
+                #pageArea { width: 100%; overflow-y: scroll; }
             }
             .page {
                 width: <%=paperWidth %>mm;
@@ -214,7 +212,7 @@
                 size: <%=paperSize %>;
                 margin: 0;
             }
-            @media print{@page {size: <%=paperPortraitLandscape%>;}}
+            @media print{@page {size: <%=paperPortraitLandscape%>; margin:0; }}
             @media print {
                 .page {
                     margin: 0;
@@ -229,9 +227,8 @@
                     width: <%=paperPrintWidth %>mm;
                     height: <%=paperPrintHeight %>mm;
                 }
-                #pageArea           { height: 100%; overflow: auto; }
                 #toolbarArea        { display: none; }
-                .pageContent        { min-height:<%=paperPrintPageContent %> !important; }
+                .pageContent        { min-height:<%=paperPrintPageContent %> !important; margin: 0; }
             }
             .tblReport .tdDetail, .tblHeader th { padding-right:0.1cm; padding-left:0.1cm;  }
             .tdDetail           { vertical-align: top; }
