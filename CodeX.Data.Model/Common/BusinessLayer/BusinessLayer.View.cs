@@ -275,6 +275,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vMenuReport
+        public static List<vMenuReport> GetvMenuReportList(string filterExpression)
+        {
+            List<vMenuReport> result = new List<vMenuReport>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vMenuReport));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vMenuReport)helper.IDataReaderToObject(reader, new vMenuReport()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vReportMaster
         public static List<vReportMaster> GetvReportMasterList(string filterExpression)
         {

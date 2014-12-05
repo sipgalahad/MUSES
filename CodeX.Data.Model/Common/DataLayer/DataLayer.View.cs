@@ -375,6 +375,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMenuReport
+    [Serializable]
+    [Table(Name = "vMenuReport")]
+    public class vMenuReport
+    {
+        private Int32 _MenuID;
+        private Int32 _ReportID;
+        private String _ReportCode;
+        private String _ReportName;
+        private Int16 _DisplayOrder;
+        private Boolean _IsSelected;
+
+        [Column(Name = "MenuID", DataType = "Int32")]
+        public Int32 MenuID
+        {
+            get { return _MenuID; }
+            set { _MenuID = value; }
+        }
+        [Column(Name = "ReportID", DataType = "Int32")]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+        [Column(Name = "ReportCode", DataType = "String")]
+        public String ReportCode
+        {
+            get { return _ReportCode; }
+            set { _ReportCode = value; }
+        }
+        [Column(Name = "ReportName", DataType = "String")]
+        public String ReportName
+        {
+            get { return _ReportName; }
+            set { _ReportName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsSelected", DataType = "Boolean")]
+        public Boolean IsSelected
+        {
+            get { return _IsSelected; }
+            set { _IsSelected = value; }
+        }
+    }
+    #endregion
     #region vReportMaster
     [Serializable]
     [Table(Name = "vReportMaster")]

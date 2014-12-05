@@ -580,6 +580,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region MenuReport
+        public static MenuReport GetMenuReport(Int32 MenuID, Int32 ReportID)
+        {
+            return new MenuReportDao().Get(MenuID, ReportID);
+        }
+        public static int InsertMenuReport(MenuReport record)
+        {
+            return new MenuReportDao().Insert(record);
+        }
+        public static int UpdateMenuReport(MenuReport record)
+        {
+            return new MenuReportDao().Update(record);
+        }
+        public static int DeleteMenuReport(Int32 MenuID, Int32 ReportID)
+        {
+            return new MenuReportDao().Delete(MenuID, ReportID);
+        }
+        public static List<MenuReport> GetMenuReportList(string filterExpression)
+        {
+            List<MenuReport> result = new List<MenuReport>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MenuReport));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MenuReport)helper.IDataReaderToObject(reader, new MenuReport()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Module
         public static Module GetModule(String ModuleID)
         {

@@ -1158,6 +1158,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region MenuReport
+    [Serializable]
+    [Table(Name = "MenuReport")]
+    public class MenuReport : DbDataModel
+    {
+        private Int32 _MenuID;
+        private Int32 _ReportID;
+        private Int16 _DisplayOrder;
+        private Boolean _IsSelected;
+
+        [Column(Name = "MenuID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 MenuID
+        {
+            get { return _MenuID; }
+            set { _MenuID = value; }
+        }
+        [Column(Name = "ReportID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsSelected", DataType = "Boolean")]
+        public Boolean IsSelected
+        {
+            get { return _IsSelected; }
+            set { _IsSelected = value; }
+        }
+    }
+
+    public class MenuReportDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MenuReport));
+        private bool _isAuditLog = false;
+        private const string p_MenuID = "@p_MenuID";
+        private const string p_ReportID = "@p_ReportID";
+        public MenuReportDao() { }
+        public MenuReportDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MenuReport Get(Int32 MenuID, Int32 ReportID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MenuID, MenuID);
+            _ctx.Add(p_ReportID, ReportID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MenuReport)_helper.DataRowToObject(row, new MenuReport());
+        }
+        public int Insert(MenuReport record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MenuReport record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MenuID, Int32 ReportID)
+        {
+            MenuReport record;
+            if (_ctx.Transaction == null)
+                record = new MenuReportDao().Get(MenuID, ReportID);
+            else
+                record = Get(MenuID, ReportID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Module
     [Serializable]
     [Table(Name = "Module")]
