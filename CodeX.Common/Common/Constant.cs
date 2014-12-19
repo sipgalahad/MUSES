@@ -129,21 +129,6 @@ namespace CodeX.Common
             public const string CREDIT_NOTE = "X161^002";
         }
 
-        public static class AddressType
-        {
-            public const string SITE = "X301^001";
-            public const string BUSINESS_PARTNER = "X301^002";
-            public const string STUDENT = "X301^003";
-            public const string PROSPECTIVE_STUDENT = "X301^004";
-            public const string STUDENT_FAMILY = "X301^005";
-            public const string PROSPECTIVE_STUDENT_FAMILY = "X301^006";
-        }
-
-        public static class ItemType
-        {
-            public const string PRODUCT = "X001^001";
-        }
-
         public static class SupplierPaymentMethod
         {
             public const string TUNAI = "X178^001";
@@ -176,11 +161,6 @@ namespace CodeX.Common
             public const string IN_ACTIVE = "X181^999";
         }
 
-        public static class CustomerType
-        {
-            public const string PERSONAL = "X004^999";
-        }
-
         public static class JournalGroup
         {
             public const string PENDAPATAN_PENERIMAAN = "X188^001";
@@ -189,14 +169,6 @@ namespace CodeX.Common
             public const string PHARMACY = "X188^004";
             public const string FIXED_ASSET = "X188^005";
             public const string MEMORIAL = "X188^006";
-        }
-
-        public static class BusinessObjectType
-        {
-            public const string STUDENT = "X017^001";
-            public const string ITEM = "X017^002";
-            public const string USER = "X017^004";
-            public const string SUPPLIER = "X017^004";
         }
 
         public static class TransactionStatus

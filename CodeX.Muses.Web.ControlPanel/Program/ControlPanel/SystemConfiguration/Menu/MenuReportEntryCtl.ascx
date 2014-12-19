@@ -86,7 +86,7 @@
 
     function onTxtReportCodeChanged(value) {
         var filterExpression = getReportFilterExpression() + " AND ReportCode = '" + value + "'";
-        Methods.getObject('GetReportList', filterExpression, function (result) {
+        Methods.getObject('GetvReportMasterList', filterExpression, function (result) {
             if (result != null) {
                 $('#<%=hdnReportID.ClientID %>').val(result.ReportID);
                 $('#<%=txtReportName.ClientID %>').val(result.ReportName);

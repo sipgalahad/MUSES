@@ -485,8 +485,11 @@
     }
 
     function onCbpRightPanelContentEndCallback() {
-        hideLoadingPanel();        
+        hideLoadingPanel();
         $('#hdnRightPanelContentFirstTimeLoad').val('0');
+        $('.datepicker').each(function () {
+            $(this).attr('placeholder', 'dd-MM-yyyy');
+        });
     }
 
     function onPcRightPanelContentClosing() {
