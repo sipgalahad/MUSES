@@ -31,8 +31,6 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
-
-            setAddEditDeleteVisibility();
         });
 
         //#region edit and delete
@@ -144,25 +142,7 @@
             }
         }
 
-        function setAddEditDeleteVisibility() {
-            if ($('#<%=hdnClassRowCount.ClientID %>').val() != '0') {
-                $('#divTransactionAdd').hide();
-                $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
-                    $(this).find('.divDetailDelete').hide();
-                    $(this).find('.divDetailEdit').hide();
-                });
-            }
-            else {
-                $('#divTransactionAdd').show();
-                $('#<%=grdView.ClientID %> tr:gt(0)').each(function () {
-                    $(this).find('.divDetailDelete').show();
-                    $(this).find('.divDetailEdit').show();
-                });
-            }
-        }
-
         function onCbpViewEndCallback() {
-            setAddEditDeleteVisibility();
             hideLoadingPanel();
         }
     </script>
@@ -212,7 +192,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah Jam Pertemuan")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Pertemuan")%></label></td>
                                     <td><asp:TextBox ID="txtNoMeetingHoursInWeek" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
                             </table>
@@ -247,8 +227,8 @@
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <div style='float:right;' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                        <div style='float:right;margin-right:10px;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />

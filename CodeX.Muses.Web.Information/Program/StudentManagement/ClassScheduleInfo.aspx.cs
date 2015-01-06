@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.Information.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}'", Constant.SchoolPeriodStatus.VOID));
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             cboSchoolPeriod.SelectedIndex = 0;
 

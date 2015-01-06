@@ -303,6 +303,7 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_PERIOD_ADMISSION = "SM99010103";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010201";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010202";
+                public const string SP_GENERATE_SCHOOL_CLASS = "SM99010203";
                 public const string SP_SCHOOL_CLASS = "SM99010301";
                 public const string SP_CLASS_SUBJECT = "SM99010302";
                 public const string SP_CLASS_SCHEDULE = "SM99010303";

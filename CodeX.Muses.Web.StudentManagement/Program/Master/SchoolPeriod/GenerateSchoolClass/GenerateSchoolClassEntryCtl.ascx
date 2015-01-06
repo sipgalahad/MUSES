@@ -137,7 +137,7 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pelajaran")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Kelas")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
     </table>

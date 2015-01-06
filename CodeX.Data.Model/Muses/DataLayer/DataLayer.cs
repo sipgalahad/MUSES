@@ -1307,6 +1307,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeSubjectID;
         private Int32 _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
+        private Boolean _IsCreatedBySystem;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -1342,6 +1343,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "IsCreatedBySystem", DataType = "Boolean")]
+        public Boolean IsCreatedBySystem
+        {
+            get { return _IsCreatedBySystem; }
+            set { _IsCreatedBySystem = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

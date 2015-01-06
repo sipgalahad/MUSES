@@ -141,7 +141,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     HtmlTableCell tdRoomID = (HtmlTableCell)e.Item.FindControl("tdRoomID");
                     tdValue.InnerHtml = entity.ClassSubjectID.ToString();
                     tdRoomID.InnerHtml = entity.RoomID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("<div style='float:right' class='divDetailDelete'></div>{0}<br/>{1}<br/><label class='lblLink lblRoom'>{2}</label>", entity.SubjectName, entity.TeacherName, entity.RoomName);
+                    tdHtmlText.InnerHtml = string.Format("<div style='float:right' class='divDetailDelete'></div>{0}<br/><b>{1}</b><br/><label class='lblLink lblRoom'>{2}</label>", entity.SubjectName, entity.TeacherName, entity.RoomName);
                 }
                 else
                 {

@@ -89,13 +89,6 @@
             openUserControlPopup(url, entity.DailySchedulePackageID, 'Jadwal', 1000, 550);
         });
 
-        $('.lnkGenerate').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/GenerateSchoolClassEntryCtl.ascx");
-            openUserControlPopup(url, entity.PeriodClassTypeID, 'Generate Kelas', 1000, 550);
-        });
-
         function onAfterSaveAddRecordEntryPopup() {
             cbpView.PerformCallback('refresh');
         }
@@ -162,11 +155,6 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="NoOfClass" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
-                                <asp:TemplateField HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center">
-                                    <ItemTemplate>
-                                        <a class="lnkGenerate" <%#Eval("IsAllowEditItem").ToString() == "False" ? "style='display:none'" : "" %>><%=GetLabel("Generate Kelas")%></a>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>

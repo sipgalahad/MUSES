@@ -54,7 +54,7 @@
 
                 var entity = rowToObject($(this));
 
-                $('#hdnSelectedTrText').val(entity.SubjectName + '<br/>' + entity.TeacherName);
+                $('#hdnSelectedTrText').val(entity.SubjectName + '<br/><b>' + entity.TeacherName + '</b>');
                 $('#hdnSelectedTrValue').val(entity.ClassSubjectID);
                 $('#hdnSelectedTrTeacherID').val(entity.TeacherID);
                 $('#hdnSelectedTrRoomID').val(entity.RoomID);
@@ -215,12 +215,13 @@
         .tblSchedule tr td                  { border: 1px solid #333; }
         .tblSchedule tr.T001                { height: 56px; cursor: pointer; }
         .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
+        .tblSchedule tr.T001 b              { color: Red; font-weight: normal; }
     </style>
 
     <table style="float:right; border: 1px solid black">
         <colgroup>
             <col style="width:150px" />
-            <col style="width:150px" />
+            <col style="width:350px" />
         </colgroup>
         <tr>
             <td class="tdLabel"><label class="lblLink" id="lblChangeClassSubject" style="font-weight: bold;"><%=GetLabel("Dipilih") %></label> :</td>

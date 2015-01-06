@@ -7756,6 +7756,7 @@ namespace CodeX.Data.Model
         private String _TeacherCode;
         private String _TeacherName;
         private Int16 _NoMeetingHoursInWeek;
+        private Boolean _IsEditable;
         private Boolean _IsDeleted;
 
         [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
@@ -7847,6 +7848,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "IsEditable", DataType = "Boolean")]
+        public Boolean IsEditable
+        {
+            get { return _IsEditable; }
+            set { _IsEditable = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

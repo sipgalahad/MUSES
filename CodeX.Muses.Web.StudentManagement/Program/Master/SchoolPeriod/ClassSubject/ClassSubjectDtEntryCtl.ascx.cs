@@ -133,6 +133,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityDt.PeriodClassTypeSubjectID = PeriodClassTypeSubjectID;
                         entityDt.TeacherID = TeacherID;
                         entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
+                        entityDt.IsCreatedBySystem = false;
                         entityDt.CreatedBy = AppSession.UserLogin.UserID;
                         entityDtDao.Insert(entityDt);
                     }
