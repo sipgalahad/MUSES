@@ -56,6 +56,11 @@
                     //if (date.getDay() < 1)
                     //    return [true, "specialDate"];
                     return [true, "", "Kegiatan Belajar Mengajar"];
+                },
+                onChangeMonthYear: function (year, month, instance) {
+                    $('#<%=hdnYear.ClientID %>').val(year);
+                    $('#<%=hdnMonth.ClientID %>').val(month);
+                    cbpView.PerformCallback('refresh')
                 }
             });
         }
@@ -92,6 +97,10 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
+        });
+
+        $('#<%=chkShowAll.ClientID %>').live('change', function () {
+            cbpView.PerformCallback('refresh');
         });
 
         //#region edit and delete
@@ -150,6 +159,8 @@
         .nts004, .date004 a.ui-state-default, .date004 a.ui-state-hover      { background: #FF7301 !important; }
         .nts005, .date005 a.ui-state-default, .date005 a.ui-state-hover      { background: #B201CC !important; color: White; }
     </style>
+    <input type="hidden" id="hdnMonth" runat="server" />
+    <input type="hidden" id="hdnYear" runat="server" />
     <input type="hidden" id="hdnMaxDate" runat="server" />
     <input type="hidden" id="hdnMinDate" runat="server" />
     <table style="width:100%">
@@ -177,7 +188,14 @@
             </td>
             <td valign="top">
                 <div class="divTransactionEntry">
-                    <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td>
+                                <asp:CheckBox runat="server" ID="chkShowAll" Text="Show All" Checked="true" />
+                            </td>
+                        </tr>
+                        <tr><td><span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span></td></tr>
+                    </table>
                     <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                         <fieldset id="fsTrx" style="margin: 0">
                             <input type="hidden" value="" id="hdnEntryID" runat="server" />
