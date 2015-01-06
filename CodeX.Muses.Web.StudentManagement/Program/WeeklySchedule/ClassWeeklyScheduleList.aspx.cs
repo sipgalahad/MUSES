@@ -26,7 +26,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptRemarks.DataSource = lstSc;
             rptRemarks.DataBind();
 
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}'", Constant.SchoolPeriodStatus.VOID));
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}' AND SiteID = '{1}'", Constant.SchoolPeriodStatus.VOID, AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             cboSchoolPeriod.SelectedIndex = 0;
 
