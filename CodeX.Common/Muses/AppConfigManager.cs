@@ -8,6 +8,7 @@ namespace CodeX.Common
 {
     public static class AppConfigManager
     {
+        static private string _CDXAppClientID;
         static private string _CDXNameFormat;
         static private string _CDXTableLogFolder;
         static private string _CDXVirtualDirectory;
@@ -16,6 +17,7 @@ namespace CodeX.Common
         static private string _CDXLibsPhysicalDirectory;
         static private string _CDXSiteName;
         static private string _CDXStudentImagePath;
+        static public string CDXAppClientID { get { return _CDXAppClientID; } }
         static public string CDXTableLogFolder { get { return _CDXTableLogFolder; } }
         static public string CDXNameFormat { get { return _CDXNameFormat; } }
         static public string CDXVirtualDirectory { get { return _CDXVirtualDirectory; } }
@@ -28,6 +30,7 @@ namespace CodeX.Common
         static AppConfigManager()
         {
             // Cache all these values in static properties.
+            _CDXAppClientID = ConfigurationManager.AppSettings["CDXAppClientID"];
             _CDXTableLogFolder = ConfigurationManager.AppSettings["CDXTableLogFolder"];
             _CDXNameFormat = ConfigurationManager.AppSettings["CDXNameFormat"];
             _CDXVirtualDirectory = ConfigurationManager.AppSettings["CDXVirtualDirectory"];

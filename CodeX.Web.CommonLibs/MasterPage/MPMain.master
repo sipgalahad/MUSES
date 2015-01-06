@@ -15,6 +15,10 @@
                 //useClick: true
             });
 
+            $('#imgOpenUserHelp').click(function () {
+                openUserHelp();
+            });
+
             $('#imgOpenInformation').click(function () {
                 openInformation();
             });
@@ -215,7 +219,7 @@
                 </tr>
             </table>
         </div>
-        <img height="30" style="cursor: pointer; float:left; margin-left: 5px; margin-top: 1px;" runat="server" id="imgOpenModule" />
+        <img height="24" style="cursor: pointer; float:left; margin-left: 10px; margin-top: 5px;" runat="server" id="imgOpenModule" title="Module" />
         <div class="hospitalName" id="divSiteName" style="float:left;width:120px; margin-left: 15px;" runat="server"></div>
         <div id="page-wrap" style="padding-top:7px;">
             <asp:Repeater ID="rptMenu" runat="server" OnItemDataBound="rptMenu_ItemDataBound">

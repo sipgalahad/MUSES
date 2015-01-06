@@ -60,7 +60,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if(!chkShowAll.Checked)
             {
                 Int32 Month = Convert.ToInt32(hdnMonth.Value);
-                filterExpression += String.Format(" AND StartDate LIKE '{0}-{1}%' OR EndDate LIKE '{0}-{1}%'", hdnYear.Value, Month.ToString("00"));
+                filterExpression += String.Format(" AND (StartDate LIKE '{0}-{1}%' OR EndDate LIKE '{0}-{1}%')", hdnYear.Value, Month.ToString("00"));
             }
             List<vPeriodSchedule> lstEntity = BusinessLayer.GetvPeriodScheduleList(filterExpression);
             grdView.DataSource = lstEntity;

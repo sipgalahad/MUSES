@@ -26,6 +26,10 @@
                 var entity = rowToObject($row);
                 lstEntity.push(entity);
             });
+            var month = $('#<%=hdnMonth.ClientID %>').val();
+            if (month != '') 
+                $('#calSchedule').datepicker("setDate", month - 1 + 'm');
+            
         }
 
         function setCalSchedule() {
@@ -60,7 +64,8 @@
                 onChangeMonthYear: function (year, month, instance) {
                     $('#<%=hdnYear.ClientID %>').val(year);
                     $('#<%=hdnMonth.ClientID %>').val(month);
-                    cbpView.PerformCallback('refresh')
+                    if (!$('#<%=chkShowAll.ClientID %>').is(':checked'))
+                        cbpView.PerformCallback('refresh')
                 }
             });
         }
@@ -97,10 +102,10 @@
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
-        });
 
-        $('#<%=chkShowAll.ClientID %>').live('change', function () {
-            cbpView.PerformCallback('refresh');
+            $('#<%=chkShowAll.ClientID %>').change(function () {
+                cbpView.PerformCallback('refresh');
+            });
         });
 
         //#region edit and delete
@@ -188,14 +193,8 @@
             </td>
             <td valign="top">
                 <div class="divTransactionEntry">
-                    <table cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td>
-                                <asp:CheckBox runat="server" ID="chkShowAll" Text="Show All" Checked="true" />
-                            </td>
-                        </tr>
-                        <tr><td><span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span></td></tr>
-                    </table>
+                    <asp:CheckBox runat="server" ID="chkShowAll" Text="Show All" Checked="true" /><br />
+                    <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
                     <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                         <fieldset id="fsTrx" style="margin: 0">
                             <input type="hidden" value="" id="hdnEntryID" runat="server" />

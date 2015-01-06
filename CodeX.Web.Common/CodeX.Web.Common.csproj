@@ -108,6 +108,12 @@
     <Compile Include="UI\Popup\BaseMPPopupList.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Report\BaseCustomReportCtl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Report\BaseReportViewer.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">

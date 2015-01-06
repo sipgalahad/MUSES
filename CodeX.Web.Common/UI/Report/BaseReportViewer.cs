@@ -1,33 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Text;
 using CodeX.Data.Model;
-using System.Reflection;
-using CodeX.Web.Common.UI;
-using CodeX.Common;
-using CodeX.Web.Common;
 using System.Xml.Linq;
 using System.IO;
+using System.Web;
+using CodeX.Common;
+using System.Web.UI.WebControls;
+using System.Collections;
+using System.Web.UI;
 using System.Text.RegularExpressions;
 using System.Web.UI.HtmlControls;
-using System.Collections;
-using System.Text;
+using System.Reflection;
 
-namespace CodeX.Web.CommonLibs.Program
+namespace CodeX.Web.Common.UI
 {
-    //public partial class ReportViewer : BaseReportViewer
-    //{
-    //}
-    public partial class ReportViewer : BasePage
+    public partial class BaseReportViewer : BasePage
     {
-        vSite oSite = null;
+        HtmlInputHidden hdnParam = null;
+        HtmlInputHidden hdnReportFileName = null;
+        HtmlInputHidden hdnFilterExpression = null;
+        HtmlGenericControl divReportProperties = null;
+        HtmlGenericControl divSiteName = null;
+        HtmlGenericControl divAddressLine1 = null;
+        HtmlGenericControl divAddressLine2 = null;
+        HtmlGenericControl divPhoneFaxNo = null;
+        HtmlGenericControl subHeaderText = null;
+        HtmlGenericControl divContainerReportParameter = null;
+        HtmlGenericControl divPageHeader = null;
+        HtmlGenericControl divPageFooter = null;
+        HtmlGenericControl divContainerReportHeader = null;
+        HtmlGenericControl divContainerReportFooter = null;
+        HtmlGenericControl headerText = null;
+        HtmlInputHidden hdnExportExcel = null;
+        Repeater rptReport = null;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
+                hdnParam = (HtmlInputHidden)FindControl("hdnParam");
+                hdnReportFileName = (HtmlInputHidden)FindControl("hdnReportFileName");
+                hdnFilterExpression = (HtmlInputHidden)FindControl("hdnFilterExpression");
+                divReportProperties = (HtmlGenericControl)FindControl("divReportProperties");
+                divSiteName = (HtmlGenericControl)FindControl("divSiteName");
+                divAddressLine1 = (HtmlGenericControl)FindControl("divAddressLine1");
+                divAddressLine2 = (HtmlGenericControl)FindControl("divAddressLine2");
+                divPhoneFaxNo = (HtmlGenericControl)FindControl("divPhoneFaxNo");
+                subHeaderText = (HtmlGenericControl)FindControl("subHeaderText");
+                divContainerReportParameter = (HtmlGenericControl)FindControl("divContainerReportParameter");
+                divPageHeader = (HtmlGenericControl)FindControl("divPageHeader");
+                divPageFooter = (HtmlGenericControl)FindControl("divPageFooter");
+                divContainerReportHeader = (HtmlGenericControl)FindControl("divContainerReportHeader");
+                divContainerReportFooter = (HtmlGenericControl)FindControl("divContainerReportFooter");
+                headerText = (HtmlGenericControl)FindControl("headerText");
+                hdnExportExcel = (HtmlInputHidden)FindControl("hdnExportExcel");
+                rptReport = (Repeater)FindControl("rptReport");
+
                 if (Request.Form["param"] != null)
                     hdnParam.Value = Request.Form["param"].ToString();
                 param = hdnParam.Value.Split('|');
@@ -43,7 +73,7 @@ namespace CodeX.Web.CommonLibs.Program
 
                 divReportProperties.InnerHtml = string.Format("OTTIMO - {0}, Print Date/Time:{1}, User ID:{2}", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
 
-                oSite = BusinessLayer.GetvSiteList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
+                vSite oSite = BusinessLayer.GetvSiteList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
                 if (oSite != null)
                 {
                     divSiteName.InnerHtml = oSite.SiteName;
@@ -266,58 +296,6 @@ namespace CodeX.Web.CommonLibs.Program
         }
         #endregion
 
-        #region Regex Header Footer
-        private string SetTemplateText(string templateText, string dataSourceHd, object entityHd)
-        {
-            Regex regex = new Regex("{Site.([(a-zA-Z0-9_.,)]*)}");
-            MatchCollection collection = regex.Matches(templateText);
-            foreach (Match m in collection)
-            {
-                var columnName = m.Groups[1].Value;
-                var prop = oSite.GetType().GetProperty(columnName);
-                if (prop == null)
-                    throw new Exception(string.Format("Property {0} Not Found in Site", columnName));
-                var fieldValue = prop.GetValue(oSite, null).ToString();
-                templateText = templateText.Replace("{Site." + columnName + "}", fieldValue);
-            }
-
-            regex = new Regex("{SettingParameter.([(a-zA-Z0-9_.,)]*)}");
-            collection = regex.Matches(templateText);
-            foreach (Match m in collection)
-            {
-                var columnName = m.Groups[1].Value;
-                SettingParameter sp = BusinessLayer.GetSettingParameter(columnName);
-                templateText = templateText.Replace("{SettingParameter." + columnName + "}", sp.ParameterValue);
-            }
-
-            regex = new Regex("{([(a-zA-Z0-9_.,)]*),N}");
-            collection = regex.Matches(templateText);
-            foreach (Match m in collection)
-            {
-                var columnName = m.Groups[1].Value;
-                var prop = entityHd.GetType().GetProperty(columnName);
-                if (prop == null)
-                    throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, dataSourceHd));
-                var fieldValue = prop.GetValue(entityHd, null).ToString();
-                templateText = templateText.Replace("{" + columnName + ",N}", Convert.ToDecimal(fieldValue).ToString("N"));
-            }
-            templateText = templateText.Replace("{DateTime.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_FORMAT));
-
-            regex = new Regex("{([(a-zA-Z0-9_.,)]*)}");
-            collection = regex.Matches(templateText);
-            foreach (Match m in collection)
-            {
-                var columnName = m.Groups[1].Value;
-                var prop = entityHd.GetType().GetProperty(columnName);
-                if (prop == null)
-                    throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, dataSourceHd));
-                var fieldValue = prop.GetValue(entityHd, null).ToString();
-                templateText = templateText.Replace("{" + columnName + "}", fieldValue);
-            }
-            return templateText;
-        }
-        #endregion
-
         private void BindGridView()
         {
             #region Load Report File
@@ -334,8 +312,6 @@ namespace CodeX.Web.CommonLibs.Program
             var tempReportSetting = (from sd in xdocReport.Descendants("table")
                                      select new
                                      {
-                                         IsCustom = sd.Attribute("iscustom") != null ? sd.Attribute("iscustom").Value == "1" : false,
-                                         CustomReportURL = sd.Attribute("customreporturl") != null ? sd.Attribute("customreporturl").Value : "",
                                          DataSource = sd.Attribute("datasource") != null ? sd.Attribute("datasource").Value : "",
                                          FilterExpression = sd.Attribute("filterexpression") != null ? sd.Attribute("filterexpression").Value : "",
                                          FilterExpressionHd = sd.Attribute("filterexpressionhd") != null ? sd.Attribute("filterexpressionhd").Value : "",
@@ -358,7 +334,7 @@ namespace CodeX.Web.CommonLibs.Program
             if (!tempReportSetting.IsShowHeaderFooter)
             {
                 divPageHeader.Style.Add("display", "none");
-                divContainerPageFooter.Style.Add("display", "none");
+                divPageFooter.Style.Add("display", "none");
             }
 
             if (tempReportSetting.HeaderText != "")
@@ -413,158 +389,169 @@ namespace CodeX.Web.CommonLibs.Program
             paperPageContent = tempPaperSize.PageContent;
             #endregion
 
-            if (!tempReportSetting.IsCustom)
+            #region Header & Footer Template
+            object entityHd = null;
+            if (tempReportSetting.DataSourceHd != "")
             {
-                #region Header & Footer Template
-                object entityHd = null;
-                if (tempReportSetting.DataSourceHd != "")
-                {
-                    string filterExpressionHd = reportFilterExpression;
-                    if (filterExpressionHd != "" && tempReportSetting.FilterExpressionHd != "")
-                        filterExpressionHd += " AND ";
-                    filterExpressionHd += tempReportSetting.FilterExpressionHd;
+                string filterExpressionHd = reportFilterExpression;
+                if (filterExpressionHd != "" && tempReportSetting.FilterExpressionHd != "")
+                    filterExpressionHd += " AND ";
+                filterExpressionHd += tempReportSetting.FilterExpressionHd;
 
-                    MethodInfo method1 = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSourceHd, new[] { typeof(string) });
-                    object obj1 = method1.Invoke(null, new object[] { filterExpressionHd });
-                    IEnumerable<object> lst = (IEnumerable<object>)obj1;
-                    entityHd = lst.FirstOrDefault();
+                MethodInfo method1 = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSourceHd, new[] { typeof(string) });
+                object obj1 = method1.Invoke(null, new object[] { filterExpressionHd });
+                IEnumerable<object> lst = (IEnumerable<object>)obj1;
+                entityHd = lst.FirstOrDefault();
+            }
+            IEnumerable<XElement> x1 = xdocReport.Descendants("headertemplate");
+            if (x1.Count() > 0)
+            {
+                string headerTemplate = x1.Single().Value;
+                divContainerReportHeader.Style.Remove("display");
+
+                Regex regex = new Regex("{([(a-zA-Z0-9_.,)]*)}");
+                MatchCollection collection = regex.Matches(headerTemplate);
+                foreach (Match m in collection)
+                {
+                    var columnName = m.Groups[1].Value;
+                    var prop = entityHd.GetType().GetProperty(columnName);
+                    if (prop == null)
+                        throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, tempReportSetting.DataSourceHd));
+                    var fieldValue = prop.GetValue(entityHd, null).ToString();
+                    headerTemplate = headerTemplate.Replace("{" + columnName + "}", fieldValue);
                 }
-                IEnumerable<XElement> x1 = xdocReport.Descendants("headertemplate");
-                if (x1.Count() > 0)
+
+                divContainerReportHeader.InnerHtml = headerTemplate;
+            }
+
+            x1 = xdocReport.Descendants("footertemplate");
+            if (x1.Count() > 0)
+            {
+                string footerTemplate = x1.Single().Value;
+
+                Regex regex = new Regex("{SettingParameter.([(a-zA-Z0-9_.,)]*)}");
+                MatchCollection collection = regex.Matches(footerTemplate);
+                foreach (Match m in collection)
                 {
-                    string headerTemplate = x1.Single().Value;
-                    divContainerReportHeader.Style.Remove("display");
-
-                    headerTemplate = SetTemplateText(headerTemplate, tempReportSetting.DataSourceHd, entityHd);
-
-                    divContainerReportHeader.InnerHtml = headerTemplate;
+                    var columnName = m.Groups[1].Value;
+                    SettingParameter sp = BusinessLayer.GetSettingParameter(columnName);
+                    footerTemplate = footerTemplate.Replace("{SettingParameter." + columnName + "}", sp.ParameterValue);
                 }
 
-                x1 = xdocReport.Descendants("footertemplate");
-                if (x1.Count() > 0)
+                regex = new Regex("{([(a-zA-Z0-9_.,)]*),N}");
+                collection = regex.Matches(footerTemplate);
+                foreach (Match m in collection)
                 {
-                    string footerTemplate = x1.Single().Value;
-
-                    footerTemplate = SetTemplateText(footerTemplate, tempReportSetting.DataSourceHd, entityHd);
-
-                    divContainerReportFooter.InnerHtml = footerTemplate;
+                    var columnName = m.Groups[1].Value;
+                    var prop = entityHd.GetType().GetProperty(columnName);
+                    if (prop == null)
+                        throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, tempReportSetting.DataSourceHd));
+                    var fieldValue = prop.GetValue(entityHd, null).ToString();
+                    footerTemplate = footerTemplate.Replace("{" + columnName + ",N}", Convert.ToDecimal(fieldValue).ToString("N"));
                 }
-                #endregion
 
-                #region Group Field & Template Field
-                lstGroupField = (from sd in xdocReport.Descendants("group")
-                                 select new GroupField
-                                 {
-                                     FieldName = sd.Attribute("fieldname").Value,
-                                     HeaderText = sd.Attribute("headertext").Value,
-                                     SubTotalText = sd.Attribute("subtotaltext") != null ? sd.Attribute("subtotaltext").Value : "",
-                                     OrderBy = sd.Attribute("orderby") != null ? sd.Attribute("orderby").Value : "",
-                                     OrderByType = sd.Attribute("orderbytype") != null ? sd.Attribute("orderbytype").Value : "",
-                                     TdLocation = sd.Attribute("tdlocation") != null ? Convert.ToInt32(sd.Attribute("tdlocation").Value) : 0,
-                                     IsShowSubTotal = sd.Attribute("isshowsubtotal") != null ? sd.Attribute("isshowsubtotal").Value == "1" : false,
-                                     IsShowBorderTop = sd.Attribute("isshowbordertop") != null ? sd.Attribute("isshowbordertop").Value == "1" : false
-                                 }).ToList<GroupField>();
-
-                lstTemplateField = (from sd in xdocReport.Descendants("field")
-                                    select new TemplateField
-                                    {
-                                        FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : "",
-                                        FieldType = sd.Attribute("fieldtype") != null ? sd.Attribute("fieldtype").Value : "",
-                                        HeaderText = sd.Attribute("headertext").Value,
-                                        Width = sd.Attribute("width") != null ? Convert.ToInt32(sd.Attribute("width").Value) : 0,
-                                        IsShowSubTotal = sd.Attribute("isshowsubtotal") != null ? sd.Attribute("isshowsubtotal").Value == "1" : false,
-                                        InnerHtml = sd.Value,
-                                        Align = sd.Attribute("align") != null ? sd.Attribute("align").Value : "left",
-                                    }).ToList<TemplateField>();
-                #endregion
-
-                #region Repeater Builder
-                rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder);
-                if (lstTemplateField.Count > 0)
+                regex = new Regex("{([(a-zA-Z0-9_.,)]*)}");
+                collection = regex.Matches(footerTemplate);
+                foreach (Match m in collection)
                 {
-                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0);
+                    var columnName = m.Groups[1].Value;
+                    var prop = entityHd.GetType().GetProperty(columnName);
+                    if (prop == null)
+                        throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, tempReportSetting.DataSourceHd));
+                    var fieldValue = prop.GetValue(entityHd, null).ToString();
+                    footerTemplate = footerTemplate.Replace("{" + columnName + "}", fieldValue);
+                }
 
-                    object obj = null;
-                    if (!tempReportSetting.IsDataSourceFromSP)
+                divContainerReportFooter.InnerHtml = footerTemplate;
+            }
+            #endregion
+
+            #region Group Field & Template Field
+            lstGroupField = (from sd in xdocReport.Descendants("group")
+                             select new GroupField
+                             {
+                                 FieldName = sd.Attribute("fieldname").Value,
+                                 HeaderText = sd.Attribute("headertext").Value,
+                                 SubTotalText = sd.Attribute("subtotaltext") != null ? sd.Attribute("subtotaltext").Value : "",
+                                 OrderBy = sd.Attribute("orderby") != null ? sd.Attribute("orderby").Value : "",
+                                 OrderByType = sd.Attribute("orderbytype") != null ? sd.Attribute("orderbytype").Value : "",
+                                 TdLocation = sd.Attribute("tdlocation") != null ? Convert.ToInt32(sd.Attribute("tdlocation").Value) : 0,
+                                 IsShowSubTotal = sd.Attribute("isshowsubtotal") != null ? sd.Attribute("isshowsubtotal").Value == "1" : false,
+                                 IsShowBorderTop = sd.Attribute("isshowbordertop") != null ? sd.Attribute("isshowbordertop").Value == "1" : false
+                             }).ToList<GroupField>();
+
+            lstTemplateField = (from sd in xdocReport.Descendants("field")
+                                select new TemplateField
+                                {
+                                    FieldName = sd.Attribute("fieldname") != null ? sd.Attribute("fieldname").Value : "",
+                                    FieldType = sd.Attribute("fieldtype") != null ? sd.Attribute("fieldtype").Value : "",
+                                    HeaderText = sd.Attribute("headertext").Value,
+                                    Width = sd.Attribute("width") != null ? Convert.ToInt32(sd.Attribute("width").Value) : 0,
+                                    IsShowSubTotal = sd.Attribute("isshowsubtotal") != null ? sd.Attribute("isshowsubtotal").Value == "1" : false,
+                                    InnerHtml = sd.Value,
+                                    Align = sd.Attribute("align") != null ? sd.Attribute("align").Value : "left",
+                                }).ToList<TemplateField>();
+            #endregion
+
+            #region Repeater Builder
+            rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder);
+            if (lstTemplateField.Count > 0)
+            {
+                rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0);
+
+                object obj = null;
+                if (!tempReportSetting.IsDataSourceFromSP)
+                {
+                    string filterExpressionDt = reportFilterExpression;
+                    if (filterExpressionDt != "" && tempReportSetting.FilterExpression != "")
+                        filterExpressionDt += " AND ";
+                    filterExpressionDt += tempReportSetting.FilterExpression;
+
+                    MethodInfo method = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSource, new[] { typeof(string) });
+                    obj = method.Invoke(null, new object[] { filterExpressionDt });
+                }
+                else
+                {
+                    List<Variable> lstVariable = GenerateFilterExpressionSP(lstReportParameter, tempReportSetting.IsShowParameter);
+                    obj = BusinessLayer.GetDataReport(tempReportSetting.DataSource, lstVariable);
+                }
+
+                rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalText);
+
+                if (lstGroupField.Count > 0)
+                {
+                    IEnumerable<object> lst = (IEnumerable<object>)obj;
+                    object lst2 = null;
+
+                    GroupField groupField = lstGroupField[0];
+                    if (groupField.OrderBy != "")
                     {
-                        string filterExpressionDt = reportFilterExpression;
-                        if (filterExpressionDt != "" && tempReportSetting.FilterExpression != "")
-                            filterExpressionDt += " AND ";
-                        filterExpressionDt += tempReportSetting.FilterExpression;
+                        if (groupField.OrderByType == "")
+                            groupField.OrderByType = "ASC";
 
-                        MethodInfo method = typeof(BusinessLayer).GetMethod(tempReportSetting.DataSource, new[] { typeof(string) });
-                        obj = method.Invoke(null, new object[] { filterExpressionDt });
-                    }
-                    else
-                    {
-                        List<Variable> lstVariable = GenerateFilterExpressionSP(lstReportParameter, tempReportSetting.IsShowParameter);
-                        obj = BusinessLayer.GetDataReport(tempReportSetting.DataSource, lstVariable);
-                    }
-
-                    rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalText);
-
-                    if (lstGroupField.Count > 0)
-                    {
-                        IEnumerable<object> lst = (IEnumerable<object>)obj;
-                        object lst2 = null;
-
-                        GroupField groupField = lstGroupField[0];
-                        if (groupField.OrderBy != "")
-                        {
-                            if (groupField.OrderByType == "")
-                                groupField.OrderByType = "ASC";
-
-                            if (groupField.OrderByType == "ASC")
-                                lst2 = lst.GroupBy(c => new { ID = c.GetType().GetProperty(groupField.OrderBy).GetValue(c, null), Name = c.GetType().GetProperty(groupField.FieldName).GetValue(c, null) })
-                                    .Select(group => new { GroupID = group.Key.ID, GroupName = group.Key.Name, Level = 0, Items = group.ToList() }).OrderBy(p => p.GroupID).ToList();
-                            else
-                                lst2 = lst.GroupBy(c => new { ID = c.GetType().GetProperty(groupField.OrderBy).GetValue(c, null), Name = c.GetType().GetProperty(groupField.FieldName).GetValue(c, null) })
-                                    .Select(group => new { GroupID = group.Key.ID, GroupName = group.Key.Name, Level = 0, Items = group.ToList() }).OrderByDescending(p => p.GroupID).ToList();
-                        }
+                        if (groupField.OrderByType == "ASC")
+                            lst2 = lst.GroupBy(c => new { ID = c.GetType().GetProperty(groupField.OrderBy).GetValue(c, null), Name = c.GetType().GetProperty(groupField.FieldName).GetValue(c, null) })
+                                .Select(group => new { GroupID = group.Key.ID, GroupName = group.Key.Name, Level = 0, Items = group.ToList() }).OrderBy(p => p.GroupID).ToList();
                         else
-                        {
-                            lst2 = lst.GroupBy(c => c.GetType().GetProperty(groupField.FieldName).GetValue(c, null))
-                                .Select(group => new { GroupName = group.Key, Level = 0, Items = group.ToList() }).ToList();
-                        }
-                        rptReport.ItemDataBound += new RepeaterItemEventHandler(rptReport_ItemDataBound);
-                        rptReport.DataSource = lst2;
-                        rptReport.DataBind();
+                            lst2 = lst.GroupBy(c => new { ID = c.GetType().GetProperty(groupField.OrderBy).GetValue(c, null), Name = c.GetType().GetProperty(groupField.FieldName).GetValue(c, null) })
+                                .Select(group => new { GroupID = group.Key.ID, GroupName = group.Key.Name, Level = 0, Items = group.ToList() }).OrderByDescending(p => p.GroupID).ToList();
                     }
                     else
                     {
-                        rptReport.DataSource = (IList)obj;
-                        rptReport.DataBind();
+                        lst2 = lst.GroupBy(c => c.GetType().GetProperty(groupField.FieldName).GetValue(c, null))
+                            .Select(group => new { GroupName = group.Key, Level = 0, Items = group.ToList() }).ToList();
                     }
+                    rptReport.ItemDataBound += new RepeaterItemEventHandler(rptReport_ItemDataBound);
+                    rptReport.DataSource = lst2;
+                    rptReport.DataBind();
                 }
-                #endregion
+                else
+                {
+                    rptReport.DataSource = (IList)obj;
+                    rptReport.DataBind();
+                }
             }
-            else
-            {
-                BaseCustomReportCtl ctl = (BaseCustomReportCtl)LoadControl(tempReportSetting.CustomReportURL);
-                ctl.Bind(reportFilterExpression, param);
-                HtmlGenericControl divReportHeader = (HtmlGenericControl)ctl.FindControl("divReportHeader");
-                if (divReportHeader != null)
-                {
-                    divContainerReportHeader.Style.Remove("display");
-                    divContainerReportHeader.Controls.Add(divReportHeader);
-                }
-                HtmlGenericControl divReportFooter = (HtmlGenericControl)ctl.FindControl("divReportFooter");
-                if (divReportFooter != null)
-                {
-                    divContainerReportFooter.Style.Remove("display");
-                    divContainerReportFooter.Controls.Add(divReportFooter);
-                }
-                HtmlGenericControl divPageFooter = (HtmlGenericControl)ctl.FindControl("divPageFooter");
-                if (divPageFooter != null)
-                {
-                    divContainerPageFooter.Style.Remove("display");
-                    divContainerPageFooter.Controls.Clear();
-                    divContainerPageFooter.Controls.Add(divPageFooter);
-                }
-                HtmlGenericControl divReportBody = (HtmlGenericControl)ctl.FindControl("divReportBody");
-                if (divReportBody != null)
-                    divContainerReportBody.Controls.Add(divReportBody);
-            }
+            #endregion
         }
         #region ReportParameter
         class ReportParameter
@@ -759,8 +746,7 @@ namespace CodeX.Web.CommonLibs.Program
                         if (_lstField.Count() > 0)
                         {
                             HtmlGenericControl ctl = new HtmlGenericControl();
-                            ctl.InnerHtml = "<table class='tblReport' style='width:100%' cellpadding='0' cellspacing='0'><thead>";
-                            ctl.InnerHtml += GenerateTableHeader(_lstField.Single(), "");
+                            ctl.InnerHtml = GenerateTableHeader(_lstField.Single(), "");
                             ctl.InnerHtml += "</thead><tbody class='reportBody'>";
                             container.Controls.Add(ctl);
                         }
@@ -806,7 +792,7 @@ namespace CodeX.Web.CommonLibs.Program
                             lcSubTotal.Text += "</tr>";
                             container.Controls.Add(lcSubTotal);
                         }
-                        container.Controls.Add(new LiteralControl("</tbody></table>"));
+                        container.Controls.Add(new LiteralControl("</tbody>"));
                         break;
 
                     case ListItemType.Item:
@@ -834,7 +820,7 @@ namespace CodeX.Web.CommonLibs.Program
                                 if (tdLocation > 0)
                                 {
                                     tdLocation--;
-                                    lc.Text += "<tr class='trGroup{2} trReportBody'>";
+                                    lc.Text += "<tr class='trGroup{2}'>";
                                     for (int i = 0; i < tdLocation; ++i)
                                         lc.Text += "<td>&nbsp;</td>";
                                     string className = "";
@@ -843,7 +829,7 @@ namespace CodeX.Web.CommonLibs.Program
                                     lc.Text += string.Format("<td class='tdGroupName{2}' colspan='{1}'>{0}</td></tr>", _lstGroupField[_level].HeaderText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), _lstTemplateField.Count - tdLocation, className);
                                 }
                                 else
-                                    lc.Text += string.Format("<tr class='trGroup{2} trReportBody'><td class='tdGroupName' colspan='{1}' style='padding-left:{3}0px;'>{0}</td></tr>", _lstGroupField[_level].HeaderText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), _lstTemplateField.Count, _level, _level * 2);
+                                    lc.Text += string.Format("<tr class='trGroup{2}'><td class='tdGroupName' colspan='{1}' style='padding-left:{3}0px;'>{0}</td></tr>", _lstGroupField[_level].HeaderText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), _lstTemplateField.Count, _level, _level * 2);
                                 if (lcSubTotal != null)
                                 {
                                     List<TemplateField> lstTemplateFieldShowSubTotal = new List<TemplateField>();
@@ -862,7 +848,7 @@ namespace CodeX.Web.CommonLibs.Program
                                     }
                                     object entity = container1.DataItem as object;
                                     IEnumerable<object> lst = (IEnumerable<object>)entity.GetType().GetProperty("Items").GetValue(entity, null);
-                                    lcSubTotal.Text += string.Format("<tr class='trSubTotal{2} trReportBody'><td class='tdSubTotal' colspan='{1}'>{0}</td>", _lstGroupField[_level].SubTotalText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), count, _level, _level * 2);
+                                    lcSubTotal.Text += string.Format("<tr class='trSubTotal{2}'><td class='tdSubTotal' colspan='{1}'>{0}</td>", _lstGroupField[_level].SubTotalText.Replace("[GroupName]", DataBinder.Eval(container1.DataItem, "GroupName").ToString()), count, _level, _level * 2);
                                     foreach (TemplateField tf in lstTemplateFieldShowSubTotal)
                                     {
                                         if (tf.IsShowSubTotal)
@@ -892,7 +878,7 @@ namespace CodeX.Web.CommonLibs.Program
                             RepeaterItem container1 = (RepeaterItem)container;
                             container.DataBinding += (o, e) =>
                             {
-                                lc.Text += "<tr class='trReportBody'>";
+                                lc.Text += "<tr>";
                                 foreach (TemplateField tf in _lstTemplateField)
                                 {
 
@@ -935,7 +921,7 @@ namespace CodeX.Web.CommonLibs.Program
             }
         }
 
-        void rptReport_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        public void rptReport_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
@@ -979,7 +965,7 @@ namespace CodeX.Web.CommonLibs.Program
                 }
             }
         }
-        protected void btnExport_Click(object sender, EventArgs e)
+        public void btnExport_Click(object sender, EventArgs e)
         {
             //Response.AddHeader("content-disposition", string.Format("attachment;filename=\"{0}.xls\"", hdnMenuCaption.Value));
             //Response.Cache.SetCacheability(HttpCacheability.NoCache);

@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>Medinfras</title>
+    <title>OTTIMO</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 </head>
 <body>
@@ -98,7 +98,7 @@
 
                     if ($.browser.chrome) {
                         while (p1Height + 10 > cont1Height) {
-                            $elm = $tbody.find('tr').last();
+                            $elm = $tbody.find('tr.trReportBody').last();
                             $tbody2.prepend($elm);
 
                             //re-evaluate height
@@ -108,7 +108,7 @@
                     }
                     else {
                         while (p1Height > cont1Height) {
-                            $elm = $tbody.find('tr').last();
+                            $elm = $tbody.find('tr.trReportBody').last();
                             $tbody2.prepend($elm);
 
                             //re-evaluate height
@@ -125,8 +125,34 @@
                 $('#btnExportExcel').click(function () {
                     $('#<%=btnExport.ClientID%>').click();
                 });
-                $('#btnPrint').click(function () {
+                $('#imgPrint').click(function () {
                     window.print();
+                });
+
+                var totalPage = parseInt($('#txtTotalPage').val());
+                $('#imgMoveNext').click(function () {
+                    var page = parseInt($('#cboJumpPage').val());
+                    if (page < totalPage)
+                        page++;
+                    goToByScroll('page' + page);
+                    $('#cboJumpPage').val(page);
+                });
+                $('#imgMovePrev').click(function () {
+                    var page = parseInt($('#cboJumpPage').val());
+                    if (page > 1)
+                        page--;
+                    goToByScroll('page' + page);
+                    $('#cboJumpPage').val(page);
+                });
+                $('#imgMoveFirst').click(function () {
+                    var page = 1;
+                    goToByScroll('page' + page);
+                    $('#cboJumpPage').val(page);
+                });
+                $('#imgMoveLast').click(function () {
+                    var page = totalPage;
+                    goToByScroll('page' + page);
+                    $('#cboJumpPage').val(page);
                 });
 
                 $('#cboJumpPage').change(function () {
@@ -174,6 +200,8 @@
         </div>
 
         <style type="text/css">
+            .imgLink        { cursor: pointer; }
+            
             body {
                 margin: 0;
                 padding: 0;
@@ -272,22 +300,31 @@
                     <asp:Button ID="btnExport" Visible="true" runat="server" OnClick="btnExport_Click" Text="Export" />
                 </div>
                 <input type="hidden" id="hdnExportExcel" runat="server" />
-                <input type="button" id="btnPrint" value="Print" />
-                <span class="separator">|</span>
-                Page 
-                <select id="cboJumpPage">
-                </select>
-                of <input type="text" id="txtTotalPage" value="1" style="width: 30px; text-align: right" readonly="readonly" class="number"/>
-                <span class="separator">|</span>
-                
-                <input type="button" id="btnExportExcel" value="export" />
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/print.png") %>' title="Print" id="imgPrint" class="imgLink" height="24px" /></td>
+                        <td><span class="separator">|</span></td>
+                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/movefirst.png") %>' title="First" id="imgMoveFirst" class="imgLink" height="24px" /></td>
+                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/moveprev.png") %>' title="Prev" id="imgMovePrev" class="imgLink" height="24px" /></td>
+                        <td style="width:140px;" align="center">
+                            Page 
+                            <select id="cboJumpPage">
+                            </select>
+                            of <input type="text" id="txtTotalPage" value="1" style="width: 30px; text-align: right" readonly="readonly" class="number"/>
+                        </td>
+                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/movenext.png") %>' title="Next" id="imgMoveNext" class="imgLink" height="24px" /></td>
+                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/movelast.png") %>' title="Last" id="imgMoveLast" class="imgLink" height="24px" /></td>
+                        <td><span class="separator">|</span></td>
+                        <td align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/export.png") %>' title="Export" id="imgExportExcel" class="imgLink" height="24px" /></td>
+                    </tr>
+                </table>
             </div>
         </center>
         <div id="pageArea">
             <div class="page">
                 <div id="page1" class="pageContent">
                     <div class="divcontent">
-                        <div class="pageFooter" id="divPageFooter" runat="server">
+                        <div class="pageFooter" id="divContainerPageFooter" runat="server">
                             <div style="float: right;" class="divPageNumber">Page 1 of [TotalPageCount]</div>
                             <div id="divReportProperties" runat="server"></div>
                         </div>
@@ -316,11 +353,12 @@
                             <div id="divContainerReportHeader" class="divContainerReportHeader" runat="server" style="display:none"></div>
                             <div id="divContainerReportParameter" class="divContainerReportParameter" runat="server"></div>
                         </div>
-                        <table class="tblReport" style="width:100%" cellpadding="0" cellspacing="0">
-                            <thead>
+                        
+                        <div id="divContainerReportBody" runat="server">
                             <asp:Repeater ID="rptReport" runat="server">
                             </asp:Repeater>
-                        </table>
+                        </div>
+                        
                         <div id="divContainerReportFooter" class="divContainerReportFooter" runat="server"></div>
                     </div>
                 </div>

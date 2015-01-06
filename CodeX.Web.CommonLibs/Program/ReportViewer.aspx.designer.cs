@@ -94,13 +94,13 @@ namespace CodeX.Web.CommonLibs.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnExportExcel;
         
         /// <summary>
-        /// divPageFooter control.
+        /// divContainerPageFooter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPageFooter;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerPageFooter;
         
         /// <summary>
         /// divReportProperties control.
@@ -191,6 +191,15 @@ namespace CodeX.Web.CommonLibs.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerReportParameter;
+        
+        /// <summary>
+        /// divContainerReportBody control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerReportBody;
         
         /// <summary>
         /// rptReport control.

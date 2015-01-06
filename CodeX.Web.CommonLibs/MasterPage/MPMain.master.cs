@@ -35,7 +35,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 rptMenu.DataSource = lstMenu.Where(p => p.ParentID == null).OrderBy(p => p.MenuIndex).ToList();
                 rptMenu.DataBind();
 
-                imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/menu.png");
+                imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/module.png");
                 imgCloseLeftPane.Src = ResolveUrl("~/Libs/Images/Icon/close_pane.png");
 
                 List<Module> lstModule = BusinessLayer.GetModuleList(string.Format("ModuleID IN ({0}) ORDER BY ModuleIndex", AppSession.ListModuleID));
@@ -51,7 +51,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
             if (moduleName.Contains("HQ"))
                 return "~/../ControlPanelHQ/Login.aspx";
             else
-                return "~/../ControlPanel/Login.aspx";
+                return string.Format("~/../ControlPanel/Login.aspx?id={0}", AppSession.UserLogin.SiteID);
         }
 
         protected void rptModule_ItemDataBound(object sender, RepeaterItemEventArgs e)
