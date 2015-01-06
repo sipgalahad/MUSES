@@ -291,12 +291,10 @@
     $(function () {
         pcSearchDialog.SetHeaderText('<%= GetLabel("Search Dialog")%>');
         $imgClose = '<%= ResolveUrl("~/Libs/Images/close-icon.png")%>';
+        $td = $('.dxWeb_pcCloseButton').parent();
+        $('.dxWeb_pcCloseButton').remove();
+        $td.append($("<img src='" + $imgClose + "' height='32'/>"));
 
-        $('.dxWeb_pcCloseButton').each(function () {
-            $td = $(this).parent();
-            $(this).remove();
-            $td.append($("<img src='" + $imgClose + "' height='32'/>"));
-        });
         $('#txtSearchResult').keydown(function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code == 13)
@@ -600,8 +598,8 @@
             buttonImage: ResolveUrl("~/Libs/Images/calendar.gif"),
             buttonImageOnly: true
         });
-    } 
-    
+    }
+
     $(function () {
         $('.datepicker').each(function () {
             $(this).attr('placeholder', 'dd-MM-yyyy');

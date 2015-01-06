@@ -51,7 +51,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
                     Response.Redirect("~/../ControlPanel/Login.aspx");
 
 
-                //imgCloseLeftPane.Src = ResolveUrl("~/Libs/Images/Icon/left.png");
+                //imgCloseLeftPane.Src = ResolveUrl("~/Libs/Images/Icon/close_pane.png");
                 menuCode = ((BasePageContent)Page).OnGetMenuCode();
                 if (parentCode != "")
                 {
@@ -121,10 +121,11 @@ namespace CodeX.Web.CommonLibs.MasterPage
                         //}
                         if (lstQuickMenu.Information.Count() > 0)
                             btnMPEntryInfo.Style.Remove("display");
-                        if (lstQuickMenu.Print.Count() > 0)
-                            btnMPEntryPrint.Style.Remove("display");
                     }
                 }
+                List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.ReportType.FORM, ModuleID, menuCode, "");
+                if (lstReport.Count > 0)
+                    btnMPEntryPrint.Style.Remove("display");
             }
         }
 

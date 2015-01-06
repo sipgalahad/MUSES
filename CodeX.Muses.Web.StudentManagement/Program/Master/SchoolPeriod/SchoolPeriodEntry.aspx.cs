@@ -109,6 +109,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 SchoolPeriod entity = new SchoolPeriod();
                 ControlToEntity(entity);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetSchoolPeriodMaxID(ctx).ToString();

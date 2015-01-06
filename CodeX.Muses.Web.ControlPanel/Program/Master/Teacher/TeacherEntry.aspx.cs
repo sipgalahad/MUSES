@@ -46,15 +46,25 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
-            Methods.SetComboBoxField(cboGCSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboGCSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboGCTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
+            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            Methods.SetComboBoxField(cboGCSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboGCSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboGCTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtTeacherCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboGCSalutation, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboGCTitle, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboGCSuffix, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtEmailAddress1, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtMobilePhoneNo1, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtMobilePhoneNo2, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(vTeacher entity)
@@ -76,9 +86,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             #region Teacher
             entity.TeacherCode = txtTeacherCode.Text;
-            entity.GCSalutation = cboGCSalutation.Value.ToString();
-            entity.GCSuffix = cboGCSuffix.Value.ToString();
-            entity.GCTitle = cboGCTitle.Value.ToString();
+            if (cboGCSalutation.Value != null)
+                entity.GCSalutation = cboGCSalutation.Value.ToString();
+            else
+                entity.GCSalutation = null;
+            if (cboGCSuffix.Value != null)
+                entity.GCSuffix = cboGCSuffix.Value.ToString();
+            else
+                entity.GCSuffix = null;
+            if (cboGCTitle.Value != null)
+                entity.GCTitle = cboGCTitle.Value.ToString();
+            else
+                entity.GCTitle = null;
             entity.FirstName = txtFirstName.Text;
             entity.MiddleName = txtMiddleName.Text;
             entity.LastName = txtLastName.Text;
@@ -86,6 +105,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.MobilePhone1 = txtMobilePhoneNo1.Text;
             entity.MobilePhone2 = txtMobilePhoneNo2.Text;
             entity.Remarks = txtRemarks.Text;
+
+            string suffix = cboGCSuffix.Value == null ? "" : cboGCSuffix.Text;
+            string title = cboGCTitle.Value == null ? "" : cboGCTitle.Text;
+            string name = Helper.GenerateName(entity.LastName, entity.MiddleName, entity.FirstName);
+            entity.TeacherName = Helper.GenerateFullName(name, title, suffix);
             #endregion
         }
 

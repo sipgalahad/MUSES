@@ -88,6 +88,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 Room entity = new Room();
                 ControlToEntity(entity);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetRoomMaxID(ctx).ToString();

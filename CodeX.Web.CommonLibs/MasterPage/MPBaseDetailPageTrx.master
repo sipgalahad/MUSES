@@ -586,3 +586,8 @@
         </asp:ContentPlaceHolder>
     </ul>
 </asp:Content>
+
+<asp:Content ID="Content5" ContentPlaceHolderID="plhCustomQuickMenu" runat="server"> 
+    <asp:ContentPlaceHolder ID="plhCustomQuickMenu" runat="server">                
+    </asp:ContentPlaceHolder>
+</asp:Content>

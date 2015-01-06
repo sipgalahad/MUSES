@@ -64,17 +64,23 @@ namespace CodeX.Muses.Web.ControlPanel
                     vUserInRole mainRole = lstUserRole.FirstOrDefault(p => p.IsMainRole);
                     if (mainRole == null)
                         mainRole = lstUserRole.FirstOrDefault();
-                    url = mainRole.DefaultPageUrl;
 
-                    AppSession.UserLogin = userLogin;
-
-                    loginData = string.Format("{0}|{1}|{2}", userName, user.Password, site.SiteID);
-
-                    List<GetLoginAttributeUserList> lst = BusinessLayer.GetLoginAttributeUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "");
-                    if (lst.Count > 0)
-                        result = "success|1";
+                    if (mainRole == null)
+                        result = "fail|User Tidak Terdaftar Di Site Ini";
                     else
-                        result = "success|0";
+                    {
+                        url = mainRole.DefaultPageUrl;
+
+                        AppSession.UserLogin = userLogin;
+
+                        loginData = string.Format("{0}|{1}|{2}", userName, user.Password, site.SiteID);
+
+                        List<GetLoginAttributeUserList> lst = BusinessLayer.GetLoginAttributeUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, "");
+                        if (lst.Count > 0)
+                            result = "success|1";
+                        else
+                            result = "success|0";
+                    }
                 }
                 else
                     result = "fail|UserID And Password Doesn't match";

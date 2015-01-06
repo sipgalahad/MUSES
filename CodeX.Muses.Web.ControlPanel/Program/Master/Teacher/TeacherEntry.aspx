@@ -36,19 +36,16 @@
                             <td><dxe:ASPxComboBox ID="cboGCSalutation" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Title")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelar Depan")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboGCTitle" Width="120px" runat="server" /></td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Suffix")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboGCSuffix" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nama Guru")%></label></td>
                             <td>
-                                <table>
+                                <table cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td><asp:TextBox ID="txtFirstName" Width="100%" runat="server" /></td>
+                                        <td style="width: 5px"></td>
                                         <td><asp:TextBox ID="txtMiddleName" Width="100%" runat="server" /></td>
                                     </tr>
                                 </table>
@@ -59,7 +56,11 @@
                             <td><asp:TextBox ID="txtLastName" Width="100%" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" valign="top"><label class="lblNormal"><%=GetLabel("Remarks")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelar Belakang")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboGCSuffix" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel" valign="top" style="padding-top:5px"><label class="lblNormal"><%=GetLabel("Remarks")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>
                     </table>

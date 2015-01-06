@@ -41,6 +41,8 @@ namespace CodeX.Web.CommonLibs.MasterPage
                 List<Module> lstModule = BusinessLayer.GetModuleList(string.Format("ModuleID IN ({0}) ORDER BY ModuleIndex", AppSession.ListModuleID));
                 rptModule.DataSource = lstModule;
                 rptModule.DataBind();
+
+                divSiteName.InnerHtml = AppSession.UserLogin.SiteName;
             }
         }
 

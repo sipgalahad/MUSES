@@ -22,8 +22,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
-            Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "ClassTypeName", "PeriodClassTypeID");
+            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<ClassType>(cboClassType, lstClassType, "ClassTypeName", "ClassTypeID");
             cboClassType.SelectedIndex = 0;
 
             List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));

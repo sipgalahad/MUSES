@@ -7620,6 +7620,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private String _PeriodSectionName;
         private Int32 _ClassTypeID;
+        private String _ClassTypeCode;
         private String _ClassTypeName;
         private String _GCGrade;
         private String _Grade;
@@ -7666,6 +7667,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTypeID; }
             set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
         }
         [Column(Name = "ClassTypeName", DataType = "String")]
         public String ClassTypeName

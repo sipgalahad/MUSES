@@ -200,8 +200,8 @@ namespace CodeX.Web.CommonLibs.Controls
                         field.HeaderStyle.Width = new Unit(col.Width);
                         switch (col.HorizontalAlign)
                         {
-                            case "center": field.ItemStyle.HorizontalAlign = HorizontalAlign.Center; break;
-                            case "right": field.ItemStyle.HorizontalAlign = HorizontalAlign.Right; break;
+                            case "center": field.HeaderStyle.CssClass = "thCenter"; field.ItemStyle.HorizontalAlign = HorizontalAlign.Center; break;
+                            case "right": field.HeaderStyle.CssClass = "thRight"; field.ItemStyle.HorizontalAlign = HorizontalAlign.Right; break;
                             default: field.ItemStyle.HorizontalAlign = HorizontalAlign.Left; break;
                         }
                         grdSearch.Columns.Add(field);

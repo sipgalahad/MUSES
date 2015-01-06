@@ -95,7 +95,7 @@
                         }, 5000);
                     }
                     else {
-                        cbpMPListProcess.PerformCallback('sync');                        
+                        cbpMPListProcess.PerformCallback('sync');
                     }
                 });
 

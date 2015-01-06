@@ -25,7 +25,7 @@
 
         $('#btnSavePopup').click(function (evt) {
             if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup'))
-                cbpProcess.PerformCallback('save');
+                cbpProcessPopup.PerformCallback('save');
         });
     });
 

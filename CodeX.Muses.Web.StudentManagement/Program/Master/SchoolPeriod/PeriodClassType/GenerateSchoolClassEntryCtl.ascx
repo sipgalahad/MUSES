@@ -121,6 +121,7 @@
 
 <div style="height:440px; overflow-y:auto">
     <input type="hidden" id="hdnMaxStudent" value="" runat="server" />
+    <input type="hidden" id="hdnClassTypeCode" value="" runat="server" />
     <input type="hidden" id="hdnClassTypeName" value="" runat="server" />
     <input type="hidden" id="hdnNoOfClass" value="" runat="server" />
     <input type="hidden" id="hdnID" value="" runat="server" />
@@ -152,7 +153,7 @@
                         <Columns>
                             <asp:TemplateField HeaderText="Kode" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
                                 <ItemTemplate>
-                                    <input type="text" class="txtSchoolClassCode required" style="width:99%" validationgroup="mpEntryPopup"  />
+                                    <input type="text" class="txtSchoolClassCode required" style="width:99%" validationgroup="mpEntryPopup" value='<%#Eval("Code") %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Nama" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
@@ -166,7 +167,7 @@
                                     <label class="lblLink lblRoom"><%=GetLabel("Pilih Ruangan") %></label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Wali Kelas" HeaderStyle-Width="180px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
+                            <asp:TemplateField HeaderText="Wali Kelas" HeaderStyle-Width="250px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
                                 <ItemTemplate>
                                     <input type="hidden" value="0" class="hdnTeacherID" />
                                     <label class="lblLink lblTeacher"><%=GetLabel("Pilih Guru")%></label>
@@ -174,7 +175,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Kapasitas Siswa" HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter">
                                 <ItemTemplate>
-                                    <input type="text" class="txtMaxStudent number required" style="width:99%" validationgroup="mpEntryPopup" value='<%#Eval("Code") %>' />
+                                    <input type="text" class="txtMaxStudent number required" style="width:99%" validationgroup="mpEntryPopup" value='<%=hdnMaxStudent.Value%>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

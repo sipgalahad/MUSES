@@ -95,7 +95,7 @@
                                     <td><dxe:ASPxComboBox runat="server" ID="cboGrade" ClientInstanceName="cboGrade" Width="200px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jurusan")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
                                     <td><dxe:ASPxComboBox runat="server" ID="cboMajor" ClientInstanceName="cboMajor" Width="200px" /></td>
                                 </tr>
                             </table>

@@ -49,15 +49,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCTitle;
         
         /// <summary>
-        /// cboGCSuffix control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCSuffix;
-        
-        /// <summary>
         /// txtFirstName control.
         /// </summary>
         /// <remarks>
@@ -83,6 +74,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLastName;
+        
+        /// <summary>
+        /// cboGCSuffix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCSuffix;
         
         /// <summary>
         /// txtRemarks control.

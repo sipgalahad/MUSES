@@ -32,6 +32,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", hdnID.Value)).FirstOrDefault();
             txtHeaderText.Text = entity.ClassTypeName;
             hdnNoOfClass.Value = entity.NoOfClass.ToString();
+            hdnClassTypeCode.Value = entity.ClassTypeCode;
             hdnClassTypeName.Value = entity.ClassTypeName;
 
             hdnMaxStudent.Value = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.MAX_STUDENT).ParameterValue;
@@ -45,7 +46,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             int noOfClass = Convert.ToInt32(hdnNoOfClass.Value);
             for (int i = 1; i <= noOfClass; ++i)
             {
-                lstVariable.Add(new Variable { Code = hdnMaxStudent.Value, Value = string.Format("{0}-{1}", hdnClassTypeName.Value, i) });
+                lstVariable.Add(new Variable { Code = string.Format("{0}-{1}", hdnClassTypeCode.Value, i), Value = string.Format("{0}-{1}", hdnClassTypeName.Value, i) });
             }
 
             grdView.DataSource = lstVariable;

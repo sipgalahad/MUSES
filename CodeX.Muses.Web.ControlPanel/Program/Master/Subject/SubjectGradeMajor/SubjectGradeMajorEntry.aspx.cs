@@ -29,7 +29,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 

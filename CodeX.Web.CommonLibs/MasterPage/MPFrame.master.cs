@@ -4,10 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using CodeX.Web.Common;
-using CodeX.Data.Model;
-using System.Web.UI.HtmlControls;
-using CodeX.Web.Common.UI;
 
 namespace CodeX.Web.CommonLibs.MasterPage
 {
