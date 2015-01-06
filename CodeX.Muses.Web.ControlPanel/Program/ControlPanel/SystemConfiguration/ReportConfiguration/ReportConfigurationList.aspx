@@ -75,7 +75,7 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ReportID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                 <asp:TemplateField HeaderStyle-Width="200px" >
+                                <asp:TemplateField HeaderStyle-Width="200px" >
                                     <HeaderTemplate>
                                         <div style="padding-left:3px">
                                             <%=GetLabel("Report Code")%>

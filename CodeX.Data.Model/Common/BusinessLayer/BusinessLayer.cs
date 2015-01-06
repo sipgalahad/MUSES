@@ -146,62 +146,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region FilterParameter
-        public static FilterParameter GetFilterParameter(Int32 FilterParameterID)
-        {
-            return new FilterParameterDao().Get(FilterParameterID);
-        }
-        public static int InsertFilterParameter(FilterParameter record)
-        {
-            return new FilterParameterDao().Insert(record);
-        }
-        public static int UpdateFilterParameter(FilterParameter record)
-        {
-            return new FilterParameterDao().Update(record);
-        }
-        public static int DeleteFilterParameter(Int32 FilterParameterID)
-        {
-            return new FilterParameterDao().Delete(FilterParameterID);
-        }
-        public static List<FilterParameter> GetFilterParameterList(string filterExpression)
-        {
-            List<FilterParameter> result = new List<FilterParameter>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FilterParameter));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((FilterParameter)helper.IDataReaderToObject(reader, new FilterParameter()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetFilterParameterMaxID(IDbContext ctx)
-        {
-            Int32 result = 0;
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(FilterParameter));
-                ctx.CommandText = helper.SelectMaxColumn("FilterParameterID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
         #region LocationUser
         public static LocationUser GetLocationUser(Int32 ID)
         {
@@ -896,46 +840,6 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
-        #region ReportParameter
-        public static ReportParameter GetReportParameter(Int32 ReportID, Int32 FilterParameterID)
-        {
-            return new ReportParameterDao().Get(ReportID, FilterParameterID);
-        }
-        public static int InsertReportParameter(ReportParameter record)
-        {
-            return new ReportParameterDao().Insert(record);
-        }
-        public static int UpdateReportParameter(ReportParameter record)
-        {
-            return new ReportParameterDao().Update(record);
-        }
-        public static int DeleteReportParameter(Int32 ReportID, Int32 FilterParameterID)
-        {
-            return new ReportParameterDao().Delete(ReportID, FilterParameterID);
-        }
-        public static List<ReportParameter> GetReportParameterList(string filterExpression)
-        {
-            List<ReportParameter> result = new List<ReportParameter>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(ReportParameter));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((ReportParameter)helper.IDataReaderToObject(reader, new ReportParameter()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
             }
             return result;
         }

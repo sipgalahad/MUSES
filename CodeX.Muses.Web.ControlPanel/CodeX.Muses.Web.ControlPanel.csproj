@@ -114,12 +114,9 @@
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx" />
-    <Content Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx" />
-    <Content Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\Menu\MenuReportEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
-    <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterList.aspx" />
     <Content Include="Program\Master\Bank\BankEntry.aspx" />
@@ -440,20 +437,6 @@
     <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx.designer.cs">
       <DependentUpon>LoginAttributeList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx.cs">
-      <DependentUpon>FilterParameterEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterEntry.aspx.designer.cs">
-      <DependentUpon>FilterParameterEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterList.aspx.cs">
-      <DependentUpon>FilterParameterList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SystemConfiguration\FilterParameter\FilterParameterList.aspx.designer.cs">
-      <DependentUpon>FilterParameterList.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuReportEntryCtl.ascx.cs">
       <DependentUpon>MenuReportEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -474,13 +457,6 @@
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx.designer.cs">
       <DependentUpon>ReportConfigurationList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.cs">
-      <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportParameterEntryCtl.ascx.designer.cs">
-      <DependentUpon>ReportParameterEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterEntry.aspx.cs">
       <DependentUpon>SiteParameterEntry.aspx</DependentUpon>
