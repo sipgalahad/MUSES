@@ -9,6 +9,30 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region vAdmissionFeeComp
+        public static List<vAdmissionFeeComp> GetvAdmissionFeeCompList(string filterExpression)
+        {
+            List<vAdmissionFeeComp> result = new List<vAdmissionFeeComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vAdmissionFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vAdmissionFeeComp)helper.IDataReaderToObject(reader, new vAdmissionFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vAPMovement
         public static List<vAPMovement> GetvAPMovementList(string filterExpression)
         {

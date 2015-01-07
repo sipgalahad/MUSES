@@ -104,7 +104,7 @@
                                 <colgroup>
                                     <col style="width: 160px" />
                                 </colgroup>
-                                <tr>
+                                <tr style="display:none">
                                     <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
                                     <td><asp:TextBox ID="txtPeriodAdmissionCode" Width="100px" runat="server" /></td>
                                 </tr>
@@ -178,7 +178,6 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodAdmissionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="PeriodAdmissionCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="PeriodAdmissionName" HeaderText="Nama"/>
                                 <asp:TemplateField HeaderText="Tgl Seleksi" HeaderStyle-Width="250px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" >
                                     <ItemTemplate>

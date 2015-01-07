@@ -6,6 +6,70 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Data.Model
 {
+    #region vAdmissionFeeComp
+    [Serializable]
+    [Table(Name = "vAdmissionFeeComp")]
+    public class vAdmissionFeeComp
+    {
+        private Int32 _AdmissionFeeCompID;
+        private Int32 _SchoolPeriodID;
+        private String _AdmissionFeeCompName;
+        private String _GCAdmissionPaymentPeriod;
+        private String _AdmissionPaymentPeriod;
+        private Boolean _IsFixedAmount;
+        private Decimal _TotalAmount;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "AdmissionFeeCompName", DataType = "String")]
+        public String AdmissionFeeCompName
+        {
+            get { return _AdmissionFeeCompName; }
+            set { _AdmissionFeeCompName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "AdmissionPaymentPeriod", DataType = "String")]
+        public String AdmissionPaymentPeriod
+        {
+            get { return _AdmissionPaymentPeriod; }
+            set { _AdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "IsFixedAmount", DataType = "Boolean")]
+        public Boolean IsFixedAmount
+        {
+            get { return _IsFixedAmount; }
+            set { _IsFixedAmount = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vAPMovement
     [Serializable]
     [Table(Name = "vAPMovement")]

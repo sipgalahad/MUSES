@@ -7,6 +7,133 @@ using System.Data;
 
 namespace CodeX.Data.Model
 {
+    #region AdmissionFeeComp
+    [Serializable]
+    [Table(Name = "AdmissionFeeComp")]
+    public class AdmissionFeeComp : DbDataModel
+    {
+        private Int32 _AdmissionFeeCompID;
+        private Int32? _SchoolPeriodID;
+        private String _AdmissionFeeCompName;
+        private String _GCAdmissionPaymentPeriod;
+        private Boolean _IsFixedAmount;
+        private Decimal _TotalAmount;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32", IsNullable = true)]
+        public Int32? SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "AdmissionFeeCompName", DataType = "String")]
+        public String AdmissionFeeCompName
+        {
+            get { return _AdmissionFeeCompName; }
+            set { _AdmissionFeeCompName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "IsFixedAmount", DataType = "Boolean")]
+        public Boolean IsFixedAmount
+        {
+            get { return _IsFixedAmount; }
+            set { _IsFixedAmount = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class AdmissionFeeCompDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AdmissionFeeComp));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionFeeCompID = "@p_AdmissionFeeCompID";
+        public AdmissionFeeCompDao() { }
+        public AdmissionFeeCompDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AdmissionFeeComp Get(Int32 AdmissionFeeCompID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionFeeCompID, AdmissionFeeCompID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AdmissionFeeComp)_helper.DataRowToObject(row, new AdmissionFeeComp());
+        }
+        public int Insert(AdmissionFeeComp record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AdmissionFeeComp record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 AdmissionFeeCompID)
+        {
+            AdmissionFeeComp record;
+            if (_ctx.Transaction == null)
+                record = new AdmissionFeeCompDao().Get(AdmissionFeeCompID);
+            else
+                record = Get(AdmissionFeeCompID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region AdmissionSelection
     [Serializable]
     [Table(Name = "AdmissionSelection")]

@@ -9,6 +9,46 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region AdmissionFeeComp
+        public static AdmissionFeeComp GetAdmissionFeeComp(Int32 AdmissionFeeCompID)
+        {
+            return new AdmissionFeeCompDao().Get(AdmissionFeeCompID);
+        }
+        public static int InsertAdmissionFeeComp(AdmissionFeeComp record)
+        {
+            return new AdmissionFeeCompDao().Insert(record);
+        }
+        public static int UpdateAdmissionFeeComp(AdmissionFeeComp record)
+        {
+            return new AdmissionFeeCompDao().Update(record);
+        }
+        public static int DeleteAdmissionFeeComp(Int32 AdmissionFeeCompID)
+        {
+            return new AdmissionFeeCompDao().Delete(AdmissionFeeCompID);
+        }
+        public static List<AdmissionFeeComp> GetAdmissionFeeCompList(string filterExpression)
+        {
+            List<AdmissionFeeComp> result = new List<AdmissionFeeComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionFeeComp)helper.IDataReaderToObject(reader, new AdmissionFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region AdmissionSelection
         public static AdmissionSelection GetAdmissionSelection(Int32 AdmissionSelectionID)
         {
