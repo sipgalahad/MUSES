@@ -128,6 +128,7 @@
     <Content Include="Program\Master\SchoolPeriod\ClassSchedule\ClassScheduleEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudent\ClassStudentEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\AdmissionFeeComp\AdmissionFeeCompEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\AdmissionFeeRule\AdmissionFeeRuleEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClass\GenerateSchoolClassEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClass\GenerateSchoolClassEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassType\DailySchedulePackageDtCtl.ascx" />
@@ -598,6 +599,13 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\AdmissionFeeComp\AdmissionFeeCompEntry.aspx.designer.cs">
       <DependentUpon>AdmissionFeeCompEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\AdmissionFeeRule\AdmissionFeeRuleEntry.aspx.cs">
+      <DependentUpon>AdmissionFeeRuleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\AdmissionFeeRule\AdmissionFeeRuleEntry.aspx.designer.cs">
+      <DependentUpon>AdmissionFeeRuleEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\GenerateSchoolClass\GenerateSchoolClassEntryCtl.ascx.cs">
       <DependentUpon>GenerateSchoolClassEntryCtl.ascx</DependentUpon>

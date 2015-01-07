@@ -10,7 +10,16 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class AdmissionFeeCompEntry {
+    public partial class AdmissionFeeRuleEntry {
+        
+        /// <summary>
+        /// hdnAdmissionFeeRuleDtSaveValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdmissionFeeRuleDtSaveValue;
         
         /// <summary>
         /// hdnEntryID control.
@@ -22,40 +31,58 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// cboAdmissionFeeCompType control.
+        /// txtAdmissionFeeRuleName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboAdmissionFeeCompType;
+        protected global::System.Web.UI.WebControls.TextBox txtAdmissionFeeRuleName;
         
         /// <summary>
-        /// cboAdmissionPaymentPeriod control.
+        /// chkIsFeeder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboAdmissionPaymentPeriod;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsFeeder;
         
         /// <summary>
-        /// chkIsFixedAmount control.
+        /// rptAdmissionFeeComp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsFixedAmount;
+        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeComp;
         
         /// <summary>
-        /// txtTotalAmount control.
+        /// rptPeriodAdmission control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalAmount;
+        protected global::System.Web.UI.WebControls.Repeater rptPeriodAdmission;
+        
+        /// <summary>
+        /// rptAdmissionFeeCompView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompView;
+        
+        /// <summary>
+        /// rptAdmissionFeeCompViewDt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompViewDt;
         
         /// <summary>
         /// cbpView control.
@@ -85,13 +112,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// grdView control.
+        /// rptView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.WebControls.Repeater rptView;
         
         /// <summary>
         /// cbpProcess control.

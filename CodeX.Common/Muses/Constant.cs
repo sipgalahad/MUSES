@@ -52,6 +52,7 @@ namespace CodeX.Common
             public const string LANGUAGE = "MS012";
             public const string INFORMATION_SOURCE = "MS013";
             public const string ADMISSION_PAYMENT_PERIOD = "MS014";
+            public const string ADMISSION_FEE_COMP_TYPE = "MS015";
         }
 
         public static class SchoolPeriodStatus

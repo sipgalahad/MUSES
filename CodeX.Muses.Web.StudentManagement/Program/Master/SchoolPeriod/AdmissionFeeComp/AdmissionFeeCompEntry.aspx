@@ -13,7 +13,7 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtAdmissionFeeCompName.ClientID %>').val('');
+                cboAdmissionFeeCompType.SetValue('');
                 cboAdmissionPaymentPeriod.SetValue('');
                 $('#<%=chkIsFixedAmount.ClientID %>').prop('checked', false);
                 $('#<%=chkIsFixedAmount.ClientID %>').change();
@@ -45,7 +45,7 @@
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodAdmissionID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.AdmissionFeeCompID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -56,7 +56,7 @@
             var entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.AdmissionFeeCompID);
-            $('#<%=txtAdmissionFeeCompName.ClientID %>').val(entity.AdmissionFeeCompName);
+            cboAdmissionFeeCompType.SetValue(entity.GCAdmissionFeeCompType);
             cboAdmissionPaymentPeriod.SetValue(entity.GCAdmissionPaymentPeriod);
             $('#<%=chkIsFixedAmount.ClientID %>').prop('checked', entity.IsFixedAmount == 'True');
             $('#<%=chkIsFixedAmount.ClientID %>').change();
@@ -102,8 +102,8 @@
                                     <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtAdmissionFeeCompName" Width="300px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboAdmissionFeeCompType" ClientInstanceName="cboAdmissionFeeCompType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Periode Pembayaran")%></label></td>
@@ -141,16 +141,16 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="AdmissionFeeCompID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="AdmissionFeeCompName" HeaderText="Nama"/>
+                                <asp:BoundField DataField="AdmissionFeeCompType" HeaderText="Tipe"/>
                                 <asp:BoundField DataField="AdmissionPaymentPeriod" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:CheckBoxField DataField="IsFixedAmount" HeaderText="Nilai Fix" HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="TotalAmount" HeaderText="Total" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="TotalAmount" HeaderText="Total" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("AdmissionFeeCompID") %>" bindingfield="AdmissionFeeCompID" />
-                                        <input type="hidden" value="<%#Eval("AdmissionFeeCompName") %>" bindingfield="AdmissionFeeCompName" />
+                                        <input type="hidden" value="<%#Eval("GCAdmissionFeeCompType") %>" bindingfield="GCAdmissionFeeCompType" />
                                         <input type="hidden" value="<%#Eval("GCAdmissionPaymentPeriod") %>" bindingfield="GCAdmissionPaymentPeriod" />
                                         <input type="hidden" value="<%#Eval("IsFixedAmount") %>" bindingfield="IsFixedAmount" />
                                         <input type="hidden" value="<%#Eval("TotalAmount") %>" bindingfield="TotalAmount" />

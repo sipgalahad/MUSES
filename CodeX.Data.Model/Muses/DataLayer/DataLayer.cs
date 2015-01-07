@@ -14,7 +14,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _AdmissionFeeCompID;
         private Int32? _SchoolPeriodID;
-        private String _AdmissionFeeCompName;
+        private String _GCAdmissionFeeCompType;
         private String _GCAdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
         private Decimal _TotalAmount;
@@ -36,11 +36,11 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "AdmissionFeeCompName", DataType = "String")]
-        public String AdmissionFeeCompName
+        [Column(Name = "GCAdmissionFeeCompType", DataType = "String")]
+        public String GCAdmissionFeeCompType
         {
-            get { return _AdmissionFeeCompName; }
-            set { _AdmissionFeeCompName = value; }
+            get { return _GCAdmissionFeeCompType; }
+            set { _GCAdmissionFeeCompType = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod
@@ -129,6 +129,199 @@ namespace CodeX.Data.Model
                 record = new AdmissionFeeCompDao().Get(AdmissionFeeCompID);
             else
                 record = Get(AdmissionFeeCompID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region AdmissionFeeRuleDt
+    [Serializable]
+    [Table(Name = "AdmissionFeeRuleDt")]
+    public class AdmissionFeeRuleDt : DbDataModel
+    {
+        private Int32 _AdmissionFeeRuleID;
+        private Int32 _PeriodAdmissionID;
+        private Int32 _AdmissionFeeCompID;
+        private Decimal _TotalAmount;
+
+        [Column(Name = "AdmissionFeeRuleID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 AdmissionFeeRuleID
+        {
+            get { return _AdmissionFeeRuleID; }
+            set { _AdmissionFeeRuleID = value; }
+        }
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+    }
+
+    public class AdmissionFeeRuleDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AdmissionFeeRuleDt));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionFeeCompID = "@p_AdmissionFeeCompID";
+        private const string p_AdmissionFeeRuleID = "@p_AdmissionFeeRuleID";
+        private const string p_PeriodAdmissionID = "@p_PeriodAdmissionID";
+        public AdmissionFeeRuleDtDao() { }
+        public AdmissionFeeRuleDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AdmissionFeeRuleDt Get(Int32 AdmissionFeeRuleID, Int32 PeriodAdmissionID, Int32 AdmissionFeeCompID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionFeeCompID, AdmissionFeeCompID);
+            _ctx.Add(p_AdmissionFeeRuleID, AdmissionFeeRuleID);
+            _ctx.Add(p_PeriodAdmissionID, PeriodAdmissionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AdmissionFeeRuleDt)_helper.DataRowToObject(row, new AdmissionFeeRuleDt());
+        }
+        public int Insert(AdmissionFeeRuleDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AdmissionFeeRuleDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 AdmissionFeeRuleID, Int32 PeriodAdmissionID, Int32 AdmissionFeeCompID)
+        {
+            AdmissionFeeRuleDt record;
+            if (_ctx.Transaction == null)
+                record = new AdmissionFeeRuleDtDao().Get(AdmissionFeeRuleID, PeriodAdmissionID, AdmissionFeeCompID);
+            else
+                record = Get(AdmissionFeeRuleID, PeriodAdmissionID, AdmissionFeeCompID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region AdmissionFeeRuleHd
+    [Serializable]
+    [Table(Name = "AdmissionFeeRuleHd")]
+    public class AdmissionFeeRuleHd : DbDataModel
+    {
+        private Int32 _AdmissionFeeRuleID;
+        private Int32 _SchoolPeriodID;
+        private String _AdmissionFeeRuleName;
+        private Boolean _IsFeeder;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "AdmissionFeeRuleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 AdmissionFeeRuleID
+        {
+            get { return _AdmissionFeeRuleID; }
+            set { _AdmissionFeeRuleID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleName", DataType = "String")]
+        public String AdmissionFeeRuleName
+        {
+            get { return _AdmissionFeeRuleName; }
+            set { _AdmissionFeeRuleName = value; }
+        }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class AdmissionFeeRuleHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AdmissionFeeRuleHd));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionFeeRuleID = "@p_AdmissionFeeRuleID";
+        public AdmissionFeeRuleHdDao() { }
+        public AdmissionFeeRuleHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AdmissionFeeRuleHd Get(Int32 AdmissionFeeRuleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionFeeRuleID, AdmissionFeeRuleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AdmissionFeeRuleHd)_helper.DataRowToObject(row, new AdmissionFeeRuleHd());
+        }
+        public int Insert(AdmissionFeeRuleHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AdmissionFeeRuleHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 AdmissionFeeRuleID)
+        {
+            AdmissionFeeRuleHd record;
+            if (_ctx.Transaction == null)
+                record = new AdmissionFeeRuleHdDao().Get(AdmissionFeeRuleID);
+            else
+                record = Get(AdmissionFeeRuleID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -13,7 +13,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _AdmissionFeeCompID;
         private Int32 _SchoolPeriodID;
-        private String _AdmissionFeeCompName;
+        private String _GCAdmissionFeeCompType;
+        private String _AdmissionFeeCompType;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
@@ -32,11 +33,17 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "AdmissionFeeCompName", DataType = "String")]
-        public String AdmissionFeeCompName
+        [Column(Name = "GCAdmissionFeeCompType", DataType = "String")]
+        public String GCAdmissionFeeCompType
         {
-            get { return _AdmissionFeeCompName; }
-            set { _AdmissionFeeCompName = value; }
+            get { return _GCAdmissionFeeCompType; }
+            set { _GCAdmissionFeeCompType = value; }
+        }
+        [Column(Name = "AdmissionFeeCompType", DataType = "String")]
+        public String AdmissionFeeCompType
+        {
+            get { return _AdmissionFeeCompType; }
+            set { _AdmissionFeeCompType = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod

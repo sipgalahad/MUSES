@@ -49,6 +49,119 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region AdmissionFeeRuleDt
+        public static AdmissionFeeRuleDt GetAdmissionFeeRuleDt(Int32 AdmissionFeeRuleID, Int32 PeriodAdmissionID, Int32 AdmissionFeeCompID)
+        {
+            return new AdmissionFeeRuleDtDao().Get(AdmissionFeeRuleID, PeriodAdmissionID, AdmissionFeeCompID);
+        }
+        public static int InsertAdmissionFeeRuleDt(AdmissionFeeRuleDt record)
+        {
+            return new AdmissionFeeRuleDtDao().Insert(record);
+        }
+        public static int UpdateAdmissionFeeRuleDt(AdmissionFeeRuleDt record)
+        {
+            return new AdmissionFeeRuleDtDao().Update(record);
+        }
+        public static int DeleteAdmissionFeeRuleDt(Int32 AdmissionFeeRuleID, Int32 PeriodAdmissionID, Int32 AdmissionFeeCompID)
+        {
+            return new AdmissionFeeRuleDtDao().Delete(AdmissionFeeRuleID, PeriodAdmissionID, AdmissionFeeCompID);
+        }
+        public static List<AdmissionFeeRuleDt> GetAdmissionFeeRuleDtList(string filterExpression)
+        {
+            List<AdmissionFeeRuleDt> result = new List<AdmissionFeeRuleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionFeeRuleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionFeeRuleDt)helper.IDataReaderToObject(reader, new AdmissionFeeRuleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<AdmissionFeeRuleDt> GetAdmissionFeeRuleDtList(string filterExpression, IDbContext ctx)
+        {
+            List<AdmissionFeeRuleDt> result = new List<AdmissionFeeRuleDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionFeeRuleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionFeeRuleDt)helper.IDataReaderToObject(reader, new AdmissionFeeRuleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region AdmissionFeeRuleHd
+        public static AdmissionFeeRuleHd GetAdmissionFeeRuleHd(Int32 AdmissionFeeRuleID)
+        {
+            return new AdmissionFeeRuleHdDao().Get(AdmissionFeeRuleID);
+        }
+        public static int InsertAdmissionFeeRuleHd(AdmissionFeeRuleHd record)
+        {
+            return new AdmissionFeeRuleHdDao().Insert(record);
+        }
+        public static int UpdateAdmissionFeeRuleHd(AdmissionFeeRuleHd record)
+        {
+            return new AdmissionFeeRuleHdDao().Update(record);
+        }
+        public static int DeleteAdmissionFeeRuleHd(Int32 AdmissionFeeRuleID)
+        {
+            return new AdmissionFeeRuleHdDao().Delete(AdmissionFeeRuleID);
+        }
+        public static List<AdmissionFeeRuleHd> GetAdmissionFeeRuleHdList(string filterExpression)
+        {
+            List<AdmissionFeeRuleHd> result = new List<AdmissionFeeRuleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionFeeRuleHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionFeeRuleHd)helper.IDataReaderToObject(reader, new AdmissionFeeRuleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetAdmissionFeeRuleHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionFeeRuleHd));
+                ctx.CommandText = helper.SelectMaxColumn("AdmissionFeeRuleID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region AdmissionSelection
         public static AdmissionSelection GetAdmissionSelection(Int32 AdmissionSelectionID)
         {
