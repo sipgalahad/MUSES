@@ -142,7 +142,7 @@
                             <Columns>
                                 <asp:BoundField DataField="AdmissionFeeCompID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="AdmissionFeeCompType" HeaderText="Tipe"/>
-                                <asp:BoundField DataField="AdmissionPaymentPeriod" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="AdmissionPaymentPeriod" HeaderText="Periode Pembayaran" HeaderStyle-Width="150px" />
                                 <asp:CheckBoxField DataField="IsFixedAmount" HeaderText="Nilai Fix" HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="TotalAmount" HeaderText="Total" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">

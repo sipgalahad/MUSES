@@ -13,6 +13,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
+            setDatePicker('<%=txtDateOfBaptism.ClientID %>');
             //#region DOB
             $('#<%=txtDOB.ClientID %>').change(function () {
                 var age = Methods.getAgeFromDatePickerFormat($(this).val());
@@ -25,6 +26,8 @@
             //#endregion
 
             registerCollapseExpandHandler();
+
+            onCboReligionValueChanged();
         }
 
         //#region Province
@@ -106,9 +109,22 @@
         }
         //#endregion
 
+        function onCboReligionValueChanged() {
+            if (cboReligion.GetValue() == "<%=OnGetReligionCatholic() %>") {
+                $('#<%=txtPlaceOfBaptism.ClientID %>').removeAttr('readonly');
+                $('#<%=txtDateOfBaptism.ClientID %>').removeAttr('readonly');
+            }
+            else {
+                $('#<%=txtPlaceOfBaptism.ClientID %>').attr('readonly', 'readonly');
+                $('#<%=txtDateOfBaptism.ClientID %>').attr('readonly', 'readonly');
+                $('#<%=txtPlaceOfBaptism.ClientID %>').val('');
+                $('#<%=txtDateOfBaptism.ClientID %>').val('');
+            }
+        }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnSchoolType" runat="server" value="" />
     <table class="tblContentArea" >
         <colgroup>
             <col style="width:50%"/>
@@ -163,23 +179,35 @@
                             <td><asp:TextBox ID="txtPreferredName" Width="100%" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kelamin")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboGender" Width="100%" runat="server" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Kelamin")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboGender" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kewarganegaraan")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kewarganegaraan")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboNationality" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Agama")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboReligion" Width="120px" runat="server" /></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Agama")%></label></td>
+                            <td>
+                                <dxe:ASPxComboBox ID="cboReligion" ClientInstanceName="cboReligion" Width="120px" runat="server">
+                                    <ClientSideEvents ValueChanged="function(s,e) { onCboReligionValueChanged(); }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                        <tr id="trPlaceOfBaptism" runat="server">
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Baptis")%></label></td>
+                            <td><asp:TextBox ID="txtPlaceOfBaptism" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr id="trDateOfBaptism" runat="server">
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Baptis")%></label></td>
+                            <td><asp:TextBox ID="txtDateOfBaptism" Width="120px" runat="server" CssClass="datepicker" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
                             <td><asp:TextBox ID="txtBirthPlace" Width="100%" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Lahir")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Lahir")%></label></td>
                             <td><asp:TextBox ID="txtDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                         </tr>
                         <tr>

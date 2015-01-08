@@ -45,6 +45,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROVINCE);
         }
+        protected string OnGetReligionCatholic()
+        {
+            return Constant.Religion.CATHOLIC;
+        }
         #endregion
 
         protected override void SetControlProperties()
@@ -66,6 +70,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.STUDENT).TagProperty;
+
+            hdnSchoolType.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.SCHOOL_TYPE).ParameterValue;
+            if (hdnSchoolType.Value != Constant.SchoolType.KATOLIK)
+            {
+                trDateOfBaptism.Style.Add("display", "none");
+                trPlaceOfBaptism.Style.Add("display", "none");
+            }
         }
 
         protected override void OnControlEntrySetting()
@@ -82,11 +93,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtPreferredName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtPlaceOfBaptism, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtDateOfBaptism, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0));
@@ -132,6 +145,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtDOB.Text = entity.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboNationality.Value = entity.GCNationality;
             cboReligion.Value = entity.GCReligion;
+            if (entity.GCReligion == Constant.Religion.CATHOLIC)
+            {
+                txtPlaceOfBaptism.Text = entity.PlaceOfBaptism;
+                txtDateOfBaptism.Text = entity.DateOfBaptism.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
             txtAgeInYear.Text = entity.AgeInYear.ToString();
             txtAgeInMonth.Text = entity.AgeInMonth.ToString();
             txtAgeInDay.Text = entity.AgeInDay.ToString();
@@ -188,6 +206,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.DateOfBirth = Helper.GetDatePickerValue(txtDOB.Text);
             entity.GCNationality = cboNationality.Value.ToString();
             entity.GCReligion = cboReligion.Value.ToString();
+            if (entity.GCReligion == Constant.Religion.CATHOLIC)
+            {
+                entity.PlaceOfBaptism = Request.Form[txtPlaceOfBaptism.UniqueID];
+                entity.DateOfBaptism = Helper.GetDatePickerValue(Request.Form[txtDateOfBaptism.UniqueID]);
+            }
+            else
+            {
+                entity.PlaceOfBaptism = "";
+                entity.DateOfBaptism = Helper.InitializeDateTimeNull();
+            }
             #endregion
 
             #region Address

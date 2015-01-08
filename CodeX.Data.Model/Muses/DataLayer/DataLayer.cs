@@ -9578,6 +9578,8 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
+        private String _PlaceOfBaptism;
+        private DateTime _DateOfBaptism;
         private Int32? _PeriodAdmissionID;
         private String _AddressID;
         private String _EmailAddress1;
@@ -9589,7 +9591,6 @@ namespace CodeX.Data.Model
         private String _GCLanguage;
         private Decimal _HomeDistance;
         private String _MedicalHistory;
-        private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -9703,6 +9704,18 @@ namespace CodeX.Data.Model
             get { return _GCReligion; }
             set { _GCReligion = value; }
         }
+        [Column(Name = "PlaceOfBaptism", DataType = "String", IsNullable = true)]
+        public String PlaceOfBaptism
+        {
+            get { return _PlaceOfBaptism; }
+            set { _PlaceOfBaptism = value; }
+        }
+        [Column(Name = "DateOfBaptism", DataType = "DateTime", IsNullable = true)]
+        public DateTime DateOfBaptism
+        {
+            get { return _DateOfBaptism; }
+            set { _DateOfBaptism = value; }
+        }
         [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsNullable = true)]
         public Int32? PeriodAdmissionID
         {
@@ -9768,12 +9781,6 @@ namespace CodeX.Data.Model
         {
             get { return _MedicalHistory; }
             set { _MedicalHistory = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? CreatedBy
@@ -14406,6 +14413,8 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
+        private String _PlaceOfBaptism;
+        private DateTime _DateOfBaptism;
         private String _GCGrade;
         private String _GCMajor;
         private Int32? _SchoolClassID;
@@ -14529,6 +14538,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCReligion; }
             set { _GCReligion = value; }
+        }
+        [Column(Name = "PlaceOfBaptism", DataType = "String", IsNullable = true)]
+        public String PlaceOfBaptism
+        {
+            get { return _PlaceOfBaptism; }
+            set { _PlaceOfBaptism = value; }
+        }
+        [Column(Name = "DateOfBaptism", DataType = "DateTime", IsNullable = true)]
+        public DateTime DateOfBaptism
+        {
+            get { return _DateOfBaptism; }
+            set { _DateOfBaptism = value; }
         }
         [Column(Name = "GCGrade", DataType = "String", IsNullable = true)]
         public String GCGrade

@@ -50,6 +50,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROVINCE);
         }
+        protected string OnGetReligionCatholic()
+        {
+            return Constant.Religion.CATHOLIC;
+        }
         #endregion
 
         private void OnControlEntrySetting()
@@ -69,9 +73,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtPreferredName, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtPlaceOfBaptism, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtDateOfBaptism, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0), "mpEntry");
@@ -111,6 +117,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboRegistrationType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.REGISTRATION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT).TagProperty;
+
+            hdnSchoolType.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.SCHOOL_TYPE).ParameterValue;
+            if (hdnSchoolType.Value != Constant.SchoolType.KATOLIK)
+            {
+                trDateOfBaptism.Style.Add("display", "none");
+                trPlaceOfBaptism.Style.Add("display", "none");
+            }
         }
 
         private void EntityToControl(vRegistration entity)
@@ -135,6 +148,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtDOB.Text = entity.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboNationality.Value = entity.GCNationality;
             cboReligion.Value = entity.GCReligion;
+            if (entity.GCReligion == Constant.Religion.CATHOLIC)
+            {
+                txtPlaceOfBaptism.Text = entity.PlaceOfBaptism;
+                txtDateOfBaptism.Text = entity.DateOfBaptism.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
             txtAgeInYear.Text = entity.AgeInYear.ToString();
             txtAgeInMonth.Text = entity.AgeInMonth.ToString();
             txtAgeInDay.Text = entity.AgeInDay.ToString();
@@ -191,6 +209,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.DateOfBirth = Helper.GetDatePickerValue(txtDOB.Text);
             entity.GCNationality = cboNationality.Value.ToString();
             entity.GCReligion = cboReligion.Value.ToString();
+            if (entity.GCReligion == Constant.Religion.CATHOLIC)
+            {
+                entity.PlaceOfBaptism = Request.Form[txtPlaceOfBaptism.UniqueID];
+                entity.DateOfBaptism = Helper.GetDatePickerValue(Request.Form[txtDateOfBaptism.UniqueID]);
+            }
+            else
+            {
+                entity.PlaceOfBaptism = "";
+                entity.DateOfBaptism = Helper.InitializeDateTimeNull();
+            }
             #endregion
 
             #region Address
@@ -228,6 +256,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Address address = new Address();
                 ControlToEntity(entityRegistration, entity, address);
 
+                entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.OPEN;
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entity.AddressID = null;

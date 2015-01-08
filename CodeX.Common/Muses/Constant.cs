@@ -69,6 +69,20 @@ namespace CodeX.Common
             public const string VOID = "MS011^007";
         }
 
+        public static class SchoolType
+        {
+            public const string UMUM = "MS016^001";
+            public const string KATOLIK = "MS016^002";
+        }
+
+        public static class ProspectiveStudentStatus
+        {
+            public const string OPEN = "MS017^001";
+            public const string ACCEPTED = "MS017^002";
+            public const string REJECTED = "MS017^003";
+            public const string VOID = "MS001^999";
+        }
+
         public static class ItemType
         {
             public const string PRODUCT = "X001^001";
@@ -380,6 +394,8 @@ namespace CodeX.Common
         #region Setting Parameter
         public static partial class SettingParameter
         {
+            public const string SCHOOL_TYPE = "MSSCP0001";
+
             public const string DEFAULT_MARKUP_MARGIN = "MSSFN0001";
             public const string VAT_PERCENTAGE = "MSSFN0002";
 

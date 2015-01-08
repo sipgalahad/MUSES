@@ -117,6 +117,11 @@ namespace CodeX.Common
             public const string MOTHER = "0063^002";
         }
 
+        public static class Religion
+        {
+            public const string CATHOLIC = "0006^CAT";
+        }
+
         public static class ReportType
         {
             public const string REPORT = "X140^001";

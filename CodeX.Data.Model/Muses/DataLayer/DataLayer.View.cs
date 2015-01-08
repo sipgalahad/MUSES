@@ -8164,6 +8164,8 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
+        private String _PlaceOfBaptism;
+        private DateTime _DateOfBaptism;
         private String _AddressID;
         private String _StreetName;
         private String _District;
@@ -8183,7 +8185,6 @@ namespace CodeX.Data.Model
         private String _GCLanguage;
         private Decimal _HomeDistance;
         private String _MedicalHistory;
-        private Boolean _IsDeleted;
 
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID
@@ -8299,6 +8300,18 @@ namespace CodeX.Data.Model
             get { return _GCReligion; }
             set { _GCReligion = value; }
         }
+        [Column(Name = "PlaceOfBaptism", DataType = "String")]
+        public String PlaceOfBaptism
+        {
+            get { return _PlaceOfBaptism; }
+            set { _PlaceOfBaptism = value; }
+        }
+        [Column(Name = "DateOfBaptism", DataType = "DateTime")]
+        public DateTime DateOfBaptism
+        {
+            get { return _DateOfBaptism; }
+            set { _DateOfBaptism = value; }
+        }
         [Column(Name = "AddressID", DataType = "String")]
         public String AddressID
         {
@@ -8412,12 +8425,6 @@ namespace CodeX.Data.Model
         {
             get { return _MedicalHistory; }
             set { _MedicalHistory = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
         }
     }
     #endregion
@@ -11965,6 +11972,8 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
+        private String _PlaceOfBaptism;
+        private DateTime _DateOfBaptism;
         private String _AddressID;
         private String _StreetName;
         private String _District;
@@ -11980,7 +11989,6 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PhoneNo1;
         private String _PictureFileName;
-        private Boolean _IsDeleted;
 
         [Column(Name = "RegistrationID", DataType = "Int32")]
         public Int32 RegistrationID
@@ -12150,6 +12158,18 @@ namespace CodeX.Data.Model
             get { return _GCReligion; }
             set { _GCReligion = value; }
         }
+        [Column(Name = "PlaceOfBaptism", DataType = "String")]
+        public String PlaceOfBaptism
+        {
+            get { return _PlaceOfBaptism; }
+            set { _PlaceOfBaptism = value; }
+        }
+        [Column(Name = "DateOfBaptism", DataType = "DateTime")]
+        public DateTime DateOfBaptism
+        {
+            get { return _DateOfBaptism; }
+            set { _DateOfBaptism = value; }
+        }
         [Column(Name = "AddressID", DataType = "String")]
         public String AddressID
         {
@@ -12239,12 +12259,6 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
         }
     }
     #endregion
@@ -12780,6 +12794,8 @@ namespace CodeX.Data.Model
         private String _GCGender;
         private String _GCNationality;
         private String _GCReligion;
+        private String _PlaceOfBaptism;
+        private DateTime _DateOfBaptism;
         private String _GCGrade;
         private String _GCMajor;
         private Int32 _SchoolClassID;
@@ -12909,6 +12925,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCReligion; }
             set { _GCReligion = value; }
+        }
+        [Column(Name = "PlaceOfBaptism", DataType = "String")]
+        public String PlaceOfBaptism
+        {
+            get { return _PlaceOfBaptism; }
+            set { _PlaceOfBaptism = value; }
+        }
+        [Column(Name = "DateOfBaptism", DataType = "DateTime")]
+        public DateTime DateOfBaptism
+        {
+            get { return _DateOfBaptism; }
+            set { _DateOfBaptism = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
