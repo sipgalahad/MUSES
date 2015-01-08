@@ -13405,6 +13405,275 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region Scholarship
+    [Serializable]
+    [Table(Name = "Scholarship")]
+    public class Scholarship : DbDataModel
+    {
+        private Int32 _ScholarshipID;
+        private Int32? _SchoolPeriodID;
+        private String _GCScholarshipType;
+        private String _ScholarshipName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ScholarshipID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ScholarshipID
+        {
+            get { return _ScholarshipID; }
+            set { _ScholarshipID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32", IsNullable = true)]
+        public Int32? SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCScholarshipType", DataType = "String")]
+        public String GCScholarshipType
+        {
+            get { return _GCScholarshipType; }
+            set { _GCScholarshipType = value; }
+        }
+        [Column(Name = "ScholarshipName", DataType = "String")]
+        public String ScholarshipName
+        {
+            get { return _ScholarshipName; }
+            set { _ScholarshipName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ScholarshipDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Scholarship));
+        private bool _isAuditLog = false;
+        private const string p_ScholarshipID = "@p_ScholarshipID";
+        public ScholarshipDao() { }
+        public ScholarshipDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Scholarship Get(Int32 ScholarshipID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ScholarshipID, ScholarshipID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Scholarship)_helper.DataRowToObject(row, new Scholarship());
+        }
+        public int Insert(Scholarship record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Scholarship record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ScholarshipID)
+        {
+            Scholarship record;
+            if (_ctx.Transaction == null)
+                record = new ScholarshipDao().Get(ScholarshipID);
+            else
+                record = Get(ScholarshipID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ScholarshipComp
+    [Serializable]
+    [Table(Name = "ScholarshipComp")]
+    public partial class ScholarshipComp : DbDataModel
+    {
+        private Int32 _ScholarshipID;
+        private Int32 _AdmissionFeeCompID;
+        private Boolean _IsDiscountInPercentage;
+        private Decimal _DiscountAmount;
+        private Int16 _NoOfPeriod;
+
+        [Column(Name = "ScholarshipID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ScholarshipID
+        {
+            get { return _ScholarshipID; }
+            set { _ScholarshipID = value; }
+        }
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "IsDiscountInPercentage", DataType = "Boolean")]
+        public Boolean IsDiscountInPercentage
+        {
+            get { return _IsDiscountInPercentage; }
+            set { _IsDiscountInPercentage = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "NoOfPeriod", DataType = "Int16")]
+        public Int16 NoOfPeriod
+        {
+            get { return _NoOfPeriod; }
+            set { _NoOfPeriod = value; }
+        }
+    }
+
+    public class ScholarshipCompDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ScholarshipComp));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionFeeCompID = "@p_AdmissionFeeCompID";
+        private const string p_ScholarshipID = "@p_ScholarshipID";
+        public ScholarshipCompDao() { }
+        public ScholarshipCompDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ScholarshipComp Get(Int32 ScholarshipID, Int32 AdmissionFeeCompID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionFeeCompID, AdmissionFeeCompID);
+            _ctx.Add(p_ScholarshipID, ScholarshipID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ScholarshipComp)_helper.DataRowToObject(row, new ScholarshipComp());
+        }
+        public int Insert(ScholarshipComp record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ScholarshipComp record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ScholarshipID, Int32 AdmissionFeeCompID)
+        {
+            ScholarshipComp record;
+            if (_ctx.Transaction == null)
+                record = new ScholarshipCompDao().Get(ScholarshipID, AdmissionFeeCompID);
+            else
+                record = Get(ScholarshipID, AdmissionFeeCompID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ScholarshipPeriodAdmission
+    [Serializable]
+    [Table(Name = "ScholarshipPeriodAdmission")]
+    public class ScholarshipPeriodAdmission : DbDataModel
+    {
+        private Int32 _ScholarshipID;
+        private Int32 _PeriodAdmissionID;
+
+        [Column(Name = "ScholarshipID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ScholarshipID
+        {
+            get { return _ScholarshipID; }
+            set { _ScholarshipID = value; }
+        }
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+    }
+
+    public class ScholarshipPeriodAdmissionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ScholarshipPeriodAdmission));
+        private bool _isAuditLog = false;
+        private const string p_PeriodAdmissionID = "@p_PeriodAdmissionID";
+        private const string p_ScholarshipID = "@p_ScholarshipID";
+        public ScholarshipPeriodAdmissionDao() { }
+        public ScholarshipPeriodAdmissionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ScholarshipPeriodAdmission Get(Int32 ScholarshipID, Int32 PeriodAdmissionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodAdmissionID, PeriodAdmissionID);
+            _ctx.Add(p_ScholarshipID, ScholarshipID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ScholarshipPeriodAdmission)_helper.DataRowToObject(row, new ScholarshipPeriodAdmission());
+        }
+        public int Insert(ScholarshipPeriodAdmission record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ScholarshipPeriodAdmission record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ScholarshipID, Int32 PeriodAdmissionID)
+        {
+            ScholarshipPeriodAdmission record;
+            if (_ctx.Transaction == null)
+                record = new ScholarshipPeriodAdmissionDao().Get(ScholarshipID, PeriodAdmissionID);
+            else
+                record = Get(ScholarshipID, PeriodAdmissionID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SchoolClass
     [Serializable]
     [Table(Name = "SchoolClass")]

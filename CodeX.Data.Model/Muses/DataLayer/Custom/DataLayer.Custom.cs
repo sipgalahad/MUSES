@@ -86,4 +86,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ScholarshipComp
+    public partial class ScholarshipComp
+    {
+        public String cfDiscountAmount
+        {
+            get
+            {
+                if (_IsDiscountInPercentage)
+                    return string.Format("{0} %", _DiscountAmount);
+                return _DiscountAmount.ToString("N");
+            }
+        }
+    }
+    #endregion
 }

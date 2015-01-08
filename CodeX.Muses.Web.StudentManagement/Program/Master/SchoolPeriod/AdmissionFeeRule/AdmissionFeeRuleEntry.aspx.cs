@@ -261,8 +261,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     int PeriodAdmissionID = Convert.ToInt32(temp[0]);
                     int AdmissionFeeCompID = Convert.ToInt32(temp[1]);
                     AdmissionFeeRuleDt entityDt = lstEntityDt.FirstOrDefault(p => p.PeriodAdmissionID == PeriodAdmissionID && p.AdmissionFeeCompID == AdmissionFeeCompID);
-                    entityDt.TotalAmount = Convert.ToDecimal(temp[2]);
-                    entityDtDao.Update(entityDt);
+                    if (entityDt == null)
+                    {
+                        entityDt = new AdmissionFeeRuleDt();
+                        entityDt.AdmissionFeeRuleID = entityHd.AdmissionFeeRuleID;
+                        entityDt.PeriodAdmissionID = Convert.ToInt32(temp[0]);
+                        entityDt.AdmissionFeeCompID = Convert.ToInt32(temp[1]);
+                        entityDt.TotalAmount = Convert.ToDecimal(temp[2]);
+                        entityDtDao.Insert(entityDt);
+                    }
+                    else
+                    {
+                        entityDt.TotalAmount = Convert.ToDecimal(temp[2]);
+                        entityDtDao.Update(entityDt);
+                    }
                 }
                 ctx.CommitTransaction();
             }

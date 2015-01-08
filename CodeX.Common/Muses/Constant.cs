@@ -75,6 +75,11 @@ namespace CodeX.Common
             public const string KATOLIK = "MS016^002";
         }
 
+        public static class ScholarshipType
+        {
+            public const string ADMISSION = "MS018^001";
+        }
+
         public static class ProspectiveStudentStatus
         {
             public const string OPEN = "MS017^001";
@@ -319,6 +324,7 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_PERIOD_ADMISSION = "SM99010201";
                 public const string SP_ADMISSION_FEE_COMP = "SM99010202";
                 public const string SP_ADMISSION_FEE_RULE = "SM99010203";
+                public const string SP_ADMISSION_SCHOLARSHIP = "SM99010204";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010301";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010302";
                 public const string SP_GENERATE_SCHOOL_CLASS = "SM99010303";

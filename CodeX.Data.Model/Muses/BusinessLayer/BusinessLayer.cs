@@ -6276,6 +6276,176 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Scholarship
+        public static Scholarship GetScholarship(Int32 ScholarshipID)
+        {
+            return new ScholarshipDao().Get(ScholarshipID);
+        }
+        public static int InsertScholarship(Scholarship record)
+        {
+            return new ScholarshipDao().Insert(record);
+        }
+        public static int UpdateScholarship(Scholarship record)
+        {
+            return new ScholarshipDao().Update(record);
+        }
+        public static int DeleteScholarship(Int32 ScholarshipID)
+        {
+            return new ScholarshipDao().Delete(ScholarshipID);
+        }
+        public static List<Scholarship> GetScholarshipList(string filterExpression)
+        {
+            List<Scholarship> result = new List<Scholarship>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Scholarship));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Scholarship)helper.IDataReaderToObject(reader, new Scholarship()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetScholarshipMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Scholarship));
+                ctx.CommandText = helper.SelectMaxColumn("ScholarshipID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ScholarshipComp
+        public static ScholarshipComp GetScholarshipComp(Int32 ScholarshipID, Int32 AdmissionFeeCompID)
+        {
+            return new ScholarshipCompDao().Get(ScholarshipID, AdmissionFeeCompID);
+        }
+        public static int InsertScholarshipComp(ScholarshipComp record)
+        {
+            return new ScholarshipCompDao().Insert(record);
+        }
+        public static int UpdateScholarshipComp(ScholarshipComp record)
+        {
+            return new ScholarshipCompDao().Update(record);
+        }
+        public static int DeleteScholarshipComp(Int32 ScholarshipID, Int32 AdmissionFeeCompID)
+        {
+            return new ScholarshipCompDao().Delete(ScholarshipID, AdmissionFeeCompID);
+        }
+        public static List<ScholarshipComp> GetScholarshipCompList(string filterExpression)
+        {
+            List<ScholarshipComp> result = new List<ScholarshipComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ScholarshipComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ScholarshipComp)helper.IDataReaderToObject(reader, new ScholarshipComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ScholarshipComp> GetScholarshipCompList(string filterExpression, IDbContext ctx)
+        {
+            List<ScholarshipComp> result = new List<ScholarshipComp>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ScholarshipComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ScholarshipComp)helper.IDataReaderToObject(reader, new ScholarshipComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ScholarshipPeriodAdmission
+        public static ScholarshipPeriodAdmission GetScholarshipPeriodAdmission(Int32 ScholarshipID, Int32 PeriodAdmissionID)
+        {
+            return new ScholarshipPeriodAdmissionDao().Get(ScholarshipID, PeriodAdmissionID);
+        }
+        public static int InsertScholarshipPeriodAdmission(ScholarshipPeriodAdmission record)
+        {
+            return new ScholarshipPeriodAdmissionDao().Insert(record);
+        }
+        public static int UpdateScholarshipPeriodAdmission(ScholarshipPeriodAdmission record)
+        {
+            return new ScholarshipPeriodAdmissionDao().Update(record);
+        }
+        public static int DeleteScholarshipPeriodAdmission(Int32 ScholarshipID, Int32 PeriodAdmissionID)
+        {
+            return new ScholarshipPeriodAdmissionDao().Delete(ScholarshipID, PeriodAdmissionID);
+        }
+        public static List<ScholarshipPeriodAdmission> GetScholarshipPeriodAdmissionList(string filterExpression)
+        {
+            List<ScholarshipPeriodAdmission> result = new List<ScholarshipPeriodAdmission>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ScholarshipPeriodAdmission));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ScholarshipPeriodAdmission)helper.IDataReaderToObject(reader, new ScholarshipPeriodAdmission()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ScholarshipPeriodAdmission> GetScholarshipPeriodAdmissionList(string filterExpression, IDbContext ctx)
+        {
+            List<ScholarshipPeriodAdmission> result = new List<ScholarshipPeriodAdmission>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ScholarshipPeriodAdmission));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ScholarshipPeriodAdmission)helper.IDataReaderToObject(reader, new ScholarshipPeriodAdmission()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SchoolClass
         public static SchoolClass GetSchoolClass(Int32 SchoolClassID)
         {
