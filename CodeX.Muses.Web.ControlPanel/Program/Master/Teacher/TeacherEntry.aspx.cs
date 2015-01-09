@@ -65,6 +65,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtEmailAddress1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo2, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(hdnRoomID, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtRoomCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtRoomName, new ControlEntrySetting(false, false, true));
         }
 
         private void EntityToControl(vTeacher entity)
@@ -79,6 +82,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtEmailAddress1.Text = entity.EmailAddress;
             txtMobilePhoneNo1.Text = entity.MobilePhone1;
             txtMobilePhoneNo2.Text = entity.MobilePhone2;
+            hdnRoomID.Value = entity.RoomID.ToString();
+            txtRoomCode.Text = entity.RoomCode;
+            txtRoomName.Text = entity.RoomName;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -104,6 +110,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.EmailAddress = txtEmailAddress1.Text;
             entity.MobilePhone1 = txtMobilePhoneNo1.Text;
             entity.MobilePhone2 = txtMobilePhoneNo2.Text;
+            entity.RoomID = Convert.ToInt32(hdnRoomID.Value);
             entity.Remarks = txtRemarks.Text;
 
             string suffix = cboGCSuffix.Value == null ? "" : cboGCSuffix.Text;

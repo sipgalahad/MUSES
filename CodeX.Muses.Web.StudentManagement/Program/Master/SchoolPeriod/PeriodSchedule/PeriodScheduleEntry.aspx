@@ -193,7 +193,7 @@
             </td>
             <td valign="top">
                 <div class="divTransactionEntry">
-                    <asp:CheckBox runat="server" ID="chkShowAll" Text="Show All" Checked="true" /><br />
+                    <asp:CheckBox runat="server" ID="chkShowAll" Text="Show All" /><br />
                     <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
                     <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                         <fieldset id="fsTrx" style="margin: 0">

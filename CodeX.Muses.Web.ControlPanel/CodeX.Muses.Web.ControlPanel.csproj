@@ -153,6 +153,8 @@
     <Content Include="Program\Master\MarginMarkup\MarginMarkupDtEntryCtl.ascx" />
     <Content Include="Program\Master\MarginMarkup\MarginMarkupEntry.aspx" />
     <Content Include="Program\Master\MarginMarkup\MarginMarkupList.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormEntry.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
@@ -709,6 +711,20 @@
     </Compile>
     <Compile Include="Program\Master\MarginMarkup\MarginMarkupList.aspx.designer.cs">
       <DependentUpon>MarginMarkupList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormEntry.aspx.cs">
+      <DependentUpon>ProspectiveStudentFormEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormEntry.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentFormEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx.cs">
+      <DependentUpon>ProspectiveStudentFormList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentFormList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Room\RoomEntry.aspx.cs">
       <DependentUpon>RoomEntry.aspx</DependentUpon>

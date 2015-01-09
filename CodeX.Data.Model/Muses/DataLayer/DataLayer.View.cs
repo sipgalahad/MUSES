@@ -14437,6 +14437,9 @@ namespace CodeX.Data.Model
         private String _EmailAddress;
         private String _MobilePhone1;
         private String _MobilePhone2;
+        private Int32 _RoomID;
+        private String _RoomCode;
+        private String _RoomName;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -14505,6 +14508,24 @@ namespace CodeX.Data.Model
         {
             get { return _MobilePhone2; }
             set { _MobilePhone2 = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomCode", DataType = "String")]
+        public String RoomCode
+        {
+            get { return _RoomCode; }
+            set { _RoomCode = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
