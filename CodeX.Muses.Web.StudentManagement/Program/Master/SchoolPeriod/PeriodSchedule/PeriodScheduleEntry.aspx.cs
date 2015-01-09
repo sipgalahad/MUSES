@@ -37,7 +37,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<StandardCode>(cboScheduleType, lstStandardCode, "StandardCodeName", "StandardCodeID");
             IsAutoReInitControl = false;
 
-            chkShowAll.Checked = true;
+            //chkShowAll.Checked = false;
 
             BindGridView();
 

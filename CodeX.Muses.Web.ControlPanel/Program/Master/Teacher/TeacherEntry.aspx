@@ -12,7 +12,35 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        $(function () {
+            //#region Province
+            $('#lblRoom.lblLink').click(function () {
+                openSearchDialog('room', '', function (value) {
+                    $('#<%=txtRoomCode.ClientID %>').val(value);
+                    onTxtRoomCodeChanged(value);
+                });
+            });
 
+            $('#<%=txtRoomCode.ClientID %>').change(function () {
+                onTxtRoomCodeChanged($(this).val());
+            });
+
+            function onTxtRoomCodeChanged(value) {
+                var filterExpression = "RoomCode = '" + value + "'";
+                Methods.getObject('GetRoomList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnRoomID.ClientID %>').val(result.RoomID);
+                        $('#<%=txtRoomName.ClientID %>').val(result.RoomName);
+                    }
+                    else {
+                        $('#<%=hdnRoomID.ClientID %>').val('');
+                        $('#<%=txtRoomCode.ClientID %>').val('');
+                        $('#<%=txtRoomName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+        })
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table class="tblContentArea" >
@@ -58,6 +86,24 @@
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelar Belakang")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboGCSuffix" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblLink" id="lblRoom"><%=GetLabel("Ruangan")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnRoomID" runat="server" />
+                                <table style="width:100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width:30%"/>
+                                        <col style="width:3px"/>
+                                        <col/>
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtRoomCode" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtRoomName" ReadOnly="true" Width="100%" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
                             <td class="tdLabel" valign="top" style="padding-top:5px"><label class="lblNormal"><%=GetLabel("Remarks")%></label></td>

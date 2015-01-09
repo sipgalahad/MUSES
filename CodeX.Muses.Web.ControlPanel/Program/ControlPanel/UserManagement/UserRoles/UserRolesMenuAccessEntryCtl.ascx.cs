@@ -133,7 +133,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                                 listMenuAccessID.Append(",");
                             listMenuAccessID.Append(row.MenuID);
                         }
-                        List<UserRoleMenu> lstUserRoleMenu = BusinessLayer.GetUserRoleMenuList(string.Format("RoleID = {0} AND SiteID = {1} AND MenuID IN ({2})", hdnRoleID.Value, Site.SiteID, listMenuAccessID.ToString()), ctx);
+                        List<UserRoleMenu> lstUserRoleMenu = BusinessLayer.GetUserRoleMenuList(string.Format("RoleID = {0} AND SiteID = '{1}' AND MenuID IN ({2})", hdnRoleID.Value, Site.SiteID, listMenuAccessID.ToString()), ctx);
 
                         Int32 RoleID = Convert.ToInt32(hdnRoleID.Value);
                         foreach (CUserRoleMenuAccessState row in ListState)

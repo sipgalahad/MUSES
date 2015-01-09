@@ -4860,6 +4860,126 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProspectiveStudentForm
+        public static ProspectiveStudentForm GetProspectiveStudentForm(Int32 FormID)
+        {
+            return new ProspectiveStudentFormDao().Get(FormID);
+        }
+        public static int InsertProspectiveStudentForm(ProspectiveStudentForm record)
+        {
+            return new ProspectiveStudentFormDao().Insert(record);
+        }
+        public static int UpdateProspectiveStudentForm(ProspectiveStudentForm record)
+        {
+            return new ProspectiveStudentFormDao().Update(record);
+        }
+        public static int DeleteProspectiveStudentForm(Int32 FormID)
+        {
+            return new ProspectiveStudentFormDao().Delete(FormID);
+        }
+        public static List<ProspectiveStudentForm> GetProspectiveStudentFormList(string filterExpression)
+        {
+            List<ProspectiveStudentForm> result = new List<ProspectiveStudentForm>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentForm));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentForm)helper.IDataReaderToObject(reader, new ProspectiveStudentForm()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProspectiveStudentForm> GetProspectiveStudentFormList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ProspectiveStudentForm> result = new List<ProspectiveStudentForm>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentForm));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentForm)helper.IDataReaderToObject(reader, new ProspectiveStudentForm()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProspectiveStudentFormRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentForm));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProspectiveStudentFormRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentForm));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FormID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProspectiveStudentFormMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentForm));
+                ctx.CommandText = helper.SelectMaxColumn("FormID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ProspectiveStudentFamily
         public static ProspectiveStudentFamily GetProspectiveStudentFamily(Int32 FamilyID)
         {

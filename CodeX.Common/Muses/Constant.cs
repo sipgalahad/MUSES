@@ -187,6 +187,7 @@ namespace CodeX.Common
                 public const string SUBJECT = "CP010104";
                 public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
+                public const string PROSPECTIVE_STUDENT_FORM = "CP010107";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
