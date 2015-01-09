@@ -192,6 +192,11 @@
                 $txtNoOfPayment.removeAttr('readonly');
             }
         });
+
+        $('.divDeleteEntryDt').live('click', function () {
+            $tr = $(this).closest('tr');
+            $tr.remove();
+        });
     </script>
     <input type="hidden" id="hdnPaymentDtSaveValue" runat="server" />
     <div class="divTransactionEntry">
@@ -203,6 +208,7 @@
                 <td align="center"><asp:TextBox ID="txtPaymentAmount" Width="100%" runat="server" CssClass="txtCurrency txtPaymentAmount" /></td>
                 <td align="center"><asp:CheckBox ID="chkIsPaymentAmountInPercentage" CssClass="chkIsPaymentAmountInPercentage" runat="server" /></td>
                 <td align="center"><asp:TextBox ID="txtNoOfPayment" Width="100%" runat="server" CssClass="number txtNoOfPayment" /></td>
+                <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
             </tr>
         </script>
 

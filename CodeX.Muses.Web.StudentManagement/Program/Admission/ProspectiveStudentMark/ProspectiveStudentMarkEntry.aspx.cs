@@ -28,6 +28,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptHeader.DataSource = lstAdmissionSelection;
             rptHeader.DataBind();
 
+            rptHeader2.DataSource = lstAdmissionSelection;
+            rptHeader2.DataBind();
+
+            thMarkHeader.ColSpan = lstAdmissionSelection.Count * 2;
+
             lstStudentMark = BusinessLayer.GetRegistrationMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
 
             List<vRegistration> lstStudent = BusinessLayer.GetvRegistrationList(string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID));
@@ -57,7 +62,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (entity != null)
                 {
                     TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
+                    TextBox txtStudentMarkRemarks = (TextBox)e.Item.FindControl("txtStudentMarkRemarks");
                     txtStudentMark.Text = entity.Mark.ToString();
+                    txtStudentMarkRemarks.Text = entity.Remarks;
                 }
             }
         }
@@ -89,9 +96,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     {
                         AdmissionSelection admissionSelection = lstAdmissionSelection[ctr - 1];
                         RegistrationMark entityDt = lstStudentMark.FirstOrDefault(p => p.RegistrationID == registrationID && p.AdmissionSelectionID == admissionSelection.AdmissionSelectionID);
-                        if (temp[ctr] != "")
+
+                        string[] tempValue = temp[ctr].Split(';');
+                        if (tempValue[0] != "")
                         {
-                            Decimal mark = Convert.ToDecimal(temp[ctr]);
+                            Decimal mark = Convert.ToDecimal(tempValue[0]);
                             if (entityDt == null)
                             {
                                 entityDt = new RegistrationMark();
@@ -99,11 +108,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 entityDt.AdmissionSelectionID = admissionSelection.AdmissionSelectionID;
                                 entityDt.RegistrationID = registrationID;
                                 entityDt.Mark = mark;
+                                entityDt.Remarks = tempValue[1];
                                 entityDtDao.Insert(entityDt);
                             }
                             else
                             {
                                 entityDt.Mark = mark;
+                                entityDt.Remarks = tempValue[1];
                                 entityDtDao.Update(entityDt);
                             }
 

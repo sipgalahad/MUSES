@@ -23,21 +23,32 @@
             });
         });
     </script>
+    <style type="text/css">
+        .grdStudent th b        { color: Red; }
+    </style>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
-            <th rowspan="2" style="width:40px" class="thCenter"><input id="chkSelectAll" type="checkbox" /></th>
-            <th rowspan="2"><%=GetLabel("Calon Siswa") %></th>
-            <th colspan='<%=OnGetSelectionCount() %>' class="thCenter"><%=GetLabel("NILAI") %></th>
-            <th rowspan="2" style="width:110px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
+            <th rowspan="3" style="width:40px" class="thCenter"><input id="chkSelectAll" type="checkbox" /></th>
+            <th rowspan="3" style="width:100px"><%=GetLabel("No Pendaftaran") %></th>
+            <th rowspan="3"><%=GetLabel("Calon Siswa") %></th>
+            <th id="thMarkHeader" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
+            <th rowspan="3" style="width:90px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
         </tr>
         <tr>
             <asp:Repeater ID="rptHeader" runat="server">
                 <ItemTemplate>
-                    <th class="thCenter" style="width:110px">
-                        <%#Eval("SelectionName")%><br />
-                        (<%#Eval("FinalMarkPercentage")%>%)
+                    <th class="thCenter" colspan="2">
+                        <%#Eval("SelectionName")%> (<b><%#Eval("FinalMarkPercentage")%>%</b>)
                     </th>
+                </ItemTemplate>
+            </asp:Repeater>
+        </tr>
+        <tr>
+            <asp:Repeater ID="rptHeader2" runat="server">
+                <ItemTemplate>
+                    <th class="thCenter" style="width:60px"><%=GetLabel("Nilai") %></th>
+                    <th class="thCenter" style="width:180px"><%=GetLabel("Keterangan") %></th>
                 </ItemTemplate>
             </asp:Repeater>
         </tr>
@@ -46,11 +57,15 @@
                 <tr>
                     <td align="center"><asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" /></td>
                     <td class="keyField"><%#Eval("RegistrationID")%></td>
+                    <td><%#Eval("RegistrationNo")%></td>
                     <td><%#Eval("ProspectiveStudentName") %></td>
                     <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
                         <ItemTemplate>
                             <td align="center">
                                 <div id="divStudentMark" runat="server"></div>
+                            </td>
+                            <td>
+                                <div id="divStudentMarkRemarks" runat="server"></div>
                             </td>
                         </ItemTemplate>
                     </asp:Repeater>
