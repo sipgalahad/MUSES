@@ -20,12 +20,30 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return Constant.MenuCode.StudentManagement.SP_ADMISSION_PAYMENT;
         }
+        List<vAdmissionFeeComp> lstComp = null;
         protected override void InitializeDataControl()
         {
+            lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
+            rptAdmissionFeeComp.DataSource = lstComp;
+            rptAdmissionFeeComp.DataBind();
+
             BindGridView();
 
             Helper.SetControlEntrySetting(txtPaymentName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrx");
+        }
+
+        protected void rptAdmissionFeeComp_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                TextBox txtPaymentDate = (TextBox)e.Item.FindControl("txtPaymentDate");
+                TextBox txtPaymentAmount = (TextBox)e.Item.FindControl("txtPaymentAmount");
+                TextBox txtNoOfPayment = (TextBox)e.Item.FindControl("txtNoOfPayment");
+                Helper.SetControlEntrySetting(txtPaymentDate, new ControlEntrySetting(true, true, true), "mpTrx");
+                Helper.SetControlEntrySetting(txtPaymentAmount, new ControlEntrySetting(true, true, true), "mpTrx");
+                Helper.SetControlEntrySetting(txtNoOfPayment, new ControlEntrySetting(true, true, true), "mpTrx");
+            }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -92,39 +110,138 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            AdmissionPaymentHdDao entityHdDao = new AdmissionPaymentHdDao(ctx);
+            AdmissionPaymentDtDao entityDtDao = new AdmissionPaymentDtDao(ctx);
             try
             {
-                AdmissionPaymentHd entity = new AdmissionPaymentHd();
-                ControlToEntity(entity);
-                entity.SchoolPeriodID = AppSession.SchoolPeriodID;
-                entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertAdmissionPaymentHd(entity);
-                return true;
+                AdmissionPaymentHd entityHd = new AdmissionPaymentHd();
+                ControlToEntity(entityHd);
+                entityHd.SchoolPeriodID = AppSession.SchoolPeriodID;
+                entityHd.CreatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Insert(entityHd);
+
+                entityHd.PaymentID = BusinessLayer.GetAdmissionPaymentHdMaxID(ctx);
+
+                string[] lstSaveValue = hdnPaymentDtSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(',');
+                    Int32 AdmissionFeeCompID = Convert.ToInt32(temp[0]);
+
+                    string[] lstSaveValue2 = temp[1].Split(';');
+                    short ctr = 1;
+                    foreach (string saveValue2 in lstSaveValue2)
+                    {
+                        string[] temp2 = saveValue2.Split('^');
+                        AdmissionPaymentDt entityDt = new AdmissionPaymentDt();
+                        entityDt.PaymentID = entityHd.PaymentID;
+                        entityDt.AdmissionFeeCompID = AdmissionFeeCompID;
+                        entityDt.DisplayOrder = ctr;
+                        if (temp2[0] == "1")
+                            entityDt.PaymentDate = Helper.InitializeDateTimeNull();
+                        else
+                            entityDt.PaymentDate = Helper.GetDatePickerValue(temp2[1]);
+                        entityDt.PaymentAmount = Convert.ToDecimal(temp2[2]);
+                        entityDt.IsPaymentAmountInPercentage = temp2[3] == "1";
+                        entityDt.NoOfPayment = Convert.ToInt16(temp2[4]);
+                        entityDtDao.Insert(entityDt);
+                        ctr++;
+                    }
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            AdmissionPaymentHdDao entityHdDao = new AdmissionPaymentHdDao(ctx);
+            AdmissionPaymentDtDao entityDtDao = new AdmissionPaymentDtDao(ctx);
             try
             {
-                AdmissionPaymentHd entity = BusinessLayer.GetAdmissionPaymentHd(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateAdmissionPaymentHd(entity);
-                return true;
+                AdmissionPaymentHd entityHd = entityHdDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ControlToEntity(entityHd);
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Update(entityHd);
+
+                List<AdmissionPaymentDt> lstEntityDt = BusinessLayer.GetAdmissionPaymentDtList(string.Format("PaymentID = {0}", entityHd.PaymentID), ctx);
+                string[] lstSaveValue = hdnPaymentDtSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(',');
+                    Int32 AdmissionFeeCompID = Convert.ToInt32(temp[0]);
+
+                    string[] lstSaveValue2 = temp[1].Split(';');
+                    short ctr = 1;
+                    foreach (string saveValue2 in lstSaveValue2)
+                    {
+                        string[] temp2 = saveValue2.Split('^');
+                        AdmissionPaymentDt entityDt = lstEntityDt.FirstOrDefault(p => p.AdmissionFeeCompID == AdmissionFeeCompID && p.DisplayOrder == ctr);
+                        if (entityDt == null)
+                        {
+                            entityDt = new AdmissionPaymentDt();
+                            entityDt.PaymentID = entityHd.PaymentID;
+                            entityDt.AdmissionFeeCompID = AdmissionFeeCompID;
+                            entityDt.DisplayOrder = ctr;
+                            if (temp2[0] == "1")
+                                entityDt.PaymentDate = Helper.InitializeDateTimeNull();
+                            else
+                                entityDt.PaymentDate = Helper.GetDatePickerValue(temp2[1]);
+                            entityDt.PaymentAmount = Convert.ToDecimal(temp2[2]);
+                            entityDt.IsPaymentAmountInPercentage = temp2[3] == "1";
+                            entityDt.NoOfPayment = Convert.ToInt16(temp2[4]);
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            if (temp2[0] == "1")
+                                entityDt.PaymentDate = Helper.InitializeDateTimeNull();
+                            else
+                                entityDt.PaymentDate = Helper.GetDatePickerValue(temp2[1]);
+                            entityDt.PaymentAmount = Convert.ToDecimal(temp2[2]);
+                            entityDt.IsPaymentAmountInPercentage = temp2[3] == "1";
+                            entityDt.NoOfPayment = Convert.ToInt16(temp2[4]);
+                            entityDtDao.Update(entityDt);
+
+                            lstEntityDt.Remove(entityDt);
+                        }
+                        ctr++;
+                    }
+                }
+
+                foreach (AdmissionPaymentDt entityDt in lstEntityDt)
+                {
+                    entityDtDao.Delete(entityDt.PaymentID, entityDt.AdmissionFeeCompID, entityDt.DisplayOrder);
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnDeleteEntityDt(ref string errMessage)

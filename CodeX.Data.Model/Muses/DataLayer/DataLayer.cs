@@ -330,7 +330,7 @@ namespace CodeX.Data.Model
     #region AdmissionPaymentDt
     [Serializable]
     [Table(Name = "AdmissionPaymentDt")]
-    public class AdmissionPaymentDt : DbDataModel
+    public partial class AdmissionPaymentDt : DbDataModel
     {
         private Int32 _PaymentID;
         private Int32 _AdmissionFeeCompID;
@@ -431,7 +431,7 @@ namespace CodeX.Data.Model
     #region AdmissionPaymentHd
     [Serializable]
     [Table(Name = "AdmissionPaymentHd")]
-    public class AdmissionPaymentHd : DbDataModel
+    public partial class AdmissionPaymentHd : DbDataModel
     {
         private Int32 _PaymentID;
         private Int32? _SchoolPeriodID;
