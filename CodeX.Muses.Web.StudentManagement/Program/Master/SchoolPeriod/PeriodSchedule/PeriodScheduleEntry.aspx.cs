@@ -26,6 +26,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptRemarks.DataSource = lstSc;
             rptRemarks.DataBind();
 
+            rptDateStyle.DataSource = lstSc;
+            rptDateStyle.DataBind();
+
             SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
             hdnMaxDate.Value = schoolPeriod.EndDate.ToString("yyyy-MM-dd");
             hdnMinDate.Value = schoolPeriod.StartDate.ToString("yyyy-MM-dd");
@@ -36,7 +39,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             Methods.SetComboBoxField<StandardCode>(cboScheduleType, lstStandardCode, "StandardCodeName", "StandardCodeID");
             IsAutoReInitControl = false;
-
             //chkShowAll.Checked = false;
 
             BindGridView();

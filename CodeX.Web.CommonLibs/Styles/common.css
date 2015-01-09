@@ -25,6 +25,8 @@ button                          { cursor: pointer; border: 0px; height: 24px; }
 input[type="button"].btnSearch  { background-image: url('../Images/Icon/search_white.png'); background-repeat: no-repeat; background-position: center; min-width: 30px; }
 input[type="button"][enabled="false"] { /*background-color: #EAEAEA; color: #BEBEBE;*/background-color:#EFEFEF; color: #7A7A7A; cursor: not-allowed; }
 input[type="button"].btnMore    { min-width: 20px;  }
+input[type="button"].btnLink  { background-color: transparent; color: #5200FD; min-width: 10px !important; }
+input[type="button"].btnLink:hover  { text-decoration: underline; }
 
 .highlightText                  { background-color:yellow; }
 .watermark                      { color:#AAA !important; }
@@ -172,6 +174,7 @@ div.pageTitle               { padding: 3px 5px; font-size: 1.2em; }
 .tblContentArea             { width: 100%; }
 .tblContentArea > tr > td   { vertical-align: top; }
         
+h5                          { font-weight:bold;font-size:20px !important; margin: 0; margin-top: 4px; padding: 1px 2px; color: Blue; }   
 h4                          { font-weight:200;font-size:20px !important; margin: 0; margin-top: 4px; padding: 1px 2px; }   
 h3                          { font-weight: 100; margin: 0; padding: 0; font-size: 30px; margin-bottom: 25px;  }   
 .tblContentArea h4:not(:first-child) { margin-top: 30px; }
@@ -214,6 +217,12 @@ td.tdExpand                     { vertical-align: middle; padding-top: 5px; text
 /*.grdView tr:not(:first-child)   { cursor: pointer; }*/
 .grdView > tbody > tr > td                     { vertical-align: top; padding: 5px; }
 .grdView:not(.notAllowSelect) tr:not(:first-child) { cursor: pointer; }
+
+
+.grdInlineEditing th                     { font-weight: normal; padding: 0px 5px; }
+.grdInlineEditing > tbody > tr > td      { vertical-align: middle; padding: 1px 5px; }
+/*.grdView tr:not(:first-child)   { cursor: pointer; }*/
+
 .imgLoadingGrdView              { background-color:White;border:1px solid #AAA;text-align:center;vertical-align:middle; z-index:100; width:70px;height:35px;position:absolute;left:48%;top:20%;display:none; }
 .imgLoadingGrdView img          { margin: auto; }
 
@@ -230,7 +239,7 @@ td.tdExpand                     { vertical-align: middle; padding-top: 5px; text
 .grdCollapsible:not(.notAllowSelect) > tbody > tr:not(.trDetail) { cursor: pointer; }
 .divDetailEdit, 
 .divDetailDelete { cursor: pointer; padding: 2px; font-size: 12px; }
-.divDetailEdit:hover { text-decoration: underline; }       
+.grdCollapsible .divDetailEdit:hover { text-decoration: underline; }       
 div.divDetailDelete:hover { background-color:#AAA; color:White; }
 .divDetailDelete:before { content:  "\2715 "; } 
 .grdCollapsible .divTrxDetail   { font-size: 12px; }
@@ -782,9 +791,9 @@ h4.h4collapsed + div.containerTblEntryContent   { display: none; }
 /* #endregion */
 
 /* #region Transaction Page */
-.divTransactionEntry .divAdd:before         { content:  "+     "; }
-.divTransactionEntry .divAdd                { cursor: pointer; color: #2572EB; }
-.divTransactionEntry .divAdd:hover          { text-decoration: underline; }
+.divAdd:before         { content:  "+     "; }
+.divAdd                { cursor: pointer; color: #2572EB; }
+.divAdd:hover          { text-decoration: underline; }
         
 .divTransactionEntry .entryDetailContainer  { background-color: #AAA; padding: 20px; font-size: 14px; }
 .tblTransactionEntryResult .keyField              { display: none; }

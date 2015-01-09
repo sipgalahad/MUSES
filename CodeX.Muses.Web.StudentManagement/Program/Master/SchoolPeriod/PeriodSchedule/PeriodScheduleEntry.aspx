@@ -158,11 +158,12 @@
     </script>
     <style type="text/css">
         .specialDate a.ui-state-default, .specialDate a.ui-state-hover       { background: #FF1901 !important; color: White; }
-        .nts001, .date001 a.ui-state-default, .date001 a.ui-state-hover      { background: #D4D4D4 !important; }
-        .nts002, .date002 a.ui-state-default, .date002 a.ui-state-hover,
-        .nts003, .date003 a.ui-state-default, .date003 a.ui-state-hover      { background: #7FE001 !important; }
-        .nts004, .date004 a.ui-state-default, .date004 a.ui-state-hover      { background: #FF7301 !important; }
-        .nts005, .date005 a.ui-state-default, .date005 a.ui-state-hover      { background: #B201CC !important; color: White; }
+        
+        <asp:Repeater ID="rptDateStyle" runat="server">
+            <ItemTemplate>
+                .nts<%#Eval("cfStandardCodeID")%>, .date<%#Eval("cfStandardCodeID")%> a.ui-state-default, .date<%#Eval("cfStandardCodeID")%> a.ui-state-hover      { background: <%#Eval("TagProperty")%> !important; }
+            </ItemTemplate>
+        </asp:Repeater>
     </style>
     <input type="hidden" id="hdnMonth" runat="server" />
     <input type="hidden" id="hdnYear" runat="server" />

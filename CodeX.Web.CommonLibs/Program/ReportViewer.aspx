@@ -257,6 +257,7 @@
                 }
                 #toolbarArea        { display: none; }
                 .pageContent        { min-height:<%=paperPrintPageContent %> !important; margin: 0; }
+                *   { letter-spacing: <%=letterSpacingPrint %>; }
             }
             .tblReport .tdDetail, .tblHeader th { padding-right:0.1cm; padding-left:0.1cm;  }
             .tdDetail           { vertical-align: top; }

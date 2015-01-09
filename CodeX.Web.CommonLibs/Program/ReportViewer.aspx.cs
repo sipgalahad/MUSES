@@ -71,6 +71,7 @@ namespace CodeX.Web.CommonLibs.Program
         protected string fontSize = "";
         protected string fontFamily = "";
         protected string paperPortraitLandscape = "";
+        protected string letterSpacingPrint = "";
 
         #region Generate Filter Expression
         string[] param = null;
@@ -350,8 +351,13 @@ namespace CodeX.Web.CommonLibs.Program
                                          IsDataSourceFromSP = sd.Attribute("isdatasourcefromsp") != null ? sd.Attribute("isdatasourcefromsp").Value == "1" : false,
                                          IsShowHeaderFooter = sd.Attribute("isshowheaderfooter") != null ? sd.Attribute("isshowheaderfooter").Value == "1" : true,
                                          IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
-                                         IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false
+                                         IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false,
+                                         IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false
                                      }).FirstOrDefault();
+            if (tempReportSetting.IsUsingDotMatrix)
+                letterSpacingPrint = "5px";
+            else
+                letterSpacingPrint = "0";
             fontSize = tempReportSetting.FontSize;
             fontFamily = tempReportSetting.FontFamily;
 
