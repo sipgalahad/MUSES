@@ -50,6 +50,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtFormCode.Text = entity.FormCode;
             txtFormName.Text = entity.FormName;
             txtRemarks.Text = entity.Remarks;
+            if (hdnID.Value != "") 
+            {
+                List<ProspectiveStudentFolder> lstfolder = BusinessLayer.GetProspectiveStudentFolderList(String.Format("SiteID = '{0}' AND FormID = {1}", AppSession.UserLogin.SiteID, hdnID.Value));
+                if (lstfolder.Count > 0) chkIncludeInSite.Checked = true;
+                else chkIncludeInSite.Checked = false;
+            } 
         }
 
         private void ControlToEntity(ProspectiveStudentForm entity)
@@ -89,6 +95,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ProspectiveStudentFormDao entityDao = new ProspectiveStudentFormDao(ctx);
+            ProspectiveStudentFolderDao folderDao = new ProspectiveStudentFolderDao(ctx);
+
             bool result = false;
             try
             {
@@ -97,6 +105,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetProspectiveStudentFormMaxID(ctx).ToString();
+                if (chkIncludeInSite.Checked) 
+                {
+                    ProspectiveStudentFolder folder = new ProspectiveStudentFolder();
+                    folder.FormID = Convert.ToInt32(retval);
+                    folder.SiteID = AppSession.UserLogin.SiteID;
+                }
                 ctx.CommitTransaction();
                 result = true;
             }
@@ -117,17 +131,43 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
             bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ProspectiveStudentFormDao formDao = new ProspectiveStudentFormDao(ctx);
+            ProspectiveStudentFolderDao folderDao = new ProspectiveStudentFolderDao(ctx);
             try
             {
-                ProspectiveStudentForm entity = BusinessLayer.GetProspectiveStudentForm(Convert.ToInt32(hdnID.Value));
+                ProspectiveStudentForm entity = formDao.Get(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateProspectiveStudentForm(entity);
+                formDao.Update(entity);
+
+                if (chkIncludeInSite.Checked)
+                {
+                    ProspectiveStudentFolder folder = folderDao.Get(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnID.Value));
+                    if (folder == null)
+                    {
+                        folder = new ProspectiveStudentFolder();
+                        folder.SiteID = AppSession.UserLogin.SiteID;
+                        folder.FormID = Convert.ToInt32(hdnID.Value);
+                        folderDao.Insert(folder);
+                    }
+                }
+                else
+                {
+                    ProspectiveStudentFolder folder = folderDao.Get(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnID.Value));
+                    if (folder != null) folderDao.Delete(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnID.Value));
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 result = false;
                 errMessage = ex.Message;
+                ctx.RollBackTransaction();
+            }
+            finally 
+            {
+                ctx.Close();
             }
 
             return result;

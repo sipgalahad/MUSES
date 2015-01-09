@@ -4893,6 +4893,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProspectiveStudentFolder
+        public static ProspectiveStudentFolder GetProspectiveStudentFolder(String SiteID, Int32 FormID)
+        {
+            return new ProspectiveStudentFolderDao().Get(SiteID, FormID);
+        }
+        public static int InsertProspectiveStudentFolder(ProspectiveStudentFolder record)
+        {
+            return new ProspectiveStudentFolderDao().Insert(record);
+        }
+        public static int UpdateProspectiveStudentFolder(ProspectiveStudentFolder record)
+        {
+            return new ProspectiveStudentFolderDao().Update(record);
+        }
+        public static int DeleteProspectiveStudentFolder(String SiteID, Int32 FormID)
+        {
+            return new ProspectiveStudentFolderDao().Delete(SiteID, FormID);
+        }
+        public static List<ProspectiveStudentFolder> GetProspectiveStudentFolderList(string filterExpression)
+        {
+            List<ProspectiveStudentFolder> result = new List<ProspectiveStudentFolder>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFolder));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentFolder)helper.IDataReaderToObject(reader, new ProspectiveStudentFolder()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ProspectiveStudentForm
         public static ProspectiveStudentForm GetProspectiveStudentForm(Int32 FormID)
         {

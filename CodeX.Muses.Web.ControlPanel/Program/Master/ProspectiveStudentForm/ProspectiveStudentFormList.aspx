@@ -63,6 +63,11 @@
         }
         //#endregion
 
+        $('.lnkDetail a').live('click', function () {
+//            var id = $(this).closest('tr').find('.keyField').html();
+//            var url = ResolveUrl("~/Program/ControlPanel/SystemConfiguration/Menu/MenuReportEntryCtl.ascx");
+//            openUserControlPopup(url, id, 'Report', 700, 450);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -79,6 +84,7 @@
                                 <asp:BoundField DataField="FormID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="FormCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="FormName" HeaderText="Nama"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:HyperLinkField HeaderText="Setting" Text="Setting" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

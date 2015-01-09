@@ -10064,6 +10064,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProspectiveStudentFolder
+    [Serializable]
+    [Table(Name = "ProspectiveStudentFolder")]
+    public class ProspectiveStudentFolder : DbDataModel
+    {
+        private String _SiteID;
+        private Int32 _FormID;
+
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FormID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 FormID
+        {
+            get { return _FormID; }
+            set { _FormID = value; }
+        }
+    }
+
+    public class ProspectiveStudentFolderDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentFolder));
+        private bool _isAuditLog = false;
+        private const string p_FormID = "@p_FormID";
+        private const string p_SiteID = "@p_SiteID";
+        public ProspectiveStudentFolderDao() { }
+        public ProspectiveStudentFolderDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProspectiveStudentFolder Get(String SiteID, Int32 FormID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FormID, FormID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProspectiveStudentFolder)_helper.DataRowToObject(row, new ProspectiveStudentFolder());
+        }
+        public int Insert(ProspectiveStudentFolder record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProspectiveStudentFolder record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String SiteID, Int32 FormID)
+        {
+            ProspectiveStudentFolder record;
+            if (_ctx.Transaction == null)
+                record = new ProspectiveStudentFolderDao().Get(SiteID, FormID);
+            else
+                record = Get(SiteID, FormID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ProspectiveStudentForm
     [Serializable]
     [Table(Name = "ProspectiveStudentForm")]
