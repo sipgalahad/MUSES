@@ -19,6 +19,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             return Constant.MenuCode.ControlPanel.TEACHER;
         }
 
+        protected string OnGetRoomFilterExpression()
+        {
+            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+        }
+
         protected override void InitializeDataControl()
         {
             if (Request.QueryString.Count > 0)
@@ -65,9 +70,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtEmailAddress1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo2, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(hdnRoomID, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtRoomCode, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtRoomName, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(vTeacher entity)
@@ -82,9 +85,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtEmailAddress1.Text = entity.EmailAddress;
             txtMobilePhoneNo1.Text = entity.MobilePhone1;
             txtMobilePhoneNo2.Text = entity.MobilePhone2;
-            hdnRoomID.Value = entity.RoomID.ToString();
-            txtRoomCode.Text = entity.RoomCode;
-            txtRoomName.Text = entity.RoomName;
+            tacRoom.Value = entity.RoomID.ToString();
+            tacRoom.Text = entity.RoomName;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -110,7 +112,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.EmailAddress = txtEmailAddress1.Text;
             entity.MobilePhone1 = txtMobilePhoneNo1.Text;
             entity.MobilePhone2 = txtMobilePhoneNo2.Text;
-            entity.RoomID = Convert.ToInt32(hdnRoomID.Value);
+            if (tacRoom.Value == "" || tacRoom.Value == "0")
+                entity.RoomID = null;
+            else
+                entity.RoomID = Convert.ToInt32(tacRoom.Value);
             entity.Remarks = txtRemarks.Text;
 
             string suffix = cboGCSuffix.Value == null ? "" : cboGCSuffix.Text;
@@ -188,10 +193,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
             }
-
             return result;
         }
     }
