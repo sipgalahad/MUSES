@@ -120,7 +120,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 int SchoolClassID = Convert.ToInt32(hdnSchoolClassID.Value);
                 int PeriodClassTypeSubjectID = Convert.ToInt32(hdnPeriodClassTypeSubjectID.Value);
 
-                List<ClassSubject> lstClassSubject = BusinessLayer.GetClassSubjectList(string.Format("SchoolClassID = {0} AND PeriodClassTypeSubjectID = {1} AND TeacherID IN ({2})", SchoolClassID, PeriodClassTypeSubjectID, hdnSelectedMember.Value), ctx);
+                List<ClassSubject> lstClassSubject = BusinessLayer.GetClassSubjectList(string.Format("SchoolClassID = {0} AND PeriodClassTypeSubjectID = {1} AND IsDeleted = 0", SchoolClassID, PeriodClassTypeSubjectID), ctx);
                 int ct = 0;
                 foreach (String itemID in lstSelectedMember)
                 {
@@ -142,8 +142,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
                         entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDtDao.Update(entityDt);
+
+                        lstClassSubject.Remove(entityDt);
                     }
                     ct++;
+                }
+                foreach (ClassSubject entityDt in lstClassSubject)
+                {
+                    entityDt.IsDeleted = true;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
                 }
                 ctx.CommitTransaction();
             }

@@ -162,6 +162,86 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region AdmissionPaymentDt
+        public static AdmissionPaymentDt GetAdmissionPaymentDt(Int32 PaymentID, Int32 AdmissionFeeCompID, Int16 DisplayOrder)
+        {
+            return new AdmissionPaymentDtDao().Get(PaymentID, AdmissionFeeCompID, DisplayOrder);
+        }
+        public static int InsertAdmissionPaymentDt(AdmissionPaymentDt record)
+        {
+            return new AdmissionPaymentDtDao().Insert(record);
+        }
+        public static int UpdateAdmissionPaymentDt(AdmissionPaymentDt record)
+        {
+            return new AdmissionPaymentDtDao().Update(record);
+        }
+        public static int DeleteAdmissionPaymentDt(Int32 PaymentID, Int32 AdmissionFeeCompID, Int16 DisplayOrder)
+        {
+            return new AdmissionPaymentDtDao().Delete(PaymentID, AdmissionFeeCompID, DisplayOrder);
+        }
+        public static List<AdmissionPaymentDt> GetAdmissionPaymentDtList(string filterExpression)
+        {
+            List<AdmissionPaymentDt> result = new List<AdmissionPaymentDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionPaymentDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionPaymentDt)helper.IDataReaderToObject(reader, new AdmissionPaymentDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region AdmissionPaymentHd
+        public static AdmissionPaymentHd GetAdmissionPaymentHd(Int32 PaymentID)
+        {
+            return new AdmissionPaymentHdDao().Get(PaymentID);
+        }
+        public static int InsertAdmissionPaymentHd(AdmissionPaymentHd record)
+        {
+            return new AdmissionPaymentHdDao().Insert(record);
+        }
+        public static int UpdateAdmissionPaymentHd(AdmissionPaymentHd record)
+        {
+            return new AdmissionPaymentHdDao().Update(record);
+        }
+        public static int DeleteAdmissionPaymentHd(Int32 PaymentID)
+        {
+            return new AdmissionPaymentHdDao().Delete(PaymentID);
+        }
+        public static List<AdmissionPaymentHd> GetAdmissionPaymentHdList(string filterExpression)
+        {
+            List<AdmissionPaymentHd> result = new List<AdmissionPaymentHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionPaymentHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionPaymentHd)helper.IDataReaderToObject(reader, new AdmissionPaymentHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region AdmissionSelection
         public static AdmissionSelection GetAdmissionSelection(Int32 AdmissionSelectionID)
         {

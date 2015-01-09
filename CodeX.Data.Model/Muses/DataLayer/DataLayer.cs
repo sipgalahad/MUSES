@@ -327,6 +327,220 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region AdmissionPaymentDt
+    [Serializable]
+    [Table(Name = "AdmissionPaymentDt")]
+    public class AdmissionPaymentDt : DbDataModel
+    {
+        private Int32 _PaymentID;
+        private Int32 _AdmissionFeeCompID;
+        private Int16 _DisplayOrder;
+        private DateTime _PaymentDate;
+        private Int16 _NoOfPayment;
+        private Boolean _IsPaymentAmountInPercentage;
+        private Decimal _PaymentAmount;
+
+        [Column(Name = "PaymentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PaymentID
+        {
+            get { return _PaymentID; }
+            set { _PaymentID = value; }
+        }
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16", IsPrimaryKey = true)]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "NoOfPayment", DataType = "Int16")]
+        public Int16 NoOfPayment
+        {
+            get { return _NoOfPayment; }
+            set { _NoOfPayment = value; }
+        }
+        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsPaymentAmountInPercentage
+        {
+            get { return _IsPaymentAmountInPercentage; }
+            set { _IsPaymentAmountInPercentage = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+    }
+
+    public class AdmissionPaymentDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AdmissionPaymentDt));
+        private bool _isAuditLog = false;
+        private const string p_AdmissionFeeCompID = "@p_AdmissionFeeCompID";
+        private const string p_DisplayOrder = "@p_DisplayOrder";
+        private const string p_PaymentID = "@p_PaymentID";
+        public AdmissionPaymentDtDao() { }
+        public AdmissionPaymentDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AdmissionPaymentDt Get(Int32 PaymentID, Int32 AdmissionFeeCompID, Int16 DisplayOrder)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_AdmissionFeeCompID, AdmissionFeeCompID);
+            _ctx.Add(p_DisplayOrder, DisplayOrder);
+            _ctx.Add(p_PaymentID, PaymentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AdmissionPaymentDt)_helper.DataRowToObject(row, new AdmissionPaymentDt());
+        }
+        public int Insert(AdmissionPaymentDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AdmissionPaymentDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PaymentID, Int32 AdmissionFeeCompID, Int16 DisplayOrder)
+        {
+            AdmissionPaymentDt record;
+            if (_ctx.Transaction == null)
+                record = new AdmissionPaymentDtDao().Get(PaymentID, AdmissionFeeCompID, DisplayOrder);
+            else
+                record = Get(PaymentID, AdmissionFeeCompID, DisplayOrder);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region AdmissionPaymentHd
+    [Serializable]
+    [Table(Name = "AdmissionPaymentHd")]
+    public class AdmissionPaymentHd : DbDataModel
+    {
+        private Int32 _PaymentID;
+        private Int32? _SchoolPeriodID;
+        private String _PaymentName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "PaymentID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 PaymentID
+        {
+            get { return _PaymentID; }
+            set { _PaymentID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32", IsNullable = true)]
+        public Int32? SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "PaymentName", DataType = "String")]
+        public String PaymentName
+        {
+            get { return _PaymentName; }
+            set { _PaymentName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class AdmissionPaymentHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(AdmissionPaymentHd));
+        private bool _isAuditLog = false;
+        private const string p_PaymentID = "@p_PaymentID";
+        public AdmissionPaymentHdDao() { }
+        public AdmissionPaymentHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public AdmissionPaymentHd Get(Int32 PaymentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PaymentID, PaymentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (AdmissionPaymentHd)_helper.DataRowToObject(row, new AdmissionPaymentHd());
+        }
+        public int Insert(AdmissionPaymentHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(AdmissionPaymentHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PaymentID)
+        {
+            AdmissionPaymentHd record;
+            if (_ctx.Transaction == null)
+                record = new AdmissionPaymentHdDao().Get(PaymentID);
+            else
+                record = Get(PaymentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region AdmissionSelection
     [Serializable]
     [Table(Name = "AdmissionSelection")]

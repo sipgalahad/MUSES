@@ -109,7 +109,7 @@
             $('.chkPeriodAdmissionID input').each(function () {
                 $(this).prop('checked', false);
             });
-            $('.chkPeriodAdmissionView input').each(function () {
+            $row.find('.chkPeriodAdmissionView input').each(function () {
                 if ($(this).is(':checked')) {
                     var periodAdmissionID = $(this).closest('td').find('.hdnPeriodAdmissionID').val();
                     $('.chkPeriodAdmissionID input').each(function () {
