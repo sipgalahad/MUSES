@@ -23,15 +23,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         List<AdmissionSelection> lstAdmissionSelection = null;
 
-        protected int OnGetSelectionCount()
-        {
-            return lstAdmissionSelection.Count;
-        }
         protected override void InitializeDataControl()
         {
             lstAdmissionSelection = BusinessLayer.GetAdmissionSelectionList(string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID));
             rptHeader.DataSource = lstAdmissionSelection;
             rptHeader.DataBind();
+
+            rptHeader2.DataSource = lstAdmissionSelection;
+            rptHeader2.DataBind();
+
+            thMarkHeader.ColSpan = lstAdmissionSelection.Count * 2;
 
             lstStudentMark = BusinessLayer.GetRegistrationMarkList(string.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID));
 
@@ -62,7 +63,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (entity != null)
                 {
                     HtmlGenericControl divStudentMark = (HtmlGenericControl)e.Item.FindControl("divStudentMark");
+                    HtmlGenericControl divStudentMarkRemarks = (HtmlGenericControl)e.Item.FindControl("divStudentMarkRemarks");
                     divStudentMark.InnerHtml = entity.Mark.ToString();
+                    divStudentMarkRemarks.InnerHtml = entity.Remarks;
                 }
             }
         }

@@ -201,6 +201,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<AdmissionPaymentDt> GetAdmissionPaymentDtList(string filterExpression, IDbContext ctx)
+        {
+            List<AdmissionPaymentDt> result = new List<AdmissionPaymentDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionPaymentDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((AdmissionPaymentDt)helper.IDataReaderToObject(reader, new AdmissionPaymentDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region AdmissionPaymentHd
         public static AdmissionPaymentHd GetAdmissionPaymentHd(Int32 PaymentID)
@@ -238,6 +255,22 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetAdmissionPaymentHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(AdmissionPaymentHd));
+                ctx.CommandText = helper.SelectMaxColumn("PaymentID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

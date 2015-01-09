@@ -76,6 +76,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompView;
         
         /// <summary>
+        /// thFeeCompTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFeeCompTotal;
+        
+        /// <summary>
         /// rptAdmissionFeeCompViewDt control.
         /// </summary>
         /// <remarks>
@@ -83,6 +92,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompViewDt;
+        
+        /// <summary>
+        /// rptAdmissionFeeCompViewDtTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompViewDtTotal;
         
         /// <summary>
         /// cbpView control.

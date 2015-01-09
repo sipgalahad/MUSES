@@ -47,6 +47,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptAdmissionFeeCompViewDt.DataSource = lstCompDt;
             rptAdmissionFeeCompViewDt.DataBind();
 
+            rptAdmissionFeeCompViewDtTotal.DataSource = lstCompDt;
+            rptAdmissionFeeCompViewDtTotal.DataBind();
+
+            thFeeCompTotal.ColSpan = lstCompDt.Count;
+
             BindGridView();
 
             Helper.SetControlEntrySetting(txtAdmissionFeeRuleName, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -61,7 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (entity.IsFixedAmount)
                 {
                     thAdmissionFeeCompType.RowSpan = 2;
-                    thAdmissionFeeCompType.Width = "150px";
+                    thAdmissionFeeCompType.Width = "130px";
                 }
                 else
                     thAdmissionFeeCompType.ColSpan = lstAdmission.Count;
@@ -124,8 +129,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 AdmissionFeeRuleHd entity = (AdmissionFeeRuleHd)e.Item.DataItem;
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
+                Repeater rptViewDtTotal = (Repeater)e.Item.FindControl("rptViewDtTotal");
 
+
+                List<AdmissionFeeRuleDt> lstEntityDtCurrRecord = lstEntityDt.Where(p => p.AdmissionFeeRuleID == entity.AdmissionFeeRuleID).ToList();
                 List<AdmissionFeeRuleDt> lstEntityDt1 = new List<AdmissionFeeRuleDt>();
+                List<AdmissionFeeRuleDt> lstEntityDt2 = new List<AdmissionFeeRuleDt>();
                 foreach (vAdmissionFeeComp entityComp in lstComp)
                 {
                     if (entityComp.IsFixedAmount)
@@ -139,13 +148,37 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     {
                         foreach (PeriodAdmission entityAdmission in lstAdmission)
                         {
-                            AdmissionFeeRuleDt entityDt = lstEntityDt.FirstOrDefault(p => p.AdmissionFeeRuleID == entity.AdmissionFeeRuleID && p.PeriodAdmissionID == entityAdmission.PeriodAdmissionID && p.AdmissionFeeCompID == entityComp.AdmissionFeeCompID);
+                            AdmissionFeeRuleDt entityDt = lstEntityDtCurrRecord.FirstOrDefault(p => p.PeriodAdmissionID == entityAdmission.PeriodAdmissionID && p.AdmissionFeeCompID == entityComp.AdmissionFeeCompID);
                             lstEntityDt1.Add(entityDt);
                         }
                     }
                 }
                 rptViewDt.DataSource = lstEntityDt1;
                 rptViewDt.DataBind();
+
+                foreach (PeriodAdmission entityAdmission in lstAdmission)
+                {
+                    AdmissionFeeRuleDt entityDt = new AdmissionFeeRuleDt();
+                    entityDt.PeriodAdmissionID = entityAdmission.PeriodAdmissionID;
+                    lstEntityDt2.Add(entityDt);
+                }
+
+                foreach (vAdmissionFeeComp entityComp in lstComp)
+                {
+                    foreach (AdmissionFeeRuleDt entityDt in lstEntityDt2)
+                    {
+                        entityDt.TotalAmount += entityComp.TotalAmount;
+                    }
+                }
+
+                foreach (AdmissionFeeRuleDt entityFeeRuleDt in lstEntityDtCurrRecord)
+                {
+                    AdmissionFeeRuleDt entityDt = lstEntityDt2.FirstOrDefault(p => p.PeriodAdmissionID == entityFeeRuleDt.PeriodAdmissionID);
+                    entityDt.TotalAmount += entityFeeRuleDt.TotalAmount;
+                }
+
+                rptViewDtTotal.DataSource = lstEntityDt2;
+                rptViewDtTotal.DataBind();
             }
         }
 

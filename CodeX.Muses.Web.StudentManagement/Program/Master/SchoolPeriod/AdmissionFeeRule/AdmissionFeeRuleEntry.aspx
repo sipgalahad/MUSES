@@ -16,10 +16,31 @@
                 $('#<%=txtAdmissionFeeRuleName.ClientID %>').val('');
                 $('#<%=chkIsFeeder.ClientID %>').prop('checked', false);
                 $('.txtAdmissionFeeAmount').each(function () {
-                    if ($(this).attr('readonly') == null) 
+                    if ($(this).attr('readonly') == null)
                         $(this).val('0').trigger('changeValue');
                 });
+
+                $('.trPeriodAdmission').each(function () {
+                    var total = 0;
+                    $(this).find('.txtAdmissionFeeAmount').each(function () {
+                        var feeAmount = parseFloat($(this).attr('hiddenVal'));
+                        total += feeAmount;
+                    });
+                    $(this).find('.txtAdmissionFeeAmountTotal').val(total).trigger('changeValue');
+                });
+
                 $('#entryDetailContainer').show();
+            });
+
+            $('.txtAdmissionFeeAmount').change(function () {
+                $(this).blur();
+                $tr = $(this).closest('tr');
+                var total = 0;
+                $tr.find('.txtAdmissionFeeAmount').each(function () {
+                    var feeAmount = parseFloat($(this).attr('hiddenVal'));
+                    total += feeAmount;
+                });
+                $tr.find('.txtAdmissionFeeAmountTotal').val(total).trigger('changeValue');
             });
 
             $('#btnCancel').click(function () {
@@ -85,6 +106,15 @@
                         }
                     });
                 }
+            });
+
+            $('.trPeriodAdmission').each(function () {
+                var total = 0;
+                $(this).find('.txtAdmissionFeeAmount').each(function () {
+                    var feeAmount = parseFloat($(this).attr('hiddenVal'));
+                    total += feeAmount;
+                });
+                $(this).find('.txtAdmissionFeeAmountTotal').val(total).trigger('changeValue');
             });
 
             $('#entryDetailContainer').show();
@@ -156,6 +186,7 @@
                                             <td align="center" width="150px"><div class="lblComponent"><%#Eval("AdmissionFeeCompType")%></div></td>
                                         </ItemTemplate>
                                     </asp:Repeater>
+                                    <td align="center" width="150px"><div class="lblComponent"><%=GetLabel("Total")%></div></td>
                                 </tr>
                                 <asp:Repeater ID="rptPeriodAdmission" runat="server" OnItemDataBound="rptPeriodAdmission_ItemDataBound">
                                     <ItemTemplate>
@@ -172,6 +203,7 @@
                                                     </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
+                                            <td align="center"><asp:TextBox ID="txtAdmissionFeeAmountTotal" ReadOnly="true" runat="server" Width="99%" CssClass="txtAdmissionFeeAmountTotal txtCurrency"/></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
@@ -198,12 +230,18 @@
                             <th class="thCenter" id="thAdmissionFeeCompType" runat="server"><%#Eval("AdmissionFeeCompType")%></th>
                         </ItemTemplate>
                     </asp:Repeater>
+                    <th id="thFeeCompTotal" runat="server" class="thCenter"><%=GetLabel("Total")%></th>
                     <th style="width:80px" rowspan="2"></th>
                 </tr>
                 <tr id="trHeader1">
                     <asp:Repeater ID="rptAdmissionFeeCompViewDt" runat="server">
                         <ItemTemplate>
-                            <th class="thCenter" width="150px"><%#Eval("PeriodAdmissionName")%></th>
+                            <th class="thCenter" width="130px"><%#Eval("PeriodAdmissionName")%></th>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                    <asp:Repeater ID="rptAdmissionFeeCompViewDtTotal" runat="server">
+                        <ItemTemplate>
+                            <th class="thCenter" width="130px"><%#Eval("PeriodAdmissionName")%></th>
                         </ItemTemplate>
                     </asp:Repeater>
                 </tr>
@@ -234,6 +272,13 @@
                                                 <input type="hidden" class="hdnTotalAmount" value='<%#Eval("TotalAmount")%>' />
                                                 <input type="hidden" class="hdnPeriodAdmissionID" value='<%#Eval("PeriodAdmissionID")%>' />
                                                 <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID")%>' />
+                                                <%#Eval("TotalAmount", "{0:N}")%>
+                                            </td>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                    <asp:Repeater ID="rptViewDtTotal" runat="server">
+                                        <ItemTemplate>
+                                            <td class="thRight">
                                                 <%#Eval("TotalAmount", "{0:N}")%>
                                             </td>
                                         </ItemTemplate>

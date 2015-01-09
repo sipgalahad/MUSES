@@ -330,7 +330,7 @@ namespace CodeX.Data.Model
     #region AdmissionPaymentDt
     [Serializable]
     [Table(Name = "AdmissionPaymentDt")]
-    public class AdmissionPaymentDt : DbDataModel
+    public partial class AdmissionPaymentDt : DbDataModel
     {
         private Int32 _PaymentID;
         private Int32 _AdmissionFeeCompID;
@@ -431,7 +431,7 @@ namespace CodeX.Data.Model
     #region AdmissionPaymentHd
     [Serializable]
     [Table(Name = "AdmissionPaymentHd")]
-    public class AdmissionPaymentHd : DbDataModel
+    public partial class AdmissionPaymentHd : DbDataModel
     {
         private Int32 _PaymentID;
         private Int32? _SchoolPeriodID;
@@ -13364,6 +13364,7 @@ namespace CodeX.Data.Model
         private Int32 _AdmissionSelectionID;
         private Int32 _RegistrationID;
         private Decimal _Mark;
+        private String _Remarks;
 
         [Column(Name = "PeriodAdmissionID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 PeriodAdmissionID
@@ -13388,6 +13389,12 @@ namespace CodeX.Data.Model
         {
             get { return _Mark; }
             set { _Mark = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
 

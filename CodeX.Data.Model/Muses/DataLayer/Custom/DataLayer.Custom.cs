@@ -6,6 +6,41 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region AdmissionPaymentDt
+    public partial class AdmissionPaymentDt
+    {
+        public Boolean IsPaymentDateNow
+        {
+            get
+            {
+                if (_PaymentDate.ToString("dd-MM-yyyy") == Constant.ConstantDate.DEFAULT_NULL)
+                    return true;
+                return false;
+            }
+        }
+        public String PaymentDateInDatePickerFormat
+        {
+            get
+            {
+                if (_PaymentDate.ToString("dd-MM-yyyy") == Constant.ConstantDate.DEFAULT_NULL)
+                    return "";
+                return _PaymentDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region AdmissionPaymentHd
+    public partial class AdmissionPaymentHd
+    {
+        public String cfRemarks
+        {
+            get
+            {
+                return _Remarks.Replace("\n", "<br>");
+            }
+        }
+    }
+    #endregion
     #region DailyScheduleTypeDt
     public partial class DailyScheduleTypeDt
     {
