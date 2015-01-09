@@ -3568,6 +3568,94 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vProspectiveStudentForm
+        public static List<vProspectiveStudentForm> GetvProspectiveStudentFormList(string filterExpression)
+        {
+            List<vProspectiveStudentForm> result = new List<vProspectiveStudentForm>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentForm));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentForm)helper.IDataReaderToObject(reader, new vProspectiveStudentForm()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vProspectiveStudentForm> GetvProspectiveStudentFormList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vProspectiveStudentForm> result = new List<vProspectiveStudentForm>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentForm));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentForm)helper.IDataReaderToObject(reader, new vProspectiveStudentForm()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvProspectiveStudentFormRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentForm));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvProspectiveStudentFormRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentForm));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "FormID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPurchaseInvoiceDt
         public static List<vPurchaseInvoiceDt> GetvPurchaseInvoiceDtList(string filterExpression)
         {

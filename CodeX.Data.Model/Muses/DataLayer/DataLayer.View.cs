@@ -8681,6 +8681,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProspectiveStudentForm
+    [Serializable]
+    [Table(Name = "vProspectiveStudentForm")]
+    public class vProspectiveStudentForm
+    {
+        private Int32 _FormID;
+        private String _SiteID;
+        private String _FormCode;
+        private String _FormName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "FormID", DataType = "Int32")]
+        public Int32 FormID
+        {
+            get { return _FormID; }
+            set { _FormID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "FormCode", DataType = "String")]
+        public String FormCode
+        {
+            get { return _FormCode; }
+            set { _FormCode = value; }
+        }
+        [Column(Name = "FormName", DataType = "String")]
+        public String FormName
+        {
+            get { return _FormName; }
+            set { _FormName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vPurchaseOrderDt
     [Serializable]
     [Table(Name = "vPurchaseOrderDt")]

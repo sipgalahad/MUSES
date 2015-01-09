@@ -14,6 +14,7 @@
     <script type="text/javascript">
         
     </script>
+    <input type="hidden" id="hdnIsExist" runat="server" value="" />
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table>
         <colgroup>
@@ -39,10 +40,6 @@
                         <tr>
                             <td class="tdLabel" valign="top"><label class="lblMandatory"><%=GetLabel("Remarks")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" TextMode="MultiLine" Width="300px" runat="server" /></td>
-                        </tr>
-                        <tr>
-                            <td class="tdLabel" valign="top"></td>
-                            <td><asp:CheckBox ID="chkIncludeInSite" Text="Aktif" runat="server" /></td>
                         </tr>
                     </table>    
                 </div>    

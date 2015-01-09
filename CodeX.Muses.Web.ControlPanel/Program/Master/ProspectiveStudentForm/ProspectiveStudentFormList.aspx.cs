@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetProspectiveStudentFormRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvProspectiveStudentFormRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("IsDeleted = 0", AppSession.UserLogin.SiteID);
+            filterExpression += string.Format("IsDeleted = 0 AND SiteID = '{0}'", AppSession.UserLogin.SiteID);
             return filterExpression;
         }
 
@@ -60,11 +60,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetProspectiveStudentFormRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvProspectiveStudentFormRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
             
-            List<ProspectiveStudentForm> lstEntity = BusinessLayer.GetProspectiveStudentFormList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vProspectiveStudentForm> lstEntity = BusinessLayer.GetvProspectiveStudentFormList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
