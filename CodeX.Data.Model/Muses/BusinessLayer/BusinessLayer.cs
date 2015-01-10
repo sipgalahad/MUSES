@@ -4876,6 +4876,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ProspectiveStudent> GetProspectiveStudentList(string filterExpression, IDbContext ctx)
+        {
+            List<ProspectiveStudent> result = new List<ProspectiveStudent>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudent)helper.IDataReaderToObject(reader, new ProspectiveStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetProspectiveStudentMaxID(IDbContext ctx)
         {
             Int32 result = 0;

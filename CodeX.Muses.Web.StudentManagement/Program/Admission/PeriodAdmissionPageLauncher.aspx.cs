@@ -18,6 +18,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.PERIOD_ADMISSION_PAGE);
             List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+            int parentID = (int)lstMenu.Where(p => p.MenuIndex > 0).OrderBy(p => p.MenuIndex).FirstOrDefault().MenuID;
+
+            filterExpression = string.Format("ParentID = {0}", parentID);
+            lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
             GetUserMenuAccess menu = lstMenu.OrderBy(p => p.MenuIndex).FirstOrDefault();
             Response.Redirect(Page.ResolveUrl(menu.MenuUrl));
         }

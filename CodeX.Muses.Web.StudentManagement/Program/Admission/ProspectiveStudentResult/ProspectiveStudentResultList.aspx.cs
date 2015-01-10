@@ -29,6 +29,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROSPECTIVE_STUDENT_STATUS));
+            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            Methods.SetComboBoxField<StandardCode>(cboProspectiveStudentStatus, lstSc, "StandardCodeName", "StandardCodeID");
+            cboProspectiveStudentStatus.SelectedIndex = 0;
+
             lstAdmissionSelection = BusinessLayer.GetAdmissionSelectionList(string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID));
             rptHeader.DataSource = lstAdmissionSelection;
             rptHeader.DataBind();
@@ -45,6 +50,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}' AND RegistrationNo LIKE '%{2}%' AND ProspectiveStudentName LIKE '%{3}%'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, hdnFilterCode.Value, hdnFilterName.Value);
+            if (cboProspectiveStudentStatus.Value != null && cboProspectiveStudentStatus.Value.ToString() != "")
+                filterExpression += string.Format(" AND GCProspectiveStudentStatus = '{0}'", cboProspectiveStudentStatus.Value.ToString());
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvRegistrationRowCount(filterExpression);
@@ -59,6 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     lstAdmissionSelection = BusinessLayer.GetAdmissionSelectionList(string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID));
                 lstStudentMark = BusinessLayer.GetRegistrationMarkList(string.Format("RegistrationID IN ({0})", lstRegistrationID));
             }
+            lstSelectedMember = hdnSelectedMember.Value.Split(',');
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }
@@ -88,13 +96,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<RegistrationMark> lstStudentMark = null;
+        private string[] lstSelectedMember = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
+                vRegistration entity = (vRegistration)e.Item.DataItem;
+
                 Repeater rptStudentMark = (Repeater)e.Item.FindControl("rptStudentMark");
                 rptStudentMark.DataSource = lstAdmissionSelection;
                 rptStudentMark.DataBind();
+
+                CheckBox chkIsSelected = e.Item.FindControl("chkIsSelected") as CheckBox;
+                if (lstSelectedMember.Contains(entity.ProspectiveStudentID.ToString()))
+                    chkIsSelected.Checked = true;
             }
         }
 
@@ -119,6 +134,61 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
+            try
+            {
+                if (type == "accept")
+                {
+                    string filterExpression = String.Format("ProspectiveStudentID IN ({0})", hdnSelectedMember.Value.Substring(1));
+                    List<ProspectiveStudent> lstEntity = BusinessLayer.GetProspectiveStudentList(filterExpression, ctx);
+                    foreach (ProspectiveStudent entity in lstEntity)
+                    {
+                        entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.ACCEPTED;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDao.Update(entity);
+                    }
+                }
+                else if (type == "reject")
+                {
+                    string filterExpression = String.Format("ProspectiveStudentID IN ({0})", hdnSelectedMember.Value.Substring(1));
+                    List<ProspectiveStudent> lstEntity = BusinessLayer.GetProspectiveStudentList(filterExpression, ctx);
+                    foreach (ProspectiveStudent entity in lstEntity)
+                    {
+                        entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.REJECTED;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDao.Update(entity);
+                    }
+                }
+                else
+                {
+                    string filterExpression = String.Format("ProspectiveStudentID IN ({0})", hdnSelectedMember.Value.Substring(1));
+                    List<ProspectiveStudent> lstEntity = BusinessLayer.GetProspectiveStudentList(filterExpression, ctx);
+                    foreach (ProspectiveStudent entity in lstEntity)
+                    {
+                        entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.OPEN;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDao.Update(entity);
+                    }
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

@@ -11960,6 +11960,7 @@ namespace CodeX.Data.Model
         private String _GCSalutation;
         private String _GCSuffix;
         private String _GCProspectiveStudentStatus;
+        private String _ProspectiveStudentStatus;
         private String _GCTitle;
         private String _FirstName;
         private String _MiddleName;
@@ -12085,6 +12086,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCProspectiveStudentStatus; }
             set { _GCProspectiveStudentStatus = value; }
+        }
+        [Column(Name = "ProspectiveStudentStatus", DataType = "String")]
+        public String ProspectiveStudentStatus
+        {
+            get { return _ProspectiveStudentStatus; }
+            set { _ProspectiveStudentStatus = value; }
         }
         [Column(Name = "GCTitle", DataType = "String")]
         public String GCTitle

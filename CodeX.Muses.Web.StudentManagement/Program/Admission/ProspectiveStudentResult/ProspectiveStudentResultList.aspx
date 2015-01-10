@@ -9,7 +9,9 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/tbset.png")%>' alt="" /><div><%=GetLabel("Terima")%></div></li>
+    <li id="btnAccept" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Terima")%></div></li>
+    <li id="btnReject" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Tolak")%></div></li>
+    <li id="btnOpen" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Batal Proses")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
@@ -23,6 +25,60 @@
             });
         });
 
+        $(function () {
+            $('#<%=btnAccept.ClientID %>').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    getCheckedMember();
+                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
+                        showToast('Warning', 'Please Select Item First');
+                    }
+                    else {
+                        onCustomButtonClick('accept');
+                    }
+                }
+            });
+            $('#<%=btnReject.ClientID %>').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    getCheckedMember();
+                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
+                        showToast('Warning', 'Please Select Item First');
+                    }
+                    else {
+                        onCustomButtonClick('reject');
+                    }
+                }
+            });
+            $('#<%=btnOpen.ClientID %>').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    getCheckedMember();
+                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
+                        showToast('Warning', 'Please Select Item First');
+                    }
+                    else {
+                        onCustomButtonClick('open');
+                    }
+                }
+            });
+        });
+
+        function getCheckedMember() {
+            var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split(',');
+            var result = '';
+            $('#tblView .chkIsSelected input').each(function () {
+                if ($(this).is(':checked')) {
+                    var key = $(this).closest('tr').find('.keyField').html();
+                    if (lstSelectedMember.indexOf(key) < 0)
+                        lstSelectedMember.push(key);
+                }
+                else {
+                    var key = $(this).closest('tr').find('.keyField').html();
+                    if (lstSelectedMember.indexOf(key) > -1)
+                        lstSelectedMember.splice(lstSelectedMember.indexOf(key), 1);
+                }
+            });
+            $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
+        }
+
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
         var rowCount = parseInt('<%=RowCount %>');
@@ -31,6 +87,7 @@
         $(function () {
             setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
+                getCheckedMember();
                 cbpView.PerformCallback('changepage|' + page);
                 setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             }, null, currPage);
@@ -46,6 +103,7 @@
 
                 setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
+                    getCheckedMember();
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
@@ -76,6 +134,7 @@
                 $('#<%=hdnFilterCode.ClientID %>').val($(this).val());
                 $('#<%=hdnFilterName.ClientID %>').val($('#txtFilterName').val());
                 e.preventDefault();
+                getCheckedMember();
                 cbpView.PerformCallback('refresh');
             }
         });
@@ -86,9 +145,15 @@
                 $('#<%=hdnFilterName.ClientID %>').val($(this).val());
                 $('#<%=hdnFilterCode.ClientID %>').val($('#txtFilterCode').val());
                 e.preventDefault();
+                getCheckedMember();
                 cbpView.PerformCallback('refresh');
             }
         });
+
+        function onCboProspectiveStudentStatusValueChanged() {
+            getCheckedMember();
+            cbpView.PerformCallback('refresh');
+        }
 
         $(function () {
             addTableHeader();
@@ -102,9 +167,27 @@
     <style type="text/css">
         .grdStudent th b        { color: Red; }
     </style>
+    <input type="hidden" id="hdnSelectedMember" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnFilterCode" runat="server" />
     <input type="hidden" id="hdnFilterName" runat="server" />
+    <div style="float:right">
+        <table>
+            <colgroup>
+                <col style="width:100px"/>
+                <col style="width:150px"/>
+            </colgroup>
+            <tr>
+                <td class="tdLabel"><%=GetLabel("Status") %></td>
+                <td>
+                    <dxe:ASPxComboBox ID="cboProspectiveStudentStatus" runat="server" Width="150px">
+                        <ClientSideEvents ValueChanged="function(s,e) { onCboProspectiveStudentStatusValueChanged() }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br style="clear:both;" />
     <table id="tblView1" rules="all" style="display:none">
         <thead>
             <tr>
@@ -112,7 +195,8 @@
                 <th rowspan="3" style="width:100px"><%=GetLabel("No Pendaftaran") %></th>
                 <th rowspan="3"><%=GetLabel("Calon Siswa") %></th>
                 <th id="thMarkHeader" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
-                <th rowspan="3" style="width:90px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
+                <th rowspan="3" style="width:60px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
+                <th rowspan="3" style="width:90px"><%=GetLabel("Status") %></th>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeader" runat="server">
@@ -126,8 +210,8 @@
             <tr>
                 <asp:Repeater ID="rptHeader2" runat="server">
                     <ItemTemplate>
-                        <th class="thCenter" style="width:60px"><%=GetLabel("Nilai") %></th>
-                        <th class="thCenter" style="width:180px"><%=GetLabel("Keterangan") %></th>
+                        <th class="thCenter" style="width:50px"><%=GetLabel("Nilai") %></th>
+                        <th class="thCenter" style="width:160px"><%=GetLabel("Keterangan") %></th>
                     </ItemTemplate>
                 </asp:Repeater>
             </tr>
@@ -149,7 +233,7 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td align="center"><asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" /></td>
-                                            <td class="keyField"><%#Eval("RegistrationID")%></td>
+                                            <td class="keyField"><%#Eval("ProspectiveStudentID")%></td>
                                             <td><%#Eval("RegistrationNo")%></td>
                                             <td><%#Eval("ProspectiveStudentName") %></td>
                                             <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
@@ -163,6 +247,7 @@
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="center"><%#Eval("FinalMark") %></td>
+                                            <td><%#Eval("ProspectiveStudentStatus") %></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>

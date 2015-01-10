@@ -53,6 +53,7 @@ namespace CodeX.Common
             public const string INFORMATION_SOURCE = "MS013";
             public const string ADMISSION_PAYMENT_PERIOD = "MS014";
             public const string ADMISSION_FEE_COMP_TYPE = "MS015";
+            public const string PROSPECTIVE_STUDENT_STATUS = "MS017";
         }
 
         public static class SchoolPeriodStatus
@@ -345,10 +346,10 @@ namespace CodeX.Common
                 public const string ST_STUDENT_HISTORY = "SM99020203";
 
                 public const string PERIOD_ADMISSION_PAGE = "SM99030000";
-                public const string PA_PROSPECTIVE_STUDENT = "SM99030100";
-                public const string PA_ADMISSION_SELECTION = "SM99030200";
-                public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030300";
-                public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030400";
+                public const string PA_PROSPECTIVE_STUDENT = "SM99030101";
+                public const string PA_ADMISSION_SELECTION = "SM99030201";
+                public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030202";
+                public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030203";
 
                 public const string CLASS_MEETING_PAGE = "SM99040000";
                 public const string WS_CLASS_MEETING = "SM99040101";
