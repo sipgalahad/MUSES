@@ -124,7 +124,7 @@
                     $tr.find('.chkIsPaymentDateNow input').prop('checked', entity.IsPaymentDateNow);
                     $tr.find('.chkIsPaymentDateNow input').change();
                     $tr.find('.txtPaymentDate').val(entity.PaymentDateInDatePickerFormat);
-                    $tr.find('.txtPaymentAmount').val(entity.PaymentAmount);
+                    $tr.find('.txtPaymentAmount').val(entity.PaymentAmount).trigger('changeValue');
                     $tr.find('.chkIsPaymentAmountInPercentage input').prop('checked', entity.IsPaymentAmountInPercentage);
                     $tr.find('.txtNoOfPayment').val(entity.NoOfPayment);
                 }
