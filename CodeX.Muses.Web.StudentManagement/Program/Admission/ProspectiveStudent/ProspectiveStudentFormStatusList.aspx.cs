@@ -54,12 +54,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 CheckBox chkIsExist = e.Row.FindControl("chkIsExist") as CheckBox;
                 CheckBox chkIsCompleted = e.Row.FindControl("chkIsCompleted") as CheckBox;
                 TextBox txtRemarks = e.Row.FindControl("txtRemarks") as TextBox;
-                if (entityFolderStatus != null) 
+                if (entityFolderStatus != null)
                 {
                     chkIsExist.Checked = entityFolderStatus.IsExists;
                     chkIsCompleted.Checked = entityFolderStatus.IsCompleted;
                     txtRemarks.Text = entityFolderStatus.Remarks;
-                } 
+                }
+                else 
+                {
+                    chkIsCompleted.Enabled = false;
+                }
             }
         }
 

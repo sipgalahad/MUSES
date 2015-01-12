@@ -51,7 +51,7 @@
                     var id = $(this).closest('tr').find('.keyField').html();
                     $isComplete = $(this).closest('tr').find('.chkIsCompleted').find('input');
                     var remarks = $(this).closest('tr').find('.txtRemarks').val();
-                    alert(remarks);
+                    
                     if (param != '') {
                         param += '|';
                     }
@@ -66,6 +66,7 @@
                 $('#<%=hdnSelectedValue.ClientID %>').val(param);
                 cbpProcess.PerformCallback('save');
             })
+            
             $('.chkIsExist input').each(function () {
                 $(this).change();
             });
