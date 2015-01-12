@@ -348,6 +348,7 @@ namespace CodeX.Common
 
                 public const string PERIOD_ADMISSION_PAGE = "SM99030000";
                 public const string PA_PROSPECTIVE_STUDENT = "SM99030101";
+                public const string PA_PROSPECTIVE_STUDENT_FORM_STATUS = "SM99030102";
                 public const string PA_ADMISSION_SELECTION = "SM99030201";
                 public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030202";
                 public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030203";

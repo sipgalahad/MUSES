@@ -10135,6 +10135,121 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProspectiveStudentFolderStatus
+    [Serializable]
+    [Table(Name = "ProspectiveStudentFolderStatus")]
+    public class ProspectiveStudentFolderStatus : DbDataModel
+    {
+        private Int32 _ProspectiveStudentID;
+        private Int32 _FormID;
+        private Boolean _IsExists;
+        private Boolean _IsCompleted;
+        private String _Remarks;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "FormID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 FormID
+        {
+            get { return _FormID; }
+            set { _FormID = value; }
+        }
+        [Column(Name = "IsExists", DataType = "Boolean")]
+        public Boolean IsExists
+        {
+            get { return _IsExists; }
+            set { _IsExists = value; }
+        }
+        [Column(Name = "IsCompleted", DataType = "Boolean")]
+        public Boolean IsCompleted
+        {
+            get { return _IsCompleted; }
+            set { _IsCompleted = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProspectiveStudentFolderStatusDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentFolderStatus));
+        private bool _isAuditLog = false;
+        private const string p_FormID = "@p_FormID";
+        private const string p_ProspectiveStudentID = "@p_ProspectiveStudentID";
+        public ProspectiveStudentFolderStatusDao() { }
+        public ProspectiveStudentFolderStatusDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProspectiveStudentFolderStatus Get(Int32 ProspectiveStudentID, Int32 FormID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FormID, FormID);
+            _ctx.Add(p_ProspectiveStudentID, ProspectiveStudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProspectiveStudentFolderStatus)_helper.DataRowToObject(row, new ProspectiveStudentFolderStatus());
+        }
+        public int Insert(ProspectiveStudentFolderStatus record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProspectiveStudentFolderStatus record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProspectiveStudentID, Int32 FormID)
+        {
+            ProspectiveStudentFolderStatus record;
+            if (_ctx.Transaction == null)
+                record = new ProspectiveStudentFolderStatusDao().Get(ProspectiveStudentID, FormID);
+            else
+                record = Get(ProspectiveStudentID, FormID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ProspectiveStudentForm
     [Serializable]
     [Table(Name = "ProspectiveStudentForm")]
