@@ -106,6 +106,7 @@
     <Content Include="Program\Admission\PeriodAdmissionEntry.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionList.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionPageLauncher.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFormStatusList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentRemarksDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFamilyDtEntry.aspx" />
@@ -448,6 +449,13 @@
     </Compile>
     <Compile Include="Program\Admission\PeriodAdmissionPageLauncher.aspx.designer.cs">
       <DependentUpon>PeriodAdmissionPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFormStatusList.aspx.cs">
+      <DependentUpon>ProspectiveStudentFormStatusList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFormStatusList.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentFormStatusList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx.cs">
       <DependentUpon>ProspectiveStudentSurveyDtEntry.aspx</DependentUpon>

@@ -4949,6 +4949,80 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ProspectiveStudentFolder> GetProspectiveStudentFolderList(string filterExpression, IDbContext ctx)
+        {
+            List<ProspectiveStudentFolder> result = new List<ProspectiveStudentFolder>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFolder));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentFolder)helper.IDataReaderToObject(reader, new ProspectiveStudentFolder()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProspectiveStudentFolderStatus
+        public static ProspectiveStudentFolderStatus GetProspectiveStudentFolderStatus(Int32 ProspectiveStudentID, Int32 FormID)
+        {
+            return new ProspectiveStudentFolderStatusDao().Get(ProspectiveStudentID, FormID);
+        }
+        public static int InsertProspectiveStudentFolderStatus(ProspectiveStudentFolderStatus record)
+        {
+            return new ProspectiveStudentFolderStatusDao().Insert(record);
+        }
+        public static int UpdateProspectiveStudentFolderStatus(ProspectiveStudentFolderStatus record)
+        {
+            return new ProspectiveStudentFolderStatusDao().Update(record);
+        }
+        public static int DeleteProspectiveStudentFolderStatus(Int32 ProspectiveStudentID, Int32 FormID)
+        {
+            return new ProspectiveStudentFolderStatusDao().Delete(ProspectiveStudentID, FormID);
+        }
+        public static List<ProspectiveStudentFolderStatus> GetProspectiveStudentFolderStatusList(string filterExpression)
+        {
+            List<ProspectiveStudentFolderStatus> result = new List<ProspectiveStudentFolderStatus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFolderStatus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentFolderStatus)helper.IDataReaderToObject(reader, new ProspectiveStudentFolderStatus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProspectiveStudentFolderStatus> GetProspectiveStudentFolderStatusList(string filterExpression, IDbContext ctx)
+        {
+            List<ProspectiveStudentFolderStatus> result = new List<ProspectiveStudentFolderStatus>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudentFolderStatus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProspectiveStudentFolderStatus)helper.IDataReaderToObject(reader, new ProspectiveStudentFolderStatus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ProspectiveStudentForm
         public static ProspectiveStudentForm GetProspectiveStudentForm(Int32 FormID)

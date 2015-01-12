@@ -90,7 +90,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             try
             {
                 lstSelectedMember = hdnSelectedMember.Value.Split(',');
-                List<ProspectiveStudentFolder> lstProspectiveStudentFolder = BusinessLayer.GetProspectiveStudentFolderList(String.Format("FormID = {0}",hdnFormID.Value));
+                List<ProspectiveStudentFolder> lstProspectiveStudentFolder = BusinessLayer.GetProspectiveStudentFolderList(String.Format("FormID = {0}",hdnFormID.Value), ctx);
                 foreach (String member in lstSelectedMember)
                 {
                     ProspectiveStudentFolder entityDt = lstProspectiveStudentFolder.FirstOrDefault(x => x.SiteID == member);

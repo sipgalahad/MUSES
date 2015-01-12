@@ -326,6 +326,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Prospective Student-->
+  <searchdialog type="prospectivestudent" methodname="GetvProspectiveStudentList" keyfieldname="ProspectiveStudentID" orderbyexpression="ProspectiveStudentID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="ProspectiveStudentCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="ProspectiveStudentName" headertext="Nama" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProspectiveStudentCode" headertext="Kode" description="" />
+      <intellisensetext datafield="ProspectiveStudentName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Purchase Invoice HD-->
   <searchdialog type="purchaseinvoicehd" methodname="GetvPurchaseInvoiceHdList" keyfieldname="PurchaseInvoiceNo" orderbyexpression="PurchaseInvoiceID DESC">
     <gridcolumns>
