@@ -64,9 +64,9 @@
         //#endregion
 
         $('.lnkDetail a').live('click', function () {
-            //            var id = $(this).closest('tr').find('.keyField').html();
-            //            var url = ResolveUrl("~/Program/ControlPanel/SystemConfiguration/Menu/MenuReportEntryCtl.ascx");
-            //            openUserControlPopup(url, id, 'Report', 700, 450);
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/ProspectiveStudentForm/ProspectiveStudentFormSettingCtl.ascx");
+            openUserControlPopup(url, id, 'Setting', 700, 450);
         });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />

@@ -124,8 +124,8 @@
     <Content Include="Program\Master\Location\LocationItemEntryCtl.ascx" />
     <Content Include="Program\Master\Location\LocationList.aspx" />
     <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx" />
-    <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormCtl.ascx" />
     <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormSettingCtl.ascx" />
     <Content Include="Program\Master\Supplier\SupplierEntry.aspx" />
     <Content Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx" />
     <Content Include="Program\Master\Supplier\SupplierList.aspx" />
@@ -508,19 +508,19 @@
     <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx.designer.cs">
       <DependentUpon>ProsepectiveStudentFormEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormCtl.ascx.cs">
-      <DependentUpon>ProsepectiveStudentFormCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormCtl.ascx.designer.cs">
-      <DependentUpon>ProsepectiveStudentFormCtl.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx.cs">
       <DependentUpon>ProsepectiveStudentFormList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx.designer.cs">
       <DependentUpon>ProsepectiveStudentFormList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormSettingCtl.ascx.cs">
+      <DependentUpon>ProspectiveStudentFormSettingCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormSettingCtl.ascx.designer.cs">
+      <DependentUpon>ProspectiveStudentFormSettingCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Supplier\SupplierEntry.aspx.cs">
       <DependentUpon>SupplierEntry.aspx</DependentUpon>
@@ -629,6 +629,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPSitePageTrxVisit.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

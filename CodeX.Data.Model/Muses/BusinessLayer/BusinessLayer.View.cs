@@ -3568,6 +3568,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vProspectiveStudentFolder
+        public static List<vProspectiveStudentFolder> GetvProspectiveStudentFolderList(string filterExpression)
+        {
+            List<vProspectiveStudentFolder> result = new List<vProspectiveStudentFolder>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentFolder));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentFolder)helper.IDataReaderToObject(reader, new vProspectiveStudentFolder()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vProspectiveStudentForm
         public static List<vProspectiveStudentForm> GetvProspectiveStudentFormList(string filterExpression)
         {
