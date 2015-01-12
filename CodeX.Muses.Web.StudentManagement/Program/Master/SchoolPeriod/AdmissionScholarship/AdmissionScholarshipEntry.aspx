@@ -15,6 +15,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtScholarshipName.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
+                cboFromSchoolType.SetValue('');
 
                 $('.chkPeriodAdmissionID input').each(function () {
                     $(this).prop('checked', false);
@@ -87,6 +88,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.ScholarshipID);
             $('#<%=txtScholarshipName.ClientID %>').val(entity.ScholarshipName);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+            cboFromSchoolType.SetValue(entity.GCFromSchoolType);
 
             $('.txtDiscountAmount').each(function () {
                 $txt = $(this);
@@ -181,6 +183,10 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td colspan="3"><asp:TextBox ID="txtScholarshipName" runat="server" Width="100%" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Asal Sekolah")%></label></td>
+                                    <td colspan="3"><dxe:ASPxComboBox ID="cboFromSchoolType" ClientInstanceName="cboFromSchoolType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;</td>
@@ -310,6 +316,7 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("ScholarshipID") %>" bindingfield="ScholarshipID" />
                                         <input type="hidden" value="<%#Eval("ScholarshipName") %>" bindingfield="ScholarshipName" />
+                                        <input type="hidden" value="<%#Eval("GCFromSchoolType") %>" bindingfield="GCFromSchoolType" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </td>
                                 </tr>

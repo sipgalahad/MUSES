@@ -29,15 +29,12 @@
                     if (result != null) {
                         tacRegistration.setValue(result.RegistrationID);
                         tacRegistration.setText(result.ProspectiveStudentName);
-                        if (result.IsFeeder)
-                            $('#<%=hdnIsFeeder.ClientID %>').val('1');
-                        else
-                            $('#<%=hdnIsFeeder.ClientID %>').val('0');
+                        entityToControlRegistration(result);
                     }
                     else {
                         tacRegistration.setValue('');
                         tacRegistration.setText('');
-                        $('#<%=hdnIsFeeder.ClientID %>').val('0');
+                        entityToControlRegistration(result);
                     }
                 });
             });
@@ -49,12 +46,30 @@
             if (id != '') {
                 var filterExpression = onGetRegistrationFilterExpression() + " AND RegistrationNo = '" + value + "'";
                 Methods.getObject('GetvRegistrationList', filterExpression, function (result) {
-                    if (result.IsFeeder)
-                        $('#<%=hdnIsFeeder.ClientID %>').val('1');
-                    else
-                        $('#<%=hdnIsFeeder.ClientID %>').val('0');
+                    entityToControlRegistration(result);
                 });
             }
+        }
+
+        function entityToControlRegistration(result) {
+            if (result != null) {
+                if (result.IsFeeder)
+                    $('#<%=hdnIsFeeder.ClientID %>').val('1');
+                else
+                    $('#<%=hdnIsFeeder.ClientID %>').val('0');
+                tacAdmissionFeeRule.setValue(result.AdmissionFeeRuleID);
+                tacAdmissionFeeRule.setText(result.AdmissionFeeRuleName);
+                cboPaymentType.SetValue(result.PaymentID);
+                $('#<%=hdnAdmissionFeeRuleID.ClientID %>').val(result.AdmissionFeeRuleID);
+            }
+            else {
+                $('#<%=hdnIsFeeder.ClientID %>').val('0');
+                tacAdmissionFeeRule.setValue('');
+                tacAdmissionFeeRule.setText('');
+                cboPaymentType.SetValue('');
+                $('#<%=hdnAdmissionFeeRuleID.ClientID %>').val('0');
+            }
+            cbpScholarship.PerformCallback('refresh');
         }
         //#endregion
 
@@ -88,11 +103,173 @@
         function onTacAdmissionFeeRuleValueChanged() {
         }
         //#endregion
+
+        function calculateTotal() {
+            $('.txtTotalPaymentAmount').each(function () {
+                $tbl = $(this).closest('.tblView');
+                var totalPayment = 0;
+                var discountPayment = 0;
+                var lineAmount = 0;
+                $tbl.find('tr.trDetail').each(function () {
+                    totalPayment += parseFloat($(this).find('.txtPaymentAmount').attr('hiddenVal'));
+                    discountPayment += parseFloat($(this).find('.txtDiscountAmount').attr('hiddenVal'));
+                    lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
+                });
+                $tbl.find('.txtTotalPaymentAmount').val(totalPayment).trigger('changeValue');
+                $tbl.find('.txtTotalDiscountAmount').val(discountPayment).trigger('changeValue');
+                $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
+            });
+        }
+
+        $('.txtPaymentAmount').live('change', function () {
+            $(this).blur();
+
+            $tr = $(this).closest('tr');
+            var paymentAmount = parseFloat($tr.find('.txtPaymentAmount').attr('hiddenVal'));
+            var discountAmount = parseFloat($tr.find('.txtDiscountAmount').attr('hiddenVal'));
+            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
+
+            var totalPayment = 0;
+            var lineAmount = 0;
+            $tbl = $(this).closest('.tblView');
+            $tbl.find('tr.trDetail').each(function () {
+                totalPayment += parseFloat($(this).find('.txtPaymentAmount').attr('hiddenVal'));
+                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
+            });
+            $tbl.find('.txtTotalPaymentAmount').val(totalPayment).trigger('changeValue');
+            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
+        });
+
+        $('.txtDiscountAmount').live('change', function () {
+            $(this).blur();
+
+            $tr = $(this).closest('tr');
+            var paymentAmount = parseFloat($tr.find('.txtPaymentAmount').attr('hiddenVal'));
+            var discountAmount = parseFloat($tr.find('.txtDiscountAmount').attr('hiddenVal'));
+            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
+
+            var discountPayment = 0;
+            var lineAmount = 0;
+            $tbl = $(this).closest('.tblView');
+            $tbl.find('tr.trDetail').each(function () {
+                discountPayment += parseFloat($(this).find('.txtDiscountAmount').attr('hiddenVal'));
+                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
+            });
+            $tbl.find('.txtTotalDiscountAmount').val(discountPayment).trigger('changeValue');
+            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
+        });
+
+        function onCbpViewEndCallback(s) {
+            $('.txtCurrency').each(function () {
+                $(this).trigger('changeValue');
+            });
+            $('.txtPaymentDate').each(function () {
+                setDatePickerElement($(this));
+            });
+            calculateTotal();
+            hideLoadingPanel();
+        }
+
+        $(function () {
+            $('#btnGenerate').click(function () {
+                cbpView.PerformCallback('refresh');
+            });
+
+            $('#<%=btnSave.ClientID %>').click(function () {
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    var isAllowSave = true;
+                    $('.txtTotalPaymentAmount').each(function () {
+                        var totalPaymentAmount = parseFloat($(this).attr('hiddenVal'));
+                        var totalPaymentAmount1 = parseFloat($(this).closest('.tblView').prev('.hdnTotalAmount').val());
+                        if (totalPaymentAmount != totalPaymentAmount1) {
+                            $(this).addClass('error');
+                            isAllowSave = false;
+                        }
+                        else
+                            $(this).removeClass('error');
+                    });
+                    $('.txtLineAmount').each(function () {
+                        var value = parseFloat($(this).attr('hiddenVal'));
+                        if (value < 0) {
+                            $(this).addClass('error');
+                            isAllowSave = false;
+                        }
+                        else
+                            $(this).removeClass('error');
+                    });
+                    if (isAllowSave) {
+                        getSaveValue();
+                        onCustomButtonClick('save');
+                    }
+                }
+            });
+        });
+
+        function getSaveValue() {
+            var lstSaveValue = '';
+            $('.hdnAdmissionFeeCompID').each(function () {
+                var admissionFeeCompID = $(this).val();
+                $tbl = $(this).next().next('.tblView');
+                var lstTemp = '';
+                $tbl.find('.trDetail').each(function () {
+                    if (lstTemp != '')
+                        lstTemp += ',';
+                    var paymentDate = $(this).find('.txtPaymentDate').val();
+                    var paymentAmount = $(this).find('.txtPaymentAmount').attr('hiddenVal');
+                    var discountAmount = $(this).find('.txtDiscountAmount').attr('hiddenVal');
+                    var lineAmount = $(this).find('.txtLineAmount').attr('hiddenVal');
+                    lstTemp += paymentDate + '^' + paymentAmount + '^' + discountAmount + '^' + lineAmount;
+                });
+                if (lstSaveValue != '')
+                    lstSaveValue += '|';
+                lstSaveValue += admissionFeeCompID + ';' + lstTemp;
+            });
+            $('#<%=hdnSaveValue.ClientID %>').val(lstSaveValue);
+        }
+
+        $('.chkIsSelected input').live('change', function () {
+            $('.chkSelectAll input').prop('checked', false);
+            setDdeScholarshipText();
+        });
+
+        $('.chkSelectAll input').live('change', function () {
+            var isChecked = $(this).is(":checked");
+            $('.chkIsSelected').each(function () {
+                $(this).find('input').prop('checked', isChecked);
+            });
+            setDdeScholarshipText();
+        });
+
+        function setDdeScholarshipText() {
+            var scholarshipName = '';
+            var lstScholarshipID = '';
+            $('.chkIsSelected input:checked').each(function () {
+                $tr = $(this).closest('tr');
+                if (scholarshipName != '') {
+                    scholarshipName += ', ';
+                    lstScholarshipID += ',';
+                }
+                lstScholarshipID += $tr.find('.keyField').html();
+                scholarshipName += $tr.find('.hdnScholarshipName').val();
+            });
+            ddeScholarship.SetText(scholarshipName);
+            $('#<%=hdnLstScholarshipID.ClientID %>').val(lstScholarshipID);
+        }
+
+        function onCbpScholarshipEndCallback(s) {
+            if (parseFloat($('#<%=hdnAdmissionFeeRuleID.ClientID %>').val()) > 0) {
+                setDdeScholarshipText();
+                cbpView.PerformCallback('refresh');
+            }
+        }
     </script>
     <style type="text/css">
         .grdStudent th b        { color: Red; }
     </style>
+    <input type="hidden" id="hdnAdmissionFeeRuleID" value="0" runat="server" />
     <input type="hidden" id="hdnSchoolPeriodID" value="0" runat="server" />
+    <input type="hidden" id="hdnSaveValue" value="0" runat="server" />
+    <input type="hidden" id="hdnLstScholarshipID" value="0" runat="server" />
     <div>
         <table>
             <colgroup>
@@ -121,16 +298,126 @@
             </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Beasiswa") %></td>
-                <td><dxe:ASPxComboBox ID="ASPxComboBox1" runat="server" Width="150px" /></td>
+                <td>
+                    <dxe:ASPxDropDownEdit ClientInstanceName="ddeScholarship" ID="ddeScholarship"
+                        Width="300px" runat="server" EnableAnimation="False">
+                        <DropDownWindowStyle BackColor="#EDEDED" />
+                        <DropDownWindowTemplate>
+                            <dxcp:ASPxCallbackPanel ID="cbpScholarship" runat="server" Width="100%" ClientInstanceName="cbpScholarship"
+                                ShowLoadingPanel="false" OnCallback="cbpScholarship_Callback">
+                                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                    EndCallback="function(s,e){ onCbpScholarshipEndCallback(s); }" />
+                                <PanelCollection>
+                                    <dx:PanelContent ID="PanelContent1" runat="server">
+                                        <asp:GridView ID="grdScholarship" runat="server" CssClass="grdNormal grdBorder notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdScholarship_RowDataBound">
+                                            <Columns>
+                                                <asp:BoundField DataField="ScholarshipID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:TemplateField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px">
+                                                    <HeaderTemplate>
+                                                        <asp:CheckBox ID="chkSelectAll" runat="server" CssClass="chkSelectAll" />
+                                                    </HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkIsSelected" CssClass="chkIsSelected" runat="server" />
+                                                        <input type="hidden" class="hdnScholarshipName" value='<%#Eval("ScholarshipName") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="ScholarshipName" HeaderText="Beasiswa" HeaderStyle-HorizontalAlign="Left" />
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <%=GetLabel("Data Tidak Tersedia")%>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </dx:PanelContent>
+                                </PanelCollection>
+                            </dxcp:ASPxCallbackPanel>    
+                        </DropDownWindowTemplate>
+                    </dxe:ASPxDropDownEdit>
+                </td>
             </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Cara Pembayaran") %></td>
-                <td><dxe:ASPxComboBox ID="cboPaymentType" runat="server" Width="150px" /></td>
+                <td><dxe:ASPxComboBox ID="cboPaymentType" ClientInstanceName="cboPaymentType" runat="server" Width="150px" /></td>
             </tr>
             <tr>
                 <td class="tdLabel">&nbsp;</td>
                 <td><input type="button" id="btnGenerate" value='<%=GetLabel("Generate") %>' /></td>
             </tr>
         </table>
+        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+            <PanelCollection>
+                <dx:PanelContent ID="PanelContent1" runat="server">
+                    <asp:Panel runat="server" ID="pnlView">
+                        <asp:Repeater ID="rptAdmissionComp" runat="server" OnItemDataBound="rptAdmissionComp_ItemDataBound">
+                            <HeaderTemplate>
+                                <table>
+                                    <colgroup>
+                                        <col style="width:160px"/>
+                                        <col style="width:20px"/>
+                                        <col style="width:100px"/>
+                                    </colgroup>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%#Eval("AdmissionFeeCompType") %></td>
+                                    <td>:</td>
+                                    <td align="right"><b style="color:Red"><%#Eval("TotalAmount", "{0:N}") %></b></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID") %>' />
+                                        <input type="hidden" class="hdnTotalAmount" value='<%#Eval("TotalAmount") %>' />
+                                        <asp:Repeater ID="rptViewDt" runat="server">
+                                            <HeaderTemplate>
+                                                <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
+                                                    <colgroup>
+                                                        <col />
+                                                        <col style="width:200px"/>
+                                                        <col style="width:150px" />
+                                                        <col style="width:150px" />
+                                                        <col style="width:150px" />
+                                                    </colgroup>
+                                                    <tr>
+                                                        <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Tanggal Pembayaran") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Diskon") %></th>
+                                                        <th class="thCenter"><%=GetLabel("Total") %></th>
+                                                    </tr>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <tr class="trDetail">
+                                                    <td align="center"><%#Eval("DisplayOrder") %></td>
+                                                    <td align="center"><input type="text" class="txtPaymentDate datepicker required" validationgroup="mpEntry" value='<%#Eval("PaymentDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                    <td align="center"><input type="text" class="txtPaymentAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalPaymentAmount") %>' /></td>
+                                                    <td align="center"><input type="text" class="txtDiscountAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalDiscountAmount") %>' /></td>
+                                                    <td align="center"><input type="text" class="txtLineAmount txtCurrency required" validationgroup="mpEntry" readonly="readonly" style="width:90%" value='<%#Eval("LineAmount") %>' /></td>
+                                                </tr>
+                                            </ItemTemplate>
+                                            <FooterTemplate>
+                                                    <tr class="trFooter">
+                                                        <td align="right" colspan="2"><%=GetLabel("Total") %></td>
+                                                        <td align="center"><input type="text" class="txtTotalPaymentAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
+                                                        <td align="center"><input type="text" class="txtTotalDiscountAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
+                                                        <td align="center"><input type="text" class="txtTotalAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
+                                                    </tr>
+                                                </table>
+                                            </FooterTemplate>
+                                        </asp:Repeater>
+                                        <br />
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                            <FooterTemplate>
+                                </table>
+                            </FooterTemplate>
+                        </asp:Repeater>
+                    </asp:Panel>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dxcp:ASPxCallbackPanel>    
     </div>
 </asp:Content>

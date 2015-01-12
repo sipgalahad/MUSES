@@ -77,6 +77,91 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vAdmissionFeeRuleDtCustom
+    [Serializable]
+    [Table(Name = "vAdmissionFeeRuleDtCustom")]
+    public class vAdmissionFeeRuleDtCustom
+    {
+        private Int32 _AdmissionFeeCompID;
+        private Int32 _SchoolPeriodID;
+        private String _GCAdmissionFeeCompType;
+        private String _AdmissionFeeCompType;
+        private String _GCAdmissionPaymentPeriod;
+        private String _AdmissionPaymentPeriod;
+        private Boolean _IsFixedAmount;
+        private Decimal _TotalAmount;
+        private Int32 _AdmissionFeeRuleID;
+        private Int32 _PeriodAdmissionID;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "GCAdmissionFeeCompType", DataType = "String")]
+        public String GCAdmissionFeeCompType
+        {
+            get { return _GCAdmissionFeeCompType; }
+            set { _GCAdmissionFeeCompType = value; }
+        }
+        [Column(Name = "AdmissionFeeCompType", DataType = "String")]
+        public String AdmissionFeeCompType
+        {
+            get { return _AdmissionFeeCompType; }
+            set { _AdmissionFeeCompType = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "AdmissionPaymentPeriod", DataType = "String")]
+        public String AdmissionPaymentPeriod
+        {
+            get { return _AdmissionPaymentPeriod; }
+            set { _AdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "IsFixedAmount", DataType = "Boolean")]
+        public Boolean IsFixedAmount
+        {
+            get { return _IsFixedAmount; }
+            set { _IsFixedAmount = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleID", DataType = "Int32")]
+        public Int32 AdmissionFeeRuleID
+        {
+            get { return _AdmissionFeeRuleID; }
+            set { _AdmissionFeeRuleID = value; }
+        }
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32")]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vAdmissionFeeRuleHd
     [Serializable]
     [Table(Name = "vAdmissionFeeRuleHd")]
@@ -12103,6 +12188,10 @@ namespace CodeX.Data.Model
         private String _GCRegistrationType;
         private String _GCInformationSource;
         private Decimal _FinalMark;
+        private Int32 _AdmissionFeeRuleID;
+        private String _AdmissionFeeRuleName;
+        private Int32 _PaymentID;
+        private String _PaymentName;
         private String _Remarks;
         private String _GCRegistrationStatus;
         private String _RegistrationStatus;
@@ -12194,6 +12283,30 @@ namespace CodeX.Data.Model
         {
             get { return _FinalMark; }
             set { _FinalMark = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleID", DataType = "Int32")]
+        public Int32 AdmissionFeeRuleID
+        {
+            get { return _AdmissionFeeRuleID; }
+            set { _AdmissionFeeRuleID = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleName", DataType = "String")]
+        public String AdmissionFeeRuleName
+        {
+            get { return _AdmissionFeeRuleName; }
+            set { _AdmissionFeeRuleName = value; }
+        }
+        [Column(Name = "PaymentID", DataType = "Int32")]
+        public Int32 PaymentID
+        {
+            get { return _PaymentID; }
+            set { _PaymentID = value; }
+        }
+        [Column(Name = "PaymentName", DataType = "String")]
+        public String PaymentName
+        {
+            get { return _PaymentName; }
+            set { _PaymentName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
