@@ -6262,6 +6262,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RegistrationScholarship
+        public static RegistrationScholarship GetRegistrationScholarship(Int32 RegistrationID, Int32 ScholarshipID)
+        {
+            return new RegistrationScholarshipDao().Get(RegistrationID, ScholarshipID);
+        }
+        public static int InsertRegistrationScholarship(RegistrationScholarship record)
+        {
+            return new RegistrationScholarshipDao().Insert(record);
+        }
+        public static int UpdateRegistrationScholarship(RegistrationScholarship record)
+        {
+            return new RegistrationScholarshipDao().Update(record);
+        }
+        public static int DeleteRegistrationScholarship(Int32 RegistrationID, Int32 ScholarshipID)
+        {
+            return new RegistrationScholarshipDao().Delete(RegistrationID, ScholarshipID);
+        }
+        public static List<RegistrationScholarship> GetRegistrationScholarshipList(string filterExpression)
+        {
+            List<RegistrationScholarship> result = new List<RegistrationScholarship>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationScholarship));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationScholarship)helper.IDataReaderToObject(reader, new RegistrationScholarship()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RegistrationScholarship> GetRegistrationScholarshipList(string filterExpression, IDbContext ctx)
+        {
+            List<RegistrationScholarship> result = new List<RegistrationScholarship>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationScholarship));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationScholarship)helper.IDataReaderToObject(reader, new RegistrationScholarship()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region RestrictionDt
         public static RestrictionDt GetRestrictionDt(Int32 RestrictionID, String TransactionCode)
         {

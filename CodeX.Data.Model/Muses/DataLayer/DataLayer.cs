@@ -13696,6 +13696,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RegistrationScholarship
+    [Serializable]
+    [Table(Name = "RegistrationScholarship")]
+    public class RegistrationScholarship : DbDataModel
+    {
+        private Int32 _RegistrationID;
+        private Int32 _ScholarshipID;
+
+        [Column(Name = "RegistrationID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
+        }
+        [Column(Name = "ScholarshipID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ScholarshipID
+        {
+            get { return _ScholarshipID; }
+            set { _ScholarshipID = value; }
+        }
+    }
+
+    public class RegistrationScholarshipDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RegistrationScholarship));
+        private bool _isAuditLog = false;
+        private const string p_RegistrationID = "@p_RegistrationID";
+        private const string p_ScholarshipID = "@p_ScholarshipID";
+        public RegistrationScholarshipDao() { }
+        public RegistrationScholarshipDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RegistrationScholarship Get(Int32 RegistrationID, Int32 ScholarshipID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_RegistrationID, RegistrationID);
+            _ctx.Add(p_ScholarshipID, ScholarshipID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RegistrationScholarship)_helper.DataRowToObject(row, new RegistrationScholarship());
+        }
+        public int Insert(RegistrationScholarship record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RegistrationScholarship record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 RegistrationID, Int32 ScholarshipID)
+        {
+            RegistrationScholarship record;
+            if (_ctx.Transaction == null)
+                record = new RegistrationScholarshipDao().Get(RegistrationID, ScholarshipID);
+            else
+                record = Get(RegistrationID, ScholarshipID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region RestrictionDt
     [Serializable]
     [Table(Name = "RestrictionDt")]
@@ -14002,6 +14066,7 @@ namespace CodeX.Data.Model
         private Int32? _SchoolPeriodID;
         private String _GCScholarshipType;
         private String _ScholarshipName;
+        private String _GCFromSchoolType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -14032,6 +14097,12 @@ namespace CodeX.Data.Model
         {
             get { return _ScholarshipName; }
             set { _ScholarshipName = value; }
+        }
+        [Column(Name = "GCFromSchoolType", DataType = "String", IsNullable = true)]
+        public String GCFromSchoolType
+        {
+            get { return _GCFromSchoolType; }
+            set { _GCFromSchoolType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

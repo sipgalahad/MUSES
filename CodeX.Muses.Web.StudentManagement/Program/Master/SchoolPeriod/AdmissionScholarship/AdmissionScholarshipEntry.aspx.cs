@@ -25,6 +25,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<PeriodAdmission> lstAdmission = null;
         protected override void InitializeDataControl()
         {
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.FROM_SCHOOL_TYPE));
+            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            Methods.SetComboBoxField<StandardCode>(cboFromSchoolType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
             lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
             rptAdmissionFeeComp.DataSource = lstComp;
             rptAdmissionFeeComp.DataBind();
@@ -171,6 +175,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(Scholarship entity)
         {
             entity.ScholarshipName = txtScholarshipName.Text;
+            if (cboFromSchoolType.Value == null || cboFromSchoolType.Value.ToString() == "")
+                entity.GCFromSchoolType = null;
+            else
+                entity.GCFromSchoolType = cboFromSchoolType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
         }
 

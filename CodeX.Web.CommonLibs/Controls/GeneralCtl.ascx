@@ -33,6 +33,8 @@
 <script src='<%= ResolveUrl("~/Libs/Scripts/CustomControl/QISClientQuickEntry.js")%>' type='text/javascript'></script>
 <script src='<%= ResolveUrl("~/Libs/Scripts/CustomControl/CodeXClientAutoComplete.js")%>' type='text/javascript'></script>
 <script type="text/javascript">
+    $("input:text.number, input:text.txtCurrency").live('focus', function () { $(this).select(); });
+
     var baseUrl = '<%= ResolveUrl("~/") %>';
     window.ResolveUrl = function (url) {
         if (url.indexOf("~/") == 0) {

@@ -60,16 +60,16 @@
                 tacAdmissionFeeRule.setValue(result.AdmissionFeeRuleID);
                 tacAdmissionFeeRule.setText(result.AdmissionFeeRuleName);
                 cboPaymentType.SetValue(result.PaymentID);
-                if (result.AdmissionFeeRuleID > 0) {
-                    cbpView.PerformCallback('refresh');
-                }
+                $('#<%=hdnAdmissionFeeRuleID.ClientID %>').val(result.AdmissionFeeRuleID);
             }
             else {
                 $('#<%=hdnIsFeeder.ClientID %>').val('0');
                 tacAdmissionFeeRule.setValue('');
                 tacAdmissionFeeRule.setText('');
                 cboPaymentType.SetValue('');
+                $('#<%=hdnAdmissionFeeRuleID.ClientID %>').val('0');
             }
+            cbpScholarship.PerformCallback('refresh');
         }
         //#endregion
 
@@ -188,6 +188,15 @@
                         else
                             $(this).removeClass('error');
                     });
+                    $('.txtLineAmount').each(function () {
+                        var value = parseFloat($(this).attr('hiddenVal'));
+                        if (value < 0) {
+                            $(this).addClass('error');
+                            isAllowSave = false;
+                        }
+                        else
+                            $(this).removeClass('error');
+                    });
                     if (isAllowSave) {
                         getSaveValue();
                         onCustomButtonClick('save');
@@ -217,12 +226,50 @@
             });
             $('#<%=hdnSaveValue.ClientID %>').val(lstSaveValue);
         }
+
+        $('.chkIsSelected input').live('change', function () {
+            $('.chkSelectAll input').prop('checked', false);
+            setDdeScholarshipText();
+        });
+
+        $('.chkSelectAll input').live('change', function () {
+            var isChecked = $(this).is(":checked");
+            $('.chkIsSelected').each(function () {
+                $(this).find('input').prop('checked', isChecked);
+            });
+            setDdeScholarshipText();
+        });
+
+        function setDdeScholarshipText() {
+            var scholarshipName = '';
+            var lstScholarshipID = '';
+            $('.chkIsSelected input:checked').each(function () {
+                $tr = $(this).closest('tr');
+                if (scholarshipName != '') {
+                    scholarshipName += ', ';
+                    lstScholarshipID += ',';
+                }
+                lstScholarshipID += $tr.find('.keyField').html();
+                scholarshipName += $tr.find('.hdnScholarshipName').val();
+            });
+            ddeScholarship.SetText(scholarshipName);
+            $('#<%=hdnLstScholarshipID.ClientID %>').val(lstScholarshipID);
+        }
+
+        function onCbpScholarshipEndCallback(s) {
+            if (parseFloat($('#<%=hdnAdmissionFeeRuleID.ClientID %>').val()) > 0) {
+                setDdeScholarshipText();
+                cbpView.PerformCallback('refresh');
+            }
+        }
     </script>
     <style type="text/css">
         .grdStudent th b        { color: Red; }
     </style>
+    <input type="hidden" id="hdnAdmissionFeeRuleID" value="0" runat="server" />
     <input type="hidden" id="hdnSchoolPeriodID" value="0" runat="server" />
     <input type="hidden" id="hdnSaveValue" value="0" runat="server" />
+    <input type="hidden" id="hdnLstScholarshipID" value="0" runat="server" />
     <div>
         <table>
             <colgroup>
@@ -251,7 +298,41 @@
             </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Beasiswa") %></td>
-                <td><dxe:ASPxComboBox ID="ASPxComboBox1" runat="server" Width="150px" /></td>
+                <td>
+                    <dxe:ASPxDropDownEdit ClientInstanceName="ddeScholarship" ID="ddeScholarship"
+                        Width="300px" runat="server" EnableAnimation="False">
+                        <DropDownWindowStyle BackColor="#EDEDED" />
+                        <DropDownWindowTemplate>
+                            <dxcp:ASPxCallbackPanel ID="cbpScholarship" runat="server" Width="100%" ClientInstanceName="cbpScholarship"
+                                ShowLoadingPanel="false" OnCallback="cbpScholarship_Callback">
+                                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                    EndCallback="function(s,e){ onCbpScholarshipEndCallback(s); }" />
+                                <PanelCollection>
+                                    <dx:PanelContent ID="PanelContent1" runat="server">
+                                        <asp:GridView ID="grdScholarship" runat="server" CssClass="grdNormal grdBorder notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdScholarship_RowDataBound">
+                                            <Columns>
+                                                <asp:BoundField DataField="ScholarshipID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:TemplateField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px">
+                                                    <HeaderTemplate>
+                                                        <asp:CheckBox ID="chkSelectAll" runat="server" CssClass="chkSelectAll" />
+                                                    </HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkIsSelected" CssClass="chkIsSelected" runat="server" />
+                                                        <input type="hidden" class="hdnScholarshipName" value='<%#Eval("ScholarshipName") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="ScholarshipName" HeaderText="Beasiswa" HeaderStyle-HorizontalAlign="Left" />
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <%=GetLabel("Data Tidak Tersedia")%>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </dx:PanelContent>
+                                </PanelCollection>
+                            </dxcp:ASPxCallbackPanel>    
+                        </DropDownWindowTemplate>
+                    </dxe:ASPxDropDownEdit>
+                </td>
             </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Cara Pembayaran") %></td>
@@ -291,7 +372,7 @@
                                         <input type="hidden" class="hdnTotalAmount" value='<%#Eval("TotalAmount") %>' />
                                         <asp:Repeater ID="rptViewDt" runat="server">
                                             <HeaderTemplate>
-                                                <table rules="all" class="grdSelected tblView">
+                                                <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
                                                     <colgroup>
                                                         <col />
                                                         <col style="width:200px"/>

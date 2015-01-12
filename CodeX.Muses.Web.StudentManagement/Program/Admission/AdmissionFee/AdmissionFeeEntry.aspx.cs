@@ -53,10 +53,45 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         List<AdmissionPaymentDt> lstPaymentDt = null;
         List<RegistrationFee> lstRegistrationFee = null;
+        List<ScholarshipComp> lstScholarshipComp = null;
+        List<RegistrationScholarship> lstRegistrationScholarshipFee = null;
+        protected void cbpScholarship_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCScholarshipType = '{1}'", hdnSchoolPeriodID.Value, Constant.ScholarshipType.ADMISSION);
+            if (hdnIsFeeder.Value == "1")
+                filterExpression += string.Format(" AND (GCFromSchoolType IS NULL OR GCFromSchoolType = '{0}')", Constant.FromSchoolType.FEEDER);
+            else
+                filterExpression += string.Format(" AND (GCFromSchoolType IS NULL OR GCFromSchoolType = '{0}')", Constant.FromSchoolType.NON_FEEDER);
+            List<Scholarship> lstScholarship = BusinessLayer.GetScholarshipList(filterExpression);
+            lstRegistrationScholarshipFee = BusinessLayer.GetRegistrationScholarshipList(String.Format("RegistrationID = {0}", tacRegistration.Value));
+
+            ASPxCallbackPanel cbpScholarship = (ASPxCallbackPanel)sender;
+            GridView grdScholarship = (GridView)cbpScholarship.FindControl("grdScholarship");
+            grdScholarship.DataSource = lstScholarship;
+            grdScholarship.DataBind();
+        }
+
+        protected void grdScholarship_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Scholarship entity = (Scholarship)e.Row.DataItem;
+                RegistrationScholarship registrationScholarshipFee = lstRegistrationScholarshipFee.FirstOrDefault(p => p.ScholarshipID == entity.ScholarshipID);
+                if (registrationScholarshipFee != null)
+                {
+                    CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
+                    chkIsSelected.Checked = true;
+                }
+            }
+        }
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             lstPaymentDt = BusinessLayer.GetAdmissionPaymentDtList(string.Format("PaymentID = {0}", cboPaymentType.Value));
             lstRegistrationFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
+            if (hdnLstScholarshipID.Value != "")
+                lstScholarshipComp = BusinessLayer.GetScholarshipCompList(string.Format("ScholarshipID IN ({0}) AND DiscountAmount > 0", hdnLstScholarshipID.Value));
+            else
+                lstScholarshipComp = new List<ScholarshipComp>();
 
             List<vAdmissionFeeRuleDtCustom> lstEntity = BusinessLayer.GetvAdmissionFeeRuleDtCustomList(string.Format("SchoolPeriodID = {0} AND (IsFixedAmount = 1 OR (IsFixedAmount = 0 AND PeriodAdmissionID = {1} AND AdmissionFeeRuleID = {2})) AND IsDeleted = 0", hdnSchoolPeriodID.Value, AppSession.PeriodAdmissionID, tacAdmissionFeeRule.Value));
             rptAdmissionComp.DataSource = lstEntity;
@@ -69,6 +104,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vAdmissionFeeRuleDtCustom entity = (vAdmissionFeeRuleDtCustom)e.Item.DataItem;
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
+
+                ScholarshipComp entityScholarshipComp = lstScholarshipComp.FirstOrDefault(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID);
 
                 List<RegistrationFee> lstRegistrationFee1 = lstRegistrationFee.Where(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID).ToList();
 
@@ -94,9 +131,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             else
                                 entityDt.PaymentDate = paymentDt.PaymentDate;
                             entityDt.TotalPaymentAmount = totalPayment;
-                            entityDt.LineAmount = entityDt.TotalPaymentAmount - entityDt.TotalDiscountAmount;
                             entityDt.DisplayOrder = ctr;
                         }
+                        if (entityScholarshipComp != null)
+                        {
+                            if (entityScholarshipComp.IsDiscountInPercentage)
+                            {
+                                decimal paymentPercentage = entityDt.TotalPaymentAmount * 100 / entity.TotalAmount;
+                                decimal discountPercentage = entityScholarshipComp.DiscountAmount * paymentPercentage / 100;
+                                entityDt.TotalDiscountAmount = entity.TotalAmount * discountPercentage / 100;
+                            }
+                            else
+                                entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount;
+                        }
+                        entityDt.LineAmount = entityDt.TotalPaymentAmount - entityDt.TotalDiscountAmount;
                         lstEntity.Add(entityDt);
                         ctr++;
                     }
@@ -112,6 +160,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             RegistrationDao entityDao = new RegistrationDao(ctx);
             RegistrationFeeDao entityFeeDao = new RegistrationFeeDao(ctx);
+            RegistrationScholarshipDao entityScholarshipDao = new RegistrationScholarshipDao(ctx);
             try
             {
                 Registration entity = entityDao.Get(Convert.ToInt32(tacRegistration.Value));
@@ -119,6 +168,28 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.PaymentID = Convert.ToInt32(cboPaymentType.Value);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
+
+                List<RegistrationScholarship> lstRegistrationScholarshipFee = BusinessLayer.GetRegistrationScholarshipList(String.Format("RegistrationID = {0}", tacRegistration.Value), ctx);
+                if (hdnLstScholarshipID.Value != "")
+                {
+                    string[] lstSaveScholarship = hdnLstScholarshipID.Value.Split(',');
+                    foreach (string saveValue in lstSaveScholarship)
+                    {
+                        int scholarshipID = Convert.ToInt32(saveValue);
+                        RegistrationScholarship registrationScholarshipFee = lstRegistrationScholarshipFee.FirstOrDefault(p => p.ScholarshipID == scholarshipID);
+                        if (registrationScholarshipFee == null)
+                        {
+                            registrationScholarshipFee = new RegistrationScholarship();
+                            registrationScholarshipFee.RegistrationID = entity.RegistrationID;
+                            registrationScholarshipFee.ScholarshipID = scholarshipID;
+                            entityScholarshipDao.Insert(registrationScholarshipFee);
+                        }
+                    }
+                }
+                foreach (RegistrationScholarship entityScholarship in lstRegistrationScholarshipFee)
+                {
+                    entityScholarshipDao.Delete(entityScholarship.RegistrationID, entityScholarship.ScholarshipID);
+                }
 
                 List<RegistrationFee> lstRegistrationFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
                 string[] lstSaveValue = hdnSaveValue.Value.Split('|');
