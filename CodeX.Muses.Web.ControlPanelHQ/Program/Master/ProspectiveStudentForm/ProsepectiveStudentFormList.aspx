@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="ProspectiveStudentFormList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.ProspectiveStudentFormList" %>
+    CodeBehind="ProsepectiveStudentFormList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.ProsepectiveStudentFormList" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -84,6 +84,7 @@
                                 <asp:BoundField DataField="FormID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="FormCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="FormName" HeaderText="Nama"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:HyperLinkField HeaderText="Setting" Text="Setting" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>
