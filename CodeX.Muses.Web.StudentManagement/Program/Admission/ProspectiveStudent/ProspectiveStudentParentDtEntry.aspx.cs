@@ -51,20 +51,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}') AND IsActive = 1 AND IsDeleted = 0",
                 Constant.StandardCode.EDUCATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.OCCUPATION);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
 
-            Methods.SetComboBoxField(cboFatherEducationLevel, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.EDUCATION).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboFatherSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboFatherTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboFatherNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboFatherEducationLevel, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.EDUCATION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboFatherSuffix, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboFatherTitle, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboFatherNationality, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboFatherReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboFatherGCJob, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboFatherGCJob, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
 
-            Methods.SetComboBoxField(cboMotherEducationLevel, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.EDUCATION).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboMotherSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboMotherTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboMotherNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboMotherEducationLevel, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.EDUCATION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboMotherSuffix, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboMotherTitle, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboMotherNationality, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboMotherReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboMotherGCJob, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboMotherGCJob, lstStandardCode.Where(x => x.StandardCodeID == "" || x.ParentID == Constant.StandardCode.OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY).TagProperty;
         }
@@ -80,8 +81,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtFatherBirthPlace, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtFatherDOB, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboFatherReligion, new ControlEntrySetting(true, true, true), "mpEntry");
-            Helper.SetControlEntrySetting(cboFatherNationality, new ControlEntrySetting(true, true, true), "mpEntry");
-            Helper.SetControlEntrySetting(cboFatherEducationLevel, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(cboFatherNationality, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(cboFatherEducationLevel, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
             #region Father Company
@@ -107,8 +108,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtMotherBirthPlace, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtMotherDOB, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMotherReligion, new ControlEntrySetting(true, true, true), "mpEntry");
-            Helper.SetControlEntrySetting(cboMotherNationality, new ControlEntrySetting(true, true, true), "mpEntry");
-            Helper.SetControlEntrySetting(cboMotherEducationLevel, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(cboMotherNationality, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(cboMotherEducationLevel, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
             #region Mother Company

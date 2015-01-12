@@ -103,6 +103,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0));
             SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0));
+            SetControlEntrySetting(chkIsFeeder, new ControlEntrySetting(true, true, false));
             #endregion
 
             #region Patient Address
@@ -153,6 +154,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtAgeInYear.Text = entity.AgeInYear.ToString();
             txtAgeInMonth.Text = entity.AgeInMonth.ToString();
             txtAgeInDay.Text = entity.AgeInDay.ToString();
+            chkIsFeeder.Checked = entity.IsFeeder;
 
             #region Address
             txtAddress.Text = entity.StreetName;
@@ -216,6 +218,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.PlaceOfBaptism = "";
                 entity.DateOfBaptism = Helper.InitializeDateTimeNull();
             }
+            entity.IsFeeder = chkIsFeeder.Checked;
             #endregion
 
             #region Address

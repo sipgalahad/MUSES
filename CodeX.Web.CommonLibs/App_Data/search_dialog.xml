@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
+  <!-- #Region Admission Fee Rule -->
+  <searchdialog type="admissionfeerule" methodname="GetAdmissionFeeRuleHdList" keyfieldname="AdmissionFeeRuleID" orderbyexpression="AdmissionFeeRuleName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="AdmissionFeeRuleName" headertext="Tipe Biaya" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="AdmissionFeeRuleName" headertext="Tipe Biaya" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Business Partners -->
   <searchdialog type="businesspartners" methodname="GetBusinessPartnersList" keyfieldname="BusinessPartnerCode" orderbyexpression="BusinessPartnerName ASC">
     <gridcolumns>
@@ -414,6 +424,18 @@
       <intellisensetext datafield="LocationName" headertext="Dari Lokasi" description="" />
       <intellisensetext datafield="TransactionDate" headertext="Tanggal Permintaan" description="" />
       <intellisensetext datafield="Remarks" headertext="Keterangan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Registration -->
+  <searchdialog type="registration" methodname="GetvRegistrationList" keyfieldname="RegistrationNo" orderbyexpression="ProspectiveStudentName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="RegistrationNo" headertext="No Pendaftaran" width="50px" />
+      <gridcolumn datafield="ProspectiveStudentName" headertext="Nama Calon Siswa" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProspectiveStudentName" headertext="Nama Calon Siswa" description="" />
+      <intellisensetext datafield="RegistrationNo" headertext="No Pendaftaran" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

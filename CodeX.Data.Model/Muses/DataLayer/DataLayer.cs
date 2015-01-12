@@ -222,7 +222,7 @@ namespace CodeX.Data.Model
         private Int32 _AdmissionFeeRuleID;
         private Int32 _SchoolPeriodID;
         private String _AdmissionFeeRuleName;
-        private Boolean _IsFeeder;
+        private String _GCFromSchoolType;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -247,11 +247,11 @@ namespace CodeX.Data.Model
             get { return _AdmissionFeeRuleName; }
             set { _AdmissionFeeRuleName = value; }
         }
-        [Column(Name = "IsFeeder", DataType = "Boolean")]
-        public Boolean IsFeeder
+        [Column(Name = "GCFromSchoolType", DataType = "String", IsNullable = true)]
+        public String GCFromSchoolType
         {
-            get { return _IsFeeder; }
-            set { _IsFeeder = value; }
+            get { return _GCFromSchoolType; }
+            set { _GCFromSchoolType = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -9778,7 +9778,6 @@ namespace CodeX.Data.Model
         private String _ProspectiveStudentCode;
         private String _SiteID;
         private String _GCSalutation;
-        private String _GCProspectiveStudentStatus;
         private String _GCTitle;
         private String _FirstName;
         private String _MiddleName;
@@ -9795,6 +9794,7 @@ namespace CodeX.Data.Model
         private String _PlaceOfBaptism;
         private DateTime _DateOfBaptism;
         private Int32? _PeriodAdmissionID;
+        private Boolean _IsFeeder;
         private String _AddressID;
         private String _EmailAddress1;
         private String _EmailAddress2;
@@ -9805,6 +9805,7 @@ namespace CodeX.Data.Model
         private String _GCLanguage;
         private Decimal _HomeDistance;
         private String _MedicalHistory;
+        private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -9833,12 +9834,6 @@ namespace CodeX.Data.Model
         {
             get { return _GCSalutation; }
             set { _GCSalutation = value; }
-        }
-        [Column(Name = "GCProspectiveStudentStatus", DataType = "String")]
-        public String GCProspectiveStudentStatus
-        {
-            get { return _GCProspectiveStudentStatus; }
-            set { _GCProspectiveStudentStatus = value; }
         }
         [Column(Name = "GCTitle", DataType = "String", IsNullable = true)]
         public String GCTitle
@@ -9936,6 +9931,12 @@ namespace CodeX.Data.Model
             get { return _PeriodAdmissionID; }
             set { _PeriodAdmissionID = value; }
         }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
+        }
         [Column(Name = "AddressID", DataType = "String", IsNullable = true)]
         public String AddressID
         {
@@ -9995,6 +9996,12 @@ namespace CodeX.Data.Model
         {
             get { return _MedicalHistory; }
             set { _MedicalHistory = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? CreatedBy
@@ -15085,6 +15092,7 @@ namespace CodeX.Data.Model
         private String _GCGrade;
         private String _GCMajor;
         private Int32? _SchoolClassID;
+        private Boolean _IsFeeder;
         private String _AddressID;
         private String _EmailAddress1;
         private String _EmailAddress2;
@@ -15235,6 +15243,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
+        }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
         }
         [Column(Name = "AddressID", DataType = "String", IsNullable = true)]
         public String AddressID

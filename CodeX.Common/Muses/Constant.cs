@@ -49,11 +49,12 @@ namespace CodeX.Common
             public const string SCHOOL_DAILY_SCHEDULE_TYPE = "MS008";
             public const string TASK_TYPE = "MS009";
             public const string SCHOOL_TYPE = "MS010";
+            public const string REGISTRATION_STATUS = "MS011";
             public const string LANGUAGE = "MS012";
             public const string INFORMATION_SOURCE = "MS013";
             public const string ADMISSION_PAYMENT_PERIOD = "MS014";
             public const string ADMISSION_FEE_COMP_TYPE = "MS015";
-            public const string PROSPECTIVE_STUDENT_STATUS = "MS017";
+            public const string FROM_SCHOOL_TYPE = "MS017";
         }
 
         public static class SchoolPeriodStatus
@@ -62,12 +63,6 @@ namespace CodeX.Common
             public const string START = "MS001^002";
             public const string END = "MS001^003";
             public const string VOID = "MS001^999";
-        }
-
-        public static class RegistrationStatus
-        {
-            public const string OPEN = "MS011^001";
-            public const string VOID = "MS011^007";
         }
 
         public static class SchoolType
@@ -81,12 +76,18 @@ namespace CodeX.Common
             public const string ADMISSION = "MS018^001";
         }
 
-        public static class ProspectiveStudentStatus
+        public static class RegistrationStatus
         {
-            public const string OPEN = "MS017^001";
-            public const string ACCEPTED = "MS017^002";
-            public const string REJECTED = "MS017^003";
-            public const string VOID = "MS001^999";
+            public const string OPEN = "MS011^001";
+            public const string ACCEPTED = "MS011^002";
+            public const string REJECTED = "MS011^003";
+            public const string VOID = "MS011^999";
+        }
+
+        public static class FromSchoolType
+        {
+            public const string FEEDER = "MS017^001";
+            public const string NON_FEEDER = "MS017^002";
         }
 
         public static class ItemType
@@ -350,6 +351,8 @@ namespace CodeX.Common
                 public const string PA_ADMISSION_SELECTION = "SM99030201";
                 public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030202";
                 public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030203";
+                public const string PA_ADMISSION_FEE = "SM99030301";
+                public const string PA_GENERATE_AR_PROSPECTIVE_STUDENT = "SM99030302";
 
                 public const string CLASS_MEETING_PAGE = "SM99040000";
                 public const string WS_CLASS_MEETING = "SM99040101";

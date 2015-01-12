@@ -14,7 +14,7 @@
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtAdmissionFeeRuleName.ClientID %>').val('');
-                $('#<%=chkIsFeeder.ClientID %>').prop('checked', false);
+                cboFromSchoolType.SetValue('');
                 $('.txtAdmissionFeeAmount').each(function () {
                     if ($(this).attr('readonly') == null)
                         $(this).val('0').trigger('changeValue');
@@ -88,7 +88,7 @@
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.AdmissionFeeRuleID);
             $('#<%=txtAdmissionFeeRuleName.ClientID %>').val(entity.AdmissionFeeRuleName);
-            $('#<%=chkIsFeeder.ClientID %>').prop('checked', entity.IsFeeder == 'True');
+            cboFromSchoolType.SetValue(entity.GCFromSchoolType);
 
             $('.txtAdmissionFeeAmount').each(function () {
                 if ($(this).attr('readonly') == null) {
@@ -176,8 +176,8 @@
                                     <td colspan="20"><asp:TextBox ID="txtAdmissionFeeRuleName" Width="300px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Feeder")%></label></td>
-                                    <td colspan="20"><asp:CheckBox ID="chkIsFeeder" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Asal Sekolah")%></label></td>
+                                    <td colspan="20"><dxe:ASPxComboBox ID="cboFromSchoolType" ClientInstanceName="cboFromSchoolType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -224,7 +224,7 @@
             <thead>
                 <tr>
                     <th rowspan="2"><%=GetLabel("Nama")%></th>
-                    <th style="width:80px" class="thCenter" rowspan="2"><%=GetLabel("Feeder")%></th>
+                    <th style="width:100px" rowspan="2"><%=GetLabel("Asal Sekolah")%></th>
                     <asp:Repeater ID="rptAdmissionFeeCompView" runat="server" OnItemDataBound="rptAdmissionFeeCompView_ItemDataBound">
                         <ItemTemplate>
                             <th class="thCenter" id="thAdmissionFeeCompType" runat="server"><%#Eval("AdmissionFeeCompType")%></th>
@@ -265,7 +265,7 @@
                             <ItemTemplate>
                                 <tr class="trDt">
                                     <td><%#Eval("AdmissionFeeRuleName")%></td>
-                                    <td align="center"><asp:CheckBox ID="chkIsFeeder" Enabled="false" Checked='<%#Eval("IsFeeder")%>' runat="server" /></td>
+                                    <td><%#Eval("FromSchoolType")%></td>
                                     <asp:Repeater ID="rptViewDt" runat="server">
                                         <ItemTemplate>
                                             <td class="thRight tdFeeRuleDt">
@@ -288,7 +288,7 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("AdmissionFeeRuleID") %>" bindingfield="AdmissionFeeRuleID" />
                                         <input type="hidden" value="<%#Eval("AdmissionFeeRuleName") %>" bindingfield="AdmissionFeeRuleName" />
-                                        <input type="hidden" value="<%#Eval("IsFeeder") %>" bindingfield="IsFeeder" />
+                                        <input type="hidden" value="<%#Eval("GCFromSchoolType") %>" bindingfield="GCFromSchoolType" />
                                     </td>
                                 </tr>
                             </ItemTemplate>

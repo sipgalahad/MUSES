@@ -99,6 +99,7 @@
     <Content Include="MasterPage\PeriodAdmissionBannerDtCtl.ascx" />
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
+    <Content Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx" />
     <Content Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
@@ -398,6 +399,13 @@
     </Compile>
     <Compile Include="MasterPage\SchoolPeriodBannerDtCtl.ascx.designer.cs">
       <DependentUpon>SchoolPeriodBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx.cs">
+      <DependentUpon>AdmissionFeeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx.designer.cs">
+      <DependentUpon>AdmissionFeeEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>
@@ -795,6 +803,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Program\Admission\GenerateARProspectiveStudent\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">

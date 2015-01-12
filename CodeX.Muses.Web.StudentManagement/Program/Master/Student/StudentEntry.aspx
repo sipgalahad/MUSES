@@ -231,6 +231,10 @@
                                 </table>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Feeder")%></label></td>
+                            <td><asp:CheckBox ID="chkIsFeeder" runat="server" /></td>
+                        </tr>
                     </table>
                 </div>
                 <h4 class="h4expanded"><%=GetLabel("Data Kontak")%></h4>

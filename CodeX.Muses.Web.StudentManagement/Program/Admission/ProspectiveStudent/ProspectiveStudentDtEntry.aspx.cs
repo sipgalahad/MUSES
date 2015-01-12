@@ -82,6 +82,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0), "mpEntry");
+            Helper.SetControlEntrySetting(chkIsFeeder, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
             #region Patient Address
@@ -156,6 +157,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtAgeInYear.Text = entity.AgeInYear.ToString();
             txtAgeInMonth.Text = entity.AgeInMonth.ToString();
             txtAgeInDay.Text = entity.AgeInDay.ToString();
+            chkIsFeeder.Checked = entity.IsFeeder;
             #endregion
 
             #region Address
@@ -219,6 +221,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.PlaceOfBaptism = "";
                 entity.DateOfBaptism = Helper.InitializeDateTimeNull();
             }
+            entity.IsFeeder = chkIsFeeder.Checked;
             #endregion
 
             #region Address
@@ -256,7 +259,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Address address = new Address();
                 ControlToEntity(entityRegistration, entity, address);
 
-                entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.OPEN;
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entity.AddressID = null;

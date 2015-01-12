@@ -227,26 +227,6 @@
                                     <td><dxe:ASPxComboBox ID="cboGender" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kewarganegaraan")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboNationality" Width="120px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Agama")%></label></td>
-                                    <td>
-                                        <dxe:ASPxComboBox ID="cboReligion" ClientInstanceName="cboReligion" Width="120px" runat="server">
-                                            <ClientSideEvents ValueChanged="function(s,e) { onCboReligionValueChanged(); }" />
-                                        </dxe:ASPxComboBox>
-                                    </td>
-                                </tr>
-                                <tr id="trPlaceOfBaptism" runat="server">
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Baptis")%></label></td>
-                                    <td><asp:TextBox ID="txtPlaceOfBaptism" Width="100%" runat="server" /></td>
-                                </tr>
-                                <tr id="trDateOfBaptism" runat="server">
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Baptis")%></label></td>
-                                    <td><asp:TextBox ID="txtDateOfBaptism" Width="120px" runat="server" CssClass="datepicker" /></td>
-                                </tr>
-                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtBirthPlace" Width="100%" runat="server" /></td>
                                 </tr>
@@ -274,6 +254,30 @@
                                             </tr>
                                         </table>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kewarganegaraan")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboNationality" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Agama")%></label></td>
+                                    <td>
+                                        <dxe:ASPxComboBox ID="cboReligion" ClientInstanceName="cboReligion" Width="120px" runat="server">
+                                            <ClientSideEvents ValueChanged="function(s,e) { onCboReligionValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr id="trPlaceOfBaptism" runat="server">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Baptis")%></label></td>
+                                    <td><asp:TextBox ID="txtPlaceOfBaptism" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr id="trDateOfBaptism" runat="server">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Baptis")%></label></td>
+                                    <td><asp:TextBox ID="txtDateOfBaptism" Width="120px" runat="server" CssClass="datepicker" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Feeder")%></label></td>
+                                    <td><asp:CheckBox ID="chkIsFeeder" runat="server" /></td>
                                 </tr>
                             </table>
                         </div>

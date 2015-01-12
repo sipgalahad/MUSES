@@ -25,6 +25,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<PeriodAdmission> lstAdmission = null;
         protected override void InitializeDataControl()
         {
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.FROM_SCHOOL_TYPE));
+            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            Methods.SetComboBoxField<StandardCode>(cboFromSchoolType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
             lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
             rptAdmissionFeeComp.DataSource = lstComp;
             rptAdmissionFeeComp.DataBind();
@@ -110,7 +114,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             string filterExpression = string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID);
-            List<AdmissionFeeRuleHd> lstEntity = BusinessLayer.GetAdmissionFeeRuleHdList(filterExpression);
+            List<vAdmissionFeeRuleHd> lstEntity = BusinessLayer.GetvAdmissionFeeRuleHdList(filterExpression);
             string lstFeeRuleID = string.Join(",", lstEntity.Select(p => p.AdmissionFeeRuleID).ToList());
             lstEntityDt = BusinessLayer.GetAdmissionFeeRuleDtList(string.Format("AdmissionFeeRuleID IN ({0})", lstFeeRuleID));
             if (lstComp == null && lstEntity.Count > 0)
@@ -127,7 +131,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                AdmissionFeeRuleHd entity = (AdmissionFeeRuleHd)e.Item.DataItem;
+                vAdmissionFeeRuleHd entity = (vAdmissionFeeRuleHd)e.Item.DataItem;
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
                 Repeater rptViewDtTotal = (Repeater)e.Item.FindControl("rptViewDtTotal");
 
@@ -227,7 +231,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(AdmissionFeeRuleHd entityHd)
         {
             entityHd.AdmissionFeeRuleName = txtAdmissionFeeRuleName.Text;
-            entityHd.IsFeeder = chkIsFeeder.Checked;
+            if (cboFromSchoolType.Value == null || cboFromSchoolType.Value.ToString() == "")
+                entityHd.GCFromSchoolType = null;
+            else
+                entityHd.GCFromSchoolType = cboFromSchoolType.Value.ToString();
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

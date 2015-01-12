@@ -61,6 +61,10 @@
             });
         });
 
+        function onAfterCustomClickSuccess() {
+            cbpView.PerformCallback('refresh');
+        }
+
         function getCheckedMember() {
             var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split(',');
             var result = '';
@@ -233,7 +237,7 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td align="center"><asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" /></td>
-                                            <td class="keyField"><%#Eval("ProspectiveStudentID")%></td>
+                                            <td class="keyField"><%#Eval("RegistrationID")%></td>
                                             <td><%#Eval("RegistrationNo")%></td>
                                             <td><%#Eval("ProspectiveStudentName") %></td>
                                             <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
@@ -247,7 +251,7 @@
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="center"><%#Eval("FinalMark") %></td>
-                                            <td><%#Eval("ProspectiveStudentStatus") %></td>
+                                            <td><%#Eval("RegistrationStatus") %></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>

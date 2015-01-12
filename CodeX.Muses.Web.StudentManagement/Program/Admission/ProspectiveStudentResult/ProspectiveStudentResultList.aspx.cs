@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PROSPECTIVE_STUDENT_STATUS));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REGISTRATION_STATUS));
             lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
             Methods.SetComboBoxField<StandardCode>(cboProspectiveStudentStatus, lstSc, "StandardCodeName", "StandardCodeID");
             cboProspectiveStudentStatus.SelectedIndex = 0;
@@ -41,7 +41,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptHeader2.DataSource = lstAdmissionSelection;
             rptHeader2.DataBind();
 
-            thMarkHeader.ColSpan = lstAdmissionSelection.Count * 2;
+            if (lstAdmissionSelection.Count == 0)
+                thMarkHeader.Style.Add("display", "none");
+            else
+                thMarkHeader.ColSpan = lstAdmissionSelection.Count * 2;
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
@@ -140,38 +143,38 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            ProspectiveStudentDao entityDao = new ProspectiveStudentDao(ctx);
+            RegistrationDao entityDao = new RegistrationDao(ctx);
             try
             {
                 if (type == "accept")
                 {
-                    string filterExpression = String.Format("ProspectiveStudentID IN ({0})", hdnSelectedMember.Value.Substring(1));
-                    List<ProspectiveStudent> lstEntity = BusinessLayer.GetProspectiveStudentList(filterExpression, ctx);
-                    foreach (ProspectiveStudent entity in lstEntity)
+                    string filterExpression = String.Format("RegistrationID IN ({0})", hdnSelectedMember.Value.Substring(1));
+                    List<Registration> lstEntity = BusinessLayer.GetRegistrationList(filterExpression, ctx);
+                    foreach (Registration entity in lstEntity)
                     {
-                        entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.ACCEPTED;
+                        entity.GCRegistrationStatus = Constant.RegistrationStatus.ACCEPTED;
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
                     }
                 }
                 else if (type == "reject")
                 {
-                    string filterExpression = String.Format("ProspectiveStudentID IN ({0})", hdnSelectedMember.Value.Substring(1));
-                    List<ProspectiveStudent> lstEntity = BusinessLayer.GetProspectiveStudentList(filterExpression, ctx);
-                    foreach (ProspectiveStudent entity in lstEntity)
+                    string filterExpression = String.Format("RegistrationID IN ({0})", hdnSelectedMember.Value.Substring(1));
+                    List<Registration> lstEntity = BusinessLayer.GetRegistrationList(filterExpression, ctx);
+                    foreach (Registration entity in lstEntity)
                     {
-                        entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.REJECTED;
+                        entity.GCRegistrationStatus = Constant.RegistrationStatus.REJECTED;
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
                     }
                 }
                 else
                 {
-                    string filterExpression = String.Format("ProspectiveStudentID IN ({0})", hdnSelectedMember.Value.Substring(1));
-                    List<ProspectiveStudent> lstEntity = BusinessLayer.GetProspectiveStudentList(filterExpression, ctx);
-                    foreach (ProspectiveStudent entity in lstEntity)
+                    string filterExpression = String.Format("RegistrationID IN ({0})", hdnSelectedMember.Value.Substring(1));
+                    List<Registration> lstEntity = BusinessLayer.GetRegistrationList(filterExpression, ctx);
+                    foreach (Registration entity in lstEntity)
                     {
-                        entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.OPEN;
+                        entity.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
                     }

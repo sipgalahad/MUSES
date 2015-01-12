@@ -182,7 +182,7 @@
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
-    <div style="height: 410px; overflow-y:auto">
+    <div style="height: 405px; overflow-y:auto">
         <fieldset id="fsMPEntry">            
             <table class="tblContentArea" >
                 <colgroup>
@@ -226,11 +226,11 @@
                                     <td><dxe:ASPxComboBox ID="cboFatherSuffix" ClientInstanceName="cboFatherSuffix" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtFatherBirthPlace" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Lahir")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtFatherDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
                                 <tr>
@@ -350,11 +350,11 @@
                                     <td><dxe:ASPxComboBox ID="cboMotherSuffix" ClientInstanceName="cboMotherSuffix" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtMotherBirthPlace" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Lahir")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Lahir")%></label></td>
                                     <td><asp:TextBox ID="txtMotherDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
                                 <tr>

@@ -77,6 +77,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vAdmissionFeeRuleHd
+    [Serializable]
+    [Table(Name = "vAdmissionFeeRuleHd")]
+    public class vAdmissionFeeRuleHd
+    {
+        private Int32 _AdmissionFeeRuleID;
+        private Int32 _SchoolPeriodID;
+        private String _AdmissionFeeRuleName;
+        private String _GCFromSchoolType;
+        private String _FromSchoolType;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "AdmissionFeeRuleID", DataType = "Int32")]
+        public Int32 AdmissionFeeRuleID
+        {
+            get { return _AdmissionFeeRuleID; }
+            set { _AdmissionFeeRuleID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleName", DataType = "String")]
+        public String AdmissionFeeRuleName
+        {
+            get { return _AdmissionFeeRuleName; }
+            set { _AdmissionFeeRuleName = value; }
+        }
+        [Column(Name = "GCFromSchoolType", DataType = "String")]
+        public String GCFromSchoolType
+        {
+            get { return _GCFromSchoolType; }
+            set { _GCFromSchoolType = value; }
+        }
+        [Column(Name = "FromSchoolType", DataType = "String")]
+        public String FromSchoolType
+        {
+            get { return _FromSchoolType; }
+            set { _FromSchoolType = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vAPMovement
     [Serializable]
     [Table(Name = "vAPMovement")]
@@ -8151,7 +8201,6 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
-        private String _GCProspectiveStudentStatus;
         private String _GCTitle;
         private String _FirstName;
         private String _MiddleName;
@@ -8166,6 +8215,7 @@ namespace CodeX.Data.Model
         private String _GCReligion;
         private String _PlaceOfBaptism;
         private DateTime _DateOfBaptism;
+        private Boolean _IsFeeder;
         private String _AddressID;
         private String _StreetName;
         private String _District;
@@ -8221,12 +8271,6 @@ namespace CodeX.Data.Model
         {
             get { return _GCSuffix; }
             set { _GCSuffix = value; }
-        }
-        [Column(Name = "GCProspectiveStudentStatus", DataType = "String")]
-        public String GCProspectiveStudentStatus
-        {
-            get { return _GCProspectiveStudentStatus; }
-            set { _GCProspectiveStudentStatus = value; }
         }
         [Column(Name = "GCTitle", DataType = "String")]
         public String GCTitle
@@ -8311,6 +8355,12 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBaptism; }
             set { _DateOfBaptism = value; }
+        }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
         }
         [Column(Name = "AddressID", DataType = "String")]
         public String AddressID
@@ -12005,12 +12055,11 @@ namespace CodeX.Data.Model
         private Decimal _FinalMark;
         private String _Remarks;
         private String _GCRegistrationStatus;
+        private String _RegistrationStatus;
         private String _ProspectiveStudentCode;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
-        private String _GCProspectiveStudentStatus;
-        private String _ProspectiveStudentStatus;
         private String _GCTitle;
         private String _FirstName;
         private String _MiddleName;
@@ -12025,6 +12074,7 @@ namespace CodeX.Data.Model
         private String _GCReligion;
         private String _PlaceOfBaptism;
         private DateTime _DateOfBaptism;
+        private Boolean _IsFeeder;
         private String _AddressID;
         private String _StreetName;
         private String _District;
@@ -12107,6 +12157,12 @@ namespace CodeX.Data.Model
             get { return _GCRegistrationStatus; }
             set { _GCRegistrationStatus = value; }
         }
+        [Column(Name = "RegistrationStatus", DataType = "String")]
+        public String RegistrationStatus
+        {
+            get { return _RegistrationStatus; }
+            set { _RegistrationStatus = value; }
+        }
         [Column(Name = "ProspectiveStudentCode", DataType = "String")]
         public String ProspectiveStudentCode
         {
@@ -12130,18 +12186,6 @@ namespace CodeX.Data.Model
         {
             get { return _GCSuffix; }
             set { _GCSuffix = value; }
-        }
-        [Column(Name = "GCProspectiveStudentStatus", DataType = "String")]
-        public String GCProspectiveStudentStatus
-        {
-            get { return _GCProspectiveStudentStatus; }
-            set { _GCProspectiveStudentStatus = value; }
-        }
-        [Column(Name = "ProspectiveStudentStatus", DataType = "String")]
-        public String ProspectiveStudentStatus
-        {
-            get { return _ProspectiveStudentStatus; }
-            set { _ProspectiveStudentStatus = value; }
         }
         [Column(Name = "GCTitle", DataType = "String")]
         public String GCTitle
@@ -12226,6 +12270,12 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBaptism; }
             set { _DateOfBaptism = value; }
+        }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
         }
         [Column(Name = "AddressID", DataType = "String")]
         public String AddressID
@@ -12857,6 +12907,7 @@ namespace CodeX.Data.Model
         private String _GCMajor;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
+        private Boolean _IsFeeder;
         private String _AddressID;
         private String _StreetName;
         private String _District;
@@ -13018,6 +13069,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassName; }
             set { _SchoolClassName = value; }
+        }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
         }
         [Column(Name = "AddressID", DataType = "String")]
         public String AddressID

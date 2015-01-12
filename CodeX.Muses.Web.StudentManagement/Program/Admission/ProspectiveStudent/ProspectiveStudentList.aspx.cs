@@ -76,7 +76,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ProspectiveStudent entity = entityDao.Get(entityRegistration.ProspectiveStudentID);
                 if (entity.PeriodAdmissionID == AppSession.PeriodAdmissionID)
                 {
-                    entity.GCProspectiveStudentStatus = Constant.ProspectiveStudentStatus.VOID;
+                    entity.IsDeleted = true;
                     entityDao.Update(entity);
                     entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 }
