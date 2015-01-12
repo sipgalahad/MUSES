@@ -123,6 +123,9 @@
     <Content Include="Program\Master\Location\LocationEntry.aspx" />
     <Content Include="Program\Master\Location\LocationItemEntryCtl.ascx" />
     <Content Include="Program\Master\Location\LocationList.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormCtl.ascx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx" />
     <Content Include="Program\Master\Supplier\SupplierEntry.aspx" />
     <Content Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx" />
     <Content Include="Program\Master\Supplier\SupplierList.aspx" />
@@ -497,6 +500,27 @@
     </Compile>
     <Compile Include="Program\Master\Location\LocationList.aspx.designer.cs">
       <DependentUpon>LocationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx.cs">
+      <DependentUpon>ProsepectiveStudentFormEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx.designer.cs">
+      <DependentUpon>ProsepectiveStudentFormEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormCtl.ascx.cs">
+      <DependentUpon>ProsepectiveStudentFormCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormCtl.ascx.designer.cs">
+      <DependentUpon>ProsepectiveStudentFormCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx.cs">
+      <DependentUpon>ProsepectiveStudentFormList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx.designer.cs">
+      <DependentUpon>ProsepectiveStudentFormList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Supplier\SupplierEntry.aspx.cs">
       <DependentUpon>SupplierEntry.aspx</DependentUpon>
