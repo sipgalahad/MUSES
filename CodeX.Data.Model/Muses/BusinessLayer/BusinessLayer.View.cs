@@ -33,6 +33,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vAdmissionFeeRuleDtCustom
+        public static List<vAdmissionFeeRuleDtCustom> GetvAdmissionFeeRuleDtCustomList(string filterExpression)
+        {
+            List<vAdmissionFeeRuleDtCustom> result = new List<vAdmissionFeeRuleDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vAdmissionFeeRuleDtCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vAdmissionFeeRuleDtCustom)helper.IDataReaderToObject(reader, new vAdmissionFeeRuleDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vAdmissionFeeRuleHd
         public static List<vAdmissionFeeRuleHd> GetvAdmissionFeeRuleHdList(string filterExpression)
         {

@@ -6148,6 +6148,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RegistrationFee
+        public static RegistrationFee GetRegistrationFee(Int32 RegistrationFeeID)
+        {
+            return new RegistrationFeeDao().Get(RegistrationFeeID);
+        }
+        public static int InsertRegistrationFee(RegistrationFee record)
+        {
+            return new RegistrationFeeDao().Insert(record);
+        }
+        public static int UpdateRegistrationFee(RegistrationFee record)
+        {
+            return new RegistrationFeeDao().Update(record);
+        }
+        public static int DeleteRegistrationFee(Int32 RegistrationFeeID)
+        {
+            return new RegistrationFeeDao().Delete(RegistrationFeeID);
+        }
+        public static List<RegistrationFee> GetRegistrationFeeList(string filterExpression)
+        {
+            List<RegistrationFee> result = new List<RegistrationFee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationFee)helper.IDataReaderToObject(reader, new RegistrationFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RegistrationFee> GetRegistrationFeeList(string filterExpression, IDbContext ctx)
+        {
+            List<RegistrationFee> result = new List<RegistrationFee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationFee)helper.IDataReaderToObject(reader, new RegistrationFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region RegistrationMark
         public static RegistrationMark GetRegistrationMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 RegistrationID)
         {
