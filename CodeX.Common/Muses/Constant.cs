@@ -245,6 +245,16 @@ namespace CodeX.Common
             #region Finance
             public static class Finance
             {
+                public const string PROSPECTIVE_STUDENT_LIST = "FN040100";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN040101";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN040102";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN040103";
+
+                public const string STUDENT_LIST = "FN040200";
+                public const string AR_INVOICE_STUDENT_PROCESS = "FN040201";
+                public const string AR_INVOICE_STUDENT_EDIT = "FN040202";
+                public const string AR_INVOICE_STUDENT_RECEIVE = "FN040203";
+
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
                 public const string AP_INVOICE_SUPPLIER_VERIFICATION = "FN050202";
@@ -391,10 +401,10 @@ namespace CodeX.Common
             public const string STOCK_TAKING = "4210";
             public const string PURCHASE_RETURN_REPLACEMENT = "4211";
 
-            public const string AR_INVOICE_PATIENT = "5102";
-            public const string AR_INVOICE_PAYER = "5103";
-            public const string AR_RECEIVE_PATIENT = "5104";
-            public const string AR_RECEIVE_PAYER = "5105";
+            public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5102";
+            public const string AR_INVOICE_STUDENT = "5103";
+            public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5104";
+            public const string AR_RECEIVE_STUDENT = "5105";
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";

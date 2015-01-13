@@ -41,6 +41,25 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ARInvoiceHd
+    public partial class ARInvoiceHd
+    {
+        public String DueDateInString
+        {
+            get { return _DueDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public String ARInvoiceDateInString
+        {
+            get { return _ARInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public Decimal RemainingAmount
+        {
+            get { return (_TotalClaimedAmount - _TotalDiscountAmount - _TotalPaymentAmount); }
+        }
+    }
+    #endregion
     #region DailyScheduleTypeDt
     public partial class DailyScheduleTypeDt
     {

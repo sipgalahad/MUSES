@@ -10,6 +10,19 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region ARInvoiceHd -->
+  <searchdialog type="arinvoicehd" methodname="GetARInvoiceHdList" keyfieldname="ARInvoiceNo">
+    <gridcolumns>
+      <gridcolumn datafield="ARInvoiceNo" headertext="No Invoice" width="100px" />
+      <gridcolumn datafield="ARInvoiceDateInString" headertext="Tanggal Invoice" width="120px" />
+      <gridcolumn datafield="Remarks" headertext="Keterangan" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ARInvoiceNo" headertext="No Invoice" description="" />
+      <intellisensetext datafield="ARInvoiceDate" headertext="Tanggal Invoice" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Business Partners -->
   <searchdialog type="businesspartners" methodname="GetBusinessPartnersList" keyfieldname="BusinessPartnerCode" orderbyexpression="BusinessPartnerName ASC">
     <gridcolumns>

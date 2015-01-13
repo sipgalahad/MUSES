@@ -183,6 +183,39 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region ProspectiveStudentID
+        public static Int32 ProspectiveStudentID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_ProspectiveStudentID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_ProspectiveStudentID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_ProspectiveStudentID"]);
+                            HttpContext.Current.Session["_ProspectiveStudentID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_ProspectiveStudentID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_ProspectiveStudentID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_ProspectiveStudentID"] = value;
+            }
+        }
+        #endregion
+
         #region SchoolPeriodID
         public static Int32 SchoolPeriodID
         {
@@ -248,7 +281,7 @@ namespace CodeX.Web.Common
             }
         }
         #endregion
-        
+
         #region SubjectID
         public static Int32 SubjectID
         {

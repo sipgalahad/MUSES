@@ -675,6 +675,790 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ARInvoiceDt
+    [Serializable]
+    [Table(Name = "ARInvoiceDt")]
+    public class ARInvoiceDt : DbDataModel
+    {
+        private Int32 _ARInvoiceDtID;
+        private Int32 _ARInvoiceID;
+        private Int32? _RegistrationFeeID;
+        private Decimal _TransactionAmount;
+        private Decimal _ClaimedAmount;
+        private Decimal _DiscountAmount;
+        private Decimal _VarianceAmount;
+        private Decimal _PaymentAmount;
+        private String _ReferenceNo;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ARInvoiceDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ARInvoiceDtID
+        {
+            get { return _ARInvoiceDtID; }
+            set { _ARInvoiceDtID = value; }
+        }
+        [Column(Name = "ARInvoiceID", DataType = "Int32")]
+        public Int32 ARInvoiceID
+        {
+            get { return _ARInvoiceID; }
+            set { _ARInvoiceID = value; }
+        }
+        [Column(Name = "RegistrationFeeID", DataType = "Int32", IsNullable = true)]
+        public Int32? RegistrationFeeID
+        {
+            get { return _RegistrationFeeID; }
+            set { _RegistrationFeeID = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+        [Column(Name = "ClaimedAmount", DataType = "Decimal")]
+        public Decimal ClaimedAmount
+        {
+            get { return _ClaimedAmount; }
+            set { _ClaimedAmount = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "VarianceAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal VarianceAmount
+        {
+            get { return _VarianceAmount; }
+            set { _VarianceAmount = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal")]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ARInvoiceDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ARInvoiceDt));
+        private bool _isAuditLog = false;
+        private const string p_ARInvoiceDtID = "@p_ARInvoiceDtID";
+        public ARInvoiceDtDao() { }
+        public ARInvoiceDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ARInvoiceDt Get(Int32 ARInvoiceDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ARInvoiceDtID, ARInvoiceDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ARInvoiceDt)_helper.DataRowToObject(row, new ARInvoiceDt());
+        }
+        public int Insert(ARInvoiceDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ARInvoiceDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ARInvoiceDtID)
+        {
+            ARInvoiceDt record;
+            if (_ctx.Transaction == null)
+                record = new ARInvoiceDtDao().Get(ARInvoiceDtID);
+            else
+                record = Get(ARInvoiceDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ARInvoiceHd
+    [Serializable]
+    [Table(Name = "ARInvoiceHd")]
+    public partial class ARInvoiceHd : DbDataModel
+    {
+        private Int32 _ARInvoiceID;
+        private String _ARInvoiceNo;
+        private DateTime _ARInvoiceDate;
+        private Int32? _StudentID;
+        private Int32? _ProspectiveStudentID;
+        private Int32? _TermID;
+        private DateTime _DueDate;
+        private Int32? _BankID;
+        private String _Remarks;
+        private Decimal _TotalTransactionAmount;
+        private Decimal _TotalClaimedAmount;
+        private Decimal _TotalVarianceAmount;
+        private Decimal _TotalDiscountAmount;
+        private Decimal _TotalPaymentAmount;
+        private String _GCTransactionStatus;
+        private String _GCVoidReason;
+        private String _VoidReason;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ARInvoiceID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ARInvoiceID
+        {
+            get { return _ARInvoiceID; }
+            set { _ARInvoiceID = value; }
+        }
+        [Column(Name = "ARInvoiceNo", DataType = "String")]
+        public String ARInvoiceNo
+        {
+            get { return _ARInvoiceNo; }
+            set { _ARInvoiceNo = value; }
+        }
+        [Column(Name = "ARInvoiceDate", DataType = "DateTime")]
+        public DateTime ARInvoiceDate
+        {
+            get { return _ARInvoiceDate; }
+            set { _ARInvoiceDate = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "TermID", DataType = "Int32", IsNullable = true)]
+        public Int32? TermID
+        {
+            get { return _TermID; }
+            set { _TermID = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime")]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
+        }
+        [Column(Name = "BankID", DataType = "Int32", IsNullable = true)]
+        public Int32? BankID
+        {
+            get { return _BankID; }
+            set { _BankID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "TotalTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalTransactionAmount
+        {
+            get { return _TotalTransactionAmount; }
+            set { _TotalTransactionAmount = value; }
+        }
+        [Column(Name = "TotalClaimedAmount", DataType = "Decimal")]
+        public Decimal TotalClaimedAmount
+        {
+            get { return _TotalClaimedAmount; }
+            set { _TotalClaimedAmount = value; }
+        }
+        [Column(Name = "TotalVarianceAmount", DataType = "Decimal")]
+        public Decimal TotalVarianceAmount
+        {
+            get { return _TotalVarianceAmount; }
+            set { _TotalVarianceAmount = value; }
+        }
+        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
+        public Decimal TotalDiscountAmount
+        {
+            get { return _TotalDiscountAmount; }
+            set { _TotalDiscountAmount = value; }
+        }
+        [Column(Name = "TotalPaymentAmount", DataType = "Decimal")]
+        public Decimal TotalPaymentAmount
+        {
+            get { return _TotalPaymentAmount; }
+            set { _TotalPaymentAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "GCVoidReason", DataType = "String", IsNullable = true)]
+        public String GCVoidReason
+        {
+            get { return _GCVoidReason; }
+            set { _GCVoidReason = value; }
+        }
+        [Column(Name = "VoidReason", DataType = "String", IsNullable = true)]
+        public String VoidReason
+        {
+            get { return _VoidReason; }
+            set { _VoidReason = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ARInvoiceHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ARInvoiceHd));
+        private bool _isAuditLog = false;
+        private const string p_ARInvoiceID = "@p_ARInvoiceID";
+        public ARInvoiceHdDao() { }
+        public ARInvoiceHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ARInvoiceHd Get(Int32 ARInvoiceID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ARInvoiceID, ARInvoiceID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ARInvoiceHd)_helper.DataRowToObject(row, new ARInvoiceHd());
+        }
+        public int Insert(ARInvoiceHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ARInvoiceHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ARInvoiceID)
+        {
+            ARInvoiceHd record;
+            if (_ctx.Transaction == null)
+                record = new ARInvoiceHdDao().Get(ARInvoiceID);
+            else
+                record = Get(ARInvoiceID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ARInvoiceReceiving
+    [Serializable]
+    [Table(Name = "ARInvoiceReceiving")]
+    public class ARInvoiceReceiving : DbDataModel
+    {
+        private Int32 _ARReceivingID;
+        private Int32 _ARInvoiceID;
+        private Int32 _ARInvoiceDtID;
+        private Decimal _ReceivingAmount;
+
+        [Column(Name = "ARReceivingID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ARReceivingID
+        {
+            get { return _ARReceivingID; }
+            set { _ARReceivingID = value; }
+        }
+        [Column(Name = "ARInvoiceID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ARInvoiceID
+        {
+            get { return _ARInvoiceID; }
+            set { _ARInvoiceID = value; }
+        }
+        [Column(Name = "ARInvoiceDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ARInvoiceDtID
+        {
+            get { return _ARInvoiceDtID; }
+            set { _ARInvoiceDtID = value; }
+        }
+        [Column(Name = "ReceivingAmount", DataType = "Decimal")]
+        public Decimal ReceivingAmount
+        {
+            get { return _ReceivingAmount; }
+            set { _ReceivingAmount = value; }
+        }
+    }
+
+    public class ARInvoiceReceivingDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ARInvoiceReceiving));
+        private bool _isAuditLog = false;
+        private const string p_ARInvoiceDtID = "@p_ARInvoiceDtID";
+        private const string p_ARInvoiceID = "@p_ARInvoiceID";
+        private const string p_ARReceivingID = "@p_ARReceivingID";
+        public ARInvoiceReceivingDao() { }
+        public ARInvoiceReceivingDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ARInvoiceReceiving Get(Int32 ARReceivingID, Int32 ARInvoiceID, Int32 ARInvoiceDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ARInvoiceDtID, ARInvoiceDtID);
+            _ctx.Add(p_ARInvoiceID, ARInvoiceID);
+            _ctx.Add(p_ARReceivingID, ARReceivingID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ARInvoiceReceiving)_helper.DataRowToObject(row, new ARInvoiceReceiving());
+        }
+        public int Insert(ARInvoiceReceiving record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ARInvoiceReceiving record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ARReceivingID, Int32 ARInvoiceID, Int32 ARInvoiceDtID)
+        {
+            ARInvoiceReceiving record;
+            if (_ctx.Transaction == null)
+                record = new ARInvoiceReceivingDao().Get(ARReceivingID, ARInvoiceID, ARInvoiceDtID);
+            else
+                record = Get(ARReceivingID, ARInvoiceID, ARInvoiceDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ARReceivingDt
+    [Serializable]
+    [Table(Name = "ARReceivingDt")]
+    public class ARReceivingDt : DbDataModel
+    {
+        private Int32 _ARReceivingDetailID;
+        private Int32 _ARReceivingID;
+        private String _GCARPaymentMethod;
+        private Int32? _EDCMachineID;
+        private String _GCCardType;
+        private String _GCCardProvider;
+        private String _CardNumber;
+        private String _CardHolderName;
+        private String _CardValidThru;
+        private Int32? _BankID;
+        private String _ReferenceNo;
+        private DateTime _ReferenceDate;
+        private Decimal _PaymentAmount;
+        private Decimal _CardFeeAmount;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ARReceivingDetailID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ARReceivingDetailID
+        {
+            get { return _ARReceivingDetailID; }
+            set { _ARReceivingDetailID = value; }
+        }
+        [Column(Name = "ARReceivingID", DataType = "Int32")]
+        public Int32 ARReceivingID
+        {
+            get { return _ARReceivingID; }
+            set { _ARReceivingID = value; }
+        }
+        [Column(Name = "GCARPaymentMethod", DataType = "String")]
+        public String GCARPaymentMethod
+        {
+            get { return _GCARPaymentMethod; }
+            set { _GCARPaymentMethod = value; }
+        }
+        [Column(Name = "EDCMachineID", DataType = "Int32", IsNullable = true)]
+        public Int32? EDCMachineID
+        {
+            get { return _EDCMachineID; }
+            set { _EDCMachineID = value; }
+        }
+        [Column(Name = "GCCardType", DataType = "String", IsNullable = true)]
+        public String GCCardType
+        {
+            get { return _GCCardType; }
+            set { _GCCardType = value; }
+        }
+        [Column(Name = "GCCardProvider", DataType = "String", IsNullable = true)]
+        public String GCCardProvider
+        {
+            get { return _GCCardProvider; }
+            set { _GCCardProvider = value; }
+        }
+        [Column(Name = "CardNumber", DataType = "String", IsNullable = true)]
+        public String CardNumber
+        {
+            get { return _CardNumber; }
+            set { _CardNumber = value; }
+        }
+        [Column(Name = "CardHolderName", DataType = "String", IsNullable = true)]
+        public String CardHolderName
+        {
+            get { return _CardHolderName; }
+            set { _CardHolderName = value; }
+        }
+        [Column(Name = "CardValidThru", DataType = "String", IsNullable = true)]
+        public String CardValidThru
+        {
+            get { return _CardValidThru; }
+            set { _CardValidThru = value; }
+        }
+        [Column(Name = "BankID", DataType = "Int32", IsNullable = true)]
+        public Int32? BankID
+        {
+            get { return _BankID; }
+            set { _BankID = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "ReferenceDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ReferenceDate
+        {
+            get { return _ReferenceDate; }
+            set { _ReferenceDate = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+        [Column(Name = "CardFeeAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal CardFeeAmount
+        {
+            get { return _CardFeeAmount; }
+            set { _CardFeeAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ARReceivingDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ARReceivingDt));
+        private bool _isAuditLog = false;
+        private const string p_ARReceivingDetailID = "@p_ARReceivingDetailID";
+        public ARReceivingDtDao() { }
+        public ARReceivingDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ARReceivingDt Get(Int32 ARReceivingDetailID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ARReceivingDetailID, ARReceivingDetailID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ARReceivingDt)_helper.DataRowToObject(row, new ARReceivingDt());
+        }
+        public int Insert(ARReceivingDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ARReceivingDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ARReceivingDetailID)
+        {
+            ARReceivingDt record;
+            if (_ctx.Transaction == null)
+                record = new ARReceivingDtDao().Get(ARReceivingDetailID);
+            else
+                record = Get(ARReceivingDetailID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ARReceivingHd
+    [Serializable]
+    [Table(Name = "ARReceivingHd")]
+    public class ARReceivingHd : DbDataModel
+    {
+        private Int32 _ARReceivingID;
+        private String _ARReceivingNo;
+        private Int32? _StudentID;
+        private Int32? _ProspectiveStudentID;
+        private DateTime _ReceivingDate;
+        private Decimal _TotalReceivingAmount;
+        private Decimal _TotalInvoiceAmount;
+        private Decimal _TotalFeeAmount;
+        private Decimal _CashBackAmount;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _GCVoidReason;
+        private String _VoidReason;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ARReceivingID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ARReceivingID
+        {
+            get { return _ARReceivingID; }
+            set { _ARReceivingID = value; }
+        }
+        [Column(Name = "ARReceivingNo", DataType = "String")]
+        public String ARReceivingNo
+        {
+            get { return _ARReceivingNo; }
+            set { _ARReceivingNo = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "ReceivingDate", DataType = "DateTime")]
+        public DateTime ReceivingDate
+        {
+            get { return _ReceivingDate; }
+            set { _ReceivingDate = value; }
+        }
+        [Column(Name = "TotalReceivingAmount", DataType = "Decimal")]
+        public Decimal TotalReceivingAmount
+        {
+            get { return _TotalReceivingAmount; }
+            set { _TotalReceivingAmount = value; }
+        }
+        [Column(Name = "TotalInvoiceAmount", DataType = "Decimal")]
+        public Decimal TotalInvoiceAmount
+        {
+            get { return _TotalInvoiceAmount; }
+            set { _TotalInvoiceAmount = value; }
+        }
+        [Column(Name = "TotalFeeAmount", DataType = "Decimal")]
+        public Decimal TotalFeeAmount
+        {
+            get { return _TotalFeeAmount; }
+            set { _TotalFeeAmount = value; }
+        }
+        [Column(Name = "CashBackAmount", DataType = "Decimal")]
+        public Decimal CashBackAmount
+        {
+            get { return _CashBackAmount; }
+            set { _CashBackAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "GCVoidReason", DataType = "String", IsNullable = true)]
+        public String GCVoidReason
+        {
+            get { return _GCVoidReason; }
+            set { _GCVoidReason = value; }
+        }
+        [Column(Name = "VoidReason", DataType = "String", IsNullable = true)]
+        public String VoidReason
+        {
+            get { return _VoidReason; }
+            set { _VoidReason = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ARReceivingHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ARReceivingHd));
+        private bool _isAuditLog = false;
+        private const string p_ARReceivingID = "@p_ARReceivingID";
+        public ARReceivingHdDao() { }
+        public ARReceivingHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ARReceivingHd Get(Int32 ARReceivingID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ARReceivingID, ARReceivingID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ARReceivingHd)_helper.DataRowToObject(row, new ARReceivingHd());
+        }
+        public int Insert(ARReceivingHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ARReceivingHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ARReceivingID)
+        {
+            ARReceivingHd record;
+            if (_ctx.Transaction == null)
+                record = new ARReceivingHdDao().Get(ARReceivingID);
+            else
+                record = Get(ARReceivingID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Bank
     [Serializable]
     [Table(Name = "Bank")]

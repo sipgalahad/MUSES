@@ -83,6 +83,8 @@ namespace CodeX.Common
             public const string ABC_CLASS = "X109";
             public const string TRANSACTION_STATUS = "X121";
             public const string DELETE_REASON = "X129";
+            public const string PAYMENT_TYPE = "X034";
+            public const string PAYMENT_METHOD = "X035";
             public const string REPORT_TYPE = "X140";
             public const string DATA_SOURCE_TYPE = "X141";
             public const string CARD_PROVIDER = "X142";
@@ -103,6 +105,16 @@ namespace CodeX.Common
             public const string GLACCOUNT_TYPE = "X180";
             public const string WRITE_OFF_TYPE = "X182";
             public const string JOURNAL_GROUP = "X188";
+        }
+
+        public static class PaymentMethod
+        {
+            public const string CASH = "X035^001";
+            public const string CREDIT_CARD = "X035^002";
+            public const string DEBIT_CARD = "X035^003";
+            public const string BANK_TRANSFER = "X035^004";
+            public const string ACCOUNT_RECEIVABLES = "X035^005";
+            public const string DOWN_PAYMENT = "X035^006";
         }
 
         public static class PrefixType

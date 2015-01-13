@@ -315,6 +315,307 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ARInvoiceDt
+        public static ARInvoiceDt GetARInvoiceDt(Int32 ARInvoiceDtID)
+        {
+            return new ARInvoiceDtDao().Get(ARInvoiceDtID);
+        }
+        public static int InsertARInvoiceDt(ARInvoiceDt record)
+        {
+            return new ARInvoiceDtDao().Insert(record);
+        }
+        public static int UpdateARInvoiceDt(ARInvoiceDt record)
+        {
+            return new ARInvoiceDtDao().Update(record);
+        }
+        public static int DeleteARInvoiceDt(Int32 ARInvoiceDtID)
+        {
+            return new ARInvoiceDtDao().Delete(ARInvoiceDtID);
+        }
+        public static List<ARInvoiceDt> GetARInvoiceDtList(string filterExpression)
+        {
+            List<ARInvoiceDt> result = new List<ARInvoiceDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARInvoiceDt)helper.IDataReaderToObject(reader, new ARInvoiceDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ARInvoiceDt> GetARInvoiceDtList(string filterExpression, IDbContext ctx)
+        {
+            List<ARInvoiceDt> result = new List<ARInvoiceDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARInvoiceDt)helper.IDataReaderToObject(reader, new ARInvoiceDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ARInvoiceHd
+        public static ARInvoiceHd GetARInvoiceHd(Int32 ARInvoiceID)
+        {
+            return new ARInvoiceHdDao().Get(ARInvoiceID);
+        }
+        public static int InsertARInvoiceHd(ARInvoiceHd record)
+        {
+            return new ARInvoiceHdDao().Insert(record);
+        }
+        public static int UpdateARInvoiceHd(ARInvoiceHd record)
+        {
+            return new ARInvoiceHdDao().Update(record);
+        }
+        public static int DeleteARInvoiceHd(Int32 ARInvoiceID)
+        {
+            return new ARInvoiceHdDao().Delete(ARInvoiceID);
+        }
+        public static List<ARInvoiceHd> GetARInvoiceHdList(string filterExpression)
+        {
+            List<ARInvoiceHd> result = new List<ARInvoiceHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARInvoiceHd)helper.IDataReaderToObject(reader, new ARInvoiceHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ARInvoiceHd> GetARInvoiceHdList(string filterExpression, IDbContext ctx)
+        {
+            List<ARInvoiceHd> result = new List<ARInvoiceHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARInvoiceHd)helper.IDataReaderToObject(reader, new ARInvoiceHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetARInvoiceHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceHd));
+                ctx.CommandText = helper.SelectMaxColumn("ARInvoiceID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        #endregion
+        #region ARInvoiceReceiving
+        public static ARInvoiceReceiving GetARInvoiceReceiving(Int32 ARReceivingID, Int32 ARInvoiceID, Int32 ARInvoiceDtID)
+        {
+            return new ARInvoiceReceivingDao().Get(ARReceivingID, ARInvoiceID, ARInvoiceDtID);
+        }
+        public static int InsertARInvoiceReceiving(ARInvoiceReceiving record)
+        {
+            return new ARInvoiceReceivingDao().Insert(record);
+        }
+        public static int UpdateARInvoiceReceiving(ARInvoiceReceiving record)
+        {
+            return new ARInvoiceReceivingDao().Update(record);
+        }
+        public static int DeleteARInvoiceReceiving(Int32 ARReceivingID, Int32 ARInvoiceID, Int32 ARInvoiceDtID)
+        {
+            return new ARInvoiceReceivingDao().Delete(ARReceivingID, ARInvoiceID, ARInvoiceDtID);
+        }
+        public static List<ARInvoiceReceiving> GetARInvoiceReceivingList(string filterExpression)
+        {
+            List<ARInvoiceReceiving> result = new List<ARInvoiceReceiving>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceReceiving));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARInvoiceReceiving)helper.IDataReaderToObject(reader, new ARInvoiceReceiving()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ARInvoiceReceiving> GetARInvoiceReceivingList(string filterExpression, IDbContext ctx)
+        {
+            List<ARInvoiceReceiving> result = new List<ARInvoiceReceiving>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceReceiving));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARInvoiceReceiving)helper.IDataReaderToObject(reader, new ARInvoiceReceiving()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ARReceivingDt
+        public static ARReceivingDt GetARReceivingDt(Int32 ARReceivingDetailID)
+        {
+            return new ARReceivingDtDao().Get(ARReceivingDetailID);
+        }
+        public static int InsertARReceivingDt(ARReceivingDt record)
+        {
+            return new ARReceivingDtDao().Insert(record);
+        }
+        public static int UpdateARReceivingDt(ARReceivingDt record)
+        {
+            return new ARReceivingDtDao().Update(record);
+        }
+        public static int DeleteARReceivingDt(Int32 ARReceivingDetailID)
+        {
+            return new ARReceivingDtDao().Delete(ARReceivingDetailID);
+        }
+        public static List<ARReceivingDt> GetARReceivingDtList(string filterExpression)
+        {
+            List<ARReceivingDt> result = new List<ARReceivingDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARReceivingDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARReceivingDt)helper.IDataReaderToObject(reader, new ARReceivingDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ARReceivingHd
+        public static ARReceivingHd GetARReceivingHd(Int32 ARReceivingID)
+        {
+            return new ARReceivingHdDao().Get(ARReceivingID);
+        }
+        public static int InsertARReceivingHd(ARReceivingHd record)
+        {
+            return new ARReceivingHdDao().Insert(record);
+        }
+        public static int UpdateARReceivingHd(ARReceivingHd record)
+        {
+            return new ARReceivingHdDao().Update(record);
+        }
+        public static int DeleteARReceivingHd(Int32 ARReceivingID)
+        {
+            return new ARReceivingHdDao().Delete(ARReceivingID);
+        }
+        public static List<ARReceivingHd> GetARReceivingHdList(string filterExpression)
+        {
+            List<ARReceivingHd> result = new List<ARReceivingHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARReceivingHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARReceivingHd)helper.IDataReaderToObject(reader, new ARReceivingHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ARReceivingHd> GetARReceivingHdList(string filterExpression, IDbContext ctx)
+        {
+            List<ARReceivingHd> result = new List<ARReceivingHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARReceivingHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARReceivingHd)helper.IDataReaderToObject(reader, new ARReceivingHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetARReceivingHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARReceivingHd));
+                ctx.CommandText = helper.SelectMaxColumn("ARReceivingID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Bank
         public static Bank GetBank(Int32 BankID)
         {

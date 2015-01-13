@@ -16,6 +16,62 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vARInvoiceDt
+    public partial class vARInvoiceDt
+    {
+    }
+    #endregion
+    #region vARInvoiceHd
+    public partial class vARInvoiceHd
+    {
+        public String ARInvoiceDateInString
+        {
+            get
+            {
+                return _ARInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+
+        public String DueDateInString
+        {
+            get
+            {
+                return _DueDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region vARReceivingDt
+    public partial class vARReceivingDt
+    {
+        public String CardNumber4
+        {
+            get
+            {
+                string[] temp = _CardNumber.Split('-');
+                if (temp.Count() > 3)
+                    return temp[3];
+                return "";
+            }
+        }
+        public Decimal LineTotal
+        {
+            get
+            {
+                return (_PaymentAmount + _CardFeeAmount);
+            }
+        }
+    }
+    #endregion
+    #region vARReceivingHd
+    public partial class vARReceivingHd
+    {
+        public string ReceivingDateInString
+        {
+            get { return _ReceivingDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vChartOfAccount
     public partial class vChartOfAccount
     {
@@ -690,6 +746,56 @@ namespace CodeX.Data.Model
     #region vProspectiveStudent
     public partial class vProspectiveStudent
     {
+        public String DateOfBirthInString
+        {
+            get { return _DateOfBirth.ToString("dd-MMM-yyyy"); }
+        }
+        public string StudentAge
+        {
+            get
+            {
+                string result;
+                int ageInYear, ageInMonth, ageInDay = 0;
+
+                ageInYear = Function.GetPatientAgeInYear(DateOfBirth, DateTime.Now);
+                ageInMonth = Function.GetPatientAgeInMonth(DateOfBirth, DateTime.Now);
+                ageInDay = Function.GetPatientAgeInDay(DateOfBirth, DateTime.Now);
+
+                if (ageInYear > 0)
+                    result = string.Format("{0}yr", ageInYear);
+                else if (ageInMonth > 0)
+                    result = string.Format("{0}mo", ageInMonth);
+                else
+                    result = string.Format("{0}day", ageInDay);
+
+                return result;
+            }
+        }
+        public String HomeAddress
+        {
+            get
+            {
+                return Function.GenerateAddress(_StreetName, _County, _District, _City, _State);
+            }
+        }
+        public String cfPhoneNo
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+
+                if (_PhoneNo1 != "")
+                    result.Append(_PhoneNo1);
+                //if (_PhoneNo2 != "")
+                //{
+                //    if (result.ToString() != "")
+                //        result.Append(" / ");
+                //    result.Append(_PhoneNo2);
+                //}
+                return result.ToString();
+            }
+        }
+        public String ProspectiveStudentImageUrl { get { return Function.GenerateStudentPictureFileName(_PictureFileName, _ProspectiveStudentCode); } }
         public int AgeInYear
         {
             get
@@ -1480,6 +1586,56 @@ namespace CodeX.Data.Model
     #region vRegistration
     public partial class vRegistration
     {
+        public String DateOfBirthInString
+        {
+            get { return _DateOfBirth.ToString("dd-MMM-yyyy"); }
+        }
+        public string StudentAge
+        {
+            get
+            {
+                string result;
+                int ageInYear, ageInMonth, ageInDay = 0;
+
+                ageInYear = Function.GetPatientAgeInYear(DateOfBirth, DateTime.Now);
+                ageInMonth = Function.GetPatientAgeInMonth(DateOfBirth, DateTime.Now);
+                ageInDay = Function.GetPatientAgeInDay(DateOfBirth, DateTime.Now);
+
+                if (ageInYear > 0)
+                    result = string.Format("{0}yr", ageInYear);
+                else if (ageInMonth > 0)
+                    result = string.Format("{0}mo", ageInMonth);
+                else
+                    result = string.Format("{0}day", ageInDay);
+
+                return result;
+            }
+        }
+        public String HomeAddress
+        {
+            get
+            {
+                return Function.GenerateAddress(_StreetName, _County, _District, _City, _State);
+            }
+        }
+        public String cfPhoneNo
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+
+                if (_PhoneNo1 != "")
+                    result.Append(_PhoneNo1);
+                //if (_PhoneNo2 != "")
+                //{
+                //    if (result.ToString() != "")
+                //        result.Append(" / ");
+                //    result.Append(_PhoneNo2);
+                //}
+                return result.ToString();
+            }
+        }
+        public String ProspectiveStudentImageUrl { get { return Function.GenerateStudentPictureFileName(_PictureFileName, _ProspectiveStudentCode); } }
         public int AgeInYear
         {
             get
