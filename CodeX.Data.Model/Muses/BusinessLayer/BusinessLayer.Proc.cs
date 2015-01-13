@@ -10,6 +10,35 @@ namespace CodeX.Data.Model
 {
     public static partial class BusinessLayer
     {
+        #region DeleteARProspectiveStudent
+        public static void DeleteARProspectiveStudent(int UserID, int RegistrationID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "DeleteARProspectiveStudent";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+            ctx.Command.Parameters.Add(new SqlParameter("@RegistrationID", RegistrationID));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
         #region FillStockTakingDt
         public static void FillStockTakingDt(Int32 StockTakingID, Int32 LocationID, DateTime Date, String Time, int UserID, IDbContext ctx = null)
         {
@@ -635,5 +664,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        
     }
 }

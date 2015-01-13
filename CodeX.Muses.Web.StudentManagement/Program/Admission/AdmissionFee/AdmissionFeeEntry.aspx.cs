@@ -314,10 +314,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     OnSaveRecord(ctx, registrationID);
                 }
+                else if(type == "void")
+                {
+                    BusinessLayer.DeleteARProspectiveStudent(AppSession.UserLogin.UserID, registrationID, ctx);
+                }
                 else
                 {
                     OnSaveRecord(ctx, registrationID);
-                    BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID);
+                    BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID, ctx);
                 }
                 ctx.CommitTransaction();
             }
