@@ -13,6 +13,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Simpan")%></div></li>
     <li id="btnGenerateAR" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Generate Tagihan")%></div></li>
+    <li id="btnVoid" runat="server" CRUDMode="R" style="display:none;"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Batal Tagihan")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
@@ -63,11 +64,13 @@
                     $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
                     $('#<%=btnGenerateAR.ClientID %>').show();
                     $('#<%=btnSave.ClientID %>').show();
+                    $('#<%=btnVoid.ClientID %>').hide();
                 }
                 else {
                     $('#<%=tblInfoOutstandingTransfer.ClientID %>').show();
                     $('#<%=btnGenerateAR.ClientID %>').hide();
                     $('#<%=btnSave.ClientID %>').hide();
+                    $('#<%=btnVoid.ClientID %>').show();
                 }
                 tacAdmissionFeeRule.setValue(result.AdmissionFeeRuleID);
                 tacAdmissionFeeRule.setText(result.AdmissionFeeRuleName);
@@ -79,6 +82,7 @@
                 $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
                 $('#<%=btnGenerateAR.ClientID %>').show();
                 $('#<%=btnSave.ClientID %>').show();
+                $('#<%=btnVoid.ClientID %>').hide();
                 tacAdmissionFeeRule.setValue('');
                 tacAdmissionFeeRule.setText('');
                 cboPaymentType.SetValue('');
@@ -174,7 +178,9 @@
             $('#<%=btnGenerateAR.ClientID %>').click(function () {
                 onCustomButtonClick('generateAR');
             });
-
+            $('#<%=btnVoid.ClientID %>').click(function () {
+                onCustomButtonClick('void');
+            });
             $('#<%=btnSave.ClientID %>').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     var isAllowSave = true;
@@ -218,7 +224,7 @@
                     var paymentDate = $(this).find('.txtPaymentDate').val();
                     var paymentAmountInPercentage = $(this).find('.txtPaymentAmountInPercentage').val();
                     var paymentAmount = $(this).find('.txtPaymentAmount').attr('hiddenVal');
-                    var discountAmountInPercentage = $(this).find('.txtDiscountAmountInPercentage').val(); 
+                    var discountAmountInPercentage = $(this).find('.txtDiscountAmountInPercentage').val();
                     var discountAmount = $(this).find('.txtDiscountAmount').attr('hiddenVal');
                     var lineAmount = $(this).find('.txtLineAmount').attr('hiddenVal');
                     lstTemp += paymentDate + '^' + paymentAmountInPercentage + '^' + paymentAmount + '^' + discountAmountInPercentage + '^' + discountAmount + '^' + lineAmount;
