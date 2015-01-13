@@ -14,12 +14,14 @@
   <searchdialog type="arinvoicehd" methodname="GetARInvoiceHdList" keyfieldname="ARInvoiceNo">
     <gridcolumns>
       <gridcolumn datafield="ARInvoiceNo" headertext="No Invoice" width="100px" />
-      <gridcolumn datafield="ARInvoiceDateInString" headertext="Tanggal Invoice" width="120px" />
+      <gridcolumn datafield="ARInvoiceDateInString" headertext="Tanggal Invoice" horizontalalign="center" width="120px" />
+      <gridcolumn datafield="DueDateInString" headertext="Jatuh Tempo" horizontalalign="center" width="120px" />
       <gridcolumn datafield="Remarks" headertext="Keterangan" width="300px" />
     </gridcolumns>
     <intellisensetexts>
       <intellisensetext datafield="ARInvoiceNo" headertext="No Invoice" description="" />
       <intellisensetext datafield="ARInvoiceDate" headertext="Tanggal Invoice" description="" />
+      <intellisensetext datafield="DueDate" headertext="Jatuh Tempo" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

@@ -377,8 +377,7 @@
                     <h4><%=GetLabel("Informasi Tagihan") %></h4>
                     <table style="width:100%">
                         <colgroup>
-                            <col style="width:30%"/>
-                            <col style="width:30%"/>
+                            <col style="width:25%"/>
                             <col style="width:30%"/>
                         </colgroup>
                         <tr>
@@ -401,25 +400,20 @@
                                                             <th rowspan="2" align="left">
                                                                 <div style="padding:3px;float:left;">
                                                                     <div><%= GetLabel("No Invoice")%></div>
-                                                                    <div><%= GetLabel("Tanggal")%></div>                                                    
+                                                                    <div><%= GetLabel("Jatuh Tempo")%></div>                                                    
                                                                 </div>
                                                             </th>
                                                             <th colspan="3" class="thCenter"><%=GetLabel("Jumlah")%></th>
                                                         </tr>
                                                         <tr>
-                                                            <th style="width:70px">
+                                                            <th style="width:180px">
                                                                 <div style="text-align:right;padding-right:3px">
-                                                                    <%=GetLabel("Total Transaksi")%>
+                                                                    <%=GetLabel("Keterangan")%>
                                                                 </div>
                                                             </th>
                                                             <th style="width:70px">
                                                                 <div style="text-align:right;padding-right:3px">
-                                                                    <%=GetLabel("Total Transaksi")%>
-                                                                </div>
-                                                            </th>
-                                                            <th style="width:70px">
-                                                                <div style="text-align:right;padding-right:3px">
-                                                                    <%=GetLabel("Total Klaim")%>
+                                                                    <%=GetLabel("Total")%>
                                                                 </div>
                                                             </th>
                                                         </tr>
@@ -441,25 +435,20 @@
                                                             <th rowspan="2" align="left">
                                                                 <div style="padding:3px;float:left;">
                                                                     <div><%= GetLabel("No Invoice")%></div>
-                                                                    <div><%= GetLabel("Tanggal")%></div>                                                    
+                                                                    <div><%= GetLabel("Jatuh Tempo")%></div>                                                    
                                                                 </div>
                                                             </th>
                                                             <th colspan="3" class="thCenter"><%=GetLabel("Jumlah")%></th>
                                                         </tr>
                                                         <tr>
-                                                            <th style="width:70px">
-                                                                <div style="text-align:right;padding-right:3px">
-                                                                    <%=GetLabel("Total Transaksi")%>
+                                                            <th style="width:180px">
+                                                                <div style="padding-right:3px">
+                                                                    <%=GetLabel("Keterangan")%>
                                                                 </div>
                                                             </th>
                                                             <th style="width:70px">
                                                                 <div style="text-align:right;padding-right:3px">
-                                                                    <%=GetLabel("Total Penyesuaian")%>
-                                                                </div>
-                                                            </th>
-                                                            <th style="width:70px">
-                                                                <div style="text-align:right;padding-right:3px">
-                                                                    <%=GetLabel("Total Klaim")%>
+                                                                    <%=GetLabel("Total")%>
                                                                 </div>
                                                             </th>
                                                         </tr>
@@ -477,19 +466,12 @@
                                                         <td>
                                                             <div style="padding:3px;float:left;">
                                                                 <a class="lnkARInvoiceNo"><%#: Eval("ARInvoiceNo")%></a>
-                                                                <div><%#: Eval("ARInvoiceDate")%></div>
+                                                                <div><%#: Eval("DueDateInString")%></div>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div style="padding:3px;text-align:right;">
-                                                                <input type="hidden" class="hdnTransactionAmount" value='<%#: Eval("TotalTransactionAmount")%>' />
-                                                                <div><%#: Eval("TotalTransactionAmount", "{0:N}")%></div>                                                   
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div style="padding:3px;text-align:right;">
-                                                                <input type="hidden" class="hdnDiscountAmount" value='<%#: Eval("TotalVarianceAmount")%>' />
-                                                                <div><%#: Eval("TotalVarianceAmount", "{0:N}")%></div>                                                   
+                                                            <div style="padding:3px;">
+                                                                <div><%#: Eval("Remarks")%></div>                                                   
                                                             </div>
                                                         </td>
                                                         <td>

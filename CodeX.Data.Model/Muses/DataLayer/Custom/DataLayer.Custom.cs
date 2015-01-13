@@ -56,7 +56,7 @@ namespace CodeX.Data.Model
 
         public Decimal RemainingAmount
         {
-            get { return (_TotalClaimedAmount - _TotalDiscountAmount - _TotalPaymentAmount); }
+            get { return (_TotalClaimedAmount - _TotalPaymentAmount); }
         }
     }
     #endregion

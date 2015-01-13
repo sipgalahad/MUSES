@@ -54,21 +54,12 @@
             });
         });
 
-        $('.grdARInvoiceHD .txtClaimedAmount').live('change', function () {
+        $('.grdARInvoiceHD .txtDiscountAmount').live('change', function () {
             $(this).blur();
             $tr = $(this).closest('tr');
             var transactionAmount = parseFloat($tr.find('.hdnTransactionAmount').val());
-            var claimedAmount = parseFloat($(this).attr('hiddenVal'));
-            $tr.find('.txtVarianceAmount').val(claimedAmount - transactionAmount).trigger('changeValue');
-            $tr.find('.btnSave').removeAttr('enabled');
-        });
-
-        $('.grdARInvoiceHD .txtVarianceAmount').live('change', function () {
-            $(this).blur();
-            $tr = $(this).closest('tr');
-            var transactionAmount = parseFloat($tr.find('.hdnTransactionAmount').val());
-            var varianceAmount = parseFloat($(this).attr('hiddenVal'));
-            $tr.find('.txtClaimedAmount').val(transactionAmount + varianceAmount).trigger('changeValue');
+            var discountAmount = parseFloat($(this).attr('hiddenVal'));
+            $tr.find('.txtClaimedAmount').val(transactionAmount - discountAmount).trigger('changeValue');
             $tr.find('.btnSave').removeAttr('enabled');
         });
 
@@ -106,8 +97,8 @@
                 var pageCount = parseInt(param[1]);
                 var rowCount = parseInt(param[2]);
                 $('#<%=txtTotalTransaction.ClientID %>').val(parseFloat(param[3])).trigger('changeValue');
-                $('#<%=txtTotalClaimed.ClientID %>').val(parseFloat(param[4])).trigger('changeValue');
-                $('#<%=txtTotalVariance.ClientID %>').val(parseFloat(param[5])).trigger('changeValue');
+                $('#<%=txtTotalDiscount.ClientID %>').val(parseFloat(param[4])).trigger('changeValue');
+                $('#<%=txtTotalClaimed.ClientID %>').val(parseFloat(param[5])).trigger('changeValue');
                 setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
                     setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
@@ -131,8 +122,8 @@
                     $btnSave.attr('enabled', 'false');
 
                     $('#<%=txtTotalTransaction.ClientID %>').val(parseFloat(param[2])).trigger('changeValue');
-                    $('#<%=txtTotalClaimed.ClientID %>').val(parseFloat(param[3])).trigger('changeValue');
-                    $('#<%=txtTotalVariance.ClientID %>').val(parseFloat(param[4])).trigger('changeValue');
+                    $('#<%=txtTotalDiscount.ClientID %>').val(parseFloat(param[3])).trigger('changeValue');
+                    $('#<%=txtTotalClaimed.ClientID %>').val(parseFloat(param[4])).trigger('changeValue');
                 }
 
             }
@@ -184,6 +175,10 @@
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Jatuh Tempo") %></label></td>
                             <td><asp:TextBox runat="server" Width="150px" ID="txtDueDate" CssClass="datepicker" ReadOnly="true" /></td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel" style="vertical-align:top; padding-top:5px;"><%=GetLabel("Keterangan") %></td>
+                            <td><asp:TextBox ID="txtRemarks" ReadOnly="true" Width="400px" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                        </tr>
                     </table>
                 </td>
                 <td valign="top" align="right">
@@ -197,12 +192,12 @@
                             <td><asp:TextBox ID="txtTotalTransaction" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label><%=GetLabel("Total Klaim") %></label></td>
-                            <td><asp:TextBox ID="txtTotalClaimed" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" ForeColor="Blue" /></td>
+                            <td class="tdLabel"><label><%=GetLabel("Total Diskon") %></label></td>
+                            <td><asp:TextBox ID="txtTotalDiscount" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label><%=GetLabel("Total Penyesuaian") %></label></td>
-                            <td><asp:TextBox ID="txtTotalVariance" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" /></td>
+                            <td class="tdLabel"><label><%=GetLabel("Total Klaim") %></label></td>
+                            <td><asp:TextBox ID="txtTotalClaimed" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" ForeColor="Blue" /></td>
                         </tr>
                     </table>
                 </td>
@@ -257,8 +252,8 @@
                                                         </td>
                                                         <td align="left"><%#:Eval("ReferenceNo") %></td>
                                                         <td align="right"><%#:Eval("TransactionAmount","{0:N}") %></td>
-                                                        <td align="center"><asp:TextBox ID="txtClaimedAmount" runat="server" Width="95%" CssClass="txtCurrency txtClaimedAmount" /></td>
-                                                        <td align="center"><asp:TextBox ID="txtVarianceAmount" runat="server" Width="95%" CssClass="txtCurrency txtVarianceAmount" /></td>
+                                                        <td align="center"><asp:TextBox ID="txtDiscountAmount" runat="server" Width="95%" CssClass="txtCurrency txtDiscountAmount" /></td>
+                                                        <td align="center"><asp:TextBox ID="txtClaimedAmount" runat="server" Width="95%" ReadOnly="true" CssClass="txtCurrency txtClaimedAmount" /></td>
                                                         <td align="center">
                                                             <input type="button" <%# IsEditable() == "0" ? "style='display:none'" : ""%> id="btnSave" class="btnSave" enabled="false" value="Simpan" />
                                                         </td>

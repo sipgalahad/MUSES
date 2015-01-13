@@ -523,6 +523,7 @@ namespace CodeX.Data.Model
         private String _TransactionStatusWatermark;
         private Decimal _TotalTransactionAmount;
         private Decimal _TotalClaimedAmount;
+        private Decimal _TotalDiscountAmount;
         private Decimal _TotalVarianceAmount;
         private Int32 _TermID;
         private String _Remarks;
@@ -628,6 +629,12 @@ namespace CodeX.Data.Model
         {
             get { return _TotalClaimedAmount; }
             set { _TotalClaimedAmount = value; }
+        }
+        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
+        public Decimal TotalDiscountAmount
+        {
+            get { return _TotalDiscountAmount; }
+            set { _TotalDiscountAmount = value; }
         }
         [Column(Name = "TotalVarianceAmount", DataType = "Decimal")]
         public Decimal TotalVarianceAmount

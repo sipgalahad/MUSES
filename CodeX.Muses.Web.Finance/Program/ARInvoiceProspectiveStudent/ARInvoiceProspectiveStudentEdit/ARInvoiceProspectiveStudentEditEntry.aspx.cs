@@ -37,8 +37,10 @@ namespace CodeX.Web.Finance.Program
         protected override void InitializeDataControl()
         {
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
-            decimal tempTransactionAmount = -1, tempClaimedAmount = -1, tempVarianceAmount = -1;
-            BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount, ref tempClaimedAmount, ref tempVarianceAmount);
+            decimal tempTransactionAmount = -1, tempClaimedAmount = -1, tempDiscountAmount = -1;
+            BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount, ref tempDiscountAmount, ref tempClaimedAmount);
+
+            IsLoadFirstRecord = (OnGetRowCount() > 0);
         }
 
         protected string IsEditable()
@@ -96,24 +98,20 @@ namespace CodeX.Web.Finance.Program
             txtARInvoiceNo.Text = entity.ARInvoiceNo;
             txtInvoiceDate.Text = entity.ARInvoiceDateInString;
             txtDueDate.Text = entity.DueDateInString;
+            txtRemarks.Text = entity.Remarks;
             hdnARInvoiceID.Value = entity.ARInvoiceID.ToString();
             txtTotalTransaction.Text = entity.TotalTransactionAmount.ToString();
             txtTotalClaimed.Text = entity.TotalClaimedAmount.ToString();
-            txtTotalVariance.Text = (entity.TotalClaimedAmount - entity.TotalTransactionAmount).ToString();
-
-            if (entity.TotalVarianceAmount < 0)
-                txtTotalVariance.Attributes.Add("ForeColor", "Red");
-            else
-                txtTotalVariance.Attributes.Remove("ForeColor");
+            txtTotalDiscount.Text = entity.TotalDiscountAmount.ToString();
 
             decimal tempTransactionAmount = -1;
+            decimal tempDiscountAmount = -1;
             decimal tempClaimedAmount = -1;
-            decimal tempVarianceAmount = -1;
-            BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount, ref tempClaimedAmount, ref tempVarianceAmount);
+            BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount, ref tempDiscountAmount, ref tempClaimedAmount);
             hdnPageCount.Value = PageCount.ToString();
         }
 
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount, ref decimal claimedAmount, ref decimal varianceAmount)
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount, ref decimal discountAmount, ref decimal claimedAmount)
         {
             String filterExpression = "1 = 0";
             if (hdnARInvoiceID.Value != "")
@@ -123,8 +121,8 @@ namespace CodeX.Web.Finance.Program
                 {
                     ARInvoiceHd entity = BusinessLayer.GetARInvoiceHd(Convert.ToInt32(hdnARInvoiceID.Value));
                     transactionAmount = entity.TotalTransactionAmount;
+                    discountAmount = entity.TotalDiscountAmount;
                     claimedAmount = entity.TotalClaimedAmount;
-                    varianceAmount = entity.TotalVarianceAmount;
                 }
             }
 
@@ -145,10 +143,10 @@ namespace CodeX.Web.Finance.Program
             {
                 vARInvoiceDt entity = e.Item.DataItem as vARInvoiceDt;
                 TextBox txtClaimedAmount = e.Item.FindControl("txtClaimedAmount") as TextBox;
-                TextBox txtVarianceAmount = e.Item.FindControl("txtVarianceAmount") as TextBox;
+                TextBox txtDiscountAmount = e.Item.FindControl("txtDiscountAmount") as TextBox;
 
                 txtClaimedAmount.Text = entity.ClaimedAmount.ToString();
-                txtVarianceAmount.Text = entity.VarianceAmount.ToString();
+                txtDiscountAmount.Text = entity.DiscountAmount.ToString();
 
                 //HtmlGenericControl ctl = e.Item.FindControl("varianceAmountDiv") as HtmlGenericControl;
                 //if (entity.VarianceAmount < 0)
@@ -258,9 +256,9 @@ namespace CodeX.Web.Finance.Program
             {
                 decimal tempTransactionAmount = -1;
                 decimal tempClaimedAmount = -1;
-                decimal tempVarianceAmount = -1;
-                if (OnProcessRecord(ref errMessage, Convert.ToDecimal(param[1]), ref tempTransactionAmount, ref tempClaimedAmount, ref tempVarianceAmount))
-                    result += string.Format("success|{0}|{1}|{2}", tempTransactionAmount, tempClaimedAmount, tempVarianceAmount);
+                decimal tempDiscountAmount = -1;
+                if (OnProcessRecord(ref errMessage, Convert.ToDecimal(param[1]), ref tempTransactionAmount, ref tempDiscountAmount, ref tempClaimedAmount))
+                    result += string.Format("success|{0}|{1}|{2}", tempTransactionAmount, tempDiscountAmount, tempClaimedAmount);
                 else
                     result += "fail|" + errMessage;
             }
@@ -292,7 +290,7 @@ namespace CodeX.Web.Finance.Program
             return result;
         }
 
-        private bool OnProcessRecord(ref string errMessage, Decimal claimedAmountSave, ref decimal transactionAmount, ref decimal claimedAmount, ref decimal varianceAmount)
+        private bool OnProcessRecord(ref string errMessage, Decimal claimedAmountSave, ref decimal transactionAmount, ref decimal discountAmount, ref decimal claimedAmount)
         {
             bool result = true;
             try
@@ -305,8 +303,8 @@ namespace CodeX.Web.Finance.Program
 
                 ARInvoiceHd entity = BusinessLayer.GetARInvoiceHd(Convert.ToInt32(hdnARInvoiceID.Value));
                 transactionAmount = entity.TotalTransactionAmount;
+                discountAmount = entity.TotalDiscountAmount;
                 claimedAmount = entity.TotalClaimedAmount;
-                varianceAmount = entity.TotalVarianceAmount;
             }
             catch (Exception ex)
             {

@@ -85,6 +85,15 @@ namespace CodeX.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtDueDate;
         
         /// <summary>
+        /// txtRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        
+        /// <summary>
         /// txtTotalTransaction control.
         /// </summary>
         /// <remarks>
@@ -94,6 +103,15 @@ namespace CodeX.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtTotalTransaction;
         
         /// <summary>
+        /// txtTotalDiscount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTotalDiscount;
+        
+        /// <summary>
         /// txtTotalClaimed control.
         /// </summary>
         /// <remarks>
@@ -101,15 +119,6 @@ namespace CodeX.Web.Finance.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTotalClaimed;
-        
-        /// <summary>
-        /// txtTotalVariance control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalVariance;
         
         /// <summary>
         /// cbpView control.
