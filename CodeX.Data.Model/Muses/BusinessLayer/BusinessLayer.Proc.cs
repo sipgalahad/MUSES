@@ -42,6 +42,36 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region GenerateARProspectiveStudent
+        public static void GenerateARProspectiveStudent(int UserID, String SiteID, int RegistrationID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateARProspectiveStudent";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@RegistrationID", RegistrationID));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
         #region GenerateFADepreciation
         public static void GenerateFADepreciation(int FixedAssetID, int CreatedBy, IDbContext ctx = null)
         {

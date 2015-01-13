@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REGISTRATION_STATUS));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND StandardCodeID != '{1}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.REGISTRATION_STATUS, Constant.RegistrationStatus.VOID));
             lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
             Methods.SetComboBoxField<StandardCode>(cboProspectiveStudentStatus, lstSc, "StandardCodeName", "StandardCodeID");
             cboProspectiveStudentStatus.SelectedIndex = 0;
@@ -54,7 +54,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}' AND RegistrationNo LIKE '%{2}%' AND ProspectiveStudentName LIKE '%{3}%'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, hdnFilterCode.Value, hdnFilterName.Value);
             if (cboProspectiveStudentStatus.Value != null && cboProspectiveStudentStatus.Value.ToString() != "")
-                filterExpression += string.Format(" AND GCProspectiveStudentStatus = '{0}'", cboProspectiveStudentStatus.Value.ToString());
+                filterExpression += string.Format(" AND GCRegistrationStatus = '{0}'", cboProspectiveStudentStatus.Value.ToString());
+            else
+                filterExpression += string.Format(" AND GCRegistrationStatus != '{0}'", Constant.RegistrationStatus.VOID);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvRegistrationRowCount(filterExpression);
@@ -111,6 +113,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rptStudentMark.DataBind();
 
                 CheckBox chkIsSelected = e.Item.FindControl("chkIsSelected") as CheckBox;
+                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED || entity.GCRegistrationStatus == Constant.RegistrationStatus.PAID || entity.GCRegistrationStatus == Constant.RegistrationStatus.CLOSED)
+                    chkIsSelected.Visible = false;
                 if (lstSelectedMember.Contains(entity.ProspectiveStudentID.ToString()))
                     chkIsSelected.Checked = true;
             }

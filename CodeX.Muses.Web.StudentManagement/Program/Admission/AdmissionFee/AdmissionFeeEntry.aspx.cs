@@ -29,11 +29,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string OnGetRegistrationFilterExpression()
         {
-            return string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus = '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.ACCEPTED);
+            return string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus IN ('{1}','{2}')", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.ACCEPTED, Constant.RegistrationStatus.AR_PROCESSED);
         }
         protected string OnGetAdmissionFeeRuleFilterExpression()
         {
             return string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriodID.Value);
+        }
+        protected string OnGetRegistrationStatusAccepted()
+        {
+            return Constant.RegistrationStatus.ACCEPTED;
         }
         protected string OnGetAdmissionFeeRuleFeederFilterExpression()
         {
@@ -179,126 +183,141 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
-        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        private void OnSaveRecord(IDbContext ctx, int registrationID)
         {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
             RegistrationDao entityDao = new RegistrationDao(ctx);
             RegistrationFeeDao entityFeeDao = new RegistrationFeeDao(ctx);
             RegistrationFeeCompDao entityFeeCompDao = new RegistrationFeeCompDao(ctx);
             RegistrationScholarshipDao entityScholarshipDao = new RegistrationScholarshipDao(ctx);
-            try
-            {
-                Registration entity = entityDao.Get(Convert.ToInt32(tacRegistration.Value));
-                entity.AdmissionFeeRuleID = Convert.ToInt32(tacAdmissionFeeRule.Value);
-                entity.PaymentID = Convert.ToInt32(cboPaymentType.Value);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDao.Update(entity);
+            
+            Registration entity = entityDao.Get(registrationID);
+            entity.AdmissionFeeRuleID = Convert.ToInt32(tacAdmissionFeeRule.Value);
+            entity.PaymentID = Convert.ToInt32(cboPaymentType.Value);
+            entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+            entityDao.Update(entity);
 
-                List<RegistrationScholarship> lstRegistrationScholarshipFee = BusinessLayer.GetRegistrationScholarshipList(String.Format("RegistrationID = {0}", tacRegistration.Value), ctx);
-                if (hdnLstScholarshipID.Value != "")
+            List<RegistrationScholarship> lstRegistrationScholarshipFee = BusinessLayer.GetRegistrationScholarshipList(String.Format("RegistrationID = {0}", tacRegistration.Value), ctx);
+            if (hdnLstScholarshipID.Value != "")
+            {
+                string[] lstSaveScholarship = hdnLstScholarshipID.Value.Split(',');
+                foreach (string saveValue in lstSaveScholarship)
                 {
-                    string[] lstSaveScholarship = hdnLstScholarshipID.Value.Split(',');
-                    foreach (string saveValue in lstSaveScholarship)
+                    int scholarshipID = Convert.ToInt32(saveValue);
+                    RegistrationScholarship registrationScholarshipFee = lstRegistrationScholarshipFee.FirstOrDefault(p => p.ScholarshipID == scholarshipID);
+                    if (registrationScholarshipFee == null)
                     {
-                        int scholarshipID = Convert.ToInt32(saveValue);
-                        RegistrationScholarship registrationScholarshipFee = lstRegistrationScholarshipFee.FirstOrDefault(p => p.ScholarshipID == scholarshipID);
-                        if (registrationScholarshipFee == null)
-                        {
-                            registrationScholarshipFee = new RegistrationScholarship();
-                            registrationScholarshipFee.RegistrationID = entity.RegistrationID;
-                            registrationScholarshipFee.ScholarshipID = scholarshipID;
-                            entityScholarshipDao.Insert(registrationScholarshipFee);
-                        }
+                        registrationScholarshipFee = new RegistrationScholarship();
+                        registrationScholarshipFee.RegistrationID = entity.RegistrationID;
+                        registrationScholarshipFee.ScholarshipID = scholarshipID;
+                        entityScholarshipDao.Insert(registrationScholarshipFee);
                     }
                 }
-                foreach (RegistrationScholarship entityScholarship in lstRegistrationScholarshipFee)
+            }
+            foreach (RegistrationScholarship entityScholarship in lstRegistrationScholarshipFee)
+            {
+                entityScholarshipDao.Delete(entityScholarship.RegistrationID, entityScholarship.ScholarshipID);
+            }
+
+            List<RegistrationFee> lstRegistrationFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
+            List<RegistrationFeeComp> lstRegistrationFeeComp = BusinessLayer.GetRegistrationFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
+            string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+            foreach (string saveValue in lstSaveValue)
+            {
+                string[] temp = saveValue.Split(';');
+                int admissionFeeCompID = Convert.ToInt32(temp[0]);
+                decimal admissionFeeCompValue = Convert.ToDecimal(temp[1]);
+                List<RegistrationFee> lstRegistrationFee1 = lstRegistrationFee.Where(p => p.AdmissionFeeCompID == admissionFeeCompID).ToList();
+                RegistrationFeeComp registrationFeeComp = lstRegistrationFeeComp.FirstOrDefault(p => p.AdmissionFeeCompID == admissionFeeCompID);
+                if (registrationFeeComp != null)
                 {
-                    entityScholarshipDao.Delete(entityScholarship.RegistrationID, entityScholarship.ScholarshipID);
+                    registrationFeeComp.TotalAmount = admissionFeeCompValue;
+                    registrationFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityFeeCompDao.Update(registrationFeeComp);
+
+                    lstRegistrationFeeComp.Remove(registrationFeeComp);
+                }
+                else
+                {
+                    registrationFeeComp = new RegistrationFeeComp();
+                    registrationFeeComp.RegistrationID = entity.RegistrationID;
+                    registrationFeeComp.AdmissionFeeCompID = admissionFeeCompID;
+                    registrationFeeComp.TotalAmount = admissionFeeCompValue;
+                    registrationFeeComp.CreatedBy = AppSession.UserLogin.UserID;
+                    entityFeeCompDao.Insert(registrationFeeComp);
                 }
 
-                List<RegistrationFee> lstRegistrationFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
-                List<RegistrationFeeComp> lstRegistrationFeeComp = BusinessLayer.GetRegistrationFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
-                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
-                foreach (string saveValue in lstSaveValue)
+                string[] lstSaveValue1 = temp[2].Split(',');
+                short ctr = 1;
+                foreach (string saveValue1 in lstSaveValue1)
                 {
-                    string[] temp = saveValue.Split(';');
-                    int admissionFeeCompID = Convert.ToInt32(temp[0]);
-                    decimal admissionFeeCompValue = Convert.ToDecimal(temp[1]);
-                    List<RegistrationFee> lstRegistrationFee1 = lstRegistrationFee.Where(p => p.AdmissionFeeCompID == admissionFeeCompID).ToList();
-                    RegistrationFeeComp registrationFeeComp = lstRegistrationFeeComp.FirstOrDefault(p => p.AdmissionFeeCompID == admissionFeeCompID);
-                    if (registrationFeeComp != null)
+                    string[] temp1 = saveValue1.Split('^');
+                    RegistrationFee entityFee = lstRegistrationFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
+                    if (entityFee == null)
                     {
-                        registrationFeeComp.TotalAmount = admissionFeeCompValue;
-                        registrationFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        entityFeeCompDao.Update(registrationFeeComp);
+                        entityFee = new RegistrationFee();
+                        entityFee.RegistrationID = entity.RegistrationID;
+                        entityFee.AdmissionFeeCompID = admissionFeeCompID;
+                        entityFee.DisplayOrder = ctr;
+                        entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
+                        entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
+                        entityFee.IsPaymentAmountInPercentage = true;
+                        entityFee.TotalPaymentAmount = Convert.ToDecimal(temp1[2]);
+                        entityFee.DiscountAmount = Convert.ToDecimal(temp1[3]);
+                        entityFee.IsDiscountAmountInPercentage = true;
+                        entityFee.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
+                        entityFee.LineAmount = Convert.ToDecimal(temp1[5]);
+                        entityFee.CreatedBy = AppSession.UserLogin.UserID;
 
-                        lstRegistrationFeeComp.Remove(registrationFeeComp);
+                        entityFeeDao.Insert(entityFee);
                     }
                     else
                     {
-                        registrationFeeComp = new RegistrationFeeComp();
-                        registrationFeeComp.RegistrationID = entity.RegistrationID;
-                        registrationFeeComp.AdmissionFeeCompID = admissionFeeCompID;
-                        registrationFeeComp.TotalAmount = admissionFeeCompValue;
-                        registrationFeeComp.CreatedBy = AppSession.UserLogin.UserID;
-                        entityFeeCompDao.Insert(registrationFeeComp);
+                        entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
+                        entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
+                        entityFee.IsPaymentAmountInPercentage = true;
+                        entityFee.TotalPaymentAmount = Convert.ToDecimal(temp1[2]);
+                        entityFee.DiscountAmount = Convert.ToDecimal(temp1[3]);
+                        entityFee.IsDiscountAmountInPercentage = true;
+                        entityFee.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
+                        entityFee.LineAmount = Convert.ToDecimal(temp1[5]);
+                        entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+
+                        entityFeeDao.Update(entityFee);
+
+                        lstRegistrationFee.Remove(entityFee);
                     }
-
-                    string[] lstSaveValue1 = temp[2].Split(',');
-                    short ctr = 1;
-                    foreach (string saveValue1 in lstSaveValue1)
-                    {
-                        string[] temp1 = saveValue1.Split('^');
-                        RegistrationFee entityFee = lstRegistrationFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
-                        if (entityFee == null)
-                        {
-                            entityFee = new RegistrationFee();
-                            entityFee.RegistrationID = entity.RegistrationID;
-                            entityFee.AdmissionFeeCompID = admissionFeeCompID;
-                            entityFee.DisplayOrder = ctr;
-                            entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
-                            entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
-                            entityFee.IsPaymentAmountInPercentage = true;
-                            entityFee.TotalPaymentAmount = Convert.ToDecimal(temp1[2]);
-                            entityFee.DiscountAmount = Convert.ToDecimal(temp1[3]);
-                            entityFee.IsDiscountAmountInPercentage = true;
-                            entityFee.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
-                            entityFee.LineAmount = Convert.ToDecimal(temp1[5]);
-                            entityFee.CreatedBy = AppSession.UserLogin.UserID;
-
-                            entityFeeDao.Insert(entityFee);
-                        }
-                        else
-                        {
-                            entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
-                            entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
-                            entityFee.IsPaymentAmountInPercentage = true;
-                            entityFee.TotalPaymentAmount = Convert.ToDecimal(temp1[2]);
-                            entityFee.DiscountAmount = Convert.ToDecimal(temp1[3]);
-                            entityFee.IsDiscountAmountInPercentage = true;
-                            entityFee.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
-                            entityFee.LineAmount = Convert.ToDecimal(temp1[5]);
-                            entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
-
-                            entityFeeDao.Update(entityFee);
-
-                            lstRegistrationFee.Remove(entityFee);
-                        }
-                        ctr++;
-                    }
+                    ctr++;
                 }
-                foreach (RegistrationFeeComp entityFeeComp in lstRegistrationFeeComp)
+            }
+            foreach (RegistrationFeeComp entityFeeComp in lstRegistrationFeeComp)
+            {
+                entityFeeComp.IsDeleted = true;
+                entityFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityFeeCompDao.Update(entityFeeComp);
+            }
+            foreach (RegistrationFee entityFee in lstRegistrationFee)
+            {
+                entityFee.IsDeleted = true;
+                entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityFeeDao.Update(entityFee);
+            }
+        }
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                int registrationID = Convert.ToInt32(tacRegistration.Value);
+                if (type == "save")
                 {
-                    entityFeeComp.IsDeleted = true;
-                    entityFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityFeeCompDao.Update(entityFeeComp);
+                    OnSaveRecord(ctx, registrationID);
                 }
-                foreach (RegistrationFee entityFee in lstRegistrationFee)
+                else
                 {
-                    entityFee.IsDeleted = true;
-                    entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityFeeDao.Update(entityFee);
+                    OnSaveRecord(ctx, registrationID);
+                    BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID);
                 }
                 ctx.CommitTransaction();
             }

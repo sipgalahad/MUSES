@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPPeriodAdmissionPageTrx.master" AutoEventWireup="true" 
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
     CodeBehind="AdmissionSelectionEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.AdmissionSelectionEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -75,8 +75,22 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        function onCboPeriodAdmissionValueChanged(s) {
+            $('#btnCancel').click();
+            cbpView.PerformCallback('refresh');
+        }
     </script>
-    <input type="hidden" id="hdnSchoolPeriodID" runat="server" />
+    <table>
+        <tr>
+            <td><%=GetLabel("Gelombang Pendaftaran") %></td>
+            <td>
+                <dxe:ASPxComboBox runat="server" ID="cboPeriodAdmission" ClientInstanceName="cboPeriodAdmission" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e) { onCboPeriodAdmissionValueChanged(s); }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
+    </table>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">

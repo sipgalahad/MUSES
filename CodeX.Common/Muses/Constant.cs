@@ -81,6 +81,9 @@ namespace CodeX.Common
             public const string OPEN = "MS011^001";
             public const string ACCEPTED = "MS011^002";
             public const string REJECTED = "MS011^003";
+            public const string AR_PROCESSED = "MS011^004";
+            public const string PAID = "MS011^005";
+            public const string CLOSED = "MS011^006";
             public const string VOID = "MS011^999";
         }
 
@@ -325,10 +328,11 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
                 public const string SP_SCHOOL_PERIOD_SECTION = "SM99010102";
                 public const string SP_SCHOOL_PERIOD_ADMISSION = "SM99010201";
-                public const string SP_ADMISSION_FEE_COMP = "SM99010202";
-                public const string SP_ADMISSION_FEE_RULE = "SM99010203";
-                public const string SP_ADMISSION_PAYMENT = "SM99010204";
-                public const string SP_ADMISSION_SCHOLARSHIP = "SM99010205";
+                public const string SP_ADMISSION_SELECTION = "SM99010202";
+                public const string SP_ADMISSION_FEE_COMP = "SM99010203";
+                public const string SP_ADMISSION_FEE_RULE = "SM99010204";
+                public const string SP_ADMISSION_PAYMENT = "SM99010205";
+                public const string SP_ADMISSION_SCHOLARSHIP = "SM99010206";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010301";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010302";
                 public const string SP_GENERATE_SCHOOL_CLASS = "SM99010303";
@@ -349,9 +353,8 @@ namespace CodeX.Common
                 public const string PERIOD_ADMISSION_PAGE = "SM99030000";
                 public const string PA_PROSPECTIVE_STUDENT = "SM99030101";
                 public const string PA_PROSPECTIVE_STUDENT_FORM_STATUS = "SM99030102";
-                public const string PA_ADMISSION_SELECTION = "SM99030201";
-                public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030202";
-                public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030203";
+                public const string PA_PROSPECTIVE_STUDENT_MARK = "SM99030201";
+                public const string PA_PROSPECTIVE_STUDENT_RESULT = "SM99030202";
                 public const string PA_ADMISSION_FEE = "SM99030301";
                 public const string PA_GENERATE_AR_PROSPECTIVE_STUDENT = "SM99030302";
 

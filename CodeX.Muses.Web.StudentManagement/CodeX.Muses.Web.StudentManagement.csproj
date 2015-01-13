@@ -100,7 +100,7 @@
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
     <Content Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx" />
-    <Content Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionEntry.aspx" />
@@ -408,11 +408,11 @@
     <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx.designer.cs">
       <DependentUpon>AdmissionFeeEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">
+    <Compile Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Admission\AdmissionSelection\AdmissionSelectionEntry.aspx.designer.cs">
+    <Compile Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx.designer.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx.cs">

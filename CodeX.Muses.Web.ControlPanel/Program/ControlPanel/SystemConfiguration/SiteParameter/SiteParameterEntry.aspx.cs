@@ -44,7 +44,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 {
                     string methodName = string.Format("Get{0}List", entity.TableName);
                     MethodInfo method = typeof(BusinessLayer).GetMethod(methodName, new[] { typeof(string) });
-                    object obj = method.Invoke(null, new string[] { entity.FilterExpression });
+                    object obj = method.Invoke(null, new string[] { entity.FilterExpression.Replace("@SiteID", hdnSite.Value) });
                     IList list = (IList)obj;
 
                     cboParameterValue.DataSource = list;

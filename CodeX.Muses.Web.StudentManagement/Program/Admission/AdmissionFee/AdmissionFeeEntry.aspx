@@ -58,6 +58,17 @@
                     $('#<%=hdnIsFeeder.ClientID %>').val('1');
                 else
                     $('#<%=hdnIsFeeder.ClientID %>').val('0');
+
+                if (result.GCRegistrationStatus == "<%=OnGetRegistrationStatusAccepted() %>") {
+                    $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
+                    $('#<%=btnGenerateAR.ClientID %>').show();
+                    $('#<%=btnSave.ClientID %>').show();
+                }
+                else {
+                    $('#<%=tblInfoOutstandingTransfer.ClientID %>').show();
+                    $('#<%=btnGenerateAR.ClientID %>').hide();
+                    $('#<%=btnSave.ClientID %>').hide();
+                }
                 tacAdmissionFeeRule.setValue(result.AdmissionFeeRuleID);
                 tacAdmissionFeeRule.setText(result.AdmissionFeeRuleName);
                 cboPaymentType.SetValue(result.PaymentID);
@@ -65,6 +76,9 @@
             }
             else {
                 $('#<%=hdnIsFeeder.ClientID %>').val('0');
+                $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
+                $('#<%=btnGenerateAR.ClientID %>').show();
+                $('#<%=btnSave.ClientID %>').show();
                 tacAdmissionFeeRule.setValue('');
                 tacAdmissionFeeRule.setText('');
                 cboPaymentType.SetValue('');
@@ -155,6 +169,10 @@
         $(function () {
             $('#btnGenerate').click(function () {
                 cbpView.PerformCallback('refresh|0');
+            });
+
+            $('#<%=btnGenerateAR.ClientID %>').click(function () {
+                onCustomButtonClick('generateAR');
             });
 
             $('#<%=btnSave.ClientID %>').click(function () {
@@ -361,6 +379,14 @@
     <input type="hidden" id="hdnSaveValue" value="0" runat="server" />
     <input type="hidden" id="hdnLstScholarshipID" value="0" runat="server" />
     <div>
+        <div style="float:right">            
+            <table id="tblInfoOutstandingTransfer" runat="server" style="display:none;">
+                <tr>
+                    <td><img height="24" src='<%= ResolveUrl("~/Libs/Images/Button/warning.png")%>' alt='' /></td>
+                    <td><label class="lblInfo" id="lblInfoOutstandingBill"><%=GetLabel("Sudah Dibuat Tagihan Untuk Calon Siswa Yang Bersangkutan. Tidak Bisa Diubah") %></label></td>
+                </tr>
+            </table>
+        </div>
         <table>
             <colgroup>
                 <col style="width:150px"/>

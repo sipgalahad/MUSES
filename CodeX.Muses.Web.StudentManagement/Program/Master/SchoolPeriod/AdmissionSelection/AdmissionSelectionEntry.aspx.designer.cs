@@ -13,13 +13,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class AdmissionSelectionEntry {
         
         /// <summary>
-        /// hdnSchoolPeriodID control.
+        /// cboPeriodAdmission control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolPeriodID;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPeriodAdmission;
         
         /// <summary>
         /// hdnEntryID control.

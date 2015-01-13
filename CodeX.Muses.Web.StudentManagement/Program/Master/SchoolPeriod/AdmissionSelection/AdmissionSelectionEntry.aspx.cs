@@ -18,12 +18,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.PA_ADMISSION_SELECTION;
+            return Constant.MenuCode.StudentManagement.SP_ADMISSION_SELECTION;
         }
         protected override void InitializeDataControl()
         {
-            PeriodAdmission entity = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
-            hdnSchoolPeriodID.Value = entity.SchoolPeriodID.ToString();
+            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID);
+            List<PeriodAdmission> lstPeriodAdmission = BusinessLayer.GetPeriodAdmissionList(filterExpression);
+            Methods.SetComboBoxField<PeriodAdmission>(cboPeriodAdmission, lstPeriodAdmission, "PeriodAdmissionName", "PeriodAdmissionID");
+            cboPeriodAdmission.SelectedIndex = 0;
 
             BindGridView();
 
@@ -41,7 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0 ORDER BY DisplayOrder ASC", AppSession.PeriodAdmissionID);
+            string filterExpression = string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0 ORDER BY DisplayOrder ASC", cboPeriodAdmission.Value);
             List<AdmissionSelection> lstEntity = BusinessLayer.GetAdmissionSelectionList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
@@ -103,8 +105,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 AdmissionSelection entity = new AdmissionSelection();
                 ControlToEntity(entity);
-                entity.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
-                entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
+                entity.SchoolPeriodID = AppSession.SchoolPeriodID;
+                entity.PeriodAdmissionID = Convert.ToInt32(cboPeriodAdmission.Value);
                 entity.IsDeleted = false;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.InsertAdmissionSelection(entity);
