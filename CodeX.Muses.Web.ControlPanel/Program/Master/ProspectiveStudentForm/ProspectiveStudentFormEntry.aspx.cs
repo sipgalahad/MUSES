@@ -111,6 +111,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 ProspectiveStudentFolder folder = new ProspectiveStudentFolder();
                 folder.FormID = Convert.ToInt32(retval);
                 folder.SiteID = AppSession.UserLogin.SiteID;
+                folderDao.Insert(folder);
 
                 ctx.CommitTransaction();
                 result = true;

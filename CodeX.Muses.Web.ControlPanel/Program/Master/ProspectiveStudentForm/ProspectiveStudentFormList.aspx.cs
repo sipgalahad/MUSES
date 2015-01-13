@@ -114,10 +114,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                ProspectiveStudentForm entity = BusinessLayer.GetProspectiveStudentForm(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateProspectiveStudentForm(entity);
+                try
+                {
+                    BusinessLayer.DeleteProspectiveStudentFolder(AppSession.UserLogin.SiteID,Convert.ToInt32(hdnID.Value));
+                }
+                catch (Exception ex)
+                {
+                    errMessage = ex.Message;
+                }
                 return true;
             }
             return false;

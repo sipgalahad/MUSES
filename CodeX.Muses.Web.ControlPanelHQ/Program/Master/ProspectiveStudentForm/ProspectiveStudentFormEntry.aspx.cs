@@ -12,11 +12,11 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
-    public partial class ProsepectiveStudentFormEntry : BasePageEntry
+    public partial class ProspectiveStudentFormEntry : BasePageEntry
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.PROSPECTIVE_STUDENT_FORM;
+            return Constant.MenuCode.ControlPanelHQ.PROSPECTIVE_STUDENT_FORM;
         }
 
         protected override void InitializeDataControl()
@@ -97,7 +97,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ProspectiveStudentFormDao entityDao = new ProspectiveStudentFormDao(ctx);
-            ProspectiveStudentFolderDao folderDao = new ProspectiveStudentFolderDao(ctx);
+            //ProspectiveStudentFolderDao folderDao = new ProspectiveStudentFolderDao(ctx);
 
             bool result = false;
             try
@@ -108,9 +108,9 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
                 entityDao.Insert(entity);
 
                 retval = BusinessLayer.GetProspectiveStudentFormMaxID(ctx).ToString();
-                ProspectiveStudentFolder folder = new ProspectiveStudentFolder();
-                folder.FormID = Convert.ToInt32(retval);
-                folder.SiteID = AppSession.UserLogin.SiteID;
+                //ProspectiveStudentFolder folder = new ProspectiveStudentFolder();
+                //folder.FormID = Convert.ToInt32(retval);
+                //folder.SiteID = AppSession.UserLogin.SiteID;
 
                 ctx.CommitTransaction();
                 result = true;
