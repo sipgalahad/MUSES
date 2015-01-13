@@ -13724,6 +13724,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RegistrationFeeComp
+    [Serializable]
+    [Table(Name = "RegistrationFeeComp")]
+    public class RegistrationFeeComp : DbDataModel
+    {
+        private Int32 _RegistrationFeeCompID;
+        private Int32 _RegistrationID;
+        private Int32 _AdmissionFeeCompID;
+        private Decimal _TotalAmount;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "RegistrationFeeCompID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 RegistrationFeeCompID
+        {
+            get { return _RegistrationFeeCompID; }
+            set { _RegistrationFeeCompID = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32")]
+        public Int32 RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
+        }
+        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
+        public Int32 AdmissionFeeCompID
+        {
+            get { return _AdmissionFeeCompID; }
+            set { _AdmissionFeeCompID = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class RegistrationFeeCompDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RegistrationFeeComp));
+        private bool _isAuditLog = false;
+        private const string p_RegistrationFeeCompID = "@p_RegistrationFeeCompID";
+        public RegistrationFeeCompDao() { }
+        public RegistrationFeeCompDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RegistrationFeeComp Get(Int32 RegistrationFeeCompID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_RegistrationFeeCompID, RegistrationFeeCompID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RegistrationFeeComp)_helper.DataRowToObject(row, new RegistrationFeeComp());
+        }
+        public int Insert(RegistrationFeeComp record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RegistrationFeeComp record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 RegistrationFeeCompID)
+        {
+            RegistrationFeeComp record;
+            if (_ctx.Transaction == null)
+                record = new RegistrationFeeCompDao().Get(RegistrationFeeCompID);
+            else
+                record = Get(RegistrationFeeCompID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region RegistrationMark
     [Serializable]
     [Table(Name = "RegistrationMark")]

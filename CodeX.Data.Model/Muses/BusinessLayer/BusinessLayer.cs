@@ -6343,6 +6343,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RegistrationFeeComp
+        public static RegistrationFeeComp GetRegistrationFeeComp(Int32 RegistrationFeeCompID)
+        {
+            return new RegistrationFeeCompDao().Get(RegistrationFeeCompID);
+        }
+        public static int InsertRegistrationFeeComp(RegistrationFeeComp record)
+        {
+            return new RegistrationFeeCompDao().Insert(record);
+        }
+        public static int UpdateRegistrationFeeComp(RegistrationFeeComp record)
+        {
+            return new RegistrationFeeCompDao().Update(record);
+        }
+        public static int DeleteRegistrationFeeComp(Int32 RegistrationFeeCompID)
+        {
+            return new RegistrationFeeCompDao().Delete(RegistrationFeeCompID);
+        }
+        public static List<RegistrationFeeComp> GetRegistrationFeeCompList(string filterExpression)
+        {
+            List<RegistrationFeeComp> result = new List<RegistrationFeeComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationFeeComp)helper.IDataReaderToObject(reader, new RegistrationFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RegistrationFeeComp> GetRegistrationFeeCompList(string filterExpression, IDbContext ctx)
+        {
+            List<RegistrationFeeComp> result = new List<RegistrationFeeComp>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RegistrationFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RegistrationFeeComp)helper.IDataReaderToObject(reader, new RegistrationFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region RegistrationMark
         public static RegistrationMark GetRegistrationMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 RegistrationID)
         {

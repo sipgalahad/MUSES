@@ -213,9 +213,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string Name = Helper.GenerateName(entityFather.LastName, entityFather.MiddleName, entityFather.FirstName);
             entityFather.FamilyName = Helper.GenerateFullName(Name, title, suffix);
 
-            entityFather.GCNationality = cboFatherNationality.Value.ToString();
+            entityFather.GCNationality = cboFatherNationality.Value == null ? "" : cboFatherNationality.Value.ToString();
             entityFather.GCReligion = cboFatherReligion.Value.ToString();
-            entityFather.GCEducationLevel = cboFatherEducationLevel.Value.ToString();
+            entityFather.GCEducationLevel = cboFatherEducationLevel.Value == null ? "" : cboFatherEducationLevel.Value.ToString();
             #endregion
 
             #region Office
@@ -251,9 +251,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Name = Helper.GenerateName(entityMother.LastName, entityMother.MiddleName, entityMother.FirstName);
             entityMother.FamilyName = Helper.GenerateFullName(Name, title, suffix);
 
-            entityMother.GCNationality = cboMotherNationality.Value.ToString();
+            entityMother.GCNationality = cboMotherNationality.Value == null ? "" : cboMotherNationality.Value.ToString();
             entityMother.GCReligion = cboMotherReligion.Value.ToString();
-            entityMother.GCEducationLevel = cboMotherEducationLevel.Value.ToString();
+            entityMother.GCEducationLevel = cboMotherEducationLevel.Value == null ? "" : cboMotherEducationLevel.Value.ToString();
             #endregion
 
             #region Office
@@ -301,7 +301,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 addressDao.Insert(officeAddressFather);
                 entityDao.Update(entityFather);
 
-                addressDao.Insert(officeAddressMother);
                 entityMother.ProspectiveStudentID = Convert.ToInt32(hdnID.Value);
                 entityMother.GCFamilyRelation = Constant.FamilyRelation.MOTHER;
                 entityMother.OfficeAddressID = null;
@@ -309,7 +308,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Insert(entityMother);
 
                 entityMother.FamilyID = BusinessLayer.GetProspectiveStudentFamilyMaxID(ctx);
-                officeAddressFather.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY;
+                officeAddressMother.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY;
                 entityMother.OfficeAddressID = officeAddressMother.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entityMother.FamilyID);
                 addressDao.Insert(officeAddressMother);
                 entityDao.Update(entityMother);
