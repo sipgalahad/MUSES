@@ -10,7 +10,16 @@
 namespace CodeX.Muses.Web.ControlPanelHQ.Program {
     
     
-    public partial class ProsepectiveStudentFormList {
+    public partial class ProspectiveStudentFormEntry {
+        
+        /// <summary>
+        /// hdnIsExist control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsExist;
         
         /// <summary>
         /// hdnID control.
@@ -22,48 +31,30 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// txtFormCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.WebControls.TextBox txtFormCode;
         
         /// <summary>
-        /// cbpView control.
+        /// txtFormName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.TextBox txtFormName;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// txtRemarks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
-        
-        /// <summary>
-        /// pnlView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
-        /// grdView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
     }
 }

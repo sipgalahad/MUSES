@@ -70,7 +70,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = string.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID);
+            string filterExpression = string.Format("SiteID IN (SELECT SiteID FROM fnGetSiteBranch('{0}'))", AppSession.UserLogin.SiteID);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvSiteRowCount(filterExpression);

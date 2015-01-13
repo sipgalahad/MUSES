@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="ProsepectiveStudentFormList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.ProsepectiveStudentFormList" %>
+    CodeBehind="ProspectiveStudentFormList.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.ProspectiveStudentFormList" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>

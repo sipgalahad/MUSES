@@ -123,8 +123,8 @@
     <Content Include="Program\Master\Location\LocationEntry.aspx" />
     <Content Include="Program\Master\Location\LocationItemEntryCtl.ascx" />
     <Content Include="Program\Master\Location\LocationList.aspx" />
-    <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx" />
-    <Content Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormEntry.aspx" />
+    <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx" />
     <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormSettingCtl.ascx" />
     <Content Include="Program\Master\Supplier\SupplierEntry.aspx" />
     <Content Include="Program\Master\Supplier\SupplierItemEntryCtl.ascx" />
@@ -501,19 +501,19 @@
     <Compile Include="Program\Master\Location\LocationList.aspx.designer.cs">
       <DependentUpon>LocationList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx.cs">
-      <DependentUpon>ProsepectiveStudentFormEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormEntry.aspx.cs">
+      <DependentUpon>ProspectiveStudentFormEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormEntry.aspx.designer.cs">
-      <DependentUpon>ProsepectiveStudentFormEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormEntry.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentFormEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx.cs">
-      <DependentUpon>ProsepectiveStudentFormList.aspx</DependentUpon>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx.cs">
+      <DependentUpon>ProspectiveStudentFormList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ProspectiveStudentForm\ProsepectiveStudentFormList.aspx.designer.cs">
-      <DependentUpon>ProsepectiveStudentFormList.aspx</DependentUpon>
+    <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentFormList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormSettingCtl.ascx.cs">
       <DependentUpon>ProspectiveStudentFormSettingCtl.ascx</DependentUpon>

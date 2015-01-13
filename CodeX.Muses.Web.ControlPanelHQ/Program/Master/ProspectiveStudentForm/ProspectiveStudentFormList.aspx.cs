@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanelHQ.Program
 {
-    public partial class ProsepectiveStudentFormList : BasePageList
+    public partial class ProspectiveStudentFormList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.PROSPECTIVE_STUDENT_FORM;
+            return Constant.MenuCode.ControlPanelHQ.PROSPECTIVE_STUDENT_FORM;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvProspectiveStudentFormRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetProspectiveStudentFormRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("IsDeleted = 0 AND SiteID = '{0}'", AppSession.UserLogin.SiteID);
+            filterExpression += string.Format("IsDeleted = 0");
             return filterExpression;
         }
 
@@ -60,11 +60,11 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvProspectiveStudentFormRowCount(filterExpression);
+                rowCount = BusinessLayer.GetProspectiveStudentFormRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vProspectiveStudentForm> lstEntity = BusinessLayer.GetvProspectiveStudentFormList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<ProspectiveStudentForm> lstEntity = BusinessLayer.GetProspectiveStudentFormList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

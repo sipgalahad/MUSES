@@ -124,8 +124,9 @@ namespace CodeX.Common
             #region ControlPanelHQ
             public static class ControlPanelHQ
             {
-                public const string ITEM_GROUP_MASTER = "CPHQ010101";
-                public const string ITEM_PRODUCT = "CPHQ010102";
+                public const string PROSPECTIVE_STUDENT_FORM = "CPHQ010107";
+                public const string ITEM_GROUP_MASTER = "CPHQ010201";
+                public const string ITEM_PRODUCT = "CPHQ010202";
                 public const string LOCATION = "CPHQ010103";
                 public const string LOCATION_ITEM = "CPHQ010104";
 
