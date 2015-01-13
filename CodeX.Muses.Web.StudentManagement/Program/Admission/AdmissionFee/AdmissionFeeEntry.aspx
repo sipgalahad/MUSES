@@ -170,46 +170,71 @@
             hideLoadingPanel();
         }
 
+        function onAfterCustomClickSuccess(type) {
+            if (type == 'generateAR') {
+                $('#<%=tblInfoOutstandingTransfer.ClientID %>').show();
+                $('#<%=btnGenerateAR.ClientID %>').hide();
+                $('#<%=btnSave.ClientID %>').hide();
+                $('#<%=btnVoid.ClientID %>').show();
+            }
+            else {
+                $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
+                $('#<%=btnGenerateAR.ClientID %>').show();
+                $('#<%=btnSave.ClientID %>').show();
+                $('#<%=btnVoid.ClientID %>').hide();
+            }
+        }
+
         $(function () {
             $('#btnGenerate').click(function () {
                 cbpView.PerformCallback('refresh|0');
             });
 
             $('#<%=btnGenerateAR.ClientID %>').click(function () {
-                onCustomButtonClick('generateAR');
+                if (onBeforeSaveValue())
+                    onCustomButtonClick('generateAR');
             });
             $('#<%=btnVoid.ClientID %>').click(function () {
-                onCustomButtonClick('void');
+                showToastConfirmation('Apakah Anda Yakin? Semua Tagihan Untuk Calon Siswa Ybs Akan Dibatalkan.', function (result) {
+                    if (result)
+                        onCustomButtonClick('void');
+                });
             });
             $('#<%=btnSave.ClientID %>').click(function () {
-                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    var isAllowSave = true;
-                    $('.txtTotalPaymentAmount').each(function () {
-                        var totalPaymentAmount = parseFloat($(this).attr('hiddenVal'));
-                        var totalPaymentAmount1 = parseFloat($(this).closest('.tblView').parent().closest('tr').prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal'));
-                        if (totalPaymentAmount != totalPaymentAmount1) {
-                            $(this).addClass('error');
-                            isAllowSave = false;
-                        }
-                        else
-                            $(this).removeClass('error');
-                    });
-                    $('.txtLineAmount').each(function () {
-                        var value = parseFloat($(this).attr('hiddenVal'));
-                        if (value < 0) {
-                            $(this).addClass('error');
-                            isAllowSave = false;
-                        }
-                        else
-                            $(this).removeClass('error');
-                    });
-                    if (isAllowSave) {
-                        getSaveValue();
-                        onCustomButtonClick('save');
-                    }
-                }
+                if(onBeforeSaveValue())
+                    onCustomButtonClick('save');
             });
         });
+
+        function onBeforeSaveValue() {
+            if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                var isAllowSave = true;
+                $('.txtTotalPaymentAmount').each(function () {
+                    var totalPaymentAmount = parseFloat($(this).attr('hiddenVal'));
+                    var totalPaymentAmount1 = parseFloat($(this).closest('.tblView').parent().closest('tr').prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal'));
+                    if (totalPaymentAmount != totalPaymentAmount1) {
+                        $(this).addClass('error');
+                        isAllowSave = false;
+                    }
+                    else
+                        $(this).removeClass('error');
+                });
+                $('.txtLineAmount').each(function () {
+                    var value = parseFloat($(this).attr('hiddenVal'));
+                    if (value < 0) {
+                        $(this).addClass('error');
+                        isAllowSave = false;
+                    }
+                    else
+                        $(this).removeClass('error');
+                });
+                if (isAllowSave) {
+                    getSaveValue();
+                }
+                return isAllowSave;
+            }
+            return false;
+        }
 
         function getSaveValue() {
             var lstSaveValue = '';

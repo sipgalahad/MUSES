@@ -106,7 +106,7 @@
     <Content Include="Program\Admission\PeriodAdmissionEntry.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionList.aspx" />
     <Content Include="Program\Admission\PeriodAdmissionPageLauncher.aspx" />
-    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFormStatusList.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudentFormStatus\ProspectiveStudentFormStatusList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentRemarksDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFamilyDtEntry.aspx" />
@@ -450,11 +450,11 @@
     <Compile Include="Program\Admission\PeriodAdmissionPageLauncher.aspx.designer.cs">
       <DependentUpon>PeriodAdmissionPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFormStatusList.aspx.cs">
+    <Compile Include="Program\Admission\ProspectiveStudentFormStatus\ProspectiveStudentFormStatusList.aspx.cs">
       <DependentUpon>ProspectiveStudentFormStatusList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentFormStatusList.aspx.designer.cs">
+    <Compile Include="Program\Admission\ProspectiveStudentFormStatus\ProspectiveStudentFormStatusList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentFormStatusList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentSurveyDtEntry.aspx.cs">
@@ -811,7 +811,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Program\Admission\GenerateARProspectiveStudent\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">

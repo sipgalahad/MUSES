@@ -193,9 +193,17 @@ namespace CodeX.Web.Finance.Program
             ARReceivingHdDao entityReceivingHdDao = new ARReceivingHdDao(ctx);
             ARReceivingDtDao entityReceivingDtDao = new ARReceivingDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
-           
+            RegistrationDao entityRegDao = new RegistrationDao(ctx);
             try
             {
+                Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
+                if (entityReg.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED)
+                {
+                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.PAID;
+                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityRegDao.Update(entityReg);
+                }
+
                 #region ARReceivingHD
                 ARReceivingHd entityReceivingHd = new ARReceivingHd();
                 List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value));
@@ -322,6 +330,7 @@ namespace CodeX.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -346,7 +355,7 @@ namespace CodeX.Web.Finance.Program
             ARInvoiceHdDao entityARIHdDao = new ARInvoiceHdDao(ctx);
             ARInvoiceDtDao entityARIDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
-
+            RegistrationDao entityRegDao = new RegistrationDao(ctx);
             try
             {
                 ARReceivingHd entityARR = entityARRHdDao.Get(Convert.ToInt32(hdnARReceivingID.Value));
@@ -374,11 +383,21 @@ namespace CodeX.Web.Finance.Program
                     enARI.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityARIHdDao.Update(enARI);
                 }
-                ctx.CommitTransaction();
 
+                int rowCount = BusinessLayer.GetARReceivingHdRowCount(string.Format("GCTransactionStatus != '{0}'", Constant.TransactionStatus.VOID), ctx);
+                if (rowCount < 1)
+                {
+                    Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
+                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.AR_PROCESSED;
+                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityRegDao.Update(entityReg);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

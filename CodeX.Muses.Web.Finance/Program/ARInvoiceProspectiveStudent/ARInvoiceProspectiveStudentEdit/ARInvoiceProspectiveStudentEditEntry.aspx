@@ -69,8 +69,8 @@
                 $tr = $(this).closest('tr');
                 var entity = rowToObject($tr);
                 $('#<%=hdnARInvoiceDtID.ClientID %>').val(entity.ARInvoiceDtID);
-                var claimedAmount = $tr.find('.txtClaimedAmount').val();
-                var param = 'save|' + claimedAmount;
+                var discountAmount = $tr.find('.txtDiscountAmount').val();
+                var param = 'save|' + discountAmount;
                 $btnSave = $(this);
                 cbpProcess.PerformCallback(param);
             }
@@ -196,7 +196,7 @@
                             <td><asp:TextBox ID="txtTotalDiscount" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label><%=GetLabel("Total Klaim") %></label></td>
+                            <td class="tdLabel"><label><%=GetLabel("Total") %></label></td>
                             <td><asp:TextBox ID="txtTotalClaimed" ReadOnly="true" Width="150px" CssClass="txtCurrency" runat="server" ForeColor="Blue" /></td>
                         </tr>
                     </table>
@@ -225,8 +225,8 @@
                                                 <th></th>
                                                 <th align="left"><%=GetLabel("No Referensi") %></th>
                                                 <th class="thRight"><%=GetLabel("Transaksi") %></th>
-                                                <th class="thRight"><%=GetLabel("Klaim") %></th>
-                                                <th class="thRight"><%=GetLabel("Penyesuaian") %></th>
+                                                <th class="thRight"><%=GetLabel("Diskon") %></th>
+                                                <th class="thRight"><%=GetLabel("Total") %></th>
                                                 <th class="thCenter"></th>
                                             </tr>
                                             <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">

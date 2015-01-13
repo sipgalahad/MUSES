@@ -290,14 +290,15 @@ namespace CodeX.Web.Finance.Program
             return result;
         }
 
-        private bool OnProcessRecord(ref string errMessage, Decimal claimedAmountSave, ref decimal transactionAmount, ref decimal discountAmount, ref decimal claimedAmount)
+        private bool OnProcessRecord(ref string errMessage, Decimal discountAmountSave, ref decimal transactionAmount, ref decimal discountAmount, ref decimal claimedAmount)
         {
             bool result = true;
             try
             {
                 int ARInvoiceDtID = Convert.ToInt32(hdnARInvoiceDtID.Value);
                 ARInvoiceDt entityDt = BusinessLayer.GetARInvoiceDt(ARInvoiceDtID);
-                entityDt.ClaimedAmount = claimedAmountSave;
+                entityDt.DiscountAmount = discountAmountSave;
+                entityDt.ClaimedAmount = entityDt.TransactionAmount - entityDt.DiscountAmount;
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateARInvoiceDt(entityDt);
 

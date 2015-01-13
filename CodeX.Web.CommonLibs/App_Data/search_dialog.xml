@@ -25,6 +25,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region ARReceivingHd -->
+  <searchdialog type="arreceivinghd" methodname="GetvARReceivingHdList" keyfieldname="ARReceivingNo">
+    <gridcolumns>
+      <gridcolumn datafield="ARReceivingNo" headertext="No Pembayaran" width="100px" />
+      <gridcolumn datafield="ReceivingDateInString" headertext="Tanggal Pembayaran" horizontalalign="center" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ARReceivingNo" headertext="No Pembayaran" description="" />
+      <intellisensetext datafield="ReceivingDateInString" headertext="Tanggal Pembayaran" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Business Partners -->
   <searchdialog type="businesspartners" methodname="GetBusinessPartnersList" keyfieldname="BusinessPartnerCode" orderbyexpression="BusinessPartnerName ASC">
     <gridcolumns>
@@ -338,6 +350,16 @@
     <intellisensetexts>
       <intellisensetext datafield="MenuCaption" headertext="Nama" description="" />
       <intellisensetext datafield="MenuCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Period Admission -->
+  <searchdialog type="periodadmission" methodname="GetPeriodAdmissionList" keyfieldname="PeriodAdmissionID" orderbyexpression="PeriodAdmissionName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="PeriodAdmissionName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PeriodAdmissionName" headertext="Nama" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

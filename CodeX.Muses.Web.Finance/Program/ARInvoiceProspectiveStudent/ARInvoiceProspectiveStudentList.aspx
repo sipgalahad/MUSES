@@ -5,6 +5,10 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -70,9 +74,66 @@
             var url = ResolveUrl('~/Program/ARInvoiceProspectiveStudent/ProspectiveStudentPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'ProspectiveStudent', '1300', '650');
         });
+
+        function onCboSchoolPeriodValueChanged() {
+            tacPeriodAdmission.SetValue('');
+            tacPeriodAdmission.SetText('');
+        }
+
+        //#region Period Admission
+        function onGetPeriodAdmissionFilterExpression() {
+            var filterExpression = "<%=OnGetPeriodAdmissionFilterExpression() %>";
+            filterExpression += " AND SchoolPeriodID = " + cboShoolPeriod.GetValue();
+            return filterExpression;
+        }
+
+        function onTacPeriodAdmissionButtonSearchClick() {
+            openSearchDialog('periodadmission', onGetPeriodAdmissionFilterExpression(), function (value) {
+                var filterExpression = onGetPeriodAdmissionFilterExpression() + " AND PeriodAdmissionID = '" + value + "'";
+                Methods.getObject('GetPeriodAdmissionList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacPeriodAdmission.setValue(result.PeriodAdmissionID);
+                        tacPeriodAdmission.setText(result.PeriodAdmissionName);
+                    }
+                    else {
+                        tacPeriodAdmission.setValue('');
+                        tacPeriodAdmission.setText('');
+                    }
+                    cbpView.PerformCallback('refresh');
+                });
+            });
+        }
+
+        function onTacPeriodAdmissionValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+        <table>
+            <colgroup>
+                <col style="width:120px"/>
+            </colgroup>
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun Ajaran")%></label></td>
+                <td>
+                    <dxe:ASPxComboBox ID="cboShoolPeriod" runat="server" ClientInstanceName="cboShoolPeriod" Width="200px">
+                        <ClientSideEvents ValueChanged="function(s,e){ onCboSchoolPeriodValueChanged() }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelombang")%></label></td>
+                <td>
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodAdmission" ClientInstanceName="tacPeriodAdmission" MethodName="GetPeriodAdmissionList" GetFilterExpressionFunction="onGetPeriodAdmissionFilterExpression"
+                        SearchFields="PeriodAdmissionName,PeriodAdmissionCode" TextField="PeriodAdmissionName" ValueField="PeriodAdmissionID" SearchText="${PeriodAdmissionName} (<b>${PeriodAdmissionCode}</b>)" OrderByExpression="PeriodAdmissionName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodAdmissionButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacPeriodAdmissionValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr>
+        </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">

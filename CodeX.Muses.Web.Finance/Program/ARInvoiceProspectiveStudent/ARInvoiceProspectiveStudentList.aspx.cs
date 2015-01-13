@@ -23,8 +23,17 @@ namespace CodeX.Muses.Web.Finance.Program
             return Constant.MenuCode.Finance.PROSPECTIVE_STUDENT_LIST;
         }
 
+        protected string OnGetPeriodAdmissionFilterExpression()
+        {
+            return string.Format("GCPeriodAdmissionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
+            Methods.SetComboBoxField<SchoolPeriod>(cboShoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            cboShoolPeriod.SelectedIndex = 0;
+
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -37,10 +46,14 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = hdnFilterExpression.Value;
-            if (filterExpression != "")
-                filterExpression += " AND ";
-            filterExpression += string.Format("GCRegistrationStatus IN ('{0}','{1}','{2}')", Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.CLOSED);
+            string filterExpression = "1 = 0";
+            if (tacPeriodAdmission.Value != "" && tacPeriodAdmission.Value != "0")
+            {
+                filterExpression = hdnFilterExpression.Value;
+                if (filterExpression != "")
+                    filterExpression += " AND ";
+                filterExpression += string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus IN ('{1}','{2}','{3}')", tacPeriodAdmission.Value, Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.CLOSED);
+            }
             return filterExpression;
         }
 

@@ -21,10 +21,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.PA_PROSPECTIVE_STUDENT_FORM_STATUS;
         }
 
-        protected string GetProsepectiveStudentFilterExpression() 
+        protected string OnGetRegistrationFilterExpression()
         {
-            string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID);
-            return filterExpression;
+            return string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID);
         }
 
         protected override void InitializeDataControl()
@@ -36,11 +35,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<ProspectiveStudentFolderStatus> lstFolderStatus = null;
         private void BindGridView()
         {
-            string filterExpression = string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
-            List<vProspectiveStudentFolder> lstEntity = BusinessLayer.GetvProspectiveStudentFolderList(filterExpression);
-            
-            if (hdnProspectiveStudentID.Value == "") hdnProspectiveStudentID.Value = "0";
-            lstFolderStatus = BusinessLayer.GetProspectiveStudentFolderStatusList(String.Format("ProspectiveStudentID = {0}",hdnProspectiveStudentID.Value));
+            List<vProspectiveStudentFolder> lstEntity = null;
+
+            if (hdnProspectiveStudentID.Value == "" || hdnProspectiveStudentID.Value == "0")
+                lstEntity = new List<vProspectiveStudentFolder>();
+            else
+            {
+                string filterExpression = string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+                lstEntity = BusinessLayer.GetvProspectiveStudentFolderList(filterExpression);
+                lstFolderStatus = BusinessLayer.GetProspectiveStudentFolderStatusList(String.Format("ProspectiveStudentID = {0}", hdnProspectiveStudentID.Value));
+            }
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
