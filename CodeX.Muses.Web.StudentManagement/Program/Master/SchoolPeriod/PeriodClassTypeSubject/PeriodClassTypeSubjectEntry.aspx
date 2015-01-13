@@ -62,7 +62,7 @@
 
         //#region Subject
         function onGetSubjectFilterExpression() {
-            var filterExpression = "GCGrade = '" + $('#<%=hdnGCGrade.ClientID %>').val() + "' AND (GCMajor = '" + $('#<%=hdnGCMajor.ClientID %>').val() + "' OR GCMajor IS NULL) AND IsDeleted = 0";
+            var filterExpression = "GCGrade = '" + $('#<%=hdnGCGrade.ClientID %>').val() + "' AND (GCMajor = '" + $('#<%=hdnGCMajor.ClientID %>').val() + "' OR GCMajor IS NULL) AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE ClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
             return filterExpression;
         }
 
