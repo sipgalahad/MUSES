@@ -7923,6 +7923,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentAchievement
+        public static StudentAchievement GetStudentAchievement(Int32 StudentAchievementID)
+        {
+            return new StudentAchievementDao().Get(StudentAchievementID);
+        }
+        public static int InsertStudentAchievement(StudentAchievement record)
+        {
+            return new StudentAchievementDao().Insert(record);
+        }
+        public static int UpdateStudentAchievement(StudentAchievement record)
+        {
+            return new StudentAchievementDao().Update(record);
+        }
+        public static int DeleteStudentAchievement(Int32 StudentAchievementID)
+        {
+            return new StudentAchievementDao().Delete(StudentAchievementID);
+        }
+        public static List<StudentAchievement> GetStudentAchievementList(string filterExpression)
+        {
+            List<StudentAchievement> result = new List<StudentAchievement>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentAchievement));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentAchievement)helper.IDataReaderToObject(reader, new StudentAchievement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region StudentFamily
         public static StudentFamily GetStudentFamily(Int32 FamilyID)
         {

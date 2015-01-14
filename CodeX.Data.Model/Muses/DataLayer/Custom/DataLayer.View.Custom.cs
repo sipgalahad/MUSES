@@ -1747,6 +1747,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentAchievement
+    public partial class vStudentAchievement 
+    {
+        public string AchievementDateInDatePickerFormat 
+        {
+            get { return _AchievementDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+    }
+    #endregion
     #region vStudentFamily
     public partial class vStudentFamily
     {
