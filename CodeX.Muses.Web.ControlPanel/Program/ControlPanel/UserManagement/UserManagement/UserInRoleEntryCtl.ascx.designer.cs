@@ -7,55 +7,82 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanelHQ.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class UserManagementList {
+    public partial class UserInRoleEntryCtl {
         
         /// <summary>
-        /// btnUserManagementResetPassword control.
+        /// chkIsMainRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnUserManagementResetPassword;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsMainRole;
         
         /// <summary>
-        /// cboSite control.
+        /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
         
         /// <summary>
-        /// hdnID control.
+        /// hdnSelectedIsMainRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedIsMainRole;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// hdnUserID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnUserID;
         
         /// <summary>
-        /// cbpView control.
+        /// hdnParam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
+        
+        /// <summary>
+        /// hdnFilterItemName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterItemName;
+        
+        /// <summary>
+        /// txtUserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUserName;
+        
+        /// <summary>
+        /// cbpPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopup;
         
         /// <summary>
         /// PanelContent1 control.
@@ -83,5 +110,14 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdView;
+        
+        /// <summary>
+        /// rptSelected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptSelected;
     }
 }

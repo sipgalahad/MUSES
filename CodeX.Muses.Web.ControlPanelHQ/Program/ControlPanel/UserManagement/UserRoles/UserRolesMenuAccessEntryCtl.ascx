@@ -43,13 +43,6 @@
     $(function () {
         addMenuAccessFilterRow();
 
-        $('#<%=ddlSite.ClientID %>').change(function () {
-            $('#<%=hdnSelectedSite.ClientID %>').val($(this).val());
-            $('#<%=hdnCRUDMode.ClientID %>').val(getCRUDMode());
-            $('#<%=hdnListMenuID.ClientID %>').val(getListMenuID());
-            cbpMenuAccess.PerformCallback('changemodule');
-        });
-
         $('#<%=ddlModule.ClientID %>').change(function () {
             $('#<%=hdnSelectedModule.ClientID %>').val($(this).val());
             $('#<%=hdnCRUDMode.ClientID %>').val(getCRUDMode());
@@ -62,8 +55,6 @@
             $('#<%=hdnListMenuID.ClientID %>').val(getListMenuID());
             cbpMenuAccessProcess.PerformCallback();
         });
-
-        $('#<%=hdnPrevSelectedSite.ClientID %>').val($('#<%=ddlSite.ClientID %>').val());
     });
 
     //#region Paging
@@ -78,7 +69,6 @@
     });
 
     function onCbpMenuAccessEndCallback(s) {
-        $('#<%=hdnPrevSelectedSite.ClientID %>').val($('#<%=hdnSelectedSite.ClientID %>').val());
         $('#containerImgLoadingMenuAccess').hide();
 
         var param = s.cpResult.split('|');
@@ -200,12 +190,11 @@
 <input type="hidden" value="" runat="server" id="hdnFilterMenuCaption" />
 <input type="hidden" value="" runat="server" id="hdnFilterRead" />
 
-<input type="hidden" runat="server" id="hdnPrevSelectedSite" value="" />
-<input type="hidden" runat="server" id="hdnSelectedSite" value="" />
 <input type="hidden" runat="server" id="hdnSelectedModule" value="" />
 <input type="hidden" runat="server" id="hdnCRUDMode" value="" />
 <input type="hidden" runat="server" id="hdnListMenuID" value="" />
 <input type="hidden" runat="server" id="hdnRoleID" value="" />
+<input type="hidden" runat="server" id="hdnSiteID" value="" />
 <table class="tblEntryContent" style="width:70%">
     <colgroup>
         <col style="width:160px"/>
@@ -216,9 +205,9 @@
         <td colspan="2"><asp:TextBox ID="txtUserRoleName" ReadOnly="true" Width="100%" runat="server" /></td>
     </tr>
     <tr>
-        <td class="tdLabel"><label id="Label2" class="lblNormal" runat="server" ><%=GetLabel("Site")%></label></td>
-        <td colspan="2"><asp:DropDownList ID="ddlSite" ReadOnly="true" Width="100%" runat="server" /></td>
-    </tr>   
+        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+        <td><asp:TextBox ID="txtSiteName" ReadOnly="true" Width="200px" runat="server" /></td>
+    </tr> 
     <tr>
         <td class="tdLabel"><label class="lblNormal" runat="server" ><%=GetLabel("Module")%></label></td>
         <td colspan="2"><asp:DropDownList ID="ddlModule" ReadOnly="true" Width="100%" runat="server" /></td>

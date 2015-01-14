@@ -46,8 +46,14 @@
 
         $('.lnkUserRole a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            openMatrixWithParameterControl('UserSelectUserRole', id, 'User Role');
+            var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserInRoleEntryCtl.ascx");
+            openUserControlPopup(url, id, 'User Role', 900, 550);
         });
+
+        /*$('.lnkUserRole a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            openMatrixWithParameterControl('UserSelectUserRole', id, 'User Role');
+        });*/
 
         function onGetCurrID() {
             return $('#<%=hdnID.ClientID %>').val();

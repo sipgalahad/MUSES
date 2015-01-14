@@ -7,91 +7,100 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanel.Program {
+namespace CodeX.Muses.Web.ControlPanelHQ.Program {
     
     
-    public partial class UserRolesMenuAccessEntryCtl {
+    public partial class UserInRoleEntryCtl {
         
         /// <summary>
-        /// hdnFilterMenuCaption control.
+        /// chkIsMainRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterMenuCaption;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsMainRole;
         
         /// <summary>
-        /// hdnFilterRead control.
+        /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterRead;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
         
         /// <summary>
-        /// hdnSelectedModule control.
+        /// hdnSelectedIsMainRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedModule;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedIsMainRole;
         
         /// <summary>
-        /// hdnCRUDMode control.
+        /// hdnSiteID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCRUDMode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteID;
         
         /// <summary>
-        /// hdnListMenuID control.
+        /// hdnUserID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListMenuID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnUserID;
         
         /// <summary>
-        /// hdnRoleID control.
+        /// hdnParam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRoleID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
         
         /// <summary>
-        /// txtUserRoleName control.
+        /// hdnFilterItemName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUserRoleName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterItemName;
         
         /// <summary>
-        /// ddlModule control.
+        /// txtUserName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlModule;
+        protected global::System.Web.UI.WebControls.TextBox txtUserName;
         
         /// <summary>
-        /// cbpMenuAccess control.
+        /// txtSiteName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMenuAccess;
+        protected global::System.Web.UI.WebControls.TextBox txtSiteName;
+        
+        /// <summary>
+        /// cbpPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopup;
         
         /// <summary>
         /// PanelContent1 control.
@@ -121,12 +130,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cbpMenuAccessProcess control.
+        /// rptSelected control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMenuAccessProcess;
+        protected global::System.Web.UI.WebControls.Repeater rptSelected;
     }
 }

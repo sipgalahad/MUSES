@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
     public partial class UserRolesList {
         
         /// <summary>
+        /// cboSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        
+        /// <summary>
         /// hdnID control.
         /// </summary>
         /// <remarks>

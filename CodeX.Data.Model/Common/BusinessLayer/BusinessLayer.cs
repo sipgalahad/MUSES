@@ -1647,6 +1647,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<UserInRole> GetUserInRoleList(string filterExpression, IDbContext ctx)
+        {
+            List<UserInRole> result = new List<UserInRole>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserInRole));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserInRole)helper.IDataReaderToObject(reader, new UserInRole()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region UserLoginAttribute
         public static UserLoginAttribute GetUserLoginAttribute(Int32 UserID, String SiteID, Int32 LoginAttributeID)
@@ -1921,6 +1938,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<UserRoleLoginAttribute> GetUserRoleLoginAttributeList(string filterExpression, IDbContext ctx)
+        {
+            List<UserRoleLoginAttribute> result = new List<UserRoleLoginAttribute>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserRoleLoginAttribute));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserRoleLoginAttribute)helper.IDataReaderToObject(reader, new UserRoleLoginAttribute()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region UserRoleMenu
         public static UserRoleMenu GetUserRoleMenu(Int32 ID)
@@ -1967,6 +2001,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((UserRoleMenu)helper.IDataReaderToObject(reader, new UserRoleMenu()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region UserRoleReport
+        public static UserRoleReport GetUserRoleReport(Int32 RoleID, String SiteID, Int32 ReportID)
+        {
+            return new UserRoleReportDao().Get(RoleID, SiteID, ReportID);
+        }
+        public static int InsertUserRoleReport(UserRoleReport record)
+        {
+            return new UserRoleReportDao().Insert(record);
+        }
+        public static int UpdateUserRoleReport(UserRoleReport record)
+        {
+            return new UserRoleReportDao().Update(record);
+        }
+        public static int DeleteUserRoleReport(Int32 RoleID, String SiteID, Int32 ReportID)
+        {
+            return new UserRoleReportDao().Delete(RoleID, SiteID, ReportID);
+        }
+        public static List<UserRoleReport> GetUserRoleReportList(string filterExpression)
+        {
+            List<UserRoleReport> result = new List<UserRoleReport>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserRoleReport));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserRoleReport)helper.IDataReaderToObject(reader, new UserRoleReport()));
             }
             catch (Exception ex)
             {

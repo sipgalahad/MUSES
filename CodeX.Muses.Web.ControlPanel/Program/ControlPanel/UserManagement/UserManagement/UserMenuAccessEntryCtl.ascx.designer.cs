@@ -31,24 +31,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterRead;
         
         /// <summary>
-        /// hdnPrevSelectedSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPrevSelectedSite;
-        
-        /// <summary>
-        /// hdnSelectedSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedSite;
-        
-        /// <summary>
         /// hdnSelectedModule control.
         /// </summary>
         /// <remarks>
@@ -101,24 +83,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUserName;
-        
-        /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label2;
-        
-        /// <summary>
-        /// ddlSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSite;
         
         /// <summary>
         /// Label3 control.

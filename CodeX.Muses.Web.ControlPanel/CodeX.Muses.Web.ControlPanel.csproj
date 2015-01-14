@@ -119,6 +119,11 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterList.aspx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLoginAttributeEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
     <Content Include="Program\Master\Bank\BankEntry.aspx" />
     <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
@@ -474,6 +479,41 @@
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterList.aspx.designer.cs">
       <DependentUpon>SiteParameterList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx.cs">
+      <DependentUpon>UserInRoleEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserInRoleEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx.cs">
+      <DependentUpon>UserLocationEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserLocationEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesLocationEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesLocationEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLoginAttributeEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesLoginAttributeEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLoginAttributeEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesLoginAttributeEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx.cs">
+      <DependentUpon>UserRolesReportEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserRolesReportEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Bank\BankEntry.aspx.cs">
       <DependentUpon>BankEntry.aspx</DependentUpon>

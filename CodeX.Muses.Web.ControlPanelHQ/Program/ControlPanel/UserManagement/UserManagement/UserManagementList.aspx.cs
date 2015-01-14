@@ -21,11 +21,15 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.USER_ACCOUNTS;
+            return Constant.MenuCode.ControlPanelHQ.USER_ACCOUNTS;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<Site> lstSite = BusinessLayer.GetSiteList("ParentID IS NULL OR IsHeader = 0");
+            Methods.SetComboBoxField<Site>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();
@@ -47,11 +51,11 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             if (filterExpression != "")
                 filterExpression += " AND ";
             if (!AppSession.UserLogin.IsSysAdmin)
-                filterExpression += "UserID NOT IN (SELECT UserID FROM UserInRole WHERE RoleID = 1) AND IsDeleted = 0";
+                filterExpression += "UserID > 0 AND UserID NOT IN (SELECT UserID FROM UserInRole WHERE RoleID = 1) AND IsDeleted = 0";
             else if (AppSession.UserLogin.UserID != 1)
-                filterExpression += "UserID != 1 AND IsDeleted = 0";
+                filterExpression += "UserID > 1 AND IsDeleted = 0";
             else
-                filterExpression += "IsDeleted = 0";
+                filterExpression += "UserID > 0 AND IsDeleted = 0";
             return filterExpression;
         }
 

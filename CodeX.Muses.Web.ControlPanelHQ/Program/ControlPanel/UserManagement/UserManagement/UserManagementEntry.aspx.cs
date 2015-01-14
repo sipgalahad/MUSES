@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.USER_ACCOUNTS;
+            return Constant.MenuCode.ControlPanelHQ.USER_ACCOUNTS;
         }
 
         protected string OnGetTeacherFilterExpression()

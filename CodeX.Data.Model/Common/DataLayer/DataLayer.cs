@@ -3061,6 +3061,7 @@ namespace CodeX.Data.Model
         private Int32 _UserID;
         private String _SiteID;
         private Int32 _RoleID;
+        private Boolean _IsMainRole;
 
         [Column(Name = "UserID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 UserID
@@ -3080,6 +3081,12 @@ namespace CodeX.Data.Model
             get { return _RoleID; }
             set { _RoleID = value; }
         }
+        [Column(Name = "IsMainRole", DataType = "Boolean")]
+        public Boolean IsMainRole
+        {
+            get { return _IsMainRole; }
+            set { _IsMainRole = value; }
+        }
     }
 
     public class UserInRoleDao
@@ -3087,8 +3094,8 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(UserInRole));
         private bool _isAuditLog = false;
-        private const string p_SiteID = "@p_SiteID";
         private const string p_RoleID = "@p_RoleID";
+        private const string p_SiteID = "@p_SiteID";
         private const string p_UserID = "@p_UserID";
         public UserInRoleDao() { }
         public UserInRoleDao(IDbContext ctx)
@@ -3098,8 +3105,8 @@ namespace CodeX.Data.Model
         public UserInRole Get(Int32 UserID, String SiteID, Int32 RoleID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SiteID, SiteID);
             _ctx.Add(p_RoleID, RoleID);
+            _ctx.Add(p_SiteID, SiteID);
             _ctx.Add(p_UserID, UserID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (UserInRole)_helper.DataRowToObject(row, new UserInRole());
@@ -3628,6 +3635,79 @@ namespace CodeX.Data.Model
                 record = new UserRoleMenuDao().Get(ID);
             else
                 record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region UserRoleReport
+    [Serializable]
+    [Table(Name = "UserRoleReport")]
+    public class UserRoleReport : DbDataModel
+    {
+        private Int32 _RoleID;
+        private String _SiteID;
+        private Int32 _ReportID;
+
+        [Column(Name = "RoleID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RoleID
+        {
+            get { return _RoleID; }
+            set { _RoleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ReportID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+    }
+
+    public class UserRoleReportDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(UserRoleReport));
+        private bool _isAuditLog = false;
+        private const string p_ReportID = "@p_ReportID";
+        private const string p_RoleID = "@p_RoleID";
+        private const string p_SiteID = "@p_SiteID";
+        public UserRoleReportDao() { }
+        public UserRoleReportDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public UserRoleReport Get(Int32 RoleID, String SiteID, Int32 ReportID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ReportID, ReportID);
+            _ctx.Add(p_RoleID, RoleID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (UserRoleReport)_helper.DataRowToObject(row, new UserRoleReport());
+        }
+        public int Insert(UserRoleReport record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(UserRoleReport record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 RoleID, String SiteID, Int32 ReportID)
+        {
+            UserRoleReport record;
+            if (_ctx.Transaction == null)
+                record = new UserRoleReportDao().Get(RoleID, SiteID, ReportID);
+            else
+                record = Get(RoleID, SiteID, ReportID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -31,24 +31,6 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterRead;
         
         /// <summary>
-        /// hdnPrevSelectedSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPrevSelectedSite;
-        
-        /// <summary>
-        /// hdnSelectedSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedSite;
-        
-        /// <summary>
         /// hdnSelectedModule control.
         /// </summary>
         /// <remarks>
@@ -85,6 +67,15 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRoleID;
         
         /// <summary>
+        /// hdnSiteID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSiteID;
+        
+        /// <summary>
         /// txtUserRoleName control.
         /// </summary>
         /// <remarks>
@@ -94,22 +85,13 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.WebControls.TextBox txtUserRoleName;
         
         /// <summary>
-        /// Label2 control.
+        /// txtSiteName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label2;
-        
-        /// <summary>
-        /// ddlSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSite;
+        protected global::System.Web.UI.WebControls.TextBox txtSiteName;
         
         /// <summary>
         /// ddlModule control.

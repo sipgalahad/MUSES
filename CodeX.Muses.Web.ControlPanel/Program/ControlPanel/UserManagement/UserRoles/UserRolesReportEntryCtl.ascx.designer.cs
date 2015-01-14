@@ -7,55 +7,73 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanelHQ.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class UserManagementList {
+    public partial class UserRolesReportEntryCtl {
         
         /// <summary>
-        /// btnUserManagementResetPassword control.
+        /// hdnRoleID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnUserManagementResetPassword;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRoleID;
         
         /// <summary>
-        /// cboSite control.
+        /// hdnOldSelectedReport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSite;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOldSelectedReport;
         
         /// <summary>
-        /// hdnID control.
+        /// hdnSelectedReport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedReport;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// txtRoleName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.WebControls.TextBox txtRoleName;
         
         /// <summary>
-        /// cbpView control.
+        /// cboModule control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboModule;
+        
+        /// <summary>
+        /// cboReportType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReportType;
+        
+        /// <summary>
+        /// cbpEntryPopupView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpEntryPopupView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -67,13 +85,13 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlView control.
+        /// pnlPatientVisitTransHdGrdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.WebControls.Panel pnlPatientVisitTransHdGrdView;
         
         /// <summary>
         /// grdView control.
@@ -83,5 +101,14 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdView;
+        
+        /// <summary>
+        /// cbpViewPopupProcess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopupProcess;
     }
 }

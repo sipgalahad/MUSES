@@ -5,6 +5,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -19,26 +21,28 @@
             cbpView.PerformCallback('refresh');
         }
 
-        $('.lnkMember a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            openMatrixWithParameterControl('UserRoleSelectUser', id, 'User');
-        });
-
         $('.lnkLocation a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserRoles/UserRolesLocationEntryCtl.ascx");
             openUserControlPopup(url, id, 'Location', 900, 550);
         });
 
+        $('.lnkReport a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
+            var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserRoles/UserRolesReportEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Report', 900, 550);
+        });
+
         $('.lnkMenuAccess a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserRoles/UserRolesMenuAccessEntryCtl.ascx");
             openUserControlPopup(url, id, 'Menu Access', 1000, 620);
         });
 
         $('.lnkLoginAttribute a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            openMatrixWithParameterControl('UserRoleLoginAttribute', id, 'Login Attribute');
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
+            var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserRoles/UserRolesLoginAttributeEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Login Attribute', 1000, 620);
         });
 
         function onGetCurrID() {
@@ -85,6 +89,16 @@
         }
         //#endregion
     </script>
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:160px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+            <td><dxe:ASPxComboBox ID="cboSite" ClientInstanceName="cboSite" runat="server" Width="200px" /></td>
+        </tr>  
+    </table>       
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
@@ -101,8 +115,8 @@
                                 <asp:BoundField DataField="RoleName" HeaderText="Role Name" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="LoweredRoleName" HeaderText="Lowered Role Name" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Description" HeaderText="Description" />
-                                <asp:HyperLinkField HeaderText="Member" Text="Member" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkMember" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Location" Text="Location" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkLocation" HeaderStyle-Width="100px" />
+                                <asp:HyperLinkField HeaderText="Report" Text="Report" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkReport" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Menu Access" Text="Menu Access" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkMenuAccess" HeaderStyle-Width="120px" />
                                 <asp:HyperLinkField HeaderText="Login Attribute" Text="Login Attribute" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkLoginAttribute" HeaderStyle-Width="100px" />
                             </Columns>

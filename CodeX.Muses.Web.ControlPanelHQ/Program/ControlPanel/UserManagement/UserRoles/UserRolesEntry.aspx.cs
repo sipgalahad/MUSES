@@ -16,7 +16,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.USER_ROLES;
+            return Constant.MenuCode.ControlPanelHQ.USER_ROLES;
         }
 
         protected override void InitializeDataControl()

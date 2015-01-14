@@ -135,6 +135,8 @@ namespace CodeX.Common
                 public const string CUSTOMER = "CPHQ010202";
 
                 public const string SITE_INFORMATION = "CPHQ020101";
+                public const string USER_ROLES = "CPHQ020301";
+                public const string USER_ACCOUNTS = "CPHQ020302";
 
                 public const string SYNC_PROCESS = "CPHQ080100";
 

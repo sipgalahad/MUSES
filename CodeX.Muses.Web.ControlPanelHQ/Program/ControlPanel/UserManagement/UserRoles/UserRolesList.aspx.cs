@@ -20,11 +20,15 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.USER_ROLES;
+            return Constant.MenuCode.ControlPanelHQ.USER_ROLES;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<Site> lstSite = BusinessLayer.GetSiteList("ParentID IS NULL OR IsHeader = 0");
+            Methods.SetComboBoxField<Site>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();
