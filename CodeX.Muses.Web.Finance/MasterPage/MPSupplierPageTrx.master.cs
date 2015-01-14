@@ -15,7 +15,7 @@ using CodeX.Web.CommonLibs.MasterPage;
 
 namespace CodeX.Web.Finance.MasterPage
 {
-    public partial class MPProspectiveStudentPageTrxVisit : BaseMP
+    public partial class MPSupplierPageTrx : BaseMP
     {
         public List<GetUserMenuAccess> ListMenu = null;
         protected override void OnInit(EventArgs e)
@@ -23,14 +23,14 @@ namespace CodeX.Web.Finance.MasterPage
             base.OnInit(e);
             if (!Page.IsPostBack)
             {
-                string parentCode = Constant.MenuCode.Finance.PROSPECTIVE_STUDENT_LIST;
+                string parentCode = Constant.MenuCode.Finance.SUPPLIER_LIST;
                 string filterExpression = string.Format("ParentCode = '{0}'", parentCode);
                 ListMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.FINANCE, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
                 ((MPBaseDetailPageTrx)Master).SetParentCode(parentCode);
                 ((MPBaseDetailPageTrx)Master).SetListMenu(ListMenu);
 
-                ((ProspectiveStudentBannerDtCtl)ctlBanner).InitializeBanner();
-                ((MPBaseDetailPageTrx)Master).SetTitleText(((ProspectiveStudentBannerDtCtl)ctlBanner).OnGetTitleText());
+                ((SupplierBannerDtCtl)ctlBanner).InitializeBanner();
+                ((MPBaseDetailPageTrx)Master).SetTitleText(((SupplierBannerDtCtl)ctlBanner).OnGetTitleText());
             }
         }
     }

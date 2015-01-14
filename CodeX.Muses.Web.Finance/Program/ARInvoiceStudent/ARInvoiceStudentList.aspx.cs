@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class ARInvoiceProspectiveStudentList : BasePageList
+    public partial class ARInvoiceStudentList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,40 +20,27 @@ namespace CodeX.Muses.Web.Finance.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Finance.PROSPECTIVE_STUDENT_LIST;
-        }
-
-        protected string OnGetPeriodAdmissionFilterExpression()
-        {
-            return string.Format("GCPeriodAdmissionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+            return Constant.MenuCode.Finance.STUDENT_LIST;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboShoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            cboShoolPeriod.SelectedIndex = 0;
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "No Pendaftaran", "Nama" };
-            fieldListValue = new string[] { "RegistrationNo", "ProspectiveStudentName" };
+            fieldListText = new string[] { "NIS", "Nama" };
+            fieldListValue = new string[] { "StudentCode", "StudentName" };
         }
 
         private string GetFilterExpression()
         {
-            string filterExpression = "1 = 0";
-            if (tacPeriodAdmission.Value != "" && tacPeriodAdmission.Value != "0")
-            {
-                filterExpression = hdnFilterExpression.Value;
-                if (filterExpression != "")
-                    filterExpression += " AND ";
-                filterExpression += string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus IN ('{1}','{2}','{3}','{4}')", tacPeriodAdmission.Value, Constant.RegistrationStatus.AR_PROCESSED, Constant.RegistrationStatus.PAID, Constant.RegistrationStatus.SETTLED, Constant.RegistrationStatus.CLOSED);
-            }
+            string filterExpression = hdnFilterExpression.Value;
+            if (filterExpression != "")
+                filterExpression += " AND ";
+            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
             return filterExpression;
         }
 
@@ -62,11 +49,11 @@ namespace CodeX.Muses.Web.Finance.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvRegistrationRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvStudentRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vRegistration> lstEntity = BusinessLayer.GetvRegistrationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ProspectiveStudentName ASC");
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

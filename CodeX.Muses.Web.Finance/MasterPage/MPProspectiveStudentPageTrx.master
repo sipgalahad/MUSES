@@ -1,7 +1,7 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBaseDetailPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="MPSupplierPageTrxVisit.master.cs" Inherits="CodeX.Web.Finance.MasterPage.MPSupplierPageTrxVisit" %>
+    CodeBehind="MPProspectiveStudentPageTrx.master.cs" Inherits="CodeX.Web.Finance.MasterPage.MPProspectiveStudentPageTrx" %>
 
-<%@ Register Src="~/MasterPage/SupplierBannerDtCtl.ascx" TagName="BannerCtl" TagPrefix="uc1" %>
+<%@ Register Src="~/MasterPage/ProspectiveStudentBannerDtCtl.ascx" TagName="BannerCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhMPBaseDetailPageDetailInfo" runat="server"> 
     <uc1:BannerCtl ID="ctlBanner" runat="server" />  

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPSupplierPageTrxVisit.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPSupplierPageTrx.master" AutoEventWireup="true"
     CodeBehind="APInvoiceSupplierProcess.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.APInvoiceSupplierProcess" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"

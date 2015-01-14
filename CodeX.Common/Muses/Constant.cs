@@ -83,7 +83,8 @@ namespace CodeX.Common
             public const string REJECTED = "MS011^003";
             public const string AR_PROCESSED = "MS011^004";
             public const string PAID = "MS011^005";
-            public const string CLOSED = "MS011^006";
+            public const string SETTLED = "MS011^006";
+            public const string CLOSED = "MS011^007";
             public const string VOID = "MS011^999";
         }
 

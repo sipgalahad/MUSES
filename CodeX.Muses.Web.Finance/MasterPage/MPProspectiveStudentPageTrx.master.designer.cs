@@ -10,7 +10,7 @@
 namespace CodeX.Web.Finance.MasterPage {
     
     
-    public partial class MPSupplierPageTrxVisit {
+    public partial class MPProspectiveStudentPageTrx {
         
         /// <summary>
         /// ctlBanner control.
@@ -19,7 +19,7 @@ namespace CodeX.Web.Finance.MasterPage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.Finance.MasterPage.SupplierBannerDtCtl ctlBanner;
+        protected global::CodeX.Web.Finance.MasterPage.ProspectiveStudentBannerDtCtl ctlBanner;
         
         /// <summary>
         /// plhHeader control.
