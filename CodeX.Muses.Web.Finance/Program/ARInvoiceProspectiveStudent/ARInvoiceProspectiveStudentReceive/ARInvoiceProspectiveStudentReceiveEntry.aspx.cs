@@ -44,7 +44,7 @@ namespace CodeX.Web.Finance.Program
             Methods.SetComboBoxField<Bank>(cboBank, lstBank, "BankName", "BankID");
             cboBank.SelectedIndex = 0;
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND StandardCodeID NOT IN ('{4}') AND IsDeleted = 0", Constant.StandardCode.CARD_TYPE, Constant.StandardCode.PAYMENT_METHOD, Constant.StandardCode.PAYMENT_TYPE, Constant.StandardCode.CARD_PROVIDER, Constant.PaymentMethod.BANK_TRANSFER));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID IN ('{0}','{1}','{2}','{3}') AND StandardCodeID NOT IN ('{4}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CARD_TYPE, Constant.StandardCode.PAYMENT_METHOD, Constant.StandardCode.PAYMENT_TYPE, Constant.StandardCode.CARD_PROVIDER, Constant.PaymentMethod.BANK_TRANSFER));
             Methods.SetComboBoxField<StandardCode>(cboCardType, lstSc.Where(p => p.ParentID == Constant.StandardCode.CARD_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
 
             Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, lstSc.Where(p => p.ParentID == Constant.StandardCode.PAYMENT_METHOD && p.StandardCodeID != Constant.PaymentMethod.ACCOUNT_RECEIVABLES && p.StandardCodeID != Constant.PaymentMethod.DOWN_PAYMENT).ToList(), "StandardCodeName", "StandardCodeID");
@@ -196,22 +196,6 @@ namespace CodeX.Web.Finance.Program
             RegistrationDao entityRegDao = new RegistrationDao(ctx);
             try
             {
-                Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
-
-                int rowCount = BusinessLayer.GetARInvoiceHdRowCount(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}' AND TotalClaimedAmount != TotalPaymentAmount", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
-                if (rowCount < 1)
-                {
-                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.SETTLED;
-                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityRegDao.Update(entityReg);
-                }
-                else if (entityReg.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED)
-                {
-                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.PAID;
-                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityRegDao.Update(entityReg);
-                }
-
                 #region ARReceivingHD
                 ARReceivingHd entityReceivingHd = new ARReceivingHd();
                 List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value));
@@ -334,6 +318,21 @@ namespace CodeX.Web.Finance.Program
                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                 entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityReceivingHdDao.Update(entityReceivingHd);
+
+                Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
+                int rowCount = BusinessLayer.GetARInvoiceHdRowCount(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}' AND TotalClaimedAmount != TotalPaymentAmount", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
+                if (rowCount < 1)
+                {
+                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.SETTLED;
+                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityRegDao.Update(entityReg);
+                }
+                else if (entityReg.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED)
+                {
+                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.PAID;
+                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityRegDao.Update(entityReg);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

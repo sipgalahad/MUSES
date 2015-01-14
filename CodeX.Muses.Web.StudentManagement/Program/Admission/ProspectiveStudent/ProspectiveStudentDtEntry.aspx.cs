@@ -263,6 +263,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
+
+                entity.ProspectiveStudentCode = entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
+
                 entityDao.Insert(entity);
 
                 entity.ProspectiveStudentID = BusinessLayer.GetProspectiveStudentMaxID(ctx);
@@ -270,10 +275,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.AddressID = address.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.ProspectiveStudentID);
                 addressDao.Insert(address);
                 entityDao.Update(entity);
-
-                entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
-                ctx.CommandType = CommandType.Text;
-                ctx.Command.Parameters.Clear();
                 entityRegistration.PeriodAdmissionID = AppSession.PeriodAdmissionID;
                 entityRegistration.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
                 entityRegistration.ProspectiveStudentID = entity.ProspectiveStudentID;

@@ -38,11 +38,7 @@ namespace CodeX.Web.Finance.Program
             Methods.SetComboBoxField<Bank>(cboBank, lstBank, "BankName", "BankID");
             cboBank.SelectedIndex = 0;
             txtInvoiceDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-
-            List<Term> lstTerm = BusinessLayer.GetTermList(string.Format("IsDeleted = 0"));
-            lstTerm.Insert(0, new Term { TermID = 0, TermName = "" });
-            Methods.SetComboBoxField<Term>(cboTerm, lstTerm, "TermName", "TermID");
-            cboTerm.SelectedIndex = 0;
+            txtDueDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
 
@@ -54,7 +50,7 @@ namespace CodeX.Web.Finance.Program
             SetControlEntrySetting(hdnARInvoiceID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtARInvoiceNo, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtInvoiceDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
-            SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtDueDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
@@ -110,7 +106,7 @@ namespace CodeX.Web.Finance.Program
             txtARInvoiceNo.Text = entity.ARInvoiceNo;
             txtInvoiceDate.Text = entity.ARInvoiceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboBank.Value = entity.BankID.ToString();
-            cboTerm.Value = entity.TermID.ToString();
+            txtDueDate.Text = entity.DueDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
 
             BindGridView(1, true, ref PageCount, ref RowCount);

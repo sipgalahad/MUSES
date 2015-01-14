@@ -200,7 +200,7 @@
                 <th rowspan="3"><%=GetLabel("Calon Siswa") %></th>
                 <th id="thMarkHeader" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
                 <th rowspan="3" style="width:60px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
-                <th rowspan="3" style="width:90px"><%=GetLabel("Status") %></th>
+                <th rowspan="3" style="width:180px"><%=GetLabel("Status") %></th>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeader" runat="server">
