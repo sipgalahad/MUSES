@@ -53,6 +53,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSchoolPeriodID.Value = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID).SchoolPeriodID.ToString();
             List<AdmissionPaymentHd> lstPayment = BusinessLayer.GetAdmissionPaymentHdList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriodID.Value));
             Methods.SetComboBoxField<AdmissionPaymentHd>(cboPaymentType, lstPayment, "PaymentName", "PaymentID");
+
+            Helper.SetControlEntrySetting(tacRegistration, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
+            Helper.SetControlEntrySetting(tacAdmissionFeeRule, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
+            Helper.SetControlEntrySetting(cboPaymentType, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
         }
 
         List<AdmissionPaymentDt> lstPaymentDt = null;
@@ -61,7 +65,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<RegistrationScholarship> lstRegistrationScholarshipFee = null;
         protected void cbpScholarship_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCScholarshipType = '{1}'", hdnSchoolPeriodID.Value, Constant.ScholarshipType.ADMISSION);
+            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCScholarshipType = '{1}' AND ScholarshipID IN (SELECT ScholarshipID FROM ScholarshipPeriodAdmission WHERE PeriodAdmissionID = {2})", hdnSchoolPeriodID.Value, Constant.ScholarshipType.ADMISSION, AppSession.PeriodAdmissionID);
             if (hdnIsFeeder.Value == "1")
                 filterExpression += string.Format(" AND (GCFromSchoolType IS NULL OR GCFromSchoolType = '{0}')", Constant.FromSchoolType.FEEDER);
             else
@@ -138,7 +142,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     if (paymentDt.IsPaymentAmountInPercentage)
                     {
                         totalPayment = entity.TotalAmount * paymentDt.PaymentAmount / 100;
-                        totalPaymentInPercentage = entity.TotalAmount;
+                        totalPaymentInPercentage = paymentDt.PaymentAmount;
                     }
                     else
                     {
@@ -146,6 +150,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         totalPaymentInPercentage = paymentDt.PaymentAmount * 100 / entity.TotalAmount;
                     }
                     totalPayment = totalPayment / paymentDt.NoOfPayment;
+                    totalPaymentInPercentage = totalPaymentInPercentage / paymentDt.NoOfPayment;
                     for (int i = 0; i < paymentDt.NoOfPayment; ++i)
                     {
                         RegistrationFee entityDt = lstRegistrationFee1.FirstOrDefault(p => p.DisplayOrder == ctr);

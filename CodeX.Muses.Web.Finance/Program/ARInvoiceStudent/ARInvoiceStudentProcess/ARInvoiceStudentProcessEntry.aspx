@@ -17,6 +17,7 @@
     <script type="text/javascript">
         function onLoad() {
             setDatePicker('<%=txtInvoiceDate.ClientID %>');
+            setDatePicker('<%=txtDueDate.ClientID %>');
 
             var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
             var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
@@ -115,8 +116,8 @@
                         <td><asp:TextBox runat="server" Width="120px" ID="txtInvoiceDate" CssClass="datepicker" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempo Invoice")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboTerm" ClientInstanceName="cboTerm" Width="200px" runat="server" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jatuh Tempo")%></label></td>
+                        <td><asp:TextBox runat="server" Width="120px" ID="txtDueDate" CssClass="datepicker" /></td>
                     </tr>
                 </table>
             </td>

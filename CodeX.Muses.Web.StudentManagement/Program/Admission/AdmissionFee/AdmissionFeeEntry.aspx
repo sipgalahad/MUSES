@@ -74,7 +74,10 @@
                 }
                 tacAdmissionFeeRule.setValue(result.AdmissionFeeRuleID);
                 tacAdmissionFeeRule.setText(result.AdmissionFeeRuleName);
-                cboPaymentType.SetValue(result.PaymentID);
+                if (result.PaymentID > 0)
+                    cboPaymentType.SetValue(result.PaymentID);
+                else
+                    cboPaymentType.SetValue('');
                 $('#<%=hdnAdmissionFeeRuleID.ClientID %>').val(result.AdmissionFeeRuleID);
             }
             else {
@@ -187,6 +190,7 @@
 
         $(function () {
             $('#btnGenerate').click(function () {
+                if (IsValid(null, 'fsFilterGenerate', 'mpFilterGenerate'))
                 cbpView.PerformCallback('refresh|0');
             });
 
@@ -408,7 +412,7 @@
     <input type="hidden" id="hdnAdmissionFeeRuleID" value="0" runat="server" />
     <input type="hidden" id="hdnSchoolPeriodID" value="0" runat="server" />
     <input type="hidden" id="hdnSaveValue" value="0" runat="server" />
-    <input type="hidden" id="hdnLstScholarshipID" value="0" runat="server" />
+    <input type="hidden" id="hdnLstScholarshipID" value="" runat="server" />
     <div>
         <div style="float:right">            
             <table id="tblInfoOutstandingTransfer" runat="server" style="display:none;">
@@ -418,78 +422,80 @@
                 </tr>
             </table>
         </div>
-        <table>
-            <colgroup>
-                <col style="width:150px"/>
-            </colgroup>
-            <tr>
-                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Calon Siswa")%></label></td>
-                <td>
-                    <input type="hidden" id="hdnIsFeeder" runat="server" />
-                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacRegistration" ClientInstanceName="tacRegistration" MethodName="GetvRegistrationList" GetFilterExpressionFunction="onGetRegistrationFilterExpression"
-                        SearchFields="ProspectiveStudentName,RegistrationNo" TextField="ProspectiveStudentName" ValueField="RegistrationID" SearchText="${ProspectiveStudentName} (<b>${RegistrationNo}</b>)" OrderByExpression="ProspectiveStudentName">
-                        <ClientSideEvents ButtonSearchClick="function(){ onTacRegistrationButtonSearchClick(); }"
-                            ValueChanged="function(){ onTacRegistrationValueChanged(); }" />
-                    </cdx:CodeXAutoCompleteTextBox>   
-                </td>
-            </tr>
-            <tr>
-                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Biaya Siswa")%></label></td>
-                <td>
-                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacAdmissionFeeRule" ClientInstanceName="tacAdmissionFeeRule" MethodName="GetAdmissionFeeRuleHdList" GetFilterExpressionFunction="onGetAdmissionFeeRuleFilterExpression"
-                        SearchFields="AdmissionFeeRuleName" TextField="AdmissionFeeRuleName" ValueField="RegistrationID" SearchText="${AdmissionFeeRuleName}" OrderByExpression="AdmissionFeeRuleName">
-                        <ClientSideEvents ButtonSearchClick="function(){ onTacAdmissionFeeRuleButtonSearchClick(); }"
-                            ValueChanged="function(){ onTacAdmissionFeeRuleValueChanged(); }" />
-                    </cdx:CodeXAutoCompleteTextBox>   
-                </td>
-            </tr>
-            <tr>
-                <td class="tdLabel"><%=GetLabel("Beasiswa") %></td>
-                <td>
-                    <dxe:ASPxDropDownEdit ClientInstanceName="ddeScholarship" ID="ddeScholarship"
-                        Width="300px" runat="server" EnableAnimation="False">
-                        <DropDownWindowStyle BackColor="#EDEDED" />
-                        <DropDownWindowTemplate>
-                            <dxcp:ASPxCallbackPanel ID="cbpScholarship" runat="server" Width="100%" ClientInstanceName="cbpScholarship"
-                                ShowLoadingPanel="false" OnCallback="cbpScholarship_Callback">
-                                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                                    EndCallback="function(s,e){ onCbpScholarshipEndCallback(s); }" />
-                                <PanelCollection>
-                                    <dx:PanelContent ID="PanelContent1" runat="server">
-                                        <asp:GridView ID="grdScholarship" runat="server" CssClass="grdNormal grdBorder notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdScholarship_RowDataBound">
-                                            <Columns>
-                                                <asp:BoundField DataField="ScholarshipID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:TemplateField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px">
-                                                    <HeaderTemplate>
-                                                        <asp:CheckBox ID="chkSelectAll" runat="server" CssClass="chkSelectAll" />
-                                                    </HeaderTemplate>
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="chkIsSelected" CssClass="chkIsSelected" runat="server" />
-                                                        <input type="hidden" class="hdnScholarshipName" value='<%#Eval("ScholarshipName") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="ScholarshipName" HeaderText="Beasiswa" HeaderStyle-HorizontalAlign="Left" />
-                                            </Columns>
-                                            <EmptyDataTemplate>
-                                                <%=GetLabel("Data Tidak Tersedia")%>
-                                            </EmptyDataTemplate>
-                                        </asp:GridView>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dxcp:ASPxCallbackPanel>    
-                        </DropDownWindowTemplate>
-                    </dxe:ASPxDropDownEdit>
-                </td>
-            </tr>
-            <tr>
-                <td class="tdLabel"><%=GetLabel("Cara Pembayaran") %></td>
-                <td><dxe:ASPxComboBox ID="cboPaymentType" ClientInstanceName="cboPaymentType" runat="server" Width="150px" /></td>
-            </tr>
-            <tr>
-                <td class="tdLabel">&nbsp;</td>
-                <td><input type="button" id="btnGenerate" value='<%=GetLabel("Generate") %>' /></td>
-            </tr>
-        </table>
+        <fieldset id="fsFilterGenerate">
+            <table>
+                <colgroup>
+                    <col style="width:150px"/>
+                </colgroup>
+                <tr>
+                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Calon Siswa")%></label></td>
+                    <td>
+                        <input type="hidden" id="hdnIsFeeder" runat="server" />
+                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacRegistration" ClientInstanceName="tacRegistration" MethodName="GetvRegistrationList" GetFilterExpressionFunction="onGetRegistrationFilterExpression"
+                            SearchFields="ProspectiveStudentName,RegistrationNo" TextField="ProspectiveStudentName" ValueField="RegistrationID" SearchText="${ProspectiveStudentName} (<b>${RegistrationNo}</b>)" OrderByExpression="ProspectiveStudentName">
+                            <ClientSideEvents ButtonSearchClick="function(){ onTacRegistrationButtonSearchClick(); }"
+                                ValueChanged="function(){ onTacRegistrationValueChanged(); }" />
+                        </cdx:CodeXAutoCompleteTextBox>   
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Biaya Siswa")%></label></td>
+                    <td>
+                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacAdmissionFeeRule" ClientInstanceName="tacAdmissionFeeRule" MethodName="GetAdmissionFeeRuleHdList" GetFilterExpressionFunction="onGetAdmissionFeeRuleFilterExpression"
+                            SearchFields="AdmissionFeeRuleName" TextField="AdmissionFeeRuleName" ValueField="RegistrationID" SearchText="${AdmissionFeeRuleName}" OrderByExpression="AdmissionFeeRuleName">
+                            <ClientSideEvents ButtonSearchClick="function(){ onTacAdmissionFeeRuleButtonSearchClick(); }"
+                                ValueChanged="function(){ onTacAdmissionFeeRuleValueChanged(); }" />
+                        </cdx:CodeXAutoCompleteTextBox>   
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdLabel"><%=GetLabel("Beasiswa") %></td>
+                    <td>
+                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeScholarship" ID="ddeScholarship"
+                            Width="300px" runat="server" EnableAnimation="False">
+                            <DropDownWindowStyle BackColor="#EDEDED" />
+                            <DropDownWindowTemplate>
+                                <dxcp:ASPxCallbackPanel ID="cbpScholarship" runat="server" Width="100%" ClientInstanceName="cbpScholarship"
+                                    ShowLoadingPanel="false" OnCallback="cbpScholarship_Callback">
+                                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                        EndCallback="function(s,e){ onCbpScholarshipEndCallback(s); }" />
+                                    <PanelCollection>
+                                        <dx:PanelContent ID="PanelContent1" runat="server">
+                                            <asp:GridView ID="grdScholarship" runat="server" CssClass="grdNormal grdBorder notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdScholarship_RowDataBound">
+                                                <Columns>
+                                                    <asp:BoundField DataField="ScholarshipID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                    <asp:TemplateField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px">
+                                                        <HeaderTemplate>
+                                                            <asp:CheckBox ID="chkSelectAll" runat="server" CssClass="chkSelectAll" />
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="chkIsSelected" CssClass="chkIsSelected" runat="server" />
+                                                            <input type="hidden" class="hdnScholarshipName" value='<%#Eval("ScholarshipName") %>' />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:BoundField DataField="ScholarshipName" HeaderText="Beasiswa" HeaderStyle-HorizontalAlign="Left" />
+                                                </Columns>
+                                                <EmptyDataTemplate>
+                                                    <%=GetLabel("Data Tidak Tersedia")%>
+                                                </EmptyDataTemplate>
+                                            </asp:GridView>
+                                        </dx:PanelContent>
+                                    </PanelCollection>
+                                </dxcp:ASPxCallbackPanel>    
+                            </DropDownWindowTemplate>
+                        </dxe:ASPxDropDownEdit>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Cara Pembayaran") %></label></td>
+                    <td><dxe:ASPxComboBox ID="cboPaymentType" ClientInstanceName="cboPaymentType" runat="server" Width="150px" /></td>
+                </tr>
+                <tr>
+                    <td class="tdLabel">&nbsp;</td>
+                    <td><input type="button" id="btnGenerate" value='<%=GetLabel("Generate") %>' /></td>
+                </tr>
+            </table>
+        </fieldset>
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"

@@ -94,13 +94,13 @@ namespace CodeX.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtInvoiceDate;
         
         /// <summary>
-        /// cboTerm control.
+        /// txtDueDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTerm;
+        protected global::System.Web.UI.WebControls.TextBox txtDueDate;
         
         /// <summary>
         /// cboBank control.
