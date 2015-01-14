@@ -59,6 +59,37 @@
         //#endregion
 
         $(function () {
+            $("#<%=rblCheckAll.ClientID %> input").change(function () {
+                var value = $(this).val();
+                if (value == 1) {
+                    $(".chkIsExist input").each(function () {
+                        $(this).prop('checked', true);
+                    });
+                    $(".chkIsCompleted input").each(function () {
+                        $(this).attr("disabled", false);
+                        $(this).prop('checked', true);
+                    });
+                }
+                else if (value == 2) {
+                    $(".chkIsExist input").each(function () {
+                        $(this).prop('checked', true);
+                    });
+                    $(".chkIsCompleted input").each(function () {
+                        $(this).attr("disabled", false);
+                        $(this).prop('checked', false);
+                    });
+                }
+                else if (value == 3) {
+                    $(".chkIsExist input").each(function () {
+                        $(this).prop('checked', false);
+                    });
+                    $(".chkIsCompleted input").each(function () {
+                        $(this).attr("disabled", true);
+                        $(this).prop('checked', false);
+                    });
+                }
+            });
+
             $('#<%=btnSave.ClientID %>').click(function () {
                 var param = "";
                 $('.chkIsExist input:checked').each(function () {
@@ -132,6 +163,17 @@
                         <ClientSideEvents ButtonSearchClick="function(){ onTacRegistrationButtonSearchClick(); }"
                             ValueChanged="function(){ onTacRegistrationValueChanged(); }" />
                     </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <asp:RadioButtonList ID="rblCheckAll" CssClass="rblCheckAll" runat="server"
+                        RepeatDirection="Vertical">
+                        <asp:ListItem Text="Centang Semua (Ada dan Terisi)" Value="1" />
+                        <asp:ListItem Text="Centang Semua (Ada dan Tidak Terisi)" Value="2" />
+                        <asp:ListItem Text="Centang Semua (Tidak Ada dan Tidak Terisi)" Value="3" />
+                    </asp:RadioButtonList>
                 </td>
             </tr>
         </table>
