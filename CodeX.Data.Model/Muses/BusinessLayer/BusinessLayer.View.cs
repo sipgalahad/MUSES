@@ -6225,6 +6225,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentAchievement
+        public static List<vStudentAchievement> GetvStudentAchievementList(string filterExpression)
+        {
+            List<vStudentAchievement> result = new List<vStudentAchievement>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentAchievement));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentAchievement)helper.IDataReaderToObject(reader, new vStudentAchievement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentFamily
         public static List<vStudentFamily> GetvStudentFamilyList(string filterExpression)
         {

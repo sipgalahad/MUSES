@@ -16632,6 +16632,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentAchievement
+    [Serializable]
+    [Table(Name = "StudentAchievement")]
+    public class StudentAchievement : DbDataModel
+    {
+        private Int32 _StudentAchievementID;
+        private Int32 _StudentID;
+        private DateTime _AchievementDate;
+        private String _GCAchievementType;
+        private String _AchievementName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentAchievementID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentAchievementID
+        {
+            get { return _StudentAchievementID; }
+            set { _StudentAchievementID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "AchievementDate", DataType = "DateTime")]
+        public DateTime AchievementDate
+        {
+            get { return _AchievementDate; }
+            set { _AchievementDate = value; }
+        }
+        [Column(Name = "GCAchievementType", DataType = "String")]
+        public String GCAchievementType
+        {
+            get { return _GCAchievementType; }
+            set { _GCAchievementType = value; }
+        }
+        [Column(Name = "AchievementName", DataType = "String")]
+        public String AchievementName
+        {
+            get { return _AchievementName; }
+            set { _AchievementName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentAchievementDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentAchievement));
+        private bool _isAuditLog = false;
+        private const string p_StudentAchievementID = "@p_StudentAchievementID";
+        public StudentAchievementDao() { }
+        public StudentAchievementDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentAchievement Get(Int32 StudentAchievementID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentAchievementID, StudentAchievementID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentAchievement)_helper.DataRowToObject(row, new StudentAchievement());
+        }
+        public int Insert(StudentAchievement record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentAchievement record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentAchievementID)
+        {
+            StudentAchievement record;
+            if (_ctx.Transaction == null)
+                record = new StudentAchievementDao().Get(StudentAchievementID);
+            else
+                record = Get(StudentAchievementID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StudentFamily
     [Serializable]
     [Table(Name = "StudentFamily")]
