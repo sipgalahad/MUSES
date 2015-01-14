@@ -444,7 +444,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-
+        public static Int32 GetARInvoiceHdRowCount(string filterExpression, IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARInvoiceHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ARInvoiceReceiving
         public static ARInvoiceReceiving GetARInvoiceReceiving(Int32 ARReceivingID, Int32 ARInvoiceID, Int32 ARInvoiceDtID)

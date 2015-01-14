@@ -113,7 +113,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rptStudentMark.DataBind();
 
                 CheckBox chkIsSelected = e.Item.FindControl("chkIsSelected") as CheckBox;
-                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED || entity.GCRegistrationStatus == Constant.RegistrationStatus.PAID || entity.GCRegistrationStatus == Constant.RegistrationStatus.CLOSED)
+                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED || entity.GCRegistrationStatus == Constant.RegistrationStatus.PAID || entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED || entity.GCRegistrationStatus == Constant.RegistrationStatus.CLOSED)
                     chkIsSelected.Visible = false;
                 if (lstSelectedMember.Contains(entity.ProspectiveStudentID.ToString()))
                     chkIsSelected.Checked = true;
