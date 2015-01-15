@@ -8,9 +8,41 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            $('#<%=btnSave.ClientID %>').click(function () {
+                var result = '';
+                $('.txtFinalMarkPercentage').each(function () {
+                    var classTaskID = $(this).parent().find('.hdnClassSubjectTaskID').val();
+                    var value = parseFloat($(this).val());
+                    if (result != '')
+                        result += '|';
+                    result += classTaskID + ',' + value;
+                });
+                $('#<%=hdnListSaveHeaderValue.ClientID %>').val(result);
+
+                result = '';
+                $('.trDetail').each(function () {
+                    var tempResult = '';
+                    $(this).find('.txtStudentMark').each(function () {
+                        var value = parseFloat($(this).val());
+                        if (tempResult != '')
+                            tempResult += ',';
+                        tempResult += value;
+                    });
+                    if (result != '')
+                        result += '|';
+                    result += $(this).find('.keyField').html() + '^' + tempResult;
+                });
+                $('#<%=hdnListSaveValue.ClientID %>').val(result);
+                onCustomButtonClick('save');
+            });
+
             setStudentImage();
 
             var width = parseInt('<%=OnGetTableViewWidth() %>');
@@ -63,6 +95,7 @@
 
         }
     </script>
+    <input type="hidden" id="hdnListSaveHeaderValue" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <div style="width:1250px; overflow-x: auto;">
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
@@ -80,6 +113,7 @@
                     <ItemTemplate>
                         <th class="thCenter" style="width:90px">
                             <%#Eval("ClassTaskCode")%><br />
+                            <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
                             <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" class="number txtFinalMarkPercentage" />[%]
                         </th>
                     </ItemTemplate>
