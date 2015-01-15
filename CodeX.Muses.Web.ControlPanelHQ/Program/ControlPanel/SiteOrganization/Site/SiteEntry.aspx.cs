@@ -55,6 +55,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboOperatingGroup, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtLicenseNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(tacParent, new ControlEntrySetting(true, true, false));
 
             SetControlEntrySetting(txtAddress, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtCounty, new ControlEntrySetting(true, true, false));
@@ -75,6 +76,16 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             txtInitial.Text = entity.Initial;
             cboOperatingGroup.Value = entity.GCOperatingGroup;
             txtLicenseNo.Text = entity.LicenseNo;
+            if (entity.ParentID != "")
+            {
+                tacParent.Value = entity.ParentID;
+                tacParent.Text = BusinessLayer.GetSite(entity.ParentID).SiteName;
+            }
+            else
+            {
+                tacParent.Value = "";
+                tacParent.Text = "";
+            }
 
             txtAddress.Text = entityAddress.StreetName;
             txtCounty.Text = entityAddress.County; // Desa
@@ -84,6 +95,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
                 txtProvinceCode.Text = entityAddress.GCState.Split('^')[1];
             else
                 txtProvinceCode.Text = "";
+            chkIsHeader.Checked = entity.IsHeader;
             txtProvinceName.Text = entityAddress.State;
             hdnZipCode.Value = entityAddress.ZipCodeID.ToString();
             txtZipCode.Text = entityAddress.ZipCode;
@@ -107,6 +119,11 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
                 entityAddress.ZipCode = null;
             else
                 entityAddress.ZipCode = Convert.ToInt32(hdnZipCode.Value);
+            entity.IsHeader = chkIsHeader.Checked;
+            if (tacParent.Value != "")
+                entity.ParentID = tacParent.Value;
+            else
+                entity.ParentID = "";
             entityAddress.PhoneNo1 = txtTelephoneNo.Text;
         }
 
@@ -148,6 +165,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -178,6 +196,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

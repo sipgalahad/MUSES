@@ -537,7 +537,7 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Site -->
-  <searchdialog type="site" methodname="GetSiteList" keyfieldname="SiteID">
+  <searchdialog type="site" methodname="GetvSiteList" keyfieldname="SiteID" istreeview="1">
     <gridcolumns>
       <gridcolumn datafield="SiteID" headertext="Kode Rumah Sakit" width="100px" />
       <gridcolumn datafield="SiteName" headertext="Nama Rumah Sakit" width="300px" />

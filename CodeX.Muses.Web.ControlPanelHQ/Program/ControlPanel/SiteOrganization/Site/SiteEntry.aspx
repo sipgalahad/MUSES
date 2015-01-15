@@ -3,6 +3,8 @@
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -57,6 +59,36 @@
             }
             //#endregion
         }
+
+        //#region Site
+        function onGetSiteFilterExpression() {
+            var filterExpression = "IsHeader = 1";
+            var id = $('#<%=hdnID.ClientID %>').val();
+            if (id != '')
+                filterExpression += " AND SiteID != '" + id + "'";
+            return filterExpression;
+        }
+
+        function onTacSiteButtonSearchClick() {
+            openSearchDialog('site', onGetSiteFilterExpression(), function (value) {
+                var filterExpression = onGetSiteFilterExpression() + " AND SiteID = '" + value + "'";
+                Methods.getObject('GetvSiteList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacParent.setValue(result.SiteID);
+                        tacParent.setText(result.SiteName);
+                    }
+                    else {
+                        tacParent.setValue('');
+                        tacParent.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacSiteValueChanged() {
+        }
+        //#endregion
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
@@ -95,6 +127,21 @@
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("License No")%></label></td>
                         <td><asp:TextBox ID="txtLicenseNo" Width="300px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Header")%></label></td>
+                        <td><asp:CheckBox ID="chkIsHeader" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Parent")%></label></td>
+                        <td>
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacParent" ClientInstanceName="tacParent" MethodName="GetvSiteList" GetFilterExpressionFunction="onGetSiteFilterExpression"
+                                SearchFields="SiteName,SiteID" TextField="SiteName" ValueField="SiteID" SearchText="${SiteName} (<b>${SiteID}</b>)" OrderByExpression="SiteName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacSiteButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacSiteValueChanged(); }" />
+                            </cdx:CodeXAutoCompleteTextBox>   
+                        </td>
+                    </tr>
                 </table>
             </td>
             <td style="padding:5px;vertical-align:top">

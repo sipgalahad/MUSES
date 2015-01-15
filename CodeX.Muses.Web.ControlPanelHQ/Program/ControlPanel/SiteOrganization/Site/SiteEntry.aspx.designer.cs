@@ -85,6 +85,24 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.WebControls.TextBox txtLicenseNo;
         
         /// <summary>
+        /// chkIsHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
+        
+        /// <summary>
+        /// tacParent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacParent;
+        
+        /// <summary>
         /// txtAddress control.
         /// </summary>
         /// <remarks>

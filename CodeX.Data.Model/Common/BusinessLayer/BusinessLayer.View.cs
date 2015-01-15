@@ -484,7 +484,7 @@ namespace CodeX.Data.Model
             try
             {
                 DbHelper helper = new DbHelper(typeof(vSite));
-                ctx.CommandText = helper.GetRowIndex(filterExpression, "vSiteID", keyValue, orderByExpression);
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "SiteID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }

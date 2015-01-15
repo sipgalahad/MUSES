@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ACHIEVEMENT_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboAchievementType, lstSc, "StandardCodeName", "StandardCodeID");
             cboAchievementType.SelectedIndex = 0;
 

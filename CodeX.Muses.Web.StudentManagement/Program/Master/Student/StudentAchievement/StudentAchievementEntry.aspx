@@ -106,8 +106,8 @@
                                     <td><dxe:ASPxComboBox ID="cboAchievementType" ClientInstanceName="cboAchievementType" Width="200px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
-                                    <td><asp:TextBox ID="txtRemarks" TextMode="MultiLine" Width="200px" runat="server" /></td>
+                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
+                                    <td><asp:TextBox ID="txtRemarks" TextMode="MultiLine" Width="300px" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -134,7 +134,8 @@
                             <Columns>
                                 <asp:BoundField DataField="StudentAchievementID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="AchievementType" HeaderText="Tipe" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="AchievementName" HeaderText="Nama" />
+                                <asp:BoundField DataField="AchievementName" HeaderText="Nama" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
