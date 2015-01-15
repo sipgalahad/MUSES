@@ -38,9 +38,8 @@
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
-
             var param = s.cpResult.split('|');
-            if (param[0] == 'delete') {
+            if (param[0] == 'save') {
                 if (param[1] == 'fail')
                     showToast('Delete Failed', 'Error Message : ' + param[2]);
                 else
