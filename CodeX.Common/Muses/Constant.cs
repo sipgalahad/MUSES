@@ -336,7 +336,7 @@ namespace CodeX.Common
                 public const string PERIOD_ADMISSION = "SM020100";
 
                 public const string TEACHER_WEEKLY_SCHEDULE = "SM030100";
-                
+                public const string TEACHER_CLASS = "SM030200";                
 
                 public const string CLASS_WEEKLY_SCHEDULE = "SM040100";
 
@@ -383,6 +383,15 @@ namespace CodeX.Common
                 public const string WS_ATTENDANCE_HISTORY = "SM99040201";
                 public const string WS_STUDENT_MARK = "SM99040202";
                 public const string WS_SUBJECT_MATTER = "SM99040203";
+
+                public const string TEACHER_CLASS_SUBJECT_PAGE = "SM99050000";
+                public const string TCS_CLASS_TASK = "SM99050101";
+                public const string TCS_CLASS_TASK_SUMMARY = "SM99050102";
+                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050103";
+
+                public const string TCS_ATTENDANCE_HISTORY = "SM99050201";
+                public const string TCS_STUDENT_MARK = "SM99050202";
+                public const string TCS_SUBJECT_MATTER = "SM99050203";
             }
             #endregion
             #endregion

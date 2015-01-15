@@ -15,7 +15,7 @@
                 $divStudentImage = $(this).parent().find('.divStudentImage');
                 $divStudentImage.attr('style', "background-image:url('" + this.src + "')");
                 $(this).error(function () {
-                    var gender = $(this).attr('gender');
+                    var gender = $(this).parent().find('.hdnStudentGender').val();
                     if (gender == '0003^F')
                         $(this).parent().find('.divStudentImage').attr('style', "background-image:url('" + imgUrlF + "')");
                     else
@@ -25,6 +25,11 @@
         }, 0);
     }
 </script>
+
+<style type="text/css">
+    .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
+                                         background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+</style>
 
 <input type="hidden" id="hdnTitleText" runat="server" />
 <h4><%=GetLabel("Data Pasien")%></h4>

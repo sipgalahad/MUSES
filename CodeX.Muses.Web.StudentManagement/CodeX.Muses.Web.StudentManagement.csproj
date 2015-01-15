@@ -103,6 +103,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
@@ -159,6 +160,7 @@
     <Content Include="Program\Master\Student\StudentPageLauncher.aspx" />
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentList.aspx" />
+    <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
     <Content Include="Program\WeeklySchedule\ClassWeeklyScheduleList.aspx" />
     <Content Include="Web.config" />
@@ -432,6 +434,13 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx.cs">
+      <DependentUpon>ClassTaskSummaryEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx.designer.cs">
+      <DependentUpon>ClassTaskSummaryEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>
@@ -825,6 +834,13 @@
     <Compile Include="Program\Master\Student\StudentList.aspx.designer.cs">
       <DependentUpon>StudentList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\TeacherPage\TeacherClassList.aspx.cs">
+      <DependentUpon>TeacherClassList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\TeacherPage\TeacherClassList.aspx.designer.cs">
+      <DependentUpon>TeacherClassList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx.cs">
       <DependentUpon>TeacherWeeklyScheduleList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -843,6 +859,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Program\TeacherClassPage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">

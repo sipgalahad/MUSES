@@ -26,9 +26,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptRemarks.DataSource = lstSc;
             rptRemarks.DataBind();
 
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}'", Constant.SchoolPeriodStatus.VOID));
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            cboSchoolPeriod.SelectedIndex = 0;
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+                cboSchoolPeriod.SelectedIndex = 0;
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
             BindGridView();
         }
@@ -108,7 +112,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
                     tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
                 }
                 else
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);

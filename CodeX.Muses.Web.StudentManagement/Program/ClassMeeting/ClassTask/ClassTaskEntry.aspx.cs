@@ -22,6 +22,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
+            string id = Request.QueryString["id"];
+            if(id == "tcs")
+                return Constant.MenuCode.StudentManagement.TCS_CLASS_TASK;
             return Constant.MenuCode.StudentManagement.WS_CLASS_TASK;
         }
         protected override void InitializeDataControl()

@@ -15665,6 +15665,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacherClassSubject
+    [Serializable]
+    [Table(Name = "vTeacherClassSubject")]
+    public class vTeacherClassSubject
+    {
+        private Int32 _ClassSubjectID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _TeacherID;
+        private Int32 _SchoolClassID;
+        private String _SchoolClassName;
+        private Int32 _SubjectID;
+        private String _SubjectName;
+        private Int16 _NoMeetingHoursInWeek;
+
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
+        public Int16 NoMeetingHoursInWeek
+        {
+            get { return _NoMeetingHoursInWeek; }
+            set { _NoMeetingHoursInWeek = value; }
+        }
+    }
+    #endregion
     #region vTeacherSubject
     [Serializable]
     [Table(Name = "vTeacherSubject")]

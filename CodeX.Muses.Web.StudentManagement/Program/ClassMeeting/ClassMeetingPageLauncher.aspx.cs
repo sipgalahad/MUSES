@@ -15,20 +15,40 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected void Page_Load(object sender, EventArgs e)
         {
             string[] temp = Request.QueryString["id"].Split('|');
-            ClassSubjectModel classSubject = new ClassSubjectModel();
-            classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
-            classSubject.ClassScheduleID = Convert.ToInt32(temp[1]);
-            classSubject.ClassMeetingID = Convert.ToInt32(temp[2]);
-            AppSession.ClassSubject = classSubject;
+            if (temp[0] == "tcs")
+            {
+                ClassSubjectModel classSubject = new ClassSubjectModel();
+                classSubject.ClassSubjectID = Convert.ToInt32(temp[1]);
+                classSubject.ClassScheduleID = 0;
+                classSubject.ClassMeetingID = 0;
+                AppSession.ClassSubject = classSubject;
 
-            string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.CLASS_MEETING_PAGE);
-            List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
-            int parentID = (int)lstMenu.Where(p => p.MenuIndex > 0).OrderBy(p => p.MenuIndex).FirstOrDefault().MenuID;
+                string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.TEACHER_CLASS_SUBJECT_PAGE);
+                List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+                int parentID = (int)lstMenu.Where(p => p.MenuIndex > 0).OrderBy(p => p.MenuIndex).FirstOrDefault().MenuID;
 
-            filterExpression = string.Format("ParentID = {0}", parentID);
-            lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
-            GetUserMenuAccess menu = lstMenu.OrderBy(p => p.MenuIndex).FirstOrDefault();
-            Response.Redirect(Page.ResolveUrl(menu.MenuUrl));
+                filterExpression = string.Format("ParentID = {0}", parentID);
+                lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+                GetUserMenuAccess menu = lstMenu.OrderBy(p => p.MenuIndex).FirstOrDefault();
+                Response.Redirect(Page.ResolveUrl(menu.MenuUrl));
+            }
+            else
+            {
+                ClassSubjectModel classSubject = new ClassSubjectModel();
+                classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
+                classSubject.ClassScheduleID = Convert.ToInt32(temp[1]);
+                classSubject.ClassMeetingID = Convert.ToInt32(temp[2]);
+                AppSession.ClassSubject = classSubject;
+
+                string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.CLASS_MEETING_PAGE);
+                List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+                int parentID = (int)lstMenu.Where(p => p.MenuIndex > 0).OrderBy(p => p.MenuIndex).FirstOrDefault().MenuID;
+
+                filterExpression = string.Format("ParentID = {0}", parentID);
+                lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+                GetUserMenuAccess menu = lstMenu.OrderBy(p => p.MenuIndex).FirstOrDefault();
+                Response.Redirect(Page.ResolveUrl(menu.MenuUrl));
+            }
         }
     }
 }

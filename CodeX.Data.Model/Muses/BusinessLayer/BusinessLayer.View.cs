@@ -6958,6 +6958,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTeacherClassSubject
+        public static List<vTeacherClassSubject> GetvTeacherClassSubjectList(string filterExpression)
+        {
+            List<vTeacherClassSubject> result = new List<vTeacherClassSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherClassSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherClassSubject)helper.IDataReaderToObject(reader, new vTeacherClassSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTeacherSubject
         public static List<vTeacherSubject> GetvTeacherSubjectList(string filterExpression)
         {

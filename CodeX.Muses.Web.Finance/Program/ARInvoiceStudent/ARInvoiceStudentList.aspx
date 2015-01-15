@@ -33,7 +33,7 @@
         var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
         var currPage = parseInt('<%=CurrPage %>');
         $(function () {
-            Methods.checkImageError('imgPatientImage', 'patient', 'hdnPatientGender');
+            Methods.checkImageError('imgStudentImage', 'student', 'hdnStudentGender');
             setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
@@ -42,7 +42,7 @@
         });
 
         function onCbpViewEndCallback(s) {
-            Methods.checkImageError('imgPatientImage', 'patient', 'hdnPatientGender');
+            Methods.checkImageError('imgStudentImage', 'student', 'hdnStudentGender');
             hideLoadingPanel();
 
             var param = s.cpResult.split('|');

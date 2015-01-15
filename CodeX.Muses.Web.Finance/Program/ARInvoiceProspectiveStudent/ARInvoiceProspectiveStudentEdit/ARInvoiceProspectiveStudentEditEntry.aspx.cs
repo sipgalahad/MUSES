@@ -56,7 +56,7 @@ namespace CodeX.Web.Finance.Program
 
         protected string OnGetARInvoiceFilterExpression()
         {
-            return string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}') ", AppSession.ProspectiveStudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID);
+            return string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID);
         }
 
         protected string GetFilterExpression()

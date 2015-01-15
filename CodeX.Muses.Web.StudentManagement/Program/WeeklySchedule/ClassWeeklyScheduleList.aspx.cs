@@ -113,7 +113,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
                     tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
                 }
                 else
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
