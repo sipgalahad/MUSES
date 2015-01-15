@@ -18,7 +18,7 @@
                 var param = "";
                 $('.chkIsAccepted input:checked').each(function () {
                     var id = $(this).closest('tr').find('.keyField').html();
-                    
+
                     if (param != '') {
                         param += ',';
                     }
@@ -27,6 +27,13 @@
                 $('#<%=hdnSelectedValue.ClientID %>').val(param);
                 cbpProcess.PerformCallback('save');
             })
+
+            $('.chkAcceptAll input').click(function () {
+                var value = $(this).is(':checked');
+                $('#<%=grdView.ClientID %> .chkIsAccepted input').each(function () {
+                    if ($(this).is(':enabled')) $(this).prop("checked", value);
+                });
+            });
         })
 
         function onCbpProcesEndCallback(s) {
@@ -53,16 +60,22 @@
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
-                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
+                            OnRowDataBound="grdView_RowDataBound">
                             <Columns>
-                                <asp:BoundField DataField="RegistrationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
-                                <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center" HeaderText="Diterima">
+                                <asp:TemplateField HeaderStyle-Width="50px" ItemStyle-HorizontalAlign="Center">
+                                    <HeaderTemplate>
+                                        <div style="text-align:center">
+                                            <asp:CheckBox runat="server" ID="chkAcceptAll" CssClass="chkAcceptAll" />
+                                        </div>
+                                    </HeaderTemplate>
                                     <ItemTemplate>
                                         <asp:CheckBox runat="server" ID="chkIsAccepted" CssClass="chkIsAccepted" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:BoundField DataField="RegistrationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

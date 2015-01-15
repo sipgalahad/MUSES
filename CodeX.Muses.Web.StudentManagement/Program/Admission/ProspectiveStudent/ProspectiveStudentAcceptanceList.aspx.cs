@@ -28,10 +28,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus NOT IN ('{1}','{2}')", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, Constant.RegistrationStatus.CLOSED);
+            string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus NOT IN ('{1}','{2}','{3}')", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, Constant.RegistrationStatus.CLOSED, Constant.RegistrationStatus.OPEN);
             List<vRegistration> lstEntity = BusinessLayer.GetvRegistrationList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
+
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vRegistration entity = e.Row.DataItem as vRegistration;
+                CheckBox chkIsAccepted = e.Row.FindControl("chkIsAccepted") as CheckBox;
+                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED) chkIsAccepted.Enabled = true;
+                else chkIsAccepted.Enabled = false;
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
