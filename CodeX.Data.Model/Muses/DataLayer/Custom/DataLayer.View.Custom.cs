@@ -819,6 +819,19 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProspectiveStudentAchievement
+    public partial class vProspectiveStudentAchievement
+    {
+        public string AchievementDateInDatePickerFormat
+        {
+            get { return _AchievementDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+        public string AchievementDateInString
+        {
+            get { return _AchievementDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vProspectiveStudentFamily
     public partial class vProspectiveStudentFamily
     {
@@ -1753,6 +1766,10 @@ namespace CodeX.Data.Model
         public string AchievementDateInDatePickerFormat 
         {
             get { return _AchievementDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+        public string AchievementDateInString
+        {
+            get { return _AchievementDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
     }
     #endregion

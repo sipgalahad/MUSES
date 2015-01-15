@@ -13,14 +13,14 @@
         $(function () {
             $('#divTransactionAdd').click(function () {
                 var url = ResolveUrl("~/Program/Admission/ProspectiveStudent/ProspectiveStudentDtEntryCtl.ascx");
-                openUserControlPopup(url, '', 'Calon Siswa', 1200, 600);
+                openUserControlPopup(url, '', 'Calon Siswa', 1270, 600);
             });
         });
 
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Admission/ProspectiveStudent/ProspectiveStudentDtEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Calon Siswa', 1200, 600);
+            openUserControlPopup(url, id, 'Calon Siswa', 1270, 600);
         });
 
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {

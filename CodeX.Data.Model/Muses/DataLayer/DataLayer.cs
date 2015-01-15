@@ -10855,6 +10855,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProspectiveStudentAchievement
+    [Serializable]
+    [Table(Name = "ProspectiveStudentAchievement")]
+    public class ProspectiveStudentAchievement : DbDataModel
+    {
+        private Int32 _ProspectiveStudentAchievementID;
+        private Int32 _ProspectiveStudentID;
+        private DateTime _AchievementDate;
+        private String _GCAchievementType;
+        private String _AchievementName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProspectiveStudentAchievementID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProspectiveStudentAchievementID
+        {
+            get { return _ProspectiveStudentAchievementID; }
+            set { _ProspectiveStudentAchievementID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "AchievementDate", DataType = "DateTime")]
+        public DateTime AchievementDate
+        {
+            get { return _AchievementDate; }
+            set { _AchievementDate = value; }
+        }
+        [Column(Name = "GCAchievementType", DataType = "String")]
+        public String GCAchievementType
+        {
+            get { return _GCAchievementType; }
+            set { _GCAchievementType = value; }
+        }
+        [Column(Name = "AchievementName", DataType = "String")]
+        public String AchievementName
+        {
+            get { return _AchievementName; }
+            set { _AchievementName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProspectiveStudentAchievementDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentAchievement));
+        private bool _isAuditLog = false;
+        private const string p_ProspectiveStudentAchievementID = "@p_ProspectiveStudentAchievementID";
+        public ProspectiveStudentAchievementDao() { }
+        public ProspectiveStudentAchievementDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProspectiveStudentAchievement Get(Int32 ProspectiveStudentAchievementID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProspectiveStudentAchievementID, ProspectiveStudentAchievementID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProspectiveStudentAchievement)_helper.DataRowToObject(row, new ProspectiveStudentAchievement());
+        }
+        public int Insert(ProspectiveStudentAchievement record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProspectiveStudentAchievement record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProspectiveStudentAchievementID)
+        {
+            ProspectiveStudentAchievement record;
+            if (_ctx.Transaction == null)
+                record = new ProspectiveStudentAchievementDao().Get(ProspectiveStudentAchievementID);
+            else
+                record = Get(ProspectiveStudentAchievementID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ProspectiveStudentFolder
     [Serializable]
     [Table(Name = "ProspectiveStudentFolder")]
@@ -11395,6 +11522,140 @@ namespace CodeX.Data.Model
                 record = new ProspectiveStudentFamilyDao().Get(FamilyID);
             else
                 record = Get(FamilyID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ProspectiveStudentPastStudy
+    [Serializable]
+    [Table(Name = "ProspectiveStudentPastStudy")]
+    public class ProspectiveStudentPastStudy : DbDataModel
+    {
+        private Int32 _ProspectiveStudentPastStudyID;
+        private Int32 _ProspectiveStudentID;
+        private Int32 _StartYear;
+        private Int32 _EndYear;
+        private String _GCSchoolType;
+        private String _SchoolName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProspectiveStudentPastStudyID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProspectiveStudentPastStudyID
+        {
+            get { return _ProspectiveStudentPastStudyID; }
+            set { _ProspectiveStudentPastStudyID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "StartYear", DataType = "Int32")]
+        public Int32 StartYear
+        {
+            get { return _StartYear; }
+            set { _StartYear = value; }
+        }
+        [Column(Name = "EndYear", DataType = "Int32")]
+        public Int32 EndYear
+        {
+            get { return _EndYear; }
+            set { _EndYear = value; }
+        }
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SchoolName", DataType = "String")]
+        public String SchoolName
+        {
+            get { return _SchoolName; }
+            set { _SchoolName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProspectiveStudentPastStudyDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentPastStudy));
+        private bool _isAuditLog = false;
+        private const string p_ProspectiveStudentPastStudyID = "@p_ProspectiveStudentPastStudyID";
+        public ProspectiveStudentPastStudyDao() { }
+        public ProspectiveStudentPastStudyDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProspectiveStudentPastStudy Get(Int32 ProspectiveStudentPastStudyID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProspectiveStudentPastStudyID, ProspectiveStudentPastStudyID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProspectiveStudentPastStudy)_helper.DataRowToObject(row, new ProspectiveStudentPastStudy());
+        }
+        public int Insert(ProspectiveStudentPastStudy record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProspectiveStudentPastStudy record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProspectiveStudentPastStudyID)
+        {
+            ProspectiveStudentPastStudy record;
+            if (_ctx.Transaction == null)
+                record = new ProspectiveStudentPastStudyDao().Get(ProspectiveStudentPastStudyID);
+            else
+                record = Get(ProspectiveStudentPastStudyID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

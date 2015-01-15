@@ -135,6 +135,7 @@
                                 <asp:BoundField DataField="StudentAchievementID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="AchievementType" HeaderText="Tipe" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="AchievementName" HeaderText="Nama" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="AchievementDateInString" HeaderText="Tanggal" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="140px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

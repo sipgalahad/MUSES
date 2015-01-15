@@ -3934,6 +3934,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vProspectiveStudentAchievement
+        public static List<vProspectiveStudentAchievement> GetvProspectiveStudentAchievementList(string filterExpression)
+        {
+            List<vProspectiveStudentAchievement> result = new List<vProspectiveStudentAchievement>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentAchievement));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentAchievement)helper.IDataReaderToObject(reader, new vProspectiveStudentAchievement()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vProspectiveStudentFamily
         public static List<vProspectiveStudentFamily> GetvProspectiveStudentFamilyList(string filterExpression)
         {
@@ -4075,6 +4099,30 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "FormID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vProspectiveStudentPastStudy
+        public static List<vProspectiveStudentPastStudy> GetvProspectiveStudentPastStudyList(string filterExpression)
+        {
+            List<vProspectiveStudentPastStudy> result = new List<vProspectiveStudentPastStudy>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProspectiveStudentPastStudy));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProspectiveStudentPastStudy)helper.IDataReaderToObject(reader, new vProspectiveStudentPastStudy()));
             }
             catch (Exception ex)
             {

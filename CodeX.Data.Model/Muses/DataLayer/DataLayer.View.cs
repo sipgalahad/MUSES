@@ -9127,6 +9127,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProspectiveStudentAchievement
+    [Serializable]
+    [Table(Name = "vProspectiveStudentAchievement")]
+    public partial class vProspectiveStudentAchievement
+    {
+        private Int32 _ProspectiveStudentAchievementID;
+        private String _ProspectiveStudentCode;
+        private String _FirstName;
+        private String _MiddleName;
+        private String _LastName;
+        private String _ProspectiveStudentName;
+        private String _Name;
+        private Int32 _ProspectiveStudentID;
+        private DateTime _AchievementDate;
+        private String _GCAchievementType;
+        private String _AchievementType;
+        private String _AchievementName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ProspectiveStudentAchievementID", DataType = "Int32")]
+        public Int32 ProspectiveStudentAchievementID
+        {
+            get { return _ProspectiveStudentAchievementID; }
+            set { _ProspectiveStudentAchievementID = value; }
+        }
+        [Column(Name = "ProspectiveStudentCode", DataType = "String")]
+        public String ProspectiveStudentCode
+        {
+            get { return _ProspectiveStudentCode; }
+            set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "FirstName", DataType = "String")]
+        public String FirstName
+        {
+            get { return _FirstName; }
+            set { _FirstName = value; }
+        }
+        [Column(Name = "MiddleName", DataType = "String")]
+        public String MiddleName
+        {
+            get { return _MiddleName; }
+            set { _MiddleName = value; }
+        }
+        [Column(Name = "LastName", DataType = "String")]
+        public String LastName
+        {
+            get { return _LastName; }
+            set { _LastName = value; }
+        }
+        [Column(Name = "ProspectiveStudentName", DataType = "String")]
+        public String ProspectiveStudentName
+        {
+            get { return _ProspectiveStudentName; }
+            set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "AchievementDate", DataType = "DateTime")]
+        public DateTime AchievementDate
+        {
+            get { return _AchievementDate; }
+            set { _AchievementDate = value; }
+        }
+        [Column(Name = "GCAchievementType", DataType = "String")]
+        public String GCAchievementType
+        {
+            get { return _GCAchievementType; }
+            set { _GCAchievementType = value; }
+        }
+        [Column(Name = "AchievementType", DataType = "String")]
+        public String AchievementType
+        {
+            get { return _AchievementType; }
+            set { _AchievementType = value; }
+        }
+        [Column(Name = "AchievementName", DataType = "String")]
+        public String AchievementName
+        {
+            get { return _AchievementName; }
+            set { _AchievementName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vProspectiveStudentFamily
     [Serializable]
     [Table(Name = "vProspectiveStudentFamily")]
@@ -9465,6 +9571,77 @@ namespace CodeX.Data.Model
         {
             get { return _FormName; }
             set { _FormName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vProspectiveStudentPastStudy
+    [Serializable]
+    [Table(Name = "vProspectiveStudentPastStudy")]
+    public class vProspectiveStudentPastStudy
+    {
+        private Int32 _ProspectiveStudentPastStudyID;
+        private Int32 _ProspectiveStudentID;
+        private Int32 _StartYear;
+        private Int32 _EndYear;
+        private String _GCSchoolType;
+        private String _SchoolType;
+        private String _SchoolName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ProspectiveStudentPastStudyID", DataType = "Int32")]
+        public Int32 ProspectiveStudentPastStudyID
+        {
+            get { return _ProspectiveStudentPastStudyID; }
+            set { _ProspectiveStudentPastStudyID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "StartYear", DataType = "Int32")]
+        public Int32 StartYear
+        {
+            get { return _StartYear; }
+            set { _StartYear = value; }
+        }
+        [Column(Name = "EndYear", DataType = "Int32")]
+        public Int32 EndYear
+        {
+            get { return _EndYear; }
+            set { _EndYear = value; }
+        }
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SchoolType", DataType = "String")]
+        public String SchoolType
+        {
+            get { return _SchoolType; }
+            set { _SchoolType = value; }
+        }
+        [Column(Name = "SchoolName", DataType = "String")]
+        public String SchoolName
+        {
+            get { return _SchoolName; }
+            set { _SchoolName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
