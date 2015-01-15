@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
 
         protected string OnGetTeacherFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("IsDeleted = 0");
         }
 
         protected override void InitializeDataControl()

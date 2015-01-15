@@ -11,7 +11,7 @@
 <script type="text/javascript" id="dxss_drugslogisticsquickpicksctl">
     function addItemFilterRow() {
         $trHeader = $('#<%=grdView.ClientID %> tr:eq(0)');
-        $trFilter = $("<tr><td></td><td></td><td></td><td></td></tr>");
+        $trFilter = $("<tr><td></td><td></td><td></td></tr>");
 
         $input = $("<input type='text' id='txtFilterItemCode' style='width:100%;height:20px' />").val($('#<%=hdnFilterItemCode.ClientID %>').val());
         $trFilter.find('td').eq(1).append($input);
@@ -140,13 +140,7 @@
     function onBeforeSaveRecord(errMessage) {
         if (IsValid(null, 'fsTrxPopup', 'mpTrxPopup')) {
             getCheckedMember();
-            if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
-                return true;
-            else {
-                errMessage.text = 'Please Select Item First';
-                return false;
-            }
-
+            return true;
         }
         return false;
     }

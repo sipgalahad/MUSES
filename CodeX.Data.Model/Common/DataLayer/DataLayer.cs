@@ -3326,6 +3326,79 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region UserReport
+    [Serializable]
+    [Table(Name = "UserReport")]
+    public class UserReport : DbDataModel
+    {
+        private Int32 _UserID;
+        private String _SiteID;
+        private Int32 _ReportID;
+
+        [Column(Name = "UserID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 UserID
+        {
+            get { return _UserID; }
+            set { _UserID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "ReportID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ReportID
+        {
+            get { return _ReportID; }
+            set { _ReportID = value; }
+        }
+    }
+
+    public class UserReportDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(UserReport));
+        private bool _isAuditLog = false;
+        private const string p_ReportID = "@p_ReportID";
+        private const string p_SiteID = "@p_SiteID";
+        private const string p_UserID = "@p_UserID";
+        public UserReportDao() { }
+        public UserReportDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public UserReport Get(Int32 UserID, String SiteID, Int32 ReportID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ReportID, ReportID);
+            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_UserID, UserID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (UserReport)_helper.DataRowToObject(row, new UserReport());
+        }
+        public int Insert(UserReport record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(UserReport record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 UserID, String SiteID, Int32 ReportID)
+        {
+            UserReport record;
+            if (_ctx.Transaction == null)
+                record = new UserReportDao().Get(UserID, SiteID, ReportID);
+            else
+                record = Get(UserID, SiteID, ReportID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region UserRole
     [Serializable]
     [Table(Name = "UserRole")]

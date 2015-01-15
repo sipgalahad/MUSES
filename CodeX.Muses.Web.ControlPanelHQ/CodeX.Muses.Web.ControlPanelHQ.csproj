@@ -109,9 +109,11 @@
     <Content Include="Program\ControlPanel\SiteOrganization\Site\SitePageLauncher.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx" />
@@ -408,6 +410,13 @@
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx.designer.cs">
       <DependentUpon>UserLocationEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx.cs">
+      <DependentUpon>UserLoginAttributeEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserLoginAttributeEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserManagementEntry.aspx.cs">
       <DependentUpon>UserManagementEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -428,6 +437,13 @@
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserMenuAccessEntryCtl.ascx.designer.cs">
       <DependentUpon>UserMenuAccessEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx.cs">
+      <DependentUpon>UserReportEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserReportEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesEntry.aspx.cs">
       <DependentUpon>UserRolesEntry.aspx</DependentUpon>

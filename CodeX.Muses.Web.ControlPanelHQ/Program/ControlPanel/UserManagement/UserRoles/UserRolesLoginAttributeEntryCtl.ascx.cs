@@ -105,19 +105,22 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
 
                 List<UserRoleLoginAttribute> lstUserRoleLoginAttribute = BusinessLayer.GetUserRoleLoginAttributeList(string.Format("RoleID = {0} AND SiteID = '{1}'", RoleID, AppSession.UserLogin.SiteID), ctx);
                 int ct = 0;
-                foreach (String itemID in lstSelectedMember)
+                if (hdnSelectedMember.Value != "")
                 {
-                    int LoginAttributeID = Convert.ToInt32(lstSelectedMember[ct]);
-                    UserRoleLoginAttribute entityDt = lstUserRoleLoginAttribute.FirstOrDefault(p => p.LoginAttributeID == LoginAttributeID);
-                    if (entityDt == null)
+                    foreach (String itemID in lstSelectedMember)
                     {
-                        entityDt = new UserRoleLoginAttribute();
-                        entityDt.RoleID = RoleID;
-                        entityDt.SiteID = AppSession.UserLogin.SiteID;
-                        entityDt.LoginAttributeID = LoginAttributeID;
-                        entityDtDao.Insert(entityDt);
+                        int LoginAttributeID = Convert.ToInt32(lstSelectedMember[ct]);
+                        UserRoleLoginAttribute entityDt = lstUserRoleLoginAttribute.FirstOrDefault(p => p.LoginAttributeID == LoginAttributeID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new UserRoleLoginAttribute();
+                            entityDt.RoleID = RoleID;
+                            entityDt.SiteID = AppSession.UserLogin.SiteID;
+                            entityDt.LoginAttributeID = LoginAttributeID;
+                            entityDtDao.Insert(entityDt);
+                        }
+                        ct++;
                     }
-                    ct++;
                 }
                 foreach (UserRoleLoginAttribute entity in lstUserRoleLoginAttribute)
                 {

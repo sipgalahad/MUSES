@@ -40,10 +40,22 @@
             openUserControlPopup(url, id, 'Menu Access', 900, 620);
         });
 
+        $('.lnkLoginAttribute a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
+            var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserLoginAttributeEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Login Attribute', 1000, 620);
+        });
+
         $('.lnkLocation a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserLocationEntryCtl.ascx");
             openUserControlPopup(url, id, 'Location', 900, 550);
+        });
+
+        $('.lnkReport a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
+            var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserReportEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Report', 900, 550);
         });
 
         $('.lnkUserRole a').live('click', function () {
@@ -125,7 +137,9 @@
                                 <asp:CheckBoxField DataField="IsLockedOut" HeaderText="Locked" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center"  />
                                 <asp:HyperLinkField HeaderText="User Role" Text="User Role" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkUserRole" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Location" Text="Location" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkLocation" HeaderStyle-Width="100px" />
+                                <asp:HyperLinkField HeaderText="Report" Text="Report" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkReport" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Menu Access" Text="Menu Access" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkMenuAccess" HeaderStyle-Width="100px" />
+                                <asp:HyperLinkField HeaderText="Login Attribute" Text="Login Attribute" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkLoginAttribute" HeaderStyle-Width="100px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

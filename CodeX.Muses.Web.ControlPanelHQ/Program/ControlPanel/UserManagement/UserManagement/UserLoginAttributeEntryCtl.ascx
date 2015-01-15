@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UserRolesLoginAttributeEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.UserRolesLoginAttributeEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UserLoginAttributeEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanelHQ.Program.UserLoginAttributeEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -44,19 +44,6 @@
         hideLoadingPanel();
         addItemFilterRow();
     });
-
-    function onBeforeSaveRecord(errMessage) {
-        if (IsValid(null, 'fsDrugsQuickPicks', 'mpDrugsQuickPicks')) {
-            getCheckedMember();
-            if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
-                return true;
-            else {
-                errMessage.text = 'Please Select Item First';
-                return false;
-            }
-        }
-        return false;
-    }
 
     function getCheckedMember() {
         var lstSelectedMember = [];
@@ -157,7 +144,7 @@
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
-    <input type="hidden" id="hdnRoleID" runat="server" value="" />
+    <input type="hidden" id="hdnUserID" runat="server" value="" />
     <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnParam" runat="server" value="" />
     <input type="hidden" id="hdnFilterItemCode" runat="server" />
@@ -169,8 +156,8 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("User Role")%></label></td>
-            <td><asp:TextBox ID="txtRoleName" ReadOnly="true" Width="200px" runat="server" /></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("User")%></label></td>
+            <td><asp:TextBox ID="txtUserName" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr> 
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>

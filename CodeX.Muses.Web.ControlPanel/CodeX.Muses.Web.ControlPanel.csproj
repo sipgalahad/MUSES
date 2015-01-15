@@ -121,6 +121,8 @@
     <Content Include="Program\ControlPanel\SystemConfiguration\SiteParameter\SiteParameterList.aspx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserInRoleEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx" />
+    <Content Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLoginAttributeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
@@ -493,6 +495,20 @@
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLocationEntryCtl.ascx.designer.cs">
       <DependentUpon>UserLocationEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx.cs">
+      <DependentUpon>UserLoginAttributeEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserLoginAttributeEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserLoginAttributeEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx.cs">
+      <DependentUpon>UserReportEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\UserManagement\UserManagement\UserReportEntryCtl.ascx.designer.cs">
+      <DependentUpon>UserReportEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesLocationEntryCtl.ascx.cs">
       <DependentUpon>UserRolesLocationEntryCtl.ascx</DependentUpon>

@@ -96,7 +96,7 @@
                         <td><asp:TextBox ID="txtSecurityAnswer" Width="100%" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Guru")%></label></td>
                         <td>
                             <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
                                 SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">

@@ -1704,6 +1704,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<UserLoginAttribute> GetUserLoginAttributeList(string filterExpression, IDbContext ctx)
+        {
+            List<UserLoginAttribute> result = new List<UserLoginAttribute>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserLoginAttribute));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserLoginAttribute)helper.IDataReaderToObject(reader, new UserLoginAttribute()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region UserMenu
         public static UserMenu GetUserMenu(Int32 ID)
@@ -1758,6 +1775,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region UserReport
+        public static UserReport GetUserReport(Int32 UserID, String SiteID, Int32 ReportID)
+        {
+            return new UserReportDao().Get(UserID, SiteID, ReportID);
+        }
+        public static int InsertUserReport(UserReport record)
+        {
+            return new UserReportDao().Insert(record);
+        }
+        public static int UpdateUserReport(UserReport record)
+        {
+            return new UserReportDao().Update(record);
+        }
+        public static int DeleteUserReport(Int32 UserID, String SiteID, Int32 ReportID)
+        {
+            return new UserReportDao().Delete(UserID, SiteID, ReportID);
+        }
+        public static List<UserReport> GetUserReportList(string filterExpression)
+        {
+            List<UserReport> result = new List<UserReport>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(UserReport));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((UserReport)helper.IDataReaderToObject(reader, new UserReport()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }
