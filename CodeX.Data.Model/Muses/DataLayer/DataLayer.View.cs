@@ -13478,6 +13478,71 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSchoolGrade
+    [Serializable]
+    [Table(Name = "vSchoolGrade")]
+    public class vSchoolGrade
+    {
+        private String _SiteID;
+        private String _GCGrade;
+        private String _Grade;
+        private Int16 _DisplayOrder;
+
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+    }
+    #endregion
+    #region vSchoolMajor
+    [Serializable]
+    [Table(Name = "vSchoolMajor")]
+    public class vSchoolMajor
+    {
+        private String _SiteID;
+        private String _GCMajor;
+        private String _Major;
+
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
+        }
+    }
+    #endregion
     #region vSiteItem
     [Serializable]
     [Table(Name = "vSiteItem")]

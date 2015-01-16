@@ -40,10 +40,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_GRADE, Constant.StandardCode.SCHOOL_MAJOR));
-            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-            Methods.SetComboBoxField<StandardCode>(cboGrade, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_GRADE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboMajor, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_MAJOR || p.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
+            List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            lstMajor.Insert(0, new vSchoolMajor { GCMajor = "", Major = "" });
+            Methods.SetComboBoxField<vSchoolGrade>(cboGrade, lstGrade, "Grade", "GCGrade");
+            Methods.SetComboBoxField<vSchoolMajor>(cboMajor, lstMajor, "Major", "GCMajor");
         }
 
         protected override void OnControlEntrySetting()

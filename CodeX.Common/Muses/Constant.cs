@@ -70,7 +70,7 @@ namespace CodeX.Common
         public static class PeriodScheduleType
         {
             public const string KBM = "MS007^001";
-            public const string INTERNAL_UJIAN = "MS007^002";
+            public const string INTERNAL_EXAM = "MS007^002";
         }
 
         public static class SchoolType

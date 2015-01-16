@@ -5935,6 +5935,54 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSchoolGrade
+        public static List<vSchoolGrade> GetvSchoolGradeList(string filterExpression)
+        {
+            List<vSchoolGrade> result = new List<vSchoolGrade>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSchoolGrade));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSchoolGrade)helper.IDataReaderToObject(reader, new vSchoolGrade()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSchoolMajor
+        public static List<vSchoolMajor> GetvSchoolMajorList(string filterExpression)
+        {
+            List<vSchoolMajor> result = new List<vSchoolMajor>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSchoolMajor));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSchoolMajor)helper.IDataReaderToObject(reader, new vSchoolMajor()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSiteItem
         public static List<vSiteItem> GetvSiteItemList(string filterExpression)
         {

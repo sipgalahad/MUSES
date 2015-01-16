@@ -169,13 +169,31 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         {
                             if (entityScholarshipComp.IsDiscountInPercentage)
                             {
-                                entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalPaymentAmount / 100;
-                                entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount;
+                                if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
+                                {
+                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalPaymentAmount / 100;
+                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount;
+                                }
+                                else
+                                {
+                                    Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
+                                    entityDt.TotalDiscountAmount = DiscountAmount * entityDt.TotalPaymentAmount / 100;
+                                    entityDt.DiscountAmount = DiscountAmount;
+                                }
                             }
                             else
                             {
-                                entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount;
-                                entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount * 100 / entityDt.TotalPaymentAmount;
+                                if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
+                                {
+                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod;
+                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod * 100 / entityDt.TotalPaymentAmount;
+                                }
+                                else
+                                {
+                                    Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
+                                    entityDt.TotalDiscountAmount = DiscountAmount;
+                                    entityDt.DiscountAmount = DiscountAmount * 100 / entityDt.TotalPaymentAmount;
+                                }
                             }
                         }
                         entityDt.LineAmount = entityDt.TotalPaymentAmount - entityDt.TotalDiscountAmount;

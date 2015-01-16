@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string GetInternalUjianValue()
         {
-            return Constant.PeriodScheduleType.INTERNAL_UJIAN;
+            return Constant.PeriodScheduleType.INTERNAL_EXAM;
         }
         protected override void InitializeDataControl()
         {
@@ -124,7 +124,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.PeriodScheduleCode = txtPeriodScheduleCode.Text;
             entity.PeriodScheduleName = txtPeriodScheduleName.Text;
             entity.GCPeriodScheduleType = cboScheduleType.Value.ToString();
-            if (entity.GCPeriodScheduleType == Constant.PeriodScheduleType.INTERNAL_UJIAN)
+            if (entity.GCPeriodScheduleType == Constant.PeriodScheduleType.INTERNAL_EXAM)
                 entity.GCTaskType = cboTaskType.Value.ToString();
             else
                 entity.GCTaskType = "";
