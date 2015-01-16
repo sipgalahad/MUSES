@@ -1688,10 +1688,10 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vClassStudentSubjectMark
+    #region vClassStudentSubjectTaskMark
     [Serializable]
-    [Table(Name = "vClassStudentSubjectMark")]
-    public class vClassStudentSubjectMark
+    [Table(Name = "vClassStudentSubjectTaskMark")]
+    public class vClassStudentSubjectTaskMark
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;

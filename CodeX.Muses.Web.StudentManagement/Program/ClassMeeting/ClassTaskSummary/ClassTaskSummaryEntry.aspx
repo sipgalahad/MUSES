@@ -30,14 +30,14 @@
                 $('.trDetail').each(function () {
                     var tempResult = '';
                     $(this).find('.txtStudentMark').each(function () {
-                        var value = parseFloat($(this).val());
+                        var value = $(this).val();
                         if (tempResult != '')
                             tempResult += ',';
                         tempResult += value;
                     });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '^' + tempResult;
+                    result += $(this).find('.keyField').html() + '^' + $(this).find('.txtFinalStudentMark').val() + '^' + tempResult;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
@@ -86,12 +86,14 @@
             var total = 0;
 
             $tr.find('.txtStudentMark').each(function () {
-                var value = parseFloat($(this).val());
+                var value = 0;
+                if ($(this).val() != "-")
+                    value = parseFloat($(this).val());
                 total += value * lstFinalMarkPercentage[ctr] / 100;
                 ctr++;
             });
             $tr.find('.txtTotalStudentMark').val(total);
-            $tr.find('.txtFinalStudentMark').val(total);
+            //$tr.find('.txtFinalStudentMark').val(total);
 
         }
     </script>
@@ -137,15 +139,15 @@
                                 </tr>
                             </table>
                         </td>
-                        <asp:Repeater ID="rptStudentAttendance" runat="server" OnItemDataBound="rptStudentAttendance_ItemDataBound">
+                        <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
                             <ItemTemplate>
                                 <td align="center">
-                                    <asp:TextBox ID="txtStudentMark" Text="0" runat="server" CssClass="txtStudentMark number" Width="90%" />                                
+                                    <asp:TextBox ID="txtStudentMark" Text="-" runat="server" CssClass="txtStudentMark number" Width="90%" />                                
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>
                         <td align="center"><input class="txtTotalStudentMark number" readonly="readonly" style="width:90%" /></td>
-                        <td align="center"><input class="txtFinalStudentMark number" style="width:90%" /></td>
+                        <td align="center"><asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="90%" /></td>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>

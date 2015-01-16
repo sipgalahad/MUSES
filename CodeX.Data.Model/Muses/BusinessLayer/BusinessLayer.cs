@@ -1169,9 +1169,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ClassStudentSubjectMark
-        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID)
         {
-            return new ClassStudentSubjectMarkDao().Get(ClassSubjectTaskID, StudentID);
+            return new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID);
         }
         public static int InsertClassStudentSubjectMark(ClassStudentSubjectMark record)
         {
@@ -1181,9 +1181,9 @@ namespace CodeX.Data.Model
         {
             return new ClassStudentSubjectMarkDao().Update(record);
         }
-        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID)
         {
-            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectTaskID, StudentID);
+            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectID, StudentID);
         }
         public static List<ClassStudentSubjectMark> GetClassStudentSubjectMarkList(string filterExpression)
         {
@@ -1217,6 +1217,63 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((ClassStudentSubjectMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ClassStudentSubjectTaskMark
+        public static ClassStudentSubjectTaskMark GetClassStudentSubjectTaskMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskMarkDao().Get(ClassSubjectTaskID, StudentID);
+        }
+        public static int InsertClassStudentSubjectTaskMark(ClassStudentSubjectTaskMark record)
+        {
+            return new ClassStudentSubjectTaskMarkDao().Insert(record);
+        }
+        public static int UpdateClassStudentSubjectTaskMark(ClassStudentSubjectTaskMark record)
+        {
+            return new ClassStudentSubjectTaskMarkDao().Update(record);
+        }
+        public static int DeleteClassStudentSubjectTaskMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskMarkDao().Delete(ClassSubjectTaskID, StudentID);
+        }
+        public static List<ClassStudentSubjectTaskMark> GetClassStudentSubjectTaskMarkList(string filterExpression)
+        {
+            List<ClassStudentSubjectTaskMark> result = new List<ClassStudentSubjectTaskMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentSubjectTaskMark> GetClassStudentSubjectTaskMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentSubjectTaskMark> result = new List<ClassStudentSubjectTaskMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskMark()));
             }
             catch (Exception ex)
             {

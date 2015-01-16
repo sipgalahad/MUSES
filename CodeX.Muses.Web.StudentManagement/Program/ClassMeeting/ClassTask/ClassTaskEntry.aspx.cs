@@ -76,7 +76,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = "1 = 0";
             if (hdnClassSubjectTaskID.Value != "")
                 filterExpression = string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value);
-            lstStudentMark = BusinessLayer.GetClassStudentSubjectMarkList(filterExpression);
+            lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(filterExpression);
 
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
@@ -84,13 +84,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptStudent.DataBind();
         }
 
-        List<ClassStudentSubjectMark> lstStudentMark = null;
+        List<ClassStudentSubjectTaskMark> lstStudentMark = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassStudent entity = (vClassStudent)e.Item.DataItem;
-                ClassStudentSubjectMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
+                ClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
                 if (studentMark != null)
                 {
                     TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
@@ -108,23 +108,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            ClassStudentSubjectMarkDao entityDtDao = new ClassStudentSubjectMarkDao(ctx);
+            ClassStudentSubjectTaskMarkDao entityDtDao = new ClassStudentSubjectTaskMarkDao(ctx);
             try
             {
                 string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
 
-                List<ClassStudentSubjectMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value), ctx);
+                List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value), ctx);
                 foreach (String saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(',');
                     int studentID = Convert.ToInt32(temp[0]);
-                    ClassStudentSubjectMark entityDt = lstStudentMark.FirstOrDefault(p => p.StudentID == studentID);
+                    ClassStudentSubjectTaskMark entityDt = lstStudentMark.FirstOrDefault(p => p.StudentID == studentID);
                     if (temp[1] != "")
                     {
                         Decimal mark = Convert.ToDecimal(temp[1]);
                         if (entityDt == null)
                         {
-                            entityDt = new ClassStudentSubjectMark();
+                            entityDt = new ClassStudentSubjectTaskMark();
                             entityDt.ClassSubjectTaskID = Convert.ToInt32(hdnClassSubjectTaskID.Value);
                             entityDt.StudentID = studentID;
                             entityDt.Mark = mark;

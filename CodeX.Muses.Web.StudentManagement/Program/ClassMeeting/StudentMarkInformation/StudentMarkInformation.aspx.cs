@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptHeader.DataSource = lstClassTask;
             rptHeader.DataBind();
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
 
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
@@ -37,7 +37,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptStudent.DataBind();
         }
 
-        List<vClassStudentSubjectMark> lstStudentMark = null;
+        List<vClassStudentSubjectTaskMark> lstStudentMark = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -55,7 +55,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassSubjectTask subjectTask = (ClassSubjectTask)e.Item.DataItem;
                 vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
 
-                vClassStudentSubjectMark entity = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
+                vClassStudentSubjectTaskMark entity = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
                 if (entity != null)
                 {
                     HtmlGenericControl divStudentMark = (HtmlGenericControl)e.Item.FindControl("divStudentMark");

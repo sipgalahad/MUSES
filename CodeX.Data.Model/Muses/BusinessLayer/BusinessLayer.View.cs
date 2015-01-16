@@ -806,18 +806,18 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vClassStudentSubjectMark
-        public static List<vClassStudentSubjectMark> GetvClassStudentSubjectMarkList(string filterExpression)
+        #region vClassStudentSubjectTaskMark
+        public static List<vClassStudentSubjectTaskMark> GetvClassStudentSubjectTaskMarkList(string filterExpression)
         {
-            List<vClassStudentSubjectMark> result = new List<vClassStudentSubjectMark>();
+            List<vClassStudentSubjectTaskMark> result = new List<vClassStudentSubjectTaskMark>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(vClassStudentSubjectMark));
+                DbHelper helper = new DbHelper(typeof(vClassStudentSubjectTaskMark));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((vClassStudentSubjectMark)helper.IDataReaderToObject(reader, new vClassStudentSubjectMark()));
+                        result.Add((vClassStudentSubjectTaskMark)helper.IDataReaderToObject(reader, new vClassStudentSubjectTaskMark()));
             }
             catch (Exception ex)
             {
