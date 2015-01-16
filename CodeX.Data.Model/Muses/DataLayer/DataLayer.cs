@@ -15844,6 +15844,7 @@ namespace CodeX.Data.Model
         private DateTime _StartDate;
         private DateTime _EndDate;
         private Int32 _DailySchedulePackageID;
+        private Int32 _ExamSchedulePackageID;
         private String _GCSchoolPeriodStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -15892,6 +15893,12 @@ namespace CodeX.Data.Model
         {
             get { return _DailySchedulePackageID; }
             set { _DailySchedulePackageID = value; }
+        }
+        [Column(Name = "ExamSchedulePackageID", DataType = "Int32")]
+        public Int32 ExamSchedulePackageID
+        {
+            get { return _ExamSchedulePackageID; }
+            set { _ExamSchedulePackageID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus

@@ -12,7 +12,15 @@
 
             $('#btnDailySchedulePackageDt').click(function () {
                 var schedulePackage = cboDailySchedulePackage.GetValue();
-                if (schedulePackage != null && cboDailySchedulePackage != '') {
+                if (schedulePackage != null && schedulePackage != '') {
+                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
+                    openUserControlPopup(url, schedulePackage, 'Jadwal', 1000, 550);
+                }
+            });
+
+            $('#btnExamSchedulePackageDt').click(function () {
+                var schedulePackage = cboExamSchedulePackage.GetValue();
+                if (schedulePackage != null && schedulePackage != '') {
                     var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
                     openUserControlPopup(url, schedulePackage, 'Jadwal', 1000, 550);
                 }
@@ -55,6 +63,11 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboDailySchedulePackage" ClientInstanceName="cboDailySchedulePackage" Width="300px" /></td>
                         <td><input type="button" id="btnDailySchedulePackageDt" class="btnMore" value="..." /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal Ujian")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboExamSchedulePackage" ClientInstanceName="cboExamSchedulePackage" Width="300px" /></td>
+                        <td><input type="button" id="btnExamSchedulePackageDt" class="btnMore" value="..." /></td>
                     </tr>
                 </table>
             </td>
