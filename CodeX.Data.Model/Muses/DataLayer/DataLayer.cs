@@ -10260,6 +10260,7 @@ namespace CodeX.Data.Model
         private String _PeriodScheduleName;
         private Int32 _SchoolPeriodID;
         private String _GCPeriodScheduleType;
+        private String _GCTaskType;
         private DateTime _StartDate;
         private DateTime _EndDate;
         private String _Remarks;
@@ -10298,6 +10299,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCPeriodScheduleType; }
             set { _GCPeriodScheduleType = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String", IsNullable = true)]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
         }
         [Column(Name = "StartDate", DataType = "DateTime")]
         public DateTime StartDate

@@ -215,7 +215,7 @@
                 var isAllowSave = true;
                 $('.txtTotalPaymentAmount').each(function () {
                     var totalPaymentAmount = parseFloat($(this).attr('hiddenVal'));
-                    var totalPaymentAmount1 = parseFloat($(this).closest('.tblView').parent().closest('tr').prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal'));
+                    var totalPaymentAmount1 = parseFloat($(this).closest('.tblView').parent().closest('tr').prev().find('.txtAdmissionFeeCompPaymentAmount').attr('hiddenVal'));
                     if (totalPaymentAmount != totalPaymentAmount1) {
                         $(this).addClass('error');
                         isAllowSave = false;
@@ -244,7 +244,7 @@
             var lstSaveValue = '';
             $('.hdnAdmissionFeeCompID').each(function () {
                 var admissionFeeCompID = $(this).val();
-                var admissionFeeCompValue = $(this).closest('tr').prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal');
+                var admissionFeeCompValue = $(this).closest('tr').prev().prev().prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal');
                 $tbl = $(this).next('.tblView');
                 var lstTemp = '';
                 $tbl.find('.trDetail').each(function () {
@@ -268,7 +268,15 @@
         $('.txtAdmissionFeeCompAmount').live('change', function () {
             $(this).blur();
             var admissionFeeCompAmount = parseFloat($(this).attr('hiddenVal'));
-            $tbl = $(this).closest('tr').next().find('.tblView');
+
+            $tr = $(this).closest('tr');
+            var noOfPeriod = parseInt($tr.next().find('.txtNoOfRegistrationPaymentPeriod').val());
+            admissionFeeCompAmount = admissionFeeCompAmount * noOfPeriod;
+            $tr.next().next().find('.txtAdmissionFeeCompPaymentAmount').val(admissionFeeCompAmount).trigger('changeValue');
+
+            $tbl = $tr.next().next().next().find('.tblView');
+            var totalPayment = 0;
+            var lineAmount = 0;
             $tbl.find('.trDetail').each(function () {
                 var paymentAmountInPercentage = parseFloat($(this).find('.txtPaymentAmountInPercentage').val());
                 var paymentAmount = admissionFeeCompAmount * paymentAmountInPercentage / 100;
@@ -276,13 +284,18 @@
                 var discountAmount = paymentAmount * discountAmountInPercentage / 100;
                 $(this).find('.txtPaymentAmount').val(paymentAmount).trigger('changeValue');
                 $(this).find('.txtDiscountAmount').val(discountAmount).trigger('changeValue');
+                $(this).find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
+                totalPayment += paymentAmount;
+                lineAmount += paymentAmount - discountAmount;
             });
+            $tbl.find('.txtTotalPaymentAmount').val(totalPayment).trigger('changeValue');
+            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
         });
 
         $('.txtPaymentAmountInPercentage').live('change', function () {
             $(this).blur();
             $tr = $(this).closest('tr');
-            var admissionFeeCompAmount = parseFloat($tr.parent().closest('tr').prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal'));
+            var admissionFeeCompAmount = parseFloat($tr.parent().closest('tr').prev().find('.txtAdmissionFeeCompPaymentAmount').attr('hiddenVal'));
 
             var paymentAmountInPercentage = parseFloat($(this).val());
             var paymentAmount = admissionFeeCompAmount * paymentAmountInPercentage / 100;
@@ -305,7 +318,7 @@
         $('.txtPaymentAmount').live('change', function () {
             $(this).blur();
             $tr = $(this).closest('tr');
-            var admissionFeeCompAmount = parseFloat($tr.parent().closest('tr').prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal'));
+            var admissionFeeCompAmount = parseFloat($tr.parent().closest('tr').prev().find('.txtAdmissionFeeCompPaymentAmount').attr('hiddenVal'));
 
             var paymentAmount = parseFloat($(this).attr('hiddenVal'));
             var paymentAmountInPercentage = paymentAmount * 100 / admissionFeeCompAmount;
@@ -517,6 +530,18 @@
                                     <td><%#Eval("AdmissionFeeCompType") %></td>
                                     <td>:</td>
                                     <td align="right"><input type="text" value='<%#Eval("TotalAmount") %>' class="txtCurrency txtAdmissionFeeCompAmount" /></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><%=GetLabel("Periode Dibayar") %></td>
+                                    <td>:</td>
+                                    <td align="right"><input type="text" value='<%#Eval("NoOfRegistrationPaymentPeriod") %>' readonly="readonly" class="number txtNoOfRegistrationPaymentPeriod" /></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><%=GetLabel("Total Bayar")%></td>
+                                    <td>:</td>
+                                    <td align="right"><input type="text" value='<%#Eval("TotalPaymentAmount") %>' readonly="readonly" class="txtCurrency txtAdmissionFeeCompPaymentAmount" /></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>

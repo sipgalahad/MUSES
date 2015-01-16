@@ -103,6 +103,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\ClassList\SubjectPerClassList.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
@@ -162,7 +163,7 @@
     <Content Include="Program\Master\Student\StudentList.aspx" />
     <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
-    <Content Include="Program\WeeklySchedule\ClassWeeklyScheduleList.aspx" />
+    <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -434,6 +435,13 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassList\SubjectPerClassList.aspx.cs">
+      <DependentUpon>SubjectPerClassList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassList\SubjectPerClassList.aspx.designer.cs">
+      <DependentUpon>SubjectPerClassList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx.cs">
       <DependentUpon>ClassTaskSummaryEntry.aspx</DependentUpon>
@@ -848,11 +856,11 @@
     <Compile Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx.designer.cs">
       <DependentUpon>TeacherWeeklyScheduleList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\WeeklySchedule\ClassWeeklyScheduleList.aspx.cs">
+    <Compile Include="Program\ClassList\ClassWeeklyScheduleList.aspx.cs">
       <DependentUpon>ClassWeeklyScheduleList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\WeeklySchedule\ClassWeeklyScheduleList.aspx.designer.cs">
+    <Compile Include="Program\ClassList\ClassWeeklyScheduleList.aspx.designer.cs">
       <DependentUpon>ClassWeeklyScheduleList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

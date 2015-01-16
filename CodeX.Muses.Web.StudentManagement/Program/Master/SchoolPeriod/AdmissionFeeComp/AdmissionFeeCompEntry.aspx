@@ -121,7 +121,7 @@
                                     <td><asp:TextBox ID="txtTotalAmount" CssClass="txtCurrency" Width="150px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Periode Bayar")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah Dibayar")%></label></td>
                                     <td>
                                         <asp:TextBox ID="txtNoOfRegistrationPaymentPeriod" CssClass="number" Width="80px" runat="server" />
                                         (Jumlah Periode Yang Dibayarkan Ketika Pendaftaran)
@@ -155,7 +155,7 @@
                                 <asp:BoundField DataField="AdmissionPaymentPeriod" HeaderText="Periode Pembayaran" HeaderStyle-Width="150px" />
                                 <asp:CheckBoxField DataField="IsFixedAmount" HeaderText="Nilai Fix" HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="TotalAmount" HeaderText="Total" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
-                                <asp:BoundField DataField="NoOfRegistrationPaymentPeriod" HeaderText="Periode Bayar" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="NoOfRegistrationPaymentPeriod" HeaderText="Jumlah Dibayar" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

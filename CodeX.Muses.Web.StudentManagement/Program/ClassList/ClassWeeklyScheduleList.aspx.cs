@@ -22,13 +22,38 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE));
-            rptRemarks.DataSource = lstSc;
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE, Constant.StandardCode.SCHOOL_DAY));
+            rptRemarks.DataSource = lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE).ToList();
             rptRemarks.DataBind();
+
+            List<StandardCode> lstSchoolDay = lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_DAY).ToList();
+            decimal width = 100 / lstSchoolDay.Count;
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^001", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay1.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^002", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay2.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^003", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay3.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^004", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay4.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^005", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay5.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^006", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay6.Style.Add("display", "none");
+            tdSchoolDay1.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay2.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay3.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay4.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay5.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay6.Style.Add("width", string.Format("{0}%", width));
 
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("GCSchoolPeriodStatus != '{0}' AND SiteID = '{1}'", Constant.SchoolPeriodStatus.VOID, AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            cboSchoolPeriod.SelectedIndex = 0;
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+                cboSchoolPeriod.SelectedIndex = 0;
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
             BindGridView();
         }

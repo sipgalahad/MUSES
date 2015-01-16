@@ -44,16 +44,8 @@
     </table>
 
     <table style="width:100%">
-        <colgroup>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-        </colgroup>
         <tr>
-            <td valign="top">
+            <td valign="top" id="tdSchoolDay1" runat="server">
                 <h4 style="text-align: center"><%=GetLabel("Senin") %></h4>
                 <asp:Repeater ID="rptDay1" runat="server">
                     <HeaderTemplate>
@@ -69,7 +61,7 @@
                     </FooterTemplate>
                 </asp:Repeater>
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay2" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Selasa") %></h4>
                 <asp:Repeater ID="rptDay2" runat="server">
                     <HeaderTemplate>
@@ -85,7 +77,7 @@
                     </FooterTemplate>
                 </asp:Repeater>
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay3" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Rabu") %></h4>
                 <asp:Repeater ID="rptDay3" runat="server">
                     <HeaderTemplate>
@@ -101,7 +93,7 @@
                     </FooterTemplate>
                 </asp:Repeater>
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay4" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Kamis") %></h4>
                 <asp:Repeater ID="rptDay4" runat="server">
                     <HeaderTemplate>
@@ -117,7 +109,7 @@
                     </FooterTemplate>
                 </asp:Repeater>
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay5" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Jumat") %></h4>
                 <asp:Repeater ID="rptDay5" runat="server">
                     <HeaderTemplate>
@@ -133,7 +125,7 @@
                     </FooterTemplate>
                 </asp:Repeater>
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay6" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Sabtu") %></h4>
                 <asp:Repeater ID="rptDay6" runat="server">
                     <HeaderTemplate>

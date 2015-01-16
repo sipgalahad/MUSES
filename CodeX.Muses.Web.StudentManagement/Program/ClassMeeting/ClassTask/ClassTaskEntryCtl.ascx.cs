@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void SetControlProperties()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.TASK_TYPE));
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND TagProperty = '0' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.TASK_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboTaskType, lstSc, "StandardCodeName", "StandardCodeID");
             cboTaskType.SelectedIndex = 0;
         }

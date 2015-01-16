@@ -7,6 +7,15 @@ using CodeX.Common;
 
 namespace CodeX.Data.Model
 {
+    #region vAdmissionFeeRuleDtCustom
+    public partial class vAdmissionFeeRuleDtCustom
+    {
+        public Decimal TotalPaymentAmount
+        {
+            get { return _TotalAmount * _NoOfRegistrationPaymentPeriod; }
+        }
+    }
+    #endregion
     #region vAPMovement
     public partial class vAPMovement
     {

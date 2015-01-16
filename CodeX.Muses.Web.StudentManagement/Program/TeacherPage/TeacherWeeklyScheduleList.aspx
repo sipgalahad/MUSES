@@ -57,16 +57,8 @@
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
                         <table style="width:100%">
-                            <colgroup>
-                                <col style="width:15%"/>
-                                <col style="width:15%"/>
-                                <col style="width:15%"/>
-                                <col style="width:15%"/>
-                                <col style="width:15%"/>
-                                <col style="width:15%"/>
-                            </colgroup>
                             <tr>
-                                <td valign="top">
+                                <td valign="top" id="tdSchoolDay1" runat="server">
                                     <h4 style="text-align: center"><%=GetLabel("Senin") %></h4>
                                     <asp:Repeater ID="rptDay1" runat="server" OnItemDataBound="rptDay1_ItemDataBound">
                                         <HeaderTemplate>
@@ -84,7 +76,7 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </td>
-                                <td valign="top"> 
+                                <td valign="top" id="tdSchoolDay2" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Selasa") %></h4>
                                     <asp:Repeater ID="rptDay2" runat="server" OnItemDataBound="rptDay2_ItemDataBound">
                                         <HeaderTemplate>
@@ -102,7 +94,7 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </td>
-                                <td valign="top"> 
+                                <td valign="top" id="tdSchoolDay3" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Rabu") %></h4>
                                     <asp:Repeater ID="rptDay3" runat="server" OnItemDataBound="rptDay3_ItemDataBound">
                                         <HeaderTemplate>
@@ -120,7 +112,7 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </td>
-                                <td valign="top"> 
+                                <td valign="top" id="tdSchoolDay4" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Kamis") %></h4>
                                     <asp:Repeater ID="rptDay4" runat="server" OnItemDataBound="rptDay4_ItemDataBound">
                                         <HeaderTemplate>
@@ -138,7 +130,7 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </td>
-                                <td valign="top"> 
+                                <td valign="top" id="tdSchoolDay5" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Jumat") %></h4>
                                     <asp:Repeater ID="rptDay5" runat="server" OnItemDataBound="rptDay5_ItemDataBound">
                                         <HeaderTemplate>
@@ -156,7 +148,7 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </td>
-                                <td valign="top"> 
+                                <td valign="top" id="tdSchoolDay6" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Sabtu") %></h4>
                                     <asp:Repeater ID="rptDay6" runat="server" OnItemDataBound="rptDay6_ItemDataBound">
                                         <HeaderTemplate>

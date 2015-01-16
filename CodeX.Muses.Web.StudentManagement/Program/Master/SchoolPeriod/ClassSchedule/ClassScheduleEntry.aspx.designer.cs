@@ -103,6 +103,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
+        /// tdSchoolDay1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolDay1;
+        
+        /// <summary>
         /// rptDay1 control.
         /// </summary>
         /// <remarks>
@@ -110,6 +119,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptDay1;
+        
+        /// <summary>
+        /// tdSchoolDay2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolDay2;
         
         /// <summary>
         /// rptDay2 control.
@@ -121,6 +139,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptDay2;
         
         /// <summary>
+        /// tdSchoolDay3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolDay3;
+        
+        /// <summary>
         /// rptDay3 control.
         /// </summary>
         /// <remarks>
@@ -128,6 +155,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptDay3;
+        
+        /// <summary>
+        /// tdSchoolDay4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolDay4;
         
         /// <summary>
         /// rptDay4 control.
@@ -139,6 +175,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptDay4;
         
         /// <summary>
+        /// tdSchoolDay5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolDay5;
+        
+        /// <summary>
         /// rptDay5 control.
         /// </summary>
         /// <remarks>
@@ -146,6 +191,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptDay5;
+        
+        /// <summary>
+        /// tdSchoolDay6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolDay6;
         
         /// <summary>
         /// rptDay6 control.

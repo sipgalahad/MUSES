@@ -40,16 +40,8 @@
     </table>
 
     <table style="width:100%">
-        <colgroup>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-            <col style="width:15%"/>
-        </colgroup>
         <tr>
-            <td valign="top">
+            <td valign="top" id="tdSchoolDay1" runat="server">
                 <h4 style="text-align: center"><%=GetLabel("Senin") %></h4>
                 <dxe:ASPxComboBox runat="server" ID="cboScheduleType1" ClientInstanceName="cboScheduleType1" Width="100%">
                     <ClientSideEvents ValueChanged="function(s,e) { cbpScheduleType1.PerformCallback(); }" />
@@ -77,7 +69,7 @@
                     </PanelCollection>
                 </dxcp:ASPxCallbackPanel> 
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay2" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Selasa") %></h4>
                 <dxe:ASPxComboBox runat="server" ID="cboScheduleType2" ClientInstanceName="cboScheduleType2" Width="100%">
                     <ClientSideEvents ValueChanged="function(s,e) { cbpScheduleType2.PerformCallback(); }" />
@@ -105,7 +97,7 @@
                     </PanelCollection>
                 </dxcp:ASPxCallbackPanel> 
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay3" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Rabu") %></h4>
                 <dxe:ASPxComboBox runat="server" ID="cboScheduleType3" ClientInstanceName="cboScheduleType3" Width="100%">
                     <ClientSideEvents ValueChanged="function(s,e) { cbpScheduleType3.PerformCallback(); }" />
@@ -133,7 +125,7 @@
                     </PanelCollection>
                 </dxcp:ASPxCallbackPanel> 
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay4" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Kamis") %></h4>
                 <dxe:ASPxComboBox runat="server" ID="cboScheduleType4" ClientInstanceName="cboScheduleType4" Width="100%">
                     <ClientSideEvents ValueChanged="function(s,e) { cbpScheduleType4.PerformCallback(); }" />
@@ -161,7 +153,7 @@
                     </PanelCollection>
                 </dxcp:ASPxCallbackPanel> 
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay5" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Jumat") %></h4>
                 <dxe:ASPxComboBox runat="server" ID="cboScheduleType5" ClientInstanceName="cboScheduleType5" Width="100%">
                     <ClientSideEvents ValueChanged="function(s,e) { cbpScheduleType5.PerformCallback(); }" />
@@ -189,7 +181,7 @@
                     </PanelCollection>
                 </dxcp:ASPxCallbackPanel> 
             </td>
-            <td valign="top"> 
+            <td valign="top" id="tdSchoolDay6" runat="server"> 
                 <h4 style="text-align: center"><%=GetLabel("Sabtu") %></h4>
                 <dxe:ASPxComboBox runat="server" ID="cboScheduleType6" ClientInstanceName="cboScheduleType6" Width="100%">
                     <ClientSideEvents ValueChanged="function(s,e) { cbpScheduleType6.PerformCallback(); }" />

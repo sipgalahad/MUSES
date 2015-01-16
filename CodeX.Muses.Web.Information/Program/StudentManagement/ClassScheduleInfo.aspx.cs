@@ -30,9 +30,34 @@ namespace CodeX.Muses.Web.Information.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<StandardCode> lstSchoolDay = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAY));
+            decimal width = 100 / lstSchoolDay.Count;
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^001", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay1.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^002", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay2.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^003", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay3.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^004", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay4.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^005", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay5.Style.Add("display", "none");
+            if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^006", Constant.StandardCode.SCHOOL_DAY)) < 1)
+                tdSchoolDay6.Style.Add("display", "none");
+            tdSchoolDay1.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay2.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay3.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay4.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay5.Style.Add("width", string.Format("{0}%", width));
+            tdSchoolDay6.Style.Add("width", string.Format("{0}%", width));
+
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            cboSchoolPeriod.SelectedIndex = 0;
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+                cboSchoolPeriod.SelectedIndex = 0;
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
             BindGridView();
         }
@@ -45,7 +70,7 @@ namespace CodeX.Muses.Web.Information.Program
                 if (cboSchoolPeriod.Value != null && cboSchoolPeriod.Value.ToString() != "0")
                 {
                     List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE));
-                    rptRemarks.DataSource = lstSc;
+                    rptRemarks.DataSource = lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE).ToList();
                     rptRemarks.DataBind();
 
                     SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SchoolPeriodID = {0}", cboSchoolPeriod.Value)).FirstOrDefault();
@@ -120,7 +145,7 @@ namespace CodeX.Muses.Web.Information.Program
                 {
                     tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
                     tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
                 }
                 else
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);

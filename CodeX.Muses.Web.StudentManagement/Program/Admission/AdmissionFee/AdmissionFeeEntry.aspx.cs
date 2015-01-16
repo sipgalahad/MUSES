@@ -141,13 +141,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     decimal totalPaymentInPercentage = 0;
                     if (paymentDt.IsPaymentAmountInPercentage)
                     {
-                        totalPayment = entity.TotalAmount * paymentDt.PaymentAmount / 100;
+                        totalPayment = entity.TotalPaymentAmount * paymentDt.PaymentAmount / 100;
                         totalPaymentInPercentage = paymentDt.PaymentAmount;
                     }
                     else
                     {
                         totalPayment = paymentDt.PaymentAmount;
-                        totalPaymentInPercentage = paymentDt.PaymentAmount * 100 / entity.TotalAmount;
+                        totalPaymentInPercentage = paymentDt.PaymentAmount * 100 / entity.TotalPaymentAmount;
                     }
                     totalPayment = totalPayment / paymentDt.NoOfPayment;
                     totalPaymentInPercentage = totalPaymentInPercentage / paymentDt.NoOfPayment;

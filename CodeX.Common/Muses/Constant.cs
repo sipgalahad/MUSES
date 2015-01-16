@@ -56,6 +56,7 @@ namespace CodeX.Common
             public const string ADMISSION_FEE_COMP_TYPE = "MS015";
             public const string FROM_SCHOOL_TYPE = "MS017";
             public const string ACHIEVEMENT_TYPE = "MS019";
+            public const string SCHOOL_DAY = "MS020";
         }
 
         public static class SchoolPeriodStatus
@@ -64,6 +65,12 @@ namespace CodeX.Common
             public const string START = "MS001^002";
             public const string END = "MS001^003";
             public const string VOID = "MS001^999";
+        }
+
+        public static class PeriodScheduleType
+        {
+            public const string KBM = "MS007^001";
+            public const string INTERNAL_UJIAN = "MS007^002";
         }
 
         public static class SchoolType
@@ -336,9 +343,10 @@ namespace CodeX.Common
                 public const string PERIOD_ADMISSION = "SM020100";
 
                 public const string TEACHER_WEEKLY_SCHEDULE = "SM030100";
-                public const string TEACHER_CLASS = "SM030200";                
+                public const string TEACHER_CLASS = "SM030200";
 
                 public const string CLASS_WEEKLY_SCHEDULE = "SM040100";
+                public const string SUBJECT_PER_CLASS = "SM040200";     
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";

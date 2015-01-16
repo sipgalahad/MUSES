@@ -20,13 +20,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return Constant.MenuCode.StudentManagement.SP_SCHOOL_PERIOD_SCHEDULE;
         }
+
+        protected string GetInternalUjianValue()
+        {
+            return Constant.PeriodScheduleType.INTERNAL_UJIAN;
+        }
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE));
-            rptRemarks.DataSource = lstSc;
+            String filterExpression = string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE, Constant.StandardCode.TASK_TYPE);
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+            List<StandardCode> lstScheduleType = lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE).ToList();
+            rptRemarks.DataSource = lstScheduleType;
             rptRemarks.DataBind();
 
-            rptDateStyle.DataSource = lstSc;
+            rptDateStyle.DataSource = lstScheduleType;
             rptDateStyle.DataBind();
 
             SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
@@ -35,9 +42,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnYear.Value = DateTime.Now.Year.ToString();
             hdnMonth.Value = DateTime.Now.Month.ToString();
 
-            String filterExpression = string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE);
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
-            Methods.SetComboBoxField<StandardCode>(cboScheduleType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+            Methods.SetComboBoxField<StandardCode>(cboScheduleType, lstScheduleType.Where(p => p.StandardCodeID != Constant.PeriodScheduleType.KBM).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboTaskType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.TASK_TYPE && p.TagProperty == "1").ToList(), "StandardCodeName", "StandardCodeID");
             IsAutoReInitControl = false;
             //chkShowAll.Checked = false;
 
@@ -47,7 +54,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtPeriodScheduleName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(cboScheduleType, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(cboScheduleType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboTaskType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -116,6 +124,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.PeriodScheduleCode = txtPeriodScheduleCode.Text;
             entity.PeriodScheduleName = txtPeriodScheduleName.Text;
             entity.GCPeriodScheduleType = cboScheduleType.Value.ToString();
+            if (entity.GCPeriodScheduleType == Constant.PeriodScheduleType.INTERNAL_UJIAN)
+                entity.GCTaskType = cboTaskType.Value.ToString();
+            else
+                entity.GCTaskType = "";
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.Remarks = txtRemarks.Text;

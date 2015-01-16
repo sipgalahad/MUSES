@@ -87,7 +87,7 @@ namespace CodeX.Data.Model
     #region vAdmissionFeeRuleDtCustom
     [Serializable]
     [Table(Name = "vAdmissionFeeRuleDtCustom")]
-    public class vAdmissionFeeRuleDtCustom
+    public partial class vAdmissionFeeRuleDtCustom
     {
         private Int32 _AdmissionFeeCompID;
         private Int32 _SchoolPeriodID;
@@ -97,6 +97,7 @@ namespace CodeX.Data.Model
         private String _AdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
         private Decimal _TotalAmount;
+        private Int16 _NoOfRegistrationPaymentPeriod;
         private Int32 _AdmissionFeeRuleID;
         private Int32 _PeriodAdmissionID;
         private Boolean _IsDeleted;
@@ -148,6 +149,12 @@ namespace CodeX.Data.Model
         {
             get { return _TotalAmount; }
             set { _TotalAmount = value; }
+        }
+        [Column(Name = "NoOfRegistrationPaymentPeriod", DataType = "Int16")]
+        public Int16 NoOfRegistrationPaymentPeriod
+        {
+            get { return _NoOfRegistrationPaymentPeriod; }
+            set { _NoOfRegistrationPaymentPeriod = value; }
         }
         [Column(Name = "AdmissionFeeRuleID", DataType = "Int32")]
         public Int32 AdmissionFeeRuleID
@@ -8658,6 +8665,8 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private String _GCPeriodScheduleType;
         private String _PeriodScheduleType;
+        private String _GCTaskType;
+        private String _TaskType;
         private DateTime _StartDate;
         private DateTime _EndDate;
         private String _Remarks;
@@ -8698,6 +8707,18 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodScheduleType; }
             set { _PeriodScheduleType = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String")]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
+        }
+        [Column(Name = "TaskType", DataType = "String")]
+        public String TaskType
+        {
+            get { return _TaskType; }
+            set { _TaskType = value; }
         }
         [Column(Name = "StartDate", DataType = "DateTime")]
         public DateTime StartDate
