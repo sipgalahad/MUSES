@@ -17,6 +17,8 @@
                 cboAdmissionPaymentPeriod.SetValue('');
                 $('#<%=chkIsFixedAmount.ClientID %>').prop('checked', false);
                 $('#<%=chkIsFixedAmount.ClientID %>').change();
+                $('#<%=txtTotalAmount.ClientID %>').val('0').trigger('changeValue');
+                $('#<%=txtNoOfRegistrationPaymentPeriod.ClientID %>').val('1');
                 $('#entryDetailContainer').show();
             });
 
@@ -61,6 +63,7 @@
             $('#<%=chkIsFixedAmount.ClientID %>').prop('checked', entity.IsFixedAmount == 'True');
             $('#<%=chkIsFixedAmount.ClientID %>').change();
             $('#<%=txtTotalAmount.ClientID %>').val(entity.TotalAmount).trigger('changeValue');
+            $('#<%=txtNoOfRegistrationPaymentPeriod.ClientID %>').val(entity.NoOfRegistrationPaymentPeriod);
             $('#entryDetailContainer').show();
         });
 
@@ -117,6 +120,13 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Total")%></label></td>
                                     <td><asp:TextBox ID="txtTotalAmount" CssClass="txtCurrency" Width="150px" runat="server" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Periode Bayar")%></label></td>
+                                    <td>
+                                        <asp:TextBox ID="txtNoOfRegistrationPaymentPeriod" CssClass="number" Width="80px" runat="server" />
+                                        (Jumlah Periode Yang Dibayarkan Ketika Pendaftaran)
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -145,6 +155,7 @@
                                 <asp:BoundField DataField="AdmissionPaymentPeriod" HeaderText="Periode Pembayaran" HeaderStyle-Width="150px" />
                                 <asp:CheckBoxField DataField="IsFixedAmount" HeaderText="Nilai Fix" HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="TotalAmount" HeaderText="Total" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="NoOfRegistrationPaymentPeriod" HeaderText="Periode Bayar" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
@@ -154,6 +165,7 @@
                                         <input type="hidden" value="<%#Eval("GCAdmissionPaymentPeriod") %>" bindingfield="GCAdmissionPaymentPeriod" />
                                         <input type="hidden" value="<%#Eval("IsFixedAmount") %>" bindingfield="IsFixedAmount" />
                                         <input type="hidden" value="<%#Eval("TotalAmount") %>" bindingfield="TotalAmount" />
+                                        <input type="hidden" value="<%#Eval("NoOfRegistrationPaymentPeriod") %>" bindingfield="NoOfRegistrationPaymentPeriod" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

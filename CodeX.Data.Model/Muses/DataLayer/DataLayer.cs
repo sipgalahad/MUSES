@@ -18,6 +18,7 @@ namespace CodeX.Data.Model
         private String _GCAdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
         private Decimal _TotalAmount;
+        private Int16 _NoOfRegistrationPaymentPeriod;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -59,6 +60,12 @@ namespace CodeX.Data.Model
         {
             get { return _TotalAmount; }
             set { _TotalAmount = value; }
+        }
+        [Column(Name = "NoOfRegistrationPaymentPeriod", DataType = "Int16")]
+        public Int16 NoOfRegistrationPaymentPeriod
+        {
+            get { return _NoOfRegistrationPaymentPeriod; }
+            set { _NoOfRegistrationPaymentPeriod = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -2696,6 +2703,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeSubjectID;
         private Int32 _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
+        private Int32? _ParentID;
         private Boolean _IsCreatedBySystem;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -2732,6 +2740,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
         }
         [Column(Name = "IsCreatedBySystem", DataType = "Boolean")]
         public Boolean IsCreatedBySystem

@@ -117,33 +117,76 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 lstSelectedMember = hdnSelectedMember.Value.Split(',');
                 string[] lstSelectedMemberQty = hdnSelectedMemberQty.Value.Split(',');
+                string[] lstSelectedIsMainTeacher = hdnSelectedIsMainTeacher.Value.Split(',');
                 int SchoolClassID = Convert.ToInt32(hdnSchoolClassID.Value);
                 int PeriodClassTypeSubjectID = Convert.ToInt32(hdnPeriodClassTypeSubjectID.Value);
 
                 List<ClassSubject> lstClassSubject = BusinessLayer.GetClassSubjectList(string.Format("SchoolClassID = {0} AND PeriodClassTypeSubjectID = {1} AND IsDeleted = 0", SchoolClassID, PeriodClassTypeSubjectID), ctx);
                 int ct = 0;
+                int parentID = 0;
                 foreach (String itemID in lstSelectedMember)
                 {
-                    int TeacherID = Convert.ToInt32(lstSelectedMember[ct]);
-                    ClassSubject entityDt = lstClassSubject.FirstOrDefault(p => p.TeacherID == TeacherID);
-                    if (entityDt == null)
+                    if (lstSelectedIsMainTeacher[ct] == "1")
                     {
-                        entityDt = new ClassSubject();
-                        entityDt.SchoolClassID = SchoolClassID;
-                        entityDt.PeriodClassTypeSubjectID = PeriodClassTypeSubjectID;
-                        entityDt.TeacherID = TeacherID;
-                        entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
-                        entityDt.IsCreatedBySystem = false;
-                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                        entityDtDao.Insert(entityDt);
-                    }
-                    else
-                    {
-                        entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
-                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        entityDtDao.Update(entityDt);
+                        int TeacherID = Convert.ToInt32(lstSelectedMember[ct]);
+                        ClassSubject entityDt = lstClassSubject.FirstOrDefault(p => p.TeacherID == TeacherID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ClassSubject();
+                            entityDt.SchoolClassID = SchoolClassID;
+                            entityDt.PeriodClassTypeSubjectID = PeriodClassTypeSubjectID;
+                            entityDt.TeacherID = TeacherID;
+                            entityDt.ParentID = null;
+                            entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
+                            entityDt.IsCreatedBySystem = false;
+                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Insert(entityDt);
 
-                        lstClassSubject.Remove(entityDt);
+                            parentID = BusinessLayer.GetClassSubjectMaxID(ctx);
+                        }
+                        else
+                        {
+                            entityDt.ParentID = null;
+                            entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
+                            entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Update(entityDt);
+
+                            parentID = entityDt.ClassSubjectID;
+
+                            lstClassSubject.Remove(entityDt);
+                        }
+                    }
+                    ct++;
+                }
+
+                ct = 0;
+                foreach (String itemID in lstSelectedMember)
+                {
+                    if (lstSelectedIsMainTeacher[ct] == "0")
+                    {
+                        int TeacherID = Convert.ToInt32(lstSelectedMember[ct]);
+                        ClassSubject entityDt = lstClassSubject.FirstOrDefault(p => p.TeacherID == TeacherID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ClassSubject();
+                            entityDt.SchoolClassID = SchoolClassID;
+                            entityDt.PeriodClassTypeSubjectID = PeriodClassTypeSubjectID;
+                            entityDt.TeacherID = TeacherID;
+                            entityDt.ParentID = parentID;
+                            entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
+                            entityDt.IsCreatedBySystem = false;
+                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            entityDt.ParentID = parentID;
+                            entityDt.NoMeetingHoursInWeek = Convert.ToInt16(lstSelectedMemberQty[ct]);
+                            entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Update(entityDt);
+
+                            lstClassSubject.Remove(entityDt);
+                        }
                     }
                     ct++;
                 }

@@ -96,6 +96,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.GCAdmissionPaymentPeriod = cboAdmissionPaymentPeriod.Value.ToString();
             entity.IsFixedAmount = chkIsFixedAmount.Checked;
             entity.TotalAmount = Convert.ToDecimal(txtTotalAmount.Text);
+            entity.NoOfRegistrationPaymentPeriod = Convert.ToInt16(txtNoOfRegistrationPaymentPeriod.Text);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

@@ -19,6 +19,7 @@ namespace CodeX.Data.Model
         private String _AdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
         private Decimal _TotalAmount;
+        private Int16 _NoOfRegistrationPaymentPeriod;
         private Boolean _IsDeleted;
 
         [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
@@ -68,6 +69,12 @@ namespace CodeX.Data.Model
         {
             get { return _TotalAmount; }
             set { _TotalAmount = value; }
+        }
+        [Column(Name = "NoOfRegistrationPaymentPeriod", DataType = "Int16")]
+        public Int16 NoOfRegistrationPaymentPeriod
+        {
+            get { return _NoOfRegistrationPaymentPeriod; }
+            set { _NoOfRegistrationPaymentPeriod = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -1514,7 +1521,7 @@ namespace CodeX.Data.Model
     #region vClassSubject
     [Serializable]
     [Table(Name = "vClassSubject")]
-    public class vClassSubject
+    public partial class vClassSubject
     {
         private Int32 _ClassSubjectID;
         private Int32 _SchoolPeriodID;
@@ -1525,6 +1532,7 @@ namespace CodeX.Data.Model
         private String _SubjectCode;
         private String _SubjectName;
         private Int16 _NoMeetingHoursInWeek;
+        private Int32 _ParentID;
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _TeacherName;
@@ -1585,6 +1593,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
         }
         [Column(Name = "TeacherID", DataType = "Int32")]
         public Int32 TeacherID

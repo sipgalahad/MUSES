@@ -36,11 +36,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             thMark.ColSpan = lstClassTask.Count;
 
-            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
-            lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
+            ClassSubject entityClassSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
+            hdnIsMainTeacher.Value = entityClassSubject.ParentID == null ? "1" : "0";
 
-            ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
-            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
+            string filterExpression = "";
+            if (entityClassSubject.ParentID == null)
+            {
+                filterExpression = string.Format("ClassSubjectID = {0} OR ClassSubjectID IN (SELECT ClassSubjectID FROM ClassSubject WHERE ParentID = {0} AND IsDeleted = 0)", AppSession.ClassSubject.ClassSubjectID);
+                hdnParentClassSubjectID.Value = entityClassSubject.ClassSubjectID.ToString();
+            }
+            else
+            {
+                filterExpression = string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID);
+                hdnParentClassSubjectID.Value = entityClassSubject.ParentID.ToString();
+            }
+            lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(filterExpression);
+            lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(filterExpression);
+
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", entityClassSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }
@@ -114,8 +127,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
 
                 List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassSubjectTaskID.Select(p => p).ToList())), ctx);
-                List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID), ctx);
+                List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectID = {0}", hdnParentClassSubjectID.Value), ctx);
                 lstSaveValue = hdnListSaveValue.Value.Split('|');
+                int ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
                 foreach (String saveValue in lstSaveValue)
                 {
                     string[] lstSaveValue1 = saveValue.Split('|');
@@ -132,7 +146,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             if (finalStudentMark > -1)
                             {
                                 studentFinalMark = new ClassStudentSubjectMark();
-                                studentFinalMark.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                                studentFinalMark.ClassSubjectID = ClassSubjectID;
                                 studentFinalMark.StudentID = studentID;
                                 studentFinalMark.Mark = finalStudentMark;
                                 entityStudentSubjectMarkDao.Insert(studentFinalMark);
@@ -146,7 +160,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 entityStudentSubjectMarkDao.Update(studentFinalMark);
                             }
                             else
-                                entityStudentSubjectMarkDao.Delete(AppSession.ClassSubject.ClassSubjectID, studentID);
+                                entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID);
                         }
 
                         string[] lstSaveValue2 = temp[2].Split(',');

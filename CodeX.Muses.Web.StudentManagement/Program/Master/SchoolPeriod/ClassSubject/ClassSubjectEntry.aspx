@@ -21,7 +21,7 @@
             var entity = rowToObject($row);
             var id = cboClass.GetValue() + '|' + entity.SubjectID + '|' + entity.PeriodClassTypeSubjectID;
             var url = ResolveUrl("~/Program/Master/SchoolPeriod/ClassSubject/ClassSubjectDtEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Detil Guru', 1000, 500);
+            openUserControlPopup(url, id, 'Detil Guru', 1150, 500);
         });
 
         function onAfterSaveAddRecordEntryPopup() {

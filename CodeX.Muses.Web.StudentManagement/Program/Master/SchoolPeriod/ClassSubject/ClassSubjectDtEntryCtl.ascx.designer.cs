@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class ClassSubjectDtEntryCtl {
         
         /// <summary>
+        /// chkIsMainTeacher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsMainTeacher;
+        
+        /// <summary>
         /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
@@ -20,6 +29,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
+        
+        /// <summary>
+        /// hdnSelectedIsMainTeacher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedIsMainTeacher;
         
         /// <summary>
         /// hdnSchoolClassID control.

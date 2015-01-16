@@ -61,20 +61,24 @@
     function getCheckedMember() {
         var lstSelectedMember = [];
         var lstSelectedMemberQty = [];
+        var lstSelectedIsMainTeacher = [];
         var result = '';
 
         var totalQty = 0;
         $('#tblSelectedItem .trSelectedItem').each(function () {
             var key = $(this).find('.keyField').val();
             var qty = parseFloat($(this).find('.txtQty').val());
+            var isMainRole = $(this).find('.chkIsMainTeacher input').is(':checked') ? '1' : '0';
             lstSelectedMember.push(key);
             lstSelectedMemberQty.push(qty);
+            lstSelectedIsMainTeacher.push(isMainRole);
 
             totalQty += qty;
         });
 
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
         $('#<%=hdnSelectedMemberQty.ClientID %>').val(lstSelectedMemberQty.join(','));
+        $('#<%=hdnSelectedIsMainTeacher.ClientID %>').val(lstSelectedIsMainTeacher.join(',')); 
 
         var NoMeetingHoursInWeek = parseFloat($('#<%=txtNumberMeetingInHours.ClientID %>').val());
         if (NoMeetingHoursInWeek != totalQty)
@@ -124,8 +128,25 @@
             $('#tblSelectedItem tr').each(function () {
                 if ($(this).find('.keyField').val() == id) {
                     $(this).remove();
+                    if ($(this).find('.chkIsMainTeacher input').is(':checked')) {
+                        if ($('#tblSelectedItem .trSelectedItem').length > 0)
+                            $('#tblSelectedItem .trSelectedItem:eq(0)').find('.chkIsMainTeacher input').prop('checked', true);
+                    }
                 }
             });
+        }
+    });
+
+    $('.chkIsMainTeacher input').die('change');
+    $('.chkIsMainTeacher input').live('change', function () {
+        if ($(this).is(':checked')) {
+            $('#tblSelectedItem .trSelectedItem .chkIsMainTeacher input:checked').each(function () {
+                $(this).prop('checked', false);
+            });
+            $(this).prop('checked', true);
+        }
+        else {
+            $('#tblSelectedItem .trSelectedItem:eq(0)').find('.chkIsMainTeacher input').prop('checked', true);
         }
     });
 
@@ -146,7 +167,12 @@
                 lstSelectedMember.splice(lstSelectedMember.indexOf(id), 1);
                 $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
             }
-            $(this).closest('tr').remove();
+            $tr = $(this).closest('tr');
+            $tr.remove();
+            if ($tr.find('.chkIsMainTeacher input').is(':checked')) {
+                if ($('#tblSelectedItem .trSelectedItem').length > 0)
+                    $('#tblSelectedItem .trSelectedItem:eq(0)').find('.chkIsMainTeacher input').prop('checked', true);
+            }
         }
     });
 
@@ -176,9 +202,11 @@
             <td class="tdTeacherCode">${TeacherCode}</td>
             <td>${TeacherName}</td>
             <td><input type="text" validationgroup="mpTrxPopup" class="txtQty number min" min="1" value="1" style="width:60px" /></td>
+            <td align="center"><asp:CheckBox ID="chkIsMainTeacher" CssClass="chkIsMainTeacher" runat="server"/></td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
+    <input type="hidden" id="hdnSelectedIsMainTeacher" runat="server" value="" />
     <input type="hidden" id="hdnSchoolClassID" runat="server" value="" />
     <input type="hidden" id="hdnSubjectID" runat="server" value="" />
     <input type="hidden" id="hdnPeriodClassTypeSubjectID" runat="server" value="" />
@@ -257,6 +285,7 @@
                             <th align="center" style="width:50px"><%=GetLabel("Kode")%></th> 
                             <th align="center"><%=GetLabel("Nama")%></th> 
                             <th align="center"style="width:60px"><%=GetLabel("Jumlah")%></th> 
+                            <th style="width:80px" class="thCenter"><%=GetLabel("Guru Utama")%></th> 
                         </tr>
                         <asp:Repeater ID="rptSelected" runat="server">
                             <ItemTemplate>
@@ -268,6 +297,7 @@
                                     <td class="tdTeacherCode"><%#Eval("TeacherCode") %></td>
                                     <td><%#Eval("TeacherName") %></td>
                                     <td><input type="text" validationgroup="mpTrxPopup" class="txtQty number min" min="1" value='<%#Eval("NoMeetingHoursInWeek") %>' style="width:60px" /></td>
+                                    <td align="center"><asp:CheckBox ID="chkIsMainTeacher" CssClass="chkIsMainTeacher" runat="server" Checked='<%#Eval("IsMainTeacher") %>' /></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

@@ -91,6 +91,12 @@ namespace CodeX.Data.Model
         public String StudentImageUrl { get { return Function.GenerateStudentPictureFileName(_PictureFileName, _StudentCode); } }
     }
     #endregion
+    #region vClassSubject
+    public partial class vClassSubject
+    {
+        public Boolean IsMainTeacher { get { return _ParentID == 0; } }
+    }
+    #endregion
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {

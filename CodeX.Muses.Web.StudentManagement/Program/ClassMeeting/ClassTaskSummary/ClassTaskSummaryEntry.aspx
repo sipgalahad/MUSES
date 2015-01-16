@@ -99,6 +99,8 @@
     </script>
     <input type="hidden" id="hdnListSaveHeaderValue" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
+    <input type="hidden" id="hdnIsMainTeacher" runat="server" />
+    <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <div style="width:1250px; overflow-x: auto;">
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>
