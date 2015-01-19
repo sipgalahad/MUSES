@@ -2324,6 +2324,142 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ExamClassSchedule
+        public static ExamClassSchedule GetExamClassSchedule(Int32 ExamScheduleDtID, Int32 SchoolClassID)
+        {
+            return new ExamClassScheduleDao().Get(ExamScheduleDtID, SchoolClassID);
+        }
+        public static int InsertExamClassSchedule(ExamClassSchedule record)
+        {
+            return new ExamClassScheduleDao().Insert(record);
+        }
+        public static int UpdateExamClassSchedule(ExamClassSchedule record)
+        {
+            return new ExamClassScheduleDao().Update(record);
+        }
+        public static int DeleteExamClassSchedule(Int32 ExamScheduleDtID, Int32 SchoolClassID)
+        {
+            return new ExamClassScheduleDao().Delete(ExamScheduleDtID, SchoolClassID);
+        }
+        public static List<ExamClassSchedule> GetExamClassScheduleList(string filterExpression)
+        {
+            List<ExamClassSchedule> result = new List<ExamClassSchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ExamClassSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ExamClassSchedule)helper.IDataReaderToObject(reader, new ExamClassSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ExamScheduleDt
+        public static ExamScheduleDt GetExamScheduleDt(Int32 ExamScheduleDtID)
+        {
+            return new ExamScheduleDtDao().Get(ExamScheduleDtID);
+        }
+        public static int InsertExamScheduleDt(ExamScheduleDt record)
+        {
+            return new ExamScheduleDtDao().Insert(record);
+        }
+        public static int UpdateExamScheduleDt(ExamScheduleDt record)
+        {
+            return new ExamScheduleDtDao().Update(record);
+        }
+        public static int DeleteExamScheduleDt(Int32 ExamScheduleDtID)
+        {
+            return new ExamScheduleDtDao().Delete(ExamScheduleDtID);
+        }
+        public static List<ExamScheduleDt> GetExamScheduleDtList(string filterExpression)
+        {
+            List<ExamScheduleDt> result = new List<ExamScheduleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ExamScheduleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ExamScheduleDt)helper.IDataReaderToObject(reader, new ExamScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ExamScheduleHd
+        public static ExamScheduleHd GetExamScheduleHd(Int32 ExamScheduleID)
+        {
+            return new ExamScheduleHdDao().Get(ExamScheduleID);
+        }
+        public static int InsertExamScheduleHd(ExamScheduleHd record)
+        {
+            return new ExamScheduleHdDao().Insert(record);
+        }
+        public static int UpdateExamScheduleHd(ExamScheduleHd record)
+        {
+            return new ExamScheduleHdDao().Update(record);
+        }
+        public static int DeleteExamScheduleHd(Int32 ExamScheduleID)
+        {
+            return new ExamScheduleHdDao().Delete(ExamScheduleID);
+        }
+        public static List<ExamScheduleHd> GetExamScheduleHdList(string filterExpression)
+        {
+            List<ExamScheduleHd> result = new List<ExamScheduleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ExamScheduleHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ExamScheduleHd)helper.IDataReaderToObject(reader, new ExamScheduleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetExamScheduleHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ExamScheduleHd));
+                ctx.CommandText = helper.SelectMaxColumn("ExamScheduleID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region FADepreciation
         public static FADepreciation GetFADepreciation(Int32 FADepreciationID)
         {

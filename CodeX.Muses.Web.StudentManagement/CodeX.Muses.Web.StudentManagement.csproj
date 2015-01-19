@@ -105,6 +105,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx" />
     <Content Include="Program\ClassList\SubjectPerClassList.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx" />
+    <Content Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
@@ -449,6 +450,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx.designer.cs">
       <DependentUpon>ClassTaskSummaryEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx.cs">
+      <DependentUpon>ExamScheduleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx.designer.cs">
+      <DependentUpon>ExamScheduleEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>

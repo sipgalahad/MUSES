@@ -375,6 +375,30 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Period School Type -->
+  <searchdialog type="periodclasstype" methodname="GetvPeriodClassTypeList" keyfieldname="ClassTypeCode" orderbyexpression="ClassTypeName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="ClassTypeCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="ClassTypeName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ClassTypeName" headertext="Nama" description="" />
+      <intellisensetext datafield="ClassTypeCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Period Section-->
+  <searchdialog type="periodsection" methodname="GetPeriodSectionList" keyfieldname="PeriodSectionCode" orderbyexpression="PeriodSectionName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="PeriodSectionCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="PeriodSectionName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="PeriodSectionName" headertext="Nama" description="" />
+      <intellisensetext datafield="PeriodSectionCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Prospective Student-->
   <searchdialog type="prospectivestudent" methodname="GetvProspectiveStudentList" keyfieldname="ProspectiveStudentID" orderbyexpression="ProspectiveStudentID DESC">
     <gridcolumns>

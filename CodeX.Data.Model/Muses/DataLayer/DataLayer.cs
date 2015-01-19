@@ -4918,6 +4918,368 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ExamClassSchedule
+    [Serializable]
+    [Table(Name = "ExamClassSchedule")]
+    public class ExamClassSchedule : DbDataModel
+    {
+        private Int32 _ExamScheduleDtID;
+        private Int32 _SchoolClassID;
+        private Int32 _RoomID;
+        private Int32 _EmployeeID;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ExamScheduleDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ExamScheduleDtID
+        {
+            get { return _ExamScheduleDtID; }
+            set { _ExamScheduleDtID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ExamClassScheduleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ExamClassSchedule));
+        private bool _isAuditLog = false;
+        private const string p_ExamScheduleDtID = "@p_ExamScheduleDtID";
+        private const string p_SchoolClassID = "@p_SchoolClassID";
+        public ExamClassScheduleDao() { }
+        public ExamClassScheduleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ExamClassSchedule Get(Int32 ExamScheduleDtID, Int32 SchoolClassID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ExamScheduleDtID, ExamScheduleDtID);
+            _ctx.Add(p_SchoolClassID, SchoolClassID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ExamClassSchedule)_helper.DataRowToObject(row, new ExamClassSchedule());
+        }
+        public int Insert(ExamClassSchedule record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ExamClassSchedule record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ExamScheduleDtID, Int32 SchoolClassID)
+        {
+            ExamClassSchedule record;
+            if (_ctx.Transaction == null)
+                record = new ExamClassScheduleDao().Get(ExamScheduleDtID, SchoolClassID);
+            else
+                record = Get(ExamScheduleDtID, SchoolClassID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ExamScheduleDt
+    [Serializable]
+    [Table(Name = "ExamScheduleDt")]
+    public class ExamScheduleDt : DbDataModel
+    {
+        private Int32 _ExamScheduleDtID;
+        private Int32 _ExamScheduleID;
+        private Int32 _SubjectID;
+        private DateTime _ExamDate;
+        private Int16 _HoursIndex;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ExamScheduleDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ExamScheduleDtID
+        {
+            get { return _ExamScheduleDtID; }
+            set { _ExamScheduleDtID = value; }
+        }
+        [Column(Name = "ExamScheduleID", DataType = "Int32")]
+        public Int32 ExamScheduleID
+        {
+            get { return _ExamScheduleID; }
+            set { _ExamScheduleID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "ExamDate", DataType = "DateTime")]
+        public DateTime ExamDate
+        {
+            get { return _ExamDate; }
+            set { _ExamDate = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ExamScheduleDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ExamScheduleDt));
+        private bool _isAuditLog = false;
+        private const string p_ExamScheduleDtID = "@p_ExamScheduleDtID";
+        public ExamScheduleDtDao() { }
+        public ExamScheduleDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ExamScheduleDt Get(Int32 ExamScheduleDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ExamScheduleDtID, ExamScheduleDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ExamScheduleDt)_helper.DataRowToObject(row, new ExamScheduleDt());
+        }
+        public int Insert(ExamScheduleDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ExamScheduleDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ExamScheduleDtID)
+        {
+            ExamScheduleDt record;
+            if (_ctx.Transaction == null)
+                record = new ExamScheduleDtDao().Get(ExamScheduleDtID);
+            else
+                record = Get(ExamScheduleDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ExamScheduleHd
+    [Serializable]
+    [Table(Name = "ExamScheduleHd")]
+    public class ExamScheduleHd : DbDataModel
+    {
+        private Int32 _ExamScheduleID;
+        private Int32 _PeriodSectionID;
+        private Int32 _PeriodClassTypeID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _ExamSchedulePackageID;
+        private String _GCTransactionStatus;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ExamScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ExamScheduleID
+        {
+            get { return _ExamScheduleID; }
+            set { _ExamScheduleID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ExamSchedulePackageID", DataType = "Int32")]
+        public Int32 ExamSchedulePackageID
+        {
+            get { return _ExamSchedulePackageID; }
+            set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ExamScheduleHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ExamScheduleHd));
+        private bool _isAuditLog = false;
+        private const string p_ExamScheduleID = "@p_ExamScheduleID";
+        public ExamScheduleHdDao() { }
+        public ExamScheduleHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ExamScheduleHd Get(Int32 ExamScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ExamScheduleID, ExamScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ExamScheduleHd)_helper.DataRowToObject(row, new ExamScheduleHd());
+        }
+        public int Insert(ExamScheduleHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ExamScheduleHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ExamScheduleID)
+        {
+            ExamScheduleHd record;
+            if (_ctx.Transaction == null)
+                record = new ExamScheduleHdDao().Get(ExamScheduleID);
+            else
+                record = Get(ExamScheduleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region FADepreciation
     [Serializable]
     [Table(Name = "FADepreciation")]

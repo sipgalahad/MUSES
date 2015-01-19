@@ -41,6 +41,12 @@
             openWindowPopup(url, 'SubjectPerClass' + id, '1300', '650');
         });
 
+        function onCboSchoolPeriodValueChanged(s) {
+            tacSchoolClass.setValue('');
+            tacSchoolClass.setText('');
+            cbpView.PerformCallback('refresh');
+        }
+
         //#region Class
         function onGetClassFilterExpression() {
             var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND IsDeleted = 0";

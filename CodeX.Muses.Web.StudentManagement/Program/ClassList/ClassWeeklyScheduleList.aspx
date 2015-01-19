@@ -14,6 +14,8 @@
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
         function onCboSchoolPeriodValueChanged(s) {
+            tacSchoolClass.setValue('');
+            tacSchoolClass.setText('');
             cbpView.PerformCallback('refresh');
         }
 

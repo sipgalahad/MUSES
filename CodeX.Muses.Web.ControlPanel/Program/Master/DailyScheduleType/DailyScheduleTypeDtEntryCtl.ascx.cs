@@ -14,6 +14,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 {
     public partial class DailyScheduleTypeDtEntryCtl : BaseViewPopupCtl
     {
+        protected string OnGetDailyScheduleTypeKBM()
+        {
+            return Constant.SchoolDailyScheduleType.KBM;
+        }
+
         public override void InitializeDataControl(string param)
         {
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE));
@@ -28,6 +33,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Helper.SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtEndTime, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(cboDailyScheduleType, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtHoursIndex, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         private void BindGridView()
@@ -82,6 +88,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.StartTime = txtStartTime.Text;
             entity.EndTime = txtEndTime.Text;
             entity.GCDailyScheduleType = cboDailyScheduleType.Value.ToString();
+            if (entity.GCDailyScheduleType == Constant.SchoolDailyScheduleType.KBM)
+                entity.HoursIndex = Convert.ToInt16(txtHoursIndex.Text);
+            else
+                entity.HoursIndex = 0;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

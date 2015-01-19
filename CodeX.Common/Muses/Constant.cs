@@ -67,6 +67,11 @@ namespace CodeX.Common
             public const string VOID = "MS001^999";
         }
 
+        public static class SchoolDailyScheduleType
+        {
+            public const string KBM = "MS008^001";
+        }
+
         public static class PeriodScheduleType
         {
             public const string KBM = "MS007^001";
@@ -345,6 +350,7 @@ namespace CodeX.Common
             {
                 public const string STUDENT = "SM010100";
                 public const string SCHOOL_PERIOD = "SM010200";
+                public const string EXAM_SCHEDULE = "SM010300";
 
                 public const string PERIOD_ADMISSION = "SM020100";
 

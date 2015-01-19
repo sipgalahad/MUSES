@@ -15,7 +15,8 @@
             $('#<%=txtStartTime.ClientID %>').val('');
             $('#<%=txtEndTime.ClientID %>').val('');
             cboDailyScheduleType.SetValue('');
-
+            $('#<%=txtHoursIndex.ClientID %>').val('');
+            onCboDailyScheduleTypeChanged();
             $('#entryDetailContainerPopup').show();
         });
 
@@ -50,7 +51,8 @@
         $('#<%=txtStartTime.ClientID %>').val(entity.StartTime);
         $('#<%=txtEndTime.ClientID %>').val(entity.EndTime);
         cboDailyScheduleType.SetValue(entity.GCDailyScheduleType);
-
+        $('#<%=txtHoursIndex.ClientID %>').val(entity.HoursIndex); 
+        onCboDailyScheduleTypeChanged();
         $('#entryDetailContainerPopup').show();
     });
 
@@ -71,6 +73,15 @@
                 showToast('Delete Failed', 'Error Message : ' + param[2]);
             else
                 cbpViewPopup.PerformCallback('refresh');
+        }
+    }
+
+    function onCboDailyScheduleTypeChanged() {
+        if (cboDailyScheduleType.GetValue() == "<%=OnGetDailyScheduleTypeKBM() %>")
+            $('#<%=txtHoursIndex.ClientID %>').removeAttr('readonly');
+        else {
+            $('#<%=txtHoursIndex.ClientID %>').attr('readonly', 'readonly');
+            $('#<%=txtHoursIndex.ClientID %>').val('');
         }
     }
 </script>
@@ -109,7 +120,17 @@
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Jadwal")%></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboDailyScheduleType" ClientInstanceName="cboDailyScheduleType" Width="200px" /></td>
+                        <td>
+                            <dxe:ASPxComboBox runat="server" ID="cboDailyScheduleType" ClientInstanceName="cboDailyScheduleType" Width="200px">
+                                <ClientSideEvents ValueChanged="function(s,e){
+                                    onCboDailyScheduleTypeChanged(s,e);
+                                }" />
+                            </dxe:ASPxComboBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Index Jam")%></label></td>
+                        <td><asp:TextBox ID="txtHoursIndex" CssClass="number" Width="80px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td> 
@@ -143,6 +164,7 @@
                                     <input type="hidden" value="<%#Eval("StartTime") %>" bindingfield="StartTime" />
                                     <input type="hidden" value="<%#Eval("EndTime") %>" bindingfield="EndTime" />
                                     <input type="hidden" value="<%#Eval("GCDailyScheduleType") %>" bindingfield="GCDailyScheduleType" />
+                                    <input type="hidden" value="<%#Eval("HoursIndex") %>" bindingfield="HoursIndex" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
