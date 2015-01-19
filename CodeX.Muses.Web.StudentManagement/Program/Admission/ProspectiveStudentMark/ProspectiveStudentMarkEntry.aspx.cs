@@ -43,7 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}' AND RegistrationNo LIKE '%{2}%' AND ProspectiveStudentName LIKE '%{3}%'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, hdnFilterCode.Value, hdnFilterName.Value);
+            string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus NOT IN ('{1}','{2}') AND RegistrationNo LIKE '%{3}%' AND ProspectiveStudentName LIKE '%{4}%'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, Constant.RegistrationStatus.CLOSED, hdnFilterCode.Value, hdnFilterName.Value);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvRegistrationRowCount(filterExpression);

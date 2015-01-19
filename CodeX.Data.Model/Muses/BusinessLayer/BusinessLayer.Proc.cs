@@ -665,7 +665,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ProcessProspectiveStudentAcceptance
-        public static void ProcessProspectiveStudentAcceptance(String lstRegistration, int UserID, IDbContext ctx = null)
+        public static void ProcessProspectiveStudentAcceptance(String lstRegistration,String SiteID, int UserID, IDbContext ctx = null)
         {
             bool IsCtxNull = false;
             if (ctx == null)
@@ -676,6 +676,7 @@ namespace CodeX.Data.Model
             ctx.CommandText = "ProcessProspectiveStudentAcceptance";
             ctx.CommandType = CommandType.StoredProcedure;
             ctx.Command.Parameters.Add(new SqlParameter("@lstRegistration", lstRegistration));
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
             ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
 
             try
