@@ -13,10 +13,4 @@ namespace CodeX.Data.Model
         public Int32 ClassMeetingID { get; set; }
     }
     #endregion
-    #region UserLogin
-    public partial class UserLogin
-    {
-        public Int32? TeacherID { get; set; }
-    }
-    #endregion
 }

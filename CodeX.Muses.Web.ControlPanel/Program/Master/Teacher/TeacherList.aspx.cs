@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetTeacherRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvTeacherRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -60,11 +60,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetTeacherRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvTeacherRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Teacher> lstEntity = BusinessLayer.GetTeacherList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vTeacher> lstEntity = BusinessLayer.GetvTeacherList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -114,10 +114,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                Teacher entity = BusinessLayer.GetTeacher(Convert.ToInt32(hdnID.Value));
+                Employee entity = BusinessLayer.GetEmployee(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateTeacher(entity);
+                BusinessLayer.UpdateEmployee(entity);
                 return true;
             }
             return false;

@@ -106,7 +106,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(chkIsFeeder, new ControlEntrySetting(true, true, false));
             #endregion
 
-            #region Patient Address
+            #region Address
             SetControlEntrySetting(txtAddress, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtCounty, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtDistrict, new ControlEntrySetting(true, true, false));
@@ -115,7 +115,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(tacZipCode, new ControlEntrySetting(true, true, false));
             #endregion
 
-            #region Patient Contact
+            #region Contact
             SetControlEntrySetting(txtTelephoneNo, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtMobilePhoneNo1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo2, new ControlEntrySetting(true, true, false));

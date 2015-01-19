@@ -4644,6 +4644,280 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region Employee
+    [Serializable]
+    [Table(Name = "Employee")]
+    public class Employee : DbDataModel
+    {
+        private Int32 _EmployeeID;
+        private String _EmployeeCode;
+        private String _SiteID;
+        private String _GCSalutation;
+        private String _FirstName;
+        private String _MiddleName;
+        private String _LastName;
+        private String _FullName;
+        private String _Initial;
+        private String _GCTitle;
+        private String _GCSuffix;
+        private String _GCEmployeeType;
+        private String _CityOfBirth;
+        private DateTime _DateOfBirth;
+        private String _GCDepartment;
+        private String _GCOccupation;
+        private String _GCOccupationLevel;
+        private String _AddressID;
+        private String _EmailAddress1;
+        private String _EmailAddress2;
+        private String _MobilePhoneNo1;
+        private String _MobilePhoneNo2;
+        private String _OfficeExtensionNo;
+        private String _VATRegistrationNo;
+        private String _PictureFileName;
+        private String _GCEmployeeStatus;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "EmployeeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeCode", DataType = "String")]
+        public String EmployeeCode
+        {
+            get { return _EmployeeCode; }
+            set { _EmployeeCode = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCSalutation", DataType = "String", IsNullable = true)]
+        public String GCSalutation
+        {
+            get { return _GCSalutation; }
+            set { _GCSalutation = value; }
+        }
+        [Column(Name = "FirstName", DataType = "String", IsNullable = true)]
+        public String FirstName
+        {
+            get { return _FirstName; }
+            set { _FirstName = value; }
+        }
+        [Column(Name = "MiddleName", DataType = "String", IsNullable = true)]
+        public String MiddleName
+        {
+            get { return _MiddleName; }
+            set { _MiddleName = value; }
+        }
+        [Column(Name = "LastName", DataType = "String")]
+        public String LastName
+        {
+            get { return _LastName; }
+            set { _LastName = value; }
+        }
+        [Column(Name = "FullName", DataType = "String", IsNullable = true)]
+        public String FullName
+        {
+            get { return _FullName; }
+            set { _FullName = value; }
+        }
+        [Column(Name = "Initial", DataType = "String")]
+        public String Initial
+        {
+            get { return _Initial; }
+            set { _Initial = value; }
+        }
+        [Column(Name = "GCTitle", DataType = "String", IsNullable = true)]
+        public String GCTitle
+        {
+            get { return _GCTitle; }
+            set { _GCTitle = value; }
+        }
+        [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
+        public String GCSuffix
+        {
+            get { return _GCSuffix; }
+            set { _GCSuffix = value; }
+        }
+        [Column(Name = "GCEmployeeType", DataType = "String")]
+        public String GCEmployeeType
+        {
+            get { return _GCEmployeeType; }
+            set { _GCEmployeeType = value; }
+        }
+        [Column(Name = "CityOfBirth", DataType = "String", IsNullable = true)]
+        public String CityOfBirth
+        {
+            get { return _CityOfBirth; }
+            set { _CityOfBirth = value; }
+        }
+        [Column(Name = "DateOfBirth", DataType = "DateTime", IsNullable = true)]
+        public DateTime DateOfBirth
+        {
+            get { return _DateOfBirth; }
+            set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCDepartment", DataType = "String")]
+        public String GCDepartment
+        {
+            get { return _GCDepartment; }
+            set { _GCDepartment = value; }
+        }
+        [Column(Name = "GCOccupation", DataType = "String")]
+        public String GCOccupation
+        {
+            get { return _GCOccupation; }
+            set { _GCOccupation = value; }
+        }
+        [Column(Name = "GCOccupationLevel", DataType = "String", IsNullable = true)]
+        public String GCOccupationLevel
+        {
+            get { return _GCOccupationLevel; }
+            set { _GCOccupationLevel = value; }
+        }
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
+        {
+            get { return _AddressID; }
+            set { _AddressID = value; }
+        }
+        [Column(Name = "EmailAddress1", DataType = "String", IsNullable = true)]
+        public String EmailAddress1
+        {
+            get { return _EmailAddress1; }
+            set { _EmailAddress1 = value; }
+        }
+        [Column(Name = "EmailAddress2", DataType = "String", IsNullable = true)]
+        public String EmailAddress2
+        {
+            get { return _EmailAddress2; }
+            set { _EmailAddress2 = value; }
+        }
+        [Column(Name = "MobilePhoneNo1", DataType = "String", IsNullable = true)]
+        public String MobilePhoneNo1
+        {
+            get { return _MobilePhoneNo1; }
+            set { _MobilePhoneNo1 = value; }
+        }
+        [Column(Name = "MobilePhoneNo2", DataType = "String", IsNullable = true)]
+        public String MobilePhoneNo2
+        {
+            get { return _MobilePhoneNo2; }
+            set { _MobilePhoneNo2 = value; }
+        }
+        [Column(Name = "OfficeExtensionNo", DataType = "String", IsNullable = true)]
+        public String OfficeExtensionNo
+        {
+            get { return _OfficeExtensionNo; }
+            set { _OfficeExtensionNo = value; }
+        }
+        [Column(Name = "VATRegistrationNo", DataType = "String", IsNullable = true)]
+        public String VATRegistrationNo
+        {
+            get { return _VATRegistrationNo; }
+            set { _VATRegistrationNo = value; }
+        }
+        [Column(Name = "PictureFileName", DataType = "String", IsNullable = true)]
+        public String PictureFileName
+        {
+            get { return _PictureFileName; }
+            set { _PictureFileName = value; }
+        }
+        [Column(Name = "GCEmployeeStatus", DataType = "String")]
+        public String GCEmployeeStatus
+        {
+            get { return _GCEmployeeStatus; }
+            set { _GCEmployeeStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class EmployeeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Employee));
+        private bool _isAuditLog = false;
+        private const string p_EmployeeID = "@p_EmployeeID";
+        public EmployeeDao() { }
+        public EmployeeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Employee Get(Int32 EmployeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_EmployeeID, EmployeeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Employee)_helper.DataRowToObject(row, new Employee());
+        }
+        public int Insert(Employee record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Employee record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 EmployeeID)
+        {
+            Employee record;
+            if (_ctx.Transaction == null)
+                record = new EmployeeDao().Get(EmployeeID);
+            else
+                record = Get(EmployeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region FADepreciation
     [Serializable]
     [Table(Name = "FADepreciation")]
@@ -18910,152 +19184,19 @@ namespace CodeX.Data.Model
     public class Teacher : DbDataModel
     {
         private Int32 _TeacherID;
-        private String _TeacherCode;
-        private String _GCSalutation;
-        private String _GCTitle;
-        private String _FirstName;
-        private String _MiddleName;
-        private String _LastName;
-        private String _GCSuffix;
-        private String _TeacherName;
-        private String _PreferredName;
-        private String _SiteID;
         private Int32? _RoomID;
-        private String _EmailAddress;
-        private String _MobilePhone1;
-        private String _MobilePhone2;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
 
-        [Column(Name = "TeacherID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        [Column(Name = "TeacherID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
-        }
-        [Column(Name = "TeacherCode", DataType = "String")]
-        public String TeacherCode
-        {
-            get { return _TeacherCode; }
-            set { _TeacherCode = value; }
-        }
-        [Column(Name = "GCSalutation", DataType = "String", IsNullable = true)]
-        public String GCSalutation
-        {
-            get { return _GCSalutation; }
-            set { _GCSalutation = value; }
-        }
-        [Column(Name = "GCTitle", DataType = "String", IsNullable = true)]
-        public String GCTitle
-        {
-            get { return _GCTitle; }
-            set { _GCTitle = value; }
-        }
-        [Column(Name = "FirstName", DataType = "String", IsNullable = true)]
-        public String FirstName
-        {
-            get { return _FirstName; }
-            set { _FirstName = value; }
-        }
-        [Column(Name = "MiddleName", DataType = "String", IsNullable = true)]
-        public String MiddleName
-        {
-            get { return _MiddleName; }
-            set { _MiddleName = value; }
-        }
-        [Column(Name = "LastName", DataType = "String")]
-        public String LastName
-        {
-            get { return _LastName; }
-            set { _LastName = value; }
-        }
-        [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
-        public String GCSuffix
-        {
-            get { return _GCSuffix; }
-            set { _GCSuffix = value; }
-        }
-        [Column(Name = "TeacherName", DataType = "String")]
-        public String TeacherName
-        {
-            get { return _TeacherName; }
-            set { _TeacherName = value; }
-        }
-        [Column(Name = "PreferredName", DataType = "String", IsNullable = true)]
-        public String PreferredName
-        {
-            get { return _PreferredName; }
-            set { _PreferredName = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "RoomID", DataType = "Int32", IsNullable = true)]
         public Int32? RoomID
         {
             get { return _RoomID; }
             set { _RoomID = value; }
-        }
-        [Column(Name = "EmailAddress", DataType = "String", IsNullable = true)]
-        public String EmailAddress
-        {
-            get { return _EmailAddress; }
-            set { _EmailAddress = value; }
-        }
-        [Column(Name = "MobilePhone1", DataType = "String", IsNullable = true)]
-        public String MobilePhone1
-        {
-            get { return _MobilePhone1; }
-            set { _MobilePhone1 = value; }
-        }
-        [Column(Name = "MobilePhone2", DataType = "String", IsNullable = true)]
-        public String MobilePhone2
-        {
-            get { return _MobilePhone2; }
-            set { _MobilePhone2 = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
         }
     }
 
@@ -19079,13 +19220,11 @@ namespace CodeX.Data.Model
         }
         public int Insert(Teacher record)
         {
-            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
         public int Update(Teacher record)
         {
-            record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }

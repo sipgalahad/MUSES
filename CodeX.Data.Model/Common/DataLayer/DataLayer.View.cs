@@ -958,8 +958,8 @@ namespace CodeX.Data.Model
         private String _Comment;
         private String _FullName;
         private String _UserImage;
-        private Int32 _TeacherID;
-        private String _TeacherName;
+        private Int32 _EmployeeID;
+        private String _EmployeeName;
         private Boolean _IsResetPassword;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
@@ -1087,17 +1087,17 @@ namespace CodeX.Data.Model
             get { return _UserImage; }
             set { _UserImage = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
         {
-            get { return _TeacherID; }
-            set { _TeacherID = value; }
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
         }
-        [Column(Name = "TeacherName", DataType = "String")]
-        public String TeacherName
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
         {
-            get { return _TeacherName; }
-            set { _TeacherName = value; }
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
         }
         [Column(Name = "IsResetPassword", DataType = "Boolean")]
         public Boolean IsResetPassword

@@ -2941,7 +2941,7 @@ namespace CodeX.Data.Model
         private Int32 _UserID;
         private String _FullName;
         private String _UserImage;
-        private Int32? _TeacherID;
+        private Int32? _EmployeeID;
         private Boolean _IsResetPassword;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -2967,11 +2967,11 @@ namespace CodeX.Data.Model
             get { return _UserImage; }
             set { _UserImage = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
-        public Int32? TeacherID
+        [Column(Name = "EmployeeID", DataType = "Int32", IsNullable = true)]
+        public Int32? EmployeeID
         {
-            get { return _TeacherID; }
-            set { _TeacherID = value; }
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
         }
         [Column(Name = "IsResetPassword", DataType = "Boolean")]
         public Boolean IsResetPassword

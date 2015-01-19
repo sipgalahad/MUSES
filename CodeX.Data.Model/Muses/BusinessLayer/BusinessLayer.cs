@@ -2268,6 +2268,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Employee
+        public static Employee GetEmployee(Int32 EmployeeID)
+        {
+            return new EmployeeDao().Get(EmployeeID);
+        }
+        public static int InsertEmployee(Employee record)
+        {
+            return new EmployeeDao().Insert(record);
+        }
+        public static int UpdateEmployee(Employee record)
+        {
+            return new EmployeeDao().Update(record);
+        }
+        public static int DeleteEmployee(Int32 EmployeeID)
+        {
+            return new EmployeeDao().Delete(EmployeeID);
+        }
+        public static List<Employee> GetEmployeeList(string filterExpression)
+        {
+            List<Employee> result = new List<Employee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Employee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Employee)helper.IDataReaderToObject(reader, new Employee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetEmployeeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Employee));
+                ctx.CommandText = helper.SelectMaxColumn("EmployeeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region FADepreciation
         public static FADepreciation GetFADepreciation(Int32 FADepreciationID)
         {
@@ -8984,87 +9040,6 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
-            }
-            return result;
-        }
-        public static List<Teacher> GetTeacherList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
-        {
-            List<Teacher> result = new List<Teacher>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Teacher));
-                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((Teacher)helper.IDataReaderToObject(reader, new Teacher()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
-        public static Int32 GetTeacherRowCount(string filterExpression)
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Teacher));
-                ctx.CommandText = helper.GetRowCount(filterExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetTeacherRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Teacher));
-                ctx.CommandText = helper.GetRowIndex(filterExpression, "TeacherID", keyValue, orderByExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetTeacherMaxID(IDbContext ctx)
-        {
-            Int32 result = 0;
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(Teacher));
-                ctx.CommandText = helper.SelectMaxColumn("TeacherID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
             }
             return result;
         }

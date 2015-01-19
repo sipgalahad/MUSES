@@ -32,12 +32,12 @@ namespace CodeX.Web.CommonLibs.Program
                         UserLogin userLogin = new UserLogin();
                         userLogin.UserID = user.UserID;
                         userLogin.UserName = user.UserName;
-                        if (user.TeacherID > 0)
-                            userLogin.UserFullName = user.TeacherName;
+                        if (user.EmployeeID > 0)
+                            userLogin.UserFullName = user.EmployeeName;
                         else
                             userLogin.UserFullName = user.FullName;
                         userLogin.SiteID = siteID;
-                        userLogin.TeacherID = user.TeacherID;
+                        userLogin.EmployeeID = user.EmployeeID;
 
                         List<UserInRole> lstUserSysAdmin = BusinessLayer.GetUserInRoleList(string.Format("UserID = {0} AND SiteID = '{1}' AND RoleID = 1", userLogin.UserID, userLogin.SiteID));
                         userLogin.IsSysAdmin = (lstUserSysAdmin.Count > 0);

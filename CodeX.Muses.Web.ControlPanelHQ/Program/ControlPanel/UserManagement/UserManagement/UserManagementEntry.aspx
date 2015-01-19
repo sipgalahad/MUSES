@@ -19,30 +19,30 @@
         function onLoad() {
         }
 
-        //#region Teacher
-        function onGetTeacherFilterExpression() {
-            var filterExpression = "<%=OnGetTeacherFilterExpression() %>";
+        //#region Employee
+        function onGetEmployeeFilterExpression() {
+            var filterExpression = "<%=OnGetEmployeeFilterExpression() %>";
             return filterExpression;
         }
 
-        function onTacTeacherButtonSearchClick() {
-            openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
-                var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                Methods.getObject('GetTeacherList', filterExpression, function (result) {
+        function onTacEmployeeButtonSearchClick() {
+            openSearchDialog('employee', onGetEmployeeFilterExpression(), function (value) {
+                var filterExpression = onGetEmployeeFilterExpression() + " AND EmployeeCode = '" + value + "'";
+                Methods.getObject('GetEmployeeList', filterExpression, function (result) {
                     if (result != null) {
-                        tacTeacher.setValue(result.TeacherID);
-                        tacTeacher.setText(result.TeacherName);
+                        tacEmployee.setValue(result.EmployeeID);
+                        tacEmployee.setText(result.FullName);
                     }
                     else {
-                        tacTeacher.setValue('');
-                        tacTeacher.setText('');
+                        tacEmployee.setValue('');
+                        tacEmployee.setText('');
                     }
                 });
             });
 
         }
 
-        function onTacTeacherValueChanged() {
+        function onTacEmployeeValueChanged() {
         }
         //#endregion
     </script>
@@ -96,12 +96,12 @@
                         <td><asp:TextBox ID="txtSecurityAnswer" Width="100%" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Guru")%></label></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Karyawan")%></label></td>
                         <td>
-                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
-                                SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
-                                <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
-                                    ValueChanged="function(){ onTacTeacherValueChanged(); }" />
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacEmployee" ClientInstanceName="tacEmployee" MethodName="GetEmployeeList" GetFilterExpressionFunction="onGetEmployeeFilterExpression"
+                                SearchFields="FullName,EmployeeCode" TextField="FullName" ValueField="EmployeeID" SearchText="${FullName} (<b>${EmployeeCode}</b>)" OrderByExpression="FullName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacEmployeeButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacEmployeeValueChanged(); }" />
                             </cdx:CodeXAutoCompleteTextBox>   
                         </td>
                     </tr>

@@ -22,10 +22,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptRemarks.DataBind();
 
             hdnID.Value = param;
-            Teacher entityTeacher = BusinessLayer.GetTeacher(Convert.ToInt32(hdnID.Value));
+            Employee entityTeacher = BusinessLayer.GetEmployee(Convert.ToInt32(hdnID.Value));
 
-            txtTeacherCode.Text = entityTeacher.TeacherCode;
-            txtTeacherName.Text = entityTeacher.TeacherName;
+            txtTeacherCode.Text = entityTeacher.EmployeeCode;
+            txtTeacherName.Text = entityTeacher.FullName;
 
             SchoolPeriod schoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SchoolPeriodID = {0}", AppSession.SchoolPeriodID)).FirstOrDefault();
             DailySchedulePackage entity = BusinessLayer.GetDailySchedulePackage(schoolPeriod.DailySchedulePackageID);

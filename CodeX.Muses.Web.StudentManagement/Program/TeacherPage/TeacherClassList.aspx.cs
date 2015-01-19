@@ -47,7 +47,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SchoolPeriodID = {0} AND TeacherID = {1}", cboSchoolPeriod.Value, AppSession.UserLogin.TeacherID);
+            filterExpression += string.Format("SchoolPeriodID = {0} AND TeacherID = {1}", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID);
             return filterExpression;
         }
 

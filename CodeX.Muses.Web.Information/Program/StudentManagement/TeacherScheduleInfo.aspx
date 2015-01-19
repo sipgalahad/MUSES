@@ -29,7 +29,7 @@
          function onTacTeacherButtonSearchClick() {
              openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
                  var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                 Methods.getObject('GetTeacherList', filterExpression, function (result) {
+                 Methods.getObject('GetvTeacherList', filterExpression, function (result) {
                      if (result != null) {
                          tacTeacher.setValue(result.TeacherID);
                          tacTeacher.setText(result.TeacherName);

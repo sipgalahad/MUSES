@@ -61,7 +61,7 @@
 
     function onTxtTeacherChanged(value) {
         var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-        Methods.getObject('GetTeacherList', filterExpression, function (result) {
+        Methods.getObject('GetvTeacherList', filterExpression, function (result) {
             if (result != null) {
                 $td.find('.hdnTeacherID').val(result.TeacherID);
                 $td.find('.lblTeacher').html(result.TeacherName);

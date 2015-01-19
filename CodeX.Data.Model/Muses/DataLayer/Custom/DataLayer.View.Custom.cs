@@ -1868,4 +1868,34 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacher
+    public partial class vTeacher
+    {
+
+        public String HomeAddress
+        {
+            get
+            {
+                return Function.GenerateAddress(_StreetName, _County, _District, _City, _State);
+            }
+        }
+        public String cfPhoneNo
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+
+                if (_PhoneNo1 != "")
+                    result.Append(_PhoneNo1);
+                if (_PhoneNo2 != "")
+                {
+                    if (result.ToString() != "")
+                        result.Append(" / ");
+                    result.Append(_PhoneNo2);
+                }
+                return result.ToString();
+            }
+        }
+    }
+    #endregion
 }

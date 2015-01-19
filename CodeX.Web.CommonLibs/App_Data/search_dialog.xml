@@ -65,6 +65,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region vChart Of Account -->
+  <searchdialog type="vchartofaccount" methodname="GetvChartOfAccountList" keyfieldname="GLAccountNo" istreeview="1">
+    <gridcolumns>
+      <gridcolumn datafield="GLAccountNo" headertext="No. Perkiraan" width="100px" />
+      <gridcolumn datafield="GLAccountName" headertext="Nama Perkiraan" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="GLAccountName" headertext="Nama Perkiraan" description="" />
+      <intellisensetext datafield="GLAccountNo" headertext="No. Perkiraan" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Direct Purchase-->
   <searchdialog type="directpurchase" methodname="GetvDirectPurchaseHdList" keyfieldname="DirectPurchaseNo" orderbyexpression="DirectPurchaseID DESC">
     <gridcolumns>
@@ -81,15 +93,15 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-  <!-- #Region vChart Of Account -->
-  <searchdialog type="vchartofaccount" methodname="GetvChartOfAccountList" keyfieldname="GLAccountNo" istreeview="1">
+  <!-- #Region Employee -->
+  <searchdialog type="employee" methodname="GetEmployeeList" keyfieldname="EmployeeCode" orderbyexpression="FullName ASC">
     <gridcolumns>
-      <gridcolumn datafield="GLAccountNo" headertext="No. Perkiraan" width="100px" />
-      <gridcolumn datafield="GLAccountName" headertext="Nama Perkiraan" width="300px" />
+      <gridcolumn datafield="EmployeeCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="FullName" headertext="Nama" width="300px" />
     </gridcolumns>
     <intellisensetexts>
-      <intellisensetext datafield="GLAccountName" headertext="Nama Perkiraan" description="" />
-      <intellisensetext datafield="GLAccountNo" headertext="No. Perkiraan" description="" />
+      <intellisensetext datafield="FullName" headertext="Nama" description="" />
+      <intellisensetext datafield="EmployeeCode" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
@@ -659,7 +671,7 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Teacher -->
-  <searchdialog type="teacher" methodname="GetTeacherList" keyfieldname="TeacherCode" orderbyexpression="TeacherName ASC">
+  <searchdialog type="teacher" methodname="GetvTeacherList" keyfieldname="TeacherCode" orderbyexpression="TeacherName ASC">
     <gridcolumns>
       <gridcolumn datafield="TeacherCode" headertext="Kode" width="50px" />
       <gridcolumn datafield="TeacherName" headertext="Nama" width="300px" />

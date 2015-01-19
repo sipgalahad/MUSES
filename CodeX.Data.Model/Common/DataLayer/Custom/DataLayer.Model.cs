@@ -41,6 +41,7 @@ namespace CodeX.Data.Model
         public String SiteID { get; set; }
         public String SiteName { get; set; }
         public String ModuleID { get; set; }
+        public Int32? EmployeeID { get; set; }
     }
     #endregion
     #region Matrix

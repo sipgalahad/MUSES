@@ -107,6 +107,11 @@ namespace CodeX.Common
             public const string PRODUCT = "X001^001";
         }
 
+        public static class EmployeeType
+        {
+            public const string TEACHER = "X196^001";
+        }
+
         public static class BusinessObjectType
         {
             public const string STUDENT = "X017^001";
@@ -123,6 +128,7 @@ namespace CodeX.Common
             public const string PROSPECTIVE_STUDENT = "X301^004";
             public const string STUDENT_FAMILY = "X301^005";
             public const string PROSPECTIVE_STUDENT_FAMILY = "X301^006";
+            public const string EMPLOYEE = "X301^007";
         }
         #endregion
 

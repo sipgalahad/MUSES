@@ -21,7 +21,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             return Constant.MenuCode.ControlPanelHQ.USER_ACCOUNTS;
         }
 
-        protected string OnGetTeacherFilterExpression()
+        protected string OnGetEmployeeFilterExpression()
         {
             return string.Format("IsDeleted = 0");
         }
@@ -55,7 +55,7 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             SetControlEntrySetting(txtConfirmMobilePIN, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSecurityQuestion, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSecurityAnswer, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(tacEmployee, new ControlEntrySetting(true, true, false));
         }
 
         protected override void OnReInitControl()
@@ -80,8 +80,8 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             txtMobilePIN.Text = "hidden";
             txtSecurityQuestion.Text = entity.PasswordQuestion;
             txtSecurityAnswer.Text = "hidden";
-            tacTeacher.Value = entity.TeacherID.ToString();
-            tacTeacher.Text = entity.TeacherName;
+            tacEmployee.Value = entity.EmployeeID.ToString();
+            tacEmployee.Text = entity.EmployeeName;
 
             #region Custom Attribute
             foreach (RepeaterItem item in rptCustomAttribute.Items)
@@ -101,10 +101,10 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program
             entity.Email = txtEmail.Text;
             entity.LoweredEmail = entity.Email.ToLower();
             entity.PasswordQuestion = txtSecurityQuestion.Text;
-            if (tacTeacher.Value == "" || tacTeacher.Value == "0")
-                entityAttribute.TeacherID = null;
+            if (tacEmployee.Value == "" || tacEmployee.Value == "0")
+                entityAttribute.EmployeeID = null;
             else
-                entityAttribute.TeacherID = Convert.ToInt32(tacTeacher.Value);
+                entityAttribute.EmployeeID = Convert.ToInt32(tacEmployee.Value);
 
             #region Custom Attribute
             foreach (RepeaterItem item in rptCustomAttribute.Items)

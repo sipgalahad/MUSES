@@ -61,7 +61,7 @@
         function onTacTeacherButtonSearchClick() {
             openSearchDialog('teacher', onGetTeacherFilterExpression(), function (value) {
                 var filterExpression = onGetTeacherFilterExpression() + " AND TeacherCode = '" + value + "'";
-                Methods.getObject('GetTeacherList', filterExpression, function (result) {
+                Methods.getObject('GetvTeacherList', filterExpression, function (result) {
                     if (result != null) {
                         tacTeacher.setValue(result.TeacherID);
                         tacTeacher.setText(result.TeacherName);
@@ -118,7 +118,7 @@
         <tr>
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
             <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetvTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
                     SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
                     <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
                         ValueChanged="function(){ onTacTeacherValueChanged(); }" />

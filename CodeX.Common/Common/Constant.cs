@@ -62,6 +62,7 @@ namespace CodeX.Common
             public const string ETHNIC = "0005";
             public const string RELIGION = "0006";
             public const string FAMILY_RELATION = "0063";
+            public const string EMPLOYMENT_STATUS = "0066";
             public const string NATIONALITY = "0212";
             public const string PROVINCE = "0347";
             public const string ITEM_TYPE = "X001";
@@ -105,6 +106,9 @@ namespace CodeX.Common
             public const string GLACCOUNT_TYPE = "X180";
             public const string WRITE_OFF_TYPE = "X182";
             public const string JOURNAL_GROUP = "X188";
+            public const string EMPLOYEE_OCCUPATION = "X193";
+            public const string DEPARTMENT = "X194";
+            public const string EMPLOYEE_OCCUPATION_LEVEL = "X195";
         }
 
         public static class PaymentMethod

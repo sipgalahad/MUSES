@@ -21,8 +21,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             hdnTeacherID.Value = param;
 
-            Teacher entityHd = BusinessLayer.GetTeacher(Convert.ToInt32(hdnTeacherID.Value));
-            txtTeacherName.Text = entityHd.TeacherName;
+            Employee entityHd = BusinessLayer.GetEmployee(Convert.ToInt32(hdnTeacherID.Value));
+            txtTeacherName.Text = entityHd.FullName;
 
             if (param != "")
             {

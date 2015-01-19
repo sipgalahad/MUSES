@@ -103,13 +103,13 @@ namespace CodeX.Muses.Web.ControlPanelHQ.Program {
         protected global::System.Web.UI.WebControls.TextBox txtSecurityAnswer;
         
         /// <summary>
-        /// tacTeacher control.
+        /// tacEmployee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacEmployee;
         
         /// <summary>
         /// pnlCustomAttribute control.
