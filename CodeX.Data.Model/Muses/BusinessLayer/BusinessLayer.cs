@@ -2403,6 +2403,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ExamScheduleDt> GetExamScheduleDtList(string filterExpression, IDbContext ctx)
+        {
+            List<ExamScheduleDt> result = new List<ExamScheduleDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ExamScheduleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ExamScheduleDt)helper.IDataReaderToObject(reader, new ExamScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ExamScheduleHd
         public static ExamScheduleHd GetExamScheduleHd(Int32 ExamScheduleID)

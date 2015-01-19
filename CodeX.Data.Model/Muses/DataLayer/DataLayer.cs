@@ -5042,6 +5042,7 @@ namespace CodeX.Data.Model
         private Int32 _ExamScheduleID;
         private Int32 _SubjectID;
         private DateTime _ExamDate;
+        private Int16 _DayNumber;
         private Int16 _HoursIndex;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -5072,6 +5073,12 @@ namespace CodeX.Data.Model
         {
             get { return _ExamDate; }
             set { _ExamDate = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
         }
         [Column(Name = "HoursIndex", DataType = "Int16")]
         public Int16 HoursIndex
@@ -5156,7 +5163,7 @@ namespace CodeX.Data.Model
     #region ExamScheduleHd
     [Serializable]
     [Table(Name = "ExamScheduleHd")]
-    public class ExamScheduleHd : DbDataModel
+    public partial class ExamScheduleHd : DbDataModel
     {
         private Int32 _ExamScheduleID;
         private Int32 _PeriodSectionID;
@@ -5164,6 +5171,7 @@ namespace CodeX.Data.Model
         private DateTime _StartDate;
         private DateTime _EndDate;
         private Int32 _ExamSchedulePackageID;
+        private String _GCExaminationType;
         private String _GCTransactionStatus;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -5205,6 +5213,12 @@ namespace CodeX.Data.Model
         {
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "GCExaminationType", DataType = "String")]
+        public String GCExaminationType
+        {
+            get { return _GCExaminationType; }
+            set { _GCExaminationType = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus

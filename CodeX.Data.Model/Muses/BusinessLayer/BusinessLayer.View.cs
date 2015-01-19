@@ -1530,6 +1530,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vExamScheduleDt
+        public static List<vExamScheduleDt> GetvExamScheduleDtList(string filterExpression)
+        {
+            List<vExamScheduleDt> result = new List<vExamScheduleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vExamScheduleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vExamScheduleDt)helper.IDataReaderToObject(reader, new vExamScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vFAGroup
         public static List<vFAGroup> GetvFAGroupList(string filterExpression)
         {

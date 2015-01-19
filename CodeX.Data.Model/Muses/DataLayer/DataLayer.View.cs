@@ -2867,6 +2867,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vExamScheduleDt
+    [Serializable]
+    [Table(Name = "vExamScheduleDt")]
+    public class vExamScheduleDt
+    {
+        private Int32 _ExamScheduleDtID;
+        private Int32 _ExamScheduleID;
+        private Int32 _SubjectID;
+        private String _SubjectName;
+        private DateTime _ExamDate;
+        private Int16 _DayNumber;
+        private Int16 _HoursIndex;
+        private String _StartTime;
+        private String _EndTime;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ExamScheduleDtID", DataType = "Int32")]
+        public Int32 ExamScheduleDtID
+        {
+            get { return _ExamScheduleDtID; }
+            set { _ExamScheduleDtID = value; }
+        }
+        [Column(Name = "ExamScheduleID", DataType = "Int32")]
+        public Int32 ExamScheduleID
+        {
+            get { return _ExamScheduleID; }
+            set { _ExamScheduleID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "ExamDate", DataType = "DateTime")]
+        public DateTime ExamDate
+        {
+            get { return _ExamDate; }
+            set { _ExamDate = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vFAGroup
     [Serializable]
     [Table(Name = "vFAGroup")]

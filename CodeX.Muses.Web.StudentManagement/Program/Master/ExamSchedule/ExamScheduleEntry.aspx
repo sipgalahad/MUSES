@@ -47,10 +47,11 @@
                 var subjectID = $(this).find('.keyField').html();
                 var examDate = $(this).find('.divExamDate').html();
                 var hoursIndex = $(this).find('.divHoursIndex').html();
+                var dayNumber = $(this).find('.divDayNumber').html(); 
                 if (examDate != '') {
                     if (result != "")
                         result += "|";
-                    result += subjectID + ',' + examDate + ',' + hoursIndex;
+                    result += subjectID + ',' + examDate + ',' + hoursIndex + ',' + dayNumber;
                 }
             });
             $('#<%=hdnSaveValue.ClientID %>').val(result);
@@ -89,7 +90,7 @@
         }
 
         function onTacPeriodSectionValueChanged() {
-            //cbpView.PerformCallback('refresh');
+            loadData();
         }
         //#endregion
 
@@ -118,7 +119,7 @@
         }
 
         function onTacClassTypeValueChanged() {
-            //cbpView.PerformCallback('refresh');
+            loadData();
         }
         //#endregion
 
@@ -153,10 +154,13 @@
                 var text = $('#<%=grdSubject.ClientID %> tr.selected').find('.tdSubjectName').html();
                 $(this).html('<div style="float:right" class="divDetailDelete"></div><b>' + text + '</b>');
 
-                var examDate = $(this).closest('table').prev().html();
+                var examDate = $(this).closest('table').prev().prev().html();
+                var dayNumber = $(this).closest('table').prev().html();
                 var examTime = $(this).parent().find('.tdDefaultHtml').html();
                 var hoursIndex = $(this).parent().find('.tdHoursIndex').html();
+                
                 $('#<%=grdSubject.ClientID %> tr.selected').find('.divExamDate').html(examDate);
+                $('#<%=grdSubject.ClientID %> tr.selected').find('.divDayNumber').html(dayNumber);
                 $('#<%=grdSubject.ClientID %> tr.selected').find('.divHoursIndex').html(hoursIndex);
                 $('#<%=grdSubject.ClientID %> tr.selected').find('.divExamDateTime').html(examDate + ' (' + examTime + ')');
 
@@ -180,10 +184,34 @@
                         $(this).find('.divExamDateTime').html('');
                         $(this).find('.divExamDate').html('');
                         $(this).find('.divHoursIndex').html('');
+                        $(this).find('.divDayNumber').html('');
                     }
                 }
             });
         });
+
+        function onCboExaminationTypeValueChanged() {
+            loadData();
+        }
+
+        function loadData() {
+            if (tacPeriodSection.getValue() != '' && tacClassType.getValue() != '' && cboExaminationType.GetValue() != '') {
+                var filterExpression = "PeriodSectionID = " + tacPeriodSection.getValue() + " AND PeriodClassTypeID = " + tacClassType.getValue() + " AND GCExaminationType = '" + cboExaminationType.GetValue() + "'";
+                Methods.getObject('GetExamScheduleHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnID.ClientID %>').val(result.ExamScheduleID);
+                        cboExamSchedulePackage.SetValue(result.ExamSchedulePackageID);
+                        $('#<%=txtStartDate.ClientID %>').val(result.StartDateInDatePickerFormat);
+                        $('#<%=txtEndDate.ClientID %>').val(result.EndDateInDatePickerFormat);
+                        cbpView.PerformCallback('refresh');
+                    }
+                    else if ($('#<%=hdnID.ClientID %>').val() != '') {
+                        $('#<%=hdnID.ClientID %>').val('');
+                        cbpView.PerformCallback('refresh');
+                    }
+                });
+            }
+        }
     </script>
     
     <style type"text/css">
@@ -197,6 +225,7 @@
         .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
         .tblSchedule tr.T001 b              { color: Red; font-weight: normal; }
     </style>
+    <input type="hidden" id="hdnID" runat="server" />
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <fieldset id="fsFilterGenerate">
         <table style="width:100%">
@@ -234,7 +263,11 @@
             </tr>
             <tr>
                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Ujian")%></label></td>
-                <td colspan="2"><dxe:ASPxComboBox runat="server" ID="cboExaminationType" ClientInstanceName="cboExaminationType" Width="300px" /></td>
+                <td colspan="2">
+                    <dxe:ASPxComboBox runat="server" ID="cboExaminationType" ClientInstanceName="cboExaminationType" Width="300px">
+                        <ClientSideEvents ValueChanged="function(s,e) { onCboExaminationTypeValueChanged(s); }" />
+                    </dxe:ASPxComboBox>
+                </td>
             </tr>
             <tr>
                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal Ujian")%></label></td>
@@ -274,15 +307,16 @@
                     <table style="width:100%">
                         <tr>
                             <td valign="top" style="width:500px;">
-                                <asp:GridView ID="grdSubject" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                <asp:GridView ID="grdSubject" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdSubject_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" ItemStyle-CssClass="tdSubjectName" />
                                         <asp:TemplateField HeaderText="Tanggal / Jam" HeaderStyle-Width="250px">
                                             <ItemTemplate>
-                                                <div class="divExamDateTime"></div>
-                                                <div class="divExamDate" style="display:none"></div>
-                                                <div class="divHoursIndex" style="display:none"></div>
+                                                <div class="divExamDateTime" id="divExamDateTime" runat="server"></div>
+                                                <div class="divExamDate" id="divExamDate" runat="server" style="display:none"></div>
+                                                <div class="divHoursIndex" id="divHoursIndex" runat="server" style="display:none"></div>
+                                                <div class="divDayNumber" id="divDayNumber" runat="server" style="display:none"></div>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -299,7 +333,8 @@
                                     <ItemTemplate>
                                         <li>
                                             <h4 style="text-align: center"><%#Eval("ExamDate","{0:dd-MM-yyyy}") %></h4>
-                                            <asp:Repeater ID="rptScheduleDt" runat="server">
+                                            <div class="divDayNumber" style="display:none"><%#Eval("DayNumber") %></div>
+                                            <asp:Repeater ID="rptScheduleDt" runat="server" OnItemDataBound="rptScheduleDt_ItemDataBound">
                                                 <HeaderTemplate>
                                                     <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                                 </HeaderTemplate>

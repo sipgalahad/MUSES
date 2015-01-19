@@ -11,6 +11,7 @@ using System.Data;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -54,7 +55,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0 AND TagProperty = '1'", Constant.StandardCode.TASK_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboExaminationType, lstSc, "StandardCodeName", "StandardCodeID");
-            cboExaminationType.SelectedIndex = 0;
+            //cboExaminationType.SelectedIndex = 0;
 
             Helper.SetControlEntrySetting(cboSchoolPeriod, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
             Helper.SetControlEntrySetting(tacPeriodSection, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
@@ -72,12 +73,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         DailySchedulePackage schedulePackage = null;
         List<DailyScheduleTypeDt> lstScheduleType = null;
+        List<vExamScheduleDt> lstExamScheduleDt = null;
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             string filterExpression = "1 = 0";
             if (tacClassType.Value != null && tacClassType.Value.ToString() != "0")
                 filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND IsDeleted = 0", AppSession.SchoolPeriodID, tacClassType.Value);
             List<vPeriodClassTypeSubject> lstEntity = BusinessLayer.GetvPeriodClassTypeSubjectList(filterExpression);
+            if (hdnID.Value != "")
+                lstExamScheduleDt = BusinessLayer.GetvExamScheduleDtList(string.Format("ExamScheduleID = {0} AND IsDeleted = 0", hdnID.Value));
             grdSubject.DataSource = lstEntity;
             grdSubject.DataBind();
 
@@ -99,16 +103,41 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             while (date <= endDate)
             {
                 ExamScheduleDt entityDt = new ExamScheduleDt();
-                int dayOfWeek = (int)date.DayOfWeek;
+                short dayOfWeek = (short)date.DayOfWeek;
                 if (lstSchoolDay.Count(p => p.StandardCodeID == string.Format("{0}^00{1}", Constant.StandardCode.SCHOOL_DAY, dayOfWeek)) > 0)
                 {
                     entityDt.ExamDate = date;
+                    entityDt.DayNumber = dayOfWeek;
                     lstEntityDt.Add(entityDt);
                 }
                 date = date.AddDays(1);
             }
             rptSchedule.DataSource = lstEntityDt;
             rptSchedule.DataBind();
+        }
+
+        protected void grdSubject_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (lstExamScheduleDt != null)
+                {
+                    vPeriodClassTypeSubject entity = (vPeriodClassTypeSubject)e.Row.DataItem;
+                    vExamScheduleDt entityDt = lstExamScheduleDt.FirstOrDefault(p => p.SubjectID == entity.SubjectID);
+                    if (entityDt != null)
+                    {
+                        HtmlGenericControl divExamDateTime = (HtmlGenericControl)e.Row.FindControl("divExamDateTime");
+                        HtmlGenericControl divExamDate = (HtmlGenericControl)e.Row.FindControl("divExamDate");
+                        HtmlGenericControl divHoursIndex = (HtmlGenericControl)e.Row.FindControl("divHoursIndex");
+                        HtmlGenericControl divDayNumber = (HtmlGenericControl)e.Row.FindControl("divDayNumber");
+
+                        divExamDateTime.InnerHtml = string.Format("{0} ({1} - {2})", entityDt.ExamDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT), entityDt.StartTime, entityDt.EndTime);
+                        divExamDate.InnerHtml = entityDt.ExamDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                        divHoursIndex.InnerHtml = entityDt.HoursIndex.ToString();
+                        divDayNumber.InnerHtml = entityDt.DayNumber.ToString();
+                    }
+                }
+            }
         }
 
         protected void rptSchedule_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -131,6 +160,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
+        protected void rptScheduleDt_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                if (lstExamScheduleDt != null)
+                {
+                    DailyScheduleTypeDt entity = (DailyScheduleTypeDt)e.Item.DataItem;
+                    ExamScheduleDt entityHd = ((RepeaterItem)e.Item.Parent.Parent).DataItem as ExamScheduleDt;
+                    vExamScheduleDt entityDt = lstExamScheduleDt.FirstOrDefault(p => p.ExamDate == entityHd.ExamDate && p.HoursIndex == entity.HoursIndex);
+                    if (entityDt != null)
+                    {
+                        HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
+                        tdHtmlText.InnerHtml = string.Format("<div style='float:right' class='divDetailDelete'></div><b>{0}</b>", entityDt.SubjectName);
+                    }
+                }
+            }
+        }
+
         private void ControlToEntity(ExamScheduleHd entityHd)
         {
             entityHd.ExamSchedulePackageID = Convert.ToInt32(cboExamSchedulePackage.Value);
@@ -138,6 +185,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entityHd.PeriodSectionID = Convert.ToInt32(tacPeriodSection.Value);
             entityHd.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entityHd.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
+            entityHd.GCExaminationType = cboExaminationType.Value.ToString();
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
@@ -150,24 +198,61 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ExamScheduleDtDao entityDtDao = new ExamScheduleDtDao(ctx);
                 try
                 {
-                    ExamScheduleHd entityHd = new ExamScheduleHd();
-                    ControlToEntity(entityHd);
-                    entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                    entityHd.CreatedBy = AppSession.UserLogin.UserID;
-                    entityHdDao.Insert(entityHd);
-                    entityHd.ExamScheduleID = BusinessLayer.GetExamScheduleHdMaxID(ctx);
+                    ExamScheduleHd entityHd = null;
+                    List<ExamScheduleDt> lstExamScheduleDt = null;
+                    if (hdnID.Value == "")
+                    {
+                        entityHd = new ExamScheduleHd();
+                        ControlToEntity(entityHd);
+                        entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                        entityHd.CreatedBy = AppSession.UserLogin.UserID;
+                        entityHdDao.Insert(entityHd);
+                        entityHd.ExamScheduleID = BusinessLayer.GetExamScheduleHdMaxID(ctx);
 
+                        lstExamScheduleDt = new List<ExamScheduleDt>();
+                    }
+                    else
+                    {
+                        entityHd = entityHdDao.Get(Convert.ToInt32(hdnID.Value));
+                        ControlToEntity(entityHd);
+                        entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityHdDao.Update(entityHd);
+
+                        lstExamScheduleDt = BusinessLayer.GetExamScheduleDtList(string.Format("ExamScheduleID = {0} AND IsDeleted = 0", hdnID.Value), ctx);
+                    }
                     string[] lstSaveValue = hdnSaveValue.Value.Split('|');
                     foreach (string saveValue in lstSaveValue)
                     {
                         string[] temp = saveValue.Split(',');
-                        ExamScheduleDt entityDt = new ExamScheduleDt();
-                        entityDt.ExamScheduleID = entityHd.ExamScheduleID;
-                        entityDt.SubjectID = Convert.ToInt32(temp[0]);
-                        entityDt.ExamDate = Helper.GetDatePickerValue(temp[1]);
-                        entityDt.HoursIndex = Convert.ToInt16(temp[2]);
-                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                        entityDtDao.Insert(entityDt);
+                        int subjectID = Convert.ToInt32(temp[0]);
+                        ExamScheduleDt entityDt = lstExamScheduleDt.FirstOrDefault(p => p.SubjectID == subjectID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ExamScheduleDt();
+                            entityDt.ExamScheduleID = entityHd.ExamScheduleID;
+                            entityDt.SubjectID = subjectID;
+                            entityDt.ExamDate = Helper.GetDatePickerValue(temp[1]);
+                            entityDt.HoursIndex = Convert.ToInt16(temp[2]);
+                            entityDt.DayNumber = Convert.ToInt16(temp[3]);
+                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            entityDt.ExamDate = Helper.GetDatePickerValue(temp[1]);
+                            entityDt.HoursIndex = Convert.ToInt16(temp[2]);
+                            entityDt.DayNumber = Convert.ToInt16(temp[3]);
+                            entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Update(entityDt);
+                            lstExamScheduleDt.Remove(entityDt);
+                        }
+                    }
+
+                    foreach (ExamScheduleDt entityDt in lstExamScheduleDt)
+                    {
+                        entityDt.IsDeleted = true;
+                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Update(entityDt);
                     }
                     ctx.CommitTransaction();
                 }
