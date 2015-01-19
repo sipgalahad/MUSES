@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string OnGetRegistrationFilterExpression()
         {
-            return string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus != '{1}'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID);
+            return string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus NOT IN ('{1}','{2}')", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, Constant.RegistrationStatus.CLOSED);
         }
 
         protected override void InitializeDataControl()
