@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SchoolGradeList : BasePageList
+    public partial class SchoolMajorList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.SCHOOL_GRADE;
+            return Constant.MenuCode.ControlPanel.SCHOOL_MAJOR;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvSchoolGradeRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvSchoolMajorRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -42,8 +42,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Grade"};
-            fieldListValue = new string[] { "Grade" };
+            fieldListText = new string[] { "Major"};
+            fieldListValue = new string[] { "Major" };
         }
 
         private string GetFilterExpression()
@@ -60,11 +60,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvSchoolGradeRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvSchoolMajorRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vSchoolGrade> lstEntity = BusinessLayer.GetvSchoolGradeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vSchoolMajor> lstEntity = BusinessLayer.GetvSchoolMajorList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -96,7 +96,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/SchoolGrade/SchoolGradeEntry.aspx");
+            url = ResolveUrl("~/Program/Master/SchoolMajor/SchoolMajorEntry.aspx");
             return true;
         }
 
@@ -104,7 +104,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/SchoolGrade/SchoolGradeEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/SchoolMajor/SchoolMajorEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -116,7 +116,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 try
                 {
-                    BusinessLayer.DeleteSchoolGrade(AppSession.UserLogin.SiteID, hdnID.Value);
+                    BusinessLayer.DeleteSchoolMajor(AppSession.UserLogin.SiteID, hdnID.Value);
                 }
                 catch (Exception ex)
                 {

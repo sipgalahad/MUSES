@@ -16576,6 +16576,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SchoolMajor
+    [Serializable]
+    [Table(Name = "SchoolMajor")]
+    public class SchoolMajor : DbDataModel
+    {
+        private String _SiteID;
+        private String _GCMajor;
+
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String", IsPrimaryKey = true)]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+    }
+
+    public class SchoolMajorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SchoolMajor));
+        private bool _isAuditLog = false;
+        private const string p_GCMajor = "@p_GCMajor";
+        private const string p_SiteID = "@p_SiteID";
+        public SchoolMajorDao() { }
+        public SchoolMajorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SchoolMajor Get(String SiteID, String GCMajor)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCMajor, GCMajor);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SchoolMajor)_helper.DataRowToObject(row, new SchoolMajor());
+        }
+        public int Insert(SchoolMajor record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SchoolMajor record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String SiteID, String GCMajor)
+        {
+            SchoolMajor record;
+            if (_ctx.Transaction == null)
+                record = new SchoolMajorDao().Get(SiteID, GCMajor);
+            else
+                record = Get(SiteID, GCMajor);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SchoolPeriod
     [Serializable]
     [Table(Name = "SchoolPeriod")]

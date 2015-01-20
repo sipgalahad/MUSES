@@ -12,61 +12,56 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SchoolGradeEntry : BasePageEntry
+    public partial class SchoolMajorEntry : BasePageEntry
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.SCHOOL_GRADE;
+            return Constant.MenuCode.ControlPanel.SCHOOL_MAJOR;
         }
 
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstGrade = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1",Constant.StandardCode.SCHOOL_GRADE));
-            Methods.SetComboBoxField(cboGrade, lstGrade, "StandardCodeName", "StandardCodeID");
+            List<StandardCode> lstGrade = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1",Constant.StandardCode.SCHOOL_MAJOR));
+            Methods.SetComboBoxField(cboMajor, lstGrade, "StandardCodeName", "StandardCodeID");
 
             if (Request.QueryString.Count > 0)
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
-                String filterExpression = String.Format("GCGrade = '{0}'", ID);
-                vSchoolGrade entity = BusinessLayer.GetvSchoolGradeList(filterExpression)[0];
-                cboGrade.Enabled = false;
+                String filterExpression = String.Format("GCMajor = '{0}'", ID);
+                vSchoolMajor entity = BusinessLayer.GetvSchoolMajorList(filterExpression)[0];
+                cboMajor.Enabled = false;
                 EntityToControl(entity);
             }
             else
             {
                 IsAdd = true;
             }
-            
-            txtDisplayOrder.Focus();
         }
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, false, true));
         }
 
-        private void EntityToControl(vSchoolGrade entity)
+        private void EntityToControl(vSchoolMajor entity)
         {
-            cboGrade.Value = entity.GCGrade;
-            txtDisplayOrder.Text = entity.DisplayOrder.ToString();
+            cboMajor.Value = entity.GCMajor;
         }
 
-        private void ControlToEntity(SchoolGrade entity)
+        private void ControlToEntity(SchoolMajor entity)
         {
-            entity.GCGrade = cboGrade.Value.ToString();
-            entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
+            entity.GCMajor = cboMajor.Value.ToString();
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
         {
             errMessage = string.Empty;
-            string FilterExpression = string.Format("GCGrade = '{0}'", cboGrade.Value);
-            List<SchoolGrade> lst = BusinessLayer.GetSchoolGradeList(FilterExpression);
+            string FilterExpression = string.Format("GCMajor = '{0}'", cboMajor.Value);
+            List<SchoolMajor> lst = BusinessLayer.GetSchoolMajorList(FilterExpression);
 
             if (lst.Count > 0)
-                errMessage = " Grade with Code " + cboGrade.Value + " is already exist!";
+                errMessage = " Major with Code " + cboMajor.Value + " is already exist!";
 
             return (errMessage == string.Empty);
         }
@@ -74,11 +69,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override bool OnBeforeSaveEditRecord(ref string errMessage)
         {
             errMessage = string.Empty;
-            string FilterExpression = string.Format("GCGrade = '{0}' AND DisplayOrder != {1}", cboGrade.Value, txtDisplayOrder.Text);
-            List<SchoolGrade> lst = BusinessLayer.GetSchoolGradeList(FilterExpression);
+            //string FilterExpression = string.Format("GCGrade = '{0}' AND DisplayOrder != {1}", cboGrade.Value, txtDisplayOrder.Text);
+            //List<SchoolMajor> lst = BusinessLayer.GetSchoolMajorList(FilterExpression);
 
-            if (lst.Count > 0)
-                errMessage = " Display Order with order " + txtDisplayOrder.Text + " is already exist!";
+            //if (lst.Count > 0)
+            //    errMessage = " Display Order with order " + txtDisplayOrder.Text + " is already exist!";
 
             return (errMessage == string.Empty);
         }
@@ -86,12 +81,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             IDbContext ctx = DbFactory.Configure(true);
-            SchoolGradeDao entityDao = new SchoolGradeDao(ctx);
+            SchoolMajorDao entityDao = new SchoolMajorDao(ctx);
             
             bool result = false;
             try
             {
-                SchoolGrade entity = new SchoolGrade();
+                SchoolMajor entity = new SchoolMajor();
                 ControlToEntity(entity);
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entityDao.Insert(entity);
@@ -117,10 +112,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            SchoolGradeDao entityDao = new SchoolGradeDao(ctx);
+            SchoolMajorDao entityDao = new SchoolMajorDao(ctx);
             try
             {
-                SchoolGrade entity = entityDao.Get(AppSession.UserLogin.SiteID,cboGrade.Value.ToString());
+                SchoolMajor entity = entityDao.Get(AppSession.UserLogin.SiteID, cboMajor.Value.ToString());
                 ControlToEntity(entity);
                 entityDao.Update(entity);
                 ctx.CommitTransaction();

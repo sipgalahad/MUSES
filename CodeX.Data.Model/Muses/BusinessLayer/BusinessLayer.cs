@@ -7776,6 +7776,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SchoolMajor
+        public static SchoolMajor GetSchoolMajor(String SiteID, String GCMajor)
+        {
+            return new SchoolMajorDao().Get(SiteID, GCMajor);
+        }
+        public static int InsertSchoolMajor(SchoolMajor record)
+        {
+            return new SchoolMajorDao().Insert(record);
+        }
+        public static int UpdateSchoolMajor(SchoolMajor record)
+        {
+            return new SchoolMajorDao().Update(record);
+        }
+        public static int DeleteSchoolMajor(String SiteID, String GCMajor)
+        {
+            return new SchoolMajorDao().Delete(SiteID, GCMajor);
+        }
+        public static List<SchoolMajor> GetSchoolMajorList(string filterExpression)
+        {
+            List<SchoolMajor> result = new List<SchoolMajor>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolMajor));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolMajor)helper.IDataReaderToObject(reader, new SchoolMajor()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SchoolPeriod
         public static SchoolPeriod GetSchoolPeriod(Int32 SchoolPeriodID)
         {
