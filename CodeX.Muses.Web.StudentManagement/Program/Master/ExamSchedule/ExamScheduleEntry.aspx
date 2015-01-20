@@ -53,6 +53,19 @@
             });
         });
 
+        function onAfterCustomClickSuccess(type) {
+            if (type == 'approve') {
+                $('#<%=btnSave.ClientID %>').hide();
+                $('#<%=btnApprove.ClientID %>').hide();
+                showWatermark('APPROVED');
+            }
+            else if (type == 'reopen') {
+                $('#<%=btnSave.ClientID %>').show();
+                $('#<%=btnApprove.ClientID %>').show();
+                hideWatermark();
+            }
+        }
+
         function getSaveValue() {
             var result = '';
             $('#<%=grdSubject.ClientID %> tr:gt(0)').each(function () {
@@ -215,15 +228,26 @@
                         cboExamSchedulePackage.SetValue(result.ExamSchedulePackageID);
                         $('#<%=txtStartDate.ClientID %>').val(result.StartDateInDatePickerFormat);
                         $('#<%=txtEndDate.ClientID %>').val(result.EndDateInDatePickerFormat);
-                        cbpView.PerformCallback('refresh');
                         $('#<%=btnExamClassSchedule.ClientID %>').show();
-                        $('#<%=btnApprove.ClientID %>').show();
+                        if (result.GCTransactionStatus == '<%=OnGetTransactionStatusApproved() %>') {
+                            $('#<%=btnSave.ClientID %>').hide();
+                            $('#<%=btnApprove.ClientID %>').hide();
+                            showWatermark('APPROVED');
+                        }
+                        else {
+                            $('#<%=btnSave.ClientID %>').show();
+                            $('#<%=btnApprove.ClientID %>').show();
+                            hideWatermark();
+                        }
+                        cbpView.PerformCallback('refresh');
                     }
                     else if ($('#<%=hdnID.ClientID %>').val() != '') {
                         $('#<%=hdnID.ClientID %>').val('');
-                        cbpView.PerformCallback('refresh');
                         $('#<%=btnExamClassSchedule.ClientID %>').hide();
                         $('#<%=btnApprove.ClientID %>').hide();
+                        $('#<%=btnSave.ClientID %>').show();
+                        hideWatermark();
+                        cbpView.PerformCallback('refresh');
                     }
                 });
             }

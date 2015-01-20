@@ -1355,6 +1355,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassSubjectSection
+        public static ClassSubjectSection GetClassSubjectSection(Int32 ClassSubjectID, Int32 PeriodSectionID)
+        {
+            return new ClassSubjectSectionDao().Get(ClassSubjectID, PeriodSectionID);
+        }
+        public static int InsertClassSubjectSection(ClassSubjectSection record)
+        {
+            return new ClassSubjectSectionDao().Insert(record);
+        }
+        public static int UpdateClassSubjectSection(ClassSubjectSection record)
+        {
+            return new ClassSubjectSectionDao().Update(record);
+        }
+        public static int DeleteClassSubjectSection(Int32 ClassSubjectID, Int32 PeriodSectionID)
+        {
+            return new ClassSubjectSectionDao().Delete(ClassSubjectID, PeriodSectionID);
+        }
+        public static List<ClassSubjectSection> GetClassSubjectSectionList(string filterExpression)
+        {
+            List<ClassSubjectSection> result = new List<ClassSubjectSection>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectSection));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectSection)helper.IDataReaderToObject(reader, new ClassSubjectSection()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassSubjectSection> GetClassSubjectSectionList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassSubjectSection> result = new List<ClassSubjectSection>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectSection));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectSection)helper.IDataReaderToObject(reader, new ClassSubjectSection()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassSubjectTask
         public static ClassSubjectTask GetClassSubjectTask(Int32 ClassSubjectTaskID)
         {

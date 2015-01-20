@@ -36,6 +36,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
         }
 
+        protected string OnGetTransactionStatusApproved()
+        {
+            return Constant.TransactionStatus.APPROVED;
+        }
+
         protected override void InitializeDataControl()
         {
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));

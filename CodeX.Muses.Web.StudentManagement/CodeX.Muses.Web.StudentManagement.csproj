@@ -883,7 +883,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Program\TeacherClassPage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">
