@@ -11,7 +11,9 @@
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnApprove" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Approve")%></div></li>
     <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+    <li id="btnExamClassSchedule" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><div><%=GetLabel("Kelas")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
@@ -25,12 +27,22 @@
                     cbpView.PerformCallback('refresh|0');
             });
 
+            $('#<%=btnExamClassSchedule.ClientID %>').click(function () {
+                var id = $('#<%=hdnID.ClientID %>').val();
+                var url = ResolveUrl("~/Program/Master/ExamSchedule/ExamClassScheduleEntryCtl.ascx");
+                openUserControlPopup(url, id, 'Jadwal', 1000, 550);
+            });
+
             $('#btnExamSchedulePackageDt').click(function () {
                 var schedulePackage = cboExamSchedulePackage.GetValue();
                 if (schedulePackage != null && schedulePackage != '') {
                     var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
                     openUserControlPopup(url, schedulePackage, 'Jadwal', 1000, 550);
                 }
+            });
+
+            $('#<%=btnApprove.ClientID %>').click(function () {
+                onCustomButtonClick('approve');                
             });
 
             $('#<%=btnSave.ClientID %>').click(function () {
@@ -204,10 +216,14 @@
                         $('#<%=txtStartDate.ClientID %>').val(result.StartDateInDatePickerFormat);
                         $('#<%=txtEndDate.ClientID %>').val(result.EndDateInDatePickerFormat);
                         cbpView.PerformCallback('refresh');
+                        $('#<%=btnExamClassSchedule.ClientID %>').show();
+                        $('#<%=btnApprove.ClientID %>').show();
                     }
                     else if ($('#<%=hdnID.ClientID %>').val() != '') {
                         $('#<%=hdnID.ClientID %>').val('');
                         cbpView.PerformCallback('refresh');
+                        $('#<%=btnExamClassSchedule.ClientID %>').hide();
+                        $('#<%=btnApprove.ClientID %>').hide();
                     }
                 });
             }

@@ -1530,6 +1530,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vExamClassSchedule
+        public static List<vExamClassSchedule> GetvExamClassScheduleList(string filterExpression)
+        {
+            List<vExamClassSchedule> result = new List<vExamClassSchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vExamClassSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vExamClassSchedule)helper.IDataReaderToObject(reader, new vExamClassSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vExamScheduleDt
         public static List<vExamScheduleDt> GetvExamScheduleDtList(string filterExpression)
         {
@@ -1542,6 +1566,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vExamScheduleDt)helper.IDataReaderToObject(reader, new vExamScheduleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vExamScheduleHd
+        public static List<vExamScheduleHd> GetvExamScheduleHdList(string filterExpression)
+        {
+            List<vExamScheduleHd> result = new List<vExamScheduleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vExamScheduleHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vExamScheduleHd)helper.IDataReaderToObject(reader, new vExamScheduleHd()));
             }
             catch (Exception ex)
             {
