@@ -1227,6 +1227,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassMeetingID;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private DateTime _MeetingDate;
         private String _StartTime;
         private String _EndTime;
@@ -1249,6 +1250,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "MeetingDate", DataType = "DateTime")]
         public DateTime MeetingDate
@@ -1752,6 +1759,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
         private String _GCTaskType;
         private String _TaskType;
@@ -1776,6 +1784,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "ClassTaskCode", DataType = "String")]
         public String ClassTaskCode

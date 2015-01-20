@@ -1169,9 +1169,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ClassStudentSubjectMark
-        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID)
+        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
         {
-            return new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID);
+            return new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID);
         }
         public static int InsertClassStudentSubjectMark(ClassStudentSubjectMark record)
         {
@@ -1181,9 +1181,9 @@ namespace CodeX.Data.Model
         {
             return new ClassStudentSubjectMarkDao().Update(record);
         }
-        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID)
+        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
         {
-            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectID, StudentID);
+            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectID, StudentID, PeriodSectionID);
         }
         public static List<ClassStudentSubjectMark> GetClassStudentSubjectMarkList(string filterExpression)
         {

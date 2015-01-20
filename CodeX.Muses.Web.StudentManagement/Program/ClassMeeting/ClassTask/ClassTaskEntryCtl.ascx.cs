@@ -93,6 +93,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 ClassSubjectTask entity = new ClassSubjectTask();
                 ControlToEntity(entity);
+                entity.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                 entity.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);

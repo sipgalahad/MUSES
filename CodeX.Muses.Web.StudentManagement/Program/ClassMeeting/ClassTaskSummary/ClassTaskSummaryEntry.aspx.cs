@@ -51,6 +51,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 hdnParentClassSubjectID.Value = entityClassSubject.ParentID.ToString();
             }
             lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(filterExpression);
+
+            filterExpression = string.Format("{0} AND PeriodSectionID = {1}", filterExpression, AppSession.ClassSubject.PeriodSectionID);
             lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(filterExpression);
 
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", entityClassSubject.SchoolClassID));
@@ -127,7 +129,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
 
                 List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassSubjectTaskID.Select(p => p).ToList())), ctx);
-                List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("ClassSubjectID = {0}", hdnParentClassSubjectID.Value), ctx);
+                List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value), ctx);
                 lstSaveValue = hdnListSaveValue.Value.Split('|');
                 int ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
                 foreach (String saveValue in lstSaveValue)
@@ -148,6 +150,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 studentFinalMark = new ClassStudentSubjectMark();
                                 studentFinalMark.ClassSubjectID = ClassSubjectID;
                                 studentFinalMark.StudentID = studentID;
+                                studentFinalMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                                 studentFinalMark.Mark = finalStudentMark;
                                 entityStudentSubjectMarkDao.Insert(studentFinalMark);
                             }
@@ -160,7 +163,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 entityStudentSubjectMarkDao.Update(studentFinalMark);
                             }
                             else
-                                entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID);
+                                entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID, AppSession.ClassSubject.PeriodSectionID);
                         }
 
                         string[] lstSaveValue2 = temp[2].Split(',');

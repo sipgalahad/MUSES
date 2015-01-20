@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -35,9 +37,43 @@
 
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=tcs|' + id);
+            var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=tcs|' + tacPeriodSection.getValue() + '|' + id);
             openWindowPopup(url, 'TeacherClassSubject' + id, '1300', '650');
         });
+
+        function onCboSchoolPeriodValueChanged(s) {
+            tacPeriodSection.setValue('');
+            tacPeriodSection.setText('');
+            cbpView.PerformCallback('refresh');
+        }
+
+        //#region Period Section
+        function onGetPeriodSectionFilterExpression() {
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacPeriodSectionButtonSearchClick() {
+            openSearchDialog('periodsection', onGetPeriodSectionFilterExpression(), function (value) {
+                var filterExpression = onGetPeriodSectionFilterExpression() + " AND PeriodSectionCode = '" + value + "'";
+                Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacPeriodSection.setValue(result.PeriodSectionID);
+                        tacPeriodSection.setText(result.PeriodSectionName);
+                    }
+                    else {
+                        tacPeriodSection.setValue('');
+                        tacPeriodSection.setText('');
+                    }
+                    onTacPeriodSectionValueChanged();
+                });
+            });
+
+        }
+
+        function onTacPeriodSectionValueChanged() {
+        }
+        //#endregion
     </script>
     <table>
         <tr>
@@ -46,6 +82,16 @@
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
                 </dxe:ASPxComboBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
+            <td colspan="2">
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
+                    SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
     </table>
