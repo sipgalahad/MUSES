@@ -165,6 +165,8 @@
     <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
+    <Content Include="Program\Master\SchoolGrade\SchoolGradeEntry.aspx" />
+    <Content Include="Program\Master\SchoolGrade\SchoolGradeList.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
@@ -803,6 +805,20 @@
     </Compile>
     <Compile Include="Program\Master\Room\RoomList.aspx.designer.cs">
       <DependentUpon>RoomList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolGrade\SchoolGradeEntry.aspx.cs">
+      <DependentUpon>SchoolGradeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolGrade\SchoolGradeEntry.aspx.designer.cs">
+      <DependentUpon>SchoolGradeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolGrade\SchoolGradeList.aspx.cs">
+      <DependentUpon>SchoolGradeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolGrade\SchoolGradeList.aspx.designer.cs">
+      <DependentUpon>SchoolGradeList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.cs">
       <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>

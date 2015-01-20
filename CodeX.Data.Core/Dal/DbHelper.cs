@@ -222,7 +222,8 @@ namespace CodeX.Data.Core.Dal
                 filterExpression = " WHERE " + filterExpression;
             if (orderByExpression == null || orderByExpression == "")
                 orderByExpression = "(SELECT 0)";
-            return string.Format("SELECT a.row FROM (SELECT ROW_NUMBER() OVER (ORDER BY {0}) - 1 as row, {2} FROM {1}{4}) a WHERE {2} = '{3}'", orderByExpression, _tableName, keyField, keyValue, filterExpression);
+            string temp = string.Format("SELECT a.row FROM (SELECT ROW_NUMBER() OVER (ORDER BY {0}) - 1 as row, {2} FROM {1}{4}) a WHERE {2} = '{3}'", orderByExpression, _tableName, keyField, keyValue, filterExpression);
+            return temp;
         }
 
         public string GetRowCount(string filterExpression, params object[] args)

@@ -7736,6 +7736,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SchoolGrade
+        public static SchoolGrade GetSchoolGrade(String SiteID, String GCGrade)
+        {
+            return new SchoolGradeDao().Get(SiteID, GCGrade);
+        }
+        public static int InsertSchoolGrade(SchoolGrade record)
+        {
+            return new SchoolGradeDao().Insert(record);
+        }
+        public static int UpdateSchoolGrade(SchoolGrade record)
+        {
+            return new SchoolGradeDao().Update(record);
+        }
+        public static int DeleteSchoolGrade(String SiteID, String GCGrade)
+        {
+            return new SchoolGradeDao().Delete(SiteID, GCGrade);
+        }
+        public static List<SchoolGrade> GetSchoolGradeList(string filterExpression)
+        {
+            List<SchoolGrade> result = new List<SchoolGrade>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolGrade));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolGrade)helper.IDataReaderToObject(reader, new SchoolGrade()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SchoolPeriod
         public static SchoolPeriod GetSchoolPeriod(Int32 SchoolPeriodID)
         {
