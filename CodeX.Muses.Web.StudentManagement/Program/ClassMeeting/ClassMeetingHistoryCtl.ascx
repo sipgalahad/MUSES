@@ -22,12 +22,12 @@
             $('#ulMeetingViewList li:eq(0)').click();
 
         $('#lblDetail').click(function () {
-            var id = $('#<%=hdnClassSubjectID.ClientID %>').val() + '|' + $('#<%=hdnClassScheduleID.ClientID %>').val() + '|' + $('#<%=hdnClassMeetingID.ClientID %>').val();
+            var id = $('#<%=hdnPeriodSection.ClientID %>').val() + '|' + $('#<%=hdnClassSubjectID.ClientID %>').val() + '|' + $('#<%=hdnClassScheduleID.ClientID %>').val() + '|' + $('#<%=hdnClassMeetingID.ClientID %>').val();
             var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'ClassMeeting', '1300', '650');
         });
         $('#lblAddData').click(function () {
-            var id = $('#<%=hdnClassSubjectID.ClientID %>').val() + '|' + $('#<%=hdnClassScheduleID.ClientID %>').val() + '|0';
+            var id = $('#<%=hdnPeriodSection.ClientID %>').val() + '|' + $('#<%=hdnClassSubjectID.ClientID %>').val() + '|' + $('#<%=hdnClassScheduleID.ClientID %>').val() + '|0';
             var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'ClassMeeting', '1300', '650');
         });
@@ -72,6 +72,7 @@
 </script>
 
 <div style="height:440px; overflow-y:auto">
+    <input type="hidden" id="hdnPeriodSection" runat="server" />
     <input type="hidden" id="hdnClassSubjectID" runat="server" />
     <input type="hidden" id="hdnClassScheduleID" runat="server" />
     <input type="hidden" id="hdnClassMeetingID" runat="server" />

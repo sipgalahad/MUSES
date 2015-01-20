@@ -2148,6 +2148,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassMeetingID;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private DateTime _MeetingDate;
         private String _StartTime;
         private String _EndTime;
@@ -2172,6 +2173,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "MeetingDate", DataType = "DateTime")]
         public DateTime MeetingDate
@@ -2558,6 +2565,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
+        private Int32 _PeriodSectionID;
         private Decimal _Mark;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
@@ -2571,6 +2579,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "Mark", DataType = "Decimal")]
         public Decimal Mark
@@ -2586,16 +2600,18 @@ namespace CodeX.Data.Model
         private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectMark));
         private bool _isAuditLog = false;
         private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
         private const string p_StudentID = "@p_StudentID";
         public ClassStudentSubjectMarkDao() { }
         public ClassStudentSubjectMarkDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ClassStudentSubjectMark Get(Int32 ClassSubjectID, Int32 StudentID)
+        public ClassStudentSubjectMark Get(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
         {
             _ctx.CommandText = _helper.GetRecord();
             _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
             _ctx.Add(p_StudentID, StudentID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (ClassStudentSubjectMark)_helper.DataRowToObject(row, new ClassStudentSubjectMark());
@@ -2610,13 +2626,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ClassSubjectID, Int32 StudentID)
+        public int Delete(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
         {
             ClassStudentSubjectMark record;
             if (_ctx.Transaction == null)
-                record = new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID);
+                record = new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID);
             else
-                record = Get(ClassSubjectID, StudentID);
+                record = Get(ClassSubjectID, StudentID, PeriodSectionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -2834,6 +2850,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
         private String _GCTaskType;
         private Int16 _FinalMarkPercentage;
@@ -2861,6 +2878,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassSubjectID; }
             set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "ClassTaskCode", DataType = "String")]
         public String ClassTaskCode

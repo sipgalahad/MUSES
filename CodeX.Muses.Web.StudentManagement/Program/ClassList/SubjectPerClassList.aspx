@@ -37,15 +37,45 @@
 
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=tcs|' + id);
+            var url = ResolveUrl('~/Program/ClassMeeting/ClassMeetingPageLauncher.aspx?id=tcs|' + tacPeriodSection.getValue() + '|' + id);
             openWindowPopup(url, 'SubjectPerClass' + id, '1300', '650');
         });
 
         function onCboSchoolPeriodValueChanged(s) {
+            tacPeriodSection.setValue('');
+            tacPeriodSection.setText('');
             tacSchoolClass.setValue('');
             tacSchoolClass.setText('');
             cbpView.PerformCallback('refresh');
         }
+
+        //#region Period Section
+        function onGetPeriodSectionFilterExpression() {
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacPeriodSectionButtonSearchClick() {
+            openSearchDialog('periodsection', onGetPeriodSectionFilterExpression(), function (value) {
+                var filterExpression = onGetPeriodSectionFilterExpression() + " AND PeriodSectionCode = '" + value + "'";
+                Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacPeriodSection.setValue(result.PeriodSectionID);
+                        tacPeriodSection.setText(result.PeriodSectionName);
+                    }
+                    else {
+                        tacPeriodSection.setValue('');
+                        tacPeriodSection.setText('');
+                    }
+                    onTacPeriodSectionValueChanged();
+                });
+            });
+
+        }
+
+        function onTacPeriodSectionValueChanged() {
+        }
+        //#endregion
 
         //#region Class
         function onGetClassFilterExpression() {
@@ -83,6 +113,16 @@
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
                 </dxe:ASPxComboBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
+            <td>
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
+                    SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
         <tr>

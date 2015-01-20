@@ -20,6 +20,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.TEACHER_WEEKLY_SCHEDULE;
         }
 
+        protected string OnGetPeriodSectionFilterExpression()
+        {
+            return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE, Constant.StandardCode.SCHOOL_DAY));
@@ -54,6 +59,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 cboSchoolPeriod.SelectedIndex = 0;
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+
+            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
+            if (lstPeriodSection.Count > 0)
+            {
+                PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
+                tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
+                tacPeriodSection.Text = periodSection.PeriodSectionName;
+            }
 
             BindGridView();
         }

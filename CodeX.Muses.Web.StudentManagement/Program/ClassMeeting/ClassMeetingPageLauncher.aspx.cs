@@ -18,7 +18,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (temp[0] == "tcs")
             {
                 ClassSubjectModel classSubject = new ClassSubjectModel();
-                classSubject.ClassSubjectID = Convert.ToInt32(temp[1]);
+                classSubject.PeriodSectionID = Convert.ToInt32(temp[1]);
+                classSubject.ClassSubjectID = Convert.ToInt32(temp[2]);
                 classSubject.ClassScheduleID = 0;
                 classSubject.ClassMeetingID = 0;
                 AppSession.ClassSubject = classSubject;
@@ -35,9 +36,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
             {
                 ClassSubjectModel classSubject = new ClassSubjectModel();
-                classSubject.ClassSubjectID = Convert.ToInt32(temp[0]);
-                classSubject.ClassScheduleID = Convert.ToInt32(temp[1]);
-                classSubject.ClassMeetingID = Convert.ToInt32(temp[2]);
+                classSubject.PeriodSectionID = Convert.ToInt32(temp[0]);
+                classSubject.ClassSubjectID = Convert.ToInt32(temp[1]);
+                classSubject.ClassScheduleID = Convert.ToInt32(temp[2]);
+                classSubject.ClassMeetingID = Convert.ToInt32(temp[3]);
                 AppSession.ClassSubject = classSubject;
 
                 string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.CLASS_MEETING_PAGE);

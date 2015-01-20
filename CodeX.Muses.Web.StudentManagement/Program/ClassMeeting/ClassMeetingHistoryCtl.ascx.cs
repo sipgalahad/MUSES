@@ -21,15 +21,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void InitializeDataControl(string param)
         {
             string[] temp = param.Split('|');
-            hdnClassSubjectID.Value = temp[0];
-            hdnClassScheduleID.Value = temp[1];
+            hdnPeriodSection.Value = temp[0];
+            hdnClassSubjectID.Value = temp[1];
+            hdnClassScheduleID.Value = temp[2];
 
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);            
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("ClassSubjectID = {0}", hdnClassSubjectID.Value);
+            string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", hdnPeriodSection.Value, hdnClassSubjectID.Value);
 
             if (isCountPageCount)
             {

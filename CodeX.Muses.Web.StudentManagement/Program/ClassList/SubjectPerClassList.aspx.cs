@@ -23,6 +23,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.SUBJECT_PER_CLASS;
         }
 
+        protected string OnGetPeriodSectionFilterExpression()
+        {
+            return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
@@ -33,6 +38,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
+            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
+            if (lstPeriodSection.Count > 0)
+            {
+                PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
+                tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
+                tacPeriodSection.Text = periodSection.PeriodSectionName;
+            }
             BindGridView();
         }
 
