@@ -36,6 +36,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
         }
 
+        protected string OnGetTransactionStatusApproved()
+        {
+            return Constant.TransactionStatus.APPROVED;
+        }
+
         protected override void InitializeDataControl()
         {
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
@@ -48,6 +53,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+
+            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
+            if (lstPeriodSection.Count > 0)
+            {
+                PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
+                tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
+                tacPeriodSection.Text = periodSection.PeriodSectionName;
+            }
 
             List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<DailySchedulePackage>(cboExamSchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
@@ -78,7 +91,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string filterExpression = "1 = 0";
             if (tacClassType.Value != null && tacClassType.Value.ToString() != "0")
-                filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND IsDeleted = 0", AppSession.SchoolPeriodID, tacClassType.Value);
+                filterExpression = string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", tacClassType.Value);
             List<vPeriodClassTypeSubject> lstEntity = BusinessLayer.GetvPeriodClassTypeSubjectList(filterExpression);
             if (hdnID.Value != "")
                 lstExamScheduleDt = BusinessLayer.GetvExamScheduleDtList(string.Format("ExamScheduleID = {0} AND IsDeleted = 0", hdnID.Value));
@@ -268,6 +281,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ctx.Close();
                 }
                 return result;
+            }
+            else if (type == "approve")
+            {
+                try
+                {
+                    ExamScheduleHd entity = BusinessLayer.GetExamScheduleHd(Convert.ToInt32(hdnID.Value));
+                    entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateExamScheduleHd(entity);
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    errMessage = ex.Message;
+                    return false;
+                }
+                return true;
             }
             return false;
         }

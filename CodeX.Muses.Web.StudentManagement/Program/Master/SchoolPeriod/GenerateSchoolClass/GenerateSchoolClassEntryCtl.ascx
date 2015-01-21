@@ -68,7 +68,7 @@
             }
             else {
                 $td.find('.hdnTeacherID').val('0');
-                $td.find('.lblTeacher').html('Pilih Ruangan');
+                $td.find('.lblTeacher').html('Pilih Guru');
             }
         });
     }

@@ -67,6 +67,13 @@ namespace CodeX.Common
             public const string VOID = "MS001^999";
         }
 
+        public static class ClassStudentStatus
+        {
+            public const string OPEN = "MS021^001";
+            public const string NAIK_KELAS = "MS021^002";
+            public const string TIDAK_NAIK_KELAS = "MS021^003";
+        }
+
         public static class SchoolDailyScheduleType
         {
             public const string KBM = "MS008^001";
@@ -358,9 +365,11 @@ namespace CodeX.Common
 
                 public const string TEACHER_WEEKLY_SCHEDULE = "SM030100";
                 public const string TEACHER_CLASS = "SM030200";
+                public const string TEACHER_STUDENT_FINAL_MARK = "SM030300"; 
 
                 public const string CLASS_WEEKLY_SCHEDULE = "SM040100";
-                public const string SUBJECT_PER_CLASS = "SM040200";     
+                public const string SUBJECT_PER_CLASS = "SM040200";
+                public const string STUDENT_FINAL_MARK = "SM040300";    
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";

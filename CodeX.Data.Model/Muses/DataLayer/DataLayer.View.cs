@@ -1493,6 +1493,8 @@ namespace CodeX.Data.Model
         private String _StudentName;
         private String _GCGender;
         private String _PictureFileName;
+        private String _GCClassStudentStatus;
+        private String _ClassStudentStatus;
 
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID
@@ -1529,6 +1531,18 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "GCClassStudentStatus", DataType = "String")]
+        public String GCClassStudentStatus
+        {
+            get { return _GCClassStudentStatus; }
+            set { _GCClassStudentStatus = value; }
+        }
+        [Column(Name = "ClassStudentStatus", DataType = "String")]
+        public String ClassStudentStatus
+        {
+            get { return _ClassStudentStatus; }
+            set { _ClassStudentStatus = value; }
         }
     }
     #endregion
@@ -2881,6 +2895,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vExamClassSchedule
+    [Serializable]
+    [Table(Name = "vExamClassSchedule")]
+    public class vExamClassSchedule
+    {
+        private Int32 _ExamScheduleDtID;
+        private Int32 _SchoolClassID;
+        private Int32 _RoomID;
+        private String _RoomName;
+        private Int32 _EmployeeID;
+        private String _EmployeeName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ExamScheduleDtID", DataType = "Int32")]
+        public Int32 ExamScheduleDtID
+        {
+            get { return _ExamScheduleDtID; }
+            set { _ExamScheduleDtID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vExamScheduleDt
     [Serializable]
     [Table(Name = "vExamScheduleDt")]
@@ -2956,6 +3027,84 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vExamScheduleHd
+    [Serializable]
+    [Table(Name = "vExamScheduleHd")]
+    public class vExamScheduleHd
+    {
+        private Int32 _ExamScheduleID;
+        private Int32 _PeriodSectionID;
+        private Int32 _PeriodClassTypeID;
+        private String _ClassTypeCode;
+        private String _ClassTypeName;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _ExamSchedulePackageID;
+        private String _GCExaminationType;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "ExamScheduleID", DataType = "Int32")]
+        public Int32 ExamScheduleID
+        {
+            get { return _ExamScheduleID; }
+            set { _ExamScheduleID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ExamSchedulePackageID", DataType = "Int32")]
+        public Int32 ExamSchedulePackageID
+        {
+            get { return _ExamSchedulePackageID; }
+            set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "GCExaminationType", DataType = "String")]
+        public String GCExaminationType
+        {
+            get { return _GCExaminationType; }
+            set { _GCExaminationType = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
     }
     #endregion

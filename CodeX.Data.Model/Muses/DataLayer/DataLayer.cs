@@ -2501,6 +2501,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _SchoolClassID;
         private Int32 _StudentID;
+        private String _GCClassStudentStatus;
 
         [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 SchoolClassID
@@ -2513,6 +2514,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "GCClassStudentStatus", DataType = "String")]
+        public String GCClassStudentStatus
+        {
+            get { return _GCClassStudentStatus; }
+            set { _GCClassStudentStatus = value; }
         }
     }
 
@@ -2553,6 +2560,86 @@ namespace CodeX.Data.Model
                 record = new ClassStudentDao().Get(SchoolClassID, StudentID);
             else
                 record = Get(SchoolClassID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassStudentMark
+    [Serializable]
+    [Table(Name = "ClassStudentMark")]
+    public class ClassStudentMark : DbDataModel
+    {
+        private Int32 _SchoolClassID;
+        private Int32 _PeriodSectionID;
+        private Int32 _StudentID;
+        private Decimal _FinalMark;
+
+        [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "FinalMark", DataType = "Decimal")]
+        public Decimal FinalMark
+        {
+            get { return _FinalMark; }
+            set { _FinalMark = value; }
+        }
+    }
+
+    public class ClassStudentMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentMark));
+        private bool _isAuditLog = false;
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        private const string p_SchoolClassID = "@p_SchoolClassID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassStudentMarkDao() { }
+        public ClassStudentMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentMark Get(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            _ctx.Add(p_SchoolClassID, SchoolClassID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentMark)_helper.DataRowToObject(row, new ClassStudentMark());
+        }
+        public int Insert(ClassStudentMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID)
+        {
+            ClassStudentMark record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentMarkDao().Get(SchoolClassID, PeriodSectionID, StudentID);
+            else
+                record = Get(SchoolClassID, PeriodSectionID, StudentID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -2838,6 +2925,77 @@ namespace CodeX.Data.Model
                 record = new ClassSubjectDao().Get(ClassSubjectID);
             else
                 record = Get(ClassSubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassSubjectSection
+    [Serializable]
+    [Table(Name = "ClassSubjectSection")]
+    public class ClassSubjectSection : DbDataModel
+    {
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+    }
+
+    public class ClassSubjectSectionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassSubjectSection));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        public ClassSubjectSectionDao() { }
+        public ClassSubjectSectionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassSubjectSection Get(Int32 ClassSubjectID, Int32 PeriodSectionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassSubjectSection)_helper.DataRowToObject(row, new ClassSubjectSection());
+        }
+        public int Insert(ClassSubjectSection record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassSubjectSection record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectID, Int32 PeriodSectionID)
+        {
+            ClassSubjectSection record;
+            if (_ctx.Transaction == null)
+                record = new ClassSubjectSectionDao().Get(ClassSubjectID, PeriodSectionID);
+            else
+                record = Get(ClassSubjectID, PeriodSectionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

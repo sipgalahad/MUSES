@@ -27,6 +27,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return 480 + (lstClassTask.Count * 90);
         }
 
+        protected string OnGetTransactionStatusApproved()
+        {
+            return Constant.TransactionStatus.APPROVED;
+        }
+
         List<ClassSubjectTask> lstClassTask = null;
         protected override void InitializeDataControl()
         {
@@ -58,6 +63,26 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", entityClassSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
+
+            ClassSubjectSection entitySubjectSection = BusinessLayer.GetClassSubjectSectionList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value)).FirstOrDefault();
+            if (entitySubjectSection == null)
+            {
+                btnApprove.Style.Add("display", "none");
+                btnReopen.Style.Add("display", "none");
+            }
+            else
+            {
+                hdnGCTransactionStatus.Value = entitySubjectSection.GCTransactionStatus;
+                if (entitySubjectSection.GCTransactionStatus == Constant.TransactionStatus.APPROVED)
+                {
+                    btnApprove.Style.Add("display", "none");
+                    btnSave.Style.Add("display", "none");
+                }
+                else
+                {
+                    btnReopen.Style.Add("display", "none");
+                }
+            }
         }
 
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
@@ -103,121 +128,168 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
         {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            ClassSubjectTaskDao entityDtDao = new ClassSubjectTaskDao(ctx);
-            ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao = new ClassStudentSubjectTaskMarkDao(ctx);
-            ClassStudentSubjectMarkDao entityStudentSubjectMarkDao = new ClassStudentSubjectMarkDao(ctx);
-            try
+            if (type == "save")
             {
-                string[] lstSaveValue = hdnListSaveHeaderValue.Value.Split('|');
-
-                lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
-                List<int> lstClassSubjectTaskID = new List<int>();
-                foreach (String saveValue in lstSaveValue)
+                bool result = true;
+                IDbContext ctx = DbFactory.Configure(true);
+                ClassSubjectSectionDao entitySubjectSectionDao = new ClassSubjectSectionDao(ctx);
+                ClassSubjectTaskDao entityDtDao = new ClassSubjectTaskDao(ctx);
+                ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao = new ClassStudentSubjectTaskMarkDao(ctx);
+                ClassStudentSubjectMarkDao entityStudentSubjectMarkDao = new ClassStudentSubjectMarkDao(ctx);
+                try
                 {
-                    string[] temp = saveValue.Split(',');
-                    int ClassSubjectTaskID = Convert.ToInt32(temp[0]);
-                    ClassSubjectTask entityDt = lstClassTask.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID);
-                    short FinalMarkPercentage = Convert.ToInt16(temp[1]);
-                    if (FinalMarkPercentage != entityDt.FinalMarkPercentage)
+                    string[] lstSaveValue = hdnListSaveHeaderValue.Value.Split('|');
+
+                    lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+                    List<int> lstClassSubjectTaskID = new List<int>();
+                    foreach (String saveValue in lstSaveValue)
                     {
-                        entityDt.FinalMarkPercentage = FinalMarkPercentage;
-                        entityDtDao.Update(entityDt);
+                        string[] temp = saveValue.Split(',');
+                        int ClassSubjectTaskID = Convert.ToInt32(temp[0]);
+                        ClassSubjectTask entityDt = lstClassTask.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID);
+                        short FinalMarkPercentage = Convert.ToInt16(temp[1]);
+                        if (FinalMarkPercentage != entityDt.FinalMarkPercentage)
+                        {
+                            entityDt.FinalMarkPercentage = FinalMarkPercentage;
+                            entityDtDao.Update(entityDt);
+                        }
+                        lstClassSubjectTaskID.Add(ClassSubjectTaskID);
                     }
-                    lstClassSubjectTaskID.Add(ClassSubjectTaskID);
-                }
 
-                List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassSubjectTaskID.Select(p => p).ToList())), ctx);
-                List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value), ctx);
-                lstSaveValue = hdnListSaveValue.Value.Split('|');
-                int ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
-                foreach (String saveValue in lstSaveValue)
-                {
-                    string[] lstSaveValue1 = saveValue.Split('|');
-                    foreach (String saveValue1 in lstSaveValue1)
+                    ClassSubjectSection entitySubjectSection = BusinessLayer.GetClassSubjectSectionList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value), ctx).FirstOrDefault();
+                    if (entitySubjectSection == null)
                     {
-                        string[] temp = saveValue.Split('^');
-                        int studentID = Convert.ToInt32(temp[0]);
-                        decimal finalStudentMark = -1;
-                        if(temp[1] != "-")
-                            finalStudentMark = Convert.ToDecimal(temp[1]);
-                        ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == studentID);
-                        if (studentFinalMark == null)
-                        {
-                            if (finalStudentMark > -1)
-                            {
-                                studentFinalMark = new ClassStudentSubjectMark();
-                                studentFinalMark.ClassSubjectID = ClassSubjectID;
-                                studentFinalMark.StudentID = studentID;
-                                studentFinalMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
-                                studentFinalMark.Mark = finalStudentMark;
-                                entityStudentSubjectMarkDao.Insert(studentFinalMark);
-                            }
-                        }
-                        else if (studentFinalMark.Mark != finalStudentMark)
-                        {
-                            if (finalStudentMark > -1)
-                            {
-                                studentFinalMark.Mark = finalStudentMark;
-                                entityStudentSubjectMarkDao.Update(studentFinalMark);
-                            }
-                            else
-                                entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID, AppSession.ClassSubject.PeriodSectionID);
-                        }
+                        entitySubjectSection = new ClassSubjectSection();
+                        entitySubjectSection.ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
+                        entitySubjectSection.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                        entitySubjectSection.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                        entitySubjectSectionDao.Insert(entitySubjectSection);
+                    }
 
-                        string[] lstSaveValue2 = temp[2].Split(',');
-                        int ctr = 0;
-                        foreach (String saveValue2 in lstSaveValue2)
+                    List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassSubjectTaskID.Select(p => p).ToList())), ctx);
+                    List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value), ctx);
+                    lstSaveValue = hdnListSaveValue.Value.Split('|');
+                    int ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
+                    foreach (String saveValue in lstSaveValue)
+                    {
+                        string[] lstSaveValue1 = saveValue.Split('|');
+                        foreach (String saveValue1 in lstSaveValue1)
                         {
-                            if (saveValue2 != "")
+                            string[] temp = saveValue.Split('^');
+                            int studentID = Convert.ToInt32(temp[0]);
+                            decimal finalStudentMark = -1;
+                            if (temp[1] != "-")
+                                finalStudentMark = Convert.ToDecimal(temp[1]);
+                            ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == studentID);
+                            if (studentFinalMark == null)
                             {
-                                int ClassSubjectTaskID = lstClassSubjectTaskID[ctr];
-                                ClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID && p.StudentID == studentID);
-
-                                Decimal mark = -1;
-                                if (saveValue2 != "-")
-                                    mark = Convert.ToDecimal(saveValue2);
-                                if (studentMark == null)
+                                if (finalStudentMark > -1)
                                 {
-                                    if (mark > -1)
-                                    {
-                                        studentMark = new ClassStudentSubjectTaskMark();
-                                        studentMark.StudentID = studentID;
-                                        studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
-                                        studentMark.Mark = mark;
-                                        entityStudentSubjectTaskMarkDao.Insert(studentMark);
-                                    }
-                                }
-                                else if (studentMark.Mark != mark)
-                                {
-                                    if (mark > -1)
-                                    {
-                                        studentMark.Mark = mark;
-                                        entityStudentSubjectTaskMarkDao.Update(studentMark);
-                                    }
-                                    else
-                                        entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                    studentFinalMark = new ClassStudentSubjectMark();
+                                    studentFinalMark.ClassSubjectID = ClassSubjectID;
+                                    studentFinalMark.StudentID = studentID;
+                                    studentFinalMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                                    studentFinalMark.Mark = finalStudentMark;
+                                    entityStudentSubjectMarkDao.Insert(studentFinalMark);
                                 }
                             }
-                            ctr++;
+                            else if (studentFinalMark.Mark != finalStudentMark)
+                            {
+                                if (finalStudentMark > -1)
+                                {
+                                    studentFinalMark.Mark = finalStudentMark;
+                                    entityStudentSubjectMarkDao.Update(studentFinalMark);
+                                }
+                                else
+                                    entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID, AppSession.ClassSubject.PeriodSectionID);
+                            }
+
+                            string[] lstSaveValue2 = temp[2].Split(',');
+                            int ctr = 0;
+                            foreach (String saveValue2 in lstSaveValue2)
+                            {
+                                if (saveValue2 != "")
+                                {
+                                    int ClassSubjectTaskID = lstClassSubjectTaskID[ctr];
+                                    ClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID && p.StudentID == studentID);
+
+                                    Decimal mark = -1;
+                                    if (saveValue2 != "-")
+                                        mark = Convert.ToDecimal(saveValue2);
+                                    if (studentMark == null)
+                                    {
+                                        if (mark > -1)
+                                        {
+                                            studentMark = new ClassStudentSubjectTaskMark();
+                                            studentMark.StudentID = studentID;
+                                            studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                            studentMark.Mark = mark;
+                                            entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                        }
+                                    }
+                                    else if (studentMark.Mark != mark)
+                                    {
+                                        if (mark > -1)
+                                        {
+                                            studentMark.Mark = mark;
+                                            entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                        }
+                                        else
+                                            entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                    }
+                                }
+                                ctr++;
+                            }
                         }
                     }
+                    ctx.CommitTransaction();
                 }
-                ctx.CommitTransaction();
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    result = false;
+                    errMessage = ex.Message;
+                    ctx.RollBackTransaction();
+                }
+                finally
+                {
+                    ctx.Close();
+                }
+                return result;
             }
-            catch (Exception ex)
+            else if (type == "approve")
             {
-                Helper.InsertErrorLog(ex);
-                result = false;
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
+                try
+                {
+                    ClassSubjectSection entity = BusinessLayer.GetClassSubjectSection(Convert.ToInt32(hdnParentClassSubjectID.Value), AppSession.ClassSubject.PeriodSectionID);
+                    entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    BusinessLayer.UpdateClassSubjectSection(entity);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    errMessage = ex.Message;
+                    return false;
+                }
             }
-            finally
+            else if (type == "reopen")
             {
-                ctx.Close();
+                try
+                {
+                    ClassSubjectSection entity = BusinessLayer.GetClassSubjectSection(Convert.ToInt32(hdnParentClassSubjectID.Value), AppSession.ClassSubject.PeriodSectionID);
+                    entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    BusinessLayer.UpdateClassSubjectSection(entity);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    errMessage = ex.Message;
+                    return false;
+                }
             }
-            return result;
+            return false;
         }
     }
 }

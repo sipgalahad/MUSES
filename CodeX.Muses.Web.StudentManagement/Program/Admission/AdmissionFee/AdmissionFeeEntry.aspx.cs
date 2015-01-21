@@ -171,14 +171,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             {
                                 if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
                                 {
-                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalPaymentAmount / 100;
-                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount;
-                                }
-                                else
-                                {
                                     Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
                                     entityDt.TotalDiscountAmount = DiscountAmount * entityDt.TotalPaymentAmount / 100;
                                     entityDt.DiscountAmount = DiscountAmount;
+                                }
+                                else
+                                {
+                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalPaymentAmount / 100;
+                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount;
                                 }
                             }
                             else

@@ -103,9 +103,13 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
+    <Content Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx" />
+    <Content Include="Program\StudentMark\StudentFinalMarkEntry.aspx" />
     <Content Include="Program\ClassList\SubjectPerClassList.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx" />
     <Content Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx" />
+    <Content Include="Program\Master\ExamSchedule\ExamClassScheduleEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
@@ -437,6 +441,27 @@
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx.cs">
+      <DependentUpon>TeacherStudentFinalMarkEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx.designer.cs">
+      <DependentUpon>TeacherStudentFinalMarkEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx.cs">
+      <DependentUpon>StudentFinalMarkDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentFinalMarkDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentFinalMarkEntry.aspx.cs">
+      <DependentUpon>StudentFinalMarkEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentFinalMarkEntry.aspx.designer.cs">
+      <DependentUpon>StudentFinalMarkEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ClassList\SubjectPerClassList.aspx.cs">
       <DependentUpon>SubjectPerClassList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -457,6 +482,13 @@
     </Compile>
     <Compile Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx.designer.cs">
       <DependentUpon>ExamScheduleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ExamSchedule\ExamClassScheduleEntryCtl.ascx.cs">
+      <DependentUpon>ExamClassScheduleEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ExamSchedule\ExamClassScheduleEntryCtl.ascx.designer.cs">
+      <DependentUpon>ExamClassScheduleEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">
       <DependentUpon>AdmissionSelectionEntry.aspx</DependentUpon>
@@ -875,7 +907,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Program\TeacherClassPage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\CodeX.Web.CommonLibs\AppSetting.config">

@@ -10,6 +10,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+    <li id="btnApprove" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Approve")%></div></li>
+    <li id="btnReopen" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/redo.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
@@ -43,6 +45,18 @@
                 onCustomButtonClick('save');
             });
 
+            if ($('#<%=hdnGCTransactionStatus.ClientID %>').val() == "<%=OnGetTransactionStatusApproved() %>") {
+                showWatermark('APPROVED');
+            }
+
+            $('#<%=btnApprove.ClientID %>').click(function () {
+                onCustomButtonClick('approve');
+            });
+
+            $('#<%=btnReopen.ClientID %>').click(function () {
+                onCustomButtonClick('reopen');
+            });
+
             setStudentImage();
 
             var width = parseInt('<%=OnGetTableViewWidth() %>');
@@ -52,6 +66,21 @@
 
             setFinalMark();
         });
+
+        function onAfterCustomClickSuccess(type) {
+            if (type == 'approve') {
+                $('#<%=btnApprove.ClientID %>').hide();
+                $('#<%=btnReopen.ClientID %>').show();
+                $('#<%=btnSave.ClientID %>').hide();
+                showWatermark('APPROVED');
+            }
+            else {
+                $('#<%=btnApprove.ClientID %>').show();
+                $('#<%=btnReopen.ClientID %>').hide();
+                $('#<%=btnSave.ClientID %>').show();
+                hideWatermark();
+            }
+        }
 
         var lstFinalMarkPercentage = [];
         function setFinalMark() {
@@ -101,6 +130,7 @@
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
+    <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
     <div style="width:1250px; overflow-x: auto;">
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>
