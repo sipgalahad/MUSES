@@ -103,6 +103,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
     <Content Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx" />
     <Content Include="Program\StudentMark\StudentFinalMarkEntry.aspx" />
@@ -440,6 +441,13 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GradePromotion\GradePromotionEntry.aspx.cs">
+      <DependentUpon>GradePromotionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GradePromotion\GradePromotionEntry.aspx.designer.cs">
+      <DependentUpon>GradePromotionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx.cs">
       <DependentUpon>TeacherStudentFinalMarkEntry.aspx</DependentUpon>
