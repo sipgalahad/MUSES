@@ -67,6 +67,13 @@ namespace CodeX.Common
             public const string VOID = "MS001^999";
         }
 
+        public static class ClassStudentStatus
+        {
+            public const string OPEN = "MS021^001";
+            public const string NAIK_KELAS = "MS021^002";
+            public const string TIDAK_NAIK_KELAS = "MS021^003";
+        }
+
         public static class SchoolDailyScheduleType
         {
             public const string KBM = "MS008^001";

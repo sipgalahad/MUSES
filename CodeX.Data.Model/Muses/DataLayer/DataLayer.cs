@@ -2501,6 +2501,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _SchoolClassID;
         private Int32 _StudentID;
+        private String _GCClassStudentStatus;
 
         [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 SchoolClassID
@@ -2513,6 +2514,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "GCClassStudentStatus", DataType = "String")]
+        public String GCClassStudentStatus
+        {
+            get { return _GCClassStudentStatus; }
+            set { _GCClassStudentStatus = value; }
         }
     }
 

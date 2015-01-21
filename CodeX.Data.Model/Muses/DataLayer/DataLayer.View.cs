@@ -1493,6 +1493,8 @@ namespace CodeX.Data.Model
         private String _StudentName;
         private String _GCGender;
         private String _PictureFileName;
+        private String _GCClassStudentStatus;
+        private String _ClassStudentStatus;
 
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID
@@ -1529,6 +1531,18 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "GCClassStudentStatus", DataType = "String")]
+        public String GCClassStudentStatus
+        {
+            get { return _GCClassStudentStatus; }
+            set { _GCClassStudentStatus = value; }
+        }
+        [Column(Name = "ClassStudentStatus", DataType = "String")]
+        public String ClassStudentStatus
+        {
+            get { return _ClassStudentStatus; }
+            set { _ClassStudentStatus = value; }
         }
     }
     #endregion

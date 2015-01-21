@@ -93,6 +93,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ClassStudent entity = new ClassStudent();
                     entity.SchoolClassID = SchoolClassID;
                     entity.StudentID = Convert.ToInt32(studentID);
+                    entity.GCClassStudentStatus = Constant.ClassStudentStatus.OPEN;
                     entityDao.Insert(entity);
 
                     Student student = entityStudentDao.Get(entity.StudentID);
