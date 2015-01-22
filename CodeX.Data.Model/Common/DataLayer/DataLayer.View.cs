@@ -293,6 +293,7 @@ namespace CodeX.Data.Model
         private String _CRUDMode;
         private String _ImageUrl;
         private Boolean _IsHeader;
+        private String _Remarks;
         private Int32 _Level;
 
         [Column(Name = "MenuID", DataType = "Int32")]
@@ -366,6 +367,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsHeader; }
             set { _IsHeader = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "Level", DataType = "Int32")]
         public Int32 Level

@@ -2,7 +2,7 @@
     CodeBehind="MPBaseDetailPage.master.cs" Inherits="CodeX.Web.CommonLibs.MasterPage.MPBaseDetailPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPBase" runat="server">
-    <script type="text/javascript">        
+    <script type="text/javascript">
         $(function () {
             $('html').click(function () {
                 if (!isHoverToolbarArea)
@@ -28,6 +28,21 @@
                 $('#toolbarArea').slideDown('fast');
             }
         });
+
+        $menuLi = null;
+        function changePage($li) {
+            $menuLi = $li;
+            if (typeof onBeforeChangePage != 'undefined')
+                onBeforeChangePage();
+            else
+                goToNextPage();
+        }
+        function goToNextPage() {
+            showLoadingPanel();
+            document.location = ResolveUrl($menuLi.attr('url'));
+
+        }
+
         $(function () {
             $('#imgBaseHeaderCloseHeaderDetailClose').click(function () {
                 $('#headerBannerDetail').hide();
@@ -37,13 +52,11 @@
             });
 
             $('#ulTabMenuLevel1 li').click(function () {
-                showLoadingPanel();
-                document.location = ResolveUrl($(this).attr('url'));
+                changePage($(this));
             });
 
             $('#ulTabMenuLevel2 li').click(function () {
-                showLoadingPanel();
-                document.location = ResolveUrl($(this).attr('url'));
+                changePage($(this));
             });
 
             $(function () {

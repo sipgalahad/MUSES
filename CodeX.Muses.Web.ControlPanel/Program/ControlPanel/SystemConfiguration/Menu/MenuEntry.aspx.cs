@@ -60,6 +60,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtHelpLinkForList, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtHelpLinkForEntry, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMenuToolTip, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
 
             SetControlEntrySetting(hdnParentID, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtParentCode, new ControlEntrySetting(true, true, false));
@@ -92,6 +93,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtHelpLinkForList.Text = entity.HelpLinkIDForList;
             txtHelpLinkForEntry.Text = entity.HelpLinkIDForEntry;
             txtMenuToolTip.Text = entity.MenuTooltip;
+            txtRemarks.Text = entity.Remarks;
 
             hdnParentID.Value = entity.ParentID.ToString();
             txtMenuUrl.Text = entity.MenuUrl;
@@ -123,6 +125,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.HelpLinkIDForList = txtHelpLinkForList.Text;
             entity.HelpLinkIDForEntry = txtHelpLinkForEntry.Text;
             entity.MenuTooltip = txtMenuToolTip.Text;
+            entity.Remarks = txtRemarks.Text;
             if (hdnParentID.Value == "" || hdnParentID.Value.ToString() == "0")
                 entity.ParentID = null;
             else

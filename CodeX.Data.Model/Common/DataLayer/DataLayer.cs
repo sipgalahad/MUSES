@@ -723,6 +723,7 @@ namespace CodeX.Data.Model
         private Boolean _IsBeginGroup;
         private String _HelpLinkIDForList;
         private String _HelpLinkIDForEntry;
+        private String _Remarks;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -829,6 +830,12 @@ namespace CodeX.Data.Model
         {
             get { return _HelpLinkIDForEntry; }
             set { _HelpLinkIDForEntry = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? CreatedBy
