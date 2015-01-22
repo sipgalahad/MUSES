@@ -93,8 +93,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="MenuCaption" HeaderText="Menu Caption" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="MenuUrl" HeaderText="Menu Url" />
-                                <asp:BoundField DataField="CRUDMode" HeaderText="CRUD" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Ketarangan" />
                                 <asp:HyperLinkField HeaderText="Report" Text="Report" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>

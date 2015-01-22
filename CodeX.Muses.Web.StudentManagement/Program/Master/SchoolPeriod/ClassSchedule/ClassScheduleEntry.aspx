@@ -148,6 +148,17 @@
         }
         //#endregion
 
+        var isChangePage = false;
+        function onBeforeChangePage() {
+            isChangePage = true;
+            $('#<%=btnSave.ClientID %>').click();
+        }
+
+        function onAfterCustomClickSuccess() {
+            if (isChangePage)
+                goToNextPage();
+        }
+
         $(function () {
             $('#<%=btnSave.ClientID %>').click(function () {
                 var lstClassSubjectID = [];

@@ -116,6 +116,10 @@
                         <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Menu Tooltip")%></label></td>
                         <td><asp:TextBox ID="txtMenuToolTip" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
+                        <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                    </tr>
                 </table>
             </td>
             <td style="padding:5px;vertical-align:top">
