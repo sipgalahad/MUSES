@@ -694,5 +694,34 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region ProcessReRegistrationStudent
+        public static void ProcessReRegistrationStudent(String lstStudentID, int UserID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "ProcessReRegistrationStudent";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@lstStudentID", lstStudentID));
+            ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
     }
 }

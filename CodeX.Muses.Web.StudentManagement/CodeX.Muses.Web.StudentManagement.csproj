@@ -168,6 +168,7 @@
     <Content Include="Program\Master\Student\StudentPageLauncher.aspx" />
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentList.aspx" />
+    <Content Include="Program\StudentSchoolFee\StudentSchoolFeeEntry.aspx" />
     <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
@@ -897,6 +898,13 @@
     </Compile>
     <Compile Include="Program\Master\Student\StudentList.aspx.designer.cs">
       <DependentUpon>StudentList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentSchoolFee\StudentSchoolFeeEntry.aspx.cs">
+      <DependentUpon>StudentSchoolFeeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentSchoolFee\StudentSchoolFeeEntry.aspx.designer.cs">
+      <DependentUpon>StudentSchoolFeeEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\TeacherPage\TeacherClassList.aspx.cs">
       <DependentUpon>TeacherClassList.aspx</DependentUpon>
