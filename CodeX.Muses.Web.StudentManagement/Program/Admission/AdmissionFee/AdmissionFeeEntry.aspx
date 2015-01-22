@@ -276,6 +276,7 @@
 
             $tbl = $tr.next().next().next().find('.tblView');
             var totalPayment = 0;
+            var totalDiscount = 0;
             var lineAmount = 0;
             $tbl.find('.trDetail').each(function () {
                 var paymentAmountInPercentage = parseFloat($(this).find('.txtPaymentAmountInPercentage').val());
@@ -286,9 +287,11 @@
                 $(this).find('.txtDiscountAmount').val(discountAmount).trigger('changeValue');
                 $(this).find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
                 totalPayment += paymentAmount;
+                totalDiscount += discountAmount;
                 lineAmount += paymentAmount - discountAmount;
             });
             $tbl.find('.txtTotalPaymentAmount').val(totalPayment).trigger('changeValue');
+            $tbl.find('.txtTotalDiscountAmount').val(totalDiscount).trigger('changeValue');
             $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
         });
 

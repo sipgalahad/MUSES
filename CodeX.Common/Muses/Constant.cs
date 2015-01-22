@@ -55,6 +55,7 @@ namespace CodeX.Common
             public const string ADMISSION_PAYMENT_PERIOD = "MS014";
             public const string ADMISSION_FEE_COMP_TYPE = "MS015";
             public const string FROM_SCHOOL_TYPE = "MS017";
+            public const string SCHOLARSHIP_TYPE = "MS018";
             public const string ACHIEVEMENT_TYPE = "MS019";
             public const string SCHOOL_DAY = "MS020";
         }
@@ -360,6 +361,7 @@ namespace CodeX.Common
                 public const string STUDENT = "SM010100";
                 public const string SCHOOL_PERIOD = "SM010200";
                 public const string EXAM_SCHEDULE = "SM010300";
+                public const string SCHOLARSHIP = "SM010400";
 
                 public const string PERIOD_ADMISSION = "SM020100";
 

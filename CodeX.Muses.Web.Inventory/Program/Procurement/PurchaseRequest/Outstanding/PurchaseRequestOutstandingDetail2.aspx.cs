@@ -220,6 +220,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             PurchaseOrderHdDao entityHdDao = new PurchaseOrderHdDao(ctx);
             PurchaseOrderHd entityHd = new PurchaseOrderHd();
+            entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
             if (BusinessPartnerID == 0) BusinessPartnerID = null;
             entityHd.OrderDate = DateTime.Now;
             entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_ORDER, entityHd.OrderDate, ctx);

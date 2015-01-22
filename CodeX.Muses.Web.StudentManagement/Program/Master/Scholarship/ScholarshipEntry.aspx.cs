@@ -14,28 +14,33 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class AdmissionScholarshipEntry : BasePageTrx
+    public partial class ScholarshipEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.SP_ADMISSION_SCHOLARSHIP;
+            return Constant.MenuCode.StudentManagement.SCHOLARSHIP;
         }
 
         List<vAdmissionFeeComp> lstComp = null;
-        List<PeriodAdmission> lstAdmission = null;
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.FROM_SCHOOL_TYPE));
-            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-            Methods.SetComboBoxField<StandardCode>(cboFromSchoolType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
+            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+            {
+                cboSchoolPeriod.SelectedIndex = 0;
+                selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault();
+            }
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
-            lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND StandardCodeID != '{1}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOLARSHIP_TYPE, Constant.ScholarshipType.ADMISSION));
+            Methods.SetComboBoxField<StandardCode>(cboScholarshipType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+            lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", cboSchoolPeriod.Value));
             rptAdmissionFeeComp.DataSource = lstComp;
             rptAdmissionFeeComp.DataBind();
-
-            lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
-            rptPeriodAdmission.DataSource = lstAdmission;
-            rptPeriodAdmission.DataBind();
 
             BindGridView();
 
@@ -46,12 +51,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptAdmissionFeeCompView2.DataBind();
 
             thFeeComp.ColSpan = lstComp.Count * 2;
-            thPeriodAdmission.ColSpan = lstAdmission.Count;
-
-            rptPeriodAdmissionView.DataSource = lstAdmission;
-            rptPeriodAdmissionView.DataBind();
 
             Helper.SetControlEntrySetting(txtScholarshipName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboScholarshipType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected void rptAdmissionFeeComp_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -73,8 +75,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID);
-            List<Scholarship> lstEntity = BusinessLayer.GetScholarshipList(filterExpression);
+            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCScholarshipType != '{1}' AND IsDeleted = 0", cboSchoolPeriod.Value, Constant.ScholarshipType.ADMISSION);
+            List<vScholarship> lstEntity = BusinessLayer.GetvScholarshipList(filterExpression);
             if (lstEntity.Count > 0)
             {
                 string lstID = string.Join(",", lstEntity.Select(p => p.ScholarshipID).ToList());
@@ -82,8 +84,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstScholarshipPeriodAdmission = BusinessLayer.GetScholarshipPeriodAdmissionList(string.Format("ScholarshipID IN ({0})", lstID));
                 if (lstComp == null)
                 {
-                    lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
-                    lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
+                    lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", cboSchoolPeriod.Value));
                 }
             }
             rptView.DataSource = lstEntity;
@@ -96,9 +97,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                Scholarship entity = (Scholarship)e.Item.DataItem;
+                vScholarship entity = (vScholarship)e.Item.DataItem;
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
-                Repeater rptViewDtAdmission = (Repeater)e.Item.FindControl("rptViewDtAdmission");
                 List<ScholarshipComp> lstDt = lstScholarshipComp.Where(p => p.ScholarshipID == entity.ScholarshipID).ToList();
                 List<ScholarshipComp> lstDt1 = new List<ScholarshipComp>();
                 foreach (vAdmissionFeeComp comp in lstComp)
@@ -110,26 +110,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
                 rptViewDt.DataSource = lstDt1;
                 rptViewDt.DataBind();
-
-                rptViewDtAdmission.DataSource = lstAdmission;
-                rptViewDtAdmission.DataBind();
-            }
-        }
-
-        protected void rptViewDtAdmission_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                PeriodAdmission entity = (PeriodAdmission)e.Item.DataItem;
-                var repeater = (Repeater)sender;
-                var parentItem = (RepeaterItem)repeater.NamingContainer;
-                Scholarship entityHd = (Scholarship)parentItem.DataItem;
-                ScholarshipPeriodAdmission entityPeriodAdmission = lstScholarshipPeriodAdmission.FirstOrDefault(p => p.ScholarshipID == entityHd.ScholarshipID && p.PeriodAdmissionID == entity.PeriodAdmissionID);
-                if (entityPeriodAdmission != null)
-                {
-                    CheckBox chkPeriodAdmissionView = (CheckBox)e.Item.FindControl("chkPeriodAdmissionView");
-                    chkPeriodAdmissionView.Checked = true;
-                }
             }
         }
 
@@ -178,10 +158,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(Scholarship entity)
         {
             entity.ScholarshipName = txtScholarshipName.Text;
-            if (cboFromSchoolType.Value == null || cboFromSchoolType.Value.ToString() == "")
-                entity.GCFromSchoolType = null;
-            else
-                entity.GCFromSchoolType = cboFromSchoolType.Value.ToString();
+            entity.GCFromSchoolType = null;
+            entity.GCScholarshipType = cboScholarshipType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -191,30 +169,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             ScholarshipDao entityScholarshipDao = new ScholarshipDao(ctx);
             ScholarshipCompDao entityScholarshipCompDao = new ScholarshipCompDao(ctx);
-            ScholarshipPeriodAdmissionDao entityScholarshipPeriodAdmissionDao = new ScholarshipPeriodAdmissionDao(ctx);
             try
             {
                 Scholarship entityScholarship = new Scholarship();
                 ControlToEntity(entityScholarship);
                 entityScholarship.SiteID = AppSession.UserLogin.SiteID;
-                entityScholarship.SchoolPeriodID = AppSession.SchoolPeriodID;
-                entityScholarship.GCScholarshipType = Constant.ScholarshipType.ADMISSION;
+                entityScholarship.SchoolPeriodID = Convert.ToInt32(cboSchoolPeriod.Value);
                 entityScholarship.CreatedBy = AppSession.UserLogin.UserID;
                 entityScholarshipDao.Insert(entityScholarship);
 
                 entityScholarship.ScholarshipID = BusinessLayer.GetScholarshipMaxID(ctx);
-
-                if (hdnPeriodAdmissionSaveValue.Value != "")
-                {
-                    string[] lstSavePeriodAdmissionValue = hdnPeriodAdmissionSaveValue.Value.Split('|');
-                    foreach (string saveValue in lstSavePeriodAdmissionValue)
-                    {
-                        ScholarshipPeriodAdmission entityDt = new ScholarshipPeriodAdmission();
-                        entityDt.ScholarshipID = entityScholarship.ScholarshipID;
-                        entityDt.PeriodAdmissionID = Convert.ToInt32(saveValue);
-                        entityScholarshipPeriodAdmissionDao.Insert(entityDt);
-                    }
-                }
 
                 string[] lstSaveCompValue = hdnAdmissionFeeCompSaveValue.Value.Split('|');
                 foreach (string saveValue in lstSaveCompValue)
@@ -251,37 +215,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             ScholarshipDao entityScholarshipDao = new ScholarshipDao(ctx);
             ScholarshipCompDao entityScholarshipCompDao = new ScholarshipCompDao(ctx);
-            ScholarshipPeriodAdmissionDao entityScholarshipPeriodAdmissionDao = new ScholarshipPeriodAdmissionDao(ctx);
             try
             {
                 Scholarship entityScholarship = entityScholarshipDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entityScholarship);
                 entityScholarship.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityScholarshipDao.Update(entityScholarship);
-
-                List<ScholarshipPeriodAdmission> lstEntityPeriodAdmission = BusinessLayer.GetScholarshipPeriodAdmissionList(string.Format("ScholarshipID = {0}", entityScholarship.ScholarshipID), ctx);
-                if (hdnPeriodAdmissionSaveValue.Value != "")
-                {
-                    string[] lstSavePeriodAdmissionValue = hdnPeriodAdmissionSaveValue.Value.Split('|');
-                    foreach (string saveValue in lstSavePeriodAdmissionValue)
-                    {
-                        int PeriodAdmissionID = Convert.ToInt32(saveValue);
-                        ScholarshipPeriodAdmission entityDt = lstEntityPeriodAdmission.FirstOrDefault(p => p.PeriodAdmissionID == PeriodAdmissionID);
-                        if (entityDt == null)
-                        {
-                            entityDt = new ScholarshipPeriodAdmission();
-                            entityDt.ScholarshipID = entityScholarship.ScholarshipID;
-                            entityDt.PeriodAdmissionID = PeriodAdmissionID;
-                            entityScholarshipPeriodAdmissionDao.Insert(entityDt);
-                        }
-                        else
-                            lstEntityPeriodAdmission.Remove(entityDt);
-                    }
-                }
-                foreach (ScholarshipPeriodAdmission entityDt in lstEntityPeriodAdmission)
-                {
-                    entityScholarshipPeriodAdmissionDao.Delete(entityDt.ScholarshipID, entityDt.PeriodAdmissionID);
-                }
 
                 List<ScholarshipComp> lstEntityComp = BusinessLayer.GetScholarshipCompList(string.Format("ScholarshipID = {0}", entityScholarship.ScholarshipID), ctx);
                 string[] lstSaveValue = hdnAdmissionFeeCompSaveValue.Value.Split('|');

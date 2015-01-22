@@ -5983,6 +5983,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vScholarship
+        public static List<vScholarship> GetvScholarshipList(string filterExpression)
+        {
+            List<vScholarship> result = new List<vScholarship>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vScholarship));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vScholarship)helper.IDataReaderToObject(reader, new vScholarship()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSchoolClass
         public static List<vSchoolClass> GetvSchoolClassList(string filterExpression)
         {
