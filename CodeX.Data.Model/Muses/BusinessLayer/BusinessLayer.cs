@@ -7872,6 +7872,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SchoolGrade> GetSchoolGradeList(string filterExpression, IDbContext ctx)
+        {
+            List<SchoolGrade> result = new List<SchoolGrade>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolGrade));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolGrade)helper.IDataReaderToObject(reader, new SchoolGrade()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region SchoolMajor
         public static SchoolMajor GetSchoolMajor(String SiteID, String GCMajor)
@@ -8379,6 +8396,28 @@ namespace CodeX.Data.Model
             {
                 ctx.Close();
             }
+            return result;
+        }
+        public static List<Student> GetStudentList(string filterExpression, IDbContext ctx)
+        {
+            List<Student> result = new List<Student>();
+            //IDbContext ctx = DbFactory.Configure()
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Student));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Student)helper.IDataReaderToObject(reader, new Student()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            //finally
+            //{
+            //    ctx.Close();
+            //}
             return result;
         }
         public static List<Student> GetStudentList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")

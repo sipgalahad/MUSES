@@ -75,6 +75,7 @@
                                 <asp:BoundField DataField="RegistrationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
+                                <asp:BoundField DataField="RegistrationStatus" HeaderText="Status" HeaderStyle-Width="180px"/>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

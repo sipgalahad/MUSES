@@ -40,8 +40,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vRegistration entity = e.Row.DataItem as vRegistration;
                 CheckBox chkIsAccepted = e.Row.FindControl("chkIsAccepted") as CheckBox;
-                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED) chkIsAccepted.Enabled = true;
-                else chkIsAccepted.Enabled = false;
+                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED) chkIsAccepted.Visible = true;
+                else chkIsAccepted.Visible = false;
             }
         }
 

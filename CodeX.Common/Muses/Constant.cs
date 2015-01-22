@@ -369,7 +369,8 @@ namespace CodeX.Common
 
                 public const string CLASS_WEEKLY_SCHEDULE = "SM040100";
                 public const string SUBJECT_PER_CLASS = "SM040200";
-                public const string STUDENT_FINAL_MARK = "SM040300";    
+                public const string STUDENT_FINAL_MARK = "SM040300";
+                public const string GRADE_PROMOTION = "SM040400";
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
