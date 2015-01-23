@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -61,6 +62,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return filterExpression;
         }
 
+        List<Scholarship> lstScholarship = null;
         List<ClassStudentMark> lstStudentMark = null;
         private void BindGridView()
         {
@@ -68,6 +70,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (tacSchoolClass.Value != "")
                 lstStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", tacSchoolClass.Value, tacPeriodSection.Value));
             List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(String.Format("{0} AND GCClassStudentStatus != '{1}'",filterExpression,Constant.ClassStudentStatus.OPEN));
+            lstScholarship = BusinessLayer.GetScholarshipList(String.Format("SiteID = '{0}' AND GCScholarshipType != '{1}' AND IsDeleted = 0",AppSession.UserLogin.SiteID, Constant.ScholarshipType.ADMISSION));
+            Scholarship sch = new Scholarship();
+            sch.ScholarshipID = 0;
+            sch.ScholarshipName = "";
+            lstScholarship.Insert(0, sch);
+
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -82,6 +90,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     HtmlGenericControl lblFinalMark = (HtmlGenericControl)e.Row.FindControl("lblFinalMark");
                     lblFinalMark.InnerHtml = studentMark.FinalMark.ToString();
+
+                    ASPxComboBox cboScholarship = e.Row.FindControl("cboScholarship") as ASPxComboBox;
+                    cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Row.DataItemIndex);
+                    Methods.SetComboBoxField(cboScholarship, lstScholarship, "ScholarshipName", "ScholarshipID");
                 }
             }
         }

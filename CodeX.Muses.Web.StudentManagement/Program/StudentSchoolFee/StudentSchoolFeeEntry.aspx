@@ -23,12 +23,17 @@
             $('#<%=btnProcess.ClientID %>').click(function () {
                 var param = "";
                 $('.chkIsSelected input:checked').each(function () {
-                    var id = $(this).closest('tr').find('.keyField').html();
+                    $tr = $(this).closest('tr');
+                    var id = $tr.find('.keyField').html();
+                    var idx = $tr.find('.hdnItemIndex').val();
 
                     if (param != '') {
                         param += '|';
                     }
-                    param += id;
+                    cboScholarship = eval('cboScholarship' + idx);
+                    var scholarshipID = cboScholarship.GetValue();
+                    if (scholarshipID != '0') param += id + ',' + scholarshipID;
+                    else param += id;
                 });
                 $('#<%=hdnSelectedValue.ClientID %>').val(param);
                 cbpProcess.PerformCallback('promote');
@@ -218,6 +223,7 @@
                                         </div>
                                     </HeaderTemplate>
                                     <ItemTemplate>
+                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.DataItemIndex %>' />
                                         <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -235,6 +241,12 @@
                                         <label class="lblLink lblFinalMark" runat="server" id="lblFinalMark"></label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Beasiswa" HeaderStyle-Width="120px" >
+                                    <ItemTemplate>
+                                        <dxe:ASPxComboBox ID="cboScholarship" class="cboScholarship" Width="120px" runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="ClassStudentStatus" HeaderText="Status" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>
