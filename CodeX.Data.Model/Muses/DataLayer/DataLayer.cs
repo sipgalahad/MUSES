@@ -16259,6 +16259,7 @@ namespace CodeX.Data.Model
     public class Scholarship : DbDataModel
     {
         private Int32 _ScholarshipID;
+        private String _SiteID;
         private Int32? _SchoolPeriodID;
         private String _GCScholarshipType;
         private String _ScholarshipName;
@@ -16275,6 +16276,12 @@ namespace CodeX.Data.Model
         {
             get { return _ScholarshipID; }
             set { _ScholarshipID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32", IsNullable = true)]
         public Int32? SchoolPeriodID
