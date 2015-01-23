@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = GetFilterExpression();
             if (tacSchoolClass.Value != "")
                 lstStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", tacSchoolClass.Value, tacPeriodSection.Value));
-            List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(String.Format("{0} AND GCClassStudentStatus != '{1}'",filterExpression,Constant.ClassStudentStatus.OPEN));
+            List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(String.Format("{0} AND GCClassStudentStatus != '{1}' AND StudentSchoolClassID IS NOT NULL", filterExpression, Constant.ClassStudentStatus.OPEN));
             lstScholarship = BusinessLayer.GetScholarshipList(String.Format("SiteID = '{0}' AND GCScholarshipType != '{1}' AND IsDeleted = 0",AppSession.UserLogin.SiteID, Constant.ScholarshipType.ADMISSION));
             Scholarship sch = new Scholarship();
             sch.ScholarshipID = 0;

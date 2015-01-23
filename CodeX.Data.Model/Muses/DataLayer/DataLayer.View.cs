@@ -1488,6 +1488,7 @@ namespace CodeX.Data.Model
     public partial class vClassStudent
     {
         private Int32 _SchoolClassID;
+        private Int32 _StudentSchoolClassID;
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
@@ -1501,6 +1502,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
+        }
+        [Column(Name = "StudentSchoolClassID", DataType = "Int32")]
+        public Int32 StudentSchoolClassID
+        {
+            get { return _StudentSchoolClassID; }
+            set { _StudentSchoolClassID = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
