@@ -706,7 +706,7 @@ namespace CodeX.Data.Model
             ctx.CommandText = "ProcessReRegistrationStudent";
             ctx.CommandType = CommandType.StoredProcedure;
             ctx.Command.Parameters.Add(new SqlParameter("@lstStudentID", lstStudentID));
-            ctx.Command.Parameters.Add(new SqlParameter("@@NextSchoolPeriodID", NextSchoolPeriodID));
+            ctx.Command.Parameters.Add(new SqlParameter("@NextSchoolPeriodID", NextSchoolPeriodID));
             ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
 
             try
