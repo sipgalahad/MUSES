@@ -202,6 +202,12 @@
                 </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran Berikutnya") %></td>
+            <td>
+                <dxe:ASPxComboBox runat="server" ID="cboNextSchoolPeriod" ClientInstanceName="cboNextSchoolPeriod" Width="200px" />
+            </td>
+        </tr>
     </table>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -236,11 +242,11 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
-                                <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai Akhir" ItemStyle-HorizontalAlign="Center">
+                                <%--<asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai Akhir" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <label class="lblLink lblFinalMark" runat="server" id="lblFinalMark"></label>
+                                        <label class="lbl  Link lblFinalMark" runat="server" id="lblFinalMark"></label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Beasiswa" HeaderStyle-Width="120px" >
                                     <ItemTemplate>
                                         <dxe:ASPxComboBox ID="cboScholarship" class="cboScholarship" Width="120px" runat="server" />
