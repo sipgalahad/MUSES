@@ -22,14 +22,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ADMISSION_PAYMENT_PERIOD, Constant.StandardCode.ADMISSION_FEE_COMP_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboAdmissionPaymentPeriod, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.ADMISSION_PAYMENT_PERIOD).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboAdmissionFeeCompType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.ADMISSION_FEE_COMP_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            List<StudentFeeCompType> lstFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<StudentFeeCompType>(cboStudentFeeCompType, lstFeeCompType, "StudentFeeCompTypeName", "StudentFeeCompTypeID");
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(cboAdmissionFeeCompType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboAdmissionPaymentPeriod, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboStudentFeeCompType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(chkIsFixedAmount, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtTotalAmount, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -92,8 +90,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void ControlToEntity(AdmissionFeeComp entity)
         {
-            entity.GCAdmissionFeeCompType = cboAdmissionFeeCompType.Value.ToString();
-            entity.GCAdmissionPaymentPeriod = cboAdmissionPaymentPeriod.Value.ToString();
+            entity.StudentFeeCompTypeID = Convert.ToInt32(cboStudentFeeCompType.Value);
             entity.IsFixedAmount = chkIsFixedAmount.Checked;
             entity.TotalAmount = Convert.ToDecimal(txtTotalAmount.Text);
             entity.NoOfRegistrationPaymentPeriod = Convert.ToInt16(txtNoOfRegistrationPaymentPeriod.Text);

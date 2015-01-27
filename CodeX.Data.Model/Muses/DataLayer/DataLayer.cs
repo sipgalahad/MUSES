@@ -14,8 +14,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _AdmissionFeeCompID;
         private Int32? _SchoolPeriodID;
-        private String _GCAdmissionFeeCompType;
-        private String _GCAdmissionPaymentPeriod;
+        private Int32 _StudentFeeCompTypeID;
         private Boolean _IsFixedAmount;
         private Decimal _TotalAmount;
         private Int16 _NoOfRegistrationPaymentPeriod;
@@ -37,17 +36,11 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "GCAdmissionFeeCompType", DataType = "String")]
-        public String GCAdmissionFeeCompType
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
         {
-            get { return _GCAdmissionFeeCompType; }
-            set { _GCAdmissionFeeCompType = value; }
-        }
-        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
-        public String GCAdmissionPaymentPeriod
-        {
-            get { return _GCAdmissionPaymentPeriod; }
-            set { _GCAdmissionPaymentPeriod = value; }
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
         [Column(Name = "IsFixedAmount", DataType = "Boolean")]
         public Boolean IsFixedAmount
@@ -16393,7 +16386,7 @@ namespace CodeX.Data.Model
     public partial class ScholarshipComp : DbDataModel
     {
         private Int32 _ScholarshipID;
-        private Int32 _AdmissionFeeCompID;
+        private Int32 _StudentFeeCompTypeID;
         private Boolean _IsDiscountInPercentage;
         private Decimal _DiscountAmount;
         private Int16 _NoOfPeriod;
@@ -16404,11 +16397,11 @@ namespace CodeX.Data.Model
             get { return _ScholarshipID; }
             set { _ScholarshipID = value; }
         }
-        [Column(Name = "AdmissionFeeCompID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 AdmissionFeeCompID
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentFeeCompTypeID
         {
-            get { return _AdmissionFeeCompID; }
-            set { _AdmissionFeeCompID = value; }
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
         [Column(Name = "IsDiscountInPercentage", DataType = "Boolean")]
         public Boolean IsDiscountInPercentage
@@ -16435,18 +16428,18 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(ScholarshipComp));
         private bool _isAuditLog = false;
-        private const string p_AdmissionFeeCompID = "@p_AdmissionFeeCompID";
         private const string p_ScholarshipID = "@p_ScholarshipID";
+        private const string p_StudentFeeCompTypeID = "@p_StudentFeeCompTypeID";
         public ScholarshipCompDao() { }
         public ScholarshipCompDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ScholarshipComp Get(Int32 ScholarshipID, Int32 AdmissionFeeCompID)
+        public ScholarshipComp Get(Int32 ScholarshipID, Int32 StudentFeeCompTypeID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_AdmissionFeeCompID, AdmissionFeeCompID);
             _ctx.Add(p_ScholarshipID, ScholarshipID);
+            _ctx.Add(p_StudentFeeCompTypeID, StudentFeeCompTypeID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (ScholarshipComp)_helper.DataRowToObject(row, new ScholarshipComp());
         }
@@ -16460,13 +16453,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ScholarshipID, Int32 AdmissionFeeCompID)
+        public int Delete(Int32 ScholarshipID, Int32 StudentFeeCompTypeID)
         {
             ScholarshipComp record;
             if (_ctx.Transaction == null)
-                record = new ScholarshipCompDao().Get(ScholarshipID, AdmissionFeeCompID);
+                record = new ScholarshipCompDao().Get(ScholarshipID, StudentFeeCompTypeID);
             else
-                record = Get(ScholarshipID, AdmissionFeeCompID);
+                record = Get(ScholarshipID, StudentFeeCompTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -18340,6 +18333,133 @@ namespace CodeX.Data.Model
                 record = new StudentFamilyDao().Get(FamilyID);
             else
                 record = Get(FamilyID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFeeCompType
+    [Serializable]
+    [Table(Name = "StudentFeeCompType")]
+    public class StudentFeeCompType : DbDataModel
+    {
+        private Int32 _StudentFeeCompTypeID;
+        private String _SiteID;
+        private String _StudentFeeCompTypeName;
+        private String _GCAdmissionPaymentPeriod;
+        private Int32? _PaymentDate;
+        private Int32? _PaymentMonth;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
+        {
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "Int32", IsNullable = true)]
+        public Int32? PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "PaymentMonth", DataType = "Int32", IsNullable = true)]
+        public Int32? PaymentMonth
+        {
+            get { return _PaymentMonth; }
+            set { _PaymentMonth = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFeeCompTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFeeCompType));
+        private bool _isAuditLog = false;
+        private const string p_StudentFeeCompTypeID = "@p_StudentFeeCompTypeID";
+        public StudentFeeCompTypeDao() { }
+        public StudentFeeCompTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFeeCompType Get(Int32 StudentFeeCompTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFeeCompTypeID, StudentFeeCompTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFeeCompType)_helper.DataRowToObject(row, new StudentFeeCompType());
+        }
+        public int Insert(StudentFeeCompType record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFeeCompType record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFeeCompTypeID)
+        {
+            StudentFeeCompType record;
+            if (_ctx.Transaction == null)
+                record = new StudentFeeCompTypeDao().Get(StudentFeeCompTypeID);
+            else
+                record = Get(StudentFeeCompTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

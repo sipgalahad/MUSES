@@ -102,7 +102,7 @@
     <Content Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
-    <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
     <Content Include="Program\Master\Scholarship\ScholarshipEntry.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
@@ -437,11 +437,11 @@
     <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentPastStudyDtEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx.cs">
+    <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAcceptanceList.aspx.designer.cs">
+    <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\GradePromotion\GradePromotionEntry.aspx.cs">

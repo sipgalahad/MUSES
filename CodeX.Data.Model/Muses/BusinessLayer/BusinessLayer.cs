@@ -8598,6 +8598,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFeeCompType
+        public static StudentFeeCompType GetStudentFeeCompType(Int32 StudentFeeCompTypeID)
+        {
+            return new StudentFeeCompTypeDao().Get(StudentFeeCompTypeID);
+        }
+        public static int InsertStudentFeeCompType(StudentFeeCompType record)
+        {
+            return new StudentFeeCompTypeDao().Insert(record);
+        }
+        public static int UpdateStudentFeeCompType(StudentFeeCompType record)
+        {
+            return new StudentFeeCompTypeDao().Update(record);
+        }
+        public static int DeleteStudentFeeCompType(Int32 StudentFeeCompTypeID)
+        {
+            return new StudentFeeCompTypeDao().Delete(StudentFeeCompTypeID);
+        }
+        public static List<StudentFeeCompType> GetStudentFeeCompTypeList(string filterExpression)
+        {
+            List<StudentFeeCompType> result = new List<StudentFeeCompType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeCompType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeCompType)helper.IDataReaderToObject(reader, new StudentFeeCompType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region StudentPastStudy
         public static StudentPastStudy GetStudentPastStudy(Int32 StudentPastStudyID)
         {

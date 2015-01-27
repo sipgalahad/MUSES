@@ -26,7 +26,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.FROM_SCHOOL_TYPE));
-            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "- All -" });
             Methods.SetComboBoxField<StandardCode>(cboFromSchoolType, lstStandardCode, "StandardCodeName", "StandardCodeID");
 
             lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
@@ -115,14 +115,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string filterExpression = string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID);
             List<vAdmissionFeeRuleHd> lstEntity = BusinessLayer.GetvAdmissionFeeRuleHdList(filterExpression);
-            string lstFeeRuleID = string.Join(",", lstEntity.Select(p => p.AdmissionFeeRuleID).ToList());
-            lstEntityDt = BusinessLayer.GetAdmissionFeeRuleDtList(string.Format("AdmissionFeeRuleID IN ({0})", lstFeeRuleID));
-            if (lstComp == null && lstEntity.Count > 0)
+            if (lstEntity.Count > 0)
             {
-                lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
-                lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
+                string lstFeeRuleID = string.Join(",", lstEntity.Select(p => p.AdmissionFeeRuleID).ToList());
+                lstEntityDt = BusinessLayer.GetAdmissionFeeRuleDtList(string.Format("AdmissionFeeRuleID IN ({0})", lstFeeRuleID));
+                if (lstComp == null && lstEntity.Count > 0)
+                {
+                    lstComp = BusinessLayer.GetvAdmissionFeeCompList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
+                    lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
+                }
             }
-
             rptView.DataSource = lstEntity;
             rptView.DataBind();
         }

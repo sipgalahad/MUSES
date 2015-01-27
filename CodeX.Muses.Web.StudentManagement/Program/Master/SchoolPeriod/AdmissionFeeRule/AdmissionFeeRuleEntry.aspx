@@ -183,7 +183,7 @@
                                     <td></td>
                                     <asp:Repeater ID="rptAdmissionFeeComp" runat="server">
                                         <ItemTemplate>
-                                            <td align="center" width="150px"><div class="lblComponent"><%#Eval("AdmissionFeeCompType")%></div></td>
+                                            <td align="center" width="150px"><div class="lblComponent"><%#Eval("StudentFeeCompTypeName")%></div></td>
                                         </ItemTemplate>
                                     </asp:Repeater>
                                     <td align="center" width="150px"><div class="lblComponent"><%=GetLabel("Total")%></div></td>
@@ -227,7 +227,7 @@
                     <th style="width:100px" rowspan="2"><%=GetLabel("Asal Sekolah")%></th>
                     <asp:Repeater ID="rptAdmissionFeeCompView" runat="server" OnItemDataBound="rptAdmissionFeeCompView_ItemDataBound">
                         <ItemTemplate>
-                            <th class="thCenter" id="thAdmissionFeeCompType" runat="server"><%#Eval("AdmissionFeeCompType")%></th>
+                            <th class="thCenter" id="thAdmissionFeeCompType" runat="server"><%#Eval("StudentFeeCompTypeName")%></th>
                         </ItemTemplate>
                     </asp:Repeater>
                     <th id="thFeeCompTotal" runat="server" class="thCenter"><%=GetLabel("Total")%></th>
