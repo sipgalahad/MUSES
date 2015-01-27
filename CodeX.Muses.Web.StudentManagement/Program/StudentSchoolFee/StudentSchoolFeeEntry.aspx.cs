@@ -35,11 +35,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            Methods.SetComboBoxField<SchoolPeriod>(cboNextSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            
             if (selectedSchoolPeriod == null)
                 cboSchoolPeriod.SelectedIndex = 0;
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+            cboNextSchoolPeriod.SelectedIndex = 0;
 
             List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
             if (lstPeriodSection.Count > 0)
@@ -85,16 +88,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vClassStudent entity = (vClassStudent)e.Row.DataItem;
-                ClassStudentMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
-                if (studentMark != null)
-                {
-                    HtmlGenericControl lblFinalMark = (HtmlGenericControl)e.Row.FindControl("lblFinalMark");
-                    lblFinalMark.InnerHtml = studentMark.FinalMark.ToString();
+                ASPxComboBox cboScholarship = e.Row.FindControl("cboScholarship") as ASPxComboBox;
+                cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Row.DataItemIndex);
+                Methods.SetComboBoxField(cboScholarship, lstScholarship, "ScholarshipName", "ScholarshipID");
 
-                    ASPxComboBox cboScholarship = e.Row.FindControl("cboScholarship") as ASPxComboBox;
-                    cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Row.DataItemIndex);
-                    Methods.SetComboBoxField(cboScholarship, lstScholarship, "ScholarshipName", "ScholarshipID");
-                }
+                //ClassStudentMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
+                //if (studentMark != null)
+                //{
+                //    HtmlGenericControl lblFinalMark = (HtmlGenericControl)e.Row.FindControl("lblFinalMark");
+                //    lblFinalMark.InnerHtml = studentMark.FinalMark.ToString();    
+                //}
             }
         }
 
@@ -128,7 +131,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             
             try
             {
-                BusinessLayer.ProcessReRegistrationStudent(hdnSelectedValue.Value, AppSession.UserLogin.UserID, ctx);
+                BusinessLayer.ProcessReRegistrationStudent(hdnSelectedValue.Value, Convert.ToInt32(cboNextSchoolPeriod.Value), AppSession.UserLogin.UserID, ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
