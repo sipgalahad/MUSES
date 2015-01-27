@@ -234,11 +234,11 @@
                                     <td><asp:TextBox ID="txtFatherDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kewarganegaraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kewarganegaraan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboFatherNationality" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Agama")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Agama")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboFatherReligion" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
@@ -358,11 +358,11 @@
                                     <td><asp:TextBox ID="txtMotherDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kewarganegaraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kewarganegaraan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboMotherNationality" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Agama")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Agama")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboMotherReligion" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>

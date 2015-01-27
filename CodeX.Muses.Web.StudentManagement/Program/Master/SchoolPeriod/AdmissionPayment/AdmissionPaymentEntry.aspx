@@ -250,7 +250,7 @@
                                 <asp:Repeater ID="rptAdmissionFeeComp" runat="server" OnItemDataBound="rptAdmissionFeeComp_ItemDataBound">
                                     <ItemTemplate>
                                         <tr class='trFeeComp<%#Eval("AdmissionFeeCompID")%>'>
-                                            <td class="tdLabel"><label class="lblNormal"><%#Eval("AdmissionFeeCompType")%></label></td>
+                                            <td class="tdLabel"><label class="lblNormal"><%#Eval("StudentFeeCompTypeName")%></label></td>
                                             <td align="center">
                                                 <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID")%>' />
                                                 <asp:CheckBox ID="chkIsPaymentDateNow" CssClass="chkIsPaymentDateNow" runat="server" />

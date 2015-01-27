@@ -530,7 +530,7 @@
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td><%#Eval("AdmissionFeeCompType") %></td>
+                                    <td><%#Eval("StudentFeeCompTypeName") %></td>
                                     <td>:</td>
                                     <td align="right"><input type="text" value='<%#Eval("TotalAmount") %>' class="txtCurrency txtAdmissionFeeCompAmount" /></td>
                                     <td>&nbsp;</td>

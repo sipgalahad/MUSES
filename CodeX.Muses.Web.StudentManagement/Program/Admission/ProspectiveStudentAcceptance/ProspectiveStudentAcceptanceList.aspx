@@ -9,7 +9,7 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnSave" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
+    <li id="btnSave" runat="server" crudmode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Process")%></div></li>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -24,8 +24,12 @@
                     }
                     param += id;
                 });
-                $('#<%=hdnSelectedValue.ClientID %>').val(param);
-                cbpProcess.PerformCallback('save');
+                if (param == "")
+                    showToast('Warning', 'Silakan Pilih Calon Siswa Terlebih Dahulu');
+                else {
+                    $('#<%=hdnSelectedValue.ClientID %>').val(param);
+                    cbpProcess.PerformCallback('save');
+                }
             })
 
             $('.chkAcceptAll input').click(function () {
@@ -41,7 +45,7 @@
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
                 if (param[1] == 'fail')
-                    showToast('Delete Failed', 'Error Message : ' + param[2]);
+                    showToast('Process Failed', 'Error Message : ' + param[2]);
                 else
                     cbpView.PerformCallback('refresh');
             }
@@ -75,7 +79,11 @@
                                 <asp:BoundField DataField="RegistrationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
-                                <asp:BoundField DataField="RegistrationStatus" HeaderText="Status" HeaderStyle-Width="180px"/>
+                                <asp:TemplateField HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderText="Lunas">
+                                    <ItemTemplate>
+                                        <asp:CheckBox runat="server" ID="chkIsPaid" CssClass="chkIsPaid" Enabled="false" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

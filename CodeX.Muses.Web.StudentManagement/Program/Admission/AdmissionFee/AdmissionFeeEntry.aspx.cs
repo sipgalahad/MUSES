@@ -128,7 +128,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vAdmissionFeeRuleDtCustom entity = (vAdmissionFeeRuleDtCustom)e.Item.DataItem;
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
 
-                ScholarshipComp entityScholarshipComp = lstScholarshipComp.FirstOrDefault(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID);
+                ScholarshipComp entityScholarshipComp = lstScholarshipComp.FirstOrDefault(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
 
                 List<RegistrationFee> lstRegistrationFee1 = lstRegistrationFee.Where(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID).ToList();
 

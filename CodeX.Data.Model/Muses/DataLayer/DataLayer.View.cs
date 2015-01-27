@@ -13,8 +13,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _AdmissionFeeCompID;
         private Int32 _SchoolPeriodID;
-        private String _GCAdmissionFeeCompType;
-        private String _AdmissionFeeCompType;
+        private Int32 _StudentFeeCompTypeID;
+        private String _StudentFeeCompTypeName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
@@ -34,17 +34,17 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "GCAdmissionFeeCompType", DataType = "String")]
-        public String GCAdmissionFeeCompType
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
         {
-            get { return _GCAdmissionFeeCompType; }
-            set { _GCAdmissionFeeCompType = value; }
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
-        [Column(Name = "AdmissionFeeCompType", DataType = "String")]
-        public String AdmissionFeeCompType
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
         {
-            get { return _AdmissionFeeCompType; }
-            set { _AdmissionFeeCompType = value; }
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod
@@ -91,8 +91,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _AdmissionFeeCompID;
         private Int32 _SchoolPeriodID;
-        private String _GCAdmissionFeeCompType;
-        private String _AdmissionFeeCompType;
+        private Int32 _StudentFeeCompTypeID;
+        private String _StudentFeeCompTypeName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
@@ -114,17 +114,17 @@ namespace CodeX.Data.Model
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
         }
-        [Column(Name = "GCAdmissionFeeCompType", DataType = "String")]
-        public String GCAdmissionFeeCompType
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
         {
-            get { return _GCAdmissionFeeCompType; }
-            set { _GCAdmissionFeeCompType = value; }
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
-        [Column(Name = "AdmissionFeeCompType", DataType = "String")]
-        public String AdmissionFeeCompType
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
         {
-            get { return _AdmissionFeeCompType; }
-            set { _AdmissionFeeCompType = value; }
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod

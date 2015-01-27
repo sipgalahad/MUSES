@@ -158,19 +158,19 @@
                                         <col style="width: 160px" />
                                     </colgroup>
                                     <tr>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Lahir")%></label></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
                                         <td><asp:TextBox ID="txtBirthPlace" Width="100%" runat="server" /></td>
                                     </tr>
                                     <tr>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Lahir")%></label></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Lahir")%></label></td>
                                         <td><asp:TextBox ID="txtDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
                                     </tr>
                                     <tr>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kewarganegaraan")%></label></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kewarganegaraan")%></label></td>
                                         <td><dxe:ASPxComboBox ID="cboNationality" ClientInstanceName="cboNationality" Width="120px" runat="server" /></td>
                                     </tr>
                                     <tr>
-                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Agama")%></label></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Agama")%></label></td>
                                         <td><dxe:ASPxComboBox ID="cboReligion" ClientInstanceName="cboReligion" Width="120px" runat="server" /></td>
                                     </tr>
                                     <tr>

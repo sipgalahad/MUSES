@@ -48,12 +48,12 @@
                     lstSaveCompValue += '|';
                 var discountAmount = $(this).attr('hiddenVal');
                 $tr = $(this).closest('tr');
-                var admissionFeeCompID = $tr.find('.hdnAdmissionFeeCompID').val();
+                var admissionFeeCompID = $tr.find('.hdnStudentFeeCompTypeID').val();
                 var isDiscountInPercentage = $tr.find('.chkIsDiscountInPercentage input').is(':checked') ? '1' : '0';
                 var noOfPeriod = $tr.find('.txtNoOfPeriod').val();
                 lstSaveCompValue += admissionFeeCompID + ';' + discountAmount + ';' + isDiscountInPercentage + ';' + noOfPeriod;
             });
-            $('#<%=hdnAdmissionFeeCompSaveValue.ClientID %>').val(lstSaveCompValue);
+            $('#<%=hdnStudentFeeCompTypeSaveValue.ClientID %>').val(lstSaveCompValue);
         }
 
         //#region edit and delete
@@ -80,10 +80,10 @@
             $('.txtDiscountAmount').each(function () {
                 $txt = $(this);
                 $tr = $(this).closest('tr');
-                var admissionFeeCompID = $tr.find('.hdnAdmissionFeeCompID').val();
+                var admissionFeeCompID = $tr.find('.hdnStudentFeeCompTypeID').val();
 
                 $row.find('.tdCompDt').each(function () {
-                    var admissionFeeCompID1 = $(this).find('.hdnAdmissionFeeCompID').val();
+                    var admissionFeeCompID1 = $(this).find('.hdnStudentFeeCompTypeID').val();
                     if (admissionFeeCompID == admissionFeeCompID1) {
                         var discountAmount = $(this).find('.hdnDiscountAmount').val();
                         var isDiscountInPercentage = $(this).find('.hdnIsDiscountInPercentage').val() == 'True';
@@ -133,7 +133,7 @@
             addTableHeader();
         }
     </script>
-    <input type="hidden" id="hdnAdmissionFeeCompSaveValue" runat="server" />
+    <input type="hidden" id="hdnStudentFeeCompTypeSaveValue" runat="server" />
     
     <table>
         <colgroup>
@@ -181,12 +181,12 @@
                                     <td align="center"><div class="lblComponent">[%]</div></td>
                                     <td align="center"><div class="lblComponent"><%=GetLabel("Frek Bayar")%></div></td>
                                 </tr>
-                                <asp:Repeater ID="rptAdmissionFeeComp" runat="server" OnItemDataBound="rptAdmissionFeeComp_ItemDataBound">
+                                <asp:Repeater ID="rptStudentFeeCompType" runat="server" OnItemDataBound="rptStudentFeeCompType_ItemDataBound">
                                     <ItemTemplate>
                                         <tr>
-                                            <td class="tdLabel"><label class="lblNormal"><%#Eval("AdmissionFeeCompType")%></label></td>
+                                            <td class="tdLabel"><label class="lblNormal"><%#Eval("StudentFeeCompTypeName")%></label></td>
                                             <td>
-                                                <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID")%>' />
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID")%>' />
                                                 <asp:TextBox ID="txtDiscountAmount" CssClass="txtCurrency txtDiscountAmount" Width="100%" runat="server" />
                                             </td>
                                             <td align="center"><asp:CheckBox ID="chkIsDiscountInPercentage" CssClass="chkIsDiscountInPercentage" runat="server" /></td>
@@ -221,14 +221,14 @@
                     <th style="width:80px" rowspan="3"></th>
                 </tr>
                 <tr>
-                    <asp:Repeater ID="rptAdmissionFeeCompView" runat="server">
+                    <asp:Repeater ID="rptStudentFeeCompTypeView" runat="server">
                         <ItemTemplate>
-                            <th class="thCenter" colspan="2"><%#Eval("AdmissionFeeCompType")%></th>
+                            <th class="thCenter" colspan="2"><%#Eval("StudentFeeCompTypeName")%></th>
                         </ItemTemplate>
                     </asp:Repeater>       
                 </tr>
                 <tr> 
-                    <asp:Repeater ID="rptAdmissionFeeCompView2" runat="server">
+                    <asp:Repeater ID="rptStudentFeeCompTypeView2" runat="server">
                         <ItemTemplate>
                             <th class="thCenter" style="width:80px"><%=GetLabel("Diskon") %></th>
                             <th class="thCenter" style="width:70px"><%=GetLabel("Frek Bayar") %></th>
@@ -262,7 +262,7 @@
                                                 <input type="hidden" class="hdnDiscountAmount" value='<%#Eval("DiscountAmount")%>' />
                                                 <input type="hidden" class="hdnIsDiscountInPercentage" value='<%#Eval("IsDiscountInPercentage")%>' />
                                                 <input type="hidden" class="hdnNoOfPeriod" value='<%#Eval("NoOfPeriod")%>' />
-                                                <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID")%>' />
+                                                <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID")%>' />
                                                 <div><%#Eval("cfDiscountAmount") %></div>
                                             </td>
                                             <td class="thRight tdCompDt2">

@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPeriodAdmissionSaveValue;
         
         /// <summary>
-        /// hdnAdmissionFeeCompSaveValue control.
+        /// hdnStudentFeeCompTypeSaveValue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdmissionFeeCompSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentFeeCompTypeSaveValue;
         
         /// <summary>
         /// hdnEntryID control.
@@ -58,13 +58,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFromSchoolType;
         
         /// <summary>
-        /// rptAdmissionFeeComp control.
+        /// rptStudentFeeCompType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeComp;
+        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompType;
         
         /// <summary>
         /// rptPeriodAdmission control.
@@ -103,13 +103,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thPeriodAdmission;
         
         /// <summary>
-        /// rptAdmissionFeeCompView control.
+        /// rptStudentFeeCompTypeView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompView;
+        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompTypeView;
         
         /// <summary>
         /// rptPeriodAdmissionView control.
@@ -121,13 +121,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptPeriodAdmissionView;
         
         /// <summary>
-        /// rptAdmissionFeeCompView2 control.
+        /// rptStudentFeeCompTypeView2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptAdmissionFeeCompView2;
+        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompTypeView2;
         
         /// <summary>
         /// cbpView control.
