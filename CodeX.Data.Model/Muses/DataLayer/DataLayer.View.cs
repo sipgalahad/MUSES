@@ -15978,6 +15978,7 @@ namespace CodeX.Data.Model
         private String _LastName;
         private String _TeacherName;
         private String _Initial;
+        private String _GCGender;
         private String _GCTitle;
         private String _GCSuffix;
         private String _GCEmployeeType;
@@ -16003,6 +16004,8 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _OfficeExtensionNo;
         private String _VATRegistrationNo;
+        private DateTime _HiredDate;
+        private DateTime _TerminatedDate;
         private String _PictureFileName;
         private String _GCEmployeeStatus;
         private Int32 _RoomID;
@@ -16064,6 +16067,12 @@ namespace CodeX.Data.Model
         {
             get { return _Initial; }
             set { _Initial = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
         }
         [Column(Name = "GCTitle", DataType = "String")]
         public String GCTitle
@@ -16214,6 +16223,18 @@ namespace CodeX.Data.Model
         {
             get { return _VATRegistrationNo; }
             set { _VATRegistrationNo = value; }
+        }
+        [Column(Name = "HiredDate", DataType = "DateTime")]
+        public DateTime HiredDate
+        {
+            get { return _HiredDate; }
+            set { _HiredDate = value; }
+        }
+        [Column(Name = "TerminatedDate", DataType = "DateTime")]
+        public DateTime TerminatedDate
+        {
+            get { return _TerminatedDate; }
+            set { _TerminatedDate = value; }
         }
         [Column(Name = "PictureFileName", DataType = "String")]
         public String PictureFileName

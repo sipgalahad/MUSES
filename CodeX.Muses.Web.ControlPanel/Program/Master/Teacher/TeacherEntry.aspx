@@ -179,6 +179,10 @@
                                 </cdx:CodeXAutoCompleteTextBox>   
                             </td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Kelamin")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboGender" Width="120px" runat="server" /></td>
+                        </tr>
                     </table>
                 </div>
                 <h4 class="h4expanded"><%=GetLabel("Alamat")%></h4>
@@ -188,7 +192,7 @@
                             <col style="width:180px"/>
                         </colgroup>
                         <tr>
-                            <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Address")%></label></td>
+                            <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Alamat")%></label></td>
                             <td><asp:TextBox ID="txtAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>
                         <tr>
@@ -276,6 +280,14 @@
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Golongan")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboGCOccupationLevel" ClientInstanceName="cboGCOccupationLevel" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Diterima")%></label></td>
+                            <td><asp:TextBox ID="txtHiredDate" Width="120px" runat="server" CssClass="datepicker" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Terakhir Bekerja")%></label></td>
+                            <td><asp:TextBox ID="txtTerminatedDate" Width="120px" runat="server" CssClass="datepicker" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("NPWP")%></label></td>

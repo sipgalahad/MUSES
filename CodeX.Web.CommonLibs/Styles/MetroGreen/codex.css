@@ -73,6 +73,7 @@ h4                          { padding-bottom: 3px; border-bottom: 1px solid #E8E
 .grdSelected > tbody > tr.trEmpty             { cursor: default; height: 50px; vertical-align: middle; text-align: center; }
 .grdSelected > tbody > tr > td                  { border:0px; color: #3F5050; }
 .grdSelected > tbody > tr:not(.trDetail).selected            { background-color: #A7DFF4; }
+.grdSelected > tbody > tr > td.selected            { background-color: #A7DFF4; }
 .grdSelected > tbody > tr:not(.trDetail).focus              { border:2px dotted #F36F00 !important; }
 .grdSelected > tbody > tr:not(.trDetail).focus > td              {  }
 

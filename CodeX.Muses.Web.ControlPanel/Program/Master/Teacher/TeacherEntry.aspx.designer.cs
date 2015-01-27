@@ -112,6 +112,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacRoom;
         
         /// <summary>
+        /// cboGender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGender;
+        
+        /// <summary>
         /// txtAddress control.
         /// </summary>
         /// <remarks>
@@ -245,6 +254,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCOccupationLevel;
+        
+        /// <summary>
+        /// txtHiredDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHiredDate;
+        
+        /// <summary>
+        /// txtTerminatedDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTerminatedDate;
         
         /// <summary>
         /// txtVATRegistrationNo control.

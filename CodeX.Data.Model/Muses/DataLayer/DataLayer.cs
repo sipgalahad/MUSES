@@ -4830,8 +4830,10 @@ namespace CodeX.Data.Model
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _Name;
         private String _FullName;
         private String _Initial;
+        private String _GCGender;
         private String _GCTitle;
         private String _GCSuffix;
         private String _GCEmployeeType;
@@ -4847,6 +4849,8 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _OfficeExtensionNo;
         private String _VATRegistrationNo;
+        private DateTime _HiredDate;
+        private DateTime _TerminatedDate;
         private String _PictureFileName;
         private String _GCEmployeeStatus;
         private String _Remarks;
@@ -4898,6 +4902,12 @@ namespace CodeX.Data.Model
             get { return _LastName; }
             set { _LastName = value; }
         }
+        [Column(Name = "Name", DataType = "String", IsNullable = true)]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
+        }
         [Column(Name = "FullName", DataType = "String", IsNullable = true)]
         public String FullName
         {
@@ -4909,6 +4919,12 @@ namespace CodeX.Data.Model
         {
             get { return _Initial; }
             set { _Initial = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
         }
         [Column(Name = "GCTitle", DataType = "String", IsNullable = true)]
         public String GCTitle
@@ -4958,7 +4974,7 @@ namespace CodeX.Data.Model
             get { return _GCOccupationLevel; }
             set { _GCOccupationLevel = value; }
         }
-        [Column(Name = "AddressID", DataType = "String")]
+        [Column(Name = "AddressID", DataType = "String", IsNullable = true)]
         public String AddressID
         {
             get { return _AddressID; }
@@ -4999,6 +5015,18 @@ namespace CodeX.Data.Model
         {
             get { return _VATRegistrationNo; }
             set { _VATRegistrationNo = value; }
+        }
+        [Column(Name = "HiredDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime HiredDate
+        {
+            get { return _HiredDate; }
+            set { _HiredDate = value; }
+        }
+        [Column(Name = "TerminatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime TerminatedDate
+        {
+            get { return _TerminatedDate; }
+            set { _TerminatedDate = value; }
         }
         [Column(Name = "PictureFileName", DataType = "String", IsNullable = true)]
         public String PictureFileName

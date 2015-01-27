@@ -58,15 +58,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.EMPLOYEE).TagProperty;
 
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsDeleted = 0 AND IsActive = 1",
-                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE,
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}') AND IsDeleted = 0 AND IsActive = 1",
+                Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, 
                 Constant.StandardCode.DEPARTMENT, Constant.StandardCode.EMPLOYEE_OCCUPATION, Constant.StandardCode.EMPLOYMENT_STATUS, Constant.StandardCode.EMPLOYEE_OCCUPATION_LEVEL);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
             lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-            Methods.SetComboBoxField(cboGCSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboGCSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboGCTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboGCSalutation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SALUTATION || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboGCSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboGCTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboGender, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
 
             Methods.SetComboBoxField<StandardCode>(cboGCDepartment, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.DEPARTMENT).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboGCOccupation, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.EMPLOYEE_OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
@@ -87,6 +88,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true));      
             SetControlEntrySetting(cboGCSuffix, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, false));
             #endregion
@@ -95,6 +97,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboGCDepartment, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupation, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupationLevel, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtHiredDate, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtTerminatedDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtVATRegistrationNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGCEmployeeStatus, new ControlEntrySetting(true, true, true));
             #endregion
@@ -109,7 +113,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
 
             #region Contact
-            SetControlEntrySetting(txtTelephoneNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtTelephoneNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo1, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMobilePhoneNo2, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtEmailAddress1, new ControlEntrySetting(true, true, false));
@@ -134,6 +138,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtLastName.Text = entity.LastName;
             tacRoom.Value = entity.RoomID.ToString();
             tacRoom.Text = entity.RoomName;
+            cboGender.Value = entity.GCGender;
             txtRemarks.Text = entity.Remarks;
 
             #region Data Karyawan
@@ -142,6 +147,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             cboGCOccupationLevel.Value = entity.GCOccupationLevel;
             txtVATRegistrationNo.Text = entity.VATRegistrationNo;
             cboGCEmployeeStatus.Value = entity.GCEmployeeStatus;
+            if (entity.HiredDate.ToString("dd-MM-yyyy") != Constant.ConstantDate.DEFAULT_NULL)
+                txtHiredDate.Text = entity.HiredDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            if (entity.TerminatedDate.ToString("dd-MM-yyyy") != Constant.ConstantDate.DEFAULT_NULL)
+                txtTerminatedDate.Text = entity.TerminatedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             #endregion
 
             #region Alamat Karyawan
@@ -196,12 +205,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entityTeacher.RoomID = null;
             else
                 entityTeacher.RoomID = Convert.ToInt32(tacRoom.Value);
+            entity.GCGender = cboGender.Value.ToString();
             entity.Remarks = txtRemarks.Text;
 
             string suffix = cboGCSuffix.Value == null ? "" : cboGCSuffix.Text;
             string title = cboGCTitle.Value == null ? "" : cboGCTitle.Text;
-            string name = Helper.GenerateName(entity.LastName, entity.MiddleName, entity.FirstName);
-            entity.FullName = Helper.GenerateFullName(name, title, suffix);
+            entity.Name = Helper.GenerateName(entity.LastName, entity.MiddleName, entity.FirstName);
+            entity.FullName = Helper.GenerateFullName(entity.Name, title, suffix);
             #endregion
 
             #region Data Karyawan
@@ -210,6 +220,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.GCOccupationLevel = Helper.GetComboBoxValue(cboGCOccupationLevel, true);
             entity.VATRegistrationNo = txtVATRegistrationNo.Text;
             entity.GCEmployeeStatus = Helper.GetComboBoxValue(cboGCEmployeeStatus, true);
+            if (txtHiredDate.Text != "")
+                entity.HiredDate = Helper.GetDatePickerValue(txtHiredDate);
+            if (txtTerminatedDate.Text != "")
+                entity.TerminatedDate = Helper.GetDatePickerValue(txtTerminatedDate);
             #endregion
 
             #region Address
@@ -289,6 +303,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.AddressID = address.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.EmployeeID);
                 addressDao.Insert(address);
 
+                entityTeacher.TeacherID = entity.EmployeeID;
                 entityTeacherDao.Insert(entityTeacher);
 
                 entityDao.Update(entity);
