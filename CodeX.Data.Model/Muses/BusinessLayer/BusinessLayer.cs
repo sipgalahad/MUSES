@@ -8637,6 +8637,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetStudentFeeCompTypeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeCompType));
+                ctx.CommandText = helper.SelectMaxColumn("StudentFeeCompTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region StudentPastStudy
         public static StudentPastStudy GetStudentPastStudy(Int32 StudentPastStudyID)

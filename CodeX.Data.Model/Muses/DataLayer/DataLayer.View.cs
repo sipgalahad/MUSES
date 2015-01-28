@@ -14883,6 +14883,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFeeCompType
+    [Serializable]
+    [Table(Name = "vStudentFeeCompType")]
+    public class vStudentFeeCompType
+    {
+        private Int32 _StudentFeeCompTypeID;
+        private String _SiteID;
+        private String _StudentFeeCompTypeName;
+        private String _GCAdmissionPaymentPeriod;
+        private String _AdmissionPaymentPeriod;
+        private Int32 _PaymentDate;
+        private Int32 _PaymentMonth;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
+        {
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "AdmissionPaymentPeriod", DataType = "String")]
+        public String AdmissionPaymentPeriod
+        {
+            get { return _AdmissionPaymentPeriod; }
+            set { _AdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "Int32")]
+        public Int32 PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "PaymentMonth", DataType = "Int32")]
+        public Int32 PaymentMonth
+        {
+            get { return _PaymentMonth; }
+            set { _PaymentMonth = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStudentPastStudy
     [Serializable]
     [Table(Name = "vStudentPastStudy")]

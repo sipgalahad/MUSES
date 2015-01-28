@@ -103,6 +103,13 @@ namespace CodeX.Common
             public const string ADMISSION = "MS018^001";
         }
 
+        public static class AdmissionPaymentPeriod 
+        { 
+            public const string SEKALI_BAYAR = "MS014^001";
+            public const string BULANAN = "MS014^002";
+            public const string TAHUNAN = "MS014^003";
+        }
+
         public static class RegistrationStatus
         {
             public const string OPEN = "MS011^001";
@@ -246,6 +253,7 @@ namespace CodeX.Common
                 public const string EDC_MACHINE = "CP010304";
                 public const string CREDIT_CARD_FEE = "CP010305";
                 public const string MARKUP_MARGIN = "CP010306";
+                public const string STUDENT_FEE_COMP = "CP010307";
 
                 public const string HOLIDAY = "CP010901";
 
