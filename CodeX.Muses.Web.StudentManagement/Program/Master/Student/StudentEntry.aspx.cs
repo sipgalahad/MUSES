@@ -53,9 +53,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}') AND IsActive = 1 AND IsDeleted = 0",
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND IsActive = 1 AND IsDeleted = 0",
                 Constant.StandardCode.SALUTATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.GENDER, Constant.StandardCode.RELIGION,
-                Constant.StandardCode.NATIONALITY, Constant.StandardCode.SCHOOL_GRADE, Constant.StandardCode.STUDENT_STATUS, Constant.StandardCode.SCHOOL_MAJOR);
+                Constant.StandardCode.NATIONALITY, Constant.StandardCode.STUDENT_STATUS);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
 
@@ -63,11 +63,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboGrade, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_GRADE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField(cboMajor, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SCHOOL_MAJOR || x.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboStudentStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.STUDENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
+
+            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
+            List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            lstMajor.Add(new vSchoolMajor { GCMajor = "", Major = "" });
+            Methods.SetComboBoxField(cboGrade, lstGrade, "Grade", "GCGrade");
+            Methods.SetComboBoxField(cboMajor, lstMajor, "Major", "GCMajor");
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.STUDENT).TagProperty;
 

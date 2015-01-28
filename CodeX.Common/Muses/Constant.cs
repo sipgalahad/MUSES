@@ -53,7 +53,7 @@ namespace CodeX.Common
             public const string LANGUAGE = "MS012";
             public const string INFORMATION_SOURCE = "MS013";
             public const string ADMISSION_PAYMENT_PERIOD = "MS014";
-            public const string ADMISSION_FEE_COMP_TYPE = "MS015";
+            public const string ADMISSION_TYPE = "MS015";
             public const string FROM_SCHOOL_TYPE = "MS017";
             public const string SCHOLARSHIP_TYPE = "MS018";
             public const string ACHIEVEMENT_TYPE = "MS019";
@@ -73,6 +73,12 @@ namespace CodeX.Common
             public const string OPEN = "MS021^001";
             public const string NAIK_KELAS = "MS021^002";
             public const string TIDAK_NAIK_KELAS = "MS021^003";
+        }
+
+        public static class AdmissionType
+        {
+            public const string NEW_STUDENT = "MS015^001";
+            public const string STUDENT_TRANSFER = "MS015^002";
         }
 
         public static class SchoolDailyScheduleType
@@ -391,6 +397,7 @@ namespace CodeX.Common
                 public const string SP_CLASS_SUBJECT = "SM99010402";
                 public const string SP_CLASS_SCHEDULE = "SM99010403";
                 public const string SP_CLASS_STUDENT = "SM99010404";
+                public const string SP_TEACHER_SCHEDULE = "SM99010405";
 
                 public const string STUDENT_PAGE = "SM99020000";
                 public const string ST_STUDENT_PAST_STUDY = "SM99020101";

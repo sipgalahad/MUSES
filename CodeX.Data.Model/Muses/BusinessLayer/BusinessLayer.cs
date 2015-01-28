@@ -9453,6 +9453,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TeacherSchedule
+        public static TeacherSchedule GetTeacherSchedule(Int32 TeacherScheduleID)
+        {
+            return new TeacherScheduleDao().Get(TeacherScheduleID);
+        }
+        public static int InsertTeacherSchedule(TeacherSchedule record)
+        {
+            return new TeacherScheduleDao().Insert(record);
+        }
+        public static int UpdateTeacherSchedule(TeacherSchedule record)
+        {
+            return new TeacherScheduleDao().Update(record);
+        }
+        public static int DeleteTeacherSchedule(Int32 TeacherScheduleID)
+        {
+            return new TeacherScheduleDao().Delete(TeacherScheduleID);
+        }
+        public static List<TeacherSchedule> GetTeacherScheduleList(string filterExpression)
+        {
+            List<TeacherSchedule> result = new List<TeacherSchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherSchedule)helper.IDataReaderToObject(reader, new TeacherSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TeacherSchedule> GetTeacherScheduleList(string filterExpression, IDbContext ctx)
+        {
+            List<TeacherSchedule> result = new List<TeacherSchedule>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherSchedule)helper.IDataReaderToObject(reader, new TeacherSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TeacherSubject
         public static TeacherSubject GetTeacherSubject(Int32 TeacherID, Int32 SubjectID)
         {

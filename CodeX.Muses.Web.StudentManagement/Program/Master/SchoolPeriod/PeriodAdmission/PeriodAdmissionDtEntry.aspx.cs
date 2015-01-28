@@ -41,7 +41,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID);
+            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionType = '{1}' AND GCPeriodAdmissionStatus != '{2}'", AppSession.SchoolPeriodID, Constant.AdmissionType.NEW_STUDENT, Constant.SchoolPeriodStatus.VOID);
             List<vPeriodAdmission> lstEntity = BusinessLayer.GetvPeriodAdmissionList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
@@ -108,6 +108,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 PeriodAdmission entity = new PeriodAdmission();
                 ControlToEntity(entity);
                 entity.SchoolPeriodID = AppSession.SchoolPeriodID;
+                entity.GCPeriodAdmissionType = Constant.AdmissionType.NEW_STUDENT;
                 entity.GCPeriodAdmissionStatus = Constant.SchoolPeriodStatus.OPEN;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.InsertPeriodAdmission(entity);

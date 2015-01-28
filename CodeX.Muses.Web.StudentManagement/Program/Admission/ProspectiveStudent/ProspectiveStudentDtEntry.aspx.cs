@@ -85,7 +85,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(chkIsFeeder, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
-            #region Patient Address
+            #region Address
             Helper.SetControlEntrySetting(txtAddress, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtCounty, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtDistrict, new ControlEntrySetting(true, true, false), "mpEntry");
@@ -94,12 +94,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(tacZipCode, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
-            #region Patient Contact
+            #region Contact
             Helper.SetControlEntrySetting(txtTelephoneNo, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtMobilePhoneNo1, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtMobilePhoneNo2, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtEmailAddress1, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtEmailAddress2, new ControlEntrySetting(true, true, false), "mpEntry");
+            #endregion
+
+            #region Other Information
+            Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
         }
 
@@ -116,6 +122,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboRegistrationType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.REGISTRATION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+
+            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
+            List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            lstMajor.Add(new vSchoolMajor { GCMajor = "", Major = "" });
+            Methods.SetComboBoxField(cboGrade, lstGrade, "Grade", "GCGrade");
+            Methods.SetComboBoxField(cboMajor, lstMajor, "Major", "GCMajor");
+
+            PeriodAdmission periodAdmission = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
+            if (periodAdmission.GCPeriodAdmissionType == Constant.AdmissionType.NEW_STUDENT)
+            {
+                trGrade.Style.Add("display", "none");
+                trMajor.Style.Add("display", "none");
+
+                cboGrade.Value = lstGrade.FirstOrDefault().GCGrade;
+                cboMajor.SelectedIndex = 0;
+            }
+            else if (lstMajor.Count == 0)
+                trMajor.Style.Add("display", "none");
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT).TagProperty;
 
@@ -181,6 +205,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtMobilePhoneNo2.Text = entity.MobilePhoneNo2;
             txtTelephoneNo.Text = entity.PhoneNo1;
             #endregion
+
+            #region Additional Information
+            cboGrade.Value = entity.GCGrade;
+            cboMajor.Value = entity.GCMajor;
+            txtRemarks.Text = entity.Remarks;
+            #endregion
         }
 
         private void ControlToEntity(Registration entityRegistration, ProspectiveStudent entity, Address entityAddress)
@@ -242,6 +272,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.MobilePhoneNo1 = txtMobilePhoneNo1.Text;
             entity.MobilePhoneNo2 = txtMobilePhoneNo2.Text;
             entityAddress.PhoneNo1 = txtTelephoneNo.Text;
+            #endregion
+
+            #region Additional Information
+            entityRegistration.GCGrade = cboGrade.Value.ToString();
+            if (cboMajor.Value == null)
+                entityRegistration.GCMajor = "";
+            else
+                entityRegistration.GCMajor = cboMajor.Value.ToString();
+            entityRegistration.Remarks = txtRemarks.Text;
             #endregion
         }
 
