@@ -10714,6 +10714,7 @@ namespace CodeX.Data.Model
         private DateTime _RegistrationEndDate;
         private DateTime _StartDate;
         private DateTime _EndDate;
+        private String _GCPeriodAdmissionType;
         private String _GCPeriodAdmissionStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -10774,6 +10775,12 @@ namespace CodeX.Data.Model
         {
             get { return _EndDate; }
             set { _EndDate = value; }
+        }
+        [Column(Name = "GCPeriodAdmissionType", DataType = "String")]
+        public String GCPeriodAdmissionType
+        {
+            get { return _GCPeriodAdmissionType; }
+            set { _GCPeriodAdmissionType = value; }
         }
         [Column(Name = "GCPeriodAdmissionStatus", DataType = "String")]
         public String GCPeriodAdmissionStatus
@@ -15388,6 +15395,8 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _GCRegistrationType;
         private String _GCInformationSource;
+        private String _GCGrade;
+        private String _GCMajor;
         private Decimal _FinalMark;
         private Int32? _AdmissionFeeRuleID;
         private Int32? _PaymentID;
@@ -15445,6 +15454,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCInformationSource; }
             set { _GCInformationSource = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String", IsNullable = true)]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
         }
         [Column(Name = "FinalMark", DataType = "Decimal")]
         public Decimal FinalMark
@@ -20082,6 +20103,126 @@ namespace CodeX.Data.Model
                 record = new TeacherDao().Get(TeacherID);
             else
                 record = Get(TeacherID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherSchedule
+    [Serializable]
+    [Table(Name = "TeacherSchedule")]
+    public class TeacherSchedule : DbDataModel
+    {
+        private Int32 _TeacherScheduleID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _TeacherID;
+        private Int16 _DayNumber;
+        private Int16 _HoursIndex;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherScheduleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherScheduleID
+        {
+            get { return _TeacherScheduleID; }
+            set { _TeacherScheduleID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherScheduleDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherSchedule));
+        private bool _isAuditLog = false;
+        private const string p_TeacherScheduleID = "@p_TeacherScheduleID";
+        public TeacherScheduleDao() { }
+        public TeacherScheduleDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherSchedule Get(Int32 TeacherScheduleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherScheduleID, TeacherScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherSchedule)_helper.DataRowToObject(row, new TeacherSchedule());
+        }
+        public int Insert(TeacherSchedule record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherSchedule record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherScheduleID)
+        {
+            TeacherSchedule record;
+            if (_ctx.Transaction == null)
+                record = new TeacherScheduleDao().Get(TeacherScheduleID);
+            else
+                record = Get(TeacherScheduleID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

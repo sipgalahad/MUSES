@@ -355,6 +355,26 @@
                                 </tr>
                             </table>
                         </div>
+                        <h4 class="h4expanded"><%=GetLabel("Informasi Tambahan")%></h4>
+                        <div class="containerTblEntryContent">
+                            <table class="tblEntryContent" style="width:100%">
+                                <colgroup>
+                                    <col style="width:180px"/>
+                                </colgroup>
+                                <tr id="trGrade" runat="server">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelas")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboGrade" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr id="trMajor" runat="server">
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboMajor" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel" valign="top" style="padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
+                                    <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                                </tr>
+                            </table>
+                        </div>
                     </td>
                 </tr>
             </table>

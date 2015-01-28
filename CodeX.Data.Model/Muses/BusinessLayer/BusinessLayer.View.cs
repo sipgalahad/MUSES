@@ -7407,6 +7407,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTeacherSchedule
+        public static List<vTeacherSchedule> GetvTeacherScheduleList(string filterExpression)
+        {
+            List<vTeacherSchedule> result = new List<vTeacherSchedule>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherSchedule));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherSchedule)helper.IDataReaderToObject(reader, new vTeacherSchedule()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTeacherSubject
         public static List<vTeacherSubject> GetvTeacherSubjectList(string filterExpression)
         {
