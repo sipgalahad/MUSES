@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master"
-    AutoEventWireup="true" CodeBehind="TeacherScheduleInfo.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.TeacherScheduleInfo" %>
+    AutoEventWireup="true" CodeBehind="TeacherPICInfo.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.TeacherPICInfo" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxPivotGrid.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPivotGrid" TagPrefix="dx" %>
@@ -54,16 +54,6 @@
             <col style="width: 120px" />
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Guru")%></label></td>
-            <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetTeacherList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
-                    SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacTeacherValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
-            </td>
-        </tr>
-        <tr>
             <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
@@ -76,10 +66,11 @@
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
         .tblSchedule tr td                  { border: 1px solid #333; }
-        .tblSchedule tr.T001                { height: 75px; }
-        .tblSchedule tr.T001 b              { color: Red; }
-        .tblSchedule tr.T001 b.bPicket      { color: Blue; }
-        .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
+        .tblSchedule tr.T001                { height: 100px; cursor: pointer; }
+        .tblSchedule tr.T001 .divTime, .nts001                   { background-color: #2FD933; }
+        .tblSchedule tr.T001 b              { color: Red; font-weight: normal; }
+        
+        .tblSchedule tr.T001 .tdHtmlText    { background-color: #FFD837 !important; }
     </style>
 
     <div class="divTransactionEntry">
@@ -101,9 +92,18 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server" valign="top">
+                                                    <div class="divTime"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%" class="tblTeacherDt">
+                                                        <asp:Repeater ID="rptTeacherScheduleDt" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td><input type="hidden" value='<%#Eval("TeacherID") %>' class="hdnTeacherID"/><%#Eval("TeacherName") %></td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -119,9 +119,18 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server" valign="top">
+                                                    <div class="divTime"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%" class="tblTeacherDt">
+                                                        <asp:Repeater ID="rptTeacherScheduleDt" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td><input type="hidden" value='<%#Eval("TeacherID") %>' class="hdnTeacherID"/><%#Eval("TeacherName") %></td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -137,9 +146,18 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server" valign="top">
+                                                    <div class="divTime"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%" class="tblTeacherDt">
+                                                        <asp:Repeater ID="rptTeacherScheduleDt" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td><input type="hidden" value='<%#Eval("TeacherID") %>' class="hdnTeacherID"/><%#Eval("TeacherName") %></td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -155,9 +173,18 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server" valign="top">
+                                                    <div class="divTime"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%" class="tblTeacherDt">
+                                                        <asp:Repeater ID="rptTeacherScheduleDt" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td><input type="hidden" value='<%#Eval("TeacherID") %>' class="hdnTeacherID"/><%#Eval("TeacherName") %></td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -173,9 +200,18 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server" valign="top">
+                                                    <div class="divTime"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%" class="tblTeacherDt">
+                                                        <asp:Repeater ID="rptTeacherScheduleDt" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td><input type="hidden" value='<%#Eval("TeacherID") %>' class="hdnTeacherID"/><%#Eval("TeacherName") %></td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -191,9 +227,18 @@
                                         </HeaderTemplate>
                                         <ItemTemplate>
                                             <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                                <td class="tdHtmlText" id="tdHtmlText" runat="server" valign="top">
+                                                    <div class="divTime"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%" class="tblTeacherDt">
+                                                        <asp:Repeater ID="rptTeacherScheduleDt" runat="server">
+                                                            <ItemTemplate>
+                                                                <tr>
+                                                                    <td><input type="hidden" value='<%#Eval("TeacherID") %>' class="hdnTeacherID"/><%#Eval("TeacherName") %></td>
+                                                                </tr>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </table>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -225,9 +270,6 @@
                                             </table>
                                         </FooterTemplate>
                                     </asp:Repeater>            
-                                </td>
-                                <td valign="top" style="padding-left:300px;">
-                                    <div style="font-weight: bold;"><%=GetLabel("Jumlah Jam Mengajar") %> : <span style="color: Red;" id="spnNumSlot" runat="server"></span></div>
                                 </td>
                             </tr>
                         </table>

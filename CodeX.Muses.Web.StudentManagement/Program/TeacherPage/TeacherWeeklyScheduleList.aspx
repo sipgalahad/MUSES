@@ -86,6 +86,7 @@
         .tblSchedule tr td                  { border: 1px solid #333; }
         .tblSchedule tr.T001                { height: 75px; cursor: pointer; }
         .tblSchedule tr.T001 b              { color: Red; }
+        .tblSchedule tr.T001 b.bPicket      { color: Blue; }
         .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
     </style>
 

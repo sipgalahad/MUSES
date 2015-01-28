@@ -85,7 +85,7 @@ namespace CodeX.Muses.Web.Information.Program
                     ));
 
                     lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacTeacher.Value));
-
+                    lstTeacherSchedule = BusinessLayer.GetTeacherScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacTeacher.Value));
                     spnNumSlot.InnerHtml = lstClassSchedule.Count.ToString();
                     rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();
                     rptDay1.DataBind();
@@ -139,6 +139,7 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 DailyScheduleTypeDt entityTypeDt = e.Item.DataItem as DailyScheduleTypeDt;
                 vClassSchedule entity = lstClassSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
+                TeacherSchedule entityTeacherSchedule = lstTeacherSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
                 HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
                 HtmlTableCell tdClassSubjectID = (HtmlTableCell)e.Item.FindControl("tdClassSubjectID");
                 HtmlTableCell tdClassScheduleID = (HtmlTableCell)e.Item.FindControl("tdClassScheduleID");
@@ -148,12 +149,14 @@ namespace CodeX.Muses.Web.Information.Program
                     tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
                 }
+                else if (entityTeacherSchedule != null)
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/><b class='bPicket'>{2}</b>", entityTypeDt.StartTime, entityTypeDt.EndTime, GetLabel("PIKET"));
                 else
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
             }
         }
         List<vClassSchedule> lstClassSchedule = null;
-
+        List<TeacherSchedule> lstTeacherSchedule = null;
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
