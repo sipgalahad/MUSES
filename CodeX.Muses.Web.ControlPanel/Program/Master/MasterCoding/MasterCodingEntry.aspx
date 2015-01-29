@@ -30,7 +30,7 @@ CodeBehind="MasterCodingEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Pr
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Default Perfix")%></label></td>
-                        <td><asp:TextBox ID="txtDefaultPrefix" Width="200px" runat="server" /></td>
+                        <td><asp:TextBox ID="txtDefaultPrefix" Width="120px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Perfix Length")%></label></td>
