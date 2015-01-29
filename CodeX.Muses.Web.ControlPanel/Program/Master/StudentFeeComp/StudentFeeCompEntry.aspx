@@ -22,7 +22,7 @@ CodeBehind="StudentFeeCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.
             if (paymentPeriod == onGetAdmissionPaymentPeriodMonth())
             {
                 $('.tdDay').show();
-                $('#<%=txtMonth.ClientID %>').val('');
+                cboMonth.SetValue('');
                 $('.tdMonth').hide();
             }
             else if (paymentPeriod == onGetAdmissionPaymentPeriodYear()){
@@ -31,7 +31,7 @@ CodeBehind="StudentFeeCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.
             }
             else {
                 $('#<%=txtDay.ClientID %>').val('');
-                $('#<%=txtMonth.ClientID %>').val('');
+                cboMonth.SetValue('');
                 $('.tdMonth').hide();
                 $('.tdDay').hide();
             }
@@ -71,7 +71,7 @@ CodeBehind="StudentFeeCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.
                                 <tr>
                                     <td class="tdDay"><asp:TextBox ID="txtDay" Width="50px" runat="server" CssClass="txtNumeric" /></td>
                                     <td class="tdLabel tdMonth"><label class="lblNormal"><%=GetLabel("Bulan")%></label></td>
-                                    <td class="tdMonth"><asp:TextBox ID="txtMonth" Width="50px" runat="server" CssClass="txtNumeric" /></td>
+                                    <td class="tdMonth"><dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" /></td>
                                 </tr>
                             </table>
                         </td>

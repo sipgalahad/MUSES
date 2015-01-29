@@ -58,6 +58,8 @@ namespace CodeX.Common
             public const string SCHOLARSHIP_TYPE = "MS018";
             public const string ACHIEVEMENT_TYPE = "MS019";
             public const string SCHOOL_DAY = "MS020";
+
+            public const string PREFIX_TYPE = "X302";
         }
 
         public static class SchoolPeriodStatus
@@ -256,6 +258,7 @@ namespace CodeX.Common
                 public const string STUDENT_FEE_COMP = "CP010307";
 
                 public const string HOLIDAY = "CP010901";
+                public const string MASTER_CODING = "CP010902";
 
                 public const string SITE_INFORMATION = "CP020101";
                 public const string MODULE_MANAGEMENT = "CP020201";
