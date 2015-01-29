@@ -6569,6 +6569,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentCustom
+        public static List<vStudentCustom> GetvStudentCustomList(string filterExpression)
+        {
+            List<vStudentCustom> result = new List<vStudentCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCustom)helper.IDataReaderToObject(reader, new vStudentCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentFamily
         public static List<vStudentFamily> GetvStudentFamilyList(string filterExpression)
         {
