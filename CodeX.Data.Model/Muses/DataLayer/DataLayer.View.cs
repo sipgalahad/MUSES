@@ -1488,7 +1488,6 @@ namespace CodeX.Data.Model
     public partial class vClassStudent
     {
         private Int32 _SchoolClassID;
-        private Int32 _StudentSchoolClassID;
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
@@ -1502,12 +1501,6 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
-        }
-        [Column(Name = "StudentSchoolClassID", DataType = "Int32")]
-        public Int32 StudentSchoolClassID
-        {
-            get { return _StudentSchoolClassID; }
-            set { _StudentSchoolClassID = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
@@ -14627,6 +14620,70 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vStudentCustom
+    [Serializable]
+    [Table(Name = "vStudentCustom")]
+    public partial class vStudentCustom
+    {
+        private Int32 _StudentID;
+        private Int32 _SchoolClassID;
+        private String _StudentCode;
+        private String _StudentName;
+        private String _GCGender;
+        private String _PictureFileName;
+        private String _GCClassStudentStatus;
+        private String _ClassStudentStatus;
+
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "PictureFileName", DataType = "String")]
+        public String PictureFileName
+        {
+            get { return _PictureFileName; }
+            set { _PictureFileName = value; }
+        }
+        [Column(Name = "GCClassStudentStatus", DataType = "String")]
+        public String GCClassStudentStatus
+        {
+            get { return _GCClassStudentStatus; }
+            set { _GCClassStudentStatus = value; }
+        }
+        [Column(Name = "ClassStudentStatus", DataType = "String")]
+        public String ClassStudentStatus
+        {
+            get { return _ClassStudentStatus; }
+            set { _ClassStudentStatus = value; }
         }
     }
     #endregion

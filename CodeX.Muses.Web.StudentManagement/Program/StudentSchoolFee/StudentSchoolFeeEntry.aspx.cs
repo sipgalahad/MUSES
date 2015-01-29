@@ -70,9 +70,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
-            if (tacSchoolClass.Value != "")
-                lstStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", tacSchoolClass.Value, tacPeriodSection.Value));
-            List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(String.Format("{0} AND GCClassStudentStatus != '{1}' AND StudentSchoolClassID IS NOT NULL", filterExpression, Constant.ClassStudentStatus.OPEN));
+            //if (tacSchoolClass.Value != "")
+            //    lstStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", tacSchoolClass.Value, tacPeriodSection.Value));
+            List<vStudentCustom> lstEntity = BusinessLayer.GetvStudentCustomList(String.Format("{0} AND GCClassStudentStatus != '{1}' AND SchoolClassID IS NOT NULL", filterExpression, Constant.ClassStudentStatus.OPEN));
             lstScholarship = BusinessLayer.GetScholarshipList(String.Format("SiteID = '{0}' AND GCScholarshipType != '{1}' AND IsDeleted = 0",AppSession.UserLogin.SiteID, Constant.ScholarshipType.ADMISSION));
             Scholarship sch = new Scholarship();
             sch.ScholarshipID = 0;
@@ -87,7 +87,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vClassStudent entity = (vClassStudent)e.Row.DataItem;
+                vStudentCustom entity = (vStudentCustom)e.Row.DataItem;
                 ASPxComboBox cboScholarship = e.Row.FindControl("cboScholarship") as ASPxComboBox;
                 cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Row.DataItemIndex);
                 Methods.SetComboBoxField(cboScholarship, lstScholarship, "ScholarshipName", "ScholarshipID");
