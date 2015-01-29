@@ -22,13 +22,13 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLoginData;
         
         /// <summary>
-        /// imgCloseLeftPane control.
+        /// rptModuleStyle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgCloseLeftPane;
+        protected global::System.Web.UI.WebControls.Repeater rptModuleStyle;
         
         /// <summary>
         /// rptModule control.
@@ -47,15 +47,6 @@ namespace CodeX.Web.CommonLibs.MasterPage {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage imgOpenModule;
-        
-        /// <summary>
-        /// divSiteName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSiteName;
         
         /// <summary>
         /// rptMenu control.

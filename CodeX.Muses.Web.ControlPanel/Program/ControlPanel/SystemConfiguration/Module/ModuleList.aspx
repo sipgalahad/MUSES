@@ -85,6 +85,12 @@
                                 <asp:BoundField DataField="ModuleName" HeaderText="Module Name" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="ModuleShortName" HeaderText="Short Name" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="DefaultUrl" HeaderText="Default Url" />
+                                <asp:TemplateField HeaderStyle-Width="110px">
+                                    <HeaderTemplate><%=GetLabel("Background Color") %></HeaderTemplate>
+                                    <ItemTemplate>
+                                        <div style="width:100%;height:100%;background-color:<%#: Eval("BackgroundColor") %>">&nbsp;</div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:HyperLinkField HeaderText="Menu" Text="Menu" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkMenu" HeaderStyle-Width="100px" />
                             </Columns>
                             <EmptyDataTemplate>

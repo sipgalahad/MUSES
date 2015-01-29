@@ -290,6 +290,8 @@
             h2 { font-weight: bold; font-size: 10pt; margin-bottom: 0.5cm; margin-top: -0.5cm; }
             .tblReportParameterDt td:nth-child(1)          { width: 70px; font-weight: bold; }
             .tblReportParameterDt td:nth-child(2)          { width: 10px; }
+            
+            .divCircle          { border-radius: 50%;width: 22px; height: 22px;background: #0099CC; padding: 3px 0 0 0px; }
         </style>
     </head>
     <body>
@@ -303,20 +305,20 @@
                 <input type="hidden" id="hdnExportExcel" runat="server" />
                 <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <td align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/print.png") %>' title="Print" id="imgPrint" class="imgLink" height="24px" /></td>
+                        <td align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/print.png") %>' title="Print" id="imgPrint" class="imgLink" height="16px" /></div></td>
                         <td><span class="separator">|</span></td>
-                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/movefirst.png") %>' title="First" id="imgMoveFirst" class="imgLink" height="24px" /></td>
-                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/moveprev.png") %>' title="Prev" id="imgMovePrev" class="imgLink" height="24px" /></td>
+                        <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/movefirst.png") %>' title="First" id="imgMoveFirst" class="imgLink" height="16px" /></div></td>
+                        <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/moveprev.png") %>' title="Prev" id="imgMovePrev" class="imgLink" height="16px" /></div></td>
                         <td style="width:140px;" align="center">
                             Page 
                             <select id="cboJumpPage">
                             </select>
                             of <input type="text" id="txtTotalPage" value="1" style="width: 30px; text-align: right" readonly="readonly" class="number"/>
                         </td>
-                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/movenext.png") %>' title="Next" id="imgMoveNext" class="imgLink" height="24px" /></td>
-                        <td style="width:26px;" align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/movelast.png") %>' title="Last" id="imgMoveLast" class="imgLink" height="24px" /></td>
+                        <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/movenext.png") %>' title="Next" id="imgMoveNext" class="imgLink" height="16px" /></div></td>
+                        <td style="width:26px;" align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/movelast.png") %>' title="Last" id="imgMoveLast" class="imgLink" height="16px" /></div></td>
                         <td><span class="separator">|</span></td>
-                        <td align="center"><img src='<%=ResolveUrl("~/Libs/Images/Report/export.png") %>' title="Export" id="imgExportExcel" class="imgLink" height="24px" /></td>
+                        <td align="center"><div class="divCircle"><img src='<%=ResolveUrl("~/Libs/Images/Report/export.png") %>' title="Export" id="imgExportExcel" class="imgLink" height="16px" /></div></td>
                     </tr>
                 </table>
             </div>

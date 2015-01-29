@@ -85,13 +85,54 @@
 
 
             $('#<%=imgOpenModule.ClientID %>').click(function () {
-                $('#divLeftPaneMenu').show();
-            });
-
-            $('#<%=imgCloseLeftPane.ClientID %>').click(function () {
-                $('#divLeftPaneMenu').hide();
+                if ($('#divLeftPaneMenu').is(':visible')) {
+                    $('#divLeftPaneMenu').slideUp("fast", function () {
+                        $('#divLeftPaneMenu').prev().hide();
+                        $('#divLeftPaneMenu').prev().prev().hide();
+                    });
+                }
+                else {
+                    $('#divLeftPaneMenu').prev().show();
+                    $('#divLeftPaneMenu').prev().prev().show();
+                    $('#divLeftPaneMenu').slideDown("fast");
+                }
             });
         });
+
+        function openUserHelp() {
+            showLoadingPanel();
+            var url = ResolveUrl('~/Libs/Program/UserHelp.aspx');
+            var windowID = 'MapUserHelp';
+            var width = 1200;
+            var heigth = 650;
+            var left = (screen.width / 2) - (width / 2);
+            var top = (screen.height / 2) - (heigth / 2);
+            var win = window.open("", windowID, 'status=1,toolbar=0,menubar=0,resizable=1,location=0,scrollbars=1,width=' + width + ',height=' + heigth + ', top=' + top + ', left=' + left);
+            if (win) {
+                win.focus();
+
+                var mapForm = document.createElement("form");
+                mapForm.target = windowID;
+                mapForm.method = "POST";
+                mapForm.action = url;
+
+                var mapInput = document.createElement("input");
+                mapInput.type = "hidden";
+                mapInput.name = "id";
+                mapInput.value = '';
+                mapForm.appendChild(mapInput);
+
+                document.body.appendChild(mapForm);
+
+                mapForm.submit();
+
+                $(mapForm).remove();
+
+            } else {
+                showToast('Warning', 'You must allow popups for this map to work.');
+            }
+            hideLoadingPanel();
+        }
 
         function openInformation() {
             showLoadingPanel();
@@ -169,21 +210,24 @@
     </script>
 
     <input type="hidden" runat="server" id="hdnLoginData" />
-
+    <style type="text/css">
+        <asp:Repeater ID="rptModuleStyle" runat="server">
+            <ItemTemplate>
+                .module<%#Eval("ModuleID") %>:hover      { border:3px solid <%#Eval("BackgroundColor") %>; }
+            </ItemTemplate>
+        </asp:Repeater>
+    </style>
     <div class="applicationTopBar" style="height: 33px;">
+        <div class="arrow-up"></div>
+        <div class="clear-arrow"></div>
         <div id="divLeftPaneMenu" class="leftPane">
-            <div style="padding:10px;">
-                <img height="32" id="imgCloseLeftPane" runat="server" style="float: right; cursor: pointer; margin-top: 7px;" />
-                <h6>Modul</h6>
-            </div>
-            <br style="clear: both; margin-bottom: 1px;" />
+            <br style="clear: both; margin-bottom: 0px;" />
             <ul>
                 <asp:Repeater ID="rptModule" runat="server" OnItemDataBound="rptModule_ItemDataBound">
                     <ItemTemplate>
-                        <li id="ulLinkModule" runat="server" class="ulLinkModule">
-                            <img height="24" style="float: left; margin-right: 10px; margin-top: 5px;" runat="server" id="imgModule" />
+                        <li id="ulLinkModule" runat="server" >
+                            <img height="100" runat="server" id="imgModule" /><br />
                             <%#Eval("ModuleName")%>
-                            <div><%#Eval("Description") %></div>
                         </li>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -192,6 +236,8 @@
         <div class="containeruserlogininfo">
             <table cellpadding="0" cellspacing="0" style="height:100%" >
                 <tr>
+                    <td class="tdImgModuleHome"><img id="imgOpenUserHelp" src='<%=ResolveUrl("~/Libs/Images/info.png")%>' style="cursor: pointer;" title='User Help' alt="" /></td>
+                    <td style="width:5px">&nbsp;</td>
                     <td class="tdImgModuleHome"><img id="imgOpenInformation" src='<%=ResolveUrl("~/Libs/Images/info.png")%>' style="cursor: pointer;" title='Information' alt="" /></td>
                     <td style="width:5px">&nbsp;</td>
                     <td class="tdImgModuleHome"><img id="imgModuleHome" src='<%=ResolveUrl("~/Libs/Images/home.png")%>' style="cursor: pointer;" title='Home' alt="" /></td>
@@ -220,7 +266,7 @@
             </table>
         </div>
         <img height="24" style="cursor: pointer; float:left; margin-left: 10px; margin-top: 5px;" runat="server" id="imgOpenModule" title="Module" />
-        <div class="hospitalName" id="divSiteName" style="float:left;width:120px; margin-left: 15px;" runat="server"></div>
+        <div class="hospitalName" id="hospitalName" style="float:left;width:120px; margin-left: 15px;">OTTIMO</div>
         <div id="page-wrap" style="padding-top:7px;">
             <asp:Repeater ID="rptMenu" runat="server" OnItemDataBound="rptMenu_ItemDataBound">
                 <HeaderTemplate>

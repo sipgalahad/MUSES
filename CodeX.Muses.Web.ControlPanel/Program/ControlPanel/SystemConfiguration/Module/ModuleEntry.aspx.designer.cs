@@ -94,6 +94,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtDefaultUrl;
         
         /// <summary>
+        /// txtBackgroundColor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBackgroundColor;
+        
+        /// <summary>
+        /// txtBackgroundColorPicker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBackgroundColorPicker;
+        
+        /// <summary>
         /// chkIsVisible control.
         /// </summary>
         /// <remarks>

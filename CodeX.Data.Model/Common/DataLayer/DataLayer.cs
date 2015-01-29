@@ -996,6 +996,7 @@ namespace CodeX.Data.Model
         private String _DisabledImageUrl;
         private String _DefaultUrl;
         private String _Description;
+        private String _BackgroundColor;
         private Boolean _IsVisible;
         private Int32 _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
@@ -1047,6 +1048,12 @@ namespace CodeX.Data.Model
         {
             get { return _Description; }
             set { _Description = value; }
+        }
+        [Column(Name = "BackgroundColor", DataType = "String", IsNullable = true)]
+        public String BackgroundColor
+        {
+            get { return _BackgroundColor; }
+            set { _BackgroundColor = value; }
         }
         [Column(Name = "IsVisible", DataType = "Boolean")]
         public Boolean IsVisible

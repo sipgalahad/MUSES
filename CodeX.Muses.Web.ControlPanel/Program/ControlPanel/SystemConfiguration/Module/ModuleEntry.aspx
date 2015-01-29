@@ -2,6 +2,14 @@
     CodeBehind="ModuleEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.ModuleEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
+    <script type="text/javascript">
+        $(function () {
+            $('#<%=txtBackgroundColorPicker.ClientID %>').colorPicker();
+            $('#<%=txtBackgroundColorPicker.ClientID %>').change(function () {
+                $('#<%=txtBackgroundColor.ClientID %>').val($(this).val());
+            });
+        });
+    </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
@@ -52,6 +60,17 @@
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Default Url")%></label></td>
                         <td><asp:TextBox ID="txtDefaultUrl" Width="300px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Background Color")%></label></td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0"> 
+                                <tr>
+                                    <td><asp:TextBox ID="txtBackgroundColor" CssClass="colorpicker" Width="100px" runat="server" /></td>
+                                    <td style="padding-left:5px"><asp:TextBox ID="txtBackgroundColorPicker" runat="server" /></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
                         <td></td>

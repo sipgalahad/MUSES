@@ -45,6 +45,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtImageUrl, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDisabledImageUrl, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDefaultUrl, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtBackgroundColor, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtBackgroundColorPicker, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsVisible, new ControlEntrySetting(true, true, false));
         }
 
@@ -59,6 +61,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtDisabledImageUrl.Text = entity.DisabledImageUrl;
             txtDefaultUrl.Text = entity.DefaultUrl;
             chkIsVisible.Checked = entity.IsVisible;
+            txtBackgroundColor.Text = txtBackgroundColorPicker.Text = entity.BackgroundColor;
         }
 
         private void ControlToEntity(Module entity)
@@ -72,6 +75,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.DisabledImageUrl = txtDisabledImageUrl.Text;
             entity.DefaultUrl = txtDefaultUrl.Text;
             entity.IsVisible = chkIsVisible.Checked;
+            entity.BackgroundColor = txtBackgroundColor.Text;
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
