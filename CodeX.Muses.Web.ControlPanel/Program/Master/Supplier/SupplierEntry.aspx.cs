@@ -41,7 +41,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            txtSupplierCode.Focus();
+            ctlEntityCode.InitializeMasterCodingControl(Constant.MasterCode.SUPPLIER);
+            ctlEntityCode.SetControlVisibility(IsAdd);
+            ctlEntityCode.SetFocus();
         }
 
         protected override void SetControlProperties()
@@ -53,14 +55,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<Site> listSite = BusinessLayer.GetSiteList("");
             listSite.Insert(0, new Site { SiteID = "", SiteName = "" });
             Methods.SetComboBoxField<Site>(cboSite, listSite, "SiteName", "SiteID");
+            cboSite.Value = AppSession.UserLogin.SiteID;
+            cboSite.ClientEnabled = false;
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.BUSINESS_PARTNER).TagProperty;
+        }
+
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void OnControlEntrySetting()
         {
             #region General Information
-            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtShortName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtContactPerson, new ControlEntrySetting(true, true, false));
@@ -111,7 +119,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void EntityToControl(BusinessPartners entity, Supplier entitySup, vAddress entityAddress, BusinessPartnerTagField entityTagField)
         {
             #region General Information
-            txtSupplierCode.Text = entity.BusinessPartnerCode;
+            ctlEntityCode.SetText(entity.BusinessPartnerCode);
             txtSupplierName.Text = entity.BusinessPartnerName;
             txtShortName.Text = entity.ShortName;
             txtContactPerson.Text = entity.ContactPerson;
@@ -160,10 +168,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
         }
 
-        private void ControlToEntity(BusinessPartners entity, Supplier entitySup, Address entityAddress, BusinessPartnerTagField entityTagField)
+        private void ControlToEntity(IDbContext ctx, BusinessPartners entity, Supplier entitySup, Address entityAddress, BusinessPartnerTagField entityTagField)
         {
             #region General Information
-            entity.BusinessPartnerCode = txtSupplierCode.Text;
             entity.BusinessPartnerName = txtSupplierName.Text;
             entity.ShortName = txtShortName.Text;
             entity.ContactPerson = txtContactPerson.Text;
@@ -214,31 +221,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entityTagField.GetType().GetProperty("TagField" + hdn.Value).SetValue(entityTagField, txt.Text, null);
             }
             #endregion
-        }
 
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("BusinessPartnerCode = '{0}'", txtSupplierCode.Text);
-            List<BusinessPartners> lst = BusinessLayer.GetBusinessPartnersList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Supplier with Code " + txtSupplierCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            string FilterExpression = string.Format("BusinessPartnerCode = '{0}' AND BusinessPartnerID != {1}", txtSupplierCode.Text, hdnID.Value);
-            List<BusinessPartners> lst = BusinessLayer.GetBusinessPartnersList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Supplier with Code " + txtSupplierCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
+            entity.BusinessPartnerCode = ctlEntityCode.GetCode(entity.BusinessPartnerName, ctx);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -256,7 +240,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 Supplier entitySup = new Supplier();
                 Address entityAddress = new Address();
                 BusinessPartnerTagField entityTagField = new BusinessPartnerTagField();
-                ControlToEntity(entity, entitySup, entityAddress, entityTagField);
+                ControlToEntity(ctx, entity, entitySup, entityAddress, entityTagField);
 
                 entity.GCBusinessPartnerType = Constant.BusinessObjectType.SUPPLIER;
 
@@ -289,6 +273,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -316,7 +301,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 BusinessPartnerTagField entityTagField = entityTagFieldDao.Get(BusinessPartnerID);
                 Address entityAddress = entityAddressDao.Get(entity.AddressID);
 
-                ControlToEntity(entity, entitySup, entityAddress, entityTagField);
+                ControlToEntity(ctx, entity, entitySup, entityAddress, entityTagField);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entitySup.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityTagField.LastUpdatedBy = AppSession.UserLogin.UserID;
@@ -329,6 +314,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
