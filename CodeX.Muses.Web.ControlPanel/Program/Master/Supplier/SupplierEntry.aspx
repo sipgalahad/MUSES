@@ -3,6 +3,7 @@
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Src="~/Libs/Controls/MasterCodingCtl.ascx" TagName="MasterCodingCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
@@ -76,7 +77,7 @@
                         </colgroup>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Supplier Code")%></label></td>
-                            <td><asp:TextBox ID="txtSupplierCode" Width="200px" runat="server" /></td>
+                            <td><uc1:MasterCodingCtl ID="ctlEntityCode" runat="server" /> </td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Supplier Name")%></label></td>

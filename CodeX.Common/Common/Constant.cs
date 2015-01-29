@@ -52,6 +52,7 @@ namespace CodeX.Common
         public static class MasterCode
         {
             public const string ITEM = "XXX001";
+            public const string SUPPLIER = "XXX002";
         }
 
         #region Standard Code
