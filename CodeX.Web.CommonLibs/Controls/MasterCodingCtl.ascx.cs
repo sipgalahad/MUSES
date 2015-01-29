@@ -17,7 +17,7 @@ namespace CodeX.Web.CommonLibs.Controls
     {
         public override void InitializeDataControl(string param)
         {
-            
+
         }
         public void InitializeMasterCodingControl(String MasterType)
         {
@@ -28,8 +28,10 @@ namespace CodeX.Web.CommonLibs.Controls
             Helper.SetControlEntrySetting(txtCode, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtCodeInitial, new ControlEntrySetting(true, true, true), "mpEntry");
 
-            if (masterCoding.GCPrefixType == Constant.PrefixType.N_FIRST_DIGIT)
+            if (masterCoding.GCPrefixType == Constant.PrefixType.N_FIRST_DIGIT || !masterCoding.IsAllowChangeInitial)
                 txtCodeInitial.ReadOnly = true;
+            if (!masterCoding.IsEditable)
+                txtCode.ReadOnly = true;
         }
 
         public void SetControlVisibility(bool IsAdd)
@@ -66,7 +68,7 @@ namespace CodeX.Web.CommonLibs.Controls
             string result = "";
             if (hdnIsAdd.Value == "0")
             {
-                result = txtCode.Text;
+                result = Request.Form[txtCode.UniqueID];
             }
             else
             {

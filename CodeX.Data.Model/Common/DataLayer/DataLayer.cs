@@ -1118,11 +1118,11 @@ namespace CodeX.Data.Model
         private String _MasterName;
         private String _GCPrefixType;
         private String _DefaultPrefix;
-        private String _DefaultPrefixType;
         private Int16 _PrefixLength;
         private Boolean _IsBySite;
         private Int16 _CounterDigit;
         private Boolean _IsAllowChangeInitial;
+        private Boolean _IsEditable;
         private String _TableName;
         private String _CodeFieldName;
         private String _NameFieldName;
@@ -1153,12 +1153,6 @@ namespace CodeX.Data.Model
             get { return _DefaultPrefix; }
             set { _DefaultPrefix = value; }
         }
-        [Column(Name = "DefaultPrefixType", DataType = "String")]
-        public String DefaultPrefixType
-        {
-            get { return _DefaultPrefixType; }
-            set { _DefaultPrefixType = value; }
-        }
         [Column(Name = "PrefixLength", DataType = "Int16")]
         public Int16 PrefixLength
         {
@@ -1182,6 +1176,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsAllowChangeInitial; }
             set { _IsAllowChangeInitial = value; }
+        }
+        [Column(Name = "IsEditable", DataType = "Boolean")]
+        public Boolean IsEditable
+        {
+            get { return _IsEditable; }
+            set { _IsEditable = value; }
         }
         [Column(Name = "TableName", DataType = "String")]
         public String TableName
