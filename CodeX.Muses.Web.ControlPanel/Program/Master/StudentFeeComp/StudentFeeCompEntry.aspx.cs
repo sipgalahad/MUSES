@@ -9,6 +9,8 @@ using CodeX.Web.Common;
 using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
+using System.Globalization;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
@@ -52,6 +54,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.ADMISSION_PAYMENT_PERIOD));
             Methods.SetComboBoxField<StandardCode>(cboAdmissionPaymentPeriod, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
+            {
+                MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
+                MonthNumber = a
+            });
+            cboMonth.TextField = "MonthName";
+            cboMonth.ValueField = "MonthNumber";
+            cboMonth.EnableCallbackMode = false;
+            cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            cboMonth.DropDownStyle = DropDownStyle.DropDownList;
+            cboMonth.DataBind();
+            cboMonth.Value = DateTime.Now.Month.ToString();
         }
 
         protected override void OnControlEntrySetting()
@@ -59,7 +74,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtStudentFeeCompTypeName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboAdmissionPaymentPeriod, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDay, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtMonth, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboMonth, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(StudentFeeCompType entity)
@@ -68,8 +83,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             cboAdmissionPaymentPeriod.Value = entity.GCAdmissionPaymentPeriod;
             if (entity.PaymentDate != null) txtDay.Text = entity.PaymentDate.ToString();
             else txtDay.Text = "";
-            if (entity.PaymentMonth != null) txtMonth.Text = entity.PaymentMonth.ToString();
-            else txtMonth.Text = "";
+            cboMonth.Value = entity.PaymentMonth.ToString();
         }
 
         private void ControlToEntity(StudentFeeCompType entity)
@@ -77,9 +91,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.SiteID = AppSession.UserLogin.SiteID;
             entity.StudentFeeCompTypeName = txtStudentFeeCompTypeName.Text;
             entity.GCAdmissionPaymentPeriod = cboAdmissionPaymentPeriod.Value.ToString();
-            if (txtDay.Text != "") entity.PaymentDate = Convert.ToInt32(txtDay.Text);
+            if (cboAdmissionPaymentPeriod.Value.ToString() != Constant.AdmissionPaymentPeriod.SEKALI_BAYAR) entity.PaymentDate = Convert.ToInt32(txtDay.Text);
             else entity.PaymentDate = null;
-            if (txtMonth.Text != "" ) entity.PaymentMonth = Convert.ToInt32(txtMonth.Text);
+            if (cboAdmissionPaymentPeriod.Value.ToString() == Constant.AdmissionPaymentPeriod.TAHUNAN) entity.PaymentMonth = Convert.ToInt32(cboMonth.Value);
             else entity.PaymentMonth = null;
         }
 

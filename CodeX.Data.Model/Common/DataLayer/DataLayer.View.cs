@@ -276,6 +276,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMasterCoding
+    [Serializable]
+    [Table(Name = "vMasterCoding")]
+    public class vMasterCoding
+    {
+        private String _MasterCode;
+        private String _MasterName;
+        private String _GCPrefixType;
+        private String _PrefixType;
+        private String _DefaultPrefix;
+        private Int16 _PrefixLength;
+        private Boolean _IsBySite;
+        private Int16 _CounterDigit;
+        private Boolean _IsAllowChangeInitial;
+        private Boolean _IsEditable;
+        private String _TableName;
+        private String _CodeFieldName;
+        private String _NameFieldName;
+
+        [Column(Name = "MasterCode", DataType = "String")]
+        public String MasterCode
+        {
+            get { return _MasterCode; }
+            set { _MasterCode = value; }
+        }
+        [Column(Name = "MasterName", DataType = "String")]
+        public String MasterName
+        {
+            get { return _MasterName; }
+            set { _MasterName = value; }
+        }
+        [Column(Name = "GCPrefixType", DataType = "String")]
+        public String GCPrefixType
+        {
+            get { return _GCPrefixType; }
+            set { _GCPrefixType = value; }
+        }
+        [Column(Name = "PrefixType", DataType = "String")]
+        public String PrefixType
+        {
+            get { return _PrefixType; }
+            set { _PrefixType = value; }
+        }
+        [Column(Name = "DefaultPrefix", DataType = "String")]
+        public String DefaultPrefix
+        {
+            get { return _DefaultPrefix; }
+            set { _DefaultPrefix = value; }
+        }
+        [Column(Name = "PrefixLength", DataType = "Int16")]
+        public Int16 PrefixLength
+        {
+            get { return _PrefixLength; }
+            set { _PrefixLength = value; }
+        }
+        [Column(Name = "IsBySite", DataType = "Boolean")]
+        public Boolean IsBySite
+        {
+            get { return _IsBySite; }
+            set { _IsBySite = value; }
+        }
+        [Column(Name = "CounterDigit", DataType = "Int16")]
+        public Int16 CounterDigit
+        {
+            get { return _CounterDigit; }
+            set { _CounterDigit = value; }
+        }
+        [Column(Name = "IsAllowChangeInitial", DataType = "Boolean")]
+        public Boolean IsAllowChangeInitial
+        {
+            get { return _IsAllowChangeInitial; }
+            set { _IsAllowChangeInitial = value; }
+        }
+        [Column(Name = "IsEditable", DataType = "Boolean")]
+        public Boolean IsEditable
+        {
+            get { return _IsEditable; }
+            set { _IsEditable = value; }
+        }
+        [Column(Name = "TableName", DataType = "String")]
+        public String TableName
+        {
+            get { return _TableName; }
+            set { _TableName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "NameFieldName", DataType = "String")]
+        public String NameFieldName
+        {
+            get { return _NameFieldName; }
+            set { _NameFieldName = value; }
+        }
+    }
+    #endregion
     #region vMenu
     [Serializable]
     [Table(Name = "vMenu")]

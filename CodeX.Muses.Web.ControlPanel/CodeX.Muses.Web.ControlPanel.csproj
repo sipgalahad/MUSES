@@ -131,6 +131,8 @@
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
+    <Content Include="Program\Master\MasterCoding\MasterCodingEntry.aspx" />
+    <Content Include="Program\Master\MasterCoding\MasterCodingList.aspx" />
     <Content Include="Program\Master\ProductBrand\ProductBrandEntry.aspx" />
     <Content Include="Program\Master\ProductBrand\ProductBrandList.aspx" />
     <Content Include="Program\Master\Manufacturer\ManufacturerEntry.aspx" />
@@ -571,6 +573,20 @@
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.designer.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MasterCoding\MasterCodingEntry.aspx.cs">
+      <DependentUpon>MasterCodingEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MasterCoding\MasterCodingEntry.aspx.designer.cs">
+      <DependentUpon>MasterCodingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MasterCoding\MasterCodingList.aspx.cs">
+      <DependentUpon>MasterCodingList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MasterCoding\MasterCodingList.aspx.designer.cs">
+      <DependentUpon>MasterCodingList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ProductBrand\ProductBrandEntry.aspx.cs">
       <DependentUpon>ProductBrandEntry.aspx</DependentUpon>
