@@ -107,6 +107,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 result = false;
