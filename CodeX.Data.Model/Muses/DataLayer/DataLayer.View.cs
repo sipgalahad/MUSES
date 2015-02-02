@@ -13876,6 +13876,91 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSchoolPeriod
+    [Serializable]
+    [Table(Name = "vSchoolPeriod")]
+    public class vSchoolPeriod
+    {
+        private Int32 _SchoolPeriodID;
+        private String _SchoolPeriodCode;
+        private String _SchoolPeriodName;
+        private String _SiteID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _DailySchedulePackageID;
+        private Int32 _ExamSchedulePackageID;
+        private String _GCSchoolPeriodStatus;
+        private String _SchoolPeriodStatus;
+        private String _Remarks;
+
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "SchoolPeriodCode", DataType = "String")]
+        public String SchoolPeriodCode
+        {
+            get { return _SchoolPeriodCode; }
+            set { _SchoolPeriodCode = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
+        public Int32 DailySchedulePackageID
+        {
+            get { return _DailySchedulePackageID; }
+            set { _DailySchedulePackageID = value; }
+        }
+        [Column(Name = "ExamSchedulePackageID", DataType = "Int32")]
+        public Int32 ExamSchedulePackageID
+        {
+            get { return _ExamSchedulePackageID; }
+            set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
+        public String GCSchoolPeriodStatus
+        {
+            get { return _GCSchoolPeriodStatus; }
+            set { _GCSchoolPeriodStatus = value; }
+        }
+        [Column(Name = "SchoolPeriodStatus", DataType = "String")]
+        public String SchoolPeriodStatus
+        {
+            get { return _SchoolPeriodStatus; }
+            set { _SchoolPeriodStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vSiteItem
     [Serializable]
     [Table(Name = "vSiteItem")]

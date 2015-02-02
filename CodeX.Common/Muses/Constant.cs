@@ -392,6 +392,7 @@ namespace CodeX.Common
                 public const string STUDENT_FINAL_MARK = "SM040300";
                 public const string GRADE_PROMOTION = "SM040400";
                 public const string STUDENT_SCHOOL_FEE = "SM040500";
+                public const string SCHOOL_PERIOD_CLOSING = "SM040600";
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";

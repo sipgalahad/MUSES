@@ -106,6 +106,7 @@
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
     <Content Include="Program\Master\Scholarship\ScholarshipEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx" />
+    <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
     <Content Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx" />
     <Content Include="Program\StudentMark\StudentFinalMarkEntry.aspx" />
@@ -465,6 +466,13 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx.designer.cs">
       <DependentUpon>TeacherScheduleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx.cs">
+      <DependentUpon>SchoolPeriodClosingEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx.designer.cs">
+      <DependentUpon>SchoolPeriodClosingEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx.cs">
       <DependentUpon>TeacherStudentFinalMarkEntry.aspx</DependentUpon>
