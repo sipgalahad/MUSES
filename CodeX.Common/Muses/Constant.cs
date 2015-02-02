@@ -258,7 +258,6 @@ namespace CodeX.Common
                 public const string STUDENT_FEE_COMP = "CP010307";
 
                 public const string HOLIDAY = "CP010901";
-                public const string MASTER_CODING = "CP010902";
 
                 public const string SITE_INFORMATION = "CP020101";
                 public const string MODULE_MANAGEMENT = "CP020201";
@@ -272,6 +271,7 @@ namespace CodeX.Common
                 public const string FILTER_PARAMETER = "CP020209";
                 public const string REPORT_CONFIGURATION = "CP020210";
                 public const string LOGIN_ATTRIBUTE = "CP020211";
+                public const string MASTER_CODING = "CP020212";
                 public const string USER_ROLES = "CP020301";
                 public const string USER_ACCOUNTS = "CP020302";
 
