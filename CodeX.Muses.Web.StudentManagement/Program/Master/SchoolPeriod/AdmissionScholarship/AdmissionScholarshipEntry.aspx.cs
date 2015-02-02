@@ -33,7 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptStudentFeeCompType.DataSource = lstComp;
             rptStudentFeeCompType.DataBind();
 
-            lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
+            lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}' AND GCPeriodAdmissionType = '{2}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID, Constant.AdmissionType.NEW_STUDENT));
             rptPeriodAdmission.DataSource = lstAdmission;
             rptPeriodAdmission.DataBind();
 

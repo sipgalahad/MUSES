@@ -33,7 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptAdmissionFeeComp.DataSource = lstComp;
             rptAdmissionFeeComp.DataBind();
 
-            lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
+            lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}' AND GCPeriodAdmissionType = '{2}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID, Constant.AdmissionType.NEW_STUDENT));
             rptPeriodAdmission.DataSource = lstAdmission;
             rptPeriodAdmission.DataBind();
 
@@ -180,7 +180,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 foreach (AdmissionFeeRuleDt entityFeeRuleDt in lstEntityDtCurrRecord)
                 {
                     AdmissionFeeRuleDt entityDt = lstEntityDt2.FirstOrDefault(p => p.PeriodAdmissionID == entityFeeRuleDt.PeriodAdmissionID);
-                    entityDt.TotalAmount += entityFeeRuleDt.TotalAmount;
+                    if (entityDt != null)
+                        entityDt.TotalAmount += entityFeeRuleDt.TotalAmount;
                 }
 
                 rptViewDtTotal.DataSource = lstEntityDt2;
