@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QIS.Medinfras.Web.Accounting.Program {
+namespace CodeX.Muses.Web.Accounting.Program {
     
     
     public partial class SubLedgerDtEntryCtl {

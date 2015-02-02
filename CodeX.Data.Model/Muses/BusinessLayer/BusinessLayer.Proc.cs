@@ -565,7 +565,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GetGLBalanceProfitLossPerPeriodPerLevel
-        public static List<GetGLBalanceProfitLossPerPeriodPerLevel> GetGLBalanceProfitLossPerPeriodPerLevelList(String HealthcareID, Int32 JournalYear, Int32 JournalMonth, Int32 AccountLevel, Int32 PageIndex, Int32 NumRows, IDbContext ctx)
+        public static List<GetGLBalanceProfitLossPerPeriodPerLevel> GetGLBalanceProfitLossPerPeriodPerLevelList(String SiteID, Int32 JournalYear, Int32 JournalMonth, Int32 AccountLevel, Int32 PageIndex, Int32 NumRows, IDbContext ctx)
         {
             List<GetGLBalanceProfitLossPerPeriodPerLevel> result = new List<GetGLBalanceProfitLossPerPeriodPerLevel>();
             try
@@ -574,7 +574,7 @@ namespace CodeX.Data.Model
                 ctx.CommandText = "GetGLBalanceProfitLossPerPeriodPerLevel";
                 ctx.CommandType = CommandType.StoredProcedure;
                 //Add Parameter
-                ctx.Add("SiteID", HealthcareID);
+                ctx.Add("SiteID", SiteID);
                 ctx.Add("JournalYear", JournalYear);
                 ctx.Add("JournalMonth", JournalMonth);
                 ctx.Add("AccountLevel", AccountLevel);
@@ -595,10 +595,10 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static List<GetGLBalanceProfitLossPerPeriodPerLevel> GetGLBalanceProfitLossPerPeriodPerLevelList(String HealthcareID, Int32 JournalYear, Int32 JournalMonth, Int32 AccountLevel, Int32 PageIndex = 1, Int32 NumRows = 5000)
+        public static List<GetGLBalanceProfitLossPerPeriodPerLevel> GetGLBalanceProfitLossPerPeriodPerLevelList(String SiteID, Int32 JournalYear, Int32 JournalMonth, Int32 AccountLevel, Int32 PageIndex = 1, Int32 NumRows = 5000)
         {
             IDbContext ctx = DbFactory.Configure();
-            return GetGLBalanceProfitLossPerPeriodPerLevelList(HealthcareID, JournalYear, JournalMonth, AccountLevel, PageIndex, NumRows, ctx);
+            return GetGLBalanceProfitLossPerPeriodPerLevelList(SiteID, JournalYear, JournalMonth, AccountLevel, PageIndex, NumRows, ctx);
         }
         #endregion
         #region GetItemMovementPerPeriodeDetail

@@ -11,7 +11,7 @@ using CodeX.Data.Model;
 using System.Data;
 using CodeX.Data.Core.Dal;
 
-namespace QIS.Medinfras.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class SubLedgerDtViewCtl : BaseViewPopupCtl
     {

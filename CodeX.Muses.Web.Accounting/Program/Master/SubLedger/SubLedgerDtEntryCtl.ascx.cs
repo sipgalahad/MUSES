@@ -9,7 +9,7 @@ using CodeX.Web.Common.UI;
 using CodeX.Web.Common;
 using CodeX.Data.Model;
 
-namespace QIS.Medinfras.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class SubLedgerDtEntryCtl : BaseViewPopupCtl
     {

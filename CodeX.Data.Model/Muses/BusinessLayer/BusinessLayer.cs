@@ -5548,6 +5548,166 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProductLine
+        public static ProductLine GetProductLine(Int32 ProductLineID)
+        {
+            return new ProductLineDao().Get(ProductLineID);
+        }
+        public static int InsertProductLine(ProductLine record)
+        {
+            return new ProductLineDao().Insert(record);
+        }
+        public static int UpdateProductLine(ProductLine record)
+        {
+            return new ProductLineDao().Update(record);
+        }
+        public static int DeleteProductLine(Int32 ProductLineID)
+        {
+            return new ProductLineDao().Delete(ProductLineID);
+        }
+        public static List<ProductLine> GetProductLineList(string filterExpression)
+        {
+            List<ProductLine> result = new List<ProductLine>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLine));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProductLine)helper.IDataReaderToObject(reader, new ProductLine()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ProductLine> GetProductLineList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ProductLine> result = new List<ProductLine>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLine));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProductLine)helper.IDataReaderToObject(reader, new ProductLine()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProductLineRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLine));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProductLineRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLine));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ProductLineID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetProductLineMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLine));
+                ctx.CommandText = helper.SelectMaxColumn("ProductLineID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProductLineDt
+        public static ProductLineDt GetProductLineDt(Int32 ProductLineID, String SiteID)
+        {
+            return new ProductLineDtDao().Get(ProductLineID, SiteID);
+        }
+        public static int InsertProductLineDt(ProductLineDt record)
+        {
+            return new ProductLineDtDao().Insert(record);
+        }
+        public static int UpdateProductLineDt(ProductLineDt record)
+        {
+            return new ProductLineDtDao().Update(record);
+        }
+        public static int DeleteProductLineDt(Int32 ProductLineID, String SiteID)
+        {
+            return new ProductLineDtDao().Delete(ProductLineID, SiteID);
+        }
+        public static List<ProductLineDt> GetProductLineDtList(string filterExpression)
+        {
+            List<ProductLineDt> result = new List<ProductLineDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProductLineDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProductLineDt)helper.IDataReaderToObject(reader, new ProductLineDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region ProspectiveStudent
         public static ProspectiveStudent GetProspectiveStudent(Int32 ProspectiveStudentID)
         {
@@ -9261,6 +9421,166 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((SupplierItem)helper.IDataReaderToObject(reader, new SupplierItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SupplierLine
+        public static SupplierLine GetSupplierLine(Int32 SupplierLineID)
+        {
+            return new SupplierLineDao().Get(SupplierLineID);
+        }
+        public static int InsertSupplierLine(SupplierLine record)
+        {
+            return new SupplierLineDao().Insert(record);
+        }
+        public static int UpdateSupplierLine(SupplierLine record)
+        {
+            return new SupplierLineDao().Update(record);
+        }
+        public static int DeleteSupplierLine(Int32 SupplierLineID)
+        {
+            return new SupplierLineDao().Delete(SupplierLineID);
+        }
+        public static List<SupplierLine> GetSupplierLineList(string filterExpression)
+        {
+            List<SupplierLine> result = new List<SupplierLine>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierLine));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierLine)helper.IDataReaderToObject(reader, new SupplierLine()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SupplierLine> GetSupplierLineList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SupplierLine> result = new List<SupplierLine>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierLine));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierLine)helper.IDataReaderToObject(reader, new SupplierLine()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSupplierLineRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierLine));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSupplierLineRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierLine));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "SupplierLineID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSupplierLineMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierLine));
+                ctx.CommandText = helper.SelectMaxColumn("SupplierLineID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SupplierLineDt
+        public static SupplierLineDt GetSupplierLineDt(Int32 SupplierLineID, String SiteID)
+        {
+            return new SupplierLineDtDao().Get(SupplierLineID, SiteID);
+        }
+        public static int InsertSupplierLineDt(SupplierLineDt record)
+        {
+            return new SupplierLineDtDao().Insert(record);
+        }
+        public static int UpdateSupplierLineDt(SupplierLineDt record)
+        {
+            return new SupplierLineDtDao().Update(record);
+        }
+        public static int DeleteSupplierLineDt(Int32 SupplierLineID, String SiteID)
+        {
+            return new SupplierLineDtDao().Delete(SupplierLineID, SiteID);
+        }
+        public static List<SupplierLineDt> GetSupplierLineDtList(string filterExpression)
+        {
+            List<SupplierLineDt> result = new List<SupplierLineDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SupplierLineDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SupplierLineDt)helper.IDataReaderToObject(reader, new SupplierLineDt()));
             }
             catch (Exception ex)
             {

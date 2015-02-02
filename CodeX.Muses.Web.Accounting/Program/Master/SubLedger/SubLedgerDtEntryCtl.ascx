@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubLedgerDtEntryCtl.ascx.cs" 
-    Inherits="QIS.Medinfras.Web.Accounting.Program.SubLedgerDtEntryCtl" %>
+    Inherits="CodeX.Muses.Web.Accounting.Program.SubLedgerDtEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>

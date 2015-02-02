@@ -11504,6 +11504,437 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProductLine
+    [Serializable]
+    [Table(Name = "ProductLine")]
+    public class ProductLine : DbDataModel
+    {
+        private Int32 _ProductLineID;
+        private String _ProductLineCode;
+        private String _ProductLineName;
+        private String _GCItemType;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProductLineID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ProductLineID
+        {
+            get { return _ProductLineID; }
+            set { _ProductLineID = value; }
+        }
+        [Column(Name = "ProductLineCode", DataType = "String")]
+        public String ProductLineCode
+        {
+            get { return _ProductLineCode; }
+            set { _ProductLineCode = value; }
+        }
+        [Column(Name = "ProductLineName", DataType = "String")]
+        public String ProductLineName
+        {
+            get { return _ProductLineName; }
+            set { _ProductLineName = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProductLineDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProductLine));
+        private bool _isAuditLog = false;
+        private const string p_ProductLineID = "@p_ProductLineID";
+        public ProductLineDao() { }
+        public ProductLineDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProductLine Get(Int32 ProductLineID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProductLineID, ProductLineID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProductLine)_helper.DataRowToObject(row, new ProductLine());
+        }
+        public int Insert(ProductLine record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProductLine record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProductLineID)
+        {
+            ProductLine record;
+            if (_ctx.Transaction == null)
+                record = new ProductLineDao().Get(ProductLineID);
+            else
+                record = Get(ProductLineID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ProductLineDt
+    [Serializable]
+    [Table(Name = "ProductLineDt")]
+    public class ProductLineDt : DbDataModel
+    {
+        private Int32 _ProductLineID;
+        private String _SiteID;
+        private Int32? _Inventory;
+        private Int32? _InventorySubLedger;
+        private Int32? _InventoryVAT;
+        private Int32? _InventoryVATSubLedger;
+        private Int32? _InventoryDiscount;
+        private Int32? _InventoryDiscountSubLedger;
+        private Int32? _COGS;
+        private Int32? _COGSSubLedger;
+        private Int32? _Purchase;
+        private Int32? _PurchaseSubLedger;
+        private Int32? _PurchaseReturn;
+        private Int32? _PurchaseReturnSubLedger;
+        private Int32? _PurchaseDiscount;
+        private Int32? _PurchaseDiscountSubLedger;
+        private Int32? _PurchasePriceVariant;
+        private Int32? _PurchasePriceVariantSubLedger;
+        private Int32? _Sales;
+        private Int32? _SalesSubLedger;
+        private Int32? _SalesReturn;
+        private Int32? _SalesReturnSubLedger;
+        private Int32? _SalesDiscount;
+        private Int32? _SalesDiscountSubLedger;
+        private Int32? _MaterialRevenue;
+        private Int32? _MaterialRevenueSubLedger;
+        private Int32? _Consumption;
+        private Int32? _ConsumptionSubLedger;
+        private Int32? _AdjustmentIN;
+        private Int32? _AdjustmentINSubLedger;
+        private Int32? _AdjustmentOUT;
+        private Int32? _AdjustmentOUTSubLedger;
+        private String _Remarks;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ProductLineID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ProductLineID
+        {
+            get { return _ProductLineID; }
+            set { _ProductLineID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "Inventory", DataType = "Int32", IsNullable = true)]
+        public Int32? Inventory
+        {
+            get { return _Inventory; }
+            set { _Inventory = value; }
+        }
+        [Column(Name = "InventorySubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? InventorySubLedger
+        {
+            get { return _InventorySubLedger; }
+            set { _InventorySubLedger = value; }
+        }
+        [Column(Name = "InventoryVAT", DataType = "Int32", IsNullable = true)]
+        public Int32? InventoryVAT
+        {
+            get { return _InventoryVAT; }
+            set { _InventoryVAT = value; }
+        }
+        [Column(Name = "InventoryVATSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? InventoryVATSubLedger
+        {
+            get { return _InventoryVATSubLedger; }
+            set { _InventoryVATSubLedger = value; }
+        }
+        [Column(Name = "InventoryDiscount", DataType = "Int32", IsNullable = true)]
+        public Int32? InventoryDiscount
+        {
+            get { return _InventoryDiscount; }
+            set { _InventoryDiscount = value; }
+        }
+        [Column(Name = "InventoryDiscountSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? InventoryDiscountSubLedger
+        {
+            get { return _InventoryDiscountSubLedger; }
+            set { _InventoryDiscountSubLedger = value; }
+        }
+        [Column(Name = "COGS", DataType = "Int32", IsNullable = true)]
+        public Int32? COGS
+        {
+            get { return _COGS; }
+            set { _COGS = value; }
+        }
+        [Column(Name = "COGSSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? COGSSubLedger
+        {
+            get { return _COGSSubLedger; }
+            set { _COGSSubLedger = value; }
+        }
+        [Column(Name = "Purchase", DataType = "Int32", IsNullable = true)]
+        public Int32? Purchase
+        {
+            get { return _Purchase; }
+            set { _Purchase = value; }
+        }
+        [Column(Name = "PurchaseSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseSubLedger
+        {
+            get { return _PurchaseSubLedger; }
+            set { _PurchaseSubLedger = value; }
+        }
+        [Column(Name = "PurchaseReturn", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseReturn
+        {
+            get { return _PurchaseReturn; }
+            set { _PurchaseReturn = value; }
+        }
+        [Column(Name = "PurchaseReturnSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseReturnSubLedger
+        {
+            get { return _PurchaseReturnSubLedger; }
+            set { _PurchaseReturnSubLedger = value; }
+        }
+        [Column(Name = "PurchaseDiscount", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseDiscount
+        {
+            get { return _PurchaseDiscount; }
+            set { _PurchaseDiscount = value; }
+        }
+        [Column(Name = "PurchaseDiscountSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchaseDiscountSubLedger
+        {
+            get { return _PurchaseDiscountSubLedger; }
+            set { _PurchaseDiscountSubLedger = value; }
+        }
+        [Column(Name = "PurchasePriceVariant", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchasePriceVariant
+        {
+            get { return _PurchasePriceVariant; }
+            set { _PurchasePriceVariant = value; }
+        }
+        [Column(Name = "PurchasePriceVariantSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? PurchasePriceVariantSubLedger
+        {
+            get { return _PurchasePriceVariantSubLedger; }
+            set { _PurchasePriceVariantSubLedger = value; }
+        }
+        [Column(Name = "Sales", DataType = "Int32", IsNullable = true)]
+        public Int32? Sales
+        {
+            get { return _Sales; }
+            set { _Sales = value; }
+        }
+        [Column(Name = "SalesSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? SalesSubLedger
+        {
+            get { return _SalesSubLedger; }
+            set { _SalesSubLedger = value; }
+        }
+        [Column(Name = "SalesReturn", DataType = "Int32", IsNullable = true)]
+        public Int32? SalesReturn
+        {
+            get { return _SalesReturn; }
+            set { _SalesReturn = value; }
+        }
+        [Column(Name = "SalesReturnSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? SalesReturnSubLedger
+        {
+            get { return _SalesReturnSubLedger; }
+            set { _SalesReturnSubLedger = value; }
+        }
+        [Column(Name = "SalesDiscount", DataType = "Int32", IsNullable = true)]
+        public Int32? SalesDiscount
+        {
+            get { return _SalesDiscount; }
+            set { _SalesDiscount = value; }
+        }
+        [Column(Name = "SalesDiscountSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? SalesDiscountSubLedger
+        {
+            get { return _SalesDiscountSubLedger; }
+            set { _SalesDiscountSubLedger = value; }
+        }
+        [Column(Name = "MaterialRevenue", DataType = "Int32", IsNullable = true)]
+        public Int32? MaterialRevenue
+        {
+            get { return _MaterialRevenue; }
+            set { _MaterialRevenue = value; }
+        }
+        [Column(Name = "MaterialRevenueSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? MaterialRevenueSubLedger
+        {
+            get { return _MaterialRevenueSubLedger; }
+            set { _MaterialRevenueSubLedger = value; }
+        }
+        [Column(Name = "Consumption", DataType = "Int32", IsNullable = true)]
+        public Int32? Consumption
+        {
+            get { return _Consumption; }
+            set { _Consumption = value; }
+        }
+        [Column(Name = "ConsumptionSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? ConsumptionSubLedger
+        {
+            get { return _ConsumptionSubLedger; }
+            set { _ConsumptionSubLedger = value; }
+        }
+        [Column(Name = "AdjustmentIN", DataType = "Int32", IsNullable = true)]
+        public Int32? AdjustmentIN
+        {
+            get { return _AdjustmentIN; }
+            set { _AdjustmentIN = value; }
+        }
+        [Column(Name = "AdjustmentINSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? AdjustmentINSubLedger
+        {
+            get { return _AdjustmentINSubLedger; }
+            set { _AdjustmentINSubLedger = value; }
+        }
+        [Column(Name = "AdjustmentOUT", DataType = "Int32", IsNullable = true)]
+        public Int32? AdjustmentOUT
+        {
+            get { return _AdjustmentOUT; }
+            set { _AdjustmentOUT = value; }
+        }
+        [Column(Name = "AdjustmentOUTSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? AdjustmentOUTSubLedger
+        {
+            get { return _AdjustmentOUTSubLedger; }
+            set { _AdjustmentOUTSubLedger = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProductLineDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProductLineDt));
+        private bool _isAuditLog = false;
+        private const string p_ProductLineID = "@p_ProductLineID";
+        private const string p_SiteID = "@p_SiteID";
+        public ProductLineDtDao() { }
+        public ProductLineDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProductLineDt Get(Int32 ProductLineID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ProductLineID, ProductLineID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProductLineDt)_helper.DataRowToObject(row, new ProductLineDt());
+        }
+        public int Insert(ProductLineDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProductLineDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ProductLineID, String SiteID)
+        {
+            ProductLineDt record;
+            if (_ctx.Transaction == null)
+                record = new ProductLineDtDao().Get(ProductLineID, SiteID);
+            else
+                record = Get(ProductLineID, SiteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ProspectiveStudent
     [Serializable]
     [Table(Name = "ProspectiveStudent")]
@@ -19757,6 +20188,332 @@ namespace CodeX.Data.Model
                 record = new SupplierItemDao().Get(ID);
             else
                 record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SupplierLine
+    [Serializable]
+    [Table(Name = "SupplierLine")]
+    public class SupplierLine : DbDataModel
+    {
+        private Int32 _SupplierLineID;
+        private String _GCSupplierType;
+        private String _SupplierLineCode;
+        private String _SupplierLineName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SupplierLineID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SupplierLineID
+        {
+            get { return _SupplierLineID; }
+            set { _SupplierLineID = value; }
+        }
+        [Column(Name = "GCSupplierType", DataType = "String")]
+        public String GCSupplierType
+        {
+            get { return _GCSupplierType; }
+            set { _GCSupplierType = value; }
+        }
+        [Column(Name = "SupplierLineCode", DataType = "String")]
+        public String SupplierLineCode
+        {
+            get { return _SupplierLineCode; }
+            set { _SupplierLineCode = value; }
+        }
+        [Column(Name = "SupplierLineName", DataType = "String")]
+        public String SupplierLineName
+        {
+            get { return _SupplierLineName; }
+            set { _SupplierLineName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SupplierLineDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SupplierLine));
+        private bool _isAuditLog = false;
+        private const string p_SupplierLineID = "@p_SupplierLineID";
+        public SupplierLineDao() { }
+        public SupplierLineDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SupplierLine Get(Int32 SupplierLineID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SupplierLineID, SupplierLineID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SupplierLine)_helper.DataRowToObject(row, new SupplierLine());
+        }
+        public int Insert(SupplierLine record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SupplierLine record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SupplierLineID)
+        {
+            SupplierLine record;
+            if (_ctx.Transaction == null)
+                record = new SupplierLineDao().Get(SupplierLineID);
+            else
+                record = Get(SupplierLineID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SupplierLineDt
+    [Serializable]
+    [Table(Name = "SupplierLineDt")]
+    public class SupplierLineDt : DbDataModel
+    {
+        private Int32 _SupplierLineID;
+        private String _SiteID;
+        private Int32? _AP;
+        private Int32? _APSubLedger;
+        private Int32? _APInProcess;
+        private Int32? _APInProcessSubLedger;
+        private Int32? _APDiscount;
+        private Int32? _APDiscountSubLedger;
+        private Int32? _APStamp;
+        private Int32? _APStampSubLedger;
+        private Int32? _APDownPayment;
+        private Int32? _APDownPaymentSubLedger;
+        private Int32? _APCharge;
+        private Int32? _APChargeSubLedger;
+        private Int32? _ARPurchaseReturn;
+        private Int32? _ARPurchaseReturnSubLedger;
+        private Int32? _ARCreditNote;
+        private Int32? _ARCreditNoteSubLedger;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SupplierLineID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SupplierLineID
+        {
+            get { return _SupplierLineID; }
+            set { _SupplierLineID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "AP", DataType = "Int32", IsNullable = true)]
+        public Int32? AP
+        {
+            get { return _AP; }
+            set { _AP = value; }
+        }
+        [Column(Name = "APSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APSubLedger
+        {
+            get { return _APSubLedger; }
+            set { _APSubLedger = value; }
+        }
+        [Column(Name = "APInProcess", DataType = "Int32", IsNullable = true)]
+        public Int32? APInProcess
+        {
+            get { return _APInProcess; }
+            set { _APInProcess = value; }
+        }
+        [Column(Name = "APInProcessSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APInProcessSubLedger
+        {
+            get { return _APInProcessSubLedger; }
+            set { _APInProcessSubLedger = value; }
+        }
+        [Column(Name = "APDiscount", DataType = "Int32", IsNullable = true)]
+        public Int32? APDiscount
+        {
+            get { return _APDiscount; }
+            set { _APDiscount = value; }
+        }
+        [Column(Name = "APDiscountSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APDiscountSubLedger
+        {
+            get { return _APDiscountSubLedger; }
+            set { _APDiscountSubLedger = value; }
+        }
+        [Column(Name = "APStamp", DataType = "Int32", IsNullable = true)]
+        public Int32? APStamp
+        {
+            get { return _APStamp; }
+            set { _APStamp = value; }
+        }
+        [Column(Name = "APStampSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APStampSubLedger
+        {
+            get { return _APStampSubLedger; }
+            set { _APStampSubLedger = value; }
+        }
+        [Column(Name = "APDownPayment", DataType = "Int32", IsNullable = true)]
+        public Int32? APDownPayment
+        {
+            get { return _APDownPayment; }
+            set { _APDownPayment = value; }
+        }
+        [Column(Name = "APDownPaymentSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APDownPaymentSubLedger
+        {
+            get { return _APDownPaymentSubLedger; }
+            set { _APDownPaymentSubLedger = value; }
+        }
+        [Column(Name = "APCharge", DataType = "Int32", IsNullable = true)]
+        public Int32? APCharge
+        {
+            get { return _APCharge; }
+            set { _APCharge = value; }
+        }
+        [Column(Name = "APChargeSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APChargeSubLedger
+        {
+            get { return _APChargeSubLedger; }
+            set { _APChargeSubLedger = value; }
+        }
+        [Column(Name = "ARPurchaseReturn", DataType = "Int32", IsNullable = true)]
+        public Int32? ARPurchaseReturn
+        {
+            get { return _ARPurchaseReturn; }
+            set { _ARPurchaseReturn = value; }
+        }
+        [Column(Name = "ARPurchaseReturnSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? ARPurchaseReturnSubLedger
+        {
+            get { return _ARPurchaseReturnSubLedger; }
+            set { _ARPurchaseReturnSubLedger = value; }
+        }
+        [Column(Name = "ARCreditNote", DataType = "Int32", IsNullable = true)]
+        public Int32? ARCreditNote
+        {
+            get { return _ARCreditNote; }
+            set { _ARCreditNote = value; }
+        }
+        [Column(Name = "ARCreditNoteSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? ARCreditNoteSubLedger
+        {
+            get { return _ARCreditNoteSubLedger; }
+            set { _ARCreditNoteSubLedger = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SupplierLineDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SupplierLineDt));
+        private bool _isAuditLog = false;
+        private const string p_SiteID = "@p_SiteID";
+        private const string p_SupplierLineID = "@p_SupplierLineID";
+        public SupplierLineDtDao() { }
+        public SupplierLineDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SupplierLineDt Get(Int32 SupplierLineID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_SupplierLineID, SupplierLineID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SupplierLineDt)_helper.DataRowToObject(row, new SupplierLineDt());
+        }
+        public int Insert(SupplierLineDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SupplierLineDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SupplierLineID, String SiteID)
+        {
+            SupplierLineDt record;
+            if (_ctx.Transaction == null)
+                record = new SupplierLineDtDao().Get(SupplierLineID, SiteID);
+            else
+                record = Get(SupplierLineID, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

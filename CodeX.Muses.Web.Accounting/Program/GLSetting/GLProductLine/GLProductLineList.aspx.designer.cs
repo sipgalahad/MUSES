@@ -10,25 +10,16 @@
 namespace CodeX.Muses.Web.Accounting.Program {
     
     
-    public partial class SubLedgerDtViewCtl {
+    public partial class GLProductLineList {
         
         /// <summary>
-        /// hdnSubLedgerID control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerID;
-        
-        /// <summary>
-        /// hdnSubLedgerTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerTypeID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
         /// hdnFilterExpression control.
@@ -40,58 +31,22 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
         
         /// <summary>
-        /// hdnTableName control.
+        /// cboItemType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTableName;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboItemType;
         
         /// <summary>
-        /// hdnIDFieldName control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIDFieldName;
-        
-        /// <summary>
-        /// hdnCodeFieldName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCodeFieldName;
-        
-        /// <summary>
-        /// hdnDisplayFieldName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDisplayFieldName;
-        
-        /// <summary>
-        /// txtSubLedgerName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerName;
-        
-        /// <summary>
-        /// cbpEntryPopupView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpEntryPopupView;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
         /// PanelContent1 control.
@@ -103,13 +58,13 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlEntryPopupGrdView control.
+        /// pnlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlEntryPopupGrdView;
+        protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
         /// grdView control.
