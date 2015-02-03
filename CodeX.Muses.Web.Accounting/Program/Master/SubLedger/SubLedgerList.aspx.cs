@@ -10,7 +10,7 @@ using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class SubLedgerList : BasePageList
     {

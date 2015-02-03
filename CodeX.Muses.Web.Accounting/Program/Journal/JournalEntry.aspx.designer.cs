@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Codex.Muses.Web.Accounting.Program {
+namespace CodeX.Muses.Web.Accounting.Program {
     
     
     public partial class JournalEntry {

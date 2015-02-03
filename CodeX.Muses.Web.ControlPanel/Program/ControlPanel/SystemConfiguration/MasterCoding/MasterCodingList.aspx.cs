@@ -93,30 +93,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            url = ResolveUrl("~/Program/Master/MasterCoding/MasterCodingEntry.aspx");
-            return true;
-        }
-
         protected override bool OnEditRecord(ref string url, ref string errMessage)
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/MasterCoding/MasterCodingEntry.aspx?id={0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                //MasterCoding entity = BusinessLayer.GetMasterCoding(Convert.ToInt32(hdnID.Value));
-                //entity.IsDeleted = true;
-                //entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                //BusinessLayer.UpdateMasterCoding(entity);
+                url = ResolveUrl(string.Format("~/Program/ControlPanel/SystemConfiguration/MasterCoding/MasterCodingEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;

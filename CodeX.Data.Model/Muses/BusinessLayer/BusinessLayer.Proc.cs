@@ -664,6 +664,45 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ProcessInterfaceJournal
+        public static string ProcessInterfaceJournal(String SiteID, String JournalDate, String TransactionCode, int UserID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "ProcessInterfaceJournal";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@JournalDate", JournalDate));
+            ctx.Command.Parameters.Add(new SqlParameter("@TransactionCode", TransactionCode));
+            ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.VarChar;
+            param.Size = 1000;
+            param.Direction = ParameterDirection.Output;
+
+            ctx.Command.Parameters.Add(param);
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+            return (string)param.Value;
+        }
+        #endregion
         #region ProcessProspectiveStudentAcceptance
         public static void ProcessProspectiveStudentAcceptance(String lstRegistration,String SiteID, int UserID, IDbContext ctx = null)
         {

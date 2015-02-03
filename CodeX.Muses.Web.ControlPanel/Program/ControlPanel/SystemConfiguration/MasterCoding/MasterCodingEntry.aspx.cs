@@ -52,9 +52,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtDefaultPrefix, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtPrefixLength, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtCounterDigit, new ControlEntrySetting(true, true, true));
-            //SetControlEntrySetting(chkIsBySite, new ControlEntrySetting(true, true, true));
-            //SetControlEntrySetting(chkIsAllowChangeInitial, new ControlEntrySetting(true, true, true));
-            //SetControlEntrySetting(chkIsEditable, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsBySite, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsAllowChangeInitial, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsEditable, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(MasterCoding entity)
@@ -80,59 +80,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.IsEditable = chkIsEditable.Checked;
         }
 
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            //string FilterExpression = string.Format("BankCode = '{0}'", txtBankCode.Text);
-            //List<Bank> lst = BusinessLayer.GetBankList(FilterExpression);
-
-            //if (lst.Count > 0)
-            //    errMessage = " Bank With Code " + txtBankCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            //string FilterExpression = string.Format("BankCode = '{0}' AND BankID != {1}", txtBankCode.Text, hdnID.Value);
-            //List<Bank> lst = BusinessLayer.GetBankList(FilterExpression);
-
-            //if (lst.Count > 0)
-            //    errMessage = " Bank With Code " + txtBankCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
-        {
-            IDbContext ctx = DbFactory.Configure(true);
-            MasterCodingDao entityDao = new MasterCodingDao(ctx);
-            bool result = false;
-            try
-            {
-                MasterCoding entity = new MasterCoding();
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDao.Insert(entity);
-                retval = BusinessLayer.GetBankMaxID(ctx).ToString();
-                ctx.CommitTransaction();
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                ctx.RollBackTransaction();
-                result = false;
-                errMessage = ex.Message;
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
             try
@@ -145,6 +92,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

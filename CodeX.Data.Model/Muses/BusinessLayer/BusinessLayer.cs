@@ -3475,9 +3475,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GLSetting
-        public static GLSetting GetGLSetting(Int32 ID)
+        public static GLSetting GetGLSetting(String SiteID, String GLSettingCode)
         {
-            return new GLSettingDao().Get(ID);
+            return new GLSettingDao().Get(SiteID, GLSettingCode);
         }
         public static int InsertGLSetting(GLSetting record)
         {
@@ -3487,9 +3487,9 @@ namespace CodeX.Data.Model
         {
             return new GLSettingDao().Update(record);
         }
-        public static int DeleteGLSetting(Int32 ID)
+        public static int DeleteGLSetting(String SiteID, String GLSettingCode)
         {
-            return new GLSettingDao().Delete(ID);
+            return new GLSettingDao().Delete(SiteID, GLSettingCode);
         }
         public static List<GLSetting> GetGLSettingList(string filterExpression)
         {

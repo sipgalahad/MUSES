@@ -13,7 +13,7 @@ using DevExpress.Web.ASPxEditors;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class COABudgetMonthList : BasePageList
     {

@@ -11,7 +11,7 @@ using CodeX.Data.Core.Dal;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class GLSettingList : BasePageList
     {
@@ -50,6 +50,9 @@ namespace Codex.Muses.Web.Accounting.Program
         private string GetFilterExpression()
         {
             string filterExpression = hdnFilterExpression.Value;
+            if (filterExpression != "")
+                filterExpression += " AND ";
+            filterExpression += string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID);
             return filterExpression;
         }
 

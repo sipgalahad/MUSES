@@ -10,7 +10,7 @@ using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class GLSettingEntry : BasePageEntry
     {
@@ -25,7 +25,7 @@ namespace Codex.Muses.Web.Accounting.Program
             {
                 IsAdd = false;
                 hdnID.Value = Request.QueryString["id"];
-                vGLSetting entity = BusinessLayer.GetvGLSettingList(String.Format("ID = {0}", hdnID.Value))[0];
+                vGLSetting entity = BusinessLayer.GetvGLSettingList(String.Format("GLSettingCode = '{0}' AND SiteID = '{1}'", hdnID.Value, AppSession.UserLogin.SiteID))[0];
                 EntityToControl(entity);
             }
             else
@@ -61,7 +61,7 @@ namespace Codex.Muses.Web.Accounting.Program
             txtRemarks.Text = entity.Remarks;
 
             #region Pengaturan Perkiraan
-            #region 
+            #region
             hdnGLAccountID.Value = entity.GLAccount.ToString();
             txtGLAccountNo.Text = entity.GLAccountNo;
             txtGLAccountName.Text = entity.GLAccountName;
@@ -106,8 +106,10 @@ namespace Codex.Muses.Web.Accounting.Program
             {
                 GLSetting entity = new GLSetting();
                 ControlToEntity(entity);
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.LastUpdatedBy = entity.CreatedBy = AppSession.UserLogin.UserID;
                 GLSettingDao.Insert(entity);
+                retval = entity.GLSettingCode;
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -131,7 +133,7 @@ namespace Codex.Muses.Web.Accounting.Program
             bool result = true;
             try
             {
-                GLSetting entity = GLSettingDao.Get(Convert.ToInt32(hdnID.Value));
+                GLSetting entity = GLSettingDao.Get(AppSession.UserLogin.SiteID, hdnID.Value);
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 GLSettingDao.Update(entity);

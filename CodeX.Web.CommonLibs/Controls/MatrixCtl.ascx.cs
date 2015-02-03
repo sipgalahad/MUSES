@@ -16,6 +16,118 @@ namespace CodeX.Web.CommonLibs.Controls
 {
     public partial class MatrixCtl : BaseViewPopupCtl
     {
+        #region GL Account Payable
+        private void InitializeGLAccountPayable(string queryString)
+        {
+            lblHeader.InnerText = "Jenis";
+            lblHeader2.InnerText = "Tipe Item";
+
+            vGLAccountPayable entity = BusinessLayer.GetvGLAccountPayableList(string.Format("ID = {0}", queryString))[0];
+            txtHeader.Text = entity.AccountPayableType;
+            txtHeader2.Text = entity.ItemType;
+
+            List<BusinessPartners> ListAvailableMember = BusinessLayer.GetBusinessPartnersList(string.Format("BusinessPartnerID NOT IN (SELECT BusinessPartnerID FROM GLAccountPayableDt WHERE ID = {0}) AND GCBusinessPartnerType = '{1}' AND IsDeleted = 0", queryString, Constant.BusinessObjectType.SUPPLIER));
+            List<BusinessPartners> ListSelectedMember = BusinessLayer.GetBusinessPartnersList(string.Format("BusinessPartnerID IN (SELECT BusinessPartnerID FROM GLAccountPayableDt WHERE ID = {0}) AND IsDeleted = 0", queryString));
+
+            ListAvailable = (from p in ListAvailableMember
+                             select new CMatrix { IsChecked = false, ID = p.BusinessPartnerID.ToString(), Name = p.BusinessPartnerName }).OrderBy(p => p.Name).ToList();
+
+            ListSelected = (from p in ListSelectedMember
+                            select new CMatrix { IsChecked = false, ID = p.BusinessPartnerID.ToString(), Name = p.BusinessPartnerName }).OrderBy(p => p.Name).ToList();
+        }
+
+        private bool SaveGLAccountPayable(string queryString, ref string errMessage)
+        {
+            IDbContext ctx = DbFactory.Configure(true);
+            bool result = false;
+            try
+            {
+                int ID = Convert.ToInt32(queryString);
+                GLAccountPayableDtDao entityDao = new GLAccountPayableDtDao(ctx);
+                foreach (ProceedEntity row in ListProceedEntity)
+                {
+                    if (row.Status == ProceedEntity.ProceedEntityStatus.Add)
+                    {
+                        GLAccountPayableDt entity = new GLAccountPayableDt();
+                        entity.ID = ID;
+                        entity.BusinessPartnerID = Convert.ToInt32(row.ID);
+                        entityDao.Insert(entity);
+                    }
+                    else
+                        entityDao.Delete(ID, Convert.ToInt32(row.ID));
+                }
+                ctx.CommitTransaction();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                result = false;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GL Warehouse Product Line Account Dt
+        private void InitializeGLWarehouseProductLineAccountDt(string queryString)
+        {
+            lblHeader.InnerText = "Tipe Item";
+            lblHeader2.InnerText = "Product Line";
+
+            vGLWarehouseProductLineAccount entity = BusinessLayer.GetvGLWarehouseProductLineAccountList(string.Format("ID = {0}", queryString))[0];
+            txtHeader.Text = entity.ItemType;
+            txtHeader2.Text = entity.ProductLineName;
+
+            List<Location> ListAvailableMember = BusinessLayer.GetLocationList(string.Format("LocationID NOT IN (SELECT LocationID FROM GLWarehouseProductLineAccountDt WHERE ID = {0}) AND IsHeader = 0 AND IsDeleted = 0", queryString));
+            List<Location> ListSelectedMember = BusinessLayer.GetLocationList(string.Format("LocationID IN (SELECT LocationID FROM GLWarehouseProductLineAccountDt WHERE ID = {0})", queryString));
+
+            ListAvailable = (from p in ListAvailableMember
+                             select new CMatrix { IsChecked = false, ID = p.LocationID.ToString(), Name = p.LocationName }).OrderBy(p => p.Name).ToList();
+
+            ListSelected = (from p in ListSelectedMember
+                            select new CMatrix { IsChecked = false, ID = p.LocationID.ToString(), Name = p.LocationName }).OrderBy(p => p.Name).ToList();
+        }
+
+        private bool SaveGLWarehouseProductLineAccountDt(string queryString, ref string errMessage)
+        {
+            IDbContext ctx = DbFactory.Configure(true);
+            bool result = false;
+            try
+            {
+                int ID = Convert.ToInt32(queryString);
+                GLWarehouseProductLineAccountDtDao entityDao = new GLWarehouseProductLineAccountDtDao(ctx);
+                foreach (ProceedEntity row in ListProceedEntity)
+                {
+                    if (row.Status == ProceedEntity.ProceedEntityStatus.Add)
+                    {
+                        GLWarehouseProductLineAccountDt entity = new GLWarehouseProductLineAccountDt();
+                        entity.ID = ID;
+                        entity.LocationID = Convert.ToInt32(row.ID);
+                        entityDao.Insert(entity);
+                    }
+                    else
+                        entityDao.Delete(ID, Convert.ToInt32(row.ID));
+                }
+                ctx.CommitTransaction();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                result = false;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Module Menu
         private void InitializeModuleMenu(string queryString)
         {
@@ -80,6 +192,8 @@ namespace CodeX.Web.CommonLibs.Controls
         {
             switch (type)
             {
+                case "GLAccountPayable": InitializeGLAccountPayable(queryString); break;
+                case "GLWarehouseProductLineAccountDt": InitializeGLWarehouseProductLineAccountDt(queryString); break;
                 case "ModuleMenu": InitializeModuleMenu(queryString); break;
             }
         }
@@ -88,6 +202,8 @@ namespace CodeX.Web.CommonLibs.Controls
         {
             switch (type)
             {
+                case "GLAccountPayable": return SaveGLAccountPayable(queryString, ref errMessage);
+                case "GLWarehouseProductLineAccountDt": return SaveGLWarehouseProductLineAccountDt(queryString, ref errMessage);
                 case "ModuleMenu": return SaveModuleMenu(queryString, ref errMessage);
             }                
             return false;

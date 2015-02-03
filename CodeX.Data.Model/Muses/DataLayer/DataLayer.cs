@@ -7475,7 +7475,7 @@ namespace CodeX.Data.Model
     [Table(Name = "GLSetting")]
     public class GLSetting : DbDataModel
     {
-        private Int32 _ID;
+        private String _SiteID;
         private String _GLSettingCode;
         private String _GLSettingName;
         private Int32 _GLAccount;
@@ -7487,13 +7487,13 @@ namespace CodeX.Data.Model
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
-        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 ID
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
         {
-            get { return _ID; }
-            set { _ID = value; }
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
-        [Column(Name = "GLSettingCode", DataType = "String")]
+        [Column(Name = "GLSettingCode", DataType = "String", IsPrimaryKey = true)]
         public String GLSettingCode
         {
             get { return _GLSettingCode; }
@@ -7560,16 +7560,18 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(GLSetting));
         private bool _isAuditLog = false;
-        private const string p_ID = "@p_ID";
+        private const string p_GLSettingCode = "@p_GLSettingCode";
+        private const string p_SiteID = "@p_SiteID";
         public GLSettingDao() { }
         public GLSettingDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public GLSetting Get(Int32 ID)
+        public GLSetting Get(String SiteID, String GLSettingCode)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_ID, ID);
+            _ctx.Add(p_GLSettingCode, GLSettingCode);
+            _ctx.Add(p_SiteID, SiteID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (GLSetting)_helper.DataRowToObject(row, new GLSetting());
         }
@@ -7585,13 +7587,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ID)
+        public int Delete(String SiteID, String GLSettingCode)
         {
             GLSetting record;
             if (_ctx.Transaction == null)
-                record = new GLSettingDao().Get(ID);
+                record = new GLSettingDao().Get(SiteID, GLSettingCode);
             else
-                record = Get(ID);
+                record = Get(SiteID, GLSettingCode);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

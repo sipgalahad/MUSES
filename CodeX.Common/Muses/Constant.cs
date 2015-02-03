@@ -58,8 +58,6 @@ namespace CodeX.Common
             public const string SCHOLARSHIP_TYPE = "MS018";
             public const string ACHIEVEMENT_TYPE = "MS019";
             public const string SCHOOL_DAY = "MS020";
-
-            public const string PREFIX_TYPE = "X302";
         }
 
         public static class SchoolPeriodStatus
@@ -216,6 +214,7 @@ namespace CodeX.Common
 
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
+                public const string INTERFACE_JOURNAL_PROCESS = "AC050300";
                 public const string PROFIT_LOSS_INFORMATION = "AC080500";
             }
             #endregion

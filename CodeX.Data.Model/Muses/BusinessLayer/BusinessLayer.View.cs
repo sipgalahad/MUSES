@@ -2651,6 +2651,73 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vInterfaceJournalSettingDtCustom
+        public static List<vInterfaceJournalSettingDtCustom> GetvInterfaceJournalSettingDtCustomList(string filterExpression)
+        {
+            List<vInterfaceJournalSettingDtCustom> result = new List<vInterfaceJournalSettingDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vInterfaceJournalSettingDtCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vInterfaceJournalSettingDtCustom)helper.IDataReaderToObject(reader, new vInterfaceJournalSettingDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vInterfaceJournalSettingDtCustom> GetvInterfaceJournalSettingDtCustomList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vInterfaceJournalSettingDtCustom> result = new List<vInterfaceJournalSettingDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vInterfaceJournalSettingDtCustom));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vInterfaceJournalSettingDtCustom)helper.IDataReaderToObject(reader, new vInterfaceJournalSettingDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvInterfaceJournalSettingDtCustomRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vInterfaceJournalSettingDtCustom));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vItemAlternateUnit
         public static List<vItemAlternateUnit> GetvItemAlternateUnitList(string filterExpression)
         {

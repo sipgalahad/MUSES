@@ -10,12 +10,16 @@ using CodeX.Web.Common;
 using CodeX.Data.Model;
 using System.Data;
 using CodeX.Data.Core.Dal;
+using CodeX.Common;
 
 namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class SubLedgerDtViewCtl : BaseViewPopupCtl
     {
         protected int PageCount = 1;
+        protected int RowCount = 1;
+        protected int RowCountPerPage = 1;
+        protected int CurrPage = 1;
         private void CreateGridColumn()
         {
             grdView.Columns.Add(CreateColumn("ID", hdnIDFieldName.Value, "keyField"));
@@ -49,10 +53,11 @@ namespace CodeX.Muses.Web.Accounting.Program
             hdnCodeFieldName.Value = entity.CodeFieldName;
             hdnDisplayFieldName.Value = entity.DisplayFieldName;
 
-            BindGridView(1, true, ref PageCount);
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MATRIX;
+            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             IDbContext ctx = DbFactory.Configure(true);
             try
@@ -67,7 +72,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
                     ctx.CommandText = result;
                     DataRow row = DaoBase.GetDataRow(ctx);
-                    int rowCount = Convert.ToInt32(row.ItemArray.GetValue(0));
+                    rowCount = Convert.ToInt32(row.ItemArray.GetValue(0));
                     pageCount = Helper.GetPageCount(rowCount, 8);
                 }
                 ctx.CommandText = Select(hdnTableName.Value, filterExpression, 8, pageIndex, "");
@@ -95,17 +100,22 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected void cbpEntryPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            LoadWords();
-
             int pageCount = 1;
-
-            string[] param = e.Parameter.Split('|');
-
-            string result = param[0] + "|";
-            if (param[0] == "changepage")
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
             {
-                BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
-                result = "changepage";
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
             }
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;

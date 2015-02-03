@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Libs/MasterPage/MPList.master" AutoEventWireup="true" 
-    CodeBehind="GLSettingList.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.GLSettingList" %>
+    CodeBehind="GLSettingList.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.GLSettingList" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -74,7 +74,7 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="GLSettingCode" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="GLSettingCode" HeaderText="Kode Setting" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="GLSettingName" HeaderText="Nama Setting" />
                                 <asp:BoundField DataField="GLAccountName" HeaderText="Perkiraan" HeaderStyle-Width="200px" />

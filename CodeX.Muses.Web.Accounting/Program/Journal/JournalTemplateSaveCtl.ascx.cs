@@ -11,7 +11,7 @@ using CodeX.Web.Common;
 using System.Data;
 using CodeX.Data.Core.Dal;
 using CodeX.Data.Model;
-using Codex.Muses.Web.Accounting.Program;
+using CodeX.Muses.Web.Accounting.Program;
 
 namespace CodeX.Web.Accounting.Program
 {

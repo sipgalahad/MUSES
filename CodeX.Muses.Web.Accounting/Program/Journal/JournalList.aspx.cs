@@ -12,7 +12,7 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using System.Web.UI.HtmlControls;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class JournalList : BasePageList
     {

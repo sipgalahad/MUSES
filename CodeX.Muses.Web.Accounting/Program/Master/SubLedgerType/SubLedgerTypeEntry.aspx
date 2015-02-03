@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-CodeBehind="SubLedgerTypeEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.SubLedgerTypeEntry" %>
+CodeBehind="SubLedgerTypeEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.SubLedgerTypeEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>

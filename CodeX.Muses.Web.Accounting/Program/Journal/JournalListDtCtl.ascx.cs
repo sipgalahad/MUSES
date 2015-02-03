@@ -12,7 +12,7 @@ using CodeX.Web.Common;
 using CodeX.Data.Model;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class JournalListDtCtl : BaseViewPopupCtl
     {

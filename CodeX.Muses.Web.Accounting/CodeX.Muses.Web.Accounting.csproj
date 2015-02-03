@@ -67,6 +67,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx">
       <Link>SharedLibs\Controls\GeneralCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx">
       <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx</Link>
     </Content>
@@ -105,6 +108,8 @@
     <Content Include="Program\GLSetting\GLSupplierLine\GLSupplierLineList.aspx" />
     <Content Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountEntry.aspx" />
     <Content Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountList.aspx" />
+    <Content Include="Program\Journal\InterfaceJournalDtViewCtl.ascx" />
+    <Content Include="Program\Journal\InterfaceJournalProcess.aspx" />
     <Content Include="Program\Journal\JournalTemplateSaveCtl.ascx" />
     <Content Include="Program\Journal\JournalEntry.aspx" />
     <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
@@ -152,6 +157,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\GeneralCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.cs</Link>
       <DependentUpon>GeneralCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx.cs">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx.cs</Link>
+      <DependentUpon>MatrixCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\MatrixCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\MatrixCtl.ascx.designer.cs</Link>
+      <DependentUpon>MatrixCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPEntryPopupCtl.ascx.cs">
       <Link>SharedLibs\Controls\MPEntryPopupCtl.ascx.cs</Link>
@@ -398,6 +412,20 @@
     </Compile>
     <Compile Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountList.aspx.designer.cs">
       <DependentUpon>GLWarehouseProductLineAccountList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\InterfaceJournalDtViewCtl.ascx.cs">
+      <DependentUpon>InterfaceJournalDtViewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\InterfaceJournalDtViewCtl.ascx.designer.cs">
+      <DependentUpon>InterfaceJournalDtViewCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Journal\InterfaceJournalProcess.aspx.cs">
+      <DependentUpon>InterfaceJournalProcess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Journal\InterfaceJournalProcess.aspx.designer.cs">
+      <DependentUpon>InterfaceJournalProcess.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\JournalTemplateSaveCtl.ascx.cs">
       <DependentUpon>JournalTemplateSaveCtl.ascx</DependentUpon>

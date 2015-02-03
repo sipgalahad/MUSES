@@ -10,7 +10,7 @@ using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class SubLedgerEntry : BasePageEntry
     {

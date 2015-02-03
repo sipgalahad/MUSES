@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-    CodeBehind="GLSettingEntry.aspx.cs" Inherits="Codex.Muses.Web.Accounting.Program.GLSettingEntry" %>
+    CodeBehind="GLSettingEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.GLSettingEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -118,7 +118,7 @@
             <td style="padding:5px;vertical-align:top">
                 <table class="tblEntryContent" style="width:50%">
                     <colgroup>
-                        <col style="width:30%"/>
+                        <col style="width:120px"/>
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
@@ -145,7 +145,7 @@
                         <td>
                             <table width="100%">
                                 <colgroup>
-                                    <col width="190px" />
+                                    <col width="120px" />
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblLink" id="lbl"><%=GetLabel("Perkiraan")%></label></td>

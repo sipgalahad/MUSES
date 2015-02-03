@@ -12,7 +12,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using System.Data;
 using CodeX.Common;
 
-namespace Codex.Muses.Web.Accounting.Program
+namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class JournalEntry2 : BasePageTrx
     {

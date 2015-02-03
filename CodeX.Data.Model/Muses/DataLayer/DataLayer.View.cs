@@ -5527,7 +5527,7 @@ namespace CodeX.Data.Model
     [Table(Name = "vGLSetting")]
     public class vGLSetting
     {
-        private Int32 _ID;
+        private String _SiteID;
         private String _GLSettingCode;
         private String _GLSettingName;
         private Int32 _GLAccount;
@@ -5546,11 +5546,11 @@ namespace CodeX.Data.Model
         private String _Remarks;
         private Boolean _IsDeleted;
 
-        [Column(Name = "ID", DataType = "Int32")]
-        public Int32 ID
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
         {
-            get { return _ID; }
-            set { _ID = value; }
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "GLSettingCode", DataType = "String")]
         public String GLSettingCode
@@ -6784,6 +6784,70 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vInterfaceJournalSettingDtCustom
+    [Serializable]
+    [Table(Name = "vInterfaceJournalSettingDtCustom")]
+    public class vInterfaceJournalSettingDtCustom
+    {
+        private String _TransactionCode;
+        private String _HealthcareID;
+        private Int32 _TypeID;
+        private String _TypeCode;
+        private Int32 _MenuID;
+        private String _DataSource;
+        private String _TypeName;
+        private String _Position;
+
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "HealthcareID", DataType = "String")]
+        public String HealthcareID
+        {
+            get { return _HealthcareID; }
+            set { _HealthcareID = value; }
+        }
+        [Column(Name = "TypeID", DataType = "Int32")]
+        public Int32 TypeID
+        {
+            get { return _TypeID; }
+            set { _TypeID = value; }
+        }
+        [Column(Name = "TypeCode", DataType = "String")]
+        public String TypeCode
+        {
+            get { return _TypeCode; }
+            set { _TypeCode = value; }
+        }
+        [Column(Name = "MenuID", DataType = "Int32")]
+        public Int32 MenuID
+        {
+            get { return _MenuID; }
+            set { _MenuID = value; }
+        }
+        [Column(Name = "DataSource", DataType = "String")]
+        public String DataSource
+        {
+            get { return _DataSource; }
+            set { _DataSource = value; }
+        }
+        [Column(Name = "TypeName", DataType = "String")]
+        public String TypeName
+        {
+            get { return _TypeName; }
+            set { _TypeName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
         }
     }
     #endregion

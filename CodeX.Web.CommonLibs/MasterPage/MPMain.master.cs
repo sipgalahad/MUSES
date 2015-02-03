@@ -37,6 +37,7 @@ namespace CodeX.Web.CommonLibs.MasterPage
 
                 imgOpenModule.Src = ResolveUrl("~/Libs/Images/Icon/module.png");
 
+                divSiteName.InnerHtml = AppSession.UserLogin.SiteName;
                 List<Module> lstModule = BusinessLayer.GetModuleList(string.Format("ModuleID IN ({0}) ORDER BY ModuleIndex", AppSession.ListModuleID));
                 rptModule.DataSource = lstModule;
                 rptModule.DataBind();
