@@ -3257,6 +3257,126 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GLAccountPayable
+        public static GLAccountPayable GetGLAccountPayable(Int32 ID)
+        {
+            return new GLAccountPayableDao().Get(ID);
+        }
+        public static int InsertGLAccountPayable(GLAccountPayable record)
+        {
+            return new GLAccountPayableDao().Insert(record);
+        }
+        public static int UpdateGLAccountPayable(GLAccountPayable record)
+        {
+            return new GLAccountPayableDao().Update(record);
+        }
+        public static int DeleteGLAccountPayable(Int32 ID)
+        {
+            return new GLAccountPayableDao().Delete(ID);
+        }
+        public static List<GLAccountPayable> GetGLAccountPayableList(string filterExpression)
+        {
+            List<GLAccountPayable> result = new List<GLAccountPayable>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLAccountPayable));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLAccountPayable)helper.IDataReaderToObject(reader, new GLAccountPayable()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GLAccountPayableDt
+        public static GLAccountPayableDt GetGLAccountPayableDt(Int32 ID, Int32 BusinessPartnerID)
+        {
+            return new GLAccountPayableDtDao().Get(ID, BusinessPartnerID);
+        }
+        public static int InsertGLAccountPayableDt(GLAccountPayableDt record)
+        {
+            return new GLAccountPayableDtDao().Insert(record);
+        }
+        public static int UpdateGLAccountPayableDt(GLAccountPayableDt record)
+        {
+            return new GLAccountPayableDtDao().Update(record);
+        }
+        public static int DeleteGLAccountPayableDt(Int32 ID, Int32 BusinessPartnerID)
+        {
+            return new GLAccountPayableDtDao().Delete(ID, BusinessPartnerID);
+        }
+        public static List<GLAccountPayableDt> GetGLAccountPayableDtList(string filterExpression)
+        {
+            List<GLAccountPayableDt> result = new List<GLAccountPayableDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLAccountPayableDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLAccountPayableDt)helper.IDataReaderToObject(reader, new GLAccountPayableDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GLAPPayment
+        public static GLAPPayment GetGLAPPayment(Int32 ID)
+        {
+            return new GLAPPaymentDao().Get(ID);
+        }
+        public static int InsertGLAPPayment(GLAPPayment record)
+        {
+            return new GLAPPaymentDao().Insert(record);
+        }
+        public static int UpdateGLAPPayment(GLAPPayment record)
+        {
+            return new GLAPPaymentDao().Update(record);
+        }
+        public static int DeleteGLAPPayment(Int32 ID)
+        {
+            return new GLAPPaymentDao().Delete(ID);
+        }
+        public static List<GLAPPayment> GetGLAPPaymentList(string filterExpression)
+        {
+            List<GLAPPayment> result = new List<GLAPPayment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLAPPayment));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLAPPayment)helper.IDataReaderToObject(reader, new GLAPPayment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GLBalanceDtDocument
         public static GLBalanceDtDocument GetGLBalanceDtDocument(Int32 ID)
         {
@@ -3310,6 +3430,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region GLFAWriteOffAccount
+        public static GLFAWriteOffAccount GetGLFAWriteOffAccount(Int32 ID)
+        {
+            return new GLFAWriteOffAccountDao().Get(ID);
+        }
+        public static int InsertGLFAWriteOffAccount(GLFAWriteOffAccount record)
+        {
+            return new GLFAWriteOffAccountDao().Insert(record);
+        }
+        public static int UpdateGLFAWriteOffAccount(GLFAWriteOffAccount record)
+        {
+            return new GLFAWriteOffAccountDao().Update(record);
+        }
+        public static int DeleteGLFAWriteOffAccount(Int32 ID)
+        {
+            return new GLFAWriteOffAccountDao().Delete(ID);
+        }
+        public static List<GLFAWriteOffAccount> GetGLFAWriteOffAccountList(string filterExpression)
+        {
+            List<GLFAWriteOffAccount> result = new List<GLFAWriteOffAccount>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLFAWriteOffAccount));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLFAWriteOffAccount)helper.IDataReaderToObject(reader, new GLFAWriteOffAccount()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }
@@ -3527,6 +3687,86 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region GLWarehouseProductLineAccount
+        public static GLWarehouseProductLineAccount GetGLWarehouseProductLineAccount(Int32 ID)
+        {
+            return new GLWarehouseProductLineAccountDao().Get(ID);
+        }
+        public static int InsertGLWarehouseProductLineAccount(GLWarehouseProductLineAccount record)
+        {
+            return new GLWarehouseProductLineAccountDao().Insert(record);
+        }
+        public static int UpdateGLWarehouseProductLineAccount(GLWarehouseProductLineAccount record)
+        {
+            return new GLWarehouseProductLineAccountDao().Update(record);
+        }
+        public static int DeleteGLWarehouseProductLineAccount(Int32 ID)
+        {
+            return new GLWarehouseProductLineAccountDao().Delete(ID);
+        }
+        public static List<GLWarehouseProductLineAccount> GetGLWarehouseProductLineAccountList(string filterExpression)
+        {
+            List<GLWarehouseProductLineAccount> result = new List<GLWarehouseProductLineAccount>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLWarehouseProductLineAccount));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLWarehouseProductLineAccount)helper.IDataReaderToObject(reader, new GLWarehouseProductLineAccount()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GLWarehouseProductLineAccountDt
+        public static GLWarehouseProductLineAccountDt GetGLWarehouseProductLineAccountDt(Int32 ID, Int32 LocationID)
+        {
+            return new GLWarehouseProductLineAccountDtDao().Get(ID, LocationID);
+        }
+        public static int InsertGLWarehouseProductLineAccountDt(GLWarehouseProductLineAccountDt record)
+        {
+            return new GLWarehouseProductLineAccountDtDao().Insert(record);
+        }
+        public static int UpdateGLWarehouseProductLineAccountDt(GLWarehouseProductLineAccountDt record)
+        {
+            return new GLWarehouseProductLineAccountDtDao().Update(record);
+        }
+        public static int DeleteGLWarehouseProductLineAccountDt(Int32 ID, Int32 LocationID)
+        {
+            return new GLWarehouseProductLineAccountDtDao().Delete(ID, LocationID);
+        }
+        public static List<GLWarehouseProductLineAccountDt> GetGLWarehouseProductLineAccountDtList(string filterExpression)
+        {
+            List<GLWarehouseProductLineAccountDt> result = new List<GLWarehouseProductLineAccountDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLWarehouseProductLineAccountDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLWarehouseProductLineAccountDt)helper.IDataReaderToObject(reader, new GLWarehouseProductLineAccountDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

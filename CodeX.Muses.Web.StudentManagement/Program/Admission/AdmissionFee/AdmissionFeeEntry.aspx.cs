@@ -126,6 +126,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vAdmissionFeeRuleDtCustom entity = (vAdmissionFeeRuleDtCustom)e.Item.DataItem;
+
+                if (entity.NoOfRegistrationPaymentPeriod == 0)
+                {
+                    HtmlGenericControl containerTableFee = (HtmlGenericControl)e.Item.FindControl("containerTableFee");
+                    containerTableFee.Style.Add("display", "none");
+                }
+
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
 
                 ScholarshipComp entityScholarshipComp = lstScholarshipComp.FirstOrDefault(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);

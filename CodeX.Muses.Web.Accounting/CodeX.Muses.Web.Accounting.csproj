@@ -91,12 +91,20 @@
     <Content Include="Global.asax" />
     <Content Include="Program\Budgeting\COABudget\COABudgetYearList.aspx" />
     <Content Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx" />
+    <Content Include="Program\GLSetting\GLAccountPayable\GLAccountPayableEntry.aspx" />
+    <Content Include="Program\GLSetting\GLAccountPayable\GLAccountPayableList.aspx" />
+    <Content Include="Program\GLSetting\GLAPPayment\GLAPPaymentEntry.aspx" />
+    <Content Include="Program\GLSetting\GLAPPayment\GLAPPaymentList.aspx" />
+    <Content Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountEntry.aspx" />
+    <Content Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountList.aspx" />
     <Content Include="Program\GLSetting\GLProductLine\GLProductLineEntry.aspx" />
     <Content Include="Program\GLSetting\GLProductLine\GLProductLineList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx" />
     <Content Include="Program\GLSetting\GLSupplierLine\GLSupplierLineEntry.aspx" />
     <Content Include="Program\GLSetting\GLSupplierLine\GLSupplierLineList.aspx" />
+    <Content Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountEntry.aspx" />
+    <Content Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountList.aspx" />
     <Content Include="Program\Journal\JournalTemplateSaveCtl.ascx" />
     <Content Include="Program\Journal\JournalEntry.aspx" />
     <Content Include="Program\Journal\GLBalanceInformationCtl.ascx" />
@@ -293,6 +301,48 @@
     <Compile Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx.designer.cs">
       <DependentUpon>COABudgetMonthList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\GLSetting\GLAccountPayable\GLAccountPayableEntry.aspx.cs">
+      <DependentUpon>GLAccountPayableEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAccountPayable\GLAccountPayableEntry.aspx.designer.cs">
+      <DependentUpon>GLAccountPayableEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAccountPayable\GLAccountPayableList.aspx.cs">
+      <DependentUpon>GLAccountPayableList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAccountPayable\GLAccountPayableList.aspx.designer.cs">
+      <DependentUpon>GLAccountPayableList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPPayment\GLAPPaymentEntry.aspx.cs">
+      <DependentUpon>GLAPPaymentEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPPayment\GLAPPaymentEntry.aspx.designer.cs">
+      <DependentUpon>GLAPPaymentEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPPayment\GLAPPaymentList.aspx.cs">
+      <DependentUpon>GLAPPaymentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPPayment\GLAPPaymentList.aspx.designer.cs">
+      <DependentUpon>GLAPPaymentList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountEntry.aspx.cs">
+      <DependentUpon>GLFAWriteOffAccountEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountEntry.aspx.designer.cs">
+      <DependentUpon>GLFAWriteOffAccountEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountList.aspx.cs">
+      <DependentUpon>GLFAWriteOffAccountList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountList.aspx.designer.cs">
+      <DependentUpon>GLFAWriteOffAccountList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\GLSetting\GLProductLine\GLProductLineEntry.aspx.cs">
       <DependentUpon>GLProductLineEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -334,6 +384,20 @@
     </Compile>
     <Compile Include="Program\GLSetting\GLSupplierLine\GLSupplierLineList.aspx.designer.cs">
       <DependentUpon>GLSupplierLineList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountEntry.aspx.cs">
+      <DependentUpon>GLWarehouseProductLineAccountEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountEntry.aspx.designer.cs">
+      <DependentUpon>GLWarehouseProductLineAccountEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountList.aspx.cs">
+      <DependentUpon>GLWarehouseProductLineAccountList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountList.aspx.designer.cs">
+      <DependentUpon>GLWarehouseProductLineAccountList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Journal\JournalTemplateSaveCtl.ascx.cs">
       <DependentUpon>JournalTemplateSaveCtl.ascx</DependentUpon>
@@ -498,6 +562,7 @@
     <Content Include="..\CodeX.Web.CommonLibs\ConnectionString.config">
       <Link>ConnectionString.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

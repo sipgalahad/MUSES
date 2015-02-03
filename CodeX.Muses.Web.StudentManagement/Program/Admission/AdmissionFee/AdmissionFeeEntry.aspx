@@ -550,49 +550,51 @@
                                 <tr>
                                     <td colspan="4">
                                         <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID") %>' />
-                                        <asp:Repeater ID="rptViewDt" runat="server">
-                                            <HeaderTemplate>
-                                                <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
-                                                    <colgroup>
-                                                        <col />
-                                                        <col style="width:200px"/>
-                                                        <col style="width:150px" />
-                                                        <col style="width:150px" />
-                                                        <col style="width:150px" />
-                                                    </colgroup>
-                                                    <tr>
-                                                        <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
-                                                        <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
-                                                        <th class="thCenter"><%=GetLabel("Jumlah Bayar [%]") %></th>
-                                                        <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
-                                                        <th class="thCenter"><%=GetLabel("Diskon [%]") %></th>
-                                                        <th class="thCenter"><%=GetLabel("Diskon") %></th>
-                                                        <th class="thCenter"><%=GetLabel("Total") %></th>
+                                        <div id="containerTableFee" runat="server">
+                                            <asp:Repeater ID="rptViewDt" runat="server">
+                                                <HeaderTemplate>
+                                                    <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:200px"/>
+                                                            <col style="width:150px" />
+                                                            <col style="width:150px" />
+                                                            <col style="width:150px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Jumlah Bayar [%]") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Diskon [%]") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Diskon") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Total") %></th>
+                                                        </tr>
+                                                </HeaderTemplate>
+                                                <ItemTemplate>
+                                                    <tr class="trDetail">
+                                                        <td align="center"><%#Eval("DisplayOrder") %></td>
+                                                        <td align="center"><input type="text" class="txtPaymentDate datepicker required" validationgroup="mpEntry" value='<%#Eval("PaymentDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                        <td align="center"><input type="text" class="txtPaymentAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("PaymentAmount") %>' /></td>
+                                                        <td align="center"><input type="text" class="txtPaymentAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalPaymentAmount") %>' /></td>
+                                                        <td align="center"><input type="text" class="txtDiscountAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("DiscountAmount") %>' /></td>
+                                                        <td align="center"><input type="text" class="txtDiscountAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalDiscountAmount") %>' /></td>
+                                                        <td align="center"><input type="text" class="txtLineAmount txtCurrency required" validationgroup="mpEntry" readonly="readonly" style="width:90%" value='<%#Eval("LineAmount") %>' /></td>
                                                     </tr>
-                                            </HeaderTemplate>
-                                            <ItemTemplate>
-                                                <tr class="trDetail">
-                                                    <td align="center"><%#Eval("DisplayOrder") %></td>
-                                                    <td align="center"><input type="text" class="txtPaymentDate datepicker required" validationgroup="mpEntry" value='<%#Eval("PaymentDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
-                                                    <td align="center"><input type="text" class="txtPaymentAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("PaymentAmount") %>' /></td>
-                                                    <td align="center"><input type="text" class="txtPaymentAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalPaymentAmount") %>' /></td>
-                                                    <td align="center"><input type="text" class="txtDiscountAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("DiscountAmount") %>' /></td>
-                                                    <td align="center"><input type="text" class="txtDiscountAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalDiscountAmount") %>' /></td>
-                                                    <td align="center"><input type="text" class="txtLineAmount txtCurrency required" validationgroup="mpEntry" readonly="readonly" style="width:90%" value='<%#Eval("LineAmount") %>' /></td>
-                                                </tr>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                    <tr class="trFooter">
-                                                        <td align="right" colspan="2"><%=GetLabel("Total") %></td>
-                                                        <td>&nbsp;</td>
-                                                        <td align="center"><input type="text" class="txtTotalPaymentAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
-                                                        <td>&nbsp;</td>
-                                                        <td align="center"><input type="text" class="txtTotalDiscountAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
-                                                        <td align="center"><input type="text" class="txtTotalAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
-                                                    </tr>
-                                                </table>
-                                            </FooterTemplate>
-                                        </asp:Repeater>
+                                                </ItemTemplate>
+                                                <FooterTemplate>
+                                                        <tr class="trFooter">
+                                                            <td align="right" colspan="2"><%=GetLabel("Total") %></td>
+                                                            <td>&nbsp;</td>
+                                                            <td align="center"><input type="text" class="txtTotalPaymentAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
+                                                            <td>&nbsp;</td>
+                                                            <td align="center"><input type="text" class="txtTotalDiscountAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
+                                                            <td align="center"><input type="text" class="txtTotalAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
+                                                        </tr>
+                                                    </table>
+                                                </FooterTemplate>
+                                            </asp:Repeater>
+                                        </div>
                                         <br />
                                     </td>
                                 </tr>

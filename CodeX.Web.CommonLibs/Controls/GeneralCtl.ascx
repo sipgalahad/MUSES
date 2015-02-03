@@ -585,7 +585,8 @@
             showOn: "button", 
             //showOn: "both",
             buttonImage: ResolveUrl("~/Libs/Images/calendar.gif"),
-            buttonImageOnly: true
+            buttonImageOnly: true,
+            yearRange: "-100:+10"
         });
     }
 
@@ -598,7 +599,8 @@
             showOn: "button",
             //showOn: "both",
             buttonImage: ResolveUrl("~/Libs/Images/calendar.gif"),
-            buttonImageOnly: true
+            buttonImageOnly: true,
+            yearRange: "-100:+10"
         });
     }
 

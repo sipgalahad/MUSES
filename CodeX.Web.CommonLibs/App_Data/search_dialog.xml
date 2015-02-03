@@ -399,6 +399,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Product Line -->
+  <searchdialog type="productline" methodname="GetProductLineList" keyfieldname="ProductLineCode">
+    <gridcolumns>
+      <gridcolumn datafield="ProductLineCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="ProductLineName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ProductLineName" headertext="Nama" description="" />
+      <intellisensetext datafield="ProductLineCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Prospective Student-->
   <searchdialog type="prospectivestudent" methodname="GetvProspectiveStudentList" keyfieldname="ProspectiveStudentID" orderbyexpression="ProspectiveStudentID DESC">
     <gridcolumns>

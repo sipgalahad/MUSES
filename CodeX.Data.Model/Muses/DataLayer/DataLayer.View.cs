@@ -4845,6 +4845,309 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLAccountPayable
+    [Serializable]
+    [Table(Name = "vGLAccountPayable")]
+    public class vGLAccountPayable
+    {
+        private Int32 _ID;
+        private String _GCAccountPayableType;
+        private String _AccountPayableType;
+        private String _GCItemType;
+        private String _ItemType;
+        private Int32 _GLAccount;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private Int32 _SubLedgerID;
+        private String _SearchDialogTypeName;
+        private String _IDFieldName;
+        private String _CodeFieldName;
+        private String _DisplayFieldName;
+        private String _MethodName;
+        private String _FilterExpression;
+        private Int32 _SubLedger;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "GCAccountPayableType", DataType = "String")]
+        public String GCAccountPayableType
+        {
+            get { return _GCAccountPayableType; }
+            set { _GCAccountPayableType = value; }
+        }
+        [Column(Name = "AccountPayableType", DataType = "String")]
+        public String AccountPayableType
+        {
+            get { return _AccountPayableType; }
+            set { _AccountPayableType = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "ItemType", DataType = "String")]
+        public String ItemType
+        {
+            get { return _ItemType; }
+            set { _ItemType = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SearchDialogTypeName", DataType = "String")]
+        public String SearchDialogTypeName
+        {
+            get { return _SearchDialogTypeName; }
+            set { _SearchDialogTypeName = value; }
+        }
+        [Column(Name = "IDFieldName", DataType = "String")]
+        public String IDFieldName
+        {
+            get { return _IDFieldName; }
+            set { _IDFieldName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "DisplayFieldName", DataType = "String")]
+        public String DisplayFieldName
+        {
+            get { return _DisplayFieldName; }
+            set { _DisplayFieldName = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String")]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32")]
+        public Int32 SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vGLAPPayment
+    [Serializable]
+    [Table(Name = "vGLAPPayment")]
+    public class vGLAPPayment
+    {
+        private Int32 _ID;
+        private String _GCSupplierPaymentMethod;
+        private String _SupplierPaymentMethod;
+        private Int32 _BankID;
+        private String _BankCode;
+        private String _BankName;
+        private Int32 _GLAccount;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private Int32 _SubLedgerID;
+        private String _SearchDialogTypeName;
+        private String _IDFieldName;
+        private String _CodeFieldName;
+        private String _DisplayFieldName;
+        private String _MethodName;
+        private String _FilterExpression;
+        private Int32 _SubLedger;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "GCSupplierPaymentMethod", DataType = "String")]
+        public String GCSupplierPaymentMethod
+        {
+            get { return _GCSupplierPaymentMethod; }
+            set { _GCSupplierPaymentMethod = value; }
+        }
+        [Column(Name = "SupplierPaymentMethod", DataType = "String")]
+        public String SupplierPaymentMethod
+        {
+            get { return _SupplierPaymentMethod; }
+            set { _SupplierPaymentMethod = value; }
+        }
+        [Column(Name = "BankID", DataType = "Int32")]
+        public Int32 BankID
+        {
+            get { return _BankID; }
+            set { _BankID = value; }
+        }
+        [Column(Name = "BankCode", DataType = "String")]
+        public String BankCode
+        {
+            get { return _BankCode; }
+            set { _BankCode = value; }
+        }
+        [Column(Name = "BankName", DataType = "String")]
+        public String BankName
+        {
+            get { return _BankName; }
+            set { _BankName = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SearchDialogTypeName", DataType = "String")]
+        public String SearchDialogTypeName
+        {
+            get { return _SearchDialogTypeName; }
+            set { _SearchDialogTypeName = value; }
+        }
+        [Column(Name = "IDFieldName", DataType = "String")]
+        public String IDFieldName
+        {
+            get { return _IDFieldName; }
+            set { _IDFieldName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "DisplayFieldName", DataType = "String")]
+        public String DisplayFieldName
+        {
+            get { return _DisplayFieldName; }
+            set { _DisplayFieldName = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String")]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32")]
+        public Int32 SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vGLBalanceDtDocument
     [Serializable]
     [Table(Name = "vGLBalanceDtDocument")]
@@ -5026,6 +5329,196 @@ namespace CodeX.Data.Model
         {
             get { return _BalanceEND; }
             set { _BalanceEND = value; }
+        }
+    }
+    #endregion
+    #region vGLFAWriteOffAccount
+    [Serializable]
+    [Table(Name = "vGLFAWriteOffAccount")]
+    public class vGLFAWriteOffAccount
+    {
+        private Int32 _ID;
+        private Int32 _FAGroupID;
+        private String _FAGroupCode;
+        private String _FAGroupName;
+        private String _GCWriteOffType;
+        private String _WriteOffType;
+        private String _GCAssetSalesType;
+        private String _AssetSalesType;
+        private Int32 _BankID;
+        private String _BankCode;
+        private String _BankName;
+        private Int32 _GLAccount;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private Int32 _SubLedgerID;
+        private String _SearchDialogTypeName;
+        private String _IDFieldName;
+        private String _CodeFieldName;
+        private String _DisplayFieldName;
+        private String _MethodName;
+        private String _FilterExpression;
+        private Int32 _SubLedger;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "FAGroupID", DataType = "Int32")]
+        public Int32 FAGroupID
+        {
+            get { return _FAGroupID; }
+            set { _FAGroupID = value; }
+        }
+        [Column(Name = "FAGroupCode", DataType = "String")]
+        public String FAGroupCode
+        {
+            get { return _FAGroupCode; }
+            set { _FAGroupCode = value; }
+        }
+        [Column(Name = "FAGroupName", DataType = "String")]
+        public String FAGroupName
+        {
+            get { return _FAGroupName; }
+            set { _FAGroupName = value; }
+        }
+        [Column(Name = "GCWriteOffType", DataType = "String")]
+        public String GCWriteOffType
+        {
+            get { return _GCWriteOffType; }
+            set { _GCWriteOffType = value; }
+        }
+        [Column(Name = "WriteOffType", DataType = "String")]
+        public String WriteOffType
+        {
+            get { return _WriteOffType; }
+            set { _WriteOffType = value; }
+        }
+        [Column(Name = "GCAssetSalesType", DataType = "String")]
+        public String GCAssetSalesType
+        {
+            get { return _GCAssetSalesType; }
+            set { _GCAssetSalesType = value; }
+        }
+        [Column(Name = "AssetSalesType", DataType = "String")]
+        public String AssetSalesType
+        {
+            get { return _AssetSalesType; }
+            set { _AssetSalesType = value; }
+        }
+        [Column(Name = "BankID", DataType = "Int32")]
+        public Int32 BankID
+        {
+            get { return _BankID; }
+            set { _BankID = value; }
+        }
+        [Column(Name = "BankCode", DataType = "String")]
+        public String BankCode
+        {
+            get { return _BankCode; }
+            set { _BankCode = value; }
+        }
+        [Column(Name = "BankName", DataType = "String")]
+        public String BankName
+        {
+            get { return _BankName; }
+            set { _BankName = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SearchDialogTypeName", DataType = "String")]
+        public String SearchDialogTypeName
+        {
+            get { return _SearchDialogTypeName; }
+            set { _SearchDialogTypeName = value; }
+        }
+        [Column(Name = "IDFieldName", DataType = "String")]
+        public String IDFieldName
+        {
+            get { return _IDFieldName; }
+            set { _IDFieldName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "DisplayFieldName", DataType = "String")]
+        public String DisplayFieldName
+        {
+            get { return _DisplayFieldName; }
+            set { _DisplayFieldName = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String")]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32")]
+        public Int32 SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion
@@ -5681,6 +6174,616 @@ namespace CodeX.Data.Model
         {
             get { return _LastUpdatedDate; }
             set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
+    #region vGLWarehouseProductLineAccount
+    [Serializable]
+    [Table(Name = "vGLWarehouseProductLineAccount")]
+    public class vGLWarehouseProductLineAccount
+    {
+        private Int32 _ID;
+        private String _GCItemType;
+        private String _ItemType;
+        private Int32 _ProductLineID;
+        private String _ProductLineCode;
+        private String _ProductLineName;
+        private Int32 _Inventory;
+        private String _InventoryGLAccountNo;
+        private String _InventoryGLAccountName;
+        private Int32 _InventorySubLedgerID;
+        private String _InventorySearchDialogTypeName;
+        private String _InventoryIDFieldName;
+        private String _InventoryCodeFieldName;
+        private String _InventoryDisplayFieldName;
+        private String _InventoryMethodName;
+        private String _InventoryFilterExpression;
+        private Int32 _InventorySubLedger;
+        private String _InventorySubLedgerCode;
+        private String _InventorySubLedgerName;
+        private Int32 _InventoryVAT;
+        private String _InventoryVATGLAccountNo;
+        private String _InventoryVATGLAccountName;
+        private Int32 _InventoryVATSubLedgerID;
+        private String _InventoryVATSearchDialogTypeName;
+        private String _InventoryVATIDFieldName;
+        private String _InventoryVATCodeFieldName;
+        private String _InventoryVATDisplayFieldName;
+        private String _InventoryVATMethodName;
+        private String _InventoryVATFilterExpression;
+        private Int32 _InventoryVATSubLedger;
+        private String _InventoryVATSubLedgerCode;
+        private String _InventoryVATSubLedgerName;
+        private Int32 _InventoryDiscount;
+        private String _InventoryDiscountGLAccountNo;
+        private String _InventoryDiscountGLAccountName;
+        private Int32 _InventoryDiscountSubLedgerID;
+        private String _InventoryDiscountSearchDialogTypeName;
+        private String _InventoryDiscountIDFieldName;
+        private String _InventoryDiscountCodeFieldName;
+        private String _InventoryDiscountDisplayFieldName;
+        private String _InventoryDiscountMethodName;
+        private String _InventoryDiscountFilterExpression;
+        private Int32 _InventoryDiscountSubLedger;
+        private String _InventoryDiscountSubLedgerCode;
+        private String _InventoryDiscountSubLedgerName;
+        private Int32 _COGS;
+        private String _COGSGLAccountNo;
+        private String _COGSGLAccountName;
+        private Int32 _COGSSubLedgerID;
+        private String _COGSSearchDialogTypeName;
+        private String _COGSIDFieldName;
+        private String _COGSCodeFieldName;
+        private String _COGSDisplayFieldName;
+        private String _COGSMethodName;
+        private String _COGSFilterExpression;
+        private Int32 _COGSSubLedger;
+        private String _COGSSubLedgerCode;
+        private String _COGSSubLedgerName;
+        private Int32 _Consumption;
+        private String _ConsumptionGLAccountNo;
+        private String _ConsumptionGLAccountName;
+        private Int32 _ConsumptionSubLedgerID;
+        private String _ConsumptionSearchDialogTypeName;
+        private String _ConsumptionIDFieldName;
+        private String _ConsumptionCodeFieldName;
+        private String _ConsumptionDisplayFieldName;
+        private String _ConsumptionMethodName;
+        private String _ConsumptionFilterExpression;
+        private Int32 _ConsumptionSubLedger;
+        private String _ConsumptionSubLedgerCode;
+        private String _ConsumptionSubLedgerName;
+        private Int32 _PurchasePriceVariant;
+        private String _PurchasePriceVariantGLAccountNo;
+        private String _PurchasePriceVariantGLAccountName;
+        private Int32 _PurchasePriceVariantSubLedgerID;
+        private String _PurchasePriceVariantSearchDialogTypeName;
+        private String _PurchasePriceVariantIDFieldName;
+        private String _PurchasePriceVariantCodeFieldName;
+        private String _PurchasePriceVariantDisplayFieldName;
+        private String _PurchasePriceVariantMethodName;
+        private String _PurchasePriceVariantFilterExpression;
+        private Int32 _PurchasePriceVariantSubLedger;
+        private String _PurchasePriceVariantSubLedgerCode;
+        private String _PurchasePriceVariantSubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "ItemType", DataType = "String")]
+        public String ItemType
+        {
+            get { return _ItemType; }
+            set { _ItemType = value; }
+        }
+        [Column(Name = "ProductLineID", DataType = "Int32")]
+        public Int32 ProductLineID
+        {
+            get { return _ProductLineID; }
+            set { _ProductLineID = value; }
+        }
+        [Column(Name = "ProductLineCode", DataType = "String")]
+        public String ProductLineCode
+        {
+            get { return _ProductLineCode; }
+            set { _ProductLineCode = value; }
+        }
+        [Column(Name = "ProductLineName", DataType = "String")]
+        public String ProductLineName
+        {
+            get { return _ProductLineName; }
+            set { _ProductLineName = value; }
+        }
+        [Column(Name = "Inventory", DataType = "Int32")]
+        public Int32 Inventory
+        {
+            get { return _Inventory; }
+            set { _Inventory = value; }
+        }
+        [Column(Name = "InventoryGLAccountNo", DataType = "String")]
+        public String InventoryGLAccountNo
+        {
+            get { return _InventoryGLAccountNo; }
+            set { _InventoryGLAccountNo = value; }
+        }
+        [Column(Name = "InventoryGLAccountName", DataType = "String")]
+        public String InventoryGLAccountName
+        {
+            get { return _InventoryGLAccountName; }
+            set { _InventoryGLAccountName = value; }
+        }
+        [Column(Name = "InventorySubLedgerID", DataType = "Int32")]
+        public Int32 InventorySubLedgerID
+        {
+            get { return _InventorySubLedgerID; }
+            set { _InventorySubLedgerID = value; }
+        }
+        [Column(Name = "InventorySearchDialogTypeName", DataType = "String")]
+        public String InventorySearchDialogTypeName
+        {
+            get { return _InventorySearchDialogTypeName; }
+            set { _InventorySearchDialogTypeName = value; }
+        }
+        [Column(Name = "InventoryIDFieldName", DataType = "String")]
+        public String InventoryIDFieldName
+        {
+            get { return _InventoryIDFieldName; }
+            set { _InventoryIDFieldName = value; }
+        }
+        [Column(Name = "InventoryCodeFieldName", DataType = "String")]
+        public String InventoryCodeFieldName
+        {
+            get { return _InventoryCodeFieldName; }
+            set { _InventoryCodeFieldName = value; }
+        }
+        [Column(Name = "InventoryDisplayFieldName", DataType = "String")]
+        public String InventoryDisplayFieldName
+        {
+            get { return _InventoryDisplayFieldName; }
+            set { _InventoryDisplayFieldName = value; }
+        }
+        [Column(Name = "InventoryMethodName", DataType = "String")]
+        public String InventoryMethodName
+        {
+            get { return _InventoryMethodName; }
+            set { _InventoryMethodName = value; }
+        }
+        [Column(Name = "InventoryFilterExpression", DataType = "String")]
+        public String InventoryFilterExpression
+        {
+            get { return _InventoryFilterExpression; }
+            set { _InventoryFilterExpression = value; }
+        }
+        [Column(Name = "InventorySubLedger", DataType = "Int32")]
+        public Int32 InventorySubLedger
+        {
+            get { return _InventorySubLedger; }
+            set { _InventorySubLedger = value; }
+        }
+        [Column(Name = "InventorySubLedgerCode", DataType = "String")]
+        public String InventorySubLedgerCode
+        {
+            get { return _InventorySubLedgerCode; }
+            set { _InventorySubLedgerCode = value; }
+        }
+        [Column(Name = "InventorySubLedgerName", DataType = "String")]
+        public String InventorySubLedgerName
+        {
+            get { return _InventorySubLedgerName; }
+            set { _InventorySubLedgerName = value; }
+        }
+        [Column(Name = "InventoryVAT", DataType = "Int32")]
+        public Int32 InventoryVAT
+        {
+            get { return _InventoryVAT; }
+            set { _InventoryVAT = value; }
+        }
+        [Column(Name = "InventoryVATGLAccountNo", DataType = "String")]
+        public String InventoryVATGLAccountNo
+        {
+            get { return _InventoryVATGLAccountNo; }
+            set { _InventoryVATGLAccountNo = value; }
+        }
+        [Column(Name = "InventoryVATGLAccountName", DataType = "String")]
+        public String InventoryVATGLAccountName
+        {
+            get { return _InventoryVATGLAccountName; }
+            set { _InventoryVATGLAccountName = value; }
+        }
+        [Column(Name = "InventoryVATSubLedgerID", DataType = "Int32")]
+        public Int32 InventoryVATSubLedgerID
+        {
+            get { return _InventoryVATSubLedgerID; }
+            set { _InventoryVATSubLedgerID = value; }
+        }
+        [Column(Name = "InventoryVATSearchDialogTypeName", DataType = "String")]
+        public String InventoryVATSearchDialogTypeName
+        {
+            get { return _InventoryVATSearchDialogTypeName; }
+            set { _InventoryVATSearchDialogTypeName = value; }
+        }
+        [Column(Name = "InventoryVATIDFieldName", DataType = "String")]
+        public String InventoryVATIDFieldName
+        {
+            get { return _InventoryVATIDFieldName; }
+            set { _InventoryVATIDFieldName = value; }
+        }
+        [Column(Name = "InventoryVATCodeFieldName", DataType = "String")]
+        public String InventoryVATCodeFieldName
+        {
+            get { return _InventoryVATCodeFieldName; }
+            set { _InventoryVATCodeFieldName = value; }
+        }
+        [Column(Name = "InventoryVATDisplayFieldName", DataType = "String")]
+        public String InventoryVATDisplayFieldName
+        {
+            get { return _InventoryVATDisplayFieldName; }
+            set { _InventoryVATDisplayFieldName = value; }
+        }
+        [Column(Name = "InventoryVATMethodName", DataType = "String")]
+        public String InventoryVATMethodName
+        {
+            get { return _InventoryVATMethodName; }
+            set { _InventoryVATMethodName = value; }
+        }
+        [Column(Name = "InventoryVATFilterExpression", DataType = "String")]
+        public String InventoryVATFilterExpression
+        {
+            get { return _InventoryVATFilterExpression; }
+            set { _InventoryVATFilterExpression = value; }
+        }
+        [Column(Name = "InventoryVATSubLedger", DataType = "Int32")]
+        public Int32 InventoryVATSubLedger
+        {
+            get { return _InventoryVATSubLedger; }
+            set { _InventoryVATSubLedger = value; }
+        }
+        [Column(Name = "InventoryVATSubLedgerCode", DataType = "String")]
+        public String InventoryVATSubLedgerCode
+        {
+            get { return _InventoryVATSubLedgerCode; }
+            set { _InventoryVATSubLedgerCode = value; }
+        }
+        [Column(Name = "InventoryVATSubLedgerName", DataType = "String")]
+        public String InventoryVATSubLedgerName
+        {
+            get { return _InventoryVATSubLedgerName; }
+            set { _InventoryVATSubLedgerName = value; }
+        }
+        [Column(Name = "InventoryDiscount", DataType = "Int32")]
+        public Int32 InventoryDiscount
+        {
+            get { return _InventoryDiscount; }
+            set { _InventoryDiscount = value; }
+        }
+        [Column(Name = "InventoryDiscountGLAccountNo", DataType = "String")]
+        public String InventoryDiscountGLAccountNo
+        {
+            get { return _InventoryDiscountGLAccountNo; }
+            set { _InventoryDiscountGLAccountNo = value; }
+        }
+        [Column(Name = "InventoryDiscountGLAccountName", DataType = "String")]
+        public String InventoryDiscountGLAccountName
+        {
+            get { return _InventoryDiscountGLAccountName; }
+            set { _InventoryDiscountGLAccountName = value; }
+        }
+        [Column(Name = "InventoryDiscountSubLedgerID", DataType = "Int32")]
+        public Int32 InventoryDiscountSubLedgerID
+        {
+            get { return _InventoryDiscountSubLedgerID; }
+            set { _InventoryDiscountSubLedgerID = value; }
+        }
+        [Column(Name = "InventoryDiscountSearchDialogTypeName", DataType = "String")]
+        public String InventoryDiscountSearchDialogTypeName
+        {
+            get { return _InventoryDiscountSearchDialogTypeName; }
+            set { _InventoryDiscountSearchDialogTypeName = value; }
+        }
+        [Column(Name = "InventoryDiscountIDFieldName", DataType = "String")]
+        public String InventoryDiscountIDFieldName
+        {
+            get { return _InventoryDiscountIDFieldName; }
+            set { _InventoryDiscountIDFieldName = value; }
+        }
+        [Column(Name = "InventoryDiscountCodeFieldName", DataType = "String")]
+        public String InventoryDiscountCodeFieldName
+        {
+            get { return _InventoryDiscountCodeFieldName; }
+            set { _InventoryDiscountCodeFieldName = value; }
+        }
+        [Column(Name = "InventoryDiscountDisplayFieldName", DataType = "String")]
+        public String InventoryDiscountDisplayFieldName
+        {
+            get { return _InventoryDiscountDisplayFieldName; }
+            set { _InventoryDiscountDisplayFieldName = value; }
+        }
+        [Column(Name = "InventoryDiscountMethodName", DataType = "String")]
+        public String InventoryDiscountMethodName
+        {
+            get { return _InventoryDiscountMethodName; }
+            set { _InventoryDiscountMethodName = value; }
+        }
+        [Column(Name = "InventoryDiscountFilterExpression", DataType = "String")]
+        public String InventoryDiscountFilterExpression
+        {
+            get { return _InventoryDiscountFilterExpression; }
+            set { _InventoryDiscountFilterExpression = value; }
+        }
+        [Column(Name = "InventoryDiscountSubLedger", DataType = "Int32")]
+        public Int32 InventoryDiscountSubLedger
+        {
+            get { return _InventoryDiscountSubLedger; }
+            set { _InventoryDiscountSubLedger = value; }
+        }
+        [Column(Name = "InventoryDiscountSubLedgerCode", DataType = "String")]
+        public String InventoryDiscountSubLedgerCode
+        {
+            get { return _InventoryDiscountSubLedgerCode; }
+            set { _InventoryDiscountSubLedgerCode = value; }
+        }
+        [Column(Name = "InventoryDiscountSubLedgerName", DataType = "String")]
+        public String InventoryDiscountSubLedgerName
+        {
+            get { return _InventoryDiscountSubLedgerName; }
+            set { _InventoryDiscountSubLedgerName = value; }
+        }
+        [Column(Name = "COGS", DataType = "Int32")]
+        public Int32 COGS
+        {
+            get { return _COGS; }
+            set { _COGS = value; }
+        }
+        [Column(Name = "COGSGLAccountNo", DataType = "String")]
+        public String COGSGLAccountNo
+        {
+            get { return _COGSGLAccountNo; }
+            set { _COGSGLAccountNo = value; }
+        }
+        [Column(Name = "COGSGLAccountName", DataType = "String")]
+        public String COGSGLAccountName
+        {
+            get { return _COGSGLAccountName; }
+            set { _COGSGLAccountName = value; }
+        }
+        [Column(Name = "COGSSubLedgerID", DataType = "Int32")]
+        public Int32 COGSSubLedgerID
+        {
+            get { return _COGSSubLedgerID; }
+            set { _COGSSubLedgerID = value; }
+        }
+        [Column(Name = "COGSSearchDialogTypeName", DataType = "String")]
+        public String COGSSearchDialogTypeName
+        {
+            get { return _COGSSearchDialogTypeName; }
+            set { _COGSSearchDialogTypeName = value; }
+        }
+        [Column(Name = "COGSIDFieldName", DataType = "String")]
+        public String COGSIDFieldName
+        {
+            get { return _COGSIDFieldName; }
+            set { _COGSIDFieldName = value; }
+        }
+        [Column(Name = "COGSCodeFieldName", DataType = "String")]
+        public String COGSCodeFieldName
+        {
+            get { return _COGSCodeFieldName; }
+            set { _COGSCodeFieldName = value; }
+        }
+        [Column(Name = "COGSDisplayFieldName", DataType = "String")]
+        public String COGSDisplayFieldName
+        {
+            get { return _COGSDisplayFieldName; }
+            set { _COGSDisplayFieldName = value; }
+        }
+        [Column(Name = "COGSMethodName", DataType = "String")]
+        public String COGSMethodName
+        {
+            get { return _COGSMethodName; }
+            set { _COGSMethodName = value; }
+        }
+        [Column(Name = "COGSFilterExpression", DataType = "String")]
+        public String COGSFilterExpression
+        {
+            get { return _COGSFilterExpression; }
+            set { _COGSFilterExpression = value; }
+        }
+        [Column(Name = "COGSSubLedger", DataType = "Int32")]
+        public Int32 COGSSubLedger
+        {
+            get { return _COGSSubLedger; }
+            set { _COGSSubLedger = value; }
+        }
+        [Column(Name = "COGSSubLedgerCode", DataType = "String")]
+        public String COGSSubLedgerCode
+        {
+            get { return _COGSSubLedgerCode; }
+            set { _COGSSubLedgerCode = value; }
+        }
+        [Column(Name = "COGSSubLedgerName", DataType = "String")]
+        public String COGSSubLedgerName
+        {
+            get { return _COGSSubLedgerName; }
+            set { _COGSSubLedgerName = value; }
+        }
+        [Column(Name = "Consumption", DataType = "Int32")]
+        public Int32 Consumption
+        {
+            get { return _Consumption; }
+            set { _Consumption = value; }
+        }
+        [Column(Name = "ConsumptionGLAccountNo", DataType = "String")]
+        public String ConsumptionGLAccountNo
+        {
+            get { return _ConsumptionGLAccountNo; }
+            set { _ConsumptionGLAccountNo = value; }
+        }
+        [Column(Name = "ConsumptionGLAccountName", DataType = "String")]
+        public String ConsumptionGLAccountName
+        {
+            get { return _ConsumptionGLAccountName; }
+            set { _ConsumptionGLAccountName = value; }
+        }
+        [Column(Name = "ConsumptionSubLedgerID", DataType = "Int32")]
+        public Int32 ConsumptionSubLedgerID
+        {
+            get { return _ConsumptionSubLedgerID; }
+            set { _ConsumptionSubLedgerID = value; }
+        }
+        [Column(Name = "ConsumptionSearchDialogTypeName", DataType = "String")]
+        public String ConsumptionSearchDialogTypeName
+        {
+            get { return _ConsumptionSearchDialogTypeName; }
+            set { _ConsumptionSearchDialogTypeName = value; }
+        }
+        [Column(Name = "ConsumptionIDFieldName", DataType = "String")]
+        public String ConsumptionIDFieldName
+        {
+            get { return _ConsumptionIDFieldName; }
+            set { _ConsumptionIDFieldName = value; }
+        }
+        [Column(Name = "ConsumptionCodeFieldName", DataType = "String")]
+        public String ConsumptionCodeFieldName
+        {
+            get { return _ConsumptionCodeFieldName; }
+            set { _ConsumptionCodeFieldName = value; }
+        }
+        [Column(Name = "ConsumptionDisplayFieldName", DataType = "String")]
+        public String ConsumptionDisplayFieldName
+        {
+            get { return _ConsumptionDisplayFieldName; }
+            set { _ConsumptionDisplayFieldName = value; }
+        }
+        [Column(Name = "ConsumptionMethodName", DataType = "String")]
+        public String ConsumptionMethodName
+        {
+            get { return _ConsumptionMethodName; }
+            set { _ConsumptionMethodName = value; }
+        }
+        [Column(Name = "ConsumptionFilterExpression", DataType = "String")]
+        public String ConsumptionFilterExpression
+        {
+            get { return _ConsumptionFilterExpression; }
+            set { _ConsumptionFilterExpression = value; }
+        }
+        [Column(Name = "ConsumptionSubLedger", DataType = "Int32")]
+        public Int32 ConsumptionSubLedger
+        {
+            get { return _ConsumptionSubLedger; }
+            set { _ConsumptionSubLedger = value; }
+        }
+        [Column(Name = "ConsumptionSubLedgerCode", DataType = "String")]
+        public String ConsumptionSubLedgerCode
+        {
+            get { return _ConsumptionSubLedgerCode; }
+            set { _ConsumptionSubLedgerCode = value; }
+        }
+        [Column(Name = "ConsumptionSubLedgerName", DataType = "String")]
+        public String ConsumptionSubLedgerName
+        {
+            get { return _ConsumptionSubLedgerName; }
+            set { _ConsumptionSubLedgerName = value; }
+        }
+        [Column(Name = "PurchasePriceVariant", DataType = "Int32")]
+        public Int32 PurchasePriceVariant
+        {
+            get { return _PurchasePriceVariant; }
+            set { _PurchasePriceVariant = value; }
+        }
+        [Column(Name = "PurchasePriceVariantGLAccountNo", DataType = "String")]
+        public String PurchasePriceVariantGLAccountNo
+        {
+            get { return _PurchasePriceVariantGLAccountNo; }
+            set { _PurchasePriceVariantGLAccountNo = value; }
+        }
+        [Column(Name = "PurchasePriceVariantGLAccountName", DataType = "String")]
+        public String PurchasePriceVariantGLAccountName
+        {
+            get { return _PurchasePriceVariantGLAccountName; }
+            set { _PurchasePriceVariantGLAccountName = value; }
+        }
+        [Column(Name = "PurchasePriceVariantSubLedgerID", DataType = "Int32")]
+        public Int32 PurchasePriceVariantSubLedgerID
+        {
+            get { return _PurchasePriceVariantSubLedgerID; }
+            set { _PurchasePriceVariantSubLedgerID = value; }
+        }
+        [Column(Name = "PurchasePriceVariantSearchDialogTypeName", DataType = "String")]
+        public String PurchasePriceVariantSearchDialogTypeName
+        {
+            get { return _PurchasePriceVariantSearchDialogTypeName; }
+            set { _PurchasePriceVariantSearchDialogTypeName = value; }
+        }
+        [Column(Name = "PurchasePriceVariantIDFieldName", DataType = "String")]
+        public String PurchasePriceVariantIDFieldName
+        {
+            get { return _PurchasePriceVariantIDFieldName; }
+            set { _PurchasePriceVariantIDFieldName = value; }
+        }
+        [Column(Name = "PurchasePriceVariantCodeFieldName", DataType = "String")]
+        public String PurchasePriceVariantCodeFieldName
+        {
+            get { return _PurchasePriceVariantCodeFieldName; }
+            set { _PurchasePriceVariantCodeFieldName = value; }
+        }
+        [Column(Name = "PurchasePriceVariantDisplayFieldName", DataType = "String")]
+        public String PurchasePriceVariantDisplayFieldName
+        {
+            get { return _PurchasePriceVariantDisplayFieldName; }
+            set { _PurchasePriceVariantDisplayFieldName = value; }
+        }
+        [Column(Name = "PurchasePriceVariantMethodName", DataType = "String")]
+        public String PurchasePriceVariantMethodName
+        {
+            get { return _PurchasePriceVariantMethodName; }
+            set { _PurchasePriceVariantMethodName = value; }
+        }
+        [Column(Name = "PurchasePriceVariantFilterExpression", DataType = "String")]
+        public String PurchasePriceVariantFilterExpression
+        {
+            get { return _PurchasePriceVariantFilterExpression; }
+            set { _PurchasePriceVariantFilterExpression = value; }
+        }
+        [Column(Name = "PurchasePriceVariantSubLedger", DataType = "Int32")]
+        public Int32 PurchasePriceVariantSubLedger
+        {
+            get { return _PurchasePriceVariantSubLedger; }
+            set { _PurchasePriceVariantSubLedger = value; }
+        }
+        [Column(Name = "PurchasePriceVariantSubLedgerCode", DataType = "String")]
+        public String PurchasePriceVariantSubLedgerCode
+        {
+            get { return _PurchasePriceVariantSubLedgerCode; }
+            set { _PurchasePriceVariantSubLedgerCode = value; }
+        }
+        [Column(Name = "PurchasePriceVariantSubLedgerName", DataType = "String")]
+        public String PurchasePriceVariantSubLedgerName
+        {
+            get { return _PurchasePriceVariantSubLedgerName; }
+            set { _PurchasePriceVariantSubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

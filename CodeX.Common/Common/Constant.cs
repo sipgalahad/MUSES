@@ -106,8 +106,10 @@ namespace CodeX.Common
             public const string SUPPLIER_PAYMENT_METHOD = "X178";
             public const string GLACCOUNT_TYPE = "X180";
             public const string WRITE_OFF_TYPE = "X182";
+            public const string ASSET_SALES_TYPE = "X183";
             public const string SUPPLIER_TYPE = "X186";
             public const string JOURNAL_GROUP = "X188";
+            public const string GL_ACCOUNT_PAYABLE_TYPE = "X192";
             public const string EMPLOYEE_OCCUPATION = "X193";
             public const string DEPARTMENT = "X194";
             public const string EMPLOYEE_OCCUPATION_LEVEL = "X195";
