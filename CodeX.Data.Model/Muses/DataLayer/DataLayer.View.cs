@@ -6793,10 +6793,9 @@ namespace CodeX.Data.Model
     public class vInterfaceJournalSettingDtCustom
     {
         private String _TransactionCode;
-        private String _HealthcareID;
-        private Int32 _TypeID;
+        private String _SiteID;
         private String _TypeCode;
-        private Int32 _MenuID;
+        private String _MenuCode;
         private String _DataSource;
         private String _TypeName;
         private String _Position;
@@ -6807,17 +6806,11 @@ namespace CodeX.Data.Model
             get { return _TransactionCode; }
             set { _TransactionCode = value; }
         }
-        [Column(Name = "HealthcareID", DataType = "String")]
-        public String HealthcareID
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
         {
-            get { return _HealthcareID; }
-            set { _HealthcareID = value; }
-        }
-        [Column(Name = "TypeID", DataType = "Int32")]
-        public Int32 TypeID
-        {
-            get { return _TypeID; }
-            set { _TypeID = value; }
+            get { return _SiteID; }
+            set { _SiteID = value; }
         }
         [Column(Name = "TypeCode", DataType = "String")]
         public String TypeCode
@@ -6825,11 +6818,11 @@ namespace CodeX.Data.Model
             get { return _TypeCode; }
             set { _TypeCode = value; }
         }
-        [Column(Name = "MenuID", DataType = "Int32")]
-        public Int32 MenuID
+        [Column(Name = "MenuCode", DataType = "String")]
+        public String MenuCode
         {
-            get { return _MenuID; }
-            set { _MenuID = value; }
+            get { return _MenuCode; }
+            set { _MenuCode = value; }
         }
         [Column(Name = "DataSource", DataType = "String")]
         public String DataSource

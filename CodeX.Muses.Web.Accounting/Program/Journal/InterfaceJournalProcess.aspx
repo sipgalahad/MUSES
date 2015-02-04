@@ -125,7 +125,7 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
                                         <Columns>
                                             <asp:BoundField DataField="TransactionCode" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="TransactionName" HeaderText="Transaksi" />
-                                            <asp:HyperLinkField HeaderText="Lihat Setting" Text="Lihat Setting" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkViewSetting" HeaderStyle-Width="120px" />
+                                            <asp:HyperLinkField HeaderText="Lihat Setting" Text="Lihat Setting" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkViewSetting" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="120px" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>

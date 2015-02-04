@@ -65,7 +65,6 @@
                             <asp:Panel runat="server" ID="pnlEntryPopupGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                                 <asp:GridView ID="grdView" runat="server" CssClass="grdView notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
-                                        <asp:BoundField DataField="TypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="Position" HeaderText="D/K" HeaderStyle-Width="30px" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
                                         <asp:BoundField DataField="TypeName" HeaderText="COA" HeaderStyle-Width="250px" />
                                         <asp:BoundField DataField="DataSource" HeaderText="Sumber Data" />
