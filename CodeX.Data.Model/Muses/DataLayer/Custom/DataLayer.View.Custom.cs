@@ -172,43 +172,6 @@ namespace CodeX.Data.Model
                 return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
             }
         }
-        public Decimal CustomDiscount
-        {
-            get
-            {
-                return (_Quantity * _UnitPrice) * _DiscountPercentage1 / 100;
-            }
-        }
-
-        public Decimal CustomSubTotal
-        {
-            get
-            {
-                // Decimal totalAfterDisc1 = (Quantity * UnitPrice * ConversionFactor) - ((Quantity * UnitPrice * ConversionFactor) *
-                //_DiscountPercentage1 / 100);
-                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
-               _DiscountPercentage1 / 100);
-                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
-                return totalAfterDisc2;
-            }
-        }
-
-        public Decimal CustomLineAmount
-        {
-            get
-            {
-                return _Quantity * _UnitPrice;
-            }
-        }
-
-        public Decimal CustomTotalDiscount
-        {
-            get
-            {
-                //return (Quantity * UnitPrice * ConversionFactor) - CustomSubTotal;
-                return (Quantity * UnitPrice) - CustomSubTotal;
-            }
-        }
 
         public Boolean IsAllowEditItem
         {

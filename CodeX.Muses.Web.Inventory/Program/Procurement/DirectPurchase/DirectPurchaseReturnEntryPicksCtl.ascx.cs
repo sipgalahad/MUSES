@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 int PRID = 0;
                 string purchaseReturnNo = "";
                 DetailPage.SavePurchaseReturnHd(ctx, ref PRID, ref purchaseReturnNo);
-                
+
                 string[] lstSelectedItem = hdnSelectedItem.Value.Split(',');
                 string[] lstSelectedQty = hdnSelectedQtyRetur.Value.Split(',');
                 List<DirectPurchaseDt> lstDirectPurchaseDt = BusinessLayer.GetDirectPurchaseDtList(string.Format("ID IN ({0})", hdnSelectedItem.Value), ctx);
@@ -78,13 +78,14 @@ namespace CodeX.Muses.Web.Inventory.Program
                     DirectPurchaseDt directPurchaseDt = lstDirectPurchaseDt.FirstOrDefault(p => p.ID == Convert.ToInt32(lstSelectedItem[i]));
                     DirectPurchaseReturnDt entityDt = new DirectPurchaseReturnDt();
                     entityDt.ItemID = directPurchaseDt.ItemID;
-                    entityDt.ConversionFactor = directPurchaseDt.ConversionFactor;
-                    entityDt.DiscountPercentage1 = directPurchaseDt.DiscountPercentage;
-                    entityDt.DiscountPercentage2 = 0;
-                    entityDt.GCBaseUnit = directPurchaseDt.GCBaseUnit;
-                    entityDt.GCItemUnit = directPurchaseDt.GCItemUnit;
                     entityDt.Quantity = Convert.ToDecimal(lstSelectedQty[i]);
                     entityDt.UnitPrice = directPurchaseDt.UnitPrice;
+                    entityDt.ConversionFactor = directPurchaseDt.ConversionFactor;
+                    entityDt.DiscountPercentage = directPurchaseDt.DiscountPercentage;
+                    entityDt.DiscountAmount = entityDt.Quantity * entityDt.UnitPrice * entityDt.DiscountPercentage / 100;
+                    entityDt.LineAmount = entityDt.Quantity * entityDt.UnitPrice - entityDt.DiscountAmount;
+                    entityDt.GCBaseUnit = directPurchaseDt.GCBaseUnit;
+                    entityDt.GCItemUnit = directPurchaseDt.GCItemUnit;
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                     entityDt.DirectPurchaseReturnID = PRID;
                     entityDt.CreatedBy = AppSession.UserLogin.UserID;

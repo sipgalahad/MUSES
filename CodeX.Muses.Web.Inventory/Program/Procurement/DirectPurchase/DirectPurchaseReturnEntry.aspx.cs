@@ -35,6 +35,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboReason, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtPrice, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDiscountPercentage, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDiscountAmount, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected string GetVATPercentageLabel()
@@ -67,7 +70,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(hdnPRID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(hdnDirectPurchaseReturnID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(hdnDirectPurchaseID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtDirectPurchaseReturnNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtPurchaseReturnDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
@@ -81,11 +84,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(txtDirectPurchaseNo, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboReturnType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
 
+            SetControlEntrySetting(txtTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
             SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
-            SetControlEntrySetting(txtTotalReturSaldo, new ControlEntrySetting(false, false, true, "0"));
-            SetControlEntrySetting(txtTotalRetur, new ControlEntrySetting(false, false, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountPercentage, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountAmount, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtTotalNetTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
         }
 
         #region Load Entity
@@ -131,7 +136,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
                 hdnIsEditable.Value = "1";
             hdnGCTransactionStatus.Value = entity.GCTransactionStatus;
-            hdnPRID.Value = entity.DirectPurchaseReturnID.ToString();
+            hdnDirectPurchaseReturnID.Value = entity.DirectPurchaseReturnID.ToString();
             txtDirectPurchaseReturnNo.Text = entity.DirectPurchaseReturnNo;
             hdnDirectPurchaseID.Value = entity.DirectPurchaseID.ToString();
             txtDirectPurchaseNo.Text = entity.DirectPurchaseNo;
@@ -150,7 +155,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             cboReturnType.Value = entity.GCDirectPurchaseReturnType.ToString();
             txtNotes.Text = entity.Remarks;
             chkPPN.Checked = entity.IsIncludeVAT;
-            txtTotalRetur.Text = entity.TransactionAmount.ToString();
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
@@ -161,15 +166,15 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount)
         {
             string filterExpression = "1 = 0";
-            if (hdnPRID.Value != "0")
-                filterExpression = string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPRID.Value, Constant.TransactionStatus.VOID);
+            if (hdnDirectPurchaseReturnID.Value != "0")
+                filterExpression = string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseReturnID.Value, Constant.TransactionStatus.VOID);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvDirectPurchaseReturnDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
             if (transactionAmount > -1)
-                transactionAmount = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value)).TransactionAmount;
+                transactionAmount = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnDirectPurchaseReturnID.Value)).TransactionAmount;
             List<vDirectPurchaseReturnDt> lstEntity = BusinessLayer.GetvDirectPurchaseReturnDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
@@ -177,25 +182,34 @@ namespace CodeX.Muses.Web.Inventory.Program
         #endregion
 
         #region Save Edit Header
+        private void ControlToEntity(DirectPurchaseReturnHd entityHd)
+        {
+            entityHd.ReturnDate = Helper.GetDatePickerValue(txtPurchaseReturnDate.Text);
+            entityHd.DirectPurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
+            entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
+            entityHd.GCDirectPurchaseReturnType = cboReturnType.Value.ToString();
+            entityHd.ReferenceNo = Request.Form[txtReferenceNo.UniqueID];
+            entityHd.ReferenceDate = Helper.GetDatePickerValue(Request.Form[txtReferenceDate.UniqueID]);
+            entityHd.IsIncludeVAT = chkPPN.Checked;
+            if (entityHd.IsIncludeVAT)
+                entityHd.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
+            else
+                entityHd.VATPercentage = 0;
+            entityHd.Remarks = txtNotes.Text;
+            entityHd.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
+            entityHd.FinalDiscountAmount = Convert.ToDecimal(txtFinalDiscountAmount.Text);
+            entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount;
+        }
+
         public void SavePurchaseReturnHd(IDbContext ctx, ref int PRID, ref string PRNo)
         {
             DirectPurchaseReturnHdDao entityHdDao = new DirectPurchaseReturnHdDao(ctx);
-            if (hdnPRID.Value == "0")
+            if (hdnDirectPurchaseReturnID.Value == "0")
             {
                 DirectPurchaseReturnHd entityHd = new DirectPurchaseReturnHd();
-                entityHd.ReturnDate = Helper.GetDatePickerValue(txtPurchaseReturnDate.Text);
-                entityHd.DirectPurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
-                entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
-                entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
-                entityHd.GCDirectPurchaseReturnType = cboReturnType.Value.ToString();
-                entityHd.ReferenceNo = Request.Form[txtReferenceNo.UniqueID];
-                entityHd.ReferenceDate = Helper.GetDatePickerValue(Request.Form[txtReferenceDate.UniqueID]);
-                entityHd.IsIncludeVAT = chkPPN.Checked;
-                if (entityHd.IsIncludeVAT)
-                    entityHd.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
-                else
-                    entityHd.VATPercentage = 0;
-                entityHd.Remarks = txtNotes.Text;
+                ControlToEntity(entityHd);
                 entityHd.DirectPurchaseReturnNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.DIRECT_PURCHASE_RETURN, entityHd.ReturnDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;
@@ -207,8 +221,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else
             {
-                PRID = Convert.ToInt32(hdnPRID.Value);
+                PRID = Convert.ToInt32(hdnDirectPurchaseReturnID.Value);
                 PRNo = txtDirectPurchaseReturnNo.Text;
+                DirectPurchaseReturnHd entityHd = entityHdDao.Get(PRID);
+                ControlToEntity(entityHd);
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Update(entityHd);
             }
         }
 
@@ -224,7 +242,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 SavePurchaseReturnHd(ctx, ref PRID, ref purchaseReturnNo);
                 DirectPurchaseHd entity = entityHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
                 entity.IsHasPurchaseReturn = true;
-                entity.DirectPurchaseReturnID = Convert.ToInt32(hdnPRID.Value);
+                entity.DirectPurchaseReturnID = Convert.ToInt32(hdnDirectPurchaseReturnID.Value);
                 entityHdDao.Update(entity);
 
                 retval = PRID.ToString();
@@ -248,7 +266,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                DirectPurchaseReturnHd entity = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
+                DirectPurchaseReturnHd entity = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnDirectPurchaseReturnID.Value));
                 entity.Remarks = txtNotes.Text;
                 entity.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
                 entity.IsIncludeVAT = chkPPN.Checked;
@@ -277,9 +295,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseHdDao purchaseHdDao = new DirectPurchaseHdDao(ctx);
             try
             {
-                DirectPurchaseReturnHd entity = entityHdDao.Get(Convert.ToInt32(hdnPRID.Value));
+                DirectPurchaseReturnHd entity = entityHdDao.Get(Convert.ToInt32(hdnDirectPurchaseReturnID.Value));
                 entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPRID.Value, Constant.TransactionStatus.VOID), ctx);
+                List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseReturnID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseReturnDt entityDt in lstEntity)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
@@ -313,9 +331,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseHdDao purchaseHdDao = new DirectPurchaseHdDao(ctx);
             try
             {
-                DirectPurchaseReturnHd entity = entityHdDao.Get(Convert.ToInt32(hdnPRID.Value));
+                DirectPurchaseReturnHd entity = entityHdDao.Get(Convert.ToInt32(hdnDirectPurchaseReturnID.Value));
                 entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPRID.Value, Constant.TransactionStatus.VOID), ctx);
+                List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseReturnID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseReturnDt entityDt in lstEntity)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
@@ -354,9 +372,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 try
                 {
-                    DirectPurchaseReturnHd entity = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
+                    DirectPurchaseReturnHd entity = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnDirectPurchaseReturnID.Value));
                     entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                    List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPRID.Value, Constant.TransactionStatus.VOID));
+                    List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseReturnID.Value, Constant.TransactionStatus.VOID));
                     foreach (DirectPurchaseReturnDt entityDt in lstEntity)
                     {
                         entityDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
@@ -384,9 +402,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 try
                 {
-                    DirectPurchaseReturnHd entity = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnPRID.Value));
+                    DirectPurchaseReturnHd entity = BusinessLayer.GetDirectPurchaseReturnHd(Convert.ToInt32(hdnDirectPurchaseReturnID.Value));
                     entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                    List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPRID.Value, Constant.TransactionStatus.VOID));
+                    List<DirectPurchaseReturnDt> lstEntity = BusinessLayer.GetDirectPurchaseReturnDtList(string.Format("DirectPurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseReturnID.Value, Constant.TransactionStatus.VOID));
                     foreach (DirectPurchaseReturnDt entityDt in lstEntity)
                     {
                         entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
@@ -414,7 +432,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             return result;
         }
-       
+
         #endregion
 
         #region callBack Trigger
@@ -465,7 +483,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 if (hdnEntryID.Value.ToString() != "")
                 {
-                    PRID = Convert.ToInt32(hdnPRID.Value);
+                    PRID = Convert.ToInt32(hdnDirectPurchaseReturnID.Value);
                     if (OnSaveEditRecordEntityDt(ref errMessage))
                         result += "success";
                     else
@@ -500,13 +518,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.UnitPrice = Convert.ToDecimal(Request.Form[txtPrice.UniqueID]);
             entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
-            entityDt.DiscountPercentage1 = Convert.ToDecimal(Request.Form[txtDiscount.UniqueID]);
-            entityDt.DiscountPercentage2 = 0;
+            entityDt.DiscountPercentage = Convert.ToDecimal(Request.Form[txtDiscountPercentage.UniqueID]);
+            entityDt.DiscountAmount = Convert.ToDecimal(Request.Form[txtDiscountAmount.UniqueID]);
+            entityDt.LineAmount = Convert.ToDecimal(Request.Form[txtLineAmount.UniqueID]);
             entityDt.GCPurchaseReturnReason = cboReason.Value.ToString();
             if (entityDt.GCPurchaseReturnReason == "X162^999")
-            {
                 entityDt.PurchaseReturnReason = txtReason.Text;
-            }
             entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
         }
 
@@ -528,7 +545,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                 DirectPurchaseHd entity = BusinessLayer.GetDirectPurchaseHdList(string.Format("DirectPurchaseID = {0}", hdnDirectPurchaseID.Value))[0];
                 entity.IsHasPurchaseReturn = true;
-                entity.DirectPurchaseReturnID = Convert.ToInt32(hdnPRID.Value);
+                entity.DirectPurchaseReturnID = Convert.ToInt32(hdnDirectPurchaseReturnID.Value);
                 entityHdDao.Update(entity);
                 ctx.CommitTransaction();
             }
@@ -553,6 +570,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseReturnDtDao entityDtDao = new DirectPurchaseReturnDtDao(ctx);
             try
             {
+                int PRID = 0;
+                string purchaseReturnNo = "";
+                SavePurchaseReturnHd(ctx, ref PRID, ref purchaseReturnNo);
                 DirectPurchaseReturnDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entityDt);
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;

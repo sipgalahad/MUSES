@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRowCountPerPage;
         
         /// <summary>
-        /// hdnPRID control.
+        /// hdnDirectPurchaseReturnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPRID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDirectPurchaseReturnID;
         
         /// <summary>
         /// hdnDirectPurchaseID control.
@@ -418,22 +418,31 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtBaseUnit;
         
         /// <summary>
-        /// txtDiscount control.
+        /// txtDiscountPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDiscount;
+        protected global::System.Web.UI.WebControls.TextBox txtDiscountPercentage;
         
         /// <summary>
-        /// txtSubTotalPrice control.
+        /// txtDiscountAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubTotalPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtDiscountAmount;
+        
+        /// <summary>
+        /// txtLineAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLineAmount;
         
         /// <summary>
         /// cbpView control.
@@ -481,13 +490,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtNotes;
         
         /// <summary>
-        /// txtTotalRetur control.
+        /// txtTransactionAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalRetur;
+        protected global::System.Web.UI.WebControls.TextBox txtTransactionAmount;
         
         /// <summary>
         /// chkPPN control.
@@ -508,13 +517,31 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPPN;
         
         /// <summary>
-        /// txtTotalReturSaldo control.
+        /// txtFinalDiscountPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalReturSaldo;
+        protected global::System.Web.UI.WebControls.TextBox txtFinalDiscountPercentage;
+        
+        /// <summary>
+        /// txtFinalDiscountAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFinalDiscountAmount;
+        
+        /// <summary>
+        /// txtTotalNetTransactionAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTotalNetTransactionAmount;
         
         /// <summary>
         /// cbpProcess control.
