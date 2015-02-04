@@ -149,7 +149,7 @@
             //#region Item
             function getItemFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
-                var purchaseID = $('#<%=hdnPurchaseID.ClientID %>').val();
+                var purchaseID = $('#<%=hdnDirectPurchaseID.ClientID %>').val();
                 if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
                     filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
                 if (purchaseID != '')
@@ -180,13 +180,14 @@
                                 $('#<%=hdnItemGroupID.ClientID %>').val(result2.ItemGroupID);
                                 $('#<%=txtItemGroupCode.ClientID %>').val(result2.ItemGroupCode);
                                 $('#<%=txtItemGroupName.ClientID %>').val(result2.ItemGroupName1);
-                                $('#<%=txtDiscount.ClientID %>').val(result2.Discount);
+                                $('#<%=txtDiscountPercentage.ClientID %>').val(result2.Discount);
                                 $('#<%=hdnUnitPrice.ClientID %>').val(result2.Price);
                                 $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
                                 $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
                             }
                             else {
-                                $('#<%=txtDiscount.ClientID %>').val('0');
+                                $('#<%=txtDiscountPercentage.ClientID %>').val('0');
+                                $('#<%=txtDiscountAmount.ClientID %>').val('0');
                                 $('#<%=hdnUnitPrice.ClientID %>').val('0');
                             }
                         });
@@ -216,13 +217,14 @@
                     $('#<%=hdnUnitPrice.ClientID %>').val('0');
                     $('#<%=txtPrice.ClientID %>').val('').trigger('changeValue'); ;
                     $('#<%=txtBaseUnit.ClientID %>').val('');
-                    $('#<%=txtDiscount.ClientID %>').val('0');
-                    $('#<%=txtSubTotalPrice.ClientID %>').val('').trigger('changeValue');
+                    $('#<%=txtDiscountPercentage.ClientID %>').val('0');
+                    $('#<%=txtDiscountAmount.ClientID %>').val('0');
+                    $('#<%=txtLineAmount.ClientID %>').val('').trigger('changeValue');
                     $('#<%=lblSupplier.ClientID %>').attr('class', 'lblDisabled');
                     $('#<%=txtSupplierCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=txtLocationCode.ClientID %>').attr('readonly', 'readonly');
                     $('#<%=lblLocation.ClientID %>').attr('class', 'lblDisabled');
-                    lastTransactionAmount = parseFloat($('#<%=txtTotalPurchase.ClientID %>').attr('hiddenVal'));
+                    lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
                     editedLineAmount = 0;
                     cboItemUnit.SetValue('');
                     cboDirectPurchaseType.SetEnabled(false);
@@ -248,15 +250,55 @@
 
             $('#<%=txtPrice.ClientID %>').change(function () {
                 $(this).blur();
+                var price = $('#<%=txtPrice.ClientID %>').attr('hiddenVal');
+                var qty = $('#<%=txtQuantity.ClientID %>').val();
+                var totalBeforeDisc = price * qty;
+                var discountPercentage = parseFloat($('#<%=txtDiscountPercentage.ClientID %>').val());
+                var discountAmount = totalBeforeDisc * discountPercentage / 100;
+                $('#<%=txtDiscountAmount.ClientID %>').val(discountAmount).trigger('changeValue');
                 calculateSubTotal();
             });
 
-            $('#<%=txtDiscount.ClientID %>').change(function () {
+            $('#<%=txtDiscountPercentage.ClientID %>').change(function () {
                 $(this).blur();
+                var price = $('#<%=txtPrice.ClientID %>').attr('hiddenVal');
+                var qty = $('#<%=txtQuantity.ClientID %>').val();
+                var totalBeforeDisc = price * qty;
+                var discountPercentage = parseFloat($('#<%=txtDiscountPercentage.ClientID %>').val());
+                var discountAmount = totalBeforeDisc * discountPercentage / 100;
+                $('#<%=txtDiscountAmount.ClientID %>').val(discountAmount).trigger('changeValue');
+
+                calculateSubTotal();
+            });
+
+            $('#<%=txtDiscountAmount.ClientID %>').change(function () {
+                $(this).blur();
+                var price = $('#<%=txtPrice.ClientID %>').attr('hiddenVal');
+                var qty = $('#<%=txtQuantity.ClientID %>').val();
+                var totalBeforeDisc = price * qty;
+                var discountAmount = parseFloat($('#<%=txtDiscountAmount.ClientID %>').attr('hiddenVal'));
+                var discountPercentage = discountAmount * 100 / totalBeforeDisc;
+                $('#<%=txtDiscountPercentage.ClientID %>').val(discountPercentage);
+
                 calculateSubTotal();
             });
 
             $('#<%=chkPPN.ClientID %>').change(function () {
+                calculateTotal();
+            });
+
+            $('#<%=txtFinalDiscountPercentage.ClientID %>').change(function () {
+                var transactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
+                var PPN = parseFloat($('#<%=txtPPN.ClientID %>').attr('hiddenVal'));
+                var totalHarga = transactionAmount + PPN;
+                var discountPercentage = parseFloat($(this).val());
+                var discountAmount = totalHarga * discountPercentage / 100;
+                $('#<%=txtFinalDiscountAmount.ClientID %>').val(discountAmount).trigger('changeValue');
+                calculateTotal();
+            });
+
+            $('#<%=txtFinalDiscountAmount.ClientID %>').change(function () {
+                $(this).blur();
                 calculateTotal();
             });
 
@@ -296,7 +338,8 @@
             $('#<%=hdnGCBaseUnit.ClientID %>').val(entity.GCBaseUnit);
             $('#<%=hdnGCItemUnit.ClientID %>').val(entity.GCItemUnit);
             $('#<%=hdnUnitPrice.ClientID %>').val(parseFloat(entity.UnitPrice) / parseFloat(entity.ConversionFactor));
-            $('#<%=txtDiscount.ClientID %>').val(entity.DiscountPercentage).trigger('changeValue');
+            $('#<%=txtDiscountPercentage.ClientID %>').val(entity.DiscountPercentage).trigger('changeValue');
+            $('#<%=txtDiscountAmount.ClientID %>').val(entity.DiscountAmount).trigger('changeValue');
             $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
             $('#<%=txtItemCode.ClientID %>').val(entity.ItemCode);
             $('#<%=txtItemName.ClientID %>').val(entity.ItemName1);
@@ -305,8 +348,8 @@
             $('#<%=txtItemGroupName.ClientID %>').val(entity.ItemGroupName1);
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
 
-            lastTransactionAmount = parseFloat($('#<%=txtTotalPurchase.ClientID %>').attr('hiddenVal'));
-            editedLineAmount = entity.CustomSubTotal;
+            lastTransactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
+            editedLineAmount = entity.LineAmount;
 
             cboItemUnit.PerformCallback();
             $('#entryDetailContainer').show();
@@ -320,9 +363,9 @@
 
         var VATPercentage = parseInt('<%=GetVATPercentageLabel() %>');
         function calculateTotal() {
-            var totalKotor = parseFloat($('#<%=txtTotalPurchase.ClientID %>').attr('hiddenVal'));
+            var totalKotor = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
             if ($('#<%=chkPPN.ClientID %>').is(':checked')) {
-                var temp = parseFloat($('#<%=txtTotalPurchase.ClientID %>').attr('hiddenVal'));
+                var temp = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
                 var PPN = VATPercentage / 100 * parseFloat(temp);
                 $('#<%=txtPPN.ClientID %>').val(PPN).trigger('changeValue');
             }
@@ -330,27 +373,34 @@
                 $('#<%=txtPPN.ClientID %>').val('0').trigger('changeValue');
             var PPN = parseFloat($('#<%=txtPPN.ClientID %>').attr('hiddenVal'));
             var totalHarga = totalKotor + PPN;
-            $('#<%=txtTotalDirectPurchase.ClientID %>').val(totalHarga).trigger('changeValue');
+            var discountAmount = parseFloat($('#<%=txtFinalDiscountAmount.ClientID %>').attr('hiddenVal'));
+            if (totalHarga == 0)
+                $('#<%=txtFinalDiscountPercentage.ClientID %>').val(0);
+            else {
+                var discountPercentage = discountAmount * 100 / totalHarga;
+                $('#<%=txtFinalDiscountPercentage.ClientID %>').val(discountPercentage);
+            }
+            $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga - discountAmount).trigger('changeValue');
         }
 
         function calculateSubTotal() {
             var price = $('#<%=txtPrice.ClientID %>').attr('hiddenVal');
             var qty = $('#<%=txtQuantity.ClientID %>').val();
             var totalBeforeDisc = price * qty;
-            var discount = parseInt($('#<%=txtDiscount.ClientID %>').val());
-            var subTotal = totalBeforeDisc * (100 - discount) / 100;
-            $('#<%=txtSubTotalPrice.ClientID %>').val(subTotal).trigger('changeValue');
+            var discount = parseFloat($('#<%=txtDiscountAmount.ClientID %>').attr('hiddenVal'));
+            var subTotal = totalBeforeDisc - discount;
+            $('#<%=txtLineAmount.ClientID %>').val(subTotal).trigger('changeValue');
 
             var totalPurchase = lastTransactionAmount - editedLineAmount + subTotal;
-            $('#<%=txtTotalPurchase.ClientID %>').val(totalPurchase).trigger('changeValue');
+            $('#<%=txtTransactionAmount.ClientID %>').val(totalPurchase).trigger('changeValue');
             calculateTotal();
         }
 
         //#region cboItemUnit
         function onCboItemUnitEndCallBack() {
-            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') 
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
                 cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
-            else 
+            else
                 cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
             onCboItemUnitChanged();
         }
@@ -392,8 +442,8 @@
         //#endregion
 
         function onAfterSaveRecordDtSuccess(PurchaseID) {
-            if ($('#<%=hdnPurchaseID.ClientID %>').val() == '0') {
-                $('#<%=hdnPurchaseID.ClientID %>').val(PurchaseID);
+            if ($('#<%=hdnDirectPurchaseID.ClientID %>').val() == '0') {
+                $('#<%=hdnDirectPurchaseID.ClientID %>').val(PurchaseID);
                 var filterExpression = 'DirectPurchaseID = ' + PurchaseID;
                 Methods.getObject('GetDirectPurchaseHdList', filterExpression, function (result) {
                     $('#<%=txtDirectPurchaseNo.ClientID %>').val(result.DirectPurchaseNo);
@@ -404,7 +454,7 @@
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
-            
+
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
                 if (param[1] == 'fail')
@@ -427,13 +477,13 @@
         //#region Paging
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
-            
+
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
                 var rowCount = parseInt(param[2]);
                 var totalPurchase = parseInt(param[3]);
-                $('#<%=txtTotalPurchase.ClientID %>').val(totalPurchase).trigger('changeValue');
+                $('#<%=txtTransactionAmount.ClientID %>').val(totalPurchase).trigger('changeValue');
                 calculateTotal();
 
                 var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
@@ -447,10 +497,10 @@
         //#endregion
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
-           
+
         }
     </script>
-    <input type="hidden" value="" id="hdnPurchaseID" runat="server" />
+    <input type="hidden" value="" id="hdnDirectPurchaseID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />
     <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
@@ -532,7 +582,7 @@
                         </tr>
                         <tr>
                             <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
-                            <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                            <td><asp:TextBox ID="txtRemarks" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                         </tr>     
                     </table>
                 </td>
@@ -636,12 +686,25 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon %")%></label></td>
-                                                    <td><asp:TextBox ID="txtDiscount" value="0" CssClass="number" Width="180px" runat="server" /></td>
+                                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon")%></label></td>
+                                                    <td>
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <colgroup>
+                                                                <col style="width: 50px" />
+                                                                <col style="width: 3px" />
+                                                                <col style="width: 200px" />
+                                                            </colgroup>
+                                                            <tr>
+                                                                <td><asp:TextBox ID="txtDiscountPercentage" value="0" CssClass="number" Width="100%" runat="server" /></td>
+                                                                <td>&nbsp;[%]&nbsp;</td>
+                                                                <td><asp:TextBox ID="txtDiscountAmount" CssClass="txtCurrency" Width="100%" runat="server" /></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Harga")%></label></td>
-                                                    <td><asp:TextBox ID="txtSubTotalPrice" Width="180px" ReadOnly="true" runat="server" CssClass="txtCurrency" /></td>
+                                                    <td><asp:TextBox ID="txtLineAmount" Width="180px" ReadOnly="true" runat="server" CssClass="txtCurrency" /></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -668,11 +731,30 @@
                                             <Columns>
                                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="ItemName1" HeaderText="Item Name" HeaderStyle-Width="300px" />
-                                                <asp:BoundField DataField="CustomItemUnit" HeaderText="Jumlah Pembelian" HeaderStyle-Width="150px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
-                                                <asp:BoundField DataField="CustomUnitPrice" HeaderText="Harga / Satuan" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                                <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                                                    <ItemTemplate>
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="width:75px" align="right"><%#Eval("Quantity", "{0:N}")%></td>
+                                                                <td style="width:50px; color: Red;"><%#Eval("ItemUnit") %></td>
+                                                            </tr>
+                                                        </table>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Harga / Satuan" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                                                    <ItemTemplate>
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="width:90px" align="right"><%#Eval("UnitPrice", "{0:N}")%></td>
+                                                                <td>/</td>
+                                                                <td style="width:50px; color: Red;"><%#Eval("ItemUnit") %></td>
+                                                            </tr>
+                                                        </table>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" />
-                                                <asp:BoundField DataField="DiscountPercentage" HeaderText="Diskon %" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
-                                                <asp:BoundField DataField="CustomSubTotal" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="200px" DataFormatString="{0:N}" />
+                                                <asp:BoundField DataField="DiscountAmount" HeaderText="Diskon" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="150px" DataFormatString="{0:N}" />
+                                                <asp:BoundField DataField="LineAmount" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="150px" DataFormatString="{0:N}" />
                                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                     <ItemTemplate>
                                                         <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
@@ -691,10 +773,10 @@
                                                         <input type="hidden" value="<%#Eval("BaseUnit") %>" bindingfield="BaseUnit" />
                                                         <input type="hidden" value="<%#Eval("UnitPrice") %>" bindingfield="UnitPrice" />
                                                         <input type="hidden" value="<%#Eval("DiscountPercentage") %>" bindingfield="DiscountPercentage" />
+                                                        <input type="hidden" value="<%#Eval("DiscountAmount") %>" bindingfield="DiscountAmount" />
                                                         <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
                                                         <input type="hidden" value="<%#Eval("GCItemDetailStatus") %>" bindingfield="GCItemDetailStatus" />
-                                                        <input type="hidden" value="<%#Eval("CustomSubTotal") %>" bindingfield="CustomSubTotal" />
-                                                        <input type="hidden" value="<%#Eval("CustomDiscount") %>" bindingfield="CustomDiscount" />
+                                                        <input type="hidden" value="<%#Eval("LineAmount") %>" bindingfield="LineAmount" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -730,22 +812,32 @@
                                         <table style="width: 100%;">
                                             <colgroup>
                                                 <col style="width: 180px" />
+                                                <col style="width: 50px" />
                                                 <col style="width: 10px" />
                                             </colgroup>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jumlah Pembelian Tunai")%></label></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox ID="txtTotalPurchase" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox ID="txtTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("PPN")%> (<%=GetVATPercentageLabel()%>%)</label></td>
-                                                <td><asp:CheckBox ID="chkPPN" runat="server" /></td>
-                                                <td><asp:TextBox ID="txtPPN" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" hiddenVal="0"/></td>
+                                                <td>&nbsp;</td>
+                                                <td align="right"><asp:CheckBox ID="chkPPN" runat="server" /></td>
+                                                <td><asp:TextBox ID="txtPPN" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon Final")%></label></td>
+                                                <td><asp:TextBox ID="txtFinalDiscountPercentage" CssClass="number" Width="50px" runat="server" /></td>
+                                                <td>[%]</td>
+                                                <td><asp:TextBox ID="txtFinalDiscountAmount" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Pembelian Tunai")%></label></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox ID="txtTotalDirectPurchase" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
                                             </tr>
                                         </table>
                                     </td>

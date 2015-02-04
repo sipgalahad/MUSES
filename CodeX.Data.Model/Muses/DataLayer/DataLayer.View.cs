@@ -2131,6 +2131,8 @@ namespace CodeX.Data.Model
         private Decimal _ConversionFactor;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
+        private Decimal _DiscountAmount;
+        private Decimal _LineAmount;
         private String _GCItemDetailStatus;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -2295,6 +2297,18 @@ namespace CodeX.Data.Model
             get { return _DiscountPercentage; }
             set { _DiscountPercentage = value; }
         }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
+        }
         [Column(Name = "GCItemDetailStatus", DataType = "String")]
         public String GCItemDetailStatus
         {
@@ -2325,6 +2339,9 @@ namespace CodeX.Data.Model
         private Boolean _IsIncludeVAT;
         private Decimal _TransactionAmount;
         private Decimal _VATPercentage;
+        private Decimal _VATAmount;
+        private Decimal _FinalDiscountAmount;
+        private Decimal _TotalNetTransactionAmount;
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _TransactionStatusWatermark;
@@ -2432,6 +2449,24 @@ namespace CodeX.Data.Model
         {
             get { return _VATPercentage; }
             set { _VATPercentage = value; }
+        }
+        [Column(Name = "VATAmount", DataType = "Decimal")]
+        public Decimal VATAmount
+        {
+            get { return _VATAmount; }
+            set { _VATAmount = value; }
+        }
+        [Column(Name = "FinalDiscountAmount", DataType = "Decimal")]
+        public Decimal FinalDiscountAmount
+        {
+            get { return _FinalDiscountAmount; }
+            set { _FinalDiscountAmount = value; }
+        }
+        [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalNetTransactionAmount
+        {
+            get { return _TotalNetTransactionAmount; }
+            set { _TotalNetTransactionAmount = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

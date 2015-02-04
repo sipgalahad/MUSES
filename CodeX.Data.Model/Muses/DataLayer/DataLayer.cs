@@ -4018,7 +4018,7 @@ namespace CodeX.Data.Model
     #region DirectPurchaseDt
     [Serializable]
     [Table(Name = "DirectPurchaseDt")]
-    public partial class DirectPurchaseDt : DbDataModel
+    public class DirectPurchaseDt : DbDataModel
     {
         private Int32 _ID;
         private Int32 _DirectPurchaseID;
@@ -4029,6 +4029,8 @@ namespace CodeX.Data.Model
         private Decimal _ConversionFactor;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage;
+        private Decimal _DiscountAmount;
+        private Decimal _LineAmount;
         private Boolean _IsControlExpired;
         private String _GCItemDetailStatus;
         private Int32 _CreatedBy;
@@ -4089,6 +4091,18 @@ namespace CodeX.Data.Model
         {
             get { return _DiscountPercentage; }
             set { _DiscountPercentage = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
         }
         [Column(Name = "IsControlExpired", DataType = "Boolean")]
         public Boolean IsControlExpired
@@ -4186,6 +4200,9 @@ namespace CodeX.Data.Model
         private Boolean _IsIncludeVAT;
         private Decimal _TransactionAmount;
         private Decimal _VATPercentage;
+        private Decimal _VATAmount;
+        private Decimal _FinalDiscountAmount;
+        private Decimal _TotalNetTransactionAmount;
         private String _Remarks;
         private String _GCTransactionStatus;
         private Boolean _IsHasPurchaseReturn;
@@ -4261,7 +4278,25 @@ namespace CodeX.Data.Model
             get { return _VATPercentage; }
             set { _VATPercentage = value; }
         }
-        [Column(Name = "Remarks", DataType = "String")]
+        [Column(Name = "VATAmount", DataType = "Decimal")]
+        public Decimal VATAmount
+        {
+            get { return _VATAmount; }
+            set { _VATAmount = value; }
+        }
+        [Column(Name = "FinalDiscountAmount", DataType = "Decimal")]
+        public Decimal FinalDiscountAmount
+        {
+            get { return _FinalDiscountAmount; }
+            set { _FinalDiscountAmount = value; }
+        }
+        [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalNetTransactionAmount
+        {
+            get { return _TotalNetTransactionAmount; }
+            set { _TotalNetTransactionAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
         {
             get { return _Remarks; }

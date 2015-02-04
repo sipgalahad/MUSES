@@ -50,6 +50,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtItemCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtPrice, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDiscountPercentage, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDiscountAmount, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected string GetVATPercentageLabel()
@@ -64,7 +67,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         protected string OnGetFilterExpressionItemProduct()
         {
-            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+            return string.Format("IsDeleted = 0");
         }
         protected string OnGetFilterExpressionSupplier()
         {
@@ -81,20 +84,26 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(hdnPurchaseID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(hdnDirectPurchaseID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtDirectPurchaseNo, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtDirectPurchaseDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
-            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, true, false));
-            
-            SetControlEntrySetting(txtDiscount, new ControlEntrySetting(true, true, true, "0"));
-            SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
-            SetControlEntrySetting(txtTotalPurchase, new ControlEntrySetting(false, false, true, "0"));
-            SetControlEntrySetting(txtTotalDirectPurchase, new ControlEntrySetting(false, false, true, "0"));
-            SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
-            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
             SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, false));
+
+            SetControlEntrySetting(cboDirectPurchaseType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, false, false));
+            SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, false, false));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, false, false));
+
+            SetControlEntrySetting(txtTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
+            SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountPercentage, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountAmount, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtTotalNetTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
         }
 
         #region Load Entity
@@ -147,7 +156,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             else
                 hdnIsEditable.Value = "1";
             hdnGCTransactionStatus.Value = entity.GCTransactionStatus;
-            hdnPurchaseID.Value = entity.DirectPurchaseID.ToString();
+            hdnDirectPurchaseID.Value = entity.DirectPurchaseID.ToString();
             txtDirectPurchaseNo.Text = entity.DirectPurchaseNo;
             txtDirectPurchaseDate.Text = entity.PurchaseDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             if (entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) != "01-01-1900")
@@ -161,9 +170,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtLocationCode.Text = entity.LocationCode;
             txtLocationName.Text = entity.LocationName;
             cboDirectPurchaseType.Value = entity.GCDirectPurchaseType;
-            txtNotes.Text = entity.Remarks;
+            txtRemarks.Text = entity.Remarks;
             chkPPN.Checked = entity.IsIncludeVAT;
-            txtTotalPurchase.Text = entity.TransactionAmount.ToString();
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscountPercentage.Text = (entity.FinalDiscountAmount * 100 / (entity.TransactionAmount + entity.VATAmount)).ToString();
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
@@ -174,16 +185,16 @@ namespace CodeX.Muses.Web.Inventory.Program
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount, ref decimal transactionAmount)
         {
             string filterExpression = "1 = 0";
-            if (hdnPurchaseID.Value != "" && hdnPurchaseID.Value != "0")
-                filterExpression = string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseID.Value, Constant.TransactionStatus.VOID);
-            
+            if (hdnDirectPurchaseID.Value != "" && hdnDirectPurchaseID.Value != "0")
+                filterExpression = string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID);
+
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvDirectPurchaseDtRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
             if (transactionAmount > -1)
-                transactionAmount = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnPurchaseID.Value)).TransactionAmount;
+                transactionAmount = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnDirectPurchaseID.Value)).TransactionAmount;
             List<vDirectPurchaseDt> lstEntity = BusinessLayer.GetvDirectPurchaseDtList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ItemName1 ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
@@ -198,19 +209,22 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
             entityHd.GCDirectPurchaseType = cboDirectPurchaseType.Value.ToString();
             entityHd.BusinessPartnerID = Convert.ToInt32(hdnSupplierID.Value);
-            entityHd.Remarks = txtNotes.Text;
+            entityHd.Remarks = txtRemarks.Text;
             entityHd.IsIncludeVAT = chkPPN.Checked;
             if (entityHd.IsIncludeVAT)
                 entityHd.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
             else
                 entityHd.VATPercentage = 0;
+            entityHd.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
+            entityHd.FinalDiscountAmount = Convert.ToDecimal(txtFinalDiscountAmount.Text);
             entityHd.LocationID = Convert.ToInt32(hdnLocationID.Value);
+            entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount;
         }
 
         public void SaveDirectPurchaseHd(IDbContext ctx, ref int DirectPurchaseID)
         {
             DirectPurchaseHdDao entityHdDao = new DirectPurchaseHdDao(ctx);
-            if (hdnPurchaseID.Value == "0")
+            if (hdnDirectPurchaseID.Value == "0")
             {
                 DirectPurchaseHd entityHd = new DirectPurchaseHd();
                 ControlToEntity(entityHd);
@@ -224,7 +238,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else
             {
-                DirectPurchaseID = Convert.ToInt32(hdnPurchaseID.Value);
+                DirectPurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
+                DirectPurchaseHd entityHd = entityHdDao.Get(DirectPurchaseID);
+                ControlToEntity(entityHd);
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Update(entityHd);
             }
         }
 
@@ -258,7 +276,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             try
             {
-                DirectPurchaseHd entity = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnPurchaseID.Value));
+                DirectPurchaseHd entity = BusinessLayer.GetDirectPurchaseHd(Convert.ToInt32(hdnDirectPurchaseID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateDirectPurchaseHd(entity);
@@ -280,10 +298,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseDtDao directPurchaseDtDao = new DirectPurchaseDtDao(ctx);
             try
             {
-                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnPurchaseID.Value));
+                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
                 ControlToEntity(entity);
                 entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
+                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseDt entityDt in lstEntity)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
@@ -316,10 +334,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseDtDao directPurchaseDtDao = new DirectPurchaseDtDao(ctx);
             try
             {
-                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnPurchaseID.Value));
+                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
                 ControlToEntity(entity);
                 entity.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
+                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseDt entityDt in lstEntity)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
@@ -352,11 +370,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseDtDao directPurchaseDtDao = new DirectPurchaseDtDao(ctx);
             try
             {
-                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnPurchaseID.Value));
+                DirectPurchaseHd entity = directPurchaseHdDao.Get(Convert.ToInt32(hdnDirectPurchaseID.Value));
                 entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
+                List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseDt entityDt in lstEntity)
-                {                    
+                {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     directPurchaseDtDao.Update(entityDt);
@@ -392,7 +410,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 if (hdnEntryID.Value.ToString() != "")
                 {
-                    PurchaseID = Convert.ToInt32(hdnPurchaseID.Value);
+                    PurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
                     if (OnSaveEditRecordEntityDt(ref errMessage))
                         result += "success";
                     else
@@ -408,7 +426,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else if (param[0] == "delete")
             {
-                PurchaseID = Convert.ToInt32(hdnPurchaseID.Value);
+                PurchaseID = Convert.ToInt32(hdnDirectPurchaseID.Value);
                 if (OnDeleteEntityDt(ref errMessage, PurchaseID))
                     result += "success";
                 else
@@ -428,9 +446,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
-            entityDt.DiscountPercentage = Convert.ToDecimal(txtDiscount.Text);
-            entityDt.IsControlExpired = false; //butuh ditanyakan
-            entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+            entityDt.DiscountPercentage = Convert.ToDecimal(txtDiscountPercentage.Text);
+            entityDt.DiscountAmount = Convert.ToDecimal(txtDiscountAmount.Text);
+            entityDt.IsControlExpired = false;
+            entityDt.LineAmount = Convert.ToDecimal(Request.Form[txtLineAmount.UniqueID]);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int DirectPurchaseID)
@@ -443,6 +462,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 SaveDirectPurchaseHd(ctx, ref DirectPurchaseID);
                 DirectPurchaseDt entityDt = new DirectPurchaseDt();
                 ControlToEntity(entityDt);
+                entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                 entityDt.DirectPurchaseID = DirectPurchaseID;
                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Insert(entityDt);
@@ -460,7 +480,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Close();
             }
             return result;
-            
+
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
@@ -470,6 +490,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             DirectPurchaseDtDao entityDtDao = new DirectPurchaseDtDao(ctx);
             try
             {
+                int DirectPurchaseID = 0;
+                SaveDirectPurchaseHd(ctx, ref DirectPurchaseID);
                 DirectPurchaseDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entityDt);
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
@@ -499,7 +521,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 DirectPurchaseDt entityDt = entityDtDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                //entityDt.IsDeleted = true;
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Update(entityDt);
                 ctx.CommitTransaction();

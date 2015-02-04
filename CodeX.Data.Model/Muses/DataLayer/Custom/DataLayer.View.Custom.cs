@@ -109,24 +109,6 @@ namespace CodeX.Data.Model
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {
-        public Decimal CustomSubTotal
-        {
-            get
-            {
-                Decimal total = _Quantity * _UnitPrice;
-                total = total - (total * _DiscountPercentage / 100);
-                return total;
-            }
-        }
-
-        public Decimal CustomDiscount
-        {
-            get
-            {
-                return (_Quantity * _UnitPrice) * _DiscountPercentage / 100;
-            }
-        }
-
         public Boolean IsAllowEditItem
         {
             get
@@ -158,21 +140,6 @@ namespace CodeX.Data.Model
                 return UnitPrice.ToString("N") + " / " + _ItemUnit;
             }
         }
-
-        public Decimal CustomTotalDiscount
-        {
-            get
-            {
-                return (Quantity * UnitPrice * ConversionFactor) - CustomSubTotal;
-            }
-        }
-        //public String CustomQtyRemaining
-        //{
-        //    get
-        //    {
-        //        return string.Format("{0:N}", (_Quantity - _ReceivedQuantity));
-        //    }
-        //}
     }
     #endregion
     #region vDirectPurchaseHd
