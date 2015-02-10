@@ -313,7 +313,7 @@ namespace CodeX.Web.CommonLibs.Program
                 if (prop == null)
                     throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, dataSourceHd));
                 var fieldValue = prop.GetValue(entityHd, null).ToString();
-                templateText = templateText.Replace("{" + columnName + "}", fieldValue);
+                templateText = templateText.Replace("{" + columnName + "}", Server.HtmlDecode(fieldValue));
             }
             return templateText;
         }

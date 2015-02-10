@@ -81,6 +81,11 @@ input[type="checkbox"][disabled="disabled"] {
 .dxpcContent .grdView   { font-size:12px; }
 /* #endregion */ 
 
+/* #region Calendar */      
+.specialDate a.ui-state-default       { background: red !important; color: #FFF; }
+.specialDate a.ui-state-hover         { background: red !important; }   
+/* #endregion */
+
 /* #region Left Pane */
 .leftPane                { display:none;background-color: White; border: 1px solid black; color: White; z-index: 10002; position: fixed; top:45px; left: 5px; }
 .leftPane ul li          { border:3px solid white; cursor: pointer; margin: 0 10px 10px 0; text-align: center; width: 120px; display: inline-block; padding: 0.2em 0; list-style-type: none; font-size: 10px; padding: 5px; }
