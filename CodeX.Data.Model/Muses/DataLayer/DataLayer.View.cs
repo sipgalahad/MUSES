@@ -19995,6 +19995,191 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacherMark
+    [Serializable]
+    [Table(Name = "vTeacherMark")]
+    public partial class vTeacherMark
+    {
+        private Int32 _TeacherMarkID;
+        private Int32 _SchoolPeriodID;
+        private String _SchoolPeriodName;
+        private Int32 _PeriodSectionID;
+        private String _PeriodSectionName;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _PeriodNo;
+        private Int32 _FinalMark;
+        private String _FinalMarkInString;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TeacherMarkID", DataType = "Int32")]
+        public Int32 TeacherMarkID
+        {
+            get { return _TeacherMarkID; }
+            set { _TeacherMarkID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
+        {
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "PeriodNo", DataType = "String")]
+        public String PeriodNo
+        {
+            get { return _PeriodNo; }
+            set { _PeriodNo = value; }
+        }
+        [Column(Name = "FinalMark", DataType = "Int32")]
+        public Int32 FinalMark
+        {
+            get { return _FinalMark; }
+            set { _FinalMark = value; }
+        }
+        [Column(Name = "FinalMarkInString", DataType = "String")]
+        public String FinalMarkInString
+        {
+            get { return _FinalMarkInString; }
+            set { _FinalMarkInString = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vTeacherMarkTypeGroup
+    [Serializable]
+    [Table(Name = "vTeacherMarkTypeGroup")]
+    public class vTeacherMarkTypeGroup
+    {
+        private Int32 _TeacherMarkTypeGroupID;
+        private String _SiteID;
+        private String _SiteName;
+        private String _TeacherMarkTypeGroupName;
+        private Int32 _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeGroupID
+        {
+            get { return _TeacherMarkTypeGroupID; }
+            set { _TeacherMarkTypeGroupID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "TeacherMarkTypeGroupName", DataType = "Int32")]
+        public String TeacherMarkTypeGroupName
+        {
+            get { return _TeacherMarkTypeGroupName; }
+            set { _TeacherMarkTypeGroupName = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int32")]
+        public Int32 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vTeacherMarkTypeItem
+    [Serializable]
+    [Table(Name = "vTeacherMarkTypeItem")]
+    public class vTeacherMarkTypeItem
+    {
+        private Int32 _TeacherMarkTypeItemID;
+        private Int32 _TeacherMarkTypeGroupID;
+        private String _TeacherMarkTypeGroupName;
+        private String _TeacherMarkTypeItemName;
+        private Int32 _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TeacherMarkTypeItemID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeItemID
+        {
+            get { return _TeacherMarkTypeItemID; }
+            set { _TeacherMarkTypeItemID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeGroupID
+        {
+            get { return _TeacherMarkTypeGroupID; }
+            set { _TeacherMarkTypeGroupID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeGroupName", DataType = "Int32")]
+        public String TeacherMarkTypeGroupName
+        {
+            get { return _TeacherMarkTypeGroupName; }
+            set { _TeacherMarkTypeGroupName = value; }
+        }
+        [Column(Name = "TeacherMarkTypeItemName", DataType = "Int32")]
+        public String TeacherMarkTypeItemName
+        {
+            get { return _TeacherMarkTypeItemName; }
+            set { _TeacherMarkTypeItemName = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int32")]
+        public Int32 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vTeacherSchedule
     [Serializable]
     [Table(Name = "vTeacherSchedule")]

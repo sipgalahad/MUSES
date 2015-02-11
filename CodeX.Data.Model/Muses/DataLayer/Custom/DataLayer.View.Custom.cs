@@ -1834,4 +1834,23 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacherMark
+    public partial class vTeacherMark 
+    {
+        public string StartDateInDatePickerFormat
+        {
+            get
+            {
+                return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+        public string EndDateInDatePickerFormat
+        {
+            get
+            {
+                return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            }
+        }
+    }
+    #endregion
 }

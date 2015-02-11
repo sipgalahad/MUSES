@@ -584,6 +584,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region School Period -->
+  <searchdialog type="schoolperiod" methodname="GetvSchoolPeriodList" keyfieldname="SchoolPeriodCode" orderbyexpression="SchoolPeriodName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SchoolPeriodCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="SchoolPeriodName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SchoolPeriodCode" headertext="Nama" description="" />
+      <intellisensetext datafield="SchoolPeriodName" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Site -->
   <searchdialog type="site" methodname="GetvSiteList" keyfieldname="SiteID" istreeview="1">
     <gridcolumns>
@@ -718,6 +730,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Teacher Mark Type Group -->
+  <searchdialog type="teachermarktypegroup" methodname="GetvTeacherMarkTypeGroupList" keyfieldname="TeacherMarkTypeGroupID" orderbyexpression="TeacherMarkTypeGroupName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="TeacherMarkTypeGroupName" headertext="Nama" width="300px" />
+      <gridcolumn datafield="FinalMarkPercentage" headertext="Nilai" width="50px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TeacherMarkTypeGroupName" headertext="Nama" description="" />
+      <intellisensetext datafield="FinalMarkPercentage" headertext="Nilai" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Teacher Subject -->
   <searchdialog type="teachersubject" methodname="GetvTeacherSubjectList" keyfieldname="TeacherCode" orderbyexpression="TeacherName ASC">
     <gridcolumns>
@@ -730,6 +754,8 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  
+  
   <!-- #Region User-->
   <searchdialog type="user" methodname="GetvUserList" keyfieldname="UserID">
     <gridcolums>

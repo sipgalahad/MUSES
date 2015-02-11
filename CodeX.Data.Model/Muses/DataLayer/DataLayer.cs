@@ -21646,6 +21646,599 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TeacherMark
+    [Serializable]
+    [Table(Name = "TeacherMark")]
+    public class TeacherMark : DbDataModel
+    {
+        private Int32 _TeacherMarkID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _PeriodSectionID;
+        private String _PeriodNo;
+        private Int32 _FinalMark;
+        private String _FinalMarkInString;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherMarkID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherMarkID
+        {
+            get { return _TeacherMarkID; }
+            set { _TeacherMarkID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "PeriodNo", DataType = "String")]
+        public String PeriodNo
+        {
+            get { return _PeriodNo; }
+            set { _PeriodNo = value; }
+        }
+        [Column(Name = "FinalMark", DataType = "Int32")]
+        public Int32 FinalMark
+        {
+            get { return _FinalMark; }
+            set { _FinalMark = value; }
+        }
+        [Column(Name = "FinalMarkInString", DataType = "String")]
+        public String FinalMarkInString
+        {
+            get { return _FinalMarkInString; }
+            set { _FinalMarkInString = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherMark));
+        private bool _isAuditLog = false;
+        private const string p_TeacherMarkID = "@p_TeacherMarkID";
+        public TeacherMarkDao() { }
+        public TeacherMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherMark Get(Int32 TeacherMarkID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherMarkID, TeacherMarkID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherMark)_helper.DataRowToObject(row, new TeacherMark());
+        }
+        public int Insert(TeacherMark record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherMark record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherMarkID)
+        {
+            TeacherMark record;
+            if (_ctx.Transaction == null)
+                record = new TeacherMarkDao().Get(TeacherMarkID);
+            else
+                record = Get(TeacherMarkID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherMarkGroup
+    [Serializable]
+    [Table(Name = "TeacherMarkGroup")]
+    public class TeacherMarkGroup : DbDataModel
+    {
+        private Int32 _TeacherMarkGroupID;
+        private Int32 _TeacherMarkID;
+        private Int32 _TeacherMarkTypeGroupID;
+        private Int32 _Mark;
+        private String _MarkInString;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherMarkGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherMarkGroupID
+        {
+            get { return _TeacherMarkGroupID; }
+            set { _TeacherMarkGroupID = value; }
+        }
+        [Column(Name = "TeacherMarkID", DataType = "Int32")]
+        public Int32 TeacherMarkID
+        {
+            get { return _TeacherMarkID; }
+            set { _TeacherMarkID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeGroupID
+        {
+            get { return _TeacherMarkTypeGroupID; }
+            set { _TeacherMarkTypeGroupID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Int32")]
+        public Int32 Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "MarkInString", DataType = "String")]
+        public String MarkInString
+        {
+            get { return _MarkInString; }
+            set { _MarkInString = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherMarkGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherMarkGroup));
+        private bool _isAuditLog = false;
+        private const string p_TeacherMarkGroupID = "@p_TeacherMarkGroupID";
+        public TeacherMarkGroupDao() { }
+        public TeacherMarkGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherMarkGroup Get(Int32 TeacherMarkGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherMarkGroupID, TeacherMarkGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherMarkGroup)_helper.DataRowToObject(row, new TeacherMarkGroup());
+        }
+        public int Insert(TeacherMarkGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherMarkGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherMarkGroupID)
+        {
+            TeacherMarkGroup record;
+            if (_ctx.Transaction == null)
+                record = new TeacherMarkGroupDao().Get(TeacherMarkGroupID);
+            else
+                record = Get(TeacherMarkGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherMarkItem
+    [Serializable]
+    [Table(Name = "TeacherMarkItem")]
+    public class TeacherMarkItem : DbDataModel
+    {
+        private Int32 _TeacherMarkItemID;
+        private Int32 _TeacherMarkGroupID;
+        private Int32 _TeacherMarkTypeItemID;
+        private Int32 _Mark;
+        private String _MarkInString;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherMarkItemID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherMarkItemID
+        {
+            get { return _TeacherMarkItemID; }
+            set { _TeacherMarkItemID = value; }
+        }
+        [Column(Name = "TeacherMarkGroupID", DataType = "Int32")]
+        public Int32 TeacherMarkGroupID
+        {
+            get { return _TeacherMarkGroupID; }
+            set { _TeacherMarkGroupID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeItemID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeItemID
+        {
+            get { return _TeacherMarkTypeItemID; }
+            set { _TeacherMarkTypeItemID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Int32")]
+        public Int32 Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "MarkInString", DataType = "String")]
+        public String MarkInString
+        {
+            get { return _MarkInString; }
+            set { _MarkInString = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherMarkItemDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherMarkItem));
+        private bool _isAuditLog = false;
+        private const string p_TeacherMarkItemID = "@p_TeacherMarkItemID";
+        public TeacherMarkItemDao() { }
+        public TeacherMarkItemDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherMarkItem Get(Int32 TeacherMarkItemID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherMarkItemID, TeacherMarkItemID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherMarkItem)_helper.DataRowToObject(row, new TeacherMarkItem());
+        }
+        public int Insert(TeacherMarkItem record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherMarkItem record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherMarkItemID)
+        {
+            TeacherMarkItem record;
+            if (_ctx.Transaction == null)
+                record = new TeacherMarkItemDao().Get(TeacherMarkItemID);
+            else
+                record = Get(TeacherMarkItemID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherMarkTypeGroup
+    [Serializable]
+    [Table(Name = "TeacherMarkTypeGroup")]
+    public class TeacherMarkTypeGroup : DbDataModel
+    {
+        private Int32 _TeacherMarkTypeGroupID;
+        private String _SiteID;
+        private String _TeacherMarkTypeGroupName;
+        private Int32 _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherMarkTypeGroupID
+        {
+            get { return _TeacherMarkTypeGroupID; }
+            set { _TeacherMarkTypeGroupID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeGroupName", DataType = "Int32")]
+        public String TeacherMarkTypeGroupName
+        {
+            get { return _TeacherMarkTypeGroupName; }
+            set { _TeacherMarkTypeGroupName = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int32")]
+        public Int32 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherMarkTypeGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+        private bool _isAuditLog = false;
+        private const string p_TeacherMarkTypeGroupID = "@p_TeacherMarkTypeGroupID";
+        public TeacherMarkTypeGroupDao() { }
+        public TeacherMarkTypeGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherMarkTypeGroup Get(Int32 TeacherMarkTypeGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherMarkTypeGroupID, TeacherMarkTypeGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherMarkTypeGroup)_helper.DataRowToObject(row, new TeacherMarkTypeGroup());
+        }
+        public int Insert(TeacherMarkTypeGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherMarkTypeGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherMarkTypeGroupID)
+        {
+            TeacherMarkTypeGroup record;
+            if (_ctx.Transaction == null)
+                record = new TeacherMarkTypeGroupDao().Get(TeacherMarkTypeGroupID);
+            else
+                record = Get(TeacherMarkTypeGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherMarkTypeItem
+    [Serializable]
+    [Table(Name = "TeacherMarkTypeItem")]
+    public class TeacherMarkTypeItem : DbDataModel
+    {
+        private Int32 _TeacherMarkTypeItemID;
+        private Int32 _TeacherMarkTypeGroupID;
+        private String _TeacherMarkTypeItemName;
+        private Int32 _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherMarkTypeItemID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherMarkTypeItemID
+        {
+            get { return _TeacherMarkTypeItemID; }
+            set { _TeacherMarkTypeItemID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeGroupID
+        {
+            get { return _TeacherMarkTypeGroupID; }
+            set { _TeacherMarkTypeGroupID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeItemName", DataType = "Int32")]
+        public String TeacherMarkTypeItemName
+        {
+            get { return _TeacherMarkTypeItemName; }
+            set { _TeacherMarkTypeItemName = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int32")]
+        public Int32 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherMarkTypeItemDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherMarkTypeItem));
+        private bool _isAuditLog = false;
+        private const string p_TeacherMarkTypeItemID = "@p_TeacherMarkTypeItemID";
+        public TeacherMarkTypeItemDao() { }
+        public TeacherMarkTypeItemDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherMarkTypeItem Get(Int32 TeacherMarkTypeItemID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherMarkTypeItemID, TeacherMarkTypeItemID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherMarkTypeItem)_helper.DataRowToObject(row, new TeacherMarkTypeItem());
+        }
+        public int Insert(TeacherMarkTypeItem record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherMarkTypeItem record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherMarkTypeItemID)
+        {
+            TeacherMarkTypeItem record;
+            if (_ctx.Transaction == null)
+                record = new TeacherMarkTypeItemDao().Get(TeacherMarkTypeItemID);
+            else
+                record = Get(TeacherMarkTypeItemID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TeacherSchedule
     [Serializable]
     [Table(Name = "TeacherSchedule")]

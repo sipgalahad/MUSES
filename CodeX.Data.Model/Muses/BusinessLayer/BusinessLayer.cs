@@ -10029,6 +10029,238 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TeacherMark
+        public static TeacherMark GetTeacherMark(Int32 TeacherMarkID)
+        {
+            return new TeacherMarkDao().Get(TeacherMarkID);
+        }
+        public static int InsertTeacherMark(TeacherMark record)
+        {
+            return new TeacherMarkDao().Insert(record);
+        }
+        public static int UpdateTeacherMark(TeacherMark record)
+        {
+            return new TeacherMarkDao().Update(record);
+        }
+        public static int DeleteTeacherMark(Int32 TeacherMarkID)
+        {
+            return new TeacherMarkDao().Delete(TeacherMarkID);
+        }
+        public static List<TeacherMark> GetTeacherMarkList(string filterExpression)
+        {
+            List<TeacherMark> result = new List<TeacherMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMark)helper.IDataReaderToObject(reader, new TeacherMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeacherMarkMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMark));
+                ctx.CommandText = helper.SelectMaxColumn("TeacherMarkID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherMarkGroup
+        public static TeacherMarkGroup GetTeacherMarkGroup(Int32 TeacherMarkGroupID)
+        {
+            return new TeacherMarkGroupDao().Get(TeacherMarkGroupID);
+        }
+        public static int InsertTeacherMarkGroup(TeacherMarkGroup record)
+        {
+            return new TeacherMarkGroupDao().Insert(record);
+        }
+        public static int UpdateTeacherMarkGroup(TeacherMarkGroup record)
+        {
+            return new TeacherMarkGroupDao().Update(record);
+        }
+        public static int DeleteTeacherMarkGroup(Int32 TeacherMarkGroupID)
+        {
+            return new TeacherMarkGroupDao().Delete(TeacherMarkGroupID);
+        }
+        public static List<TeacherMarkGroup> GetTeacherMarkGroupList(string filterExpression)
+        {
+            List<TeacherMarkGroup> result = new List<TeacherMarkGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkGroup)helper.IDataReaderToObject(reader, new TeacherMarkGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeacherMarkTypeGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkGroup));
+                ctx.CommandText = helper.SelectMaxColumn("TeacherMarkGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherMarkItem
+        public static TeacherMarkItem GetTeacherMarkItem(Int32 TeacherMarkItemID)
+        {
+            return new TeacherMarkItemDao().Get(TeacherMarkItemID);
+        }
+        public static int InsertTeacherMarkItem(TeacherMarkItem record)
+        {
+            return new TeacherMarkItemDao().Insert(record);
+        }
+        public static int UpdateTeacherMarkItem(TeacherMarkItem record)
+        {
+            return new TeacherMarkItemDao().Update(record);
+        }
+        public static int DeleteTeacherMarkItem(Int32 TeacherMarkItemID)
+        {
+            return new TeacherMarkItemDao().Delete(TeacherMarkItemID);
+        }
+        public static List<TeacherMarkItem> GetTeacherMarkItemList(string filterExpression)
+        {
+            List<TeacherMarkItem> result = new List<TeacherMarkItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkItem)helper.IDataReaderToObject(reader, new TeacherMarkItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherMarkTypeGroup
+        public static TeacherMarkTypeGroup GetTeacherMarkTypeGroup(Int32 TeacherMarkTypeGroupID)
+        {
+            return new TeacherMarkTypeGroupDao().Get(TeacherMarkTypeGroupID);
+        }
+        public static int InsertTeacherMarkTypeGroup(TeacherMarkTypeGroup record)
+        {
+            return new TeacherMarkTypeGroupDao().Insert(record);
+        }
+        public static int UpdateTeacherMarkTypeGroup(TeacherMarkTypeGroup record)
+        {
+            return new TeacherMarkTypeGroupDao().Update(record);
+        }
+        public static int DeleteTeacherMarkTypeGroup(Int32 TeacherMarkTypeGroupID)
+        {
+            return new TeacherMarkTypeGroupDao().Delete(TeacherMarkTypeGroupID);
+        }
+        public static List<TeacherMarkTypeGroup> GetTeacherMarkTypeGroupList(string filterExpression)
+        {
+            List<TeacherMarkTypeGroup> result = new List<TeacherMarkTypeGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkTypeGroup)helper.IDataReaderToObject(reader, new TeacherMarkTypeGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherMarkTypeItem
+        public static TeacherMarkTypeItem GetTeacherMarkTypeItem(Int32 TeacherMarkTypeItemID)
+        {
+            return new TeacherMarkTypeItemDao().Get(TeacherMarkTypeItemID);
+        }
+        public static int InsertTeacherMarkTypeItem(TeacherMarkTypeItem record)
+        {
+            return new TeacherMarkTypeItemDao().Insert(record);
+        }
+        public static int UpdateTeacherMarkTypeItem(TeacherMarkTypeItem record)
+        {
+            return new TeacherMarkTypeItemDao().Update(record);
+        }
+        public static int DeleteTeacherMarkTypeItem(Int32 TeacherMarkTypeItemID)
+        {
+            return new TeacherMarkTypeItemDao().Delete(TeacherMarkTypeItemID);
+        }
+        public static List<TeacherMarkTypeItem> GetTeacherMarkTypeItemList(string filterExpression)
+        {
+            List<TeacherMarkTypeItem> result = new List<TeacherMarkTypeItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkTypeItem)helper.IDataReaderToObject(reader, new TeacherMarkTypeItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region TeacherSchedule
         public static TeacherSchedule GetTeacherSchedule(Int32 TeacherScheduleID)
         {
