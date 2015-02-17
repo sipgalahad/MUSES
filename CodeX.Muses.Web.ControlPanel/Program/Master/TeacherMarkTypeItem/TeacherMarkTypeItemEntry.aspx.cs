@@ -114,7 +114,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.IsDeleted = false;
                 entity.LastUpdatedBy = entity.CreatedBy = AppSession.UserLogin.UserID;
                 teacherMarkDao.Insert(entity);
-                retval = BusinessLayer.GetTeacherMarkMaxID(ctx).ToString();
+                //retval = BusinessLayer.GetTeacherMarkMaxID(ctx).ToString();
                 ctx.CommitTransaction();
                 result = true;
             }

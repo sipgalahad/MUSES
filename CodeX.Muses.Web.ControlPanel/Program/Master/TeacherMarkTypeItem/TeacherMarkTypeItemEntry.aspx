@@ -56,7 +56,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Dimensi")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Sub Dimensi")%></label></td>
                         <td><asp:TextBox runat="server" ID="txtTeacherMarkTypeItemName" /></td>
                     </tr>
                     <tr>
