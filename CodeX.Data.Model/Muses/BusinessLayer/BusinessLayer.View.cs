@@ -8099,6 +8099,54 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTeacherMarkGroup
+        public static List<vTeacherMarkGroup> GetvTeacherMarkGroupList(string filterExpression)
+        {
+            List<vTeacherMarkGroup> result = new List<vTeacherMarkGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherMarkGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherMarkGroup)helper.IDataReaderToObject(reader, new vTeacherMarkGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTeacherMarkItem
+        public static List<vTeacherMarkItem> GetvTeacherMarkItemList(string filterExpression)
+        {
+            List<vTeacherMarkItem> result = new List<vTeacherMarkItem>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherMarkItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherMarkItem)helper.IDataReaderToObject(reader, new vTeacherMarkItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTeacherMarkTypeGroup
         public static List<vTeacherMarkTypeGroup> GetvTeacherMarkTypeGroupList(string filterExpression)
         {

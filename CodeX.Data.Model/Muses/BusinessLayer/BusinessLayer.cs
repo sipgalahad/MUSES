@@ -8369,6 +8369,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SchoolPeriod> GetSchoolPeriodList(string filterExpression, IDbContext ctx)
+        {
+            List<SchoolPeriod> result = new List<SchoolPeriod>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolPeriod));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolPeriod)helper.IDataReaderToObject(reader, new SchoolPeriod()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetSchoolPeriodRowCount(string filterExpression)
         {
             Int32 result = 0;
@@ -10068,6 +10085,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<TeacherMark> GetTeacherMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<TeacherMark> result = new List<TeacherMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMark)helper.IDataReaderToObject(reader, new TeacherMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetTeacherMarkMaxID(IDbContext ctx)
         {
             Int32 result = 0;
@@ -10124,7 +10158,7 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static Int32 GetTeacherMarkTypeGroupMaxID(IDbContext ctx)
+        public static Int32 GetTeacherMarkGroupMaxID(IDbContext ctx)
         {
             Int32 result = 0;
             try
@@ -10220,6 +10254,40 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<TeacherMarkTypeGroup> GetTeacherMarkTypeGroupList(string filterExpression,IDbContext ctx)
+        {
+            List<TeacherMarkTypeGroup> result = new List<TeacherMarkTypeGroup>();
+            
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkTypeGroup)helper.IDataReaderToObject(reader, new TeacherMarkTypeGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetTeacherMarkTypeGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+                ctx.CommandText = helper.SelectMaxColumn("TeacherMarkTypeGroup");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region TeacherMarkTypeItem
         public static TeacherMarkTypeItem GetTeacherMarkTypeItem(Int32 TeacherMarkTypeItemID)
@@ -10257,6 +10325,23 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static List<TeacherMarkTypeItem> GetTeacherMarkTypeItemList(string filterExpression, IDbContext ctx)
+        {
+            List<TeacherMarkTypeItem> result = new List<TeacherMarkTypeItem>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeItem));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkTypeItem)helper.IDataReaderToObject(reader, new TeacherMarkTypeItem()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

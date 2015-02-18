@@ -11,6 +11,7 @@ using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using System.Globalization;
 using DevExpress.Web.ASPxEditors;
+using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
@@ -44,6 +45,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 vTeacherMark entity = BusinessLayer.GetvTeacherMarkList(filterExpression)[0];
                 SetControlProperties();
                 EntityToControl(entity);
+                cboMonth.Value = entity.PeriodNo.Substring(4, 2);
             }
             else
             {
@@ -56,7 +58,26 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void SetControlProperties()
         {
-            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
+            RefreshCboMonth();
+        }
+
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            RefreshCboMonth();
+        }
+
+        private void RefreshCboMonth() 
+        {
+            Int32 startMonth = 1;
+            Int32 endMonth = 12;
+            if (tacPeriodSection.Value != "" && tacSchoolPeriod.Value != "")
+            {
+                PeriodSection ps = BusinessLayer.GetPeriodSectionList(String.Format("SchoolPeriodID = {0} AND PeriodSectionID = {1}", tacSchoolPeriod.Value, tacPeriodSection.Value))[0];
+                startMonth = ps.StartDate.Month;
+                endMonth = ps.EndDate.Month;
+            }
+
+            cboMonth.DataSource = Enumerable.Range(1, 12).Where(x => x >= startMonth && x <= endMonth).Select(a => new
             {
                 MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
                 MonthNumber = a.ToString("00")
@@ -67,7 +88,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboMonth.DropDownStyle = DropDownStyle.DropDownList;
             cboMonth.DataBind();
-            cboMonth.Value = DateTime.Now.Month.ToString("00");
+            cboMonth.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -86,7 +107,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             tacPeriodSection.Value = entity.PeriodSectionID.ToString();
             hdnStartDate.Value = entity.StartDateInDatePickerFormat;
             hdnEndDate.Value = entity.EndDateInDatePickerFormat;
-            cboMonth.Value = entity.PeriodNo.Substring(4,2);
             txtFinalMark.Text = entity.FinalMark.ToString();
         }
 

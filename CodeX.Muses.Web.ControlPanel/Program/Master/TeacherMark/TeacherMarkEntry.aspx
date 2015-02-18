@@ -60,10 +60,15 @@
                         $('#<%=hdnEndDate.ClientID %>').val('');
                         tacPeriodSection.setText('');
                     }
+                    cbpView.PerformCallback('refresh');
                 });
             });
         }
         //#endregion
+
+        function onCbpViewEndCallback(s) {
+            hideLoadingPanel();
+        }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnStartDate" runat="server" value="" />
@@ -96,7 +101,20 @@
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bulan")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" /></td>
+                        <td>
+                            <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+                                ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+                                <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                    EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+                                <PanelCollection>
+                                    <dx:PanelContent ID="PanelContent1" runat="server">
+                                        <asp:Panel runat="server" ID="pnlView">
+                                            <dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" />
+                                        </asp:Panel>
+                                    </dx:PanelContent>
+                                </PanelCollection>
+                            </dxcp:ASPxCallbackPanel>    
+                        </td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nilai Akhir")%></label></td>

@@ -14,25 +14,26 @@
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
         $(function () {
-            $('.txtMark').change(function () {
+            calculateAll();
+            $('.txtItemMark').change(function () {
                 var $tr = $(this).closest('tr');
                 $id = $tr.find('.hdnMarkTypeGroupID');
                 var hdnFinalItemMark = parseInt($tr.find('.hdnFinalItemMark').val());
-                var hdnFinalGroupMarkPercentage = parseInt($tr.find('.hdnFinalGroupMarkPercentage').val());
+                var hdnGroupFinalMarkPercentage = parseInt($tr.find('.hdnGroupFinalMarkPercentage').val());
 
                 while (typeof $id.val() === 'undefined') {
                     $tr = $tr.prev();
                     $id = $tr.find('.hdnMarkTypeGroupID');
                     hdnFinalItemMark = parseInt($tr.find('.hdnFinalItemMark').val());
-                    hdnFinalGroupMarkPercentage = parseInt($tr.find('.hdnFinalGroupMarkPercentage').val());
-                    $tdGroupFinalMark = $tr.find('.tdGroupFinalMark');
+                    hdnGroupFinalMarkPercentage = parseInt($tr.find('.hdnGroupFinalMarkPercentage').val());
+                    $tdGroupMark = $tr.find('.tdGroupMark');
                 }
 
                 $tr = $(this).closest('tr');
-                $tdGroupFinalMark = $tr.find('.tdGroupFinalMark');
-                while ($tdGroupFinalMark.html() == null) {
+                $tdGroupMark = $tr.find('.tdGroupMark');
+                while ($tdGroupMark.html() == null) {
                     $tr = $tr.next();
-                    $tdGroupFinalMark = $tr.find('.tdGroupFinalMark');
+                    $tdGroupMark = $tr.find('.tdGroupMark');
                 }
                 var total = 0;
                 var count = 0;
@@ -42,17 +43,47 @@
                     var score = parseInt($(this).val())
                     var conv = parseFloat(score / 100 * bobot);
                     $convertion = $(this).closest('td').next().next().find('.txtConvertion' + $id.val());
-                    $convertion.val(conv);
+                    $convertion.val(conv.toFixed(2));
                     total += score;
                     totalConvertion += conv;
                     count++;
                 });
-                $('.txtTotalConvertion' + $id.val()).val(totalConvertion);
-                $('.txtTotalMark' + $id.val()).val(parseFloat(total / count).toFixed(2));
-                var groupFinalMark = parseFloat(totalConvertion / hdnFinalItemMark * hdnFinalGroupMarkPercentage).toFixed(2);
-                $tdGroupFinalMark.html("<b>"+groupFinalMark+"</b>");
+
+                $('.txtTotalConvertion' + $id.val()).val(totalConvertion.toFixed(2));
+                $('.txtTotalItemMark' + $id.val()).val(parseFloat(total / count).toFixed(2));
+                var groupMark = parseFloat(totalConvertion / hdnFinalItemMark * hdnGroupFinalMarkPercentage).toFixed(2);
+                $tdGroupMark.html(groupMark);
+                calculateAll();
+            });
+
+            $('#btnGenerate').click(function () {
+                cbpProcess.PerformCallback('generate');
             });
         });
+
+        function calculateAll() {
+            var totalAllItemMark = 0;
+            var totalAllConvertion = 0;
+            var totalGroupMark = 0;
+            var countGroup = 0;
+            $('.txtTotalItemMark').each(function () {
+                totalAllItemMark += parseFloat($(this).val());
+                countGroup++;
+            })
+
+            $('.txtTotalConvertion').each(function () {
+                totalAllConvertion += parseFloat($(this).val());
+            })
+
+            $('.tdGroupMark').each(function () {
+                totalGroupMark += parseFloat($(this).html());
+            })
+
+            $('#<%=txtTotalAllItemMark.ClientID %>').val(parseFloat(totalAllItemMark / countGroup).toFixed(2));
+            $('#<%=txtTotalAllConvertion.ClientID %>').val(parseFloat(totalAllConvertion / countGroup).toFixed(2));
+            $('.tdTotalGroupMark').html(parseFloat(totalGroupMark).toFixed(2));
+            
+        }
 
         $('.lnkProcess').die('click');
         $('.lnkProcess').live('click', function () {
@@ -63,8 +94,6 @@
             //openWindowPopup(url, 'Penilaian Guru' + id, '1300', '650');
             
         });
-
-        
 
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
@@ -84,41 +113,12 @@
         }
 
         function onCboSchoolPeriodValueChanged(s) {
-            tacPeriodSection.setValue('');
-            tacPeriodSection.setText('');
-            tacSchoolClass.setValue('');
-            tacSchoolClass.setText('');
             cbpView.PerformCallback('refresh');
         }
 
-        //#region Period Section
-        function onGetPeriodSectionFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
-            return filterExpression;
-        }
-
-        function onTacPeriodSectionButtonSearchClick() {
-            openSearchDialog('periodsection', onGetPeriodSectionFilterExpression(), function (value) {
-                var filterExpression = onGetPeriodSectionFilterExpression() + " AND PeriodSectionCode = '" + value + "'";
-                Methods.getObject('GetPeriodSectionList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacPeriodSection.setValue(result.PeriodSectionID);
-                        tacPeriodSection.setText(result.PeriodSectionName);
-                    }
-                    else {
-                        tacPeriodSection.setValue('');
-                        tacPeriodSection.setText('');
-                    }
-                    onTacPeriodSectionValueChanged();
-                });
-            });
-
-        }
-
-        function onTacPeriodSectionValueChanged() {
+        function onCboMonthValueChanged(s) {
             cbpView.PerformCallback('refresh');
         }
-        //#endregion
 
         //#region Teacher
         function onGetTeacherFilterExpression() {
@@ -143,10 +143,28 @@
 
         }
         //#endregion
+
+        function onCbpProcesEndCallback(s) {
+            hideLoadingPanel();
+            var param = s.cpResult.split('|');
+            if (param[0] == 'generate') {
+                if (param[1] == 'fail')
+                    showToast('Generate Failed', 'Error Message : ' + param[2]);
+                else
+                    cbpView.PerformCallback('refresh');
+            }
+        }
+
     </script>
     <style type="text/css">
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
                                          background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+        
+        
+        .tblTeacherMark thead{ background-color:#EEEEEE; }
+        .tblTeacherMark tr td {border: 1px solid #EEEEEE; }
+        .tblTeacherMark table tr td {border: 0px; }
+        
     </style>
     <input type="hidden" runat="server" id="hdnSelectedValue" />
     <table>
@@ -154,18 +172,16 @@
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
+                    <ClientSideEvents ValueChanged="function(s,e) { showLoadingPanel();onCboSchoolPeriodValueChanged(s); }" />
                 </dxe:ASPxComboBox>
             </td>
         </tr>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bulan")%></label></td>
             <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodSection" ClientInstanceName="tacPeriodSection" MethodName="GetPeriodSectionList" GetFilterExpressionFunction="onGetPeriodSectionFilterExpression"
-                    SearchFields="PeriodSectionName,PeriodSectionCode" TextField="PeriodSectionName" ValueField="PeriodSectionID" SearchText="${PeriodSectionName} (<b>${PeriodSectionCode}</b>)" OrderByExpression="PeriodSectionName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodSectionButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacPeriodSectionValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
+                <dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth">
+                    <ClientSideEvents ValueChanged="function(s,e){ showLoadingPanel();onCboMonthValueChanged(s);}" />
+                </dxe:ASPxComboBox>
             </td>
         </tr>
         <tr>
@@ -178,6 +194,10 @@
                 </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td><input type="button" id="btnGenerate" value="Generate" /></td>
+        </tr>
     </table>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -189,9 +209,10 @@
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
-                        <table width="100%" border="1">
+                        <input type="hidden" value="" id="hdnStartDate" runat="server" />
+                        <table width="100%" class="tblTeacherMark" cellpadding="0" cellspacing="1">
                             <colgroup>
-                                <col width="200px"/>
+                                <col width="250px"/>
                                 <col width="50px"/>
                                 <col />
                                 <col width="70px"/>
@@ -217,9 +238,9 @@
                                     <tr>
                                         <td id="tdTeacherMarkTypeGroupName" runat="server">
                                             <input type="hidden" runat="server" class="hdnMarkTypeGroupID" value='<%#:Eval("TeacherMarkTypeGroupID") %>' />
-                                            <input type="hidden" runat="server" class="hdnFinalGroupMarkPercentage" value='<%#:Eval("FinalMarkPercentage") %>' />
+                                            <input type="hidden" runat="server" class="hdnGroupFinalMarkPercentage" value='<%#:Eval("FinalMarkPercentage") %>' />
                                             <input type="hidden" runat="server" id="hdnFinalItemMark" class="hdnFinalItemMark" value="" />
-                                            <table width="100%" cellpadding="0" cellspacing="0">
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                 <colgroup>
                                                     <col width="80%"/>
                                                     <col />
@@ -232,10 +253,10 @@
                                         </td>
                                         <td align="center" id="tdItemFinalMarkPercentage" runat="server"></td>
                                         <td runat="server" id="tdTeacherMarkTypeItemName"></td>
-                                        <td><asp:TextBox runat="server" ID="txtMark" CssClass="txtMark number" Width="70px" Text="0" /></td>
-                                        <td><asp:TextBox runat="server" CssClass="txtMarkInString" Width="70px" /></td>
-                                        <td><asp:TextBox runat="server" id="txtConvertion" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
-                                        <td><asp:TextBox runat="server" CssClass="txtRemarks" Width="200px" /></td>
+                                        <td><asp:TextBox runat="server" ID="txtItemMark" CssClass="txtItemMark number" Width="70px" Text="" /></td>
+                                        <td><asp:TextBox runat="server" ID="txtItemMarkInString" CssClass="txtItemMarkInString" ReadOnly="true" Width="70px" /></td>
+                                        <td><asp:TextBox runat="server" ID="txtConvertion" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
+                                        <td><asp:TextBox runat="server" CssClass="txtRemarks" Width="200px" Text='' /></td>
                                         <td id="tdNote" runat="server"></td>
                                     </tr>
                                     <asp:Repeater runat="server" ID="rptTeacherMarkItem" OnItemDataBound="rptTeacherMarkItem_ItemDataBound">
@@ -243,8 +264,8 @@
                                             <tr>
                                                 <td align="center" id="tdItemFinalMarkPercentage" runat="server"><%#:Eval("FinalMarkPercentage") %></td>
                                                 <td><%#:Eval("TeacherMarkTypeItemName") %></td>                        
-                                                <td><asp:TextBox runat="server" ID="txtMark" CssClass="txtMark number" Width="70px" Text="0" /></td>
-                                                <td><asp:TextBox runat="server" CssClass="txtMarkInString" Width="70px"/></td>
+                                                <td><asp:TextBox runat="server" ID="txtItemMark" CssClass="txtItemMark number" Width="70px" Text='<%#:Eval("Mark") %>' /></td>
+                                                <td><asp:TextBox runat="server" CssClass="txtItemMarkInString" ReadOnly="true" Width="70px" Text='<%#:Eval("MarkInString") %>' /></td>
                                                 <td><asp:TextBox runat="server" id="txtConvertion" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
                                                 <td><asp:TextBox runat="server" CssClass="txtRemarks" Width="200px" /></td>
                                             </tr>
@@ -259,19 +280,41 @@
                                                 </colgroup>
                                                 <tr>
                                                     <td><b><%:GetLabel("KONTRIBUSI PERAN :")%></b></td>
-                                                    <td align="center" class="tdGroupFinalMark"><b>0</b></td>
+                                                    <td align="center" class="tdGroupMark" style="font-weight:bold;"><%#:Eval("Mark") %></td>
                                                 </tr>
                                             </table>
                                         </td>
                                         <td runat="server" id="tdTotalItemFinalMark" align="center"></td>
                                         <td><b><%:GetLabel("PENCAPAIAN MUTU") %> <%#:Eval("TeacherMarkTypeGroupName") %></b></td>
-                                        <td><asp:TextBox runat="server" id="txtTotalMark" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
-                                        <td><asp:TextBox runat="server" CssClass="txtTotalMarkInString" ReadOnly="true" Width="70px"/></td>
-                                        <td><asp:TextBox runat="server" id="txtTotalConvertion" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
+                                        <td><asp:TextBox runat="server" id="txtTotalItemMark" ReadOnly="true" Text="0" CssClass='txtTotalItemMark number' Width="70px" /></td>
+                                        <td><asp:TextBox runat="server" CssClass="txtTotalItemMarkInString" ReadOnly="true" Width="70px"/></td>
+                                        <td><asp:TextBox runat="server" id="txtTotalConvertion" ReadOnly="true" Text="0" CssClass='txtTotalConvertion number' Width="70px" /></td>
                                         <td></td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
+                            <tr>
+                                <td>
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <colgroup>
+                                            <col width="80%"/>
+                                            <col />
+                                        </colgroup>
+                                        <tr>
+                                            <td><b><%:GetLabel("KONTRIBUSI BOBOT PERAN :")%></b></td>
+                                            <td align="center" class="tdTotalGroupMark" style="font-weight:bold;"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td id="tdTotalAllItemFinalMark" align="center" style="font-weight:bold;" runat="server"></td>
+                                <td><b><%:GetLabel("CAPAIAN KINERJA MUTU MANAJEMEN") %></b></td>
+                                <td><asp:TextBox runat="server" id="txtTotalAllItemMark" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
+                                <td><asp:TextBox ID="txtTotalAllItemMarkInString" runat="server" CssClass="txtTotalAllItemMarkInString" ReadOnly="true" Width="70px"/></td>
+                                <td><asp:TextBox runat="server" id="txtTotalAllConvertion" ReadOnly="true" Text="0" CssClass='number' Width="70px" /></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </table>
                     </asp:Panel>
                 </dx:PanelContent>
@@ -285,6 +328,10 @@
             <div class="wrapperPaging">
                 <div id="paging"></div>
             </div>
-        </div> 
+        </div>
+        <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
+            ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
+            <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
+        </dxcp:ASPxCallbackPanel> 
     </div>
 </asp:Content>

@@ -12,6 +12,7 @@ using CodeX.Common;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using DevExpress.Web.ASPxEditors;
+using System.Globalization;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -49,14 +50,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
             
-
-            List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
-            if (lstPeriodSection.Count > 0)
+            cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
-                PeriodSection periodSection = lstPeriodSection.FirstOrDefault();
-                tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
-                tacPeriodSection.Text = periodSection.PeriodSectionName;
-            }
+                MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
+                MonthNumber = a.ToString("00")
+            });
+            cboMonth.TextField = "MonthName";
+            cboMonth.ValueField = "MonthNumber";
+            cboMonth.EnableCallbackMode = false;
+            cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            cboMonth.DropDownStyle = DropDownStyle.DropDownList;
+            cboMonth.DataBind();
+            cboMonth.Value = DateTime.Now.Month.ToString("00");
+
+            PeriodSection ps = BusinessLayer.GetPeriodSectionList(String.Format("SchoolPeriodID = {0} AND {1} BETWEEN Month(StartDate) AND Month(EndDate)",cboSchoolPeriod.Value, cboMonth.Value))[0];
+            hdnStartDate.Value = ps.StartDate.Year.ToString();
             BindGridView();
         }
 
@@ -65,38 +73,46 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            //filterExpression += "IsDeleted = 0";
-            filterExpression += String.Format("SchoolPeriodID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0",cboSchoolPeriod.Value, tacPeriodSection.Value);
+            filterExpression += String.Format("SchoolPeriodID = {0} AND PeriodNo = '{1}{2}' AND IsDeleted = 0", cboSchoolPeriod.Value, hdnStartDate.Value, cboMonth.Value, AppSession.UserLogin.SiteID);
             return filterExpression;
         }
 
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
-            
-            List<vTeacherMarkTypeGroup> lstEntity = BusinessLayer.GetvTeacherMarkTypeGroupList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            String teacherMarkTypeGroupLst = String.Join(",", lstEntity.Select(x => x.TeacherMarkTypeGroupID).ToList());
-            lstTypeItem = BusinessLayer.GetvTeacherMarkTypeItemList(String.Format("TeacherMarkTypeGroupID IN ({0}) AND IsDeleted = 0", teacherMarkTypeGroupLst));
+            List<vTeacherMarkGroup> lstEntity = BusinessLayer.GetvTeacherMarkGroupList(filterExpression);
+            if (lstEntity.Count > 0)
+            {
+                String teacherMarkGroupLst = String.Join(",", lstEntity.Select(x => x.TeacherMarkGroupID).ToList());
+                lstTeacherMarkItem = BusinessLayer.GetvTeacherMarkItemList(String.Format("TeacherMarkGroupID IN ({0}) AND IsDeleted = 0", teacherMarkGroupLst));
 
-            rptTeacerMarkGroup.DataSource = lstEntity;
-            rptTeacerMarkGroup.DataBind();
+                Int32 itemTypeFMP = lstTeacherMarkItem.Sum(x => x.FinalMarkPercentage);
+                Int32 groupCount = lstEntity.Count();
+                tdTotalAllItemFinalMark.InnerHtml = (itemTypeFMP / groupCount).ToString();
+
+                rptTeacerMarkGroup.DataSource = lstEntity;
+                rptTeacerMarkGroup.DataBind();
+            }
         }
-        List<vTeacherMarkTypeItem> lstTypeItem;
+        List<vTeacherMarkItem> lstTeacherMarkItem;
         String TeacherMarkTypeGroupID;
 
         protected void rptTeacerMarkGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vTeacherMarkTypeGroup entity = e.Item.DataItem as vTeacherMarkTypeGroup;
-                List<vTeacherMarkTypeItem> lstItem = lstTypeItem.Where(x => x.TeacherMarkTypeGroupID == entity.TeacherMarkTypeGroupID).ToList();
+                vTeacherMarkGroup entity = e.Item.DataItem as vTeacherMarkGroup;
+                List<vTeacherMarkItem> lstItem = lstTeacherMarkItem.Where(x => x.TeacherMarkGroupID == entity.TeacherMarkGroupID).ToList();
 
-                TextBox txtMark = (TextBox)e.Item.FindControl("txtMark");
+                TextBox txtItemMark = (TextBox)e.Item.FindControl("txtItemMark");
                 TeacherMarkTypeGroupID = entity.TeacherMarkTypeGroupID.ToString();
-                txtMark.CssClass += String.Format(" score{0}", entity.TeacherMarkTypeGroupID);
+                txtItemMark.CssClass += String.Format(" score{0}", entity.TeacherMarkTypeGroupID);
 
-                TextBox txtTotalMark = (TextBox)e.Item.FindControl("txtTotalMark");
-                txtTotalMark.CssClass += String.Format(" txtTotalMark{0}", entity.TeacherMarkTypeGroupID);
+                TextBox txtItemMarkInString = (TextBox)e.Item.FindControl("txtItemMarkInString");
+                txtItemMarkInString.CssClass += String.Format(" txtItemMarkInString{0}", entity.TeacherMarkTypeGroupID);
+
+                TextBox txtTotalItemMark = (TextBox)e.Item.FindControl("txtTotalItemMark");
+                txtTotalItemMark.CssClass += String.Format(" txtTotalItemMark{0}", entity.TeacherMarkTypeGroupID);
 
                 TextBox txtConvertion = (TextBox)e.Item.FindControl("txtConvertion");
                 txtConvertion.CssClass += String.Format(" txtConvertion{0}", entity.TeacherMarkTypeGroupID);
@@ -115,7 +131,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 HtmlTableCell tdTeacherMarkTypeItemName = (HtmlTableCell)e.Item.FindControl("tdTeacherMarkTypeItemName");
 
                 HtmlInputHidden hdnFinalItemMark = (HtmlInputHidden)e.Item.FindControl("hdnFinalItemMark");
-                
+
+                txtItemMark.Text = lstItem[0].Mark.ToString();
+                txtItemMarkInString.Text = lstItem[0].MarkInString;
                 tdTeacherMarkTypeItemName.InnerHtml = lstItem[0].TeacherMarkTypeItemName;
                 tdItemFinalMarkPercentage.InnerHtml = lstItem[0].FinalMarkPercentage.ToString();
 
@@ -134,8 +152,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                TextBox txtMark = (TextBox)e.Item.FindControl("txtMark");
-                txtMark.CssClass += String.Format(" score{0}", TeacherMarkTypeGroupID);
+                TextBox txtItemMark = (TextBox)e.Item.FindControl("txtItemMark");
+                txtItemMark.CssClass += String.Format(" score{0}", TeacherMarkTypeGroupID);
 
                 TextBox txtConvertion = (TextBox)e.Item.FindControl("txtConvertion");
                 txtConvertion.CssClass += String.Format(" txtConvertion{0}", TeacherMarkTypeGroupID);
@@ -144,7 +162,85 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
+            PeriodSection ps = BusinessLayer.GetPeriodSectionList(String.Format("SchoolPeriodID = {0} AND {1} BETWEEN Month(StartDate) AND Month(EndDate)", cboSchoolPeriod.Value, cboMonth.Value))[0];
+            hdnStartDate.Value = ps.StartDate.Year.ToString();
             BindGridView();
+        }
+
+        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string result = "";
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "generate")
+            {
+                if (OnGenerateTeacherMark(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+
+        private bool OnGenerateTeacherMark(ref String errMessage) 
+        {
+            Boolean result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            TeacherMarkGroupDao tmgDao = new TeacherMarkGroupDao(ctx);
+            TeacherMarkItemDao tmiDao = new TeacherMarkItemDao(ctx);
+
+            try
+            {
+
+                TeacherMark tm = BusinessLayer.GetTeacherMarkList(String.Format("SchoolPeriodID = {0} AND PeriodNo = '{1}{2}' AND IsDeleted = 0", cboSchoolPeriod.Value, hdnStartDate.Value, cboMonth.Value), ctx).FirstOrDefault();
+                if (tm != null)
+                {
+                    List<TeacherMarkTypeGroup> lstTmtg = BusinessLayer.GetTeacherMarkTypeGroupList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID), ctx);
+                    String listTmtgID = String.Join(",", lstTmtg.Select(x => x.TeacherMarkTypeGroupID).ToList());
+                    List<TeacherMarkTypeItem> lstTmti = BusinessLayer.GetTeacherMarkTypeItemList(String.Format("TeacherMarkTypeGroupID IN ({0}) AND IsDeleted = 0", listTmtgID), ctx);
+                    foreach (TeacherMarkTypeGroup tmtg in lstTmtg)
+                    {
+                        TeacherMarkGroup entityGroup = new TeacherMarkGroup();
+                        entityGroup.TeacherMarkID = tm.TeacherMarkID;
+                        entityGroup.TeacherMarkTypeGroupID = tmtg.TeacherMarkTypeGroupID;
+                        entityGroup.Mark = 0;
+                        entityGroup.MarkInString = "E";
+                        entityGroup.IsDeleted = false;
+                        entityGroup.LastUpdatedBy = entityGroup.CreatedBy = AppSession.UserLogin.UserID;
+                        entityGroup.LastUpdatedDate = DateTime.Now;
+                        tmgDao.Insert(entityGroup);
+
+                        Int32 teacherMarkGroupID = BusinessLayer.GetTeacherMarkGroupMaxID(ctx);
+                        foreach (TeacherMarkTypeItem tmti in lstTmti.Where(x => x.TeacherMarkTypeGroupID == tmtg.TeacherMarkTypeGroupID).ToList())
+                        {
+                            TeacherMarkItem entityItem = new TeacherMarkItem();
+                            entityItem.TeacherMarkGroupID = teacherMarkGroupID;
+                            entityItem.TeacherMarkTypeItemID = tmti.TeacherMarkTypeItemID;
+                            entityItem.Mark = 0;
+                            entityItem.MarkInString = "E";
+                            entityItem.IsDeleted = false;
+                            entityItem.LastUpdatedBy = entityItem.CreatedBy = AppSession.UserLogin.UserID;
+                            entityItem.LastUpdatedDate = DateTime.Now;
+                            tmiDao.Insert(entityItem);
+                        }
+                    }
+                    ctx.CommitTransaction();
+                }
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally 
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }
