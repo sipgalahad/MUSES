@@ -86,12 +86,14 @@ namespace CodeX.Muses.Web.Inventory.Program
             newEntity.PaymentRemarks = oldEntity.PaymentRemarks;
             newEntity.Remarks = oldEntity.Remarks;
             newEntity.IsIncludeVAT = oldEntity.IsIncludeVAT;
-            newEntity.FinalDiscount = oldEntity.FinalDiscount;
+            newEntity.FinalDiscountPercentage = oldEntity.FinalDiscountPercentage;
+            newEntity.FinalDiscountAmount = oldEntity.FinalDiscountAmount;
+            newEntity.TotalNetTransactionAmount = oldEntity.TotalNetTransactionAmount;
             if (newEntity.IsIncludeVAT)
                 newEntity.VATPercentage = oldEntity.VATPercentage;
             else
                 newEntity.VATPercentage = 0;
-
+            newEntity.VATAmount = oldEntity.VATAmount;
             newEntity.OrderDate = Helper.GetDatePickerValue(DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT));
             newEntity.GCPurchaseOrderType = oldEntity.GCPurchaseOrderType;
             newEntity.TermID = oldEntity.TermID;
@@ -102,6 +104,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             newEntity.LocationID = oldEntity.LocationID;
             newEntity.GCCurrencyCode = oldEntity.GCCurrencyCode;
             newEntity.CurrencyRate = oldEntity.CurrencyRate;
+            newEntity.TotalNetTransactionAmount = oldEntity.TotalNetTransactionAmount;
         }
 
         private void CopyToEntityDt(PurchaseOrderDt newEntityDt, PurchaseOrderDt oldEntityDt)
@@ -114,7 +117,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             newEntityDt.PurchaseRequestID = oldEntityDt.PurchaseRequestID;
             newEntityDt.UnitPrice = oldEntityDt.UnitPrice;
             newEntityDt.DiscountPercentage1 = oldEntityDt.DiscountPercentage1;
+            newEntityDt.DiscountAmount1 = oldEntityDt.DiscountAmount1;
             newEntityDt.DiscountPercentage2 = oldEntityDt.DiscountPercentage2;
+            newEntityDt.DiscountAmount2 = oldEntityDt.DiscountAmount2;
+            newEntityDt.LineAmount = oldEntityDt.LineAmount;
             newEntityDt.IsBonusItem = oldEntityDt.IsBonusItem;
             newEntityDt.Remarks = oldEntityDt.Remarks;
             newEntityDt.LineAmount = oldEntityDt.CustomSubTotal;
@@ -188,7 +194,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     CopyToEntityHd(entityHd, lstPurchaseOrderHd[0]);
                     entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_ORDER, entityHd.OrderDate, ctx);
                     entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                    
+
                     ctx.CommandType = CommandType.Text;
                     ctx.Command.Parameters.Clear();
                     entityHd.CreatedBy = AppSession.UserLogin.UserID;

@@ -22,6 +22,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return Constant.MenuCode.Inventory.PURCHASE_ORDER;
         }
+        protected string GetVATPercentageLabel()
+        {
+            return hdnVATPercentage.Value;
+        }
 
         public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)
         {
@@ -36,6 +40,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected override void InitializeDataControl()
         {
             hdnOrderID.Value = Page.Request.QueryString["id"];
+            hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
             vPurchaseOrderHd entityItemRequest = BusinessLayer.GetvPurchaseOrderHdList(String.Format("PurchaseOrderID = '{0}'", Convert.ToInt32(hdnOrderID.Value)))[0];
             EntityToControl(entityItemRequest);
         }
@@ -54,12 +59,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             txtCurrencyCode.Text = entity.CurrencyCode;
             txtCurrencyRate.Text = entity.CurrencyRate.ToString();
             txtDeliveryDate.Text = entity.DeliveryDateInString;
-            txtTotalOrder.Text = entity.TransactionAmount.ToString("N");
-            txtFinalDiscountInPercentage.Text = entity.FinalDiscount.ToString("N");
-            txtFinalDiscount.Text = (entity.TransactionAmount * entity.FinalDiscount / 100).ToString("N");
-            txtPPN.Text = ((entity.VATPercentage / 100) * (entity.TransactionAmount - Convert.ToDecimal(txtFinalDiscount.Text))).ToString("N");
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString("N");
+            txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString("N");
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString("N");
+            txtPPN.Text = entity.VATAmount.ToString("N");
+            chkPPN.Checked = entity.IsIncludeVAT;
             txtDP.Text = entity.DownPaymentAmount.ToString("N");
-            txtTotalOrderSaldo.Text = (entity.TransactionAmount - Convert.ToDecimal(txtFinalDiscount.Text) + Convert.ToDecimal(txtPPN.Text) - entity.DownPaymentAmount).ToString("N");
+            txtTotalNetTransactionAmount.Text = entity.TotalNetTransactionAmount.ToString("N");
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }

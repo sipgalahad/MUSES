@@ -934,16 +934,6 @@ namespace CodeX.Data.Model
                 return (_Quantity * _ConversionFactor).ToString("#,##0.00") + " " + _BaseUnit;
             }
         }
-        public Decimal CustomSubTotal
-        {
-            get
-            {
-                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
-               _DiscountPercentage1 / 100);
-                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
-                return totalAfterDisc2;
-            }
-        }
 
         public Decimal CustomTotal
         {
@@ -1066,17 +1056,6 @@ namespace CodeX.Data.Model
             get
             {
                 return _POExpiredDate.ToString(Constant.FormatString.DATE_FORMAT);
-            }
-        }
-
-        public Decimal cfTransactionAmount
-        {
-            get
-            {
-                decimal finalDisc = (_TransactionAmount * _FinalDiscount / 100);
-                decimal PPN = (_VATPercentage / 100) * (_TransactionAmount - finalDisc);
-                decimal total = _TransactionAmount - finalDisc + PPN - _DownPaymentAmount;
-                return total;
             }
         }
     }

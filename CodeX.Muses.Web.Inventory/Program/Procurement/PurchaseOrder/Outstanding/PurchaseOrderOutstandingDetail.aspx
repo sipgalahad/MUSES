@@ -49,6 +49,7 @@
     </script>
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnOrderID" runat="server" />
+    <input type="hidden" value="" id="hdnVATPercentage" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <div style="overflow-x: hidden;">
         <table class="tblContentArea">
@@ -123,7 +124,7 @@
                             <dx:PanelContent ID="PanelContent1" runat="server">
                                 <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                                     position: relative; font-size: 0.95em;">
-                                    <asp:GridView ID="grdView" runat="server" CssClass="grdService grdNormal notAllowSelect"
+                                    <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
@@ -135,12 +136,34 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ItemName1" HeaderText="Item Name" HeaderStyle-Width="300px" />
-                                            <asp:BoundField DataField="CustomPurchaseUnit" ItemStyle-HorizontalAlign="Right" HeaderText="Di Pesan" HeaderStyle-Width="100px" />
-                                            <asp:BoundField DataField="CustomUnitPrice" ItemStyle-HorizontalAlign="Right" HeaderText="Harga" HeaderStyle-Width="200px" />
-                                            <asp:BoundField DataField="CustomConversion" ItemStyle-HorizontalAlign="Center" HeaderText="Konversi" HeaderStyle-Width="200px" />
-                                            <asp:BoundField DataField="DiscountPercentage1" ItemStyle-HorizontalAlign="Right" HeaderText="Diskon 1 (%)" HeaderStyle-Width="150px" />
-                                            <asp:BoundField DataField="DiscountPercentage2" ItemStyle-HorizontalAlign="Right" HeaderText="Diskon 2 (%)" HeaderStyle-Width="150px" />
-                                            <asp:BoundField DataField="CustomSubTotal" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderText="Sub Total" HeaderStyle-Width="150px"/>
+                                            <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:75px" align="right"><%#Eval("Quantity", "{0:N}")%></td>
+                                                            <td style="width:50px; color: Red;"><%#Eval("PurchaseUnit") %></td>
+                                                        </tr>
+                                                    </table>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Harga / Satuan" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
+                                                <ItemTemplate>
+                                                    <table cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:90px" align="right"><%#Eval("UnitPrice", "{0:N}")%></td>
+                                                            <td>/</td>
+                                                            <td style="width:50px; color: Red;"><%#Eval("PurchaseUnit")%></td>
+                                                        </tr>
+                                                    </table>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                                <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px" />
+                                            <asp:BoundField DataField="DiscountAmount1" HeaderStyle-CssClass="thRight" HeaderText="Diskon 1" ItemStyle-HorizontalAlign="Right"
+                                                HeaderStyle-Width="100px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="DiscountAmount2" HeaderStyle-CssClass="thRight" HeaderText="Diskon 2" ItemStyle-HorizontalAlign="Right"
+                                                HeaderStyle-Width="100px" DataFormatString="{0:N}" />
+                                            <asp:BoundField DataField="LineAmount" HeaderStyle-CssClass="thRight" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right"
+                                                HeaderStyle-Width="150px" DataFormatString="{0:N}" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("No Data To Display")%>
@@ -199,54 +222,38 @@
                                         <table style="width: 100%;">
                                             <colgroup>
                                                 <col style="width: 180px" />
+                                                <col style="width: 50px" />
+                                                <col style="width: 10px" />
                                             </colgroup>
                                             <tr>
-                                                <td class="tdLabel">
-                                                    <label class="lblNormal"><%=GetLabel("Jumlah Nilai Pemesanan")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtTotalOrder" CssClass="number" ReadOnly="true" Width="180px" runat="server" />
-                                                </td>
+                                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jumlah Nilai Pemesanan")%></label></td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox ID="txtTransactionAmount" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                             </tr>
                                             <tr>
-                                                <td class="tdLabel">
-                                                    <label class="lblNormal"><%=GetLabel("Diskon Final %")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtFinalDiscountInPercentage" CssClass="number" ReadOnly="true" Width="180px" runat="server" />
-                                                </td>
+                                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("PPN")%> (<%=GetVATPercentageLabel()%>%)</label></td>
+                                                <td>&nbsp;</td>
+                                                <td align="right"><asp:CheckBox ID="chkPPN" Enabled="false" runat="server" /></td>
+                                                <td><asp:TextBox ID="txtPPN" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server"/></td>
                                             </tr>
                                             <tr>
-                                                <td class="tdLabel">
-                                                    <label class="lblNormal"><%=GetLabel("Diskon Final")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtFinalDiscount" CssClass="number" ReadOnly="true" Width="180px" runat="server" hiddenVal="0"/>
-                                                </td>
+                                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon Final")%></label></td>
+                                                <td><asp:TextBox ID="txtFinalDiscountPercentage" ReadOnly="true" CssClass="number" Width="50px" runat="server" /></td>
+                                                <td>[%]</td>
+                                                <td><asp:TextBox ID="txtFinalDiscountAmount" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                             </tr>
                                             <tr>
-                                                <td class="tdLabel">
-                                                    <label class="lblNormal"><%=GetLabel("PPN (10%)")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtPPN" CssClass="number" ReadOnly="true" Width="180px" runat="server" hiddenVal="0"/>
-                                                </td>
+                                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Uang Muka")%></label></td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox ID="txtDP" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" hiddenVal="0"/></td>
                                             </tr>
                                             <tr>
-                                                <td class="tdLabel">
-                                                    <label class="lblNormal"><%=GetLabel("Uang Muka")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtDP" ReadOnly="true" CssClass="number" Width="180px" runat="server" hiddenVal="0"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="tdLabel">
-                                                    <label class="lblNormal"><%=GetLabel("Saldo Nilai Pemesanan")%></label>
-                                                </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtTotalOrderSaldo" CssClass="number" ReadOnly="true" Width="180px" runat="server" />
-                                                </td>
+                                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Saldo Nilai Pemesanan")%></label></td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
                                             </tr>
                                         </table>
                                     </td>

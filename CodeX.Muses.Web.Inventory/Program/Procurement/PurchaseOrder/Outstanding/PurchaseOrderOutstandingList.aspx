@@ -93,7 +93,7 @@ CodeBehind="PurchaseOrderOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Inve
                                 <asp:BoundField DataField="OrderDateInString" HeaderText="Tanggal Pemesanan" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="DeliveryDateInString" HeaderText="Tanggal Pengiriman" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="ExpiredDateInString" HeaderText="Tanggal Expired" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
-                                <asp:BoundField DataField="TotalDtAmount" HeaderText="Jumlah Transaksi" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                <asp:BoundField DataField="TotalDtAmount" HeaderText="Jumlah Transaksi Outstanding" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

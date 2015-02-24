@@ -226,10 +226,14 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.GCCurrencyCode = hdnDefaultCurrencyCode.Value;
             entityHd.CurrencyRate = Convert.ToDecimal(1.00);
             entityHd.IsIncludeVAT = false;
-            entityHd.FinalDiscount = Convert.ToDecimal(0.00);
-            //entityHd.TaxAmount = Convert.ToDecimal(0.00);
+            entityHd.FinalDiscountPercentage = 0;
+            entityHd.FinalDiscountAmount = 0;
+            entityHd.VATAmount = 0;
+            entityHd.VATPercentage = 0;
             entityHd.LocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
             entityHd.DownPaymentAmount = Convert.ToDecimal(0.00);
+            entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount - entityHd.DownPaymentAmount;
+
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             ctx.CommandType = CommandType.Text;
             ctx.Command.Parameters.Clear();

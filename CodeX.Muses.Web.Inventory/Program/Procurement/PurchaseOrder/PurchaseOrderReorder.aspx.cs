@@ -177,9 +177,12 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
             entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.OrderDate, ctx);
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-            entityHd.FinalDiscount = Convert.ToDecimal(0.00);
-            //entityHd.TaxAmount = Convert.ToDecimal(0.00);
             entityHd.DownPaymentAmount = Convert.ToDecimal(0.00);
+            entityHd.FinalDiscountPercentage = 0;
+            entityHd.FinalDiscountAmount = 0;
+            entityHd.VATAmount = 0;
+            entityHd.VATPercentage = 0;
+            entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount - entityHd.DownPaymentAmount;
             ctx.CommandType = CommandType.Text;
             ctx.Command.Parameters.Clear();
             entityHd.CreatedBy = AppSession.UserLogin.UserID;
