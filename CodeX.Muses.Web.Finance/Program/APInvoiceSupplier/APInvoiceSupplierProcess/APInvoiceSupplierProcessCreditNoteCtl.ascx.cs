@@ -42,7 +42,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (entityCreditNote == null)
             {
                 IsAdd = true;
-                txtCNAmount.Text = (entityReturnHd.TransactionAmount * (100 + entityReturnHd.VATPercentage) / 100).ToString();
+                txtCNAmount.Text = entityReturnHd.TotalNetTransactionAmount.ToString();
             }
             else
             {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPSupplierPageTrx.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPSupplierPageTrxVisit.master" AutoEventWireup="true"
     CodeBehind="APInvoiceSupplierProcess.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.APInvoiceSupplierProcess" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -445,7 +445,7 @@
                                                     <td><%=GetLabel("Jumlah") %></td>
                                                     <td><asp:TextBox id="txtTransactionAmount" runat="server" Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
-                                                <tr>
+                                                <tr style="display:none">
                                                     <td><%=GetLabel("Diskon Per Item") %></td>
                                                     <td><asp:TextBox id="txtDiscTransAmount" runat="server"  Width="150px" ReadOnly="true" CssClass="txtCurrency" /></td>
                                                 </tr>
@@ -516,7 +516,6 @@
                                             <th><%=GetLabel("No BPB") %></th>
                                             <th style="width:80px"><%=GetLabel("No Faktur") %></th>
                                             <th style="width:80px" class="thRight"><%=GetLabel("Jumlah") %></th>
-                                            <th style="width:90px" class="thRight"><%=GetLabel("Diskon Item") %></th>
                                             <th style="width:90px" class="thRight"><%=GetLabel("Diskon Final") %></th>
                                             <th style="width:80px" class="thRight"><%=GetLabel("PPN") %></th>
                                             <th style="width:80px" class="thRight"><%=GetLabel("Materai") %></th>
@@ -537,7 +536,6 @@
                                                     <td align="left"><label class="lblLink lblPurchaseReceiveNo"><%#Eval("PurchaseReceiveNo") %></label></td>
                                                     <td align="left"><%#Eval("ReferenceNo")%></td>
                                                     <td align="right"><%#Eval("TransactionAmount","{0:N}")%></td>
-                                                    <td align="right"><%#Eval("DiscountAmount","{0:N}")%></td>
                                                     <td align="right"><%#Eval("FinalDiscountAmount","{0:N}")%></td>
                                                     <td align="right"><%#Eval("VATAmount","{0:N}") %></td>
                                                     <td align="right"><%#Eval("StampAmount", "{0:N}")%></td>

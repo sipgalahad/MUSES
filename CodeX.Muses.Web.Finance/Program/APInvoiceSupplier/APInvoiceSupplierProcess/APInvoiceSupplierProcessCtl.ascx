@@ -95,8 +95,7 @@
                                             <tr>
                                                 <th style="width:40px" class="thCenter"><input id="chkSelectAllPR" type="checkbox" /></th>
                                                 <th align="center"><%=GetLabel("No. Penerimaan")%></th>
-                                                <th style="width:130px" class="thRight"><%=GetLabel("Jumlah Penerimaan")%></th>
-                                                <th style="width:130px" class="thRight"><%=GetLabel("Uang Muka")%></th>                                   
+                                                <th style="width:130px" class="thRight"><%=GetLabel("Jumlah Penerimaan")%></th>                             
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Nota Kredit")%></th>
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Sub Total")%></th>
                                             </tr>
@@ -112,8 +111,7 @@
                                             <tr>
                                                 <th style="width:40px" class="thCenter"><input id="chkSelectAllPR" type="checkbox" /></th>
                                                 <th align="center"><%=GetLabel("No. Penerimaan")%></th>
-                                                <th style="width:160px" class="thRight"><%=GetLabel("Jumlah Penerimaan")%></th>
-                                                <th style="width:130px" class="thRight"><%=GetLabel("Uang Muka")%></th>                                   
+                                                <th style="width:160px" class="thRight"><%=GetLabel("Jumlah Penerimaan")%></th>                            
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Nota Kredit")%></th>
                                                 <th style="width:130px" class="thRight"><%=GetLabel("Sub Total")%></th>
                                             </tr>
@@ -127,8 +125,7 @@
                                                 <input type="hidden" class="keyField" id="keyField" runat="server" value='<%# Eval("PurchaseReceiveID")%>' />
                                             </td>
                                             <td><%# Eval("PurchaseReceiveNo")%></td>
-                                            <td align="right"><%# Eval("CustomTotal", "{0:N}")%></td>
-                                            <td align="right"><%# Eval("DownPaymentAmount", "{0:N}")%></td>
+                                            <td align="right"><%# Eval("TotalNetTransactionAmount", "{0:N}")%></td>
                                             <td align="right"><%# Eval("CNAmount", "{0:N}")%></td>
                                             <td align="right"><%# Eval("CustomSubTotal", "{0:N}")%></td>
                                         </tr>

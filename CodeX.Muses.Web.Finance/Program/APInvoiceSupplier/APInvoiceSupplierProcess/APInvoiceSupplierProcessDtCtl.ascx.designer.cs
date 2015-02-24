@@ -148,15 +148,6 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtKurs;
         
         /// <summary>
-        /// chkPPN control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkPPN;
-        
-        /// <summary>
         /// cbpPopupView control.
         /// </summary>
         /// <remarks>
@@ -202,31 +193,22 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtNotes;
         
         /// <summary>
-        /// txtTotalOrder control.
+        /// txtTransactionAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalOrder;
+        protected global::System.Web.UI.WebControls.TextBox txtTransactionAmount;
         
         /// <summary>
-        /// txtFinalDiscountInPercentage control.
+        /// chkPPN control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFinalDiscountInPercentage;
-        
-        /// <summary>
-        /// txtFinalDiscount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFinalDiscount;
+        protected global::System.Web.UI.WebControls.CheckBox chkPPN;
         
         /// <summary>
         /// txtPPN control.
@@ -236,6 +218,24 @@ namespace CodeX.Muses.Web.Finance.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPPN;
+        
+        /// <summary>
+        /// txtFinalDiscountPercentage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFinalDiscountPercentage;
+        
+        /// <summary>
+        /// txtFinalDiscountAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFinalDiscountAmount;
         
         /// <summary>
         /// txtDPReferrenceNo control.
@@ -274,12 +274,12 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtCharges;
         
         /// <summary>
-        /// txtTotalOrderSaldo control.
+        /// txtTotalNetTransactionAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalOrderSaldo;
+        protected global::System.Web.UI.WebControls.TextBox txtTotalNetTransactionAmount;
     }
 }

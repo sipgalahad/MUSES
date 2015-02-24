@@ -96,12 +96,11 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityDt.PurchaseReceiveID = purchaseReceiveCredit.PurchaseReceiveID;
                 //List<vPurchaseReceiveDt> lstEntity = BusinessLayer.GetvPurchaseReceiveDtList(string.Format("PurchaseReceiveID = {0}", purchaseReceiveCredit.PurchaseReceiveID), ctx);
                 //entityDt.DiscountAmount = lstEntity.Sum(p => p.CustomTotalDiscount);
-                entityDt.DiscountAmount = purchaseReceiveCredit.DiscountAmount;
                 entityDt.ChargesAmount = purchaseReceiveCredit.ChargesAmount;
                 entityDt.CreditNoteAmount = purchaseReceiveCredit.CNAmount;
-                entityDt.PPH23Amount = 0; // ini juga perlu dipertanyakan soalnya di receive kan ga ada pph
+                entityDt.PPH23Amount = 0; 
                 entityDt.PPH25Amount = 0;
-                entityDt.FinalDiscountAmount = purchaseReceiveCredit.FinalDiscount;
+                entityDt.FinalDiscountAmount = purchaseReceiveCredit.FinalDiscountAmount;
                 entityDt.DownPaymentAmount = purchaseReceiveCredit.DownPaymentAmount;
                 entityDt.StampAmount = purchaseReceiveCredit.StampAmount;
                 entityDt.TransactionAmount = purchaseReceiveCredit.TransactionAmount;
@@ -137,6 +136,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

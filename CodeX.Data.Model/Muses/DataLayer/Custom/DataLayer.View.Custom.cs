@@ -1063,28 +1063,12 @@ namespace CodeX.Data.Model
     #region vPurchaseReceiveCredit
     public partial class vPurchaseReceiveCredit
     {
-        public Decimal CustomTotal
-        {
-            get
-            {
-                Decimal totalReceive = ((_TransactionAmount - _FinalDiscount) * ((100 + _VATPercentage) / 100)) - _ChargesAmount + _StampAmount;
-                return totalReceive;
-            }
-        }
         public Decimal CustomSubTotal
         {
             get
             {
-                Decimal subTotal = CustomTotal - _DownPaymentAmount - _CNAmount;
+                Decimal subTotal = _TotalNetTransactionAmount - _CNAmount;
                 return subTotal;
-            }
-        }
-        public Decimal VATAmount
-        {
-            get
-            {
-                Decimal VATAmount = ((_TransactionAmount - _FinalDiscount) * (_VATPercentage / 100));
-                return VATAmount;
             }
         }
     }

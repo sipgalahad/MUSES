@@ -16,7 +16,7 @@ namespace CodeX.Muses.Web.Finance.Program
 {
     public partial class APInvoiceSupplierProcessDtCtl : BaseViewPopupCtl
     {
-        protected string GetVATPercentage()
+        protected string GetVATPercentageLabel()
         {
             return hdnVATPercentage.Value;
         }
@@ -51,8 +51,10 @@ namespace CodeX.Muses.Web.Finance.Program
             cboCurrency.Value = entity.GCCurrencyCode.ToString();
             txtKurs.Text = entity.CurrencyRate.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
-            txtTotalOrder.Text = entity.TransactionAmount.ToString();
-            txtFinalDiscount.Text = entity.FinalDiscountAmount.ToString();
+            txtPPN.Text = entity.VATAmount.ToString();
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             BindGridView();
         }

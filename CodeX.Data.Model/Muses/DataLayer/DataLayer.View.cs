@@ -13943,10 +13943,12 @@ namespace CodeX.Data.Model
         private Decimal _TransactionAmount;
         private Decimal _DownPaymentAmount;
         private Decimal _ChargesAmount;
-        private Decimal _DiscountAmount;
-        private Decimal _FinalDiscount;
+        private Decimal _FinalDiscountPercentage;
+        private Decimal _FinalDiscountAmount;
         private Decimal _StampAmount;
         private Decimal _VATPercentage;
+        private Decimal _VATAmount;
+        private Decimal _TotalNetTransactionAmount;
         private DateTime _ReferenceDate;
         private String _ReferenceNo;
         private String _GCTransactionStatus;
@@ -14008,17 +14010,17 @@ namespace CodeX.Data.Model
             get { return _ChargesAmount; }
             set { _ChargesAmount = value; }
         }
-        [Column(Name = "DiscountAmount", DataType = "Decimal")]
-        public Decimal DiscountAmount
+        [Column(Name = "FinalDiscountPercentage", DataType = "Decimal")]
+        public Decimal FinalDiscountPercentage
         {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
+            get { return _FinalDiscountPercentage; }
+            set { _FinalDiscountPercentage = value; }
         }
-        [Column(Name = "FinalDiscount", DataType = "Decimal")]
-        public Decimal FinalDiscount
+        [Column(Name = "FinalDiscountAmount", DataType = "Decimal")]
+        public Decimal FinalDiscountAmount
         {
-            get { return _FinalDiscount; }
-            set { _FinalDiscount = value; }
+            get { return _FinalDiscountAmount; }
+            set { _FinalDiscountAmount = value; }
         }
         [Column(Name = "StampAmount", DataType = "Decimal")]
         public Decimal StampAmount
@@ -14031,6 +14033,18 @@ namespace CodeX.Data.Model
         {
             get { return _VATPercentage; }
             set { _VATPercentage = value; }
+        }
+        [Column(Name = "VATAmount", DataType = "Decimal")]
+        public Decimal VATAmount
+        {
+            get { return _VATAmount; }
+            set { _VATAmount = value; }
+        }
+        [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalNetTransactionAmount
+        {
+            get { return _TotalNetTransactionAmount; }
+            set { _TotalNetTransactionAmount = value; }
         }
         [Column(Name = "ReferenceDate", DataType = "DateTime")]
         public DateTime ReferenceDate

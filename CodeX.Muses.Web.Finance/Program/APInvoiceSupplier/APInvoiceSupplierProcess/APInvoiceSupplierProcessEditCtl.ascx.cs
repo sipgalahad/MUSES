@@ -16,7 +16,7 @@ namespace CodeX.Muses.Web.Finance.Program
 {
     public partial class APInvoiceSupplierProcessEditCtl : BaseEntryPopupCtl
     {
-        protected string GetVATPercentage()
+        protected string GetVATPercentageLabel()
         {
             return hdnVATPercentage.Value;
         }
@@ -52,8 +52,10 @@ namespace CodeX.Muses.Web.Finance.Program
             cboCurrency.Value = entity.GCCurrencyCode.ToString();
             txtKurs.Text = entity.CurrencyRate.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
-            txtTotalOrder.Text = entity.TransactionAmount.ToString();
-            txtFinalDiscount.Text = entity.FinalDiscountAmount.ToString();
+            txtPPN.Text = entity.VATAmount.ToString();
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             BindGridView();
         }
@@ -101,10 +103,7 @@ namespace CodeX.Muses.Web.Finance.Program
             PurchaseReceiveHdDao purchaseReceiveHdDao = new PurchaseReceiveHdDao(ctx);
             PurchaseReceiveDtDao purchaseReceiveDtDao = new PurchaseReceiveDtDao(ctx);
 
-            string[] lstID = hdnLstID.Value.Split(',');
-            string[] lstUnitPrice = hdnLstUnitPrice.Value.Split(',');
-            string[] lstDiscountPercentage1 = hdnLstDiscountPercentage1.Value.Split(',');
-            string[] lstDiscountPercentage2 = hdnLstDiscountPercentage2.Value.Split(',');
+            string[] lstSaveValue = hdnSaveValue.Value.Split('|');
             try
             {
                 string tempGCTransactionStatus = "";
@@ -122,28 +121,35 @@ namespace CodeX.Muses.Web.Finance.Program
                     purchaseReceiveHd.VATPercentage = Convert.ToInt32(hdnVATPercentage.Value);
                 else
                     purchaseReceiveHd.VATPercentage = 0;
+                purchaseReceiveHd.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
                 purchaseReceiveHd.Remarks = txtNotes.Text;
                 purchaseReceiveHd.ChargesAmount = Convert.ToDecimal(txtCharges.Text);
                 purchaseReceiveHd.DownPaymentReferenceNo = txtDPReferrenceNo.Text;
                 purchaseReceiveHd.GCChargesType = cboChargesType.Value.ToString();
-                purchaseReceiveHd.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtFinalDiscount.UniqueID]);
+                purchaseReceiveHd.FinalDiscountPercentage = Convert.ToDecimal(Request.Form[txtFinalDiscountPercentage.UniqueID]);
+                purchaseReceiveHd.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtFinalDiscountAmount.UniqueID]);
                 purchaseReceiveHd.DownPaymentAmount = Convert.ToDecimal(txtDP.Text);
                 purchaseReceiveHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
+                purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TransactionAmount + purchaseReceiveHd.VATAmount - purchaseReceiveHd.FinalDiscountAmount + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
 
                 List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(string.Format("ID IN ({0})", hdnLstID.Value), ctx);
-                for (int i = 0; i < lstID.Count(); ++i)
+                foreach (string saveValue in lstSaveValue)
                 {
-                    PurchaseReceiveDt purchaseReceiveDt = lstPurchaseReceiveDt.FirstOrDefault(p => p.ID == Convert.ToInt32(lstID[i]));
-                    purchaseReceiveDt.UnitPrice = Convert.ToDecimal(lstUnitPrice[i]);
-                    purchaseReceiveDt.DiscountPercentage1 = Convert.ToDecimal(lstDiscountPercentage1[i]);
-                    purchaseReceiveDt.DiscountPercentage2 = Convert.ToDecimal(lstDiscountPercentage2[i]);
+                    string[] temp = saveValue.Split(';');
+                    PurchaseReceiveDt purchaseReceiveDt = lstPurchaseReceiveDt.FirstOrDefault(p => p.ID == Convert.ToInt32(temp[0]));
+                    purchaseReceiveDt.UnitPrice = Convert.ToDecimal(temp[1]);
+                    purchaseReceiveDt.DiscountPercentage1 = Convert.ToDecimal(temp[2]);
+                    purchaseReceiveDt.DiscountAmount1 = Convert.ToDecimal(temp[3]);
+                    purchaseReceiveDt.DiscountPercentage2 = Convert.ToDecimal(temp[4]);
+                    purchaseReceiveDt.DiscountAmount2 = Convert.ToDecimal(temp[5]);
+                    purchaseReceiveDt.LineAmount = Convert.ToDecimal(temp[6]);
                     purchaseReceiveDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     purchaseReceiveDtDao.Update(purchaseReceiveDt);
                 }
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
 
                 purchaseReceiveHd = purchaseReceiveHdDao.Get(Convert.ToInt32(hdnPurchaseReceiveID.Value));
-                purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TransactionAmount - purchaseReceiveHd.FinalDiscountAmount + purchaseReceiveHd.VATAmount + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
+                purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TotalNetTransactionAmount;
                 purchaseReceiveHd.GCTransactionStatus = tempGCTransactionStatus;
                 purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
@@ -167,6 +173,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

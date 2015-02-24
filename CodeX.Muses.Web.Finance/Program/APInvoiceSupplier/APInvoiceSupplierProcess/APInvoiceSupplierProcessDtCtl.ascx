@@ -12,53 +12,18 @@
         $(this).trigger('changeValue');
     });
 
-    $('#<%=chkPPN.ClientID %>').change(function () {
-        calculateTotal();
-    });
+    calculateTotal();
 
-    $('#<%=txtDP.ClientID %>').change(function () {
-        $(this).trigger('changeValue');
-        calculateTotal();
-    });
-
-    $('#<%=txtCharges.ClientID %>').change(function () {
-        $(this).trigger('changeValue');
-        calculateTotal();
-    });
-
-    $('#<%=txtFinalDiscountInPercentage.ClientID %>').change(function () {
-        $(this).trigger('changeValue');
-        var finalDiscount = (parseFloat($(this).attr('hiddenVal')) / 100) * parseFloat($('#<%=txtTotalOrder.ClientID %>').attr('hiddenVal'));
-        $('#<%=txtFinalDiscount.ClientID %>').val(finalDiscount).trigger('changeValue');
-        calculateTotal();
-    });
-
-    $('#<%=txtFinalDiscount.ClientID %>').change(function () {
-        $(this).trigger('changeValue');
-        var finalDiscountInPercentage = (parseFloat($(this).attr('hiddenVal')) / parseFloat($('#<%=txtTotalOrder.ClientID %>').attr('hiddenVal'))) * 100;
-        $('#<%=txtFinalDiscountInPercentage.ClientID %>').val(finalDiscountInPercentage).trigger('changeValue');
-        calculateTotal();
-    });
-
-    $('#<%=txtFinalDiscount.ClientID %>').change();
-
+    var VATPercentage = parseInt('<%=GetVATPercentageLabel() %>');
     function calculateTotal() {
-        var totalKotor = parseFloat($('#<%=txtTotalOrder.ClientID %>').attr('hiddenVal'));
-        var Discount = parseFloat($('#<%=txtFinalDiscount.ClientID %>').attr('hiddenVal'));
-
-        if ($('#<%=chkPPN.ClientID %>').is(':checked')) {
-            var temp = totalKotor - Discount;
-            var PPN = parseFloat('<%=GetVATPercentage() %>') / 100 * parseFloat(temp);
-            $('#<%=txtPPN.ClientID %>').val(PPN).trigger('changeValue');
-        }
-        else {
-            $('#<%=txtPPN.ClientID %>').val('0').trigger('changeValue');
-        }
+        var totalKotor = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
         var PPN = parseFloat($('#<%=txtPPN.ClientID %>').attr('hiddenVal'));
+        var totalHarga = totalKotor + PPN;
+        var discountAmount = parseFloat($('#<%=txtFinalDiscountAmount.ClientID %>').attr('hiddenVal'));
         var DP = parseFloat($('#<%=txtDP.ClientID %>').attr('hiddenVal'));
         var Charge = parseFloat($('#<%=txtCharges.ClientID %>').attr('hiddenVal'));
-        var totalHarga = totalKotor - (Discount + DP) + PPN + Charge;
-        $('#<%=txtTotalOrderSaldo.ClientID %>').val(totalHarga).trigger('changeValue');
+        totalHarga = totalHarga - discountAmount - DP + Charge;
+        $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
     }
 </script>
 <input type="hidden" id="hdnID" runat="server" />
@@ -121,10 +86,6 @@
                     <tr style="display: none">
                         <td class="tdLabel"><%=GetLabel("Nilai Kurs (Rp)") %></td>
                         <td><asp:TextBox ID="txtKurs" ReadOnly="true" Width="120px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td><asp:CheckBox ID="chkPPN" Enabled="false" Width="100%" runat="server" />&nbsp;<%=GetLabel("PPN")%></td>
                     </tr>
                 </table>
             </td>
@@ -223,7 +184,7 @@
                                                 <td align="right"><%#Eval("DiscountAmount1", "{0:N}")%></td>
                                                 <td align="right"><%#Eval("DiscountPercentage2", "{0:N}")%></td>
                                                 <td align="right"><%#Eval("DiscountAmount2", "{0:N}")%></td>
-                                                <td align="right"><%#Eval("CustomSubTotal", "{0:N}")%></td>
+                                                <td align="right"><%#Eval("LineAmount", "{0:N}")%></td>
                                                 <td><%# Eval("Username")%></td>
                                             </tr>
                                         </ItemTemplate>
@@ -238,7 +199,7 @@
                 </div>
                 <table style="width: 100%;">
                     <colgroup>
-                        <col style="width: 60%" />
+                        <col style="width: 50%" />
                         <col style="width: 40px" />
                     </colgroup>
                     <tr>
@@ -263,39 +224,51 @@
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jumlah Nilai Pembelian")%></label></td>
-                                    <td><asp:TextBox ID="txtTotalOrder" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><asp:TextBox ID="txtTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon Final %")%></label></td>
-                                    <td><asp:TextBox ID="txtFinalDiscountInPercentage" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("PPN")%> (<%=GetVATPercentageLabel()%>%)</label></td>
+                                    <td>&nbsp;</td>
+                                    <td align="right"><asp:CheckBox ID="chkPPN" Enabled="false" runat="server" /></td>
+                                    <td><asp:TextBox ID="txtPPN" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server"/></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Diskon Final")%></label></td>
-                                    <td><asp:TextBox ID="txtFinalDiscount" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("PPN (" + GetVATPercentage() + "%)")%></label></td>
-                                    <td><asp:TextBox ID="txtPPN" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
+                                    <td><asp:TextBox ID="txtFinalDiscountPercentage" ReadOnly="true" CssClass="number" Width="50px" runat="server" /></td>
+                                    <td>[%]</td>
+                                    <td><asp:TextBox ID="txtFinalDiscountAmount" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No. Reff Uang Muka")%></label></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td><asp:TextBox ID="txtDPReferrenceNo" ReadOnly="true" Width="180px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Uang Muka")%></label></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td><asp:TextBox ID="txtDP" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pembiayaan")%></label></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td><dxe:ASPxComboBox ID="cboChargesType" ClientEnabled="false" ClientInstanceName="cboChargesType" Width="180px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Biaya")%></label></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
                                     <td><asp:TextBox ID="txtCharges" ReadOnly="true" CssClass="txtCurrency" Width="180px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Nilai Penerimaan")%></label></td>
-                                    <td><asp:TextBox ID="txtTotalOrderSaldo" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><asp:TextBox ID="txtTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>
