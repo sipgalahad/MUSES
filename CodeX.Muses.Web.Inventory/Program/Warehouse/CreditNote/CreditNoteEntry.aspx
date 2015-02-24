@@ -89,15 +89,19 @@
                 Methods.getObject('GetvPurchaseReturnHdList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnPurchaseReturnID.ClientID %>').val(result.PurchaseReturnID);
+                        $('#<%=txtCNAmount.ClientID %>').val(result.TotalNetTransactionAmount).trigger('changeValue');
                         if ($('#<%=hdnSupplierID.ClientID %>').val() == '') {
                             $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
                             $('#<%=txtSupplierCode.ClientID %>').val(result.BusinessPartnerCode);
                             $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
                         }
+                        $('#<%=chkPPN.ClientID %>').prop('checked', result.IsIncludeVAT);
                     }
                     else {
                         $('#<%=hdnPurchaseReturnID.ClientID %>').val('');
                         $('#<%=txtPurchaseReturnNo.ClientID %>').val('');
+                        $('#<%=txtCNAmount.ClientID %>').val('0').trigger('changeValue');
+                        $('#<%=chkPPN.ClientID %>').prop('checked', false);
                     }
                 });
             }

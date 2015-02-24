@@ -15622,7 +15622,10 @@ namespace CodeX.Data.Model
         private Decimal _ConversionFactor;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage1;
+        private Decimal _DiscountAmount1;
         private Decimal _DiscountPercentage2;
+        private Decimal _DiscountAmount2;
+        private Decimal _LineAmount;
         private String _GCPurchaseReturnReason;
         private String _PurchaseReturnReason;
         private Int32 _SupplierID;
@@ -15752,11 +15755,29 @@ namespace CodeX.Data.Model
             get { return _DiscountPercentage1; }
             set { _DiscountPercentage1 = value; }
         }
+        [Column(Name = "DiscountAmount1", DataType = "Decimal")]
+        public Decimal DiscountAmount1
+        {
+            get { return _DiscountAmount1; }
+            set { _DiscountAmount1 = value; }
+        }
         [Column(Name = "DiscountPercentage2", DataType = "Decimal")]
         public Decimal DiscountPercentage2
         {
             get { return _DiscountPercentage2; }
             set { _DiscountPercentage2 = value; }
+        }
+        [Column(Name = "DiscountAmount2", DataType = "Decimal")]
+        public Decimal DiscountAmount2
+        {
+            get { return _DiscountAmount2; }
+            set { _DiscountAmount2 = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
         }
         [Column(Name = "GCPurchaseReturnReason", DataType = "String")]
         public String GCPurchaseReturnReason
@@ -15832,6 +15853,8 @@ namespace CodeX.Data.Model
         private Boolean _IsIncludeVAT;
         private Decimal _TransactionAmount;
         private Decimal _VATPercentage;
+        private Decimal _VATAmount;
+        private Decimal _TotalNetTransactionAmount;
         private Boolean _IsAutoUpdateStock;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -15952,6 +15975,18 @@ namespace CodeX.Data.Model
         {
             get { return _VATPercentage; }
             set { _VATPercentage = value; }
+        }
+        [Column(Name = "VATAmount", DataType = "Decimal")]
+        public Decimal VATAmount
+        {
+            get { return _VATAmount; }
+            set { _VATAmount = value; }
+        }
+        [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalNetTransactionAmount
+        {
+            get { return _TotalNetTransactionAmount; }
+            set { _TotalNetTransactionAmount = value; }
         }
         [Column(Name = "IsAutoUpdateStock", DataType = "Boolean")]
         public Boolean IsAutoUpdateStock

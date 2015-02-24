@@ -289,6 +289,7 @@
                 var discountAmount = totalBeforeDisc * discountPercentage / 100;
                 $('#<%=txtDiscountAmount1.ClientID %>').val(discountAmount).trigger('changeValue');
 
+                $('#<%=txtDiscountPercentage2.ClientID %>').change();
                 calculateSubTotal();
             });
 
@@ -301,6 +302,7 @@
                 var discountPercentage = discountAmount * 100 / totalBeforeDisc;
                 $('#<%=txtDiscountPercentage1.ClientID %>').val(discountPercentage);
 
+                $('#<%=txtDiscountPercentage2.ClientID %>').change();
                 calculateSubTotal();
             });
 

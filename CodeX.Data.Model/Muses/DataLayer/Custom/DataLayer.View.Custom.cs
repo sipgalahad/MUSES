@@ -1396,31 +1396,11 @@ namespace CodeX.Data.Model
     #region vPurchaseReturnDt
     public partial class vPurchaseReturnDt
     {
-
-        public Decimal CustomSubTotal
+        public Decimal DiscountAmount
         {
             get
             {
-                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
-               _DiscountPercentage1 / 100);
-                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
-                return totalAfterDisc2;
-            }
-        }
-
-        public Decimal CustomTotalDiscount
-        {
-            get
-            {
-                return (Quantity * UnitPrice) - CustomSubTotal;
-            }
-        }
-
-        public Decimal Discount
-        {
-            get
-            {
-                return Price * _DiscountPercentage1 / 100;
+                return _DiscountAmount1 + _DiscountAmount2;
             }
         }
         public Decimal Price
@@ -1436,22 +1416,6 @@ namespace CodeX.Data.Model
             get
             {
                 return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
-            }
-        }
-
-        public String CustomUnitPrice
-        {
-            get
-            {
-                return UnitPrice.ToString("N2") + " / " + _ItemUnit;
-            }
-        }
-
-        public String CustomQuantityItemUnit
-        {
-            get
-            {
-                return string.Format("{0} {1}", _Quantity, _ItemUnit);
             }
         }
 

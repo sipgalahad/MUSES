@@ -129,7 +129,6 @@ namespace CodeX.Muses.Web.Inventory.Program
                     if (entityPurchaseOrderDt == null)
                     {
                         entityPurchaseOrderDt = new PurchaseOrderDt();
-                        //entityPurchaseOrderDt.PurchaseRequestID = entityPurchaseReqDt.PurchaseRequestID;
                         entityPurchaseOrderDt.ItemID = entityPurchaseReqDt.ItemID;
                         entityPurchaseOrderDt.Quantity = Convert.ToDecimal(entityCPurchaseReqDt.QtyPO);
                         entityPurchaseOrderDt.GCPurchaseUnit = entityCPurchaseReqDt.GCPurchaseUnit;
@@ -141,9 +140,9 @@ namespace CodeX.Muses.Web.Inventory.Program
                         entityPurchaseOrderDt.IsBonusItem = false;
 
                         decimal lineAmount = entityPurchaseOrderDt.UnitPrice * entityPurchaseOrderDt.Quantity;
-                        lineAmount = lineAmount * (100 - entityPurchaseOrderDt.DiscountPercentage1) / 100;
-                        lineAmount = lineAmount * (100 - entityPurchaseOrderDt.DiscountPercentage2) / 100;
-                        entityPurchaseOrderDt.LineAmount = lineAmount;
+                        entityPurchaseOrderDt.DiscountAmount1 = (lineAmount * entityPurchaseOrderDt.DiscountPercentage1) / 100;
+                        entityPurchaseOrderDt.DiscountAmount2 = ((lineAmount - entityPurchaseOrderDt.DiscountAmount1) * entityPurchaseOrderDt.DiscountPercentage2) / 100;
+                        entityPurchaseOrderDt.LineAmount = lineAmount - entityPurchaseOrderDt.DiscountAmount1 - entityPurchaseOrderDt.DiscountAmount2;
                         entityPurchaseOrderDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                         entityPurchaseOrderDt.CreatedBy = AppSession.UserLogin.UserID;
 

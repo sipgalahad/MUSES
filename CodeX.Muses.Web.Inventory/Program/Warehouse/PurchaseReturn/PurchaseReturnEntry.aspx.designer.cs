@@ -238,15 +238,6 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtReferenceDate;
         
         /// <summary>
-        /// chkPPN control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkPPN;
-        
-        /// <summary>
         /// hdnEntryID control.
         /// </summary>
         /// <remarks>
@@ -436,31 +427,49 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtBaseUnit;
         
         /// <summary>
-        /// txtDiscount control.
+        /// txtDiscountPercentage1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDiscount;
+        protected global::System.Web.UI.WebControls.TextBox txtDiscountPercentage1;
         
         /// <summary>
-        /// txtDiscount2 control.
+        /// txtDiscountAmount1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDiscount2;
+        protected global::System.Web.UI.WebControls.TextBox txtDiscountAmount1;
         
         /// <summary>
-        /// txtSubTotalPrice control.
+        /// txtDiscountPercentage2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubTotalPrice;
+        protected global::System.Web.UI.WebControls.TextBox txtDiscountPercentage2;
+        
+        /// <summary>
+        /// txtDiscountAmount2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDiscountAmount2;
+        
+        /// <summary>
+        /// txtLineAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLineAmount;
         
         /// <summary>
         /// cbpView control.
@@ -508,13 +517,22 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtNotes;
         
         /// <summary>
-        /// txtTotalOrder control.
+        /// txtTransactionAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalOrder;
+        protected global::System.Web.UI.WebControls.TextBox txtTransactionAmount;
+        
+        /// <summary>
+        /// chkPPN control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkPPN;
         
         /// <summary>
         /// txtPPN control.
@@ -526,13 +544,13 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPPN;
         
         /// <summary>
-        /// txtTotalOrderSaldo control.
+        /// txtTotalNetTransactionAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTotalOrderSaldo;
+        protected global::System.Web.UI.WebControls.TextBox txtTotalNetTransactionAmount;
         
         /// <summary>
         /// cbpProcess control.
