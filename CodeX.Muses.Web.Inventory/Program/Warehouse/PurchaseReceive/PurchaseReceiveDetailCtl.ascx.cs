@@ -16,19 +16,14 @@ namespace CodeX.Muses.Web.Inventory.Program
 {
     public partial class PurchaseReceiveDetailCtl : BaseEntryPopupCtl
     {
-        protected string filterExpressionPurchaseOrder = "";
+        protected string OnGetFilterExpressionPurchaseOrder()
+        {
+            return string.Format("BusinessPartnerID = '{0}' AND GCTransactionStatus = '{1}'", hdnSupplierID.Value, Constant.TransactionStatus.APPROVED);
+        }
         public override void InitializeDataControl(string param)
         {
             hdnSupplierID.Value = param;
-            filterExpressionPurchaseOrder = string.Format("BusinessPartnerID = '{0}' AND GCTransactionStatus = '{1}'", hdnSupplierID.Value, Constant.TransactionStatus.APPROVED);
             BindGridView();
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            if (lvwView.Items.Count < 1)
-                BindGridView();
         }
 
         private void BindGridView()
@@ -50,12 +45,16 @@ namespace CodeX.Muses.Web.Inventory.Program
                 TextBox txtReceivedItem = e.Item.FindControl("txtReceivedItem") as TextBox;
                 TextBox txtUnitPrice = e.Item.FindControl("txtUnitPrice") as TextBox;
                 TextBox txtDiscountPercentage1 = e.Item.FindControl("txtDiscountPercentage1") as TextBox;
+                TextBox txtDiscountAmount1 = e.Item.FindControl("txtDiscountAmount1") as TextBox;
                 TextBox txtDiscountPercentage2 = e.Item.FindControl("txtDiscountPercentage2") as TextBox;
+                TextBox txtDiscountAmount2 = e.Item.FindControl("txtDiscountAmount2") as TextBox;
                 HtmlGenericControl lblPurchaseUnit = e.Item.FindControl("lblPurchaseUnit") as HtmlGenericControl;
                 txtReceivedItem.Text = (entity.Quantity - entity.ReceivedQuantity).ToString();
                 txtUnitPrice.Text = entity.UnitPrice.ToString();
                 txtDiscountPercentage1.Text = entity.DiscountPercentage1.ToString();
+                txtDiscountAmount1.Text = entity.DiscountAmount1.ToString();
                 txtDiscountPercentage2.Text = entity.DiscountPercentage2.ToString();
+                txtDiscountAmount2.Text = entity.DiscountAmount2.ToString();
                 lblPurchaseUnit.InnerHtml = entity.PurchaseUnit;
             }
         }
@@ -77,63 +76,6 @@ namespace CodeX.Muses.Web.Inventory.Program
             return DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
         }
 
-        protected class PRDtExpired 
-        {
-            public PurchaseReceiveDt purchaseReceiveDt { get; set; }
-            public PurchaseReceiveDtExpired purchaseReceiveDtExpired { get; set; }
-        }
-
-        private void ControlToEntity(IDbContext ctx, List<PRDtExpired> lstPRDt, List<PurchaseOrderDt> lstPODt)
-        {
-            PurchaseOrderDtDao entityPODtDao = new PurchaseOrderDtDao(ctx);
-            foreach (ListViewItem row in lvwView.Items)
-            {
-                CheckBox chkIsSelected = row.FindControl("chkIsSelected") as CheckBox;
-
-                if (chkIsSelected.Checked)
-                {
-                    HtmlInputHidden hdnPurchaseOrderDtID = (HtmlInputHidden)row.FindControl("keyField");
-                    HtmlInputHidden hdnPurchaseOrderHdID = (HtmlInputHidden)row.FindControl("hdnPOHdID");
-                    TextBox txtQtyReceive = (TextBox)row.FindControl("txtReceivedItem");
-                    TextBox txtUnitPrice = (TextBox)row.FindControl("txtUnitPrice");
-                    TextBox txtBatchNo = (TextBox)row.FindControl("txtBatchNo");
-                    TextBox txtExpired = (TextBox)row.FindControl("txtExpired");
-                    TextBox txtDiscountPercentage1 = (TextBox)row.FindControl("txtDiscountPercentage1");
-                    TextBox txtDiscountPercentage2 = (TextBox)row.FindControl("txtDiscountPercentage2");
-                    HtmlInputHidden hdnConversionFactor = (HtmlInputHidden)row.FindControl("hdnConversionFactor");
-                    HtmlInputHidden hdnGCPurchaseUnit = (HtmlInputHidden)row.FindControl("hdnGCPurchaseUnit");
-                    PurchaseOrderDt entityPODt = entityPODtDao.Get(Convert.ToInt32(hdnPurchaseOrderDtID.Value));
-                    CheckBox chkIsAsset = row.FindControl("chkIsAsset") as CheckBox;
-                    PurchaseReceiveDt entityPRDt = new PurchaseReceiveDt();
-                    entityPRDt.PurchaseOrderID = Convert.ToInt32(hdnPurchaseOrderHdID.Value);
-                    entityPRDt.ItemID = entityPODt.ItemID;
-                    entityPRDt.Quantity = Convert.ToDecimal(Request.Form[txtQtyReceive.UniqueID]);
-                    entityPRDt.GCItemUnit = hdnGCPurchaseUnit.Value;
-                    entityPRDt.GCBaseUnit = entityPODt.GCBaseUnit;
-                    entityPRDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
-                    entityPRDt.UnitPrice = Convert.ToDecimal(Request.Form[txtUnitPrice.UniqueID]);
-                    entityPRDt.DiscountPercentage1 = Convert.ToDecimal(Request.Form[txtDiscountPercentage1.UniqueID]);
-                    entityPRDt.DiscountPercentage2 = Convert.ToDecimal(Request.Form[txtDiscountPercentage2.UniqueID]);
-                    entityPRDt.IsBonusItem = false;
-                    entityPRDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                    entityPODt.ReceivedQuantity += entityPRDt.Quantity;
-                    
-                    PurchaseReceiveDtExpired entityExpiredDt = new PurchaseReceiveDtExpired();
-                    entityExpiredDt.BatchNumber = Request.Form[txtBatchNo.UniqueID];
-                    entityExpiredDt.Quantity = entityPRDt.Quantity;
-                    entityExpiredDt.ExpiredDate = Helper.GetDatePickerValue(Request.Form[txtExpired.UniqueID]);
-
-                    PRDtExpired entity = new PRDtExpired();
-                    entity.purchaseReceiveDt = entityPRDt;
-                    entity.purchaseReceiveDtExpired = entityExpiredDt;
-
-                    lstPRDt.Add(entity);
-                    lstPODt.Add(entityPODt);
-                }
-
-            }
-        }
-
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             bool result = true;
@@ -142,31 +84,52 @@ namespace CodeX.Muses.Web.Inventory.Program
             PurchaseOrderDtDao entityPODtDao = new PurchaseOrderDtDao(ctx);
             PurchaseOrderHdDao entityPOHdDao = new PurchaseOrderHdDao(ctx);
             PurchaseReceiveDtExpiredDao entityPurchaseReceiveDtExpiredDao = new PurchaseReceiveDtExpiredDao(ctx);
-
             try
             {
-                List<PRDtExpired> lstPRDt = new List<PRDtExpired>();
-                List<PurchaseOrderDt> lstPODt = new List<PurchaseOrderDt>();
-                
-                ControlToEntity(ctx, lstPRDt, lstPODt);
+                List<PurchaseOrderDt> lstPODt = new List<PurchaseOrderDt>();                
                 int purchaseReceiveID = 0;
                 string purchaseReceiveNo = "";
                 ((PurchaseReceiveEntry)Page).SavePurchaseReceiveHd(ctx, ref purchaseReceiveID, ref purchaseReceiveNo);
 
-                foreach (PRDtExpired entityPRDt in lstPRDt)
+                List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(string.Format("ID IN ({0})", hdnLstPurchaseOrderDtID.Value), ctx);
+                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
                 {
-                    PurchaseReceiveDt entityDt = entityPRDt.purchaseReceiveDt;
-                    entityDt.PurchaseReceiveID = purchaseReceiveID;
-                    entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                    entityPurchaseReceiveDtDao.Insert(entityDt);
+                    string[] temp = saveValue.Split(';');
+                    int purchaseOrderDtID = Convert.ToInt32(temp[0]);
+
+                    PurchaseOrderDt entityPODt = lstPurchaseOrderDt.FirstOrDefault(p => p.ID == purchaseOrderDtID);
+
+                    PurchaseReceiveDt entityPRDt = new PurchaseReceiveDt();
+                    entityPRDt.PurchaseReceiveID = purchaseReceiveID;
+                    entityPRDt.PurchaseOrderID = Convert.ToInt32(temp[1]);
+                    entityPRDt.ItemID = entityPODt.ItemID;
+                    entityPRDt.Quantity = Convert.ToDecimal(temp[2]);
+                    entityPRDt.GCItemUnit = temp[11];
+                    entityPRDt.GCBaseUnit = entityPODt.GCBaseUnit;
+                    entityPRDt.ConversionFactor = Convert.ToDecimal(temp[10]);
+                    entityPRDt.UnitPrice = Convert.ToDecimal(temp[3]);
+                    entityPRDt.DiscountPercentage1 = Convert.ToDecimal(temp[6]);
+                    entityPRDt.DiscountAmount1 = Convert.ToDecimal(temp[7]);
+                    entityPRDt.DiscountPercentage2 = Convert.ToDecimal(temp[8]);
+                    entityPRDt.DiscountAmount2 = Convert.ToDecimal(temp[9]);
+                    entityPRDt.IsBonusItem = false;
+                    entityPRDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                    entityPRDt.LineAmount = (entityPRDt.Quantity * entityPRDt.UnitPrice) - entityPRDt.DiscountAmount1 - entityPRDt.DiscountAmount2;
+                    entityPODt.ReceivedQuantity += entityPRDt.Quantity;
+                    entityPRDt.CreatedBy = AppSession.UserLogin.UserID;
+                    entityPurchaseReceiveDtDao.Insert(entityPRDt);
                     Int32 ID = BusinessLayer.GetPurchaseReceiveDtMaxID(ctx);
 
-                    PurchaseReceiveDtExpired entityPRDtExpired = entityPRDt.purchaseReceiveDtExpired;
-                    entityPRDtExpired.ID = ID;
-                    entityPurchaseReceiveDtExpiredDao.Insert(entityPRDtExpired);
+                    PurchaseReceiveDtExpired entityExpiredDt = new PurchaseReceiveDtExpired();
+                    entityExpiredDt.ID = ID;
+                    entityExpiredDt.BatchNumber = temp[4];
+                    entityExpiredDt.Quantity = entityPRDt.Quantity;
+                    entityExpiredDt.ExpiredDate = Helper.GetDatePickerValue(temp[5]);
+                    entityPurchaseReceiveDtExpiredDao.Insert(entityExpiredDt);
                 }
-                
-                foreach (PurchaseOrderDt entityDt in lstPODt)
+
+                foreach (PurchaseOrderDt entityDt in lstPurchaseOrderDt)
                 {
                     entityDt.ReceivedInformation += "|" + purchaseReceiveID + "|";
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
@@ -187,6 +150,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

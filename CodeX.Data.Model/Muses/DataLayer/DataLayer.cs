@@ -14961,7 +14961,10 @@ namespace CodeX.Data.Model
         private Decimal _ConversionFactor;
         private Decimal _UnitPrice;
         private Decimal _DiscountPercentage1;
+        private Decimal _DiscountAmount1;
         private Decimal _DiscountPercentage2;
+        private Decimal _DiscountAmount2;
+        private Decimal _LineAmount;
         private Boolean _IsBonusItem;
         private Boolean _IsControlExpired;
         private String _GCItemDetailStatus;
@@ -15030,11 +15033,29 @@ namespace CodeX.Data.Model
             get { return _DiscountPercentage1; }
             set { _DiscountPercentage1 = value; }
         }
+        [Column(Name = "DiscountAmount1", DataType = "Decimal")]
+        public Decimal DiscountAmount1
+        {
+            get { return _DiscountAmount1; }
+            set { _DiscountAmount1 = value; }
+        }
         [Column(Name = "DiscountPercentage2", DataType = "Decimal")]
         public Decimal DiscountPercentage2
         {
             get { return _DiscountPercentage2; }
             set { _DiscountPercentage2 = value; }
+        }
+        [Column(Name = "DiscountAmount2", DataType = "Decimal")]
+        public Decimal DiscountAmount2
+        {
+            get { return _DiscountAmount2; }
+            set { _DiscountAmount2 = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
         }
         [Column(Name = "IsBonusItem", DataType = "Boolean")]
         public Boolean IsBonusItem
@@ -15100,8 +15121,7 @@ namespace CodeX.Data.Model
         }
         public int Insert(PurchaseReceiveDt record)
         {
-            record.CreatedDate = record.LastUpdatedDate = DateTime.Now;
-            record.LastUpdatedBy = record.CreatedBy;
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -15221,15 +15241,16 @@ namespace CodeX.Data.Model
         private Decimal _CurrencyRate;
         private Boolean _IsIncludeVAT;
         private Decimal _TransactionAmount;
-        private Decimal _DiscountAmount;
-        private Decimal _FinalDiscount;
+        private Decimal _FinalDiscountPercentage;
+        private Decimal _FinalDiscountAmount;
         private String _GCChargesType;
         private Decimal _ChargesAmount;
         private Decimal _StampAmount;
         private Decimal _VATPercentage;
+        private Decimal _VATAmount;
         private Decimal _DownPaymentAmount;
         private String _DownPaymentReferenceNo;
-        private Decimal _NetTransactionAmount;
+        private Decimal _TotalNetTransactionAmount;
         private String _ReceivedBy;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -15330,17 +15351,17 @@ namespace CodeX.Data.Model
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
         }
-        [Column(Name = "DiscountAmount", DataType = "Decimal")]
-        public Decimal DiscountAmount
+        [Column(Name = "FinalDiscountPercentage", DataType = "Decimal")]
+        public Decimal FinalDiscountPercentage
         {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
+            get { return _FinalDiscountPercentage; }
+            set { _FinalDiscountPercentage = value; }
         }
-        [Column(Name = "FinalDiscount", DataType = "Decimal")]
-        public Decimal FinalDiscount
+        [Column(Name = "FinalDiscountAmount", DataType = "Decimal")]
+        public Decimal FinalDiscountAmount
         {
-            get { return _FinalDiscount; }
-            set { _FinalDiscount = value; }
+            get { return _FinalDiscountAmount; }
+            set { _FinalDiscountAmount = value; }
         }
         [Column(Name = "GCChargesType", DataType = "String")]
         public String GCChargesType
@@ -15366,6 +15387,12 @@ namespace CodeX.Data.Model
             get { return _VATPercentage; }
             set { _VATPercentage = value; }
         }
+        [Column(Name = "VATAmount", DataType = "Decimal")]
+        public Decimal VATAmount
+        {
+            get { return _VATAmount; }
+            set { _VATAmount = value; }
+        }
         [Column(Name = "DownPaymentAmount", DataType = "Decimal")]
         public Decimal DownPaymentAmount
         {
@@ -15378,11 +15405,11 @@ namespace CodeX.Data.Model
             get { return _DownPaymentReferenceNo; }
             set { _DownPaymentReferenceNo = value; }
         }
-        [Column(Name = "NetTransactionAmount", DataType = "Decimal")]
-        public Decimal NetTransactionAmount
+        [Column(Name = "TotalNetTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalNetTransactionAmount
         {
-            get { return _NetTransactionAmount; }
-            set { _NetTransactionAmount = value; }
+            get { return _TotalNetTransactionAmount; }
+            set { _TotalNetTransactionAmount = value; }
         }
         [Column(Name = "ReceivedBy", DataType = "String", IsNullable = true)]
         public String ReceivedBy

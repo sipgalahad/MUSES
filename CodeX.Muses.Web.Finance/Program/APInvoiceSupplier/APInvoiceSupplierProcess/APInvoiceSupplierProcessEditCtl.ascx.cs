@@ -52,9 +52,8 @@ namespace CodeX.Muses.Web.Finance.Program
             cboCurrency.Value = entity.GCCurrencyCode.ToString();
             txtKurs.Text = entity.CurrencyRate.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
-            decimal transactionAmount = entity.TransactionAmount - entity.DiscountAmount;
-            txtTotalOrder.Text = transactionAmount.ToString();
-            txtFinalDiscount.Text = entity.FinalDiscount.ToString();
+            txtTotalOrder.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscount.Text = entity.FinalDiscountAmount.ToString();
 
             BindGridView();
         }
@@ -85,7 +84,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 txtDiscountAmount1.Text = entity.DiscountAmount1.ToString();
                 txtDiscountPercentage2.Text = entity.DiscountPercentage2.ToString();
                 txtDiscountAmount2.Text = entity.DiscountAmount2.ToString();
-                txtLineAmount.Text = entity.CustomSubTotal.ToString();
+                txtLineAmount.Text = entity.LineAmount.ToString();
             }
         }
 
@@ -127,7 +126,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseReceiveHd.ChargesAmount = Convert.ToDecimal(txtCharges.Text);
                 purchaseReceiveHd.DownPaymentReferenceNo = txtDPReferrenceNo.Text;
                 purchaseReceiveHd.GCChargesType = cboChargesType.Value.ToString();
-                purchaseReceiveHd.FinalDiscount = Convert.ToDecimal(Request.Form[txtFinalDiscount.UniqueID]);
+                purchaseReceiveHd.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtFinalDiscount.UniqueID]);
                 purchaseReceiveHd.DownPaymentAmount = Convert.ToDecimal(txtDP.Text);
                 purchaseReceiveHd.CurrencyRate = Convert.ToDecimal(txtKurs.Text);
 
@@ -144,7 +143,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
 
                 purchaseReceiveHd = purchaseReceiveHdDao.Get(Convert.ToInt32(hdnPurchaseReceiveID.Value));
-                purchaseReceiveHd.NetTransactionAmount = ((purchaseReceiveHd.TransactionAmount - purchaseReceiveHd.DiscountAmount - purchaseReceiveHd.FinalDiscount) * (100 + purchaseReceiveHd.VATPercentage) / 100) + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
+                purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TransactionAmount - purchaseReceiveHd.FinalDiscountAmount + purchaseReceiveHd.VATAmount + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
                 purchaseReceiveHd.GCTransactionStatus = tempGCTransactionStatus;
                 purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
@@ -153,8 +152,8 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseInvoiceDt.ReferenceNo = purchaseReceiveHd.ReferenceNo;
                 purchaseInvoiceDt.ReferenceDate = purchaseReceiveHd.ReferenceDate;
                 purchaseInvoiceDt.ChargesAmount = purchaseReceiveHd.ChargesAmount;
-                purchaseInvoiceDt.FinalDiscountAmount = purchaseReceiveHd.FinalDiscount;
-                purchaseInvoiceDt.DiscountAmount = purchaseReceiveHd.DiscountAmount;
+                purchaseInvoiceDt.FinalDiscountAmount = purchaseReceiveHd.FinalDiscountAmount;
+                //purchaseInvoiceDt.DiscountAmount = purchaseReceiveHd.DiscountAmount;
                 purchaseInvoiceDt.ChargesAmount = purchaseReceiveHd.ChargesAmount;
                 purchaseInvoiceDt.DownPaymentAmount = purchaseReceiveHd.DownPaymentAmount;
                 purchaseInvoiceDt.StampAmount = purchaseReceiveHd.StampAmount;

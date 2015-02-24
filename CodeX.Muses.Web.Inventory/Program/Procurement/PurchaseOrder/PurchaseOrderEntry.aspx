@@ -88,7 +88,6 @@
             }
             //#endregion
 
-
             //#region Supplier
             function getSupplierFilterExpression() {
                 var filterExpression = "<%=OnGetFilterExpressionSupplier() %>";
@@ -288,8 +287,12 @@
             });
 
             $('#btnCancel').click(function () {
+                var lineAmount = parseFloat($('#<%=txtLineAmount.ClientID %>').attr('hiddenVal'));
+                var transactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
+                transactionAmount = transactionAmount - lineAmount + editedLineAmount;
+                $('#<%=txtTransactionAmount.ClientID %>').val(transactionAmount).trigger('changeValue');
                 $('#entryDetailContainer').hide();
-                cbpView.PerformCallback('refresh');
+                calculateTotal();
             });
 
             $('#btnSave').click(function (evt) {
@@ -376,19 +379,6 @@
                 $(this).blur();
                 calculateTotal();
             });
-
-            function calculateFinalDiscount(kode) {
-                var totalTrans = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
-                if (kode == "fromPctg") {
-                    var finalDiscount = (parseFloat($('#<%=txtFinalDiscountPercentage.ClientID %>').attr('hiddenVal')) / 100) * totalTrans;
-                    $('#<%=txtFinalDiscountAmount.ClientID %>').val(finalDiscount).trigger('changeValue');
-                }
-                else if (kode == "fromTxt") {
-                    var finalDiscountInPercentage = (parseFloat($('#<%=txtFinalDiscountAmount.ClientID %>').attr('hiddenVal')) / totalTrans) * 100;
-                    $('#<%=txtFinalDiscountPercentage.ClientID %>').val(finalDiscountInPercentage).trigger('changeValue');
-                }
-                calculateTotal();
-            }
 
             $('.txtCurrency').each(function () {
                 $(this).trigger('changeValue');

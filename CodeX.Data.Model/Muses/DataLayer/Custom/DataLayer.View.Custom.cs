@@ -1096,38 +1096,11 @@ namespace CodeX.Data.Model
         {
             get { return _ReceivedDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
-
-        public Decimal CustomSubTotal
-        {
-            get
-            {
-                Decimal totalAfterDisc1 = (Quantity * UnitPrice) - ((Quantity * UnitPrice) *
-               _DiscountPercentage1 / 100);
-                Decimal totalAfterDisc2 = totalAfterDisc1 - (_DiscountPercentage2 / 100 * totalAfterDisc1);
-                return totalAfterDisc2;
-            }
-        }
-
-        public Decimal CustomTotalDiscount
-        {
-            get
-            {
-                return (Quantity * UnitPrice) - CustomSubTotal;
-            }
-        }
         public Boolean IsAllowEditItem
         {
             get
             {
                 return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
-            }
-        }
-
-        public String CustomUnitPrice
-        {
-            get
-            {
-                return UnitPrice.ToString("N2") + " / " + _ItemUnit;
             }
         }
 
@@ -1142,14 +1115,9 @@ namespace CodeX.Data.Model
             }
         }
 
-        public Decimal DiscountAmount1
+        public Decimal DiscountAmount
         {
-            get { return (_UnitPrice * Quantity) * DiscountPercentage1 / 100; }
-        }
-
-        public Decimal DiscountAmount2
-        {
-            get { return ((_UnitPrice * Quantity) - DiscountAmount1) * DiscountPercentage2 / 100; }
+            get { return _DiscountAmount1 + _DiscountAmount2; }
         }
 
         public Boolean isConfirmed
@@ -1169,13 +1137,6 @@ namespace CodeX.Data.Model
             get
             {
                 return _ReceivedDate.ToString(Constant.FormatString.DATE_FORMAT);
-            }
-        }
-        public decimal NetTransactionAmount
-        {
-            get
-            {
-                return _TransactionAmount - _DiscountAmount;
             }
         }
 

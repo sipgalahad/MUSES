@@ -9,7 +9,7 @@
 <script type="text/javascript" id="dxss_serviceunithealthcareentryctl">
     //#region Order No
     function getPurchaseOrderExpression() {
-        var filterExpression = "<%=filterExpressionPurchaseOrder %>";
+        var filterExpression = "<%=OnGetFilterExpressionPurchaseOrder() %>";
         return filterExpression;
     }
 
@@ -42,10 +42,6 @@
             $(this).trigger('changeValue');
         });
 
-        $('.txtReceivedItem').each(function () {
-            $(this).change();
-        });
-
         $('.grdPurchaseReceiveDt tr:gt(0)').each(function () {
             $txtExpired = $(this).find('.txtExpired');
             if ($txtExpired != null) {
@@ -71,9 +67,9 @@
             $tr.find('.txtReceivedItem').removeAttr('readonly');
             $tr.find('.txtUnitPrice').removeAttr('readonly');
             $tr.find('.txtDiscountPercentage1').removeAttr('readonly');
-            $tr.find('.txtDiscount1').removeAttr('readonly');
+            $tr.find('.txtDiscountAmount1').removeAttr('readonly');
             $tr.find('.txtDiscountPercentage2').removeAttr('readonly');
-            $tr.find('.txtDiscount2').removeAttr('readonly');
+            $tr.find('.txtDiscountAmount2').removeAttr('readonly');
             $tr.find('.txtBatchNo').removeAttr('readonly');
             $tr.find('.txtExpired').removeAttr('readonly');
             $tr.find('.lblPurchaseUnit').addClass('lblLink');
@@ -82,19 +78,13 @@
             $tr.find('.txtReceivedItem').attr('readonly', 'readonly');
             $tr.find('.txtUnitPrice').attr('readonly', 'readonly');
             $tr.find('.txtDiscountPercentage1').attr('readonly', 'readonly');
-            $tr.find('.txtDiscount1').attr('readonly', 'readonly');
+            $tr.find('.txtDiscountAmount1').attr('readonly', 'readonly');
             $tr.find('.txtDiscountPercentage2').attr('readonly', 'readonly');
-            $tr.find('.txtDiscount2').attr('readonly', 'readonly');
+            $tr.find('.txtDiscountAmount2').attr('readonly', 'readonly');
             $tr.find('.txtBatchNo').attr('readonly', 'readonly');
             $tr.find('.txtExpired').attr('readonly', 'readonly');
             $tr.find('.lblPurchaseUnit').removeClass('lblLink');
         }
-    });
-
-    $('.txtReceivedItem').die('change');
-    $('.txtReceivedItem').live('change', function () {
-        var $tr = $(this).closest('tr');
-        $tr.find('.txtDiscountPercentage1').change();
     });
 
     $('.txtUnitPrice').die('change');
@@ -112,13 +102,13 @@
         var unitPrice = parseFloat($tr.find('.txtUnitPrice').attr('hiddenVal'));
 
         var discountAmount = (receivedItem * unitPrice) * discountPercentage / 100;
-        $tr.find('.txtDiscount1').val(discountAmount).trigger('changeValue');
+        $tr.find('.txtDiscountAmount1').val(discountAmount).trigger('changeValue');
 
         $tr.find('.txtDiscountPercentage2').change();
     });
 
-    $('.txtDiscount1').die('change');
-    $('.txtDiscount1').live('change', function () {
+    $('.txtDiscountAmount1').die('change');
+    $('.txtDiscountAmount1').live('change', function () {
         $(this).blur();
         var $tr = $(this).closest('tr');
         var discountAmount = parseFloat($(this).attr('hiddenVal'));
@@ -131,12 +121,12 @@
         $tr.find('.txtDiscountPercentage2').change();
     });
 
-    $('.txtDiscount2').die('change');
-    $('.txtDiscount2').live('change', function () {
+    $('.txtDiscountAmount2').die('change');
+    $('.txtDiscountAmount2').live('change', function () {
         $(this).blur();
         var $tr = $(this).closest('tr');
         var discountAmount = parseFloat($(this).attr('hiddenVal'));
-        var discountAmount1 = parseFloat($tr.find('.txtDiscount1').attr('hiddenVal'));
+        var discountAmount1 = parseFloat($tr.find('.txtDiscountAmount1').attr('hiddenVal'));
         var receivedItem = parseFloat($tr.find('.txtReceivedItem').val());
         var unitPrice = parseFloat($tr.find('.txtUnitPrice').attr('hiddenVal'));
 
@@ -148,25 +138,46 @@
     $('.txtDiscountPercentage2').live('change', function () {
         var $tr = $(this).closest('tr');
         var discountPercentage = parseFloat($(this).val());
-        var discountAmount1 = parseFloat($tr.find('.txtDiscount1').attr('hiddenVal'));
+        var discountAmount1 = parseFloat($tr.find('.txtDiscountAmount1').attr('hiddenVal'));
         var receivedItem = parseFloat($tr.find('.txtReceivedItem').val());
         var unitPrice = parseFloat($tr.find('.txtUnitPrice').attr('hiddenVal'));
 
         var discountAmount = ((receivedItem * unitPrice) - discountAmount1) * discountPercentage / 100;
-        $tr.find('.txtDiscount2').val(discountAmount).trigger('changeValue');
+        $tr.find('.txtDiscountAmount2').val(discountAmount).trigger('changeValue');
     });
 
     function onBeforeSaveRecord(errMessage) {
-        var count = 0;
+        var result = '';
+        var lstPurchaseOrderDtID = '';
+
         $('.chkIsSelected input').each(function () {
-            if ($(this).is(':checked')) {
-                count += 1;
+            $tr = $(this).closest('tr');
+            var purchaseOrderDtID = $tr.find('.keyField').val();
+            var purchaseOrderID = $tr.find('.hdnPOHdID').val();
+            var receivedItem = $tr.find('.txtReceivedItem').val();
+            var unitPrice = $tr.find('.txtUnitPrice').attr('hiddenVal');
+            var batchNo = $tr.find('.txtBatchNo').val();
+            var expired = $tr.find('.txtExpired').val();
+            var discountPercentage1 = $tr.find('.txtDiscountPercentage1').val();
+            var discountAmount1 = $tr.find('.txtDiscountAmount1').attr('hiddenVal');
+            var discountPercentage2 = $tr.find('.txtDiscountPercentage2').val();
+            var discountAmount2 = $tr.find('.txtDiscountAmount2').attr('hiddenVal');
+            var conversionFactor = $tr.find('.hdnConversionFactor').val();
+            var GCPurchaseUnit = $tr.find('.hdnGCPurchaseUnit').val();
+
+            if (result != '') {
+                result += '|';
+                lstPurchaseOrderDtID += ',';
             }
+            result += purchaseOrderDtID + ';' + purchaseOrderID + ';' + receivedItem + ';' + unitPrice + ';' + batchNo + ';' + expired + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + conversionFactor + ';' + GCPurchaseUnit;
+            lstPurchaseOrderDtID += purchaseOrderDtID;
         });
-        if (count == 0) {
+        if (result == '') {
             errMessage.text = 'Please Select Item First';
             return false;
         }
+        $('#<%=hdnSaveValue.ClientID %>').val(result);
+        $('#<%=hdnLstPurchaseOrderDtID.ClientID %>').val(lstPurchaseOrderDtID);
         return true;
     }
 
@@ -207,7 +218,8 @@
     //#endregion
 </script>
 <input type="hidden" id="hdnSupplierID" value="" runat="server" />
-<input type="hidden" id="hdnSelectedMember" runat="server" value="" />
+<input type="hidden" id="hdnLstPurchaseOrderDtID" runat="server" value="" />
+<input type="hidden" id="hdnSaveValue" runat="server" value="" />
 
 <table class="tblContentArea">
     <tr>
@@ -299,7 +311,7 @@
                                         <td align="center">
                                             <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             <input type="hidden" class="keyField" id="keyField" runat="server" value='<%# Eval("ID")%>' />
-                                            <input type="hidden" id="hdnPOHdID" runat="server" value='<%# Eval("PurchaseOrderID")%>' />
+                                            <input type="hidden" id="hdnPOHdID" class="hdnPOHdID" runat="server" value='<%# Eval("PurchaseOrderID")%>' />
                                             <input type="hidden" id="hdnItemID" class="hdnItemID" runat="server" value='<%# Eval("ItemID")%>' />
                                             <input type="hidden" id="hdnGCPurchaseUnit" class="hdnGCPurchaseUnit" runat="server" value='<%# Eval("GCPurchaseUnit")%>' />
                                             <input type="hidden" id="hdnConversionFactor" class="hdnConversionFactor" runat="server" value='<%# Eval("ConversionFactor")%>' />
@@ -311,9 +323,9 @@
                                         <td align="center"><asp:TextBox ID="txtUnitPrice" ReadOnly="true" Width="100%" runat="server" CssClass="txtCurrency txtUnitPrice"/> </td>
                                         <td align="center"><label runat="server" id="lblPurchaseUnit" class="lblPurchaseUnit"></label></td>
                                         <td align="center"><asp:TextBox ID="txtDiscountPercentage1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage1"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtDiscount1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscount1"/> </td>
+                                        <td align="center"><asp:TextBox ID="txtDiscountAmount1" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount1"/> </td>
                                         <td align="center"><asp:TextBox ID="txtDiscountPercentage2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="number txtDiscountPercentage2"/> </td>
-                                        <td align="center"><asp:TextBox ID="txtDiscount2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscount2"/> </td>
+                                        <td align="center"><asp:TextBox ID="txtDiscountAmount2" ReadOnly="true" Width="100%" runat="server" Text="0" CssClass="txtCurrency txtDiscountAmount2"/> </td>
                                         <td align="center"><label runat="server" id="lblConversion" class="lblConversion"><%#Eval("CustomConversion")%></label></td>
                                         <td align="center"><asp:TextBox ID="txtSerialNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="number txtSerialNo"/> </td>
                                         <td align="center"><asp:TextBox ID="txtBatchNo" ReadOnly="true" Width="50%" value ="0" runat="server" CssClass="txtBatchNo"/> </td>

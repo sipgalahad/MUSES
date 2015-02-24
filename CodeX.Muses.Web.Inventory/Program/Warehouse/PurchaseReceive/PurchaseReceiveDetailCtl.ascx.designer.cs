@@ -22,13 +22,22 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSupplierID;
         
         /// <summary>
-        /// hdnSelectedMember control.
+        /// hdnLstPurchaseOrderDtID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstPurchaseOrderDtID;
+        
+        /// <summary>
+        /// hdnSaveValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
         
         /// <summary>
         /// hdnOrderID control.

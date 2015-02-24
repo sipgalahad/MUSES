@@ -51,9 +51,8 @@ namespace CodeX.Muses.Web.Finance.Program
             cboCurrency.Value = entity.GCCurrencyCode.ToString();
             txtKurs.Text = entity.CurrencyRate.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
-            decimal transactionAmount = entity.TransactionAmount - entity.DiscountAmount;
-            txtTotalOrder.Text = transactionAmount.ToString();
-            txtFinalDiscount.Text = entity.FinalDiscount.ToString();
+            txtTotalOrder.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscount.Text = entity.FinalDiscountAmount.ToString();
 
             BindGridView();
         }

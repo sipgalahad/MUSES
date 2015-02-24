@@ -112,11 +112,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(cboCurrency, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtKurs, new ControlEntrySetting(true, true, true, "1.00"));
 
-            SetControlEntrySetting(txtFinalDiscount, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountAmount, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(txtPPN, new ControlEntrySetting(false, false, true, "0"));
-            SetControlEntrySetting(txtFinalDiscountInPercentage, new ControlEntrySetting(true, true, true, "0"));
+            SetControlEntrySetting(txtFinalDiscountPercentage, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(txtDP, new ControlEntrySetting(true, true, true, "0"));
-            SetControlEntrySetting(txtTotalOrderSaldo, new ControlEntrySetting(false, false, true, "0"));
+            SetControlEntrySetting(txtTotalNetTransactionAmount, new ControlEntrySetting(false, false, true, "0"));
         }
 
         public override void OnAddRecord()
@@ -199,8 +199,9 @@ namespace CodeX.Muses.Web.Inventory.Program
             cboCurrency.Value = entity.GCCurrencyCode.ToString();
             txtKurs.Text = entity.CurrencyRate.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
-            txtTotalOrder.Text = entity.TransactionAmount.ToString();
-            txtFinalDiscount.Text = entity.FinalDiscount.ToString();
+            txtTransactionAmount.Text = entity.TransactionAmount.ToString();
+            txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
+            txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
@@ -259,23 +260,16 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entityHd.VATPercentage = Convert.ToInt32(hdnVATPercentage.Value);
             else
                 entityHd.VATPercentage = 0;
+            entityHd.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
 
             entityHd.Remarks = txtNotes.Text;
             entityHd.ChargesAmount = Convert.ToDecimal(txtCharges.Text);
             entityHd.DownPaymentReferenceNo = txtDPReferrenceNo.Text;
             entityHd.GCChargesType = cboChargesType.Value.ToString();
-            entityHd.FinalDiscount = Convert.ToDecimal(Request.Form[txtFinalDiscount.UniqueID]);
-            entityHd.FinalDiscount = Convert.ToDecimal(txtFinalDiscount.Text);
+            entityHd.FinalDiscountPercentage = Convert.ToDecimal(Request.Form[txtFinalDiscountPercentage.UniqueID]);
+            entityHd.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtFinalDiscountAmount.UniqueID]);
             entityHd.DownPaymentAmount = Convert.ToDecimal(txtDP.Text);
-            entityHd.NetTransactionAmount = ((entityHd.TransactionAmount - entityHd.DiscountAmount - entityHd.FinalDiscount) * (100 + entityHd.VATPercentage) / 100) + entityHd.StampAmount + entityHd.ChargesAmount - entityHd.DownPaymentAmount;
-
-            entityHd.IsIncludeVAT = chkPPN.Checked;
-
-            if (entityHd.IsIncludeVAT)
-                entityHd.VATPercentage = Convert.ToInt32(hdnVATPercentage.Value);
-            else
-                entityHd.VATPercentage = 0;
-            entityHd.DiscountAmount = 0;
+            entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount + entityHd.StampAmount + entityHd.ChargesAmount - entityHd.DownPaymentAmount;
             int termDay = termDao.Get(entityHd.TermID).TermDay;
             entityHd.PaymentDueDate = entityHd.ReferenceDate.AddDays(termDay);
         }
@@ -301,6 +295,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 PRID = Convert.ToInt32(hdnPRID.Value);
                 PRNo = Request.Params[txtPurchaseReceiveNo.UniqueID];
+                PurchaseReceiveHd entityHd = entityHdDao.Get(PRID);
+                ControlToEntityHd(ctx, entityHd);
+                entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Update(entityHd);
             }
         }
 
@@ -319,6 +317,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -345,6 +344,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -362,8 +362,8 @@ namespace CodeX.Muses.Web.Inventory.Program
             IDbContext ctx = DbFactory.Configure(true);
             PurchaseOrderHdDao purchaseOrderHdDao = new PurchaseOrderHdDao(ctx);
             PurchaseOrderDtDao purchaseOrderDtDao = new PurchaseOrderDtDao(ctx);
-            PurchaseRequestPODao purchaseRequestPODao = new PurchaseRequestPODao(ctx);
             PurchaseReceivePODao purchaseReceivePODao = new PurchaseReceivePODao(ctx);
+            PurchaseRequestPODao purchaseRequestPODao = new PurchaseRequestPODao(ctx);
             PurchaseReceiveHdDao purchaseHdDao = new PurchaseReceiveHdDao(ctx);
             PurchaseReceiveDtDao purchaseDtDao = new PurchaseReceiveDtDao(ctx);
             ItemPlanningDao itemPlanningDao = new ItemPlanningDao(ctx);
@@ -451,6 +451,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -512,6 +513,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -556,6 +558,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -647,8 +650,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.GCBaseUnit = hdnGCBaseUnit.Value;
             entityDt.ConversionFactor = Convert.ToDecimal(hdnConversionFactor.Value);
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
-            entityDt.DiscountPercentage1 = Convert.ToDecimal(txtDiscount.Text);
-            entityDt.DiscountPercentage2 = Convert.ToDecimal(txtDiscount2.Text);
+            entityDt.DiscountPercentage1 = Convert.ToDecimal(txtDiscountPercentage1.Text);
+            entityDt.DiscountAmount1 = Convert.ToDecimal(txtDiscountAmount1.Text);
+            entityDt.DiscountPercentage2 = Convert.ToDecimal(txtDiscountPercentage2.Text);
+            entityDt.DiscountAmount2 = Convert.ToDecimal(txtDiscountAmount2.Text);
+            entityDt.LineAmount = Convert.ToDecimal(Request.Form[txtLineAmount.UniqueID]);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int PRID)
@@ -672,6 +678,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -698,6 +705,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
@@ -738,6 +746,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
