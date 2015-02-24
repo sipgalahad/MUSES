@@ -58,6 +58,7 @@ namespace CodeX.Common
             public const string SCHOLARSHIP_TYPE = "MS018";
             public const string ACHIEVEMENT_TYPE = "MS019";
             public const string SCHOOL_DAY = "MS020";
+            public const string SCORE_GRADE = "MS022";
         }
 
         public static class SchoolPeriodStatus
@@ -247,9 +248,8 @@ namespace CodeX.Common
                 public const string PROSPECTIVE_STUDENT_FORM = "CP010107";
                 public const string SCHOOL_GRADE = "CP010108";
                 public const string SCHOOL_MAJOR = "CP010109";
-                public const string TEACHER_MARK = "CP010110";
-                public const string TEACHER_MARK_TYPE_GROUP = "CP010111";
-                public const string TEACHER_MARK_TYPE_ITEM = "CP010112";
+                public const string TEACHER_MARK_TYPE_GROUP = "CP010110";
+                public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";

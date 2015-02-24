@@ -21652,6 +21652,7 @@ namespace CodeX.Data.Model
     public class TeacherMark : DbDataModel
     {
         private Int32 _TeacherMarkID;
+        private Int32 _TeacherID;
         private Int32 _SchoolPeriodID;
         private Int32 _PeriodSectionID;
         private String _PeriodNo;
@@ -21668,6 +21669,12 @@ namespace CodeX.Data.Model
         {
             get { return _TeacherMarkID; }
             set { _TeacherMarkID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -21903,6 +21910,7 @@ namespace CodeX.Data.Model
         private Int32 _TeacherMarkTypeItemID;
         private Int32 _Mark;
         private String _MarkInString;
+        private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -21938,6 +21946,12 @@ namespace CodeX.Data.Model
         {
             get { return _MarkInString; }
             set { _MarkInString = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

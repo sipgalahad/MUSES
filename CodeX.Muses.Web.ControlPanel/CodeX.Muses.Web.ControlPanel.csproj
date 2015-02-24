@@ -186,8 +186,6 @@
     <Content Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeGroupList.aspx" />
     <Content Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemEntry.aspx" />
     <Content Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemList.aspx" />
-    <Content Include="Program\Master\TeacherMark\TeacherMarkEntry.aspx" />
-    <Content Include="Program\Master\TeacherMark\TeacherMarkList.aspx" />
     <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
     <Content Include="Program\Master\Teacher\TeacherList.aspx" />
@@ -964,20 +962,6 @@
     </Compile>
     <Compile Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemList.aspx.designer.cs">
       <DependentUpon>TeacherMarkTypeItemList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMark\TeacherMarkEntry.aspx.cs">
-      <DependentUpon>TeacherMarkEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMark\TeacherMarkEntry.aspx.designer.cs">
-      <DependentUpon>TeacherMarkEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMark\TeacherMarkList.aspx.cs">
-      <DependentUpon>TeacherMarkList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMark\TeacherMarkList.aspx.designer.cs">
-      <DependentUpon>TeacherMarkList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx.cs">
       <DependentUpon>TeacherSubjectEntryCtl.ascx</DependentUpon>

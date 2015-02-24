@@ -13,13 +13,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class TeacherMarkGroupEntry {
         
         /// <summary>
-        /// hdnSelectedValue control.
+        /// hdnListValue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListValue;
         
         /// <summary>
         /// cboSchoolPeriod control.
@@ -101,6 +101,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStartDate;
+        
+        /// <summary>
+        /// hdnTeacherMarkID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTeacherMarkID;
+        
+        /// <summary>
+        /// hdnPeriodSectionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPeriodSectionID;
+        
+        /// <summary>
+        /// hdnTotalGroupMark control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTotalGroupMark;
         
         /// <summary>
         /// rptTeacerMarkGroup control.
