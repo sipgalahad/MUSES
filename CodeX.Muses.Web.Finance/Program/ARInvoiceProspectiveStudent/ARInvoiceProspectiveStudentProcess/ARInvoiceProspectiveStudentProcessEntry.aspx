@@ -152,6 +152,7 @@
                                         <Columns>
                                             <asp:BoundField DataField="ARInvoiceDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="TransactionAmount" HeaderText="Total Piutang" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="200px" />
+                                            <asp:BoundField DataField="DiscountAmount" HeaderText="Total Diskon" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="200px" />
                                         </Columns>
                                         <EmptyDataTemplate>
                                             <%=GetLabel("Data Tidak Tersedia")%>

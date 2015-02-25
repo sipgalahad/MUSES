@@ -245,7 +245,7 @@
             $('.hdnAdmissionFeeCompID').each(function () {
                 var admissionFeeCompID = $(this).val();
                 var admissionFeeCompValue = $(this).closest('tr').prev().prev().prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal');
-                $tbl = $(this).next('.tblView');
+                $tbl = $(this).next().find('.tblView');
                 var lstTemp = '';
                 $tbl.find('.trDetail').each(function () {
                     if (lstTemp != '')

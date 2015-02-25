@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.SP_CLASS_SCHEDULE;
+            return Constant.MenuCode.StudentManagement.SP_TEACHER_SCHEDULE;
         }
         protected override void InitializeDataControl()
         {
