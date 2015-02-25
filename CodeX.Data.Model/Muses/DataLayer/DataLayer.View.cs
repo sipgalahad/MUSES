@@ -9623,6 +9623,7 @@ namespace CodeX.Data.Model
         private Int32 _ParentID;
         private String _ParentCode;
         private String _ParentName;
+        private String _GCItemType;
         private Int32 _ItemGroupID;
         private String _ItemGroupCode;
         private String _ItemGroupName1;
@@ -9685,6 +9686,12 @@ namespace CodeX.Data.Model
         {
             get { return _ParentName; }
             set { _ParentName = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
         [Column(Name = "ItemGroupID", DataType = "Int32")]
         public Int32 ItemGroupID
@@ -18187,6 +18194,10 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private String _GCSupplierType;
+        private Int32 _SupplierLineID;
+        private String _SupplierLineCode;
+        private String _SupplierLineName;
         private String _ShortName;
         private Int32 _TermID;
         private String _ContactPerson;
@@ -18223,6 +18234,30 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "GCSupplierType", DataType = "String")]
+        public String GCSupplierType
+        {
+            get { return _GCSupplierType; }
+            set { _GCSupplierType = value; }
+        }
+        [Column(Name = "SupplierLineID", DataType = "Int32")]
+        public Int32 SupplierLineID
+        {
+            get { return _SupplierLineID; }
+            set { _SupplierLineID = value; }
+        }
+        [Column(Name = "SupplierLineCode", DataType = "String")]
+        public String SupplierLineCode
+        {
+            get { return _SupplierLineCode; }
+            set { _SupplierLineCode = value; }
+        }
+        [Column(Name = "SupplierLineName", DataType = "String")]
+        public String SupplierLineName
+        {
+            get { return _SupplierLineName; }
+            set { _SupplierLineName = value; }
         }
         [Column(Name = "ShortName", DataType = "String")]
         public String ShortName

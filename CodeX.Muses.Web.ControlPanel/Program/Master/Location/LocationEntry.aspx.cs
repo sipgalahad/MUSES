@@ -29,6 +29,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 hdnID.Value = locationID;
                 vLocation entity = BusinessLayer.GetvLocationList(string.Format("LocationID = {0}", locationID))[0];
 
+                SetControlProperties();
                 EntityToControl(entity);
                 if (entity.ParentID > 0)
                 {
@@ -40,10 +41,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             else
             {
+                SetControlProperties();
                 hdnSiteID.Value = param[1];
                 IsAdd = true;
             }
             txtLocationCode.Focus();
+        }
+
+        protected override void SetControlProperties()
+        {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.ItemType.PRODUCT));
+            Methods.SetComboBoxField<StandardCode>(cboItemType, lstSc, "StandardCodeName", "StandardCodeID");
+            cboItemType.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -54,6 +63,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnRestrictionID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtRestrictionCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRestrictionName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboItemType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(hdnItemGroupID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtItemGroupCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtItemGroupName, new ControlEntrySetting(false, false, false));
@@ -74,6 +84,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtShortName.Text = entity.ShortName;
             txtRestrictionCode.Text = entity.RestrictionCode;
             txtRestrictionName.Text = entity.RestrictionName;
+            cboItemType.Value = entity.GCItemType;
             txtItemGroupCode.Text = entity.ItemGroupCode;
             txtItemGroupName.Text = entity.ItemGroupName1;
             hdnParentID.Value = entity.ParentID.ToString();
@@ -92,6 +103,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.LocationCode = txtLocationCode.Text;
             entity.LocationName = txtLocationName.Text;
             entity.ShortName = txtShortName.Text;
+            entity.GCItemType = cboItemType.Value.ToString();
             if (hdnItemGroupID.Value == "" || hdnItemGroupID.Value == "0")
                 entity.ItemGroupID = null;
             else

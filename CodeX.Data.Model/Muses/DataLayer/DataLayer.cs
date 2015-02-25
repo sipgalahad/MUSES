@@ -10975,6 +10975,7 @@ namespace CodeX.Data.Model
         private String _LocationName;
         private String _ShortName;
         private Int32? _ParentID;
+        private String _GCItemType;
         private Int32? _ItemGroupID;
         private Int32? _RestrictionID;
         private Boolean _IsHeader;
@@ -11023,6 +11024,12 @@ namespace CodeX.Data.Model
         {
             get { return _ParentID; }
             set { _ParentID = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
         [Column(Name = "ItemGroupID", DataType = "Int32", IsNullable = true)]
         public Int32? ItemGroupID
@@ -20683,9 +20690,14 @@ namespace CodeX.Data.Model
     public class Supplier : DbDataModel
     {
         private Int32 _BusinessPartnerID;
+        private Decimal _MinPOAmount;
         private Decimal _MaxPOAmount;
+        private Boolean _IsPharmacySupplier;
+        private Boolean _IsLogisticSupplier;
         private Boolean _IsPaymentHold;
-        private Int16 _LeadTime;
+        private Int16? _LeadTime;
+        private String _GCSupplierType;
+        private Int32? _SupplierLineID;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
@@ -20695,11 +20707,29 @@ namespace CodeX.Data.Model
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
         }
+        [Column(Name = "MinPOAmount", DataType = "Decimal")]
+        public Decimal MinPOAmount
+        {
+            get { return _MinPOAmount; }
+            set { _MinPOAmount = value; }
+        }
         [Column(Name = "MaxPOAmount", DataType = "Decimal")]
         public Decimal MaxPOAmount
         {
             get { return _MaxPOAmount; }
             set { _MaxPOAmount = value; }
+        }
+        [Column(Name = "IsPharmacySupplier", DataType = "Boolean")]
+        public Boolean IsPharmacySupplier
+        {
+            get { return _IsPharmacySupplier; }
+            set { _IsPharmacySupplier = value; }
+        }
+        [Column(Name = "IsLogisticSupplier", DataType = "Boolean")]
+        public Boolean IsLogisticSupplier
+        {
+            get { return _IsLogisticSupplier; }
+            set { _IsLogisticSupplier = value; }
         }
         [Column(Name = "IsPaymentHold", DataType = "Boolean", IsNullable = true)]
         public Boolean IsPaymentHold
@@ -20708,10 +20738,22 @@ namespace CodeX.Data.Model
             set { _IsPaymentHold = value; }
         }
         [Column(Name = "LeadTime", DataType = "Int16", IsNullable = true)]
-        public Int16 LeadTime
+        public Int16? LeadTime
         {
             get { return _LeadTime; }
             set { _LeadTime = value; }
+        }
+        [Column(Name = "GCSupplierType", DataType = "String", IsNullable = true)]
+        public String GCSupplierType
+        {
+            get { return _GCSupplierType; }
+            set { _GCSupplierType = value; }
+        }
+        [Column(Name = "SupplierLineID", DataType = "Int32", IsNullable = true)]
+        public Int32? SupplierLineID
+        {
+            get { return _SupplierLineID; }
+            set { _SupplierLineID = value; }
         }
         [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? LastUpdatedBy

@@ -85,6 +85,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtRestrictionName;
         
         /// <summary>
+        /// cboItemType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboItemType;
+        
+        /// <summary>
         /// hdnItemGroupID control.
         /// </summary>
         /// <remarks>

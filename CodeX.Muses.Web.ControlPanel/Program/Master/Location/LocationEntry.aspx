@@ -1,6 +1,9 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
     CodeBehind="LocationEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.LocationEntry" %>
 
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad () {
@@ -133,6 +136,10 @@
                                 </tr>
                             </table>
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Item Type")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboItemType" ClientInstanceName="cboItemType" Width="100%" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Item Group")%></label></td>

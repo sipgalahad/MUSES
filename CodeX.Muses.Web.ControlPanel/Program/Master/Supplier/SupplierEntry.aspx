@@ -58,6 +58,34 @@
             }
             //#endregion
 
+            //#region Supplier Line
+            $('#lblSupplierLine.lblLink').click(function () {
+                openSearchDialog('supplierline', 'IsDeleted = 0', function (value) {
+                    $('#<%=txtSupplierLineCode.ClientID %>').val(value);
+                    onTxtSupplierLineCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtSupplierLineCode.ClientID %>').change(function () {
+                onTxtSupplierLineCodeChanged($(this).val());
+            });
+
+            function onTxtSupplierLineCodeChanged(value) {
+                var filterExpression = "SupplierLineCode = '" + value + "' AND IsDeleted = 0";
+                Methods.getObject('GetSupplierLineList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnSupplierLineID.ClientID %>').val(result.SupplierLineID);
+                        $('#<%=txtSupplierLineName.ClientID %>').val(result.SupplierLineName);
+                    }
+                    else {
+                        $('#<%=hdnSupplierLineID.ClientID %>').val('');
+                        $('#<%=txtSupplierLineCode.ClientID %>').val('');
+                        $('#<%=txtSupplierLineName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
             registerCollapseExpandHandler();
         }
     </script>
@@ -93,7 +121,7 @@
                         </tr>
                     </table>
                 </div>
-                <h4 class="h4expanded"><%=GetLabel("Customer Information")%></h4>
+                <h4 class="h4expanded"><%=GetLabel("Supplier Information")%></h4>
                 <div class="containerTblEntryContent">
                     <table class="tblEntryContent" style="width:100%">
                         <colgroup>
@@ -102,6 +130,10 @@
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboSite" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pemasok")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboSupplierType" Width="100%" runat="server" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("VAT Registration No")%></label></td>
@@ -118,6 +150,24 @@
                         <tr>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Lead Time")%></label></td>
                             <td><asp:TextBox ID="txtLeadTime" CssClass="number" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblLink" id="lblSupplierLine"><%=GetLabel("Supplier Line")%></label></td>
+                            <td>
+                                <input type="hidden" id="hdnSupplierLineID" runat="server" />
+                                <table style="width:100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width:30%"/>
+                                        <col style="width:3px"/>
+                                        <col/>
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox runat="server" ID="txtSupplierLineCode" Width="100%" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox runat="server" ID="txtSupplierLineName" Width="100%" ReadOnly="true" /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </div>

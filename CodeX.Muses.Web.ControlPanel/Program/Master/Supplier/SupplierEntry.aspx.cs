@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 hdnID.Value = ID;
                 int BusinessPartnerID = Convert.ToInt32(ID);
                 BusinessPartners entity = BusinessLayer.GetBusinessPartners(BusinessPartnerID);
-                Supplier entitySup = BusinessLayer.GetSupplier(BusinessPartnerID);
+                vSupplier entitySup = BusinessLayer.GetvSupplierList(string.Format("BusinessPartnerID = {0}", BusinessPartnerID)).FirstOrDefault();
                 BusinessPartnerTagField entityTagField = BusinessLayer.GetBusinessPartnerTagField(BusinessPartnerID);
                 vAddress entityAddress = BusinessLayer.GetvAddressList(string.Format("AddressID = '{0}'", entity.AddressID))[0];
 
@@ -46,8 +46,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             ctlEntityCode.SetFocus();
         }
 
+        public override void OnAddRecord()
+        {
+            ctlEntityCode.SetControlVisibility(true);
+        }
+
         protected override void SetControlProperties()
         {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboSupplierType, lstSc, "StandardCodeName", "StandardCodeID");
+
             List<Term> listTerm = BusinessLayer.GetTermList("IsDeleted = 0");
             listTerm.Insert(0, new Term { TermID = 0, TermName = "" });
             Methods.SetComboBoxField<Term>(cboTerm, listTerm, "TermName", "TermID");
@@ -55,15 +63,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<Site> listSite = BusinessLayer.GetSiteList("");
             listSite.Insert(0, new Site { SiteID = "", SiteName = "" });
             Methods.SetComboBoxField<Site>(cboSite, listSite, "SiteName", "SiteID");
-            cboSite.Value = AppSession.UserLogin.SiteID;
-            cboSite.ClientEnabled = false;
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.BUSINESS_PARTNER).TagProperty;
-        }
-
-        public override void OnAddRecord()
-        {
-            ctlEntityCode.SetControlVisibility(true);
         }
 
         protected override void OnControlEntrySetting()
@@ -74,15 +75,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtContactPerson, new ControlEntrySetting(true, true, false));
             #endregion
 
-            #region Customer Information
+            #region Supplier Information
             SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtVATRegistrationNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboTerm, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMaxPOAmount, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtLeadTime, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(hdnSupplierLineID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtSupplierLineCode, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtSupplierLineName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(cboSupplierType, new ControlEntrySetting(true, true, true));
             #endregion
 
-            #region Customer Status
+            #region Supplier Status
             SetControlEntrySetting(chkIsBlacklist, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsPaymentHold, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsTaxable, new ControlEntrySetting(true, true, false));
@@ -116,7 +121,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
         }
 
-        private void EntityToControl(BusinessPartners entity, Supplier entitySup, vAddress entityAddress, BusinessPartnerTagField entityTagField)
+        private void EntityToControl(BusinessPartners entity, vSupplier entitySup, vAddress entityAddress, BusinessPartnerTagField entityTagField)
         {
             #region General Information
             ctlEntityCode.SetText(entity.BusinessPartnerCode);
@@ -125,15 +130,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtContactPerson.Text = entity.ContactPerson;
             #endregion
 
-            #region Customer Information
+            #region Supplier Information
             cboSite.Value = entity.SiteID;
             txtVATRegistrationNo.Text = entity.VATRegistrationNo;
             cboTerm.Value = entity.TermID.ToString();
             txtMaxPOAmount.Text = entitySup.MaxPOAmount.ToString();
             txtLeadTime.Text = entitySup.LeadTime.ToString();
+            hdnSupplierLineID.Value = entitySup.SupplierLineID.ToString();
+            txtSupplierLineCode.Text = entitySup.SupplierLineCode;
+            txtSupplierLineName.Text = entitySup.SupplierLineName;
+            cboSupplierType.Value = entitySup.GCSupplierType;
             #endregion
 
-            #region Customer Status
+            #region Supplier Status
             chkIsBlacklist.Checked = entity.IsBlackList;
             chkIsPaymentHold.Checked = entitySup.IsPaymentHold;
             chkIsTaxable.Checked = entity.IsTaxable;
@@ -176,7 +185,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.ContactPerson = txtContactPerson.Text;
             #endregion
 
-            #region Customer Information
+            #region Supplier Information
             if (cboSite.Value != null && cboSite.Value.ToString() != "")
                 entity.SiteID = cboSite.Value.ToString();
             else
@@ -189,9 +198,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.TermID = null;
             entitySup.MaxPOAmount = Convert.ToDecimal(txtMaxPOAmount.Text);
             entitySup.LeadTime = Convert.ToInt16(txtLeadTime.Text);
+
+            entitySup.GCSupplierType = cboSupplierType.Value.ToString();
+            if (hdnSupplierLineID.Value == "" || hdnSupplierLineID.Value == "0")
+                entitySup.SupplierLineID = null;
+            else
+                entitySup.SupplierLineID = Convert.ToInt32(hdnSupplierLineID.Value);
             #endregion
 
-            #region Customer Status
+            #region Supplier Status
             entity.IsBlackList = chkIsBlacklist.Checked;
             entitySup.IsPaymentHold = chkIsPaymentHold.Checked;
             entity.IsTaxable = chkIsTaxable.Checked;
@@ -233,7 +248,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SupplierDao entitySupDao = new SupplierDao(ctx);
             AddressDao entityAddressDao = new AddressDao(ctx);
             BusinessPartnerTagFieldDao entityTagFieldDao = new BusinessPartnerTagFieldDao(ctx);
-            SiteBusinessPartnerDao entitySiteBusinessPartnerDao = new SiteBusinessPartnerDao(ctx);
             try
             {
                 BusinessPartners entity = new BusinessPartners();
@@ -260,12 +274,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
                 entityTagField.BusinessPartnerID = entity.BusinessPartnerID;
                 entityTagFieldDao.Insert(entityTagField);
-
-                SiteBusinessPartner SiteBusinessPartner = new SiteBusinessPartner();
-                SiteBusinessPartner.BusinessPartnerID = entity.BusinessPartnerID;
-                SiteBusinessPartner.SiteID = AppSession.UserLogin.SiteID;
-                SiteBusinessPartner.CreatedBy = AppSession.UserLogin.UserID;
-                entitySiteBusinessPartnerDao.Insert(SiteBusinessPartner);
 
                 retval = entity.BusinessPartnerID.ToString();
 
