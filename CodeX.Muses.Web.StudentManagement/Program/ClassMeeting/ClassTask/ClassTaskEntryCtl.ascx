@@ -35,7 +35,7 @@
             <td><dxe:ASPxComboBox runat="server" ID="cboTaskType" Width="200px" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><label><%=GetLabel("% Nilai Akhir")%></label></td>
+            <td class="tdLabel"><label><%=GetLabel("% Bobot Nilai")%></label></td>
             <td><asp:TextBox ID="txtFinalMarkPercentage" CssClass="number" Width="80px" runat="server" /></td>
         </tr>
         <tr>

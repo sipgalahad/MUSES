@@ -239,12 +239,12 @@
                 EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
-                    <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
+                    <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="height: 390px;">
                         <input type="hidden" value="" id="hdnStartDate" runat="server" />
                         <input type="hidden" runat="server" id="hdnTeacherMarkID" />
                         <input type="hidden" runat="server" id="hdnPeriodSectionID" />
                         <input type="hidden" id="hdnTotalGroupMark" runat="server" value="" />
-                        <table width="100%" class="tblTeacherMark" cellpadding="0" cellspacing="1">
+                        <table width="100%" class="grdBorder grdSelected" cellpadding="0" cellspacing="0" border="0">
                             <colgroup>
                                 <col width="250px"/>
                                 <col width="50px"/>
