@@ -26,10 +26,15 @@
                 var entity = rowToObject($row);
                 lstEntity.push(entity);
             });
+            var year = $('#<%=hdnYear.ClientID %>').val();
             var month = $('#<%=hdnMonth.ClientID %>').val();
-            if (month != '') 
-                $('#calSchedule').datepicker("setDate", month - 1 + 'm');
-            
+            if (month != '') {
+                var date = new Date();
+                date.setDate(1);
+                date.setMonth(month - 1);
+                date.setYear(year);
+                $('#calSchedule').datepicker("setDate", date);
+            }
         }
 
         function setCalSchedule() {
