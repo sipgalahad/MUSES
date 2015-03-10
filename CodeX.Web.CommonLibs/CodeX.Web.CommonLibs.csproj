@@ -128,7 +128,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\report\studentmanagement\BSuratPenentuanPembayaran.xml" />
+    <Content Include="App_Data\report\VID_RCI\studentmanagement\BSuratPenentuanPembayaran.xml" />
     <Content Include="App_Data\right_panel\IM.xml">
       <SubType>Designer</SubType>
     </Content>
