@@ -11,6 +11,7 @@
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnPrint" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Print")%></div></li>
     <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Simpan")%></div></li>
     <li id="btnGenerateAR" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Generate Tagihan")%></div></li>
     <li id="btnVoid" runat="server" CRUDMode="R" style="display:none;"><img src='<%=ResolveUrl("~/Libs/Images/Icon/delete.png")%>' alt="" /><div><%=GetLabel("Batal Tagihan")%></div></li>
@@ -191,13 +192,20 @@
         $(function () {
             $('#btnGenerate').click(function () {
                 if (IsValid(null, 'fsFilterGenerate', 'mpFilterGenerate'))
-                cbpView.PerformCallback('refresh|0');
+                    cbpView.PerformCallback('refresh|0');
             });
 
             $('#<%=btnGenerateAR.ClientID %>').click(function () {
                 if (onBeforeSaveValue())
                     onCustomButtonClick('generateAR');
             });
+
+            $('#<%=btnPrint.ClientID %>').click(function () {
+                var filterExpression = "";
+                var reportCode = "SM-00001";
+                openReportViewer(reportCode, filterExpression);
+            });
+
             $('#<%=btnVoid.ClientID %>').click(function () {
                 showToastConfirmation('Apakah Anda Yakin? Semua Tagihan Untuk Calon Siswa Ybs Akan Dibatalkan.', function (result) {
                     if (result)
@@ -205,7 +213,7 @@
                 });
             });
             $('#<%=btnSave.ClientID %>').click(function () {
-                if(onBeforeSaveValue())
+                if (onBeforeSaveValue())
                     onCustomButtonClick('save');
             });
         });

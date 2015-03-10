@@ -91,6 +91,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx">
       <Link>SharedLibs\Program\RemoteLogon.aspx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx">
+      <Link>SharedLibs\Program\ReportViewer.aspx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx">
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
@@ -175,6 +178,7 @@
     <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
+    <Content Include="Report\StudentManagement\BSuratPenentuanPembayaranRpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -354,6 +358,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\RemoteLogon.aspx.designer.cs">
       <Link>SharedLibs\Program\RemoteLogon.aspx.designer.cs</Link>
       <DependentUpon>RemoteLogon.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
+      <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>
+      <DependentUpon>ReportViewer.aspx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Service\MethodService.asmx.cs">
       <Link>SharedLibs\Service\MethodService.asmx.cs</Link>
@@ -952,6 +965,13 @@
       <DependentUpon>ClassWeeklyScheduleList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\StudentManagement\BSuratPenentuanPembayaranRpt.ascx.cs">
+      <DependentUpon>BSuratPenentuanPembayaranRpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\StudentManagement\BSuratPenentuanPembayaranRpt.ascx.designer.cs">
+      <DependentUpon>BSuratPenentuanPembayaranRpt.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
