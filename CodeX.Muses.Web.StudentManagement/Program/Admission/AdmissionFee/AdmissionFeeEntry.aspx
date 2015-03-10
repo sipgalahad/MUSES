@@ -201,8 +201,9 @@
             });
 
             $('#<%=btnPrint.ClientID %>').click(function () {
-                var filterExpression = "";
                 var reportCode = "SM-00001";
+                var registrationID = tacRegistration.getValue();
+                var filterExpression = "RegistrationID = " + registrationID;
                 openReportViewer(reportCode, filterExpression);
             });
 
