@@ -76,8 +76,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true), "mpEntry");
-            Helper.SetControlEntrySetting(txtPlaceOfBaptism, new ControlEntrySetting(true, true, true), "mpEntry");
-            Helper.SetControlEntrySetting(txtDateOfBaptism, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtPlaceOfBaptism, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtDateOfBaptism, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0), "mpEntry");
             Helper.SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0), "mpEntry");

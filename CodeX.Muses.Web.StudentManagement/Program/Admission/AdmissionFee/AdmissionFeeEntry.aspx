@@ -61,6 +61,7 @@
                 else
                     $('#<%=hdnIsFeeder.ClientID %>').val('0');
 
+                $('#<%=hdnProspectiveStudentID.ClientID %>').val(result.ProspectiveStudentID); 
                 if (result.GCRegistrationStatus == "<%=OnGetRegistrationStatusAccepted() %>") {
                     $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
                     $('#<%=btnGenerateAR.ClientID %>').show();
@@ -433,6 +434,7 @@
     <style type="text/css">
         .grdStudent th b        { color: Red; }
     </style>
+    <input type="hidden" id="hdnYear" value="0" runat="server" />
     <input type="hidden" id="hdnAdmissionFeeRuleID" value="0" runat="server" />
     <input type="hidden" id="hdnSchoolPeriodID" value="0" runat="server" />
     <input type="hidden" id="hdnSaveValue" value="0" runat="server" />
@@ -455,6 +457,7 @@
                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Calon Siswa")%></label></td>
                     <td>
                         <input type="hidden" id="hdnIsFeeder" runat="server" />
+                        <input type="hidden" id="hdnProspectiveStudentID" runat="server" />
                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacRegistration" ClientInstanceName="tacRegistration" MethodName="GetvRegistrationList" GetFilterExpressionFunction="onGetRegistrationFilterExpression"
                             SearchFields="ProspectiveStudentName,RegistrationNo" TextField="ProspectiveStudentName" ValueField="RegistrationID" SearchText="${ProspectiveStudentName} (<b>${RegistrationNo}</b>)" OrderByExpression="ProspectiveStudentName">
                             <ClientSideEvents ButtonSearchClick="function(){ onTacRegistrationButtonSearchClick(); }"

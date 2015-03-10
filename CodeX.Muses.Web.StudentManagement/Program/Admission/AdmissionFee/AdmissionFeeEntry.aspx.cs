@@ -50,7 +50,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            hdnSchoolPeriodID.Value = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID).SchoolPeriodID.ToString();
+            PeriodAdmission entity = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
+            hdnSchoolPeriodID.Value = entity.SchoolPeriodID.ToString();
+
+            hdnYear.Value = entity.StartDate.Year.ToString();
             List<AdmissionPaymentHd> lstPayment = BusinessLayer.GetAdmissionPaymentHdList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriodID.Value));
             Methods.SetComboBoxField<AdmissionPaymentHd>(cboPaymentType, lstPayment, "PaymentName", "PaymentID");
 
@@ -350,7 +353,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
                 else
                 {
+                    ProspectiveStudentDao entityProspectiveStudentDao = new ProspectiveStudentDao(ctx);
                     OnSaveRecord(ctx, registrationID);
+
+                    int prospectiveStudentID = Convert.ToInt32(hdnProspectiveStudentID.Value);
+                    ProspectiveStudent entityProspectiveStudent = entityProspectiveStudentDao.Get(prospectiveStudentID);
+                    if (entityProspectiveStudent.ProspectiveStudentCode == "")
+                    {
+                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), ctx);
+                        ctx.CommandType = CommandType.Text;
+                        ctx.Command.Parameters.Clear();
+                        entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityProspectiveStudentDao.Update(entityProspectiveStudent);
+                    }
                     BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID, ctx);
                 }
                 ctx.CommitTransaction();

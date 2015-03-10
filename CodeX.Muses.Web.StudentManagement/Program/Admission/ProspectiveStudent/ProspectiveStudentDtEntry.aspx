@@ -268,11 +268,11 @@
                                     </td>
                                 </tr>
                                 <tr id="trPlaceOfBaptism" runat="server">
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Baptis")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tempat Baptis")%></label></td>
                                     <td><asp:TextBox ID="txtPlaceOfBaptism" Width="100%" runat="server" /></td>
                                 </tr>
                                 <tr id="trDateOfBaptism" runat="server">
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Baptis")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Baptis")%></label></td>
                                     <td><asp:TextBox ID="txtDateOfBaptism" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
                                 <tr>
