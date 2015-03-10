@@ -49,6 +49,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnVoid;
         
         /// <summary>
+        /// hdnYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnYear;
+        
+        /// <summary>
         /// hdnAdmissionFeeRuleID control.
         /// </summary>
         /// <remarks>
@@ -101,6 +110,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsFeeder;
+        
+        /// <summary>
+        /// hdnProspectiveStudentID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProspectiveStudentID;
         
         /// <summary>
         /// tacRegistration control.

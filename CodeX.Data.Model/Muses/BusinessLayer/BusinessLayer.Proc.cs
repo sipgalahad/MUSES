@@ -130,6 +130,45 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region GenerateStudentCode
+        public static string GenerateStudentCode(String SiteID, int Year, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateStudentCode";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@Year", Year));
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.VarChar;
+            param.Size = 20;
+            param.Direction = ParameterDirection.Output;
+
+            ctx.Command.Parameters.Add(param);
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+
+            return (string)param.Value;
+        }
+        #endregion
         #region GetAPSupplierInformation
         public static List<GetAPSupplierInformation> GetAPSupplierInformationList(String MovementDate, Int32 PageIndex, Int32 NumRows)
         {
