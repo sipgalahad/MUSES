@@ -1469,6 +1469,8 @@ namespace CodeX.Data.Model
         private String _BankName;
         private String _BankAccountNo;
         private String _BankAccountName;
+        private String _GCBankTransactionType;
+        private String _GCBankExportDataType;
         private String _SiteID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -1505,6 +1507,18 @@ namespace CodeX.Data.Model
         {
             get { return _BankAccountName; }
             set { _BankAccountName = value; }
+        }
+        [Column(Name = "GCBankTransactionType", DataType = "String", IsNullable = true)]
+        public String GCBankTransactionType
+        {
+            get { return _GCBankTransactionType; }
+            set { _GCBankTransactionType = value; }
+        }
+        [Column(Name = "GCBankExportDataType", DataType = "String")]
+        public String GCBankExportDataType
+        {
+            get { return _GCBankExportDataType; }
+            set { _GCBankExportDataType = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID

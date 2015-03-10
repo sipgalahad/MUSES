@@ -17,20 +17,28 @@ CodeBehind="BankEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.Ba
                         <col style="width:150px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank Code")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
                         <td><asp:TextBox ID="txtBankCode" Width="100px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank Name")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                         <td><asp:TextBox ID="txtBankName" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank Account No")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Account No")%></label></td>
                         <td><asp:TextBox ID="txtBankAccountNo" Width="300px" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank Account Name")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Account Name")%></label></td>
                         <td><asp:TextBox ID="txtBankAccountName" Width="300px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Transaksi")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboBankTransactionType" Width="200px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Export")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboBankExportDataType" Width="200px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Site")%></label></td>

@@ -59,6 +59,7 @@ namespace CodeX.Common
             public const string ACHIEVEMENT_TYPE = "MS019";
             public const string SCHOOL_DAY = "MS020";
             public const string SCORE_GRADE = "MS022";
+            public const string BANK_EXPORT_DATA_TYPE = "MS023";
         }
 
         public static class SchoolPeriodStatus

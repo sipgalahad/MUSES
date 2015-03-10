@@ -58,6 +58,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtBankAccountName;
         
         /// <summary>
+        /// cboBankTransactionType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboBankTransactionType;
+        
+        /// <summary>
+        /// cboBankExportDataType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboBankExportDataType;
+        
+        /// <summary>
         /// cboSite control.
         /// </summary>
         /// <remarks>

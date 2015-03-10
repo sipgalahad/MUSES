@@ -42,6 +42,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             List<Site> lst = BusinessLayer.GetSiteList("");
             Methods.SetComboBoxField<Site>(cboSite, lst, "SiteName", "SiteID");
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.BANK_EXPORT_DATA_TYPE, Constant.StandardCode.BANK_TRANSACTION_TYPE));
+            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
+            Methods.SetComboBoxField<StandardCode>(cboBankExportDataType, lstSc.Where(p => p.ParentID == Constant.StandardCode.BANK_EXPORT_DATA_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboBankTransactionType, lstSc.Where(p => p.ParentID == Constant.StandardCode.BANK_TRANSACTION_TYPE || p.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
@@ -51,6 +56,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtBankAccountNo, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtBankAccountName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboBankTransactionType, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboBankExportDataType, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(Bank entity)
@@ -60,6 +67,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtBankAccountNo.Text = entity.BankAccountNo;
             txtBankAccountName.Text = entity.BankAccountName;
             cboSite.Value = entity.SiteID;
+            cboBankTransactionType.Value = entity.GCBankTransactionType;
+            cboBankExportDataType.Value = entity.GCBankExportDataType;
         }
 
         private void ControlToEntity(Bank entity)
@@ -69,6 +78,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.BankAccountNo = txtBankAccountNo.Text;
             entity.BankAccountName = txtBankAccountName.Text;
             entity.SiteID = cboSite.Value.ToString();
+            if (cboBankTransactionType.Value == null)
+                entity.GCBankTransactionType = null;
+            else
+                entity.GCBankTransactionType = cboBankTransactionType.Value.ToString();
+            entity.GCBankExportDataType = cboBankExportDataType.Value.ToString();
+
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)

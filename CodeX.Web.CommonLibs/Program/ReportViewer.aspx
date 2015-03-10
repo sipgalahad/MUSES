@@ -342,7 +342,7 @@
                                 </div>
                                 <table>
                                     <tr>
-                                        <td><img src='<%=ResolveUrl("~/Libs/Images/logo.png") %>' width="50px" /></td>
+                                        <td id="tdImageLogo" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/logo.png") %>' width="50px" /></td>
                                         <td>
                                             <div id="divSiteName" runat="server"></div>
                                             <div id="divAddressLine1" runat="server" style="font-weight: normal;"></div>

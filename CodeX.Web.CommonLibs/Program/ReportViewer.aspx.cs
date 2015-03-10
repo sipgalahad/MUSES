@@ -355,7 +355,7 @@ namespace CodeX.Web.CommonLibs.Program
                                          IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false
                                      }).FirstOrDefault();
             if (tempReportSetting.IsUsingDotMatrix)
-                letterSpacingPrint = "5px";
+                letterSpacingPrint = "4px";
             else
                 letterSpacingPrint = "0";
             fontSize = tempReportSetting.FontSize;
@@ -571,6 +571,9 @@ namespace CodeX.Web.CommonLibs.Program
                 if (divReportBody != null)
                     divContainerReportBody.Controls.Add(divReportBody);
             }
+
+            if (tempReportSetting.IsUsingDotMatrix)
+                tdImageLogo.Style.Add("display", "none");
         }
         #region ReportParameter
         class ReportParameter
