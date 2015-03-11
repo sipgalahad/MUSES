@@ -19042,6 +19042,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private Int32? _RegistrationID;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCStudentStatus;
@@ -19088,6 +19089,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
+        public Int32? RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -19725,6 +19732,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeCompTypeID;
         private String _SiteID;
         private String _StudentFeeCompTypeName;
+        private String _ShortName;
         private String _GCAdmissionPaymentPeriod;
         private Int32? _PaymentDate;
         private Int32? _PaymentMonth;
@@ -19751,6 +19759,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "ShortName", DataType = "String", IsNullable = true)]
+        public String ShortName
+        {
+            get { return _ShortName; }
+            set { _ShortName = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod

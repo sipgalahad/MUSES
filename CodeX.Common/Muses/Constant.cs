@@ -314,6 +314,8 @@ namespace CodeX.Common
                 public const string AR_INVOICE_STUDENT_EDIT = "FN040202";
                 public const string AR_INVOICE_STUDENT_RECEIVE = "FN040203";
 
+                public const string GENERATE_UPLOAD_FILE = "FN040300";
+
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
                 public const string AP_INVOICE_SUPPLIER_VERIFICATION = "FN050202";
@@ -515,5 +517,10 @@ namespace CodeX.Common
             public const string IS_DISCOUNT_APPLIED_TO_UNIT_PRICE = "MSSIM0006";
         }
         #endregion
+
+        public class BankExportDataType 
+        {
+            public const string MANDIRI = "MS023^001";
+        }
     }
 }

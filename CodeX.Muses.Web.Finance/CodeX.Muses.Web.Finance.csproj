@@ -118,6 +118,7 @@
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx" />
+    <Content Include="Program\GenerateUploadFile\GenerateUploadFile.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -479,6 +480,13 @@
     <Compile Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx.designer.cs">
       <DependentUpon>StudentPageLauncher.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.cs">
+      <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
+      <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +564,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPStudentPageTrx.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

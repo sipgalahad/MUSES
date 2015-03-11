@@ -16442,6 +16442,7 @@ namespace CodeX.Data.Model
         private Int32 _RegistrationID;
         private Int32 _AdmissionFeeCompID;
         private String _StudentFeeCompTypeName;
+        private String _SFCTShortName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
         private Decimal _TotalAmount;
@@ -16470,6 +16471,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "SFCTShortName", DataType = "String")]
+        public String SFCTShortName
+        {
+            get { return _SFCTShortName; }
+            set { _SFCTShortName = value; }
         }
         [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
         public String GCAdmissionPaymentPeriod
