@@ -72,6 +72,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtStudentFeeCompTypeName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtShortName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboAdmissionPaymentPeriod, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDay, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboMonth, new ControlEntrySetting(true, true, false));
@@ -80,6 +81,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void EntityToControl(StudentFeeCompType entity)
         {
             txtStudentFeeCompTypeName.Text = entity.StudentFeeCompTypeName;
+            txtShortName.Text = entity.ShortName;
             cboAdmissionPaymentPeriod.Value = entity.GCAdmissionPaymentPeriod;
             if (entity.PaymentDate != null) txtDay.Text = entity.PaymentDate.ToString();
             else txtDay.Text = "";
@@ -90,6 +92,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.SiteID = AppSession.UserLogin.SiteID;
             entity.StudentFeeCompTypeName = txtStudentFeeCompTypeName.Text;
+            entity.ShortName = txtShortName.Text;
             entity.GCAdmissionPaymentPeriod = cboAdmissionPaymentPeriod.Value.ToString();
             if (cboAdmissionPaymentPeriod.Value.ToString() != Constant.AdmissionPaymentPeriod.SEKALI_BAYAR) entity.PaymentDate = Convert.ToInt32(txtDay.Text);
             else entity.PaymentDate = null;
