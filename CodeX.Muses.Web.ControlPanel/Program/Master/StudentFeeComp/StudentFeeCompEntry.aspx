@@ -49,8 +49,12 @@ CodeBehind="StudentFeeCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.
                         <col style="width:160px"/>
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Name")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                         <td><asp:TextBox ID="txtStudentFeeCompTypeName" Width="300px" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Singkat")%></label></td>
+                        <td><asp:TextBox ID="txtShortName" Width="100px" runat="server" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Periode Pembayaran")%></label></td>

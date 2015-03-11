@@ -19760,7 +19760,7 @@ namespace CodeX.Data.Model
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
         }
-        [Column(Name = "ShortName", DataType = "String", IsNullable = true)]
+        [Column(Name = "ShortName", DataType = "String")]
         public String ShortName
         {
             get { return _ShortName; }
