@@ -31,6 +31,42 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
         
         /// <summary>
+        /// divDataSiswa control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDataSiswa;
+        
+        /// <summary>
+        /// rptStudentFeeComp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeComp;
+        
+        /// <summary>
+        /// tdTotalLineAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdTotalLineAmount;
+        
+        /// <summary>
+        /// rptPayment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPayment;
+        
+        /// <summary>
         /// divPageFooter control.
         /// </summary>
         /// <remarks>

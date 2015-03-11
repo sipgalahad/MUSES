@@ -16898,7 +16898,7 @@ namespace CodeX.Data.Model
     #region RegistrationFee
     [Serializable]
     [Table(Name = "RegistrationFee")]
-    public class RegistrationFee : DbDataModel
+    public partial class RegistrationFee : DbDataModel
     {
         private Int32 _RegistrationFeeID;
         private Int32 _RegistrationID;

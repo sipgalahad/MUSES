@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table iscustom="1" customreporturl="~/Report/StudentManagement/BSuratPenentuanPembayaranRpt.ascx" papertype="A4_portrait" isshowheaderfooter="0" fontsize="8pt" />
+  <table iscustom="1" customreporturl="~/Report/VID_RCI/StudentManagement/BSuratPenentuanPembayaranRpt.ascx" papertype="A4_portrait" isshowheaderfooter="0" fontsize="8pt" />
   <parameters>
     <parameter code="FP001"/>
   </parameters>

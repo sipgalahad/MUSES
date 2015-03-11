@@ -126,6 +126,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region RegistrationFee
+    public partial class RegistrationFee 
+    {
+        public String PaymentDateInString 
+        {
+            get { return _PaymentDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region PurchaseRequestHd
     public partial class PurchaseRequestHd
     {
