@@ -69,87 +69,99 @@ namespace CodeX.Muses.Web.Finance.Program
                 //Build the Text file data.
                 String txt = string.Empty;
                 String format = "";
-                List<vARInvoiceHd> lstInvoiceHd = BusinessLayer.GetvARInvoiceHdList(String.Format("DueDate BETWEEN '{0}' AND '{1}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)));
-                String ProspectiveStudentID = String.Join(",", lstInvoiceHd.GroupBy(x => x.ProspectiveStudentID).Where(x => x.Key != 0).Select(x => x.Key));
+                List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate BETWEEN '{0}' AND '{1}'", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)));
                 
-                List<ProspectiveStudent> lstPS = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", ProspectiveStudentID));
-                //List<Registration> lstReg = BusinessLayer.GetRegistrationList(String.Format("ProspectiveStudentID IN ({0})", ProspectiveStudentID));
-                //String RegistrationID = String.Join(",", lstReg.GroupBy(x => x.RegistrationID).Select(x => x.Key));
-
-                String StudentID = String.Join(",", lstInvoiceHd.GroupBy(x => x.StudentID).Where(x => x.Key != 0).Select(x => x.Key));
-                List<Student> lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", StudentID));
-                //RegistrationID += "," + String.Join(",", lstStudent.GroupBy(x => x.RegistrationID).Select(x => x.Key));
+                String ProspectiveStudentID = String.Join(",", lstInvoiceDt.GroupBy(x => x.ProspectiveStudentID).Where(x => x.Key != 0).Select(x => x.Key));
+                List<ProspectiveStudent> lstPS = null;
+                if(ProspectiveStudentID != "") lstPS = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", ProspectiveStudentID));
                 
-                //List<vRegistrationFeeComp> lstRFC = BusinessLayer.GetvRegistrationFeeCompList(String.Format("RegistrationID IN ({0})", RegistrationID));
+                String StudentID = String.Join(",", lstInvoiceDt.GroupBy(x => x.StudentID).Where(x => x.Key != 0).Select(x => x.Key));
+                List<Student> lstStudent = null;
+                if(StudentID  != "") lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", StudentID));
+                
                 SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
 
-                List<StudentFeeCompType> sfctList = BusinessLayer.GetStudentFeeCompTypeList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID));
 
                 if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
-                    format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NAUsek}{NAKeg}{NAPemb}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{NotesUsek}|{NotesKeg}|{NotesPemb}|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|\\\|~";
+                    format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
                 
-                foreach (ProspectiveStudent ps in lstPS) 
+                if (lstPS != null)
                 {
-                    String tempFormat = format;
-                    tempFormat = tempFormat.Replace("{NBS}", ps.ProspectiveStudentCode);
-                    tempFormat = tempFormat.Replace("{StudentName}", ps.ProspectiveStudentName);
-                    tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
-                    tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
-
-                    List<vARInvoiceHd> lstObj = lstInvoiceHd.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
-
-                    foreach (StudentFeeCompType obj in sfctList) 
+                    foreach (ProspectiveStudent ps in lstPS)
                     {
-                        vARInvoiceHd entity = lstObj.FirstOrDefault(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID);
-                        string ShortName = obj.ShortName;
-                        if (entity != null)
+                        String tempFormat = format;
+                        tempFormat = tempFormat.Replace("{NBS}", ps.ProspectiveStudentCode);
+                        tempFormat = tempFormat.Replace("{StudentName}", ps.ProspectiveStudentName);
+                        tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
+                        tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
+                        tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
+                        tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
+
+                        List<vARInvoiceDt> lstObj = lstInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
+                        int count = 1;
+                        foreach (vAdmissionFeeComp obj in sfctList)
                         {
-                            tempFormat = tempFormat.Replace("{Notes" + ShortName + "}", String.Format(@"{0}\{0}\{1}", ShortName, Convert.ToInt32(entity.TotalClaimedAmount)));
-                            tempFormat = tempFormat.Replace("{NA" + ShortName + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.TotalClaimedAmount / 1000)));
+                            vARInvoiceDt entity = lstObj.FirstOrDefault(x => x.AdmissionFeeCompID == obj.AdmissionFeeCompID);
+                            string ShortName = obj.ShortName;
+                            if (entity != null)
+                            {
+                                tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}",count.ToString("00"), ShortName, Convert.ToInt32(entity.ClaimedAmount)));
+                                tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.ClaimedAmount / 1000)));
+                            }
+                            else
+                            {
+                                tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                                tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                            }
+                            count++;
                         }
-                        else 
+                        for (; count < 26; count++) 
                         {
-                            tempFormat = tempFormat.Replace("{Notes" + ShortName + "}", @"\\\");
-                            tempFormat = tempFormat.Replace("{NA" + ShortName + "}", "");
+                            tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                            tempFormat = tempFormat.Replace("{NA" + count + "}", "");
                         }
+                        txt += String.Format("{0}\n", tempFormat);
                     }
-                    
-                    txt += String.Format("{0}\n", tempFormat);
                 }
 
-                foreach (Student s in lstStudent) 
+                if (lstStudent != null)
                 {
-                    String tempFormat = format;
-                    tempFormat = tempFormat.Replace("{NBS}", s.StudentCode);
-                    tempFormat = tempFormat.Replace("{StudentName}", s.StudentName);
-                    tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
-                    tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
-
-                    List<vARInvoiceHd> lstObj = lstInvoiceHd.Where(x => x.StudentID == s.StudentID).ToList();
-                    
-                    foreach (StudentFeeCompType obj in sfctList)
+                    foreach (Student s in lstStudent)
                     {
-                        vARInvoiceHd entity = lstObj.FirstOrDefault(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID);
-                        string ShortName = obj.ShortName;
-                        if (entity != null)
+                        String tempFormat = format;
+                        tempFormat = tempFormat.Replace("{NBS}", s.StudentCode);
+                        tempFormat = tempFormat.Replace("{StudentName}", s.StudentName);
+                        tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
+                        tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
+                        tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
+                        tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
+
+                        List<vARInvoiceDt> lstObj = lstInvoiceDt.Where(x => x.StudentID == s.StudentID).ToList();
+                        int count = 1;
+                        foreach (vAdmissionFeeComp obj in sfctList)
                         {
-                            tempFormat = tempFormat.Replace("{Notes" + ShortName + "}", String.Format(@"{0}\{0}\{1}", ShortName, Convert.ToInt32(entity.TotalClaimedAmount)));
-                            tempFormat = tempFormat.Replace("{NA" + ShortName + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.TotalClaimedAmount / 1000)));
+                            vARInvoiceDt entity = lstObj.FirstOrDefault(x => x.AdmissionFeeCompID == obj.AdmissionFeeCompID);
+                            string ShortName = obj.ShortName;
+                            if (entity != null)
+                            {
+                                tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}",count.ToString("00"), ShortName, Convert.ToInt32(entity.ClaimedAmount)));
+                                tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.ClaimedAmount / 1000)));
+                            }
+                            else
+                            {
+                                tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                                tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                            }
                         }
-                        else
+                        for (; count < 26; count++)
                         {
-                            tempFormat = tempFormat.Replace("{Notes" + ShortName + "}", @"\\\");
-                            tempFormat = tempFormat.Replace("{NA" + ShortName + "}", "");
+                            tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                            tempFormat = tempFormat.Replace("{NA" + count + "}", "");
                         }
+                        txt += String.Format("{0}\n", tempFormat);
                     }
-
-                    txt += String.Format("{0}\n", tempFormat);
                 }
-
                 //Download the Text file.
                 Response.Clear();
                 Response.Buffer = true;
