@@ -683,6 +683,7 @@ namespace CodeX.Data.Model
         private Int32 _ARInvoiceDtID;
         private Int32 _ARInvoiceID;
         private Int32? _RegistrationFeeID;
+        private Int32? _StudentFeeCompTypeID;
         private Decimal _TransactionAmount;
         private Decimal _ClaimedAmount;
         private Decimal _DiscountAmount;
@@ -711,6 +712,12 @@ namespace CodeX.Data.Model
         {
             get { return _RegistrationFeeID; }
             set { _RegistrationFeeID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
         [Column(Name = "TransactionAmount", DataType = "Decimal")]
         public Decimal TransactionAmount
