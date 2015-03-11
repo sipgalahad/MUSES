@@ -33,14 +33,6 @@ namespace CodeX.Data.Model
     #region vARInvoiceHd
     public partial class vARInvoiceHd
     {
-        public Int32 StudentFeeCompTypeID 
-        {
-            get 
-            {
-                return 0;
-            }
-        }
-
         public String ARInvoiceDateInString
         {
             get
