@@ -448,6 +448,7 @@ namespace CodeX.Common
                 public const string WS_CLASS_MEETING = "SM99040101";
                 public const string WS_CLASS_ATTENDANCE = "SM99040102";
                 public const string WS_CLASS_TASK = "SM99040103";
+                public const string WS_STUDENT_NOTE = "SM99040104";
                 public const string WS_ATTENDANCE_HISTORY = "SM99040201";
                 public const string WS_STUDENT_MARK = "SM99040202";
                 public const string WS_SUBJECT_MATTER = "SM99040203";

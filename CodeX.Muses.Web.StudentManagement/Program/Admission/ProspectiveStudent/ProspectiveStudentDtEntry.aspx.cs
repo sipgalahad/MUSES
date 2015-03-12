@@ -303,7 +303,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
 
-                entity.ProspectiveStudentCode = entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
+                entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
 

@@ -1013,6 +1013,49 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetClassMeetingRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeeting));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassMeeting> GetClassMeetingList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<ClassMeeting> result = new List<ClassMeeting>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeeting));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassMeeting)helper.IDataReaderToObject(reader, new ClassMeeting()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region ClassMeetingAttendance
         public static ClassMeetingAttendance GetClassMeetingAttendance(Int32 ClassMeetingID, Int32 StudentID)
@@ -9084,6 +9127,106 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentNote
+        public static StudentNote GetStudentNote(Int32 StudentNoteID)
+        {
+            return new StudentNoteDao().Get(StudentNoteID);
+        }
+        public static int InsertStudentNote(StudentNote record)
+        {
+            return new StudentNoteDao().Insert(record);
+        }
+        public static int UpdateStudentNote(StudentNote record)
+        {
+            return new StudentNoteDao().Update(record);
+        }
+        public static int DeleteStudentNote(Int32 StudentNoteID)
+        {
+            return new StudentNoteDao().Delete(StudentNoteID);
+        }
+        public static List<StudentNote> GetStudentNoteList(string filterExpression)
+        {
+            List<StudentNote> result = new List<StudentNote>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentNote));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentNote)helper.IDataReaderToObject(reader, new StudentNote()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentNote> GetStudentNoteList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentNote> result = new List<StudentNote>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentNote));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentNote)helper.IDataReaderToObject(reader, new StudentNote()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetStudentNoteRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentNote));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentNote> GetStudentNoteList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<StudentNote> result = new List<StudentNote>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentNote));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentNote)helper.IDataReaderToObject(reader, new StudentNote()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

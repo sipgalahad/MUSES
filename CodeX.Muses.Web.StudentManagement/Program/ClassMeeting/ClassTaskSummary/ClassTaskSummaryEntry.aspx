@@ -67,6 +67,12 @@
             setFinalMark();
         });
 
+        $('.lblStudent').live('click', function () {
+            var id = $(this).closest('table').parent().closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassTaskSummary/StudentSummaryViewDtCtl.ascx");
+            openUserControlPopup(url, id, 'Riwayat Siswa', 800, 450);
+        });
+
         function onAfterCustomClickSuccess(type) {
             if (type == 'approve') {
                 $('#<%=btnApprove.ClientID %>').hide();
@@ -166,7 +172,7 @@
                                         <div class="gridCircle divStudentImage"></div>
                                     </td>
                                     <td>
-                                        <%#Eval("StudentName") %>
+                                        <label class="lblLink lblStudent"><%#Eval("StudentName") %></label>
                                     </td>
                                 </tr>
                             </table>

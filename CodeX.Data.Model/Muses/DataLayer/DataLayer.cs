@@ -19865,6 +19865,147 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentNote
+    [Serializable]
+    [Table(Name = "StudentNote")]
+    public class StudentNote : DbDataModel
+    {
+        private Int32 _StudentNoteID;
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private Int32? _ClassMeetingID;
+        private Int32 _StudentID;
+        private DateTime _NoteDate;
+        private String _NoteTime;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentNoteID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentNoteID
+        {
+            get { return _StudentNoteID; }
+            set { _StudentNoteID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "ClassMeetingID", DataType = "Int32", IsNullable = true)]
+        public Int32? ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "NoteDate", DataType = "DateTime")]
+        public DateTime NoteDate
+        {
+            get { return _NoteDate; }
+            set { _NoteDate = value; }
+        }
+        [Column(Name = "NoteTime", DataType = "String")]
+        public String NoteTime
+        {
+            get { return _NoteTime; }
+            set { _NoteTime = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentNoteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentNote));
+        private bool _isAuditLog = false;
+        private const string p_StudentNoteID = "@p_StudentNoteID";
+        public StudentNoteDao() { }
+        public StudentNoteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentNote Get(Int32 StudentNoteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentNoteID, StudentNoteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentNote)_helper.DataRowToObject(row, new StudentNote());
+        }
+        public int Insert(StudentNote record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentNote record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentNoteID)
+        {
+            StudentNote record;
+            if (_ctx.Transaction == null)
+                record = new StudentNoteDao().Get(StudentNoteID);
+            else
+                record = Get(StudentNoteID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StudentPastStudy
     [Serializable]
     [Table(Name = "StudentPastStudy")]
