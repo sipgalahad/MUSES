@@ -17425,6 +17425,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _NationalStudentNo;
+        private String _VirtualAccountNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
@@ -17483,6 +17484,12 @@ namespace CodeX.Data.Model
         {
             get { return _NationalStudentNo; }
             set { _NationalStudentNo = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID

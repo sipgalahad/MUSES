@@ -130,6 +130,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Other Information
+            SetControlEntrySetting(txtVirtualAccountNo, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
@@ -186,6 +187,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Additional Information
+            txtVirtualAccountNo.Text = entity.VirtualAccountNo;
             cboStudentStatus.Value = entity.GCStudentStatus;
             cboGrade.Value = entity.GCGrade;
             cboMajor.Value = entity.GCMajor;
@@ -250,6 +252,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #endregion
 
             #region Additional Information
+            entity.VirtualAccountNo = txtVirtualAccountNo.Text;
             entity.GCStudentStatus = cboStudentStatus.Value.ToString();
             entity.GCGrade = cboGrade.Value.ToString();
             if (cboMajor.Value != null)

@@ -19064,6 +19064,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _NationalStudentNo;
+        private String _VirtualAccountNo;
         private Int32? _RegistrationID;
         private String _SiteID;
         private String _GCSalutation;
@@ -19112,11 +19113,17 @@ namespace CodeX.Data.Model
             get { return _StudentCode; }
             set { _StudentCode = value; }
         }
-        [Column(Name = "NationalStudentNo", DataType = "String")]
+        [Column(Name = "NationalStudentNo", DataType = "String", IsNullable = true)]
         public String NationalStudentNo
         {
             get { return _NationalStudentNo; }
             set { _NationalStudentNo = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String", IsNullable = true)]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
         public Int32? RegistrationID
