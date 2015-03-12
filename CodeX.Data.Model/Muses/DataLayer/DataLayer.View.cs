@@ -16106,6 +16106,7 @@ namespace CodeX.Data.Model
         private String _Grade;
         private String _GCMajor;
         private String _Major;
+        private DateTime _SchoolDate;
         private Decimal _FinalMark;
         private Int32 _AdmissionFeeRuleID;
         private String _AdmissionFeeRuleName;
@@ -16115,6 +16116,7 @@ namespace CodeX.Data.Model
         private String _GCRegistrationStatus;
         private String _RegistrationStatus;
         private String _ProspectiveStudentCode;
+        private String _NationalStudentNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
@@ -16221,6 +16223,12 @@ namespace CodeX.Data.Model
             get { return _Major; }
             set { _Major = value; }
         }
+        [Column(Name = "SchoolDate", DataType = "DateTime")]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
+        }
         [Column(Name = "FinalMark", DataType = "Decimal")]
         public Decimal FinalMark
         {
@@ -16274,6 +16282,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentCode; }
             set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -16909,6 +16923,8 @@ namespace CodeX.Data.Model
         private String _GCGrade;
         private String _Grade;
         private Int16 _DisplayOrder;
+        private Boolean _IsAllowRegistration;
+        private Boolean _IsNeedNationalStudentNo;
 
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -16933,6 +16949,18 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsAllowRegistration", DataType = "Boolean")]
+        public Boolean IsAllowRegistration
+        {
+            get { return _IsAllowRegistration; }
+            set { _IsAllowRegistration = value; }
+        }
+        [Column(Name = "IsNeedNationalStudentNo", DataType = "Boolean")]
+        public Boolean IsNeedNationalStudentNo
+        {
+            get { return _IsNeedNationalStudentNo; }
+            set { _IsNeedNationalStudentNo = value; }
         }
     }
     #endregion
@@ -17396,6 +17424,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _NationalStudentNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
@@ -17448,6 +17477,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID

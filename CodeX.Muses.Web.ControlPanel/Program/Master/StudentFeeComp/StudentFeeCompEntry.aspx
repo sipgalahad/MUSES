@@ -80,6 +80,10 @@ CodeBehind="StudentFeeCompEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Denda [%]")%></label></td>
+                        <td><asp:TextBox ID="txtPenaltyPercentage" Width="100px" CssClass="number" runat="server" /></td>
+                    </tr>
                 </table>
             </td>
         </tr>

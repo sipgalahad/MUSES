@@ -90,6 +90,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             //string defaultPhoneArea = BusinessLayer.GetSettingParameter(Constant.SettingParameter.PHONE_AREA).ParameterValue;
 
             #region Student Data
+            SetControlEntrySetting(txtStudentCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtNationalStudentNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboSalutation, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboTitle, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false));
@@ -138,6 +140,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void EntityToControl(vStudent entity)
         {
             txtStudentCode.Text = entity.StudentCode;
+            txtNationalStudentNo.Text = entity.NationalStudentNo;
             cboSalutation.Value = entity.GCSalutation;
             cboSuffix.Value = entity.GCSuffix;
             cboTitle.Value = entity.GCTitle;
@@ -194,6 +197,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             #region Student
             entity.StudentCode = txtStudentCode.Text;
+            entity.NationalStudentNo = txtNationalStudentNo.Text;
             entity.GCSalutation = cboSalutation.Value == null ? "" : cboSalutation.Value.ToString();
             entity.GCSuffix = cboSuffix.Value == null ? "" : cboSuffix.Value.ToString();
             entity.GCTitle = cboTitle.Value == null ? "" : cboTitle.Value.ToString();

@@ -76,6 +76,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboAdmissionPaymentPeriod, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtDay, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboMonth, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtPenaltyPercentage, new ControlEntrySetting(true, true, true, "0"));
         }
 
         private void EntityToControl(StudentFeeCompType entity)
@@ -86,6 +87,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             if (entity.PaymentDate != null) txtDay.Text = entity.PaymentDate.ToString();
             else txtDay.Text = "";
             cboMonth.Value = entity.PaymentMonth.ToString();
+            txtPenaltyPercentage.Text = entity.PenaltyPercentage.ToString();
         }
 
         private void ControlToEntity(StudentFeeCompType entity)
@@ -98,6 +100,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else entity.PaymentDate = null;
             if (cboAdmissionPaymentPeriod.Value.ToString() == Constant.AdmissionPaymentPeriod.TAHUNAN) entity.PaymentMonth = Convert.ToInt32(cboMonth.Value);
             else entity.PaymentMonth = null;
+            entity.PenaltyPercentage = Convert.ToInt16(txtPenaltyPercentage.Text);
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)

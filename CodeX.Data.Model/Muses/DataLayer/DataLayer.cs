@@ -12751,6 +12751,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
+        private String _NationalStudentNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCTitle;
@@ -12797,6 +12798,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentCode; }
             set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -16734,6 +16741,7 @@ namespace CodeX.Data.Model
         private String _GCInformationSource;
         private String _GCGrade;
         private String _GCMajor;
+        private DateTime _SchoolDate;
         private Decimal _FinalMark;
         private Int32? _AdmissionFeeRuleID;
         private Int32? _PaymentID;
@@ -16803,6 +16811,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCMajor; }
             set { _GCMajor = value; }
+        }
+        [Column(Name = "SchoolDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
         }
         [Column(Name = "FinalMark", DataType = "Decimal")]
         public Decimal FinalMark
@@ -19049,6 +19063,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _NationalStudentNo;
         private Int32? _RegistrationID;
         private String _SiteID;
         private String _GCSalutation;
@@ -19096,6 +19111,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
         public Int32? RegistrationID
@@ -19743,6 +19764,7 @@ namespace CodeX.Data.Model
         private String _GCAdmissionPaymentPeriod;
         private Int32? _PaymentDate;
         private Int32? _PaymentMonth;
+        private Int16 _PenaltyPercentage;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -19790,6 +19812,12 @@ namespace CodeX.Data.Model
         {
             get { return _PaymentMonth; }
             set { _PaymentMonth = value; }
+        }
+        [Column(Name = "PenaltyPercentage", DataType = "Int16")]
+        public Int16 PenaltyPercentage
+        {
+            get { return _PenaltyPercentage; }
+            set { _PenaltyPercentage = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

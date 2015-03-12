@@ -67,12 +67,14 @@
                     $('#<%=btnGenerateAR.ClientID %>').show();
                     $('#<%=btnSave.ClientID %>').show();
                     $('#<%=btnVoid.ClientID %>').hide();
+                    $('#<%=btnPrint.ClientID %>').hide();
                 }
                 else {
                     $('#<%=tblInfoOutstandingTransfer.ClientID %>').show();
                     $('#<%=btnGenerateAR.ClientID %>').hide();
                     $('#<%=btnSave.ClientID %>').hide();
                     $('#<%=btnVoid.ClientID %>').show();
+                    $('#<%=btnPrint.ClientID %>').show();
                 }
                 tacAdmissionFeeRule.setValue(result.AdmissionFeeRuleID);
                 tacAdmissionFeeRule.setText(result.AdmissionFeeRuleName);
@@ -88,6 +90,7 @@
                 $('#<%=btnGenerateAR.ClientID %>').show();
                 $('#<%=btnSave.ClientID %>').show();
                 $('#<%=btnVoid.ClientID %>').hide();
+                $('#<%=btnPrint.ClientID %>').hide();
                 tacAdmissionFeeRule.setValue('');
                 tacAdmissionFeeRule.setText('');
                 cboPaymentType.SetValue('');
@@ -181,12 +184,14 @@
                 $('#<%=btnGenerateAR.ClientID %>').hide();
                 $('#<%=btnSave.ClientID %>').hide();
                 $('#<%=btnVoid.ClientID %>').show();
+                $('#<%=btnPrint.ClientID %>').show();
             }
             else {
                 $('#<%=tblInfoOutstandingTransfer.ClientID %>').hide();
                 $('#<%=btnGenerateAR.ClientID %>').show();
                 $('#<%=btnSave.ClientID %>').show();
                 $('#<%=btnVoid.ClientID %>').hide();
+                $('#<%=btnPrint.ClientID %>').hide();
             }
         }
 
