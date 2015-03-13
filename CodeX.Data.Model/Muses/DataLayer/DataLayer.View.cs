@@ -1608,6 +1608,7 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private Int32 _RoomID;
         private String _RoomName;
+        private String _GCClassStudyType;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -1699,6 +1700,12 @@ namespace CodeX.Data.Model
         {
             get { return _RoomName; }
             set { _RoomName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -16803,6 +16810,7 @@ namespace CodeX.Data.Model
         private String _PeriodSectionName;
         private Int32 _ClassTypeID;
         private String _ClassTypeName;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _GCMajor;
         private Int32 _RoomID;
@@ -16877,6 +16885,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade

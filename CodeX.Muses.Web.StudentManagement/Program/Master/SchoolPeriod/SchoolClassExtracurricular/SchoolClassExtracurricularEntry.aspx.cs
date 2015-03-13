@@ -14,24 +14,19 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class SchoolClassEntry : BasePageTrx
+    public partial class SchoolClassExtracurricularEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.SP_SCHOOL_CLASS;
+            return Constant.MenuCode.StudentManagement.SP_SCHOOL_CLASS_EXTRACURRICULAR;
         }
         protected string OnGetRoomFilterExpression()
         {
             return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
-
-        protected string OnGetTeacherFilterExpression()
-        {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
-        }
         protected override void InitializeDataControl()
         {
-            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
+            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.EXTRACURRICULAR));
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "ClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
 
@@ -39,8 +34,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtMaxStudent, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
@@ -106,8 +100,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.SchoolClassCode = txtSchoolClassCode.Text;
             entity.SchoolClassName = txtSchoolClassName.Text;
-            entity.RoomID = Convert.ToInt32(tacRoom.Value);
-            entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+            if (tacRoom.Value == "")
+                entity.RoomID = null;
+            else
+                entity.RoomID = Convert.ToInt32(tacRoom.Value);
+            entity.TeacherID = null;
             entity.MaxStudent = Convert.ToInt16(txtMaxStudent.Text);
         }
 

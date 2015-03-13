@@ -17945,8 +17945,8 @@ namespace CodeX.Data.Model
         private String _SchoolClassCode;
         private String _SchoolClassName;
         private Int32 _PeriodClassTypeID;
-        private Int32 _RoomID;
-        private Int32 _TeacherID;
+        private Int32? _RoomID;
+        private Int32? _TeacherID;
         private Int16 _MaxStudent;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -17978,14 +17978,14 @@ namespace CodeX.Data.Model
             get { return _PeriodClassTypeID; }
             set { _PeriodClassTypeID = value; }
         }
-        [Column(Name = "RoomID", DataType = "Int32")]
-        public Int32 RoomID
+        [Column(Name = "RoomID", DataType = "Int32", IsNullable = true)]
+        public Int32? RoomID
         {
             get { return _RoomID; }
             set { _RoomID = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }

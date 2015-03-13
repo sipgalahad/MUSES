@@ -434,6 +434,9 @@ namespace CodeX.Common
                 public const string SP_TEACHER_SCHEDULE = "SM99010405";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_EXTRACURRICULAR = "SM99010501";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT_EXTRACURRICULAR = "SM99010502";
+                public const string SP_GENERATE_SCHOOL_CLASS_EXTRACURRICULAR = "SM99010503";
+                public const string SP_SCHOOL_CLASS_EXTRACURRICULAR = "SM99010601";
+                public const string SP_CLASS_SUBJECT_EXTRACURRICULAR = "SM99010602";
 
                 public const string STUDENT_PAGE = "SM99020000";
                 public const string ST_STUDENT_PAST_STUDY = "SM99020101";
