@@ -1655,6 +1655,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassTypeExtracurricular
+        public static ClassTypeExtracurricular GetClassTypeExtracurricular(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
+        {
+            return new ClassTypeExtracurricularDao().Get(ClassTypeID, ExtracurricularClassTypeID);
+        }
+        public static int InsertClassTypeExtracurricular(ClassTypeExtracurricular record)
+        {
+            return new ClassTypeExtracurricularDao().Insert(record);
+        }
+        public static int UpdateClassTypeExtracurricular(ClassTypeExtracurricular record)
+        {
+            return new ClassTypeExtracurricularDao().Update(record);
+        }
+        public static int DeleteClassTypeExtracurricular(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
+        {
+            return new ClassTypeExtracurricularDao().Delete(ClassTypeID, ExtracurricularClassTypeID);
+        }
+        public static List<ClassTypeExtracurricular> GetClassTypeExtracurricularList(string filterExpression)
+        {
+            List<ClassTypeExtracurricular> result = new List<ClassTypeExtracurricular>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassTypeExtracurricular));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassTypeExtracurricular)helper.IDataReaderToObject(reader, new ClassTypeExtracurricular()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassTypeExtracurricular> GetClassTypeExtracurricularList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassTypeExtracurricular> result = new List<ClassTypeExtracurricular>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassTypeExtracurricular));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassTypeExtracurricular)helper.IDataReaderToObject(reader, new ClassTypeExtracurricular()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region COABudget
         public static COABudget GetCOABudget(Int32 ID)
         {

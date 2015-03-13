@@ -13,7 +13,7 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class ClassStudentQuickPicksEntryCtl : BaseEntryPopupCtl
+    public partial class ClassStudentExtracurricularQuickPicksEntryCtl : BaseEntryPopupCtl
     {
         protected int PageCount = 1;
         private string[] lstSelectedMember = null;
@@ -23,14 +23,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSchoolClassID.Value = param;
 
             vSchoolClass entity = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value)).FirstOrDefault();
-            hdnGCGrade.Value = entity.GCGrade;
-            hdnGCMajor.Value = entity.GCMajor;
+            hdnClassTypeID.Value = entity.ClassTypeID.ToString();
             BindGridView(1, true, ref PageCount);
         }
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("SiteID = '{0}' AND StudentName LIKE '%{1}%' AND IsDeleted = 0 AND GCGrade = '{3}' AND GCMajor = '{4}' AND StudentID NOT IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {2})", AppSession.UserLogin.SiteID, hdnFilterItem.Value, hdnSchoolClassID.Value, hdnGCGrade.Value, hdnGCMajor.Value);
+            string filterExpression = string.Format("SiteID = '{0}' AND StudentName LIKE '%{1}%' AND IsDeleted = 0 AND GCGrade + '|' + GCMajor IN (SELECT GCGrade + '|' + GCMajor FROM vClassTypeExtracurricular WHERE ExtracurricularClassTypeID = {3}) AND StudentID NOT IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {2})", AppSession.UserLogin.SiteID, hdnFilterItem.Value, hdnSchoolClassID.Value, hdnClassTypeID.Value);
             return filterExpression;
         }
 
@@ -86,7 +85,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ClassStudentDao entityDao = new ClassStudentDao(ctx);
-            StudentDao entityStudentDao = new StudentDao(ctx);
             bool result = false;
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
             try
@@ -99,11 +97,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.StudentID = Convert.ToInt32(studentID);
                     entity.GCClassStudentStatus = Constant.ClassStudentStatus.OPEN;
                     entityDao.Insert(entity);
-
-                    Student student = entityStudentDao.Get(entity.StudentID);
-                    student.SchoolClassID = entity.SchoolClassID;
-                    student.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityStudentDao.Update(student);
                 }
                 ctx.CommitTransaction();
                 result = true;

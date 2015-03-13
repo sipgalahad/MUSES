@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ClassStudentQuickPicksEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassStudentQuickPicksEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ClassTypeExtracurricularDtEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanel.Program.ClassTypeExtracurricularDtEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -8,36 +8,36 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
-<script type="text/javascript" id="dxss_testorderquickpicksctl">
+<script type="text/javascript" id="dxss_drugslogisticsquickpicksctl">
     function addItemFilterRow() {
         $trHeader = $('#<%=grdView.ClientID %> tr:eq(0)');
-        $trFilter = $("<tr><td></td><td></td></tr>");
+        $trFilter = $("<tr><td></td><td></td><td></td></tr>");
 
-        $input = $("<input type='text' id='txtFilterItem' style='width:100%;height:20px' />").val($('#<%=hdnFilterItem.ClientID %>').val());
+        $input = $("<input type='text' id='txtFilterItemCode' style='width:100%;height:20px' />").val($('#<%=hdnFilterItemCode.ClientID %>').val());
         $trFilter.find('td').eq(1).append($input);
+        $input = $("<input type='text' id='txtFilterItemName' style='width:100%;height:20px' />").val($('#<%=hdnFilterItemName.ClientID %>').val());
+        $trFilter.find('td').eq(2).append($input);
         $trFilter.insertAfter($trHeader);
     }
 
-    $('#txtFilterItem').live('keypress', function (e) {
+    $('#txtFilterItemCode').live('keypress', function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
             getCheckedMember();
-            $('#<%=hdnFilterItem.ClientID %>').val($(this).val());
+            $('#<%=hdnFilterItemCode.ClientID %>').val($(this).val());
             e.preventDefault();
-            cbpViewPopup.PerformCallback('refresh');
+            cbpPopup.PerformCallback('refresh');
         }
     });
 
-    $('#tblSelectedItem .txtQty').live('change', function () {
-        $row = $(this).closest('tr');
-        totalPayer = 0;
-        totalPatient = 0;
-        grandTotal = 0;
-        $('#tblSelectedItem tr').each(function () {
-            if ($(this).find('.keyField').val() != undefined) {
-                calculateTariffEstimation($(this));
-            }
-        });
+    $('#txtFilterItemName').live('keypress', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            getCheckedMember();
+            $('#<%=hdnFilterItemName.ClientID %>').val($(this).val());
+            e.preventDefault();
+            cbpPopup.PerformCallback('refresh');
+        }
     });
 
     $(function () {
@@ -46,23 +46,26 @@
     });
 
     function onBeforeSaveRecord(errMessage) {
-        getCheckedMember();
-        if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
-            return true;
-        else {
-            errMessage.text = 'Please Select Item First';
-            return false;
+        if (IsValid(null, 'fsDrugsQuickPicks', 'mpDrugsQuickPicks')) {
+            getCheckedMember();
+            if ($('#<%=hdnSelectedMember.ClientID %>').val() != '')
+                return true;
+            else {
+                errMessage.text = 'Please Select Item First';
+                return false;
+            }
         }
+        return false;
     }
 
     function getCheckedMember() {
         var lstSelectedMember = [];
-        var lstSelectedMemberQty = [];
         var result = '';
         $('#tblSelectedItem .trSelectedItem').each(function () {
             var key = $(this).find('.keyField').val();
             lstSelectedMember.push(key);
         });
+
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
     }
 
@@ -70,24 +73,23 @@
     var pageCount = parseInt('<%=PageCount %>');
 
     $(function () {
-        setPaging($("#pagingPopUp"), pageCount, function (page) {
+        setPaging($("#pagingPopup"), pageCount, function (page) {
             getCheckedMember();
-            cbpViewPopup.PerformCallback('changepage|' + page);
+            cbpPopup.PerformCallback('changepage|' + page);
         });
     });
 
-    function onCbpViewPopupEndCallback(s) {
+    function onCbpPopupEndCallback(s) {
         hideLoadingPanel();
 
         var param = s.cpResult.split('|');
         if (param[0] == 'refresh') {
             var pageCount = parseInt(param[1]);
-            setPaging($("#pagingPopUp"), pageCount, function (page) {
+            setPaging($("#pagingPopup"), pageCount, function (page) {
                 getCheckedMember();
-                cbpViewPopup.PerformCallback('changepage|' + page);
+                cbpPopup.PerformCallback('changepage|' + page);
             });
         }
-        else { }
         addItemFilterRow();
     }
     //#endregion
@@ -98,10 +100,11 @@
             $selectedTr = $(this).closest('tr');
 
             $newTr = $('#tmplSelectedTestItem').html();
-            $newTr = $newTr.replace(/\$\{StudentName}/g, $selectedTr.find('.tdStudentName').html());
-            $newTr = $newTr.replace(/\$\{StudentID}/g, $selectedTr.find('.keyField').html());
+            $newTr = $newTr.replace(/\$\{ClassTypeCode}/g, $selectedTr.find('.tdClassTypeCode').html());
+            $newTr = $newTr.replace(/\$\{ClassTypeName}/g, $selectedTr.find('.tdClassTypeName').html());
+            $newTr = $newTr.replace(/\$\{ClassTypeID}/g, $selectedTr.find('.keyField').html());
             $newTr = $($newTr);
-            $newTr.insertAfter($('#trHeader2'));
+            $newTr.insertBefore($('#trFooter'));
         }
         else {
             var id = $(this).closest('tr').find('.keyField').html();
@@ -133,24 +136,42 @@
             $(this).closest('tr').remove();
         }
     });
-</script>
 
+    function onBeforeSaveRecord(errMessage) {
+        if (IsValid(null, 'fsTrxPopup', 'mpTrxPopup')) {
+            getCheckedMember();
+            return true;
+        }
+        return false;
+    }
+</script>
 <div style="padding:10px;">
     <script id="tmplSelectedTestItem" type="text/x-jquery-tmpl">
         <tr class="trSelectedItem">
             <td align="center">
                 <input type="checkbox" class="chkIsSelected2" />
-                <input type="hidden" class="keyField" value='${StudentID}' />
+                <input type="hidden" class="keyField" value='${ClassTypeID}' />
             </td>
-            <td>${StudentName}</td>
+            <td class="tdClassTypeCode">${ClassTypeCode}</td>
+            <td>${ClassTypeName}</td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
-    <input type="hidden" id="hdnSchoolClassID" runat="server" value="" />
-    <input type="hidden" id="hdnGCGrade" runat="server" value="" />
-    <input type="hidden" id="hdnGCMajor" runat="server" value="" />
-    <input type="hidden" id="hdnFilterItem" runat="server" />
+    <input type="hidden" id="hdnClassTypeID" runat="server" value="" />
+    <input type="hidden" id="hdnParam" runat="server" value="" />
+    <input type="hidden" id="hdnFilterItemCode" runat="server" />
+    <input type="hidden" id="hdnFilterItemName" runat="server" />
 
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:200px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Ekskul")%></label></td>
+            <td><asp:TextBox ID="txtClassTypeName" ReadOnly="true" Width="200px" runat="server" /></td>
+        </tr> 
+    </table>
     <table style="width:100%">
         <colgroup>
             <col style="width:50%"/>
@@ -158,25 +179,25 @@
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
-                <h4><%=GetLabel("Available")%></h4>
-                <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
-                    ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
+                <h4><%=GetLabel("Tersedia")%></h4>
+                <dxcp:ASPxCallbackPanel ID="cbpPopup" runat="server" Width="100%" ClientInstanceName="cbpPopup"
+                    ShowLoadingPanel="false" OnCallback="cbpPopup_Callback">
                     <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel();}"
-                        EndCallback="function(s,e){ onCbpViewPopupEndCallback(s); }" />
+                        EndCallback="function(s,e){ onCbpPopupEndCallback(s); }" />
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                                 <asp:GridView ID="grdView" runat="server" CssClass="grdView notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
                                 OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
-                                        <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
+                                        <asp:BoundField DataField="ClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
                                         <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="StudentName" HeaderText="Nama" ItemStyle-CssClass="tdStudentName" />
-                                        <asp:BoundField DataField="SchoolClassName" HeaderText="Kelas" HeaderStyle-Width="150px" />
+                                        <asp:BoundField DataField="ClassTypeCode" HeaderText="Kode" ItemStyle-CssClass="tdClassTypeCode" HeaderStyle-Width="50px" />
+                                        <asp:BoundField DataField="ClassTypeName" HeaderText="Nama" ItemStyle-CssClass="tdClassTypeName" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
@@ -188,18 +209,34 @@
                 </dxcp:ASPxCallbackPanel>
                 <div class="containerPaging">
                     <div class="wrapperPaging">
-                        <div id="pagingPopUp"></div>
+                        <div id="pagingPopup"></div>
                     </div>
                 </div>
             </td>
             <td style="padding:5px;vertical-align:top">
-                <h4><%=GetLabel("Selected")%></h4>
-                <table id="tblSelectedItem" class="grdView notAllowSelect" cellspacing="0" rules="all" >
-                    <tr id="trHeader2">
-                        <th style="width:40px">&nbsp;</th>
-                        <th align="center"><%=GetLabel("Nama")%></th>  
-                    </tr>
-                </table> 
+                <h4><%=GetLabel("Dipilih")%></h4>
+                <fieldset id="fsTrxPopup">
+                    <table id="tblSelectedItem" class="grdView notAllowSelect" cellspacing="0" rules="all" >
+                        <tr id="trHeader2">
+                            <th style="width:40px">&nbsp;</th>
+                            <th align="center" style="width:50px"><%=GetLabel("Kode")%></th> 
+                            <th align="center"><%=GetLabel("Nama")%></th> 
+                        </tr>
+                        <asp:Repeater ID="rptSelected" runat="server">
+                            <ItemTemplate>
+                                <tr class="trSelectedItem">
+                                    <td align="center">
+                                        <input type="checkbox" class="chkIsSelected2" />
+                                        <input type="hidden" class="keyField" value='<%#Eval("ClassTypeID") %>' />
+                                    </td>
+                                    <td class="tdClassTypeCode"><%#Eval("ClassTypeCode") %></td>
+                                    <td><%#Eval("ClassTypeName") %></td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <tr id="trFooter"></tr>
+                    </table>
+                </fieldset>
             </td>
         </tr>
     </table>

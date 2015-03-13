@@ -2391,7 +2391,9 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int16 _DayNumber;
         private Int16 _HoursIndex;
-        private Int32 _RoomID;
+        private String _StartTime;
+        private String _EndTime;
+        private Int32? _RoomID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -2422,14 +2424,26 @@ namespace CodeX.Data.Model
             get { return _DayNumber; }
             set { _DayNumber = value; }
         }
-        [Column(Name = "HoursIndex", DataType = "Int16")]
+        [Column(Name = "HoursIndex", DataType = "Int16", IsNullable = true)]
         public Int16 HoursIndex
         {
             get { return _HoursIndex; }
             set { _HoursIndex = value; }
         }
-        [Column(Name = "RoomID", DataType = "Int32")]
-        public Int32 RoomID
+        [Column(Name = "StartTime", DataType = "String", IsNullable = true)]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String", IsNullable = true)]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32", IsNullable = true)]
+        public Int32? RoomID
         {
             get { return _RoomID; }
             set { _RoomID = value; }
@@ -3320,6 +3334,70 @@ namespace CodeX.Data.Model
                 record = new ClassTypeDao().Get(ClassTypeID);
             else
                 record = Get(ClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassTypeExtracurricular
+    [Serializable]
+    [Table(Name = "ClassTypeExtracurricular")]
+    public class ClassTypeExtracurricular : DbDataModel
+    {
+        private Int32 _ClassTypeID;
+        private Int32 _ExtracurricularClassTypeID;
+
+        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ExtracurricularClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ExtracurricularClassTypeID
+        {
+            get { return _ExtracurricularClassTypeID; }
+            set { _ExtracurricularClassTypeID = value; }
+        }
+    }
+
+    public class ClassTypeExtracurricularDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassTypeExtracurricular));
+        private bool _isAuditLog = false;
+        private const string p_ClassTypeID = "@p_ClassTypeID";
+        private const string p_ExtracurricularClassTypeID = "@p_ExtracurricularClassTypeID";
+        public ClassTypeExtracurricularDao() { }
+        public ClassTypeExtracurricularDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassTypeExtracurricular Get(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassTypeID, ClassTypeID);
+            _ctx.Add(p_ExtracurricularClassTypeID, ExtracurricularClassTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassTypeExtracurricular)_helper.DataRowToObject(row, new ClassTypeExtracurricular());
+        }
+        public int Insert(ClassTypeExtracurricular record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassTypeExtracurricular record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
+        {
+            ClassTypeExtracurricular record;
+            if (_ctx.Transaction == null)
+                record = new ClassTypeExtracurricularDao().Get(ClassTypeID, ExtracurricularClassTypeID);
+            else
+                record = Get(ClassTypeID, ExtracurricularClassTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

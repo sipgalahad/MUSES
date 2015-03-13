@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class ClassTypeList : BasePageList
+    public partial class ClassTypeExtracurricularList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CLASS_TYPE;
+                return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_CLASS_TYPE;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            string GCClassStudyType = Constant.ClassStudyType.REGULAR;
+            string GCClassStudyType = Constant.ClassStudyType.EXTRACURRICULAR;
             filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
             return filterExpression;
         }
@@ -97,7 +97,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/ClassType/ClassTypeEntry.aspx");
+            url = ResolveUrl("~/Program/Master/ClassType/ClassTypeEntry.aspx?id=ex");
             return true;
         }
 

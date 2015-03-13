@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ClassStudentQuickPicksEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassStudentQuickPicksEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ClassStudentExtracurricularQuickPicksEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassStudentExtracurricularQuickPicksEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -147,8 +147,7 @@
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <input type="hidden" id="hdnSchoolClassID" runat="server" value="" />
-    <input type="hidden" id="hdnGCGrade" runat="server" value="" />
-    <input type="hidden" id="hdnGCMajor" runat="server" value="" />
+    <input type="hidden" id="hdnClassTypeID" runat="server" value="" />
     <input type="hidden" id="hdnFilterItem" runat="server" />
 
     <table style="width:100%">

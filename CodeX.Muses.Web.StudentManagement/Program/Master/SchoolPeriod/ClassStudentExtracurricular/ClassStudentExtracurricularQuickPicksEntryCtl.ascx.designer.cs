@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassStudentQuickPicksEntryCtl {
+    public partial class ClassStudentExtracurricularQuickPicksEntryCtl {
         
         /// <summary>
         /// hdnSelectedMember control.
@@ -31,22 +31,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolClassID;
         
         /// <summary>
-        /// hdnGCGrade control.
+        /// hdnClassTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCGrade;
-        
-        /// <summary>
-        /// hdnGCMajor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCMajor;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassTypeID;
         
         /// <summary>
         /// hdnFilterItem control.

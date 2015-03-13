@@ -2006,6 +2006,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassTypeExtracurricular
+    [Serializable]
+    [Table(Name = "vClassTypeExtracurricular")]
+    public class vClassTypeExtracurricular
+    {
+        private Int32 _ClassTypeID;
+        private String _ClassTypeCode;
+        private String _ClassTypeName;
+        private String _GCGrade;
+        private String _GCMajor;
+        private Int32 _ExtracurricularClassTypeID;
+
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "ExtracurricularClassTypeID", DataType = "Int32")]
+        public Int32 ExtracurricularClassTypeID
+        {
+            get { return _ExtracurricularClassTypeID; }
+            set { _ExtracurricularClassTypeID = value; }
+        }
+    }
+    #endregion
     #region vCreditCard
     [Serializable]
     [Table(Name = "vCreditCard")]

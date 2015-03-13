@@ -130,6 +130,8 @@
     <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
+    <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
+    <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\MasterCoding\MasterCodingEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\MasterCoding\MasterCodingList.aspx" />
@@ -572,6 +574,20 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
       <DependentUpon>ClassTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.cs">
+      <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.designer.cs">
+      <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.cs">
+      <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
