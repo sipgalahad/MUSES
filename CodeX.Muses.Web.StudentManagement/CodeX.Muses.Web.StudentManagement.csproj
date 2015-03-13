@@ -111,6 +111,8 @@
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
     <Content Include="Program\Master\Scholarship\ScholarshipEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeSubjectExtracurricular\PeriodClassTypeSubjectExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx" />
     <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
@@ -497,6 +499,20 @@
     </Compile>
     <Compile Include="Program\Master\Scholarship\ScholarshipEntry.aspx.designer.cs">
       <DependentUpon>ScholarshipEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeSubjectExtracurricular\PeriodClassTypeSubjectExtracurricularEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypeSubjectExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeSubjectExtracurricular\PeriodClassTypeSubjectExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypeSubjectExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypeExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypeExtracurricularEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx.cs">
       <DependentUpon>TeacherScheduleEntry.aspx</DependentUpon>

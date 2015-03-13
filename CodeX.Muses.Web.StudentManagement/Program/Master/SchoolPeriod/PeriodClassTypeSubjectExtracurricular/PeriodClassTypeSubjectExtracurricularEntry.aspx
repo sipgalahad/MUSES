@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="PeriodClassTypeSubjectEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodClassTypeSubjectEntry" %>
+    CodeBehind="PeriodClassTypeSubjectExtracurricularEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodClassTypeSubjectExtracurricularEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -19,7 +19,6 @@
                 tacSubject.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
-                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#entryDetailContainer').show();
             });
 
@@ -54,7 +53,6 @@
             tacSubject.setText(entity.SubjectName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
-            $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#entryDetailContainer').show();
         });
 
@@ -172,7 +170,7 @@
                                     <col style="width: 150px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Pelajaran")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Ekskul")%></label></td>
                                     <td>
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectGradeMajorList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
                                             SearchFields="SubjectName,SubjectCode" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectCode}</b>)" OrderByExpression="SubjectName">
@@ -182,7 +180,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pembina")%></label></td>
                                     <td>
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTeacher" ClientInstanceName="tacTeacher" MethodName="GetvTeacherSubjectList" GetFilterExpressionFunction="onGetTeacherFilterExpression"
                                             SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
@@ -190,10 +188,6 @@
                                                 ValueChanged="function(){ onTacTeacherValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Pertemuan")%></label></td>
-                                    <td><asp:TextBox ID="txtNoMeetingHoursInWeek" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -221,9 +215,8 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
-                                <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="300px" />
-                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="SubjectName" HeaderText="Ekskul"/>
+                                <asp:BoundField DataField="TeacherName" HeaderText="Pembina" HeaderStyle-Width="300px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
@@ -233,7 +226,6 @@
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
-                                        <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

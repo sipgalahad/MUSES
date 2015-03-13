@@ -51,7 +51,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            string GCClassStudyType = "";
+            if (Page.Request.QueryString["id"] == "ex")
+                GCClassStudyType = Constant.ClassStudyType.EXTRACURRICULAR;
+            else
+                GCClassStudyType = Constant.ClassStudyType.REGULAR;
+            filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
             return filterExpression;
         }
 
@@ -96,7 +101,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx");
+            if (Page.Request.QueryString["id"] == "ex")
+                url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx?id=ex");
+            else
+                url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx");
             return true;
         }
 

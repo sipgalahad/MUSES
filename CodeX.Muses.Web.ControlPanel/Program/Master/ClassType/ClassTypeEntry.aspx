@@ -6,6 +6,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>
@@ -24,11 +25,11 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                         <td><asp:TextBox ID="txtClassTypeName" Width="300px" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr id="trGrade" runat="server">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tingkat (Kelas)")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboGrade" ClientInstanceName="cboGrade" Width="200px" /></td>
                     </tr>
-                    <tr>
+                    <tr id="trMajor" runat="server">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboMajor" ClientInstanceName="cboMajor" Width="200px" /></td>
                     </tr>

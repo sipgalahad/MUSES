@@ -20,6 +20,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
+            if (Page.Request.QueryString["id"] == "ex")
+                return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_CLASS_TYPE;
             return Constant.MenuCode.ControlPanel.CLASS_TYPE;
         }
 
@@ -51,7 +53,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            string GCClassStudyType = "";
+            if (Page.Request.QueryString["id"] == "ex")
+                GCClassStudyType = Constant.ClassStudyType.EXTRACURRICULAR;
+            else
+                GCClassStudyType = Constant.ClassStudyType.REGULAR;
+            filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
             return filterExpression;
         }
 
@@ -96,7 +103,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/ClassType/ClassTypeEntry.aspx");
+            if (Page.Request.QueryString["id"] == "ex")
+                url = ResolveUrl("~/Program/Master/ClassType/ClassTypeEntry.aspx?id=ex");
+            else
+                url = ResolveUrl("~/Program/Master/ClassType/ClassTypeEntry.aspx");
             return true;
         }
 

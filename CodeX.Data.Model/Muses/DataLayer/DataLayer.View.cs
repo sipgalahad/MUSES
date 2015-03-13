@@ -1930,6 +1930,7 @@ namespace CodeX.Data.Model
         private String _ClassTypeCode;
         private String _ClassTypeName;
         private String _SiteID;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _Grade;
         private String _GCMajor;
@@ -1959,6 +1960,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
@@ -9933,6 +9940,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassTypeID;
         private String _ClassTypeCode;
         private String _ClassTypeName;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _Grade;
         private String _GCMajor;
@@ -9990,6 +9998,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
@@ -18282,6 +18296,91 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSubjectClassType
+    [Serializable]
+    [Table(Name = "vSubjectClassType")]
+    public class vSubjectClassType
+    {
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+        private Int32 _ClassTypeID;
+        private String _ClassTypeCode;
+        private String _ClassTypeName;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCMajor;
+        private String _Major;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

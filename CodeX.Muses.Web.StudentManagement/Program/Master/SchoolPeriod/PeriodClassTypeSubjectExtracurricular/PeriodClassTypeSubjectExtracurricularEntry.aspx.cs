@@ -12,25 +12,24 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class SubjectGradeMajorEntry : BasePageTrx
+    public partial class PeriodClassTypeSubjectExtracurricularEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.SB_SUBJECT_CLASS_TYPE;
+            return Constant.MenuCode.StudentManagement.SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT_EXTRACURRICULAR;
         }
         protected override void InitializeDataControl()
         {
-            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
-            List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            lstMajor.Insert(0, new vSchoolMajor { GCMajor = "", Major = "" });
-            Methods.SetComboBoxField<vSchoolGrade>(cboGrade, lstGrade, "Grade", "GCGrade");
-            Methods.SetComboBoxField<vSchoolMajor>(cboMajor, lstMajor, "Major", "GCMajor");
+            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.EXTRACURRICULAR));
+            Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "ClassTypeName", "PeriodClassTypeID");
+            cboClassType.SelectedIndex = 0;
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -41,7 +40,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvSubjectGradeMajorList(string.Format("SubjectID = {0} ORDER BY GCGrade ASC", AppSession.SubjectID));
+            string filterExpression = "1 = 0";
+            if (cboClassType.Value != null && cboClassType.Value.ToString() != "0")
+            {
+                filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND IsDeleted = 0", AppSession.SchoolPeriodID, cboClassType.Value);
+                vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", cboClassType.Value)).FirstOrDefault();
+                hdnClassTypeID.Value = entity.ClassTypeID.ToString();
+
+                hdnClassRowCount.Value = BusinessLayer.GetSchoolClassRowCount(string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", cboClassType.Value)).ToString();
+            }
+            List<vPeriodClassTypeSubject> lstEntity = BusinessLayer.GetvPeriodClassTypeSubjectList(filterExpression);
+            grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
 
@@ -60,7 +69,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             result = param[0] + "|";
             if (param[0] == "save")
             {
-                if (hdnIsAdd.Value.ToString() != "1")
+                if (hdnEntryID.Value.ToString() != "")
                 {
                     if (OnSaveEditRecordEntityDt(ref errMessage))
                         result += "success";
@@ -87,23 +96,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectGradeMajor entity)
+        private void ControlToEntity(PeriodClassTypeSubject entity)
         {
-            if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
-                entity.GCMajor = cboMajor.Value.ToString();
-            else
-                entity.GCMajor = null;
+            entity.SubjectID = Convert.ToInt32(tacSubject.Value);
+            entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+            entity.NoMeetingHoursInWeek = 1;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             try
             {
-                SubjectGradeMajor entity = new SubjectGradeMajor();
+                PeriodClassTypeSubject entity = new PeriodClassTypeSubject();
                 ControlToEntity(entity);
-                entity.GCGrade = cboGrade.Value.ToString();
-                entity.SubjectID = AppSession.SubjectID;
-                BusinessLayer.InsertSubjectGradeMajor(entity);
+                entity.PeriodClassTypeID = Convert.ToInt32(cboClassType.Value);
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.InsertPeriodClassTypeSubject(entity);
                 return true;
             }
             catch (Exception ex)
@@ -118,9 +126,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectGradeMajor entity = BusinessLayer.GetSubjectGradeMajor(AppSession.SubjectID, cboGrade.Value.ToString());
+                PeriodClassTypeSubject entity = BusinessLayer.GetPeriodClassTypeSubject(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
-                BusinessLayer.UpdateSubjectGradeMajor(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdatePeriodClassTypeSubject(entity);
                 return true;
             }
             catch (Exception ex)
@@ -135,11 +144,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                BusinessLayer.DeleteSubjectGradeMajor(AppSession.SubjectID, cboGrade.Value.ToString());
+                PeriodClassTypeSubject entity = BusinessLayer.GetPeriodClassTypeSubject(Convert.ToInt32(hdnEntryID.Value));
+                entity.IsDeleted = true;
+                entity.LastUpdatedDate = DateTime.Now;
+                BusinessLayer.UpdatePeriodClassTypeSubject(entity);
                 return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

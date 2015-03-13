@@ -9391,6 +9391,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectClassType
+        public static SubjectClassType GetSubjectClassType(Int32 SubjectID, Int32 ClassTypeID)
+        {
+            return new SubjectClassTypeDao().Get(SubjectID, ClassTypeID);
+        }
+        public static int InsertSubjectClassType(SubjectClassType record)
+        {
+            return new SubjectClassTypeDao().Insert(record);
+        }
+        public static int UpdateSubjectClassType(SubjectClassType record)
+        {
+            return new SubjectClassTypeDao().Update(record);
+        }
+        public static int DeleteSubjectClassType(Int32 SubjectID, Int32 ClassTypeID)
+        {
+            return new SubjectClassTypeDao().Delete(SubjectID, ClassTypeID);
+        }
+        public static List<SubjectClassType> GetSubjectClassTypeList(string filterExpression)
+        {
+            List<SubjectClassType> result = new List<SubjectClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectClassType)helper.IDataReaderToObject(reader, new SubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SubjectGradeMajor
         public static SubjectGradeMajor GetSubjectGradeMajor(Int32 SubjectID, String GCGrade)
         {

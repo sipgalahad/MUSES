@@ -105,6 +105,12 @@ namespace CodeX.Common
             public const string ADMISSION = "MS018^001";
         }
 
+        public static class ClassStudyType
+        {
+            public const string REGULAR = "MS024^001";
+            public const string EXTRACURRICULAR = "MS024^002";
+        }
+
         public static class AdmissionPaymentPeriod 
         { 
             public const string SEKALI_BAYAR = "MS014^001";
@@ -251,6 +257,8 @@ namespace CodeX.Common
                 public const string SCHOOL_MAJOR = "CP010109";
                 public const string TEACHER_MARK_TYPE_GROUP = "CP010110";
                 public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
+                public const string EXTRACURRICULAR_CLASS_TYPE = "CP010112";
+                public const string EXTRACURRICULAR_SUBJECT = "CP010113";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
@@ -296,7 +304,7 @@ namespace CodeX.Common
                 public const string REPORT = "CP090000";
 
                 public const string SUBJECT_PAGE = "CP99010000";
-                public const string SB_SUBJECT_GRADE_MAJOR = "CP99010100";
+                public const string SB_SUBJECT_CLASS_TYPE = "CP99010100";
                 public const string SB_SUBJECT_MATTER = "CP99010200";
             }
             #endregion
@@ -424,6 +432,8 @@ namespace CodeX.Common
                 public const string SP_CLASS_SCHEDULE = "SM99010403";
                 public const string SP_CLASS_STUDENT = "SM99010404";
                 public const string SP_TEACHER_SCHEDULE = "SM99010405";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_EXTRACURRICULAR = "SM99010501";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT_EXTRACURRICULAR = "SM99010502";
 
                 public const string STUDENT_PAGE = "SM99020000";
                 public const string ST_STUDENT_PAST_STUDY = "SM99020101";

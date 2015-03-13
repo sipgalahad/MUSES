@@ -7332,6 +7332,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSubjectClassType
+        public static List<vSubjectClassType> GetvSubjectClassTypeList(string filterExpression)
+        {
+            List<vSubjectClassType> result = new List<vSubjectClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectClassType)helper.IDataReaderToObject(reader, new vSubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSubjectGradeMajor
         public static List<vSubjectGradeMajor> GetvSubjectGradeMajorList(string filterExpression)
         {

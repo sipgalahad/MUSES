@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
+            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "ClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
 
@@ -46,8 +46,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND IsDeleted = 0", AppSession.SchoolPeriodID, cboClassType.Value);
                 vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", cboClassType.Value)).FirstOrDefault();
-                hdnGCGrade.Value = entity.GCGrade;
-                hdnGCMajor.Value = entity.GCMajor;
+                hdnClassTypeID.Value = entity.ClassTypeID.ToString();
 
                 hdnClassRowCount.Value = BusinessLayer.GetSchoolClassRowCount(string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", cboClassType.Value)).ToString();
             }

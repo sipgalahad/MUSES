@@ -16,24 +16,36 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override string OnGetMenuCode()
         {
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_CLASS_TYPE;
             return Constant.MenuCode.ControlPanel.CLASS_TYPE;
         }
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0)
+            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex")
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
                 SetControlProperties();
                 ClassType entity = BusinessLayer.GetClassType(Convert.ToInt32(ID));
+                hdnGCClassStudyType.Value = entity.GCClassStudyType;
                 EntityToControl(entity);
             }
             else
             {
+                if (Page.Request.QueryString["id"] == "ex")
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+                else
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
                 SetControlProperties();
                 IsAdd = true;
+            }
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            {
+                trGrade.Style.Add("display", "none");
+                trMajor.Style.Add("display", "none");
             }
             txtClassTypeCode.Focus();
         }
@@ -45,6 +57,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             lstMajor.Insert(0, new vSchoolMajor { GCMajor = "", Major = "" });
             Methods.SetComboBoxField<vSchoolGrade>(cboGrade, lstGrade, "Grade", "GCGrade");
             Methods.SetComboBoxField<vSchoolMajor>(cboMajor, lstMajor, "Major", "GCMajor");
+
         }
 
         protected override void OnControlEntrySetting()
@@ -67,11 +80,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.ClassTypeCode = txtClassTypeCode.Text;
             entity.ClassTypeName = txtClassTypeName.Text;
-            entity.GCGrade = cboGrade.Value.ToString();
-            if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
-                entity.GCMajor = cboMajor.Value.ToString();
-            else
+            entity.GCClassStudyType = hdnGCClassStudyType.Value;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            {
+                entity.GCGrade = null;
                 entity.GCMajor = null;
+            }
+            else
+            {
+                entity.GCGrade = cboGrade.Value.ToString();
+                if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
+                    entity.GCMajor = cboMajor.Value.ToString();
+                else
+                    entity.GCMajor = null;
+            }
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
