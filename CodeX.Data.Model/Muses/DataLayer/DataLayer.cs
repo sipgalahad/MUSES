@@ -2682,6 +2682,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private Int32 _PeriodSectionID;
         private Decimal _Mark;
+        private String _AffectiveMark;
+        private String _AffectiveDescription;
+        private String _ProgressDescription;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassSubjectID
@@ -2706,6 +2709,24 @@ namespace CodeX.Data.Model
         {
             get { return _Mark; }
             set { _Mark = value; }
+        }
+        [Column(Name = "AffectiveMark", DataType = "String", IsNullable = true)]
+        public String AffectiveMark
+        {
+            get { return _AffectiveMark; }
+            set { _AffectiveMark = value; }
+        }
+        [Column(Name = "AffectiveDescription", DataType = "String", IsNullable = true)]
+        public String AffectiveDescription
+        {
+            get { return _AffectiveDescription; }
+            set { _AffectiveDescription = value; }
+        }
+        [Column(Name = "ProgressDescription", DataType = "String", IsNullable = true)]
+        public String ProgressDescription
+        {
+            get { return _ProgressDescription; }
+            set { _ProgressDescription = value; }
         }
     }
 
@@ -11893,6 +11914,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private Int32 _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
+        private Int16 _PassingGrade;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -11928,6 +11950,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

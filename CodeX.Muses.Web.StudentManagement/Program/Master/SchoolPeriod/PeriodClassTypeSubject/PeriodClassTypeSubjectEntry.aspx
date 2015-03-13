@@ -20,6 +20,12 @@
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
+                $('#<%=txtPassingGrade.ClientID %>').val('0');
+
+                tacSubject.setEnabled(true);
+                tacTeacher.setEnabled(true);
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
+
                 $('#entryDetailContainer').show();
             });
 
@@ -55,6 +61,17 @@
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
+            $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
+            if (entity.IsEditable == 'False') {
+                tacSubject.setEnabled(false);
+                tacTeacher.setEnabled(false);
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').attr('readonly', 'readonly');
+            }
+            else {
+                tacSubject.setEnabled(true);
+                tacTeacher.setEnabled(true);
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
+            }
             $('#entryDetailContainer').show();
         });
 
@@ -195,6 +212,10 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Pertemuan")%></label></td>
                                     <td><asp:TextBox ID="txtNoMeetingHoursInWeek" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("KKM")%></label></td>
+                                    <td><asp:TextBox ID="txtPassingGrade" CssClass="number" Width="80px" runat="server" /></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -224,16 +245,19 @@
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
+                                        <input type="hidden" value="<%#Eval("PassingGrade") %>" bindingfield="PassingGrade" />
+                                        <input type="hidden" value="<%#Eval("IsEditable") %>" bindingfield="IsEditable" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

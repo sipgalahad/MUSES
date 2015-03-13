@@ -10138,6 +10138,7 @@ namespace CodeX.Data.Model
         private String _TeacherCode;
         private String _TeacherName;
         private Int16 _NoMeetingHoursInWeek;
+        private Int16 _PassingGrade;
         private Boolean _IsEditable;
         private Boolean _IsDeleted;
 
@@ -10230,6 +10231,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
         }
         [Column(Name = "IsEditable", DataType = "Boolean")]
         public Boolean IsEditable
