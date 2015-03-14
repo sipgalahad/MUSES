@@ -423,6 +423,7 @@ namespace CodeX.Data.Model
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
         private Int32 _BankID;
+        private String _Remarks;
 
         [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
         public Int32 ARInvoiceDtID
@@ -561,6 +562,12 @@ namespace CodeX.Data.Model
         {
             get { return _BankID; }
             set { _BankID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
     #endregion

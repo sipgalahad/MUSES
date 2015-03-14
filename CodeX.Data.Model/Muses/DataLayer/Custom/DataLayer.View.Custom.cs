@@ -28,6 +28,10 @@ namespace CodeX.Data.Model
     #region vARInvoiceDt
     public partial class vARInvoiceDt
     {
+        public String DueDateInString 
+        {
+            get { return _DueDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
     }
     #endregion
     #region vARInvoiceHd

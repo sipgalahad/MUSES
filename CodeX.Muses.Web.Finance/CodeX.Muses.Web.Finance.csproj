@@ -112,6 +112,7 @@
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFilePerPerson.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
@@ -437,6 +438,13 @@
     </Compile>
     <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceProspectiveStudentReceiveEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFilePerPerson.aspx.cs">
+      <DependentUpon>GenerateUploadFilePerPerson.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFilePerPerson.aspx.designer.cs">
+      <DependentUpon>GenerateUploadFilePerPerson.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.cs">
       <DependentUpon>ProspectiveStudentPageLauncher.aspx</DependentUpon>
