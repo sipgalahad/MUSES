@@ -19,6 +19,7 @@ namespace CodeX.Data.Model
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
         private Boolean _IsFixedAmount;
+        private Int16 _PenaltyPercentage;
         private Decimal _TotalAmount;
         private Int16 _NoOfRegistrationPaymentPeriod;
         private Boolean _IsDeleted;
@@ -70,6 +71,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsFixedAmount; }
             set { _IsFixedAmount = value; }
+        }
+        [Column(Name = "PenaltyPercentage", DataType = "Int16")]
+        public Int16 PenaltyPercentage
+        {
+            get { return _PenaltyPercentage; }
+            set { _PenaltyPercentage = value; }
         }
         [Column(Name = "TotalAmount", DataType = "Decimal")]
         public Decimal TotalAmount
