@@ -16,21 +16,28 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override string OnGetMenuCode()
         {
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_SUBJECT;
             return Constant.MenuCode.ControlPanel.SUBJECT;
         }
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0)
+            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex")
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
                 Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(ID));
+                hdnGCClassStudyType.Value = entity.GCClassStudyType;
                 EntityToControl(entity);
             }
             else
             {
+                if (Page.Request.QueryString["id"] == "ex")
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+                else
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
                 IsAdd = true;
             }
             txtSubjectCode.Focus();
@@ -54,6 +61,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.SubjectCode = txtSubjectCode.Text;
             entity.SubjectName = txtSubjectName.Text;
+            entity.GCClassStudyType = hdnGCClassStudyType.Value;
             entity.Remarks = txtRemarks.Text;
         }
 

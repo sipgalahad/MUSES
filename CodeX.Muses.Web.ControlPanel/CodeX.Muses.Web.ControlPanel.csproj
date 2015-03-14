@@ -130,6 +130,8 @@
     <Content Include="Program\Master\Bank\BankList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
+    <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
+    <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\MasterCoding\MasterCodingEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\MasterCoding\MasterCodingList.aspx" />
@@ -173,6 +175,8 @@
     <Content Include="Program\Master\SchoolMajor\SchoolMajorList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompEntry.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx" />
+    <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
@@ -571,6 +575,20 @@
     <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
       <DependentUpon>ClassTypeList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.cs">
+      <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.designer.cs">
+      <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.cs">
+      <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -871,6 +889,20 @@
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx.designer.cs">
       <DependentUpon>StudentFeeCompList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.cs">
+      <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.cs">
+      <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.designer.cs">
+      <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.cs">
       <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>

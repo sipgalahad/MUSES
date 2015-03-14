@@ -21,12 +21,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         public override void InitializeDataControl(string param)
         {
             hdnSchoolClassID.Value = param;
+
+            vSchoolClass entity = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value)).FirstOrDefault();
+            hdnGCGrade.Value = entity.GCGrade;
+            hdnGCMajor.Value = entity.GCMajor;
             BindGridView(1, true, ref PageCount);
         }
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("SiteID = '{0}' AND StudentName LIKE '%{1}%' AND IsDeleted = 0 AND StudentID NOT IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {2})", AppSession.UserLogin.SiteID, hdnFilterItem.Value, hdnSchoolClassID.Value);
+            string filterExpression = string.Format("SiteID = '{0}' AND StudentName LIKE '%{1}%' AND IsDeleted = 0 AND GCGrade = '{3}' AND GCMajor = '{4}' AND StudentID NOT IN (SELECT StudentID FROM ClassStudent WHERE SchoolClassID = {2})", AppSession.UserLogin.SiteID, hdnFilterItem.Value, hdnSchoolClassID.Value, hdnGCGrade.Value, hdnGCMajor.Value);
             return filterExpression;
         }
 

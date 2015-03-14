@@ -105,6 +105,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Other Information
             Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtNationalStudentNo, new ControlEntrySetting(true, true, true), "mpEntry");
+            Helper.SetControlEntrySetting(txtSchoolDate, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
         }
@@ -125,21 +127,30 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
             List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            lstMajor.Add(new vSchoolMajor { GCMajor = "", Major = "" });
-            Methods.SetComboBoxField(cboGrade, lstGrade, "Grade", "GCGrade");
+            if (lstMajor.Count == 0)
+                trMajor.Style.Add("display", "none");
+            lstMajor.Insert(0, new vSchoolMajor { GCMajor = "", Major = "" });
             Methods.SetComboBoxField(cboMajor, lstMajor, "Major", "GCMajor");
 
             PeriodAdmission periodAdmission = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
             if (periodAdmission.GCPeriodAdmissionType == Constant.AdmissionType.NEW_STUDENT)
             {
-                trGrade.Style.Add("display", "none");
-                trMajor.Style.Add("display", "none");
+                List<vSchoolGrade> lstGrade1 = lstGrade.Where(p => p.IsAllowRegistration).ToList();
 
-                cboGrade.Value = lstGrade.FirstOrDefault().GCGrade;
-                cboMajor.SelectedIndex = 0;
+                hdnListGrade.Value = string.Join("|", lstGrade1.Select(p => p.GCGrade + "," + (p.IsNeedNationalStudentNo ? "1" : "0")).ToList());
+
+                Methods.SetComboBoxField(cboGrade, lstGrade1, "Grade", "GCGrade");
+                if (lstGrade1.Count < 2)
+                    trGrade.Style.Add("display", "none");
+                trSchoolDate.Style.Add("display", "none");
             }
-            else if (lstMajor.Count == 0)
-                trMajor.Style.Add("display", "none");
+            else
+            {
+                hdnListGrade.Value = string.Join("|", lstGrade.Select(p => p.GCGrade + "," + (p.IsNeedNationalStudentNo ? "1" : "0")).ToList());
+                Methods.SetComboBoxField(cboGrade, lstGrade, "Grade", "GCGrade");
+            }
+            cboGrade.SelectedIndex = 0;
+            cboMajor.SelectedIndex = 0;
 
             hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT).TagProperty;
 
@@ -209,6 +220,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             #region Additional Information
             cboGrade.Value = entity.GCGrade;
             cboMajor.Value = entity.GCMajor;
+            txtNationalStudentNo.Text = entity.NationalStudentNo;
+            txtSchoolDate.Text = entity.SchoolDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
             #endregion
         }
@@ -280,6 +293,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityRegistration.GCMajor = "";
             else
                 entityRegistration.GCMajor = cboMajor.Value.ToString();
+            entity.NationalStudentNo = txtNationalStudentNo.Text;
+            entityRegistration.SchoolDate = Helper.GetDatePickerValue(txtSchoolDate.Text);
             entityRegistration.Remarks = txtRemarks.Text;
             #endregion
         }
@@ -303,7 +318,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
 
-                entity.ProspectiveStudentCode = entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
+                entityRegistration.RegistrationNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.REGISTRATION, entityRegistration.RegistrationDate, hdnInitial.Value, ctx);
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
 

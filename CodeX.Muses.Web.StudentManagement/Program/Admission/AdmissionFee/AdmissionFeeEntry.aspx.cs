@@ -360,7 +360,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ProspectiveStudent entityProspectiveStudent = entityProspectiveStudentDao.Get(prospectiveStudentID);
                     if (entityProspectiveStudent.ProspectiveStudentCode == "")
                     {
-                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), ctx);
+                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), ctx);
                         ctx.CommandType = CommandType.Text;
                         ctx.Command.Parameters.Clear();
                         entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;

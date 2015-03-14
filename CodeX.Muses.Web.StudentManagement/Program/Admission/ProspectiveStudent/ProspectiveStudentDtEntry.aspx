@@ -17,6 +17,7 @@
 
             setDatePicker('<%=txtRegistrationDate.ClientID %>');
             setDatePicker('<%=txtDateOfBaptism.ClientID %>');
+            setDatePicker('<%=txtSchoolDate.ClientID %>'); 
 
             //#region DOB
             $('#<%=txtDOB.ClientID %>').change(function () {
@@ -136,12 +137,31 @@
                 parent.OnSetHdnID(retval);
             parent.OnNextButtonClick();
         }
+
+        function onCboGradeValueChanged() {
+            var temp = $('#<%=hdnListGrade.ClientID %>').val().split('|');
+            var GCGrade = cboGrade.GetValue();
+            for (var i = 0; i < temp.length; ++i) {
+                var temp1 = temp[i].split(',');
+                if (temp1[0] == GCGrade) {
+                    if (temp1[1] == '1') {
+                        $('#lblNationalStudentNo').attr('class', 'lblMandatory');
+                        $('#<%=txtNationalStudentNo.ClientID %>').attr('class', 'required');
+                    }
+                    else {
+                        $('#lblNationalStudentNo').attr('class', 'lblNormal');
+                        $('#<%=txtNationalStudentNo.ClientID %>').removeAttr('class');
+                    }
+                }
+            }
+        }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <input type="hidden" id="hdnInitial" runat="server" value="" />
     <input type="hidden" id="hdnSchoolType" runat="server" value="" />
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
     <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnListGrade" runat="server" value="" />
     <div style="height: 410px; overflow-y:auto">
         <fieldset id="fsMPEntry">            
             <table class="tblContentArea" >
@@ -363,11 +383,24 @@
                                 </colgroup>
                                 <tr id="trGrade" runat="server">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kelas")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboGrade" Width="120px" runat="server" /></td>
+                                    <td>
+                                        <dxe:ASPxComboBox ID="cboGrade" ClientInstanceName="cboGrade" Width="120px" runat="server">
+                                            <ClientSideEvents Init="function(){ onCboGradeValueChanged(); }"
+                                                ValueChanged="function(){ onCboGradeValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
                                 </tr>
                                 <tr id="trMajor" runat="server">
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboMajor" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr id="trNationalStudentNo" runat="server">
+                                    <td class="tdLabel"><label class="lblNormal" id="lblNationalStudentNo"><%=GetLabel("NIS Nasional")%></label></td>
+                                    <td><asp:TextBox ID="txtNationalStudentNo" Width="150px" runat="server" /></td>
+                                </tr>
+                                <tr id="trSchoolDate" runat="server">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai Sekolah")%></label></td>
+                                    <td><asp:TextBox ID="txtSchoolDate" Width="120px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" valign="top" style="padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>

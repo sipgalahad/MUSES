@@ -141,6 +141,10 @@
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("NIS")%></label></td>
                             <td><asp:TextBox ID="txtStudentCode" Width="100px" runat="server" /></td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("NIS Nasional")%></label></td>
+                            <td><asp:TextBox ID="txtNationalStudentNo" Width="100px" runat="server" /></td>
+                        </tr>
                         <tr style="display:none">
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Salutation")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboSalutation" Width="120px" runat="server" /></td>
@@ -318,6 +322,10 @@
                         <colgroup>
                             <col style="width:180px"/>
                         </colgroup>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No Bank Siswa")%></label></td>
+                            <td><asp:TextBox ID="txtVirtualAccountNo" Width="150px" runat="server" /></td>
+                        </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Status")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboStudentStatus" Width="120px" runat="server" /></td>

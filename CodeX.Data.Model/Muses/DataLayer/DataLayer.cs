@@ -683,6 +683,7 @@ namespace CodeX.Data.Model
         private Int32 _ARInvoiceDtID;
         private Int32 _ARInvoiceID;
         private Int32? _RegistrationFeeID;
+        private Int32? _StudentFeeCompTypeID;
         private Decimal _TransactionAmount;
         private Decimal _ClaimedAmount;
         private Decimal _DiscountAmount;
@@ -711,6 +712,12 @@ namespace CodeX.Data.Model
         {
             get { return _RegistrationFeeID; }
             set { _RegistrationFeeID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
         [Column(Name = "TransactionAmount", DataType = "Decimal")]
         public Decimal TransactionAmount
@@ -2384,7 +2391,9 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int16 _DayNumber;
         private Int16 _HoursIndex;
-        private Int32 _RoomID;
+        private String _StartTime;
+        private String _EndTime;
+        private Int32? _RoomID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -2415,14 +2424,26 @@ namespace CodeX.Data.Model
             get { return _DayNumber; }
             set { _DayNumber = value; }
         }
-        [Column(Name = "HoursIndex", DataType = "Int16")]
+        [Column(Name = "HoursIndex", DataType = "Int16", IsNullable = true)]
         public Int16 HoursIndex
         {
             get { return _HoursIndex; }
             set { _HoursIndex = value; }
         }
-        [Column(Name = "RoomID", DataType = "Int32")]
-        public Int32 RoomID
+        [Column(Name = "StartTime", DataType = "String", IsNullable = true)]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String", IsNullable = true)]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32", IsNullable = true)]
+        public Int32? RoomID
         {
             get { return _RoomID; }
             set { _RoomID = value; }
@@ -2661,6 +2682,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private Int32 _PeriodSectionID;
         private Decimal _Mark;
+        private String _AffectiveMark;
+        private String _AffectiveDescription;
+        private String _ProgressDescription;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassSubjectID
@@ -2685,6 +2709,24 @@ namespace CodeX.Data.Model
         {
             get { return _Mark; }
             set { _Mark = value; }
+        }
+        [Column(Name = "AffectiveMark", DataType = "String", IsNullable = true)]
+        public String AffectiveMark
+        {
+            get { return _AffectiveMark; }
+            set { _AffectiveMark = value; }
+        }
+        [Column(Name = "AffectiveDescription", DataType = "String", IsNullable = true)]
+        public String AffectiveDescription
+        {
+            get { return _AffectiveDescription; }
+            set { _AffectiveDescription = value; }
+        }
+        [Column(Name = "ProgressDescription", DataType = "String", IsNullable = true)]
+        public String ProgressDescription
+        {
+            get { return _ProgressDescription; }
+            set { _ProgressDescription = value; }
         }
     }
 
@@ -3193,6 +3235,7 @@ namespace CodeX.Data.Model
         private String _ClassTypeCode;
         private String _ClassTypeName;
         private String _SiteID;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _GCMajor;
         private Boolean _IsDeleted;
@@ -3225,7 +3268,13 @@ namespace CodeX.Data.Model
             get { return _SiteID; }
             set { _SiteID = value; }
         }
-        [Column(Name = "GCGrade", DataType = "String")]
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String", IsNullable = true)]
         public String GCGrade
         {
             get { return _GCGrade; }
@@ -3306,6 +3355,70 @@ namespace CodeX.Data.Model
                 record = new ClassTypeDao().Get(ClassTypeID);
             else
                 record = Get(ClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassTypeExtracurricular
+    [Serializable]
+    [Table(Name = "ClassTypeExtracurricular")]
+    public class ClassTypeExtracurricular : DbDataModel
+    {
+        private Int32 _ClassTypeID;
+        private Int32 _ExtracurricularClassTypeID;
+
+        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ExtracurricularClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ExtracurricularClassTypeID
+        {
+            get { return _ExtracurricularClassTypeID; }
+            set { _ExtracurricularClassTypeID = value; }
+        }
+    }
+
+    public class ClassTypeExtracurricularDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassTypeExtracurricular));
+        private bool _isAuditLog = false;
+        private const string p_ClassTypeID = "@p_ClassTypeID";
+        private const string p_ExtracurricularClassTypeID = "@p_ExtracurricularClassTypeID";
+        public ClassTypeExtracurricularDao() { }
+        public ClassTypeExtracurricularDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassTypeExtracurricular Get(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassTypeID, ClassTypeID);
+            _ctx.Add(p_ExtracurricularClassTypeID, ExtracurricularClassTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassTypeExtracurricular)_helper.DataRowToObject(row, new ClassTypeExtracurricular());
+        }
+        public int Insert(ClassTypeExtracurricular record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassTypeExtracurricular record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
+        {
+            ClassTypeExtracurricular record;
+            if (_ctx.Transaction == null)
+                record = new ClassTypeExtracurricularDao().Get(ClassTypeID, ExtracurricularClassTypeID);
+            else
+                record = Get(ClassTypeID, ExtracurricularClassTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -11673,7 +11786,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private Int32? _PeriodSectionID;
         private Int32 _ClassTypeID;
-        private Int32 _DailySchedulePackageID;
+        private Int32? _DailySchedulePackageID;
         private Int16 _NoOfClass;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -11705,8 +11818,8 @@ namespace CodeX.Data.Model
             get { return _ClassTypeID; }
             set { _ClassTypeID = value; }
         }
-        [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
-        public Int32 DailySchedulePackageID
+        [Column(Name = "DailySchedulePackageID", DataType = "Int32", IsNullable = true)]
+        public Int32? DailySchedulePackageID
         {
             get { return _DailySchedulePackageID; }
             set { _DailySchedulePackageID = value; }
@@ -11801,6 +11914,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private Int32 _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
+        private Int16 _PassingGrade;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -11836,6 +11950,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -12744,6 +12864,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
+        private String _NationalStudentNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCTitle;
@@ -12790,6 +12911,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentCode; }
             set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -16727,6 +16854,7 @@ namespace CodeX.Data.Model
         private String _GCInformationSource;
         private String _GCGrade;
         private String _GCMajor;
+        private DateTime _SchoolDate;
         private Decimal _FinalMark;
         private Int32? _AdmissionFeeRuleID;
         private Int32? _PaymentID;
@@ -16796,6 +16924,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCMajor; }
             set { _GCMajor = value; }
+        }
+        [Column(Name = "SchoolDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
         }
         [Column(Name = "FinalMark", DataType = "Decimal")]
         public Decimal FinalMark
@@ -17917,8 +18051,8 @@ namespace CodeX.Data.Model
         private String _SchoolClassCode;
         private String _SchoolClassName;
         private Int32 _PeriodClassTypeID;
-        private Int32 _RoomID;
-        private Int32 _TeacherID;
+        private Int32? _RoomID;
+        private Int32? _TeacherID;
         private Int16 _MaxStudent;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -17950,14 +18084,14 @@ namespace CodeX.Data.Model
             get { return _PeriodClassTypeID; }
             set { _PeriodClassTypeID = value; }
         }
-        [Column(Name = "RoomID", DataType = "Int32")]
-        public Int32 RoomID
+        [Column(Name = "RoomID", DataType = "Int32", IsNullable = true)]
+        public Int32? RoomID
         {
             get { return _RoomID; }
             set { _RoomID = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
@@ -19042,6 +19176,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _NationalStudentNo;
+        private String _VirtualAccountNo;
         private Int32? _RegistrationID;
         private String _SiteID;
         private String _GCSalutation;
@@ -19089,6 +19225,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String", IsNullable = true)]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String", IsNullable = true)]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
         public Int32? RegistrationID
@@ -19736,6 +19884,7 @@ namespace CodeX.Data.Model
         private String _GCAdmissionPaymentPeriod;
         private Int32? _PaymentDate;
         private Int32? _PaymentMonth;
+        private Int16 _PenaltyPercentage;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -19783,6 +19932,12 @@ namespace CodeX.Data.Model
         {
             get { return _PaymentMonth; }
             set { _PaymentMonth = value; }
+        }
+        [Column(Name = "PenaltyPercentage", DataType = "Int16")]
+        public Int16 PenaltyPercentage
+        {
+            get { return _PenaltyPercentage; }
+            set { _PenaltyPercentage = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -19853,6 +20008,147 @@ namespace CodeX.Data.Model
                 record = new StudentFeeCompTypeDao().Get(StudentFeeCompTypeID);
             else
                 record = Get(StudentFeeCompTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentNote
+    [Serializable]
+    [Table(Name = "StudentNote")]
+    public class StudentNote : DbDataModel
+    {
+        private Int32 _StudentNoteID;
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private Int32? _ClassMeetingID;
+        private Int32 _StudentID;
+        private DateTime _NoteDate;
+        private String _NoteTime;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentNoteID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentNoteID
+        {
+            get { return _StudentNoteID; }
+            set { _StudentNoteID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "ClassMeetingID", DataType = "Int32", IsNullable = true)]
+        public Int32? ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "NoteDate", DataType = "DateTime")]
+        public DateTime NoteDate
+        {
+            get { return _NoteDate; }
+            set { _NoteDate = value; }
+        }
+        [Column(Name = "NoteTime", DataType = "String")]
+        public String NoteTime
+        {
+            get { return _NoteTime; }
+            set { _NoteTime = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentNoteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentNote));
+        private bool _isAuditLog = false;
+        private const string p_StudentNoteID = "@p_StudentNoteID";
+        public StudentNoteDao() { }
+        public StudentNoteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentNote Get(Int32 StudentNoteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentNoteID, StudentNoteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentNote)_helper.DataRowToObject(row, new StudentNote());
+        }
+        public int Insert(StudentNote record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentNote record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentNoteID)
+        {
+            StudentNote record;
+            if (_ctx.Transaction == null)
+                record = new StudentNoteDao().Get(StudentNoteID);
+            else
+                record = Get(StudentNoteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -20001,6 +20297,7 @@ namespace CodeX.Data.Model
         private String _SubjectCode;
         private String _SubjectName;
         private String _SiteID;
+        private String _GCClassStudyType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -20031,6 +20328,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -20107,6 +20410,70 @@ namespace CodeX.Data.Model
                 record = new SubjectDao().Get(SubjectID);
             else
                 record = Get(SubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubjectClassType
+    [Serializable]
+    [Table(Name = "SubjectClassType")]
+    public class SubjectClassType : DbDataModel
+    {
+        private Int32 _SubjectID;
+        private Int32 _ClassTypeID;
+
+        [Column(Name = "SubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+    }
+
+    public class SubjectClassTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectClassType));
+        private bool _isAuditLog = false;
+        private const string p_ClassTypeID = "@p_ClassTypeID";
+        private const string p_SubjectID = "@p_SubjectID";
+        public SubjectClassTypeDao() { }
+        public SubjectClassTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectClassType Get(Int32 SubjectID, Int32 ClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassTypeID, ClassTypeID);
+            _ctx.Add(p_SubjectID, SubjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectClassType)_helper.DataRowToObject(row, new SubjectClassType());
+        }
+        public int Insert(SubjectClassType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectClassType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectID, Int32 ClassTypeID)
+        {
+            SubjectClassType record;
+            if (_ctx.Transaction == null)
+                record = new SubjectClassTypeDao().Get(SubjectID, ClassTypeID);
+            else
+                record = Get(SubjectID, ClassTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

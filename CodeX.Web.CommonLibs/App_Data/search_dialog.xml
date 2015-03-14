@@ -680,6 +680,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Subject Class Type -->
+  <searchdialog type="subjectclasstype" methodname="GetvSubjectClassTypeList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SubjectCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="SubjectName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubjectName" headertext="Nama" description="" />
+      <intellisensetext datafield="SubjectCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Subject Grade Major -->
   <searchdialog type="subjectgrademajor" methodname="GetvSubjectGradeMajorList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
     <gridcolumns>

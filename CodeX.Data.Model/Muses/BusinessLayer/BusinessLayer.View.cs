@@ -985,6 +985,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassTypeExtracurricular
+        public static List<vClassTypeExtracurricular> GetvClassTypeExtracurricularList(string filterExpression)
+        {
+            List<vClassTypeExtracurricular> result = new List<vClassTypeExtracurricular>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassTypeExtracurricular));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassTypeExtracurricular)helper.IDataReaderToObject(reader, new vClassTypeExtracurricular()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCreditCard
         public static List<vCreditCard> GetvCreditCardList(string filterExpression)
         {
@@ -7320,6 +7344,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vStudentPastStudy)helper.IDataReaderToObject(reader, new vStudentPastStudy()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectClassType
+        public static List<vSubjectClassType> GetvSubjectClassTypeList(string filterExpression)
+        {
+            List<vSubjectClassType> result = new List<vSubjectClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectClassType)helper.IDataReaderToObject(reader, new vSubjectClassType()));
             }
             catch (Exception ex)
             {

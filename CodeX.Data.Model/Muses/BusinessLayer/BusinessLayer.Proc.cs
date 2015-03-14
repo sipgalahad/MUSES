@@ -130,8 +130,8 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
-        #region GenerateStudentCode
-        public static string GenerateStudentCode(String SiteID, int Year, IDbContext ctx = null)
+        #region GenerateProspectiveStudentCode
+        public static string GenerateProspectiveStudentCode(String SiteID, int Year, IDbContext ctx = null)
         {
             bool IsCtxNull = false;
             if (ctx == null)
@@ -139,7 +139,7 @@ namespace CodeX.Data.Model
                 IsCtxNull = true;
                 ctx = DbFactory.Configure();
             }
-            ctx.CommandText = "GenerateStudentCode";
+            ctx.CommandText = "GenerateProspectiveStudentCode";
             ctx.CommandType = CommandType.StoredProcedure;
             ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
             ctx.Command.Parameters.Add(new SqlParameter("@Year", Year));

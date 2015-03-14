@@ -58,6 +58,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtNoMeetingHoursInWeek;
         
         /// <summary>
+        /// txtPassingGrade control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
+        
+        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>
@@ -85,22 +94,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// hdnGCMajor control.
+        /// hdnClassTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCMajor;
-        
-        /// <summary>
-        /// hdnGCGrade control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCGrade;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassTypeID;
         
         /// <summary>
         /// hdnClassRowCount control.

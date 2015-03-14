@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             tdSchoolDay5.Style.Add("width", string.Format("{0}%", width));
             tdSchoolDay6.Style.Add("width", string.Format("{0}%", width));
 
-            List<vSchoolClass> lstClassType = BusinessLayer.GetvSchoolClassList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID));
+            List<vSchoolClass> lstClassType = BusinessLayer.GetvSchoolClassList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
             Methods.SetComboBoxField<vSchoolClass>(cboClass, lstClassType, "SchoolClassName", "SchoolClassID");
             cboClass.SelectedIndex = 0;
 

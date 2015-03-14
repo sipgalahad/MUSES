@@ -1615,6 +1615,7 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private Int32 _RoomID;
         private String _RoomName;
+        private String _GCClassStudyType;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -1706,6 +1707,12 @@ namespace CodeX.Data.Model
         {
             get { return _RoomName; }
             set { _RoomName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -1937,6 +1944,7 @@ namespace CodeX.Data.Model
         private String _ClassTypeCode;
         private String _ClassTypeName;
         private String _SiteID;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _Grade;
         private String _GCMajor;
@@ -1967,6 +1975,12 @@ namespace CodeX.Data.Model
             get { return _SiteID; }
             set { _SiteID = value; }
         }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
         {
@@ -1996,6 +2010,56 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vClassTypeExtracurricular
+    [Serializable]
+    [Table(Name = "vClassTypeExtracurricular")]
+    public class vClassTypeExtracurricular
+    {
+        private Int32 _ClassTypeID;
+        private String _ClassTypeCode;
+        private String _ClassTypeName;
+        private String _GCGrade;
+        private String _GCMajor;
+        private Int32 _ExtracurricularClassTypeID;
+
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "ExtracurricularClassTypeID", DataType = "Int32")]
+        public Int32 ExtracurricularClassTypeID
+        {
+            get { return _ExtracurricularClassTypeID; }
+            set { _ExtracurricularClassTypeID = value; }
         }
     }
     #endregion
@@ -9940,6 +10004,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassTypeID;
         private String _ClassTypeCode;
         private String _ClassTypeName;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _Grade;
         private String _GCMajor;
@@ -9997,6 +10062,12 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
@@ -10074,6 +10145,7 @@ namespace CodeX.Data.Model
         private String _TeacherCode;
         private String _TeacherName;
         private Int16 _NoMeetingHoursInWeek;
+        private Int16 _PassingGrade;
         private Boolean _IsEditable;
         private Boolean _IsDeleted;
 
@@ -10166,6 +10238,12 @@ namespace CodeX.Data.Model
         {
             get { return _NoMeetingHoursInWeek; }
             set { _NoMeetingHoursInWeek = value; }
+        }
+        [Column(Name = "PassingGrade", DataType = "Int16")]
+        public Int16 PassingGrade
+        {
+            get { return _PassingGrade; }
+            set { _PassingGrade = value; }
         }
         [Column(Name = "IsEditable", DataType = "Boolean")]
         public Boolean IsEditable
@@ -16113,6 +16191,7 @@ namespace CodeX.Data.Model
         private String _Grade;
         private String _GCMajor;
         private String _Major;
+        private DateTime _SchoolDate;
         private Decimal _FinalMark;
         private Int32 _AdmissionFeeRuleID;
         private String _AdmissionFeeRuleName;
@@ -16122,6 +16201,7 @@ namespace CodeX.Data.Model
         private String _GCRegistrationStatus;
         private String _RegistrationStatus;
         private String _ProspectiveStudentCode;
+        private String _NationalStudentNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
@@ -16228,6 +16308,12 @@ namespace CodeX.Data.Model
             get { return _Major; }
             set { _Major = value; }
         }
+        [Column(Name = "SchoolDate", DataType = "DateTime")]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
+        }
         [Column(Name = "FinalMark", DataType = "Decimal")]
         public Decimal FinalMark
         {
@@ -16281,6 +16367,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentCode; }
             set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -16782,6 +16874,7 @@ namespace CodeX.Data.Model
         private String _PeriodSectionName;
         private Int32 _ClassTypeID;
         private String _ClassTypeName;
+        private String _GCClassStudyType;
         private String _GCGrade;
         private String _GCMajor;
         private Int32 _RoomID;
@@ -16857,6 +16950,12 @@ namespace CodeX.Data.Model
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
         }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
         {
@@ -16916,6 +17015,8 @@ namespace CodeX.Data.Model
         private String _GCGrade;
         private String _Grade;
         private Int16 _DisplayOrder;
+        private Boolean _IsAllowRegistration;
+        private Boolean _IsNeedNationalStudentNo;
 
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -16940,6 +17041,18 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsAllowRegistration", DataType = "Boolean")]
+        public Boolean IsAllowRegistration
+        {
+            get { return _IsAllowRegistration; }
+            set { _IsAllowRegistration = value; }
+        }
+        [Column(Name = "IsNeedNationalStudentNo", DataType = "Boolean")]
+        public Boolean IsNeedNationalStudentNo
+        {
+            get { return _IsNeedNationalStudentNo; }
+            set { _IsNeedNationalStudentNo = value; }
         }
     }
     #endregion
@@ -17403,6 +17516,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private String _NationalStudentNo;
+        private String _VirtualAccountNo;
         private String _SiteID;
         private String _GCSalutation;
         private String _GCSuffix;
@@ -17455,6 +17570,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
+        }
+        [Column(Name = "VirtualAccountNo", DataType = "String")]
+        public String VirtualAccountNo
+        {
+            get { return _VirtualAccountNo; }
+            set { _VirtualAccountNo = value; }
         }
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -18247,6 +18374,91 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSubjectClassType
+    [Serializable]
+    [Table(Name = "vSubjectClassType")]
+    public class vSubjectClassType
+    {
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+        private Int32 _ClassTypeID;
+        private String _ClassTypeCode;
+        private String _ClassTypeName;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCMajor;
+        private String _Major;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "ClassTypeCode", DataType = "String")]
+        public String ClassTypeCode
+        {
+            get { return _ClassTypeCode; }
+            set { _ClassTypeCode = value; }
+        }
+        [Column(Name = "ClassTypeName", DataType = "String")]
+        public String ClassTypeName
+        {
+            get { return _ClassTypeName; }
+            set { _ClassTypeName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

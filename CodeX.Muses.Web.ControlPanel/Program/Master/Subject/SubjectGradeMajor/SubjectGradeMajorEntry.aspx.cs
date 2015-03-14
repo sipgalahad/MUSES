@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.SB_SUBJECT_GRADE_MAJOR;
+            return Constant.MenuCode.ControlPanel.SB_SUBJECT_CLASS_TYPE;
         }
         protected override void InitializeDataControl()
         {

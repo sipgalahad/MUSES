@@ -83,7 +83,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (lstEntity.Count > 0)
             {
                 string lstTeacherID = string.Join(",", lstEntity.Select(p => p.TeacherID).ToList());
-                lstTeacherClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("TeacherID IN ({0}) AND IsDeleted = 0", lstTeacherID));
+                lstTeacherClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("TeacherID IN ({0}) AND GCClassStudyType = '{1}' AND IsDeleted = 0", lstTeacherID, Constant.ClassStudyType.REGULAR));
             }
             else
                 lstTeacherClassSubject = new List<vClassSubject>();

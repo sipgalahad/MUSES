@@ -3,6 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:50%"/>

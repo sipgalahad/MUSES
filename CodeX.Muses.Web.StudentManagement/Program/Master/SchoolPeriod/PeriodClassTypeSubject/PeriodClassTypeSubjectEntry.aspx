@@ -20,6 +20,12 @@
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
+                $('#<%=txtPassingGrade.ClientID %>').val('0');
+
+                tacSubject.setEnabled(true);
+                tacTeacher.setEnabled(true);
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
+
                 $('#entryDetailContainer').show();
             });
 
@@ -55,6 +61,17 @@
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
+            $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
+            if (entity.IsEditable == 'False') {
+                tacSubject.setEnabled(false);
+                tacTeacher.setEnabled(false);
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').attr('readonly', 'readonly');
+            }
+            else {
+                tacSubject.setEnabled(true);
+                tacTeacher.setEnabled(true);
+                $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
+            }
             $('#entryDetailContainer').show();
         });
 
@@ -62,14 +79,14 @@
 
         //#region Subject
         function onGetSubjectFilterExpression() {
-            var filterExpression = "GCGrade = '" + $('#<%=hdnGCGrade.ClientID %>').val() + "' AND (GCMajor = '" + $('#<%=hdnGCMajor.ClientID %>').val() + "' OR GCMajor IS NULL) AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE ClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
+            var filterExpression = "ClassTypeID = " + $('#<%=hdnClassTypeID.ClientID %>').val() + " AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
             return filterExpression;
         }
 
         function onTacSubjectButtonSearchClick() {
-            openSearchDialog('subjectgrademajor', onGetSubjectFilterExpression(), function (value) {
+            openSearchDialog('subjectclasstype', onGetSubjectFilterExpression(), function (value) {
                 var filterExpression = onGetSubjectFilterExpression() + " AND SubjectCode = '" + value + "'";
-                Methods.getObject('GetvSubjectGradeMajorList', filterExpression, function (result) {
+                Methods.getObject('GetvSubjectClassTypeList', filterExpression, function (result) {
                     if (result != null) {
                         tacSubject.setValue(result.SubjectID);
                         tacSubject.setText(result.SubjectName);
@@ -195,6 +212,10 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Pertemuan")%></label></td>
                                     <td><asp:TextBox ID="txtNoMeetingHoursInWeek" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("KKM")%></label></td>
+                                    <td><asp:TextBox ID="txtPassingGrade" CssClass="number" Width="80px" runat="server" /></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -215,8 +236,7 @@
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
-                        <input type="hidden" id="hdnGCMajor" runat="server" value="" />
-                        <input type="hidden" id="hdnGCGrade" runat="server" value="" />
+                        <input type="hidden" id="hdnClassTypeID" runat="server" value="" />
                         <input type="hidden" id="hdnClassRowCount" runat="server" value="" />
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
@@ -225,16 +245,19 @@
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
+                                        <input type="hidden" value="<%#Eval("PassingGrade") %>" bindingfield="PassingGrade" />
+                                        <input type="hidden" value="<%#Eval("IsEditable") %>" bindingfield="IsEditable" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

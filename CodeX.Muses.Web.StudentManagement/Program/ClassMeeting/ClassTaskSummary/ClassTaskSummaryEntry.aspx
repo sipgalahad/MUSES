@@ -39,7 +39,7 @@
                     });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '^' + $(this).find('.txtFinalStudentMark').val() + '^' + tempResult;
+                    result += $(this).find('.keyField').html() + '^' + $(this).find('.txtFinalStudentMark').val() + '^' + $(this).find('.txtAffectiveMark').val() + '^' + $(this).find('.txtAffectiveDescription').val() + '^' + $(this).find('.txtProgressDescription').val() + '^' + tempResult;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
@@ -65,6 +65,12 @@
             $('#tblView').width(width);
 
             setFinalMark();
+        });
+
+        $('.lblStudent').live('click', function () {
+            var id = $(this).closest('table').parent().closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassTaskSummary/StudentSummaryViewDtCtl.ascx");
+            openUserControlPopup(url, id, 'Riwayat Siswa', 800, 450);
         });
 
         function onAfterCustomClickSuccess(type) {
@@ -141,6 +147,8 @@
                     <input type="text" id="txtTotalFinalMarkPercentage" readonly="readonly" style="width:30px" class="number" />[%]
                 </th>
                 <th rowspan="2" style="width:90px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
+                <th colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
+                <th rowspan="2" style="width:200px" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeader" runat="server">
@@ -152,6 +160,8 @@
                         </th>
                     </ItemTemplate>
                 </asp:Repeater>
+                <th class="thCenter" style="width:40px"><%=GetLabel("Nilai") %></th>
+                <th class="thCenter" style="width:200px"><%=GetLabel("Deskripsi") %></th>
             </tr>
             <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                 <ItemTemplate>
@@ -166,7 +176,7 @@
                                         <div class="gridCircle divStudentImage"></div>
                                     </td>
                                     <td>
-                                        <%#Eval("StudentName") %>
+                                        <label class="lblLink lblStudent"><%#Eval("StudentName") %></label>
                                     </td>
                                 </tr>
                             </table>
@@ -180,6 +190,9 @@
                         </asp:Repeater>
                         <td align="center"><input class="txtTotalStudentMark number" readonly="readonly" style="width:90%" /></td>
                         <td align="center"><asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="90%" /></td>
+                        <td align="center"><asp:TextBox ID="txtAffectiveMark" CssClass="txtAffectiveMark" runat="server" Width="90%" /></td>
+                        <td align="center"><asp:TextBox ID="txtAffectiveDescription" CssClass="txtAffectiveDescription" runat="server" Width="90%" /></td>
+                        <td align="center"><asp:TextBox ID="txtProgressDescription" CssClass="txtProgressDescription" runat="server" Width="90%" /></td>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>

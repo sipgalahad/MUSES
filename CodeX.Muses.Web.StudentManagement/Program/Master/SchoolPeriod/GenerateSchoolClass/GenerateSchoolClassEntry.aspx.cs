@@ -33,7 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", AppSession.SchoolPeriodID);
+            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR);
             List<vPeriodClassType> lstEntity = BusinessLayer.GetvPeriodClassTypeList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();

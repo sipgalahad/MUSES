@@ -24,7 +24,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected int OnGetTableViewWidth()
         {
-            return 480 + (lstClassTask.Count * 90);
+            return 1000 + (lstClassTask.Count * 90);
         }
 
         protected string OnGetTransactionStatusApproved()
@@ -96,7 +96,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (studentFinalMark != null)
                 {
                     TextBox txtFinalStudentMark = (TextBox)e.Item.FindControl("txtFinalStudentMark");
+                    TextBox txtAffectiveMark = (TextBox)e.Item.FindControl("txtAffectiveMark");
+                    TextBox txtAffectiveDescription = (TextBox)e.Item.FindControl("txtAffectiveDescription");
+                    TextBox txtProgressDescription = (TextBox)e.Item.FindControl("txtProgressDescription");
                     txtFinalStudentMark.Text = studentFinalMark.Mark.ToString();
+                    txtAffectiveMark.Text = studentFinalMark.AffectiveMark;
+                    txtAffectiveDescription.Text = studentFinalMark.AffectiveDescription;
+                    txtProgressDescription.Text = studentFinalMark.ProgressDescription;
                 }
 
                 Repeater rptStudentMark = (Repeater)e.Item.FindControl("rptStudentMark");
@@ -190,21 +196,27 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                     studentFinalMark.StudentID = studentID;
                                     studentFinalMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                                     studentFinalMark.Mark = finalStudentMark;
+                                    studentFinalMark.AffectiveMark = temp[2];
+                                    studentFinalMark.AffectiveDescription = temp[3];
+                                    studentFinalMark.ProgressDescription = temp[4];
                                     entityStudentSubjectMarkDao.Insert(studentFinalMark);
                                 }
                             }
-                            else if (studentFinalMark.Mark != finalStudentMark)
+                            else
                             {
-                                if (finalStudentMark > -1)
-                                {
-                                    studentFinalMark.Mark = finalStudentMark;
-                                    entityStudentSubjectMarkDao.Update(studentFinalMark);
-                                }
-                                else
-                                    entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID, AppSession.ClassSubject.PeriodSectionID);
+                                //if (finalStudentMark > -1)
+                                //{
+                                studentFinalMark.Mark = finalStudentMark;
+                                studentFinalMark.AffectiveMark = temp[2];
+                                studentFinalMark.AffectiveDescription = temp[3];
+                                studentFinalMark.ProgressDescription = temp[4];
+                                entityStudentSubjectMarkDao.Update(studentFinalMark);
+                                //}
+                                //else
+                                //    entityStudentSubjectMarkDao.Delete(ClassSubjectID, studentID, AppSession.ClassSubject.PeriodSectionID);
                             }
 
-                            string[] lstSaveValue2 = temp[2].Split(',');
+                            string[] lstSaveValue2 = temp[5].Split(',');
                             int ctr = 0;
                             foreach (String saveValue2 in lstSaveValue2)
                             {

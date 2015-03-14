@@ -106,8 +106,21 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
     <Content Include="Program\Master\Scholarship\ScholarshipEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\ClassScheduleExtracurricular\ClassScheduleExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeSubjectExtracurricular\PeriodClassTypeSubjectExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx" />
     <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
@@ -460,6 +473,27 @@
     <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx.cs">
+      <DependentUpon>StudentSummaryViewDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentSummaryViewDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx.cs">
+      <DependentUpon>StudentNoteViewDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentNoteViewDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx.cs">
+      <DependentUpon>StudentNoteEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx.designer.cs">
+      <DependentUpon>StudentNoteEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\GradePromotion\GradePromotionEntry.aspx.cs">
       <DependentUpon>GradePromotionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -473,6 +507,76 @@
     </Compile>
     <Compile Include="Program\Master\Scholarship\ScholarshipEntry.aspx.designer.cs">
       <DependentUpon>ScholarshipEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassScheduleExtracurricular\ClassScheduleExtracurricularEntry.aspx.cs">
+      <DependentUpon>ClassScheduleExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassScheduleExtracurricular\ClassScheduleExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>ClassScheduleExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularDtEntryCtl.ascx.cs">
+      <DependentUpon>ClassSubjectExtracurricularDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassSubjectExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx.cs">
+      <DependentUpon>ClassSubjectExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>ClassSubjectExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx.cs">
+      <DependentUpon>ClassStudentExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>ClassStudentExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx.cs">
+      <DependentUpon>ClassStudentExtracurricularQuickPicksEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassStudentExtracurricularQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx.cs">
+      <DependentUpon>SchoolClassExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>SchoolClassExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx.cs">
+      <DependentUpon>GenerateSchoolClassExtracurricularEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx.designer.cs">
+      <DependentUpon>GenerateSchoolClassExtracurricularEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntry.aspx.cs">
+      <DependentUpon>GenerateSchoolClassExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>GenerateSchoolClassExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeSubjectExtracurricular\PeriodClassTypeSubjectExtracurricularEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypeSubjectExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeSubjectExtracurricular\PeriodClassTypeSubjectExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypeSubjectExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypeExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypeExtracurricularEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx.cs">
       <DependentUpon>TeacherScheduleEntry.aspx</DependentUpon>
