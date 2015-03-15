@@ -1416,6 +1416,7 @@ namespace CodeX.Data.Model
         private String _SchoolClassName;
         private Int32 _SubjectID;
         private String _SubjectName;
+        private String _GCClassStudyType;
         private Int16 _DayNumber;
         private Int16 _HoursIndex;
         private String _StartTime;
@@ -1467,6 +1468,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
         }
         [Column(Name = "DayNumber", DataType = "Int16")]
         public Int16 DayNumber

@@ -106,6 +106,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
@@ -472,6 +473,13 @@
     </Compile>
     <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx.cs">
+      <DependentUpon>ExtracurricularWeeklyScheduleList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx.designer.cs">
+      <DependentUpon>ExtracurricularWeeklyScheduleList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx.cs">
       <DependentUpon>StudentSummaryViewDtCtl.ascx</DependentUpon>
