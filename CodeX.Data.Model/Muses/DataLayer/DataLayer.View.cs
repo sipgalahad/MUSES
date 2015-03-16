@@ -588,6 +588,7 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private String _VirtualAccount;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private String _TransactionStatusWatermark;
@@ -669,6 +670,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "VirtualAccount", DataType = "String")]
+        public String VirtualAccount
+        {
+            get { return _VirtualAccount; }
+            set { _VirtualAccount = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus
