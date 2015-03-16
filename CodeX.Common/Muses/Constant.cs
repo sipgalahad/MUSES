@@ -314,17 +314,19 @@ namespace CodeX.Common
             public static class Finance
             {
                 public const string PROSPECTIVE_STUDENT_LIST = "FN040100";
-                public const string GENERATE_UPLOAD_FILE_PER_PERSON = "FN040101";
+                public const string GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE = "FN040101";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN040102";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN040103";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN040104";
 
                 public const string STUDENT_LIST = "FN040200";
-                public const string AR_INVOICE_STUDENT_PROCESS = "FN040201";
-                public const string AR_INVOICE_STUDENT_EDIT = "FN040202";
-                public const string AR_INVOICE_STUDENT_RECEIVE = "FN040203";
+                public const string GENERATE_STUDENT_UPLOAD_FILE = "FN040201";
+                public const string AR_INVOICE_STUDENT_PROCESS = "FN040202";
+                public const string AR_INVOICE_STUDENT_EDIT = "FN040203";
+                public const string AR_INVOICE_STUDENT_RECEIVE = "FN040204";
 
                 public const string GENERATE_UPLOAD_FILE = "FN040300";
+                public const string BANK_UPLOADED_FILE = "FN040400";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";

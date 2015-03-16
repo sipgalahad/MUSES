@@ -238,6 +238,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vARInvoiceHd> GetvARInvoiceHdList(string filterExpression,IDbContext ctx)
+        {
+            List<vARInvoiceHd> result = new List<vARInvoiceHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vARInvoiceHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vARInvoiceHd)helper.IDataReaderToObject(reader, new vARInvoiceHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<vARInvoiceHd> GetvARInvoiceHdList(string filterExpression, int pageIndex, string orderByExpression = "")
         {
             List<vARInvoiceHd> result = new List<vARInvoiceHd>();

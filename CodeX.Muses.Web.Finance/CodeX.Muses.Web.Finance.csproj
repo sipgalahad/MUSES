@@ -112,13 +112,15 @@
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFilePerPerson.aspx" />
+    <Content Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
     <Content Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx" />
+    <Content Include="Program\BankUploadedFile\BankUploadedFile.aspx" />
     <Content Include="Program\GenerateUploadFile\GenerateUploadFile.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -439,12 +441,12 @@
     <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceProspectiveStudentReceiveEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFilePerPerson.aspx.cs">
-      <DependentUpon>GenerateUploadFilePerPerson.aspx</DependentUpon>
+    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx.cs">
+      <DependentUpon>GenerateUploadFileProStudent.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFilePerPerson.aspx.designer.cs">
-      <DependentUpon>GenerateUploadFilePerPerson.aspx</DependentUpon>
+    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx.designer.cs">
+      <DependentUpon>GenerateUploadFileProStudent.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.cs">
       <DependentUpon>ProspectiveStudentPageLauncher.aspx</DependentUpon>
@@ -481,12 +483,26 @@
     <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentReceiveEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.cs">
+      <DependentUpon>GenerateUploadFileStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.designer.cs">
+      <DependentUpon>GenerateUploadFileStudent.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx.cs">
       <DependentUpon>StudentPageLauncher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx.designer.cs">
       <DependentUpon>StudentPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\BankUploadedFile\BankUploadedFile.aspx.cs">
+      <DependentUpon>BankUploadedFile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\BankUploadedFile\BankUploadedFile.aspx.designer.cs">
+      <DependentUpon>BankUploadedFile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>

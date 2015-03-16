@@ -14,7 +14,7 @@ using System.Globalization;
 using CodeX.Data.Core.Dal;
 namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class GenerateUploadFilePerPerson : BasePageTrx
+    public partial class GenerateUploadFileProStudent : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.Finance.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Finance.GENERATE_UPLOAD_FILE_PER_PERSON;
+            return Constant.MenuCode.Finance.GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE;
         }
         
         String lstSiteID = "";
@@ -71,7 +71,7 @@ namespace CodeX.Muses.Web.Finance.Program
         }
         public void BindGridView() 
         {
-            List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ProspectiveStudentID = {0} AND GCTransactionStatus IN ('{1}','{2}')", AppSession.ProspectiveStudentID, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED));
+            List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ProspectiveStudentID = {0} AND GCTransactionStatus IN ('{1}','{2}','{3}')", AppSession.ProspectiveStudentID, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED));
             
             grdView.DataSource = lstInvoiceDt;
             grdView.DataBind();

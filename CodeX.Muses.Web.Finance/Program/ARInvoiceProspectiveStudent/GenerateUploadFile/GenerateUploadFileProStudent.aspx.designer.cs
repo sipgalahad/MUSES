@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Finance.Program {
     
     
-    public partial class GenerateUploadFilePerPerson {
+    public partial class GenerateUploadFileProStudent {
         
         /// <summary>
         /// hdnSelectedValue control.

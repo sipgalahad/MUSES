@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPProspectiveStudentPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="GenerateUploadFilePerPerson.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.GenerateUploadFilePerPerson" %>
+    CodeBehind="GenerateUploadFileProStudent.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.GenerateUploadFileProStudent" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -142,9 +142,9 @@
                                 <asp:BoundField DataField="ARInvoiceDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="ARInvoiceNo" HeaderText="No Tagihan" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="StudentFeeCompTypeName" HeaderText="Jenis Biaya"/>
-                                <asp:BoundField DataField="DueDateInString" HeaderText="Jatuh Temp" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="DueDateInString" HeaderText="Jatuh Tempo" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" HeaderStyle-Width="210px" />
-                                <asp:BoundField DataField="ClaimedAmount" HeaderText="Jumlah" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                <asp:BoundField DataField="ClaimedAmount" HeaderText="Jumlah" HeaderStyle-Width="180px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
