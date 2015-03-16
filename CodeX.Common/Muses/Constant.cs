@@ -482,6 +482,11 @@ namespace CodeX.Common
                 public const string TCS_ATTENDANCE_HISTORY = "SM99050201";
                 public const string TCS_STUDENT_MARK = "SM99050202";
                 public const string TCS_SUBJECT_MATTER = "SM99050203";
+
+                public const string CLASS_STUDENT_PAGE = "SM99060000";
+                public const string CS_SUBJECT_MARK = "SM99060101";
+                public const string CS_EXTRACURRICULAR_MARK = "SM99060102";
+                public const string CS_PERSONALITY_MARK = "SM99060103";
             }
             #endregion
             #endregion

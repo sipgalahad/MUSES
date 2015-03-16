@@ -53,6 +53,44 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region ClassStudentModel
+        public static ClassStudentModel ClassStudent
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_ClassStudent"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_ClassStudent"] != null)
+                        {
+                            string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_ClassStudent"].Split('|');
+                            ClassStudentModel entity = new ClassStudentModel();
+                            entity.SchoolClassID = Convert.ToInt32(temp[0]);
+                            entity.StudentID = Convert.ToInt32(temp[1]);
+                            entity.PeriodSectionID = Convert.ToInt32(temp[2]);
+                            HttpContext.Current.Session["_ClassStudent"] = entity;
+                            return entity;
+                        }
+                    }
+                    return null;
+                }
+                return ((ClassStudentModel)(HttpContext.Current.Session["_ClassStudent"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_ClassStudent"] = string.Format("{0}|{1}|{2}", value.SchoolClassID, value.StudentID, value.PeriodSectionID);
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+
+                HttpContext.Current.Session["_ClassStudent"] = value;
+            }
+        }
+        #endregion
+
         #region ClassSubject
         public static ClassSubjectModel ClassSubject
         {
