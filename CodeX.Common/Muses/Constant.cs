@@ -61,6 +61,8 @@ namespace CodeX.Common
             public const string SCHOOL_DAY = "MS020";
             public const string SCORE_GRADE = "MS022";
             public const string BANK_EXPORT_DATA_TYPE = "MS023";
+            public const string SUBJECT_MARK_TYPE = "MS025";
+            public const string SUBJECT_MARK_OPTION = "MS026";
         }
 
         public static class SchoolPeriodStatus
@@ -76,6 +78,13 @@ namespace CodeX.Common
             public const string OPEN = "MS021^001";
             public const string NAIK_KELAS = "MS021^002";
             public const string TIDAK_NAIK_KELAS = "MS021^003";
+        }
+
+        public static class SubjectMarkType
+        {
+            public const string NUMBER = "MS025^001";
+            public const string OPTION = "MS025^002";
+            public const string TEXT = "MS025^003";
         }
 
         public static class AdmissionType

@@ -17,6 +17,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            var GCSubjectMarkType = $('#<%=hdnGCSubjectMarkType.ClientID %>').val();
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
                 $('.txtFinalMarkPercentage').each(function () {
@@ -32,14 +33,24 @@
                 $('.trDetail').each(function () {
                     var tempResult = '';
                     $(this).find('.txtStudentMark').each(function () {
-                        var value = $(this).val();
+                        var value = '';
+                        var positiontag = $(this).attr('positiontag');
+                        switch (GCSubjectMarkType) {
+                            case '<%=OnGetSubjectMarkTypeNumber() %>': value = $(this).val(); break;
+                            case '<%=OnGetSubjectMarkTypeOption() %>':
+                                var cboStudentMarkOption = eval('cboStudentMarkOption' + positiontag);
+                                if (cboStudentMarkOption.GetValue() != null)
+                                    value = cboStudentMarkOption.GetValue(); break;
+                            case '<%=OnGetSubjectMarkTypeText() %>': value = $(this).parent().find('.txtStudentMarkDescription').val(); break;
+                        }
+                        
                         if (tempResult != '')
                             tempResult += ',';
                         tempResult += value;
                     });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '^' + $(this).find('.txtFinalStudentMark').val() + '^' + $(this).find('.txtAffectiveMark').val() + '^' + $(this).find('.txtAffectiveDescription').val() + '^' + $(this).find('.txtProgressDescription').val() + '^' + tempResult;
+                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMark').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
@@ -136,6 +147,7 @@
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
+    <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
     <table cellspacing="0" cellpadding="0">
         <tr>
@@ -190,7 +202,10 @@
                         <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
                             <ItemTemplate>
                                 <td align="center">
-                                    <asp:TextBox ID="txtStudentMark" Text="-" runat="server" CssClass="txtStudentMark number" Width="90%" />                                
+                                    <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                    <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMark" Text="" Width="80px" />
+                                    <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
+                                    <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />                         
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>

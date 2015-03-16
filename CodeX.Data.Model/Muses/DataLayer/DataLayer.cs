@@ -2782,6 +2782,8 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectTaskID;
         private Int32 _StudentID;
         private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassSubjectTaskID
@@ -2795,11 +2797,23 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "Mark", DataType = "Decimal")]
+        [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
         public Decimal Mark
         {
             get { return _Mark; }
             set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
         }
     }
 
@@ -20298,6 +20312,7 @@ namespace CodeX.Data.Model
         private String _SubjectName;
         private String _SiteID;
         private String _GCClassStudyType;
+        private String _GCSubjectMarkType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -20334,6 +20349,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "GCSubjectMarkType", DataType = "String")]
+        public String GCSubjectMarkType
+        {
+            get { return _GCSubjectMarkType; }
+            set { _GCSubjectMarkType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

@@ -1622,6 +1622,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private String _GCSubjectMarkType;
         private String _SubjectGCClassStudyType;
         private Int16 _NoMeetingHoursInWeek;
         private Int32 _ParentID;
@@ -1681,6 +1682,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "GCSubjectMarkType", DataType = "String")]
+        public String GCSubjectMarkType
+        {
+            get { return _GCSubjectMarkType; }
+            set { _GCSubjectMarkType = value; }
         }
         [Column(Name = "SubjectGCClassStudyType", DataType = "String")]
         public String SubjectGCClassStudyType
@@ -1830,6 +1837,9 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
         private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _OptionMark;
+        private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
         public Int32 ClassSubjectTaskID
@@ -1854,6 +1864,24 @@ namespace CodeX.Data.Model
         {
             get { return _Mark; }
             set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String")]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
+        }
+        [Column(Name = "OptionMark", DataType = "String")]
+        public String OptionMark
+        {
+            get { return _OptionMark; }
+            set { _OptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String")]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
         }
     }
     #endregion
