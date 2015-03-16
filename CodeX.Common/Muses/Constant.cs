@@ -110,6 +110,7 @@ namespace CodeX.Common
         {
             public const string REGULAR = "MS024^001";
             public const string EXTRACURRICULAR = "MS024^002";
+            public const string PERSONALITY = "MS024^003";
         }
 
         public static class AdmissionPaymentPeriod 
@@ -260,6 +261,7 @@ namespace CodeX.Common
                 public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
                 public const string EXTRACURRICULAR_CLASS_TYPE = "CP010112";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
+                public const string PERSONALITY = "CP010114";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
@@ -430,6 +432,7 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010301";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010302";
                 public const string SP_GENERATE_SCHOOL_CLASS = "SM99010303";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_PERSONALITY = "SM99010304";
                 public const string SP_SCHOOL_CLASS = "SM99010401";
                 public const string SP_CLASS_SUBJECT = "SM99010402";
                 public const string SP_CLASS_SCHEDULE = "SM99010403";

@@ -2853,7 +2853,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _SchoolClassID;
         private Int32 _PeriodClassTypeSubjectID;
-        private Int32 _TeacherID;
+        private Int32? _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int32? _ParentID;
         private Boolean _IsCreatedBySystem;
@@ -2881,8 +2881,8 @@ namespace CodeX.Data.Model
             get { return _PeriodClassTypeSubjectID; }
             set { _PeriodClassTypeSubjectID = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
@@ -11912,7 +11912,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeSubjectID;
         private Int32 _PeriodClassTypeID;
         private Int32 _SubjectID;
-        private Int32 _TeacherID;
+        private Int32? _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
         private Boolean _IsDeleted;
@@ -11939,8 +11939,8 @@ namespace CodeX.Data.Model
             get { return _SubjectID; }
             set { _SubjectID = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }

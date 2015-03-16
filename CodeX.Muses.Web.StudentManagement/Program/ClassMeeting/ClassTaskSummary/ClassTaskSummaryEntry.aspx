@@ -137,6 +137,12 @@
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
+            <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
+        </tr>
+    </table>
     <div style="width:1250px; overflow-x: auto;">
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>

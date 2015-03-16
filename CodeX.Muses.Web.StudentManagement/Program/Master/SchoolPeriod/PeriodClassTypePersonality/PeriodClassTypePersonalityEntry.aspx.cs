@@ -14,12 +14,17 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class PeriodClassTypeSubjectEntry : BasePageTrx
+    public partial class PeriodClassTypePersonalityEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT;
+            return Constant.MenuCode.StudentManagement.SP_SCHOOL_PERIOD_CLASS_TYPE_PERSONALITY;
         }
+        protected string OnGetClassStudyTypePersonality()
+        {
+            return Constant.ClassStudyType.PERSONALITY;
+        }
+
         protected override void InitializeDataControl()
         {
             List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
@@ -29,9 +34,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             BindGridView();
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(txtNoMeetingHoursInWeek, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtPassingGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -45,7 +47,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = "1 = 0";
             if (cboClassType.Value != null && cboClassType.Value.ToString() != "0")
             {
-                filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", AppSession.SchoolPeriodID, cboClassType.Value, Constant.ClassStudyType.REGULAR);
+                filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", AppSession.SchoolPeriodID, cboClassType.Value, Constant.ClassStudyType.PERSONALITY);
                 vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", cboClassType.Value)).FirstOrDefault();
                 hdnClassTypeID.Value = entity.ClassTypeID.ToString();
 
@@ -101,9 +103,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(PeriodClassTypeSubject entity)
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
-            entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
-            entity.NoMeetingHoursInWeek = Convert.ToInt16(txtNoMeetingHoursInWeek.Text);
-            entity.PassingGrade = Convert.ToInt16(txtPassingGrade.Text);
+            entity.TeacherID = null;
+            entity.NoMeetingHoursInWeek = 1;
+            entity.PassingGrade = 0;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

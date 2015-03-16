@@ -18,12 +18,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
                 return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_SUBJECT;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.PERSONALITY)
+                return Constant.MenuCode.ControlPanel.PERSONALITY;
             return Constant.MenuCode.ControlPanel.SUBJECT;
         }
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex")
+            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex" && Page.Request.QueryString["id"] != "pr")
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
@@ -36,6 +38,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 if (Page.Request.QueryString["id"] == "ex")
                     hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+                else if (Page.Request.QueryString["id"] == "pr")
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
                 else
                     hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
                 IsAdd = true;

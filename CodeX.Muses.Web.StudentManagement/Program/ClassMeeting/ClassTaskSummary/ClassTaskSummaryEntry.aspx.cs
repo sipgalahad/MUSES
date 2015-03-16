@@ -41,8 +41,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             thMark.ColSpan = lstClassTask.Count;
 
-            ClassSubject entityClassSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
-            hdnIsMainTeacher.Value = entityClassSubject.ParentID == null ? "1" : "0";
+            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnIsMainTeacher.Value = entityClassSubject.ParentID == 0 ? "1" : "0";
+            txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
 
             string filterExpression = "";
             if (entityClassSubject.ParentID == null)

@@ -101,7 +101,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = "1 = 0";
             if (cboClass.Value != null && cboClass.Value.ToString() != "0")
             {
-                filterExpression = string.Format("SchoolClassID = {0} AND IsDeleted = 0 ORDER BY SubjectName, TeacherName", cboClass.Value);
+                filterExpression = string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0 ORDER BY SubjectName, TeacherName", cboClass.Value, Constant.ClassStudyType.REGULAR);
                 lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", cboClass.Value));
             }
             List<vClassSubject> lstEntity = BusinessLayer.GetvClassSubjectList(filterExpression);
