@@ -1509,6 +1509,86 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRegistrationInvoice
+    public partial class vRegistrationInvoice
+    {
+        public Decimal RemainingAmount
+        {
+            get { return _TotalClaimedAmount - _TotalPaymentAmount; }
+        }
+        public String DateOfBirthInString
+        {
+            get { return _DateOfBirth.ToString("dd-MMM-yyyy"); }
+        }
+        public string StudentAge
+        {
+            get
+            {
+                string result;
+                int ageInYear, ageInMonth, ageInDay = 0;
+
+                ageInYear = Function.GetPatientAgeInYear(DateOfBirth, DateTime.Now);
+                ageInMonth = Function.GetPatientAgeInMonth(DateOfBirth, DateTime.Now);
+                ageInDay = Function.GetPatientAgeInDay(DateOfBirth, DateTime.Now);
+
+                if (ageInYear > 0)
+                    result = string.Format("{0}yr", ageInYear);
+                else if (ageInMonth > 0)
+                    result = string.Format("{0}mo", ageInMonth);
+                else
+                    result = string.Format("{0}day", ageInDay);
+
+                return result;
+            }
+        }
+        public String HomeAddress
+        {
+            get
+            {
+                return Function.GenerateAddress(_StreetName, _County, _District, _City, _State);
+            }
+        }
+        public String cfPhoneNo
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+
+                if (_PhoneNo1 != "")
+                    result.Append(_PhoneNo1);
+                //if (_PhoneNo2 != "")
+                //{
+                //    if (result.ToString() != "")
+                //        result.Append(" / ");
+                //    result.Append(_PhoneNo2);
+                //}
+                return result.ToString();
+            }
+        }
+        public String ProspectiveStudentImageUrl { get { return Function.GenerateStudentPictureFileName(_PictureFileName, _ProspectiveStudentCode); } }
+        public int AgeInYear
+        {
+            get
+            {
+                return Function.GetPatientAgeInYear(_DateOfBirth, DateTime.Now);
+            }
+        }
+        public int AgeInMonth
+        {
+            get
+            {
+                return Function.GetPatientAgeInMonth(_DateOfBirth, DateTime.Now);
+            }
+        }
+        public int AgeInDay
+        {
+            get
+            {
+                return Function.GetPatientAgeInDay(_DateOfBirth, DateTime.Now);
+            }
+        }
+    }
+    #endregion
     #region vStockTakingHd
     public partial class vStockTakingHd
     {

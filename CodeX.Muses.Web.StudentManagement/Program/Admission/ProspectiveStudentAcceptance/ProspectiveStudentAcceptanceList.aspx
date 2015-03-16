@@ -38,6 +38,10 @@
                     if ($(this).is(':enabled')) $(this).prop("checked", value);
                 });
             });
+
+            $('#<%=chkFilterIsPaid.ClientID %>').change(function () {
+                cbpView.PerformCallback('refresh');                
+            });
         })
 
         function onCbpProcesEndCallback(s) {
@@ -53,6 +57,7 @@
     </script>
     <input type="hidden" id="hdnSelectedValue" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server"/>
+    <asp:CheckBox runat="server" ID="chkFilterIsPaid" /> <%=GetLabel("Tampilkan Hanya Yang Lunas") %>
     <div class="divTransactionEntry">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
@@ -63,8 +68,7 @@
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
-                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
-                            OnRowDataBound="grdView_RowDataBound">
+                            AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:TemplateField HeaderStyle-Width="50px" ItemStyle-HorizontalAlign="Center">
                                     <HeaderTemplate>
@@ -79,6 +83,9 @@
                                 <asp:BoundField DataField="RegistrationID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa"/>
+                                <asp:BoundField DataField="TotalClaimedAmount" HeaderText="Total Tagihan" HeaderStyle-Width="150px" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="TotalPaymentAmount" HeaderText="Total Bayar" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="RemainingAmount" HeaderText="Sisa" DataFormatString="{0:N}" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderText="Lunas">
                                     <ItemTemplate>
                                         <asp:CheckBox runat="server" ID="chkIsPaid" CssClass="chkIsPaid" Enabled="false" />

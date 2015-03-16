@@ -6562,6 +6562,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRegistrationInvoice
+        public static List<vRegistrationInvoice> GetvRegistrationInvoiceList(string filterExpression)
+        {
+            List<vRegistrationInvoice> result = new List<vRegistrationInvoice>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRegistrationInvoice));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRegistrationInvoice)helper.IDataReaderToObject(reader, new vRegistrationInvoice()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vRestrictionDt
         public static List<vRestrictionDt> GetvRestrictionDtList(string filterExpression)
         {

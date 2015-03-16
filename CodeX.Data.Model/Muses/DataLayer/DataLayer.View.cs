@@ -16800,6 +16800,420 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRegistrationInvoice
+    [Serializable]
+    [Table(Name = "vRegistrationInvoice")]
+    public partial class vRegistrationInvoice
+    {
+        private Int32 _RegistrationID;
+        private String _RegistrationNo;
+        private DateTime _RegistrationDate;
+        private String _RegistrationTime;
+        private Int32 _PeriodAdmissionID;
+        private Int32 _ProspectiveStudentID;
+        private String _GCRegistrationType;
+        private String _GCInformationSource;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCMajor;
+        private String _Major;
+        private DateTime _SchoolDate;
+        private Decimal _FinalMark;
+        private Int32 _AdmissionFeeRuleID;
+        private String _AdmissionFeeRuleName;
+        private Int32 _PaymentID;
+        private String _PaymentName;
+        private String _Remarks;
+        private String _GCRegistrationStatus;
+        private String _RegistrationStatus;
+        private String _ProspectiveStudentCode;
+        private String _NationalStudentNo;
+        private String _SiteID;
+        private String _GCSalutation;
+        private String _GCSuffix;
+        private String _GCTitle;
+        private String _FirstName;
+        private String _MiddleName;
+        private String _LastName;
+        private String _ProspectiveStudentName;
+        private String _Name;
+        private String _PreferredName;
+        private String _CityOfBirth;
+        private DateTime _DateOfBirth;
+        private String _GCGender;
+        private String _GCNationality;
+        private String _GCReligion;
+        private String _PlaceOfBaptism;
+        private DateTime _DateOfBaptism;
+        private Boolean _IsFeeder;
+        private String _AddressID;
+        private String _StreetName;
+        private String _District;
+        private String _City;
+        private String _County;
+        private String _GCState;
+        private String _State;
+        private Int32 _ZipCodeID;
+        private String _ZipCode;
+        private String _EmailAddress1;
+        private String _EmailAddress2;
+        private String _MobilePhoneNo1;
+        private String _MobilePhoneNo2;
+        private String _PhoneNo1;
+        private String _PictureFileName;
+        private Decimal _TotalClaimedAmount;
+        private Decimal _TotalPaymentAmount;
+
+        [Column(Name = "RegistrationID", DataType = "Int32")]
+        public Int32 RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
+        }
+        [Column(Name = "RegistrationNo", DataType = "String")]
+        public String RegistrationNo
+        {
+            get { return _RegistrationNo; }
+            set { _RegistrationNo = value; }
+        }
+        [Column(Name = "RegistrationDate", DataType = "DateTime")]
+        public DateTime RegistrationDate
+        {
+            get { return _RegistrationDate; }
+            set { _RegistrationDate = value; }
+        }
+        [Column(Name = "RegistrationTime", DataType = "String")]
+        public String RegistrationTime
+        {
+            get { return _RegistrationTime; }
+            set { _RegistrationTime = value; }
+        }
+        [Column(Name = "PeriodAdmissionID", DataType = "Int32")]
+        public Int32 PeriodAdmissionID
+        {
+            get { return _PeriodAdmissionID; }
+            set { _PeriodAdmissionID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "GCRegistrationType", DataType = "String")]
+        public String GCRegistrationType
+        {
+            get { return _GCRegistrationType; }
+            set { _GCRegistrationType = value; }
+        }
+        [Column(Name = "GCInformationSource", DataType = "String")]
+        public String GCInformationSource
+        {
+            get { return _GCInformationSource; }
+            set { _GCInformationSource = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
+        }
+        [Column(Name = "SchoolDate", DataType = "DateTime")]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
+        }
+        [Column(Name = "FinalMark", DataType = "Decimal")]
+        public Decimal FinalMark
+        {
+            get { return _FinalMark; }
+            set { _FinalMark = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleID", DataType = "Int32")]
+        public Int32 AdmissionFeeRuleID
+        {
+            get { return _AdmissionFeeRuleID; }
+            set { _AdmissionFeeRuleID = value; }
+        }
+        [Column(Name = "AdmissionFeeRuleName", DataType = "String")]
+        public String AdmissionFeeRuleName
+        {
+            get { return _AdmissionFeeRuleName; }
+            set { _AdmissionFeeRuleName = value; }
+        }
+        [Column(Name = "PaymentID", DataType = "Int32")]
+        public Int32 PaymentID
+        {
+            get { return _PaymentID; }
+            set { _PaymentID = value; }
+        }
+        [Column(Name = "PaymentName", DataType = "String")]
+        public String PaymentName
+        {
+            get { return _PaymentName; }
+            set { _PaymentName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCRegistrationStatus", DataType = "String")]
+        public String GCRegistrationStatus
+        {
+            get { return _GCRegistrationStatus; }
+            set { _GCRegistrationStatus = value; }
+        }
+        [Column(Name = "RegistrationStatus", DataType = "String")]
+        public String RegistrationStatus
+        {
+            get { return _RegistrationStatus; }
+            set { _RegistrationStatus = value; }
+        }
+        [Column(Name = "ProspectiveStudentCode", DataType = "String")]
+        public String ProspectiveStudentCode
+        {
+            get { return _ProspectiveStudentCode; }
+            set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "NationalStudentNo", DataType = "String")]
+        public String NationalStudentNo
+        {
+            get { return _NationalStudentNo; }
+            set { _NationalStudentNo = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCSalutation", DataType = "String")]
+        public String GCSalutation
+        {
+            get { return _GCSalutation; }
+            set { _GCSalutation = value; }
+        }
+        [Column(Name = "GCSuffix", DataType = "String")]
+        public String GCSuffix
+        {
+            get { return _GCSuffix; }
+            set { _GCSuffix = value; }
+        }
+        [Column(Name = "GCTitle", DataType = "String")]
+        public String GCTitle
+        {
+            get { return _GCTitle; }
+            set { _GCTitle = value; }
+        }
+        [Column(Name = "FirstName", DataType = "String")]
+        public String FirstName
+        {
+            get { return _FirstName; }
+            set { _FirstName = value; }
+        }
+        [Column(Name = "MiddleName", DataType = "String")]
+        public String MiddleName
+        {
+            get { return _MiddleName; }
+            set { _MiddleName = value; }
+        }
+        [Column(Name = "LastName", DataType = "String")]
+        public String LastName
+        {
+            get { return _LastName; }
+            set { _LastName = value; }
+        }
+        [Column(Name = "ProspectiveStudentName", DataType = "String")]
+        public String ProspectiveStudentName
+        {
+            get { return _ProspectiveStudentName; }
+            set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
+        }
+        [Column(Name = "PreferredName", DataType = "String")]
+        public String PreferredName
+        {
+            get { return _PreferredName; }
+            set { _PreferredName = value; }
+        }
+        [Column(Name = "CityOfBirth", DataType = "String")]
+        public String CityOfBirth
+        {
+            get { return _CityOfBirth; }
+            set { _CityOfBirth = value; }
+        }
+        [Column(Name = "DateOfBirth", DataType = "DateTime")]
+        public DateTime DateOfBirth
+        {
+            get { return _DateOfBirth; }
+            set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "GCNationality", DataType = "String")]
+        public String GCNationality
+        {
+            get { return _GCNationality; }
+            set { _GCNationality = value; }
+        }
+        [Column(Name = "GCReligion", DataType = "String")]
+        public String GCReligion
+        {
+            get { return _GCReligion; }
+            set { _GCReligion = value; }
+        }
+        [Column(Name = "PlaceOfBaptism", DataType = "String")]
+        public String PlaceOfBaptism
+        {
+            get { return _PlaceOfBaptism; }
+            set { _PlaceOfBaptism = value; }
+        }
+        [Column(Name = "DateOfBaptism", DataType = "DateTime")]
+        public DateTime DateOfBaptism
+        {
+            get { return _DateOfBaptism; }
+            set { _DateOfBaptism = value; }
+        }
+        [Column(Name = "IsFeeder", DataType = "Boolean")]
+        public Boolean IsFeeder
+        {
+            get { return _IsFeeder; }
+            set { _IsFeeder = value; }
+        }
+        [Column(Name = "AddressID", DataType = "String")]
+        public String AddressID
+        {
+            get { return _AddressID; }
+            set { _AddressID = value; }
+        }
+        [Column(Name = "StreetName", DataType = "String")]
+        public String StreetName
+        {
+            get { return _StreetName; }
+            set { _StreetName = value; }
+        }
+        [Column(Name = "District", DataType = "String")]
+        public String District
+        {
+            get { return _District; }
+            set { _District = value; }
+        }
+        [Column(Name = "City", DataType = "String")]
+        public String City
+        {
+            get { return _City; }
+            set { _City = value; }
+        }
+        [Column(Name = "County", DataType = "String")]
+        public String County
+        {
+            get { return _County; }
+            set { _County = value; }
+        }
+        [Column(Name = "GCState", DataType = "String")]
+        public String GCState
+        {
+            get { return _GCState; }
+            set { _GCState = value; }
+        }
+        [Column(Name = "State", DataType = "String")]
+        public String State
+        {
+            get { return _State; }
+            set { _State = value; }
+        }
+        [Column(Name = "ZipCodeID", DataType = "Int32")]
+        public Int32 ZipCodeID
+        {
+            get { return _ZipCodeID; }
+            set { _ZipCodeID = value; }
+        }
+        [Column(Name = "ZipCode", DataType = "String")]
+        public String ZipCode
+        {
+            get { return _ZipCode; }
+            set { _ZipCode = value; }
+        }
+        [Column(Name = "EmailAddress1", DataType = "String")]
+        public String EmailAddress1
+        {
+            get { return _EmailAddress1; }
+            set { _EmailAddress1 = value; }
+        }
+        [Column(Name = "EmailAddress2", DataType = "String")]
+        public String EmailAddress2
+        {
+            get { return _EmailAddress2; }
+            set { _EmailAddress2 = value; }
+        }
+        [Column(Name = "MobilePhoneNo1", DataType = "String")]
+        public String MobilePhoneNo1
+        {
+            get { return _MobilePhoneNo1; }
+            set { _MobilePhoneNo1 = value; }
+        }
+        [Column(Name = "MobilePhoneNo2", DataType = "String")]
+        public String MobilePhoneNo2
+        {
+            get { return _MobilePhoneNo2; }
+            set { _MobilePhoneNo2 = value; }
+        }
+        [Column(Name = "PhoneNo1", DataType = "String")]
+        public String PhoneNo1
+        {
+            get { return _PhoneNo1; }
+            set { _PhoneNo1 = value; }
+        }
+        [Column(Name = "PictureFileName", DataType = "String")]
+        public String PictureFileName
+        {
+            get { return _PictureFileName; }
+            set { _PictureFileName = value; }
+        }
+        [Column(Name = "TotalClaimedAmount", DataType = "Decimal")]
+        public Decimal TotalClaimedAmount
+        {
+            get { return _TotalClaimedAmount; }
+            set { _TotalClaimedAmount = value; }
+        }
+        [Column(Name = "TotalPaymentAmount", DataType = "Decimal")]
+        public Decimal TotalPaymentAmount
+        {
+            get { return _TotalPaymentAmount; }
+            set { _TotalPaymentAmount = value; }
+        }
+    }
+    #endregion
     #region vRestrictionDt
     [Serializable]
     [Table(Name = "vRestrictionDt")]

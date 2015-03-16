@@ -319,20 +319,20 @@ namespace CodeX.Web.Finance.Program
                 entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityReceivingHdDao.Update(entityReceivingHd);
 
-                Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
-                int rowCount = BusinessLayer.GetARInvoiceHdRowCount(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}' AND TotalClaimedAmount != TotalPaymentAmount", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
-                if (rowCount < 1)
-                {
-                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.SETTLED;
-                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityRegDao.Update(entityReg);
-                }
-                else if (entityReg.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED)
-                {
-                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.PAID;
-                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityRegDao.Update(entityReg);
-                }
+                //Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
+                //int rowCount = BusinessLayer.GetARInvoiceHdRowCount(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}' AND TotalClaimedAmount != TotalPaymentAmount", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
+                //if (rowCount < 1)
+                //{
+                //    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.SETTLED;
+                //    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //    entityRegDao.Update(entityReg);
+                //}
+                //else if (entityReg.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED)
+                //{
+                //    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.PAID;
+                //    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //    entityRegDao.Update(entityReg);
+                //}
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
