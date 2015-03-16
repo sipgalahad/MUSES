@@ -14,4 +14,12 @@ namespace CodeX.Data.Model
         public Int32 ClassMeetingID { get; set; }
     }
     #endregion
+    #region ClassStudentModel
+    public partial class ClassStudentModel
+    {
+        public Int32 SchoolClassID { get; set; }
+        public Int32 StudentID { get; set; }
+        public Int32 PeriodSectionID { get; set; }
+    }
+    #endregion
 }

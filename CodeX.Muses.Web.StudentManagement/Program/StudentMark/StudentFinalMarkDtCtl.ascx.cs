@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Student student = BusinessLayer.GetStudent(Convert.ToInt32(temp[0]));
             txtHeaderText.Text = student.StudentName;
 
-            List<vClassSubject> lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0}", temp[1]));
+            List<vClassSubject> lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND ParentID IS NULL", temp[1], Constant.ClassStudyType.REGULAR));
 
             string lstClassSubjectID = string.Join(",", lstSubject.Select(p => p.ClassSubjectID).ToList());
             lstMark = BusinessLayer.GetClassStudentSubjectMarkList(String.Format("ClassSubjectID IN ({0}) AND StudentID = {1} AND PeriodSectionID = {2}", lstClassSubjectID, temp[0], temp[2]));

@@ -11,6 +11,7 @@ using System.Data;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -27,8 +28,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 return Constant.MenuCode.StudentManagement.TCS_CLASS_TASK;
             return Constant.MenuCode.StudentManagement.WS_CLASS_TASK;
         }
+        protected string OnGetSubjectMarkTypeNumber()
+        {
+            return Constant.SubjectMarkType.NUMBER;
+        }
+        protected string OnGetSubjectMarkTypeOption()
+        {
+            return Constant.SubjectMarkType.OPTION;
+        }
+        protected string OnGetSubjectMarkTypeText()
+        {
+            return Constant.SubjectMarkType.TEXT;
+        }
+
         protected override void InitializeDataControl()
         {
+            vClassSubject entity = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnGCSubjectMarkType.Value = entity.GCSubjectMarkType;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
@@ -77,6 +93,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (hdnClassSubjectTaskID.Value != "")
                 filterExpression = string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value);
             lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(filterExpression);
+            lstOption = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MARK_OPTION));
 
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
@@ -85,16 +102,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<ClassStudentSubjectTaskMark> lstStudentMark = null;
+        List<StandardCode> lstOption = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassStudent entity = (vClassStudent)e.Item.DataItem;
                 ClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
+
+                TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
+                ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
+                TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
+
+                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}", e.Item.ItemIndex);
+                switch (hdnGCSubjectMarkType.Value)
+                {
+                    case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.OPTION: 
+                        txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
+                        Methods.SetComboBoxField<StandardCode>(cboStudentMarkOption, lstOption, "StandardCodeName", "StandardCodeID");
+                        break;
+                    case Constant.SubjectMarkType.TEXT: cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
+                }
                 if (studentMark != null)
                 {
-                    TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
                     txtStudentMark.Text = studentMark.Mark.ToString();
+                    cboStudentMarkOption.Value = studentMark.GCOptionMark;
+                    txtStudentMarkDescription.Text = studentMark.DescriptionMark;
                 }
             }
         }
@@ -112,7 +146,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             try
             {
                 string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
-
+                string GCSubjectMarkType = hdnGCSubjectMarkType.Value;
                 List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value), ctx);
                 foreach (String saveValue in lstSaveValue)
                 {
@@ -121,18 +155,27 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ClassStudentSubjectTaskMark entityDt = lstStudentMark.FirstOrDefault(p => p.StudentID == studentID);
                     if (temp[1] != "")
                     {
-                        Decimal mark = Convert.ToDecimal(temp[1]);
                         if (entityDt == null)
                         {
                             entityDt = new ClassStudentSubjectTaskMark();
                             entityDt.ClassSubjectTaskID = Convert.ToInt32(hdnClassSubjectTaskID.Value);
                             entityDt.StudentID = studentID;
-                            entityDt.Mark = mark;
+                            switch (GCSubjectMarkType)
+                            {
+                                case Constant.SubjectMarkType.NUMBER: entityDt.Mark = Convert.ToDecimal(temp[1]); break;
+                                case Constant.SubjectMarkType.OPTION: entityDt.GCOptionMark = temp[1]; break;
+                                case Constant.SubjectMarkType.TEXT: entityDt.DescriptionMark = temp[1]; break;
+                            }
                             entityDtDao.Insert(entityDt);
                         }
                         else
                         {
-                            entityDt.Mark = mark;
+                            switch (GCSubjectMarkType)
+                            {
+                                case Constant.SubjectMarkType.NUMBER: entityDt.Mark = Convert.ToDecimal(temp[1]); break;
+                                case Constant.SubjectMarkType.OPTION: entityDt.GCOptionMark = temp[1]; break;
+                                case Constant.SubjectMarkType.TEXT: entityDt.DescriptionMark = temp[1]; break;
+                            }
                             entityDtDao.Update(entityDt);
                         }
                     }

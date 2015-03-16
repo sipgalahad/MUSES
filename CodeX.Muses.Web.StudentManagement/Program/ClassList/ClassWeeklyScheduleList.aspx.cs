@@ -20,6 +20,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.CLASS_WEEKLY_SCHEDULE;
         }
 
+        protected string OnGetClassStudyTypeRegular()
+        {
+            return Constant.ClassStudyType.REGULAR;
+        }
+
         protected string OnGetPeriodSectionFilterExpression()
         {
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
@@ -90,7 +95,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ));
 
 
-                    lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, tacSchoolClass.Value));
+                    lstClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", cboSchoolPeriod.Value, tacSchoolClass.Value, Constant.ClassStudyType.REGULAR));
 
                     rptDay1.DataSource = lstEntityDt.Where(p => p.DailyScheduleTypeID == entity.DailyScheduleTypeID1).ToList();
                     rptDay1.DataBind();

@@ -175,6 +175,7 @@
     <Content Include="Program\Master\SchoolMajor\SchoolMajorList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompEntry.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx" />
+    <Content Include="Program\Master\Subject\PersonalityList.aspx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
@@ -889,6 +890,13 @@
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx.designer.cs">
       <DependentUpon>StudentFeeCompList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\PersonalityList.aspx.cs">
+      <DependentUpon>PersonalityList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\PersonalityList.aspx.designer.cs">
+      <DependentUpon>PersonalityList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.cs">
       <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>

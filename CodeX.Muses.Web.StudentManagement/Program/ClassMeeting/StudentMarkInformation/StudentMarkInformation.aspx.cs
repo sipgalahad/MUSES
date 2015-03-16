@@ -31,7 +31,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
 
-            ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnGCSubjectMarkType.Value = classSubject.GCSubjectMarkType;
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
@@ -59,7 +60,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (entity != null)
                 {
                     HtmlGenericControl divStudentMark = (HtmlGenericControl)e.Item.FindControl("divStudentMark");
-                    divStudentMark.InnerHtml = entity.Mark.ToString();
+                    switch (hdnGCSubjectMarkType.Value)
+                    {
+                        case Constant.SubjectMarkType.NUMBER: divStudentMark.InnerHtml = entity.Mark.ToString(); break;
+                        case Constant.SubjectMarkType.OPTION: divStudentMark.InnerHtml = entity.OptionMark; break;
+                        case Constant.SubjectMarkType.TEXT: divStudentMark.InnerHtml = entity.DescriptionMark; break;
+                    }
                 }
             }
         }

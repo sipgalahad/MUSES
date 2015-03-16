@@ -18,24 +18,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
                 return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_SUBJECT;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.PERSONALITY)
+                return Constant.MenuCode.ControlPanel.PERSONALITY;
             return Constant.MenuCode.ControlPanel.SUBJECT;
         }
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex")
+            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex" && Page.Request.QueryString["id"] != "pr")
             {
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
                 Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(ID));
                 hdnGCClassStudyType.Value = entity.GCClassStudyType;
+                SetControlProperties();
                 EntityToControl(entity);
             }
             else
             {
+                SetControlProperties();
                 if (Page.Request.QueryString["id"] == "ex")
                     hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+                else if (Page.Request.QueryString["id"] == "pr")
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
                 else
                     hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
                 IsAdd = true;
@@ -47,13 +53,21 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtSubjectCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtSubjectName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboSubjectMarkType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+        }
+
+        protected override void SetControlProperties()
+        {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MARK_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboSubjectMarkType, lstSc, "StandardCodeName", "StandardCodeID");
         }
 
         private void EntityToControl(Subject entity)
         {
             txtSubjectCode.Text = entity.SubjectCode;
             txtSubjectName.Text = entity.SubjectName;
+            cboSubjectMarkType.Value = entity.GCSubjectMarkType;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -62,6 +76,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.SubjectCode = txtSubjectCode.Text;
             entity.SubjectName = txtSubjectName.Text;
             entity.GCClassStudyType = hdnGCClassStudyType.Value;
+            entity.GCSubjectMarkType = cboSubjectMarkType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
         }
 

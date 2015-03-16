@@ -29,7 +29,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus NOT IN ('{1}','{2}','{3}')", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, Constant.RegistrationStatus.CLOSED, Constant.RegistrationStatus.OPEN);
-            List<vRegistration> lstEntity = BusinessLayer.GetvRegistrationList(filterExpression);
+            if (chkFilterIsPaid.Checked)
+                filterExpression += " AND TotalClaimedAmount = TotalPaymentAmount";
+            List<vRegistrationInvoice> lstEntity = BusinessLayer.GetvRegistrationInvoiceList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -38,19 +40,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vRegistration entity = e.Row.DataItem as vRegistration;
+                vRegistrationInvoice entity = e.Row.DataItem as vRegistrationInvoice;
                 CheckBox chkIsAccepted = e.Row.FindControl("chkIsAccepted") as CheckBox;
                 CheckBox chkIsPaid = e.Row.FindControl("chkIsPaid") as CheckBox;
                 if (entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED)
-                {
-                    chkIsAccepted.Visible = true;
                     chkIsPaid.Checked = true;
-                }
                 else
-                {
-                    chkIsAccepted.Visible = false;
                     chkIsPaid.Checked = false;
-                }
             }
         }
 

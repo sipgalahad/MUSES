@@ -12,6 +12,7 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -25,6 +26,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected int OnGetTableViewWidth()
         {
             return 1000 + (lstClassTask.Count * 90);
+        }
+        protected string OnGetSubjectMarkTypeNumber()
+        {
+            return Constant.SubjectMarkType.NUMBER;
+        }
+        protected string OnGetSubjectMarkTypeOption()
+        {
+            return Constant.SubjectMarkType.OPTION;
+        }
+        protected string OnGetSubjectMarkTypeText()
+        {
+            return Constant.SubjectMarkType.TEXT;
         }
 
         protected string OnGetTransactionStatusApproved()
@@ -41,11 +54,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             thMark.ColSpan = lstClassTask.Count;
 
-            ClassSubject entityClassSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
-            hdnIsMainTeacher.Value = entityClassSubject.ParentID == null ? "1" : "0";
+            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnIsMainTeacher.Value = entityClassSubject.ParentID == 0 ? "1" : "0";
+            txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
+            hdnGCSubjectMarkType.Value = entityClassSubject.GCSubjectMarkType;
 
             string filterExpression = "";
-            if (entityClassSubject.ParentID == null)
+            if (entityClassSubject.ParentID == 0)
             {
                 filterExpression = string.Format("ClassSubjectID = {0} OR ClassSubjectID IN (SELECT ClassSubjectID FROM ClassSubject WHERE ParentID = {0} AND IsDeleted = 0)", AppSession.ClassSubject.ClassSubjectID);
                 hdnParentClassSubjectID.Value = entityClassSubject.ClassSubjectID.ToString();
@@ -60,6 +75,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             filterExpression = string.Format("{0} AND PeriodSectionID = {1}", filterExpression, AppSession.ClassSubject.PeriodSectionID);
             lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(filterExpression);
 
+            lstOption = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MARK_OPTION));
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", entityClassSubject.SchoolClassID));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
@@ -87,6 +103,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
         List<ClassStudentSubjectMark> lstStudentFinalMark = null;
+        List<StandardCode> lstOption = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -118,11 +135,28 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassSubjectTask subjectTask = (ClassSubjectTask)e.Item.DataItem;
                 vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
 
-                vClassStudentSubjectTaskMark entity = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
-                if (entity != null)
+                TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
+                ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
+                TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
+                vClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
+
+                int parentIndex = ((RepeaterItem)e.Item.Parent.Parent).ItemIndex;
+                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
+                txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
+                switch (hdnGCSubjectMarkType.Value)
                 {
-                    TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
-                    txtStudentMark.Text = entity.Mark.ToString();
+                    case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.OPTION:
+                        txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
+                        Methods.SetComboBoxField<StandardCode>(cboStudentMarkOption, lstOption, "StandardCodeName", "StandardCodeID");
+                        break;
+                    case Constant.SubjectMarkType.TEXT: cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
+                }
+                if (studentMark != null)
+                {
+                    txtStudentMark.Text = studentMark.Mark.ToString();
+                    cboStudentMarkOption.Value = studentMark.GCOptionMark;
+                    txtStudentMarkDescription.Text = studentMark.DescriptionMark;
                 }
             }
         }
@@ -181,7 +215,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         string[] lstSaveValue1 = saveValue.Split('|');
                         foreach (String saveValue1 in lstSaveValue1)
                         {
-                            string[] temp = saveValue.Split('^');
+                            string[] temp = saveValue.Split('*');
                             int studentID = Convert.ToInt32(temp[0]);
                             decimal finalStudentMark = -1;
                             if (temp[1] != "-")
@@ -225,29 +259,80 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                     int ClassSubjectTaskID = lstClassSubjectTaskID[ctr];
                                     ClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID && p.StudentID == studentID);
 
-                                    Decimal mark = -1;
-                                    if (saveValue2 != "-")
-                                        mark = Convert.ToDecimal(saveValue2);
-                                    if (studentMark == null)
+                                    if (hdnGCSubjectMarkType.Value == Constant.SubjectMarkType.NUMBER)
                                     {
-                                        if (mark > -1)
+                                        Decimal mark = -1;
+                                        if (saveValue2 != "-")
+                                            mark = Convert.ToDecimal(saveValue2);
+                                        if (studentMark == null)
                                         {
-                                            studentMark = new ClassStudentSubjectTaskMark();
-                                            studentMark.StudentID = studentID;
-                                            studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
-                                            studentMark.Mark = mark;
-                                            entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                            if (mark > -1)
+                                            {
+                                                studentMark = new ClassStudentSubjectTaskMark();
+                                                studentMark.StudentID = studentID;
+                                                studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                                studentMark.Mark = mark;
+                                                entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                            }
+                                        }
+                                        else if (studentMark.Mark != mark)
+                                        {
+                                            if (mark > -1)
+                                            {
+                                                studentMark.Mark = mark;
+                                                entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                            }
+                                            else
+                                                entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
                                         }
                                     }
-                                    else if (studentMark.Mark != mark)
+                                    else if (hdnGCSubjectMarkType.Value == Constant.SubjectMarkType.OPTION)
                                     {
-                                        if (mark > -1)
+                                        if (studentMark == null)
                                         {
-                                            studentMark.Mark = mark;
-                                            entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                            if (saveValue2 != "")
+                                            {
+                                                studentMark = new ClassStudentSubjectTaskMark();
+                                                studentMark.StudentID = studentID;
+                                                studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                                studentMark.GCOptionMark = saveValue2;
+                                                entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                            }
                                         }
-                                        else
-                                            entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                        else if (studentMark.GCOptionMark != saveValue2)
+                                        {
+                                            if (saveValue2 != "")
+                                            {
+                                                studentMark.GCOptionMark = saveValue2;
+                                                entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                            }
+                                            else
+                                                entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (studentMark == null)
+                                        {
+                                            if (saveValue2 != "")
+                                            {
+                                                studentMark = new ClassStudentSubjectTaskMark();
+                                                studentMark.StudentID = studentID;
+                                                studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                                studentMark.DescriptionMark = saveValue2;
+                                                entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                            }
+                                        }
+                                        else if (studentMark.DescriptionMark != saveValue2)
+                                        {
+                                            if (saveValue2 != "")
+                                            {
+                                                studentMark.DescriptionMark = saveValue2;
+                                                entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                            }
+                                            else
+                                                entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                        }
                                     }
                                 }
                                 ctr++;

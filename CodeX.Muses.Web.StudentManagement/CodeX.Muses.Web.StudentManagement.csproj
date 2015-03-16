@@ -99,6 +99,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="MasterPage\ClassSubjectBannerDtCtl.ascx" />
+    <Content Include="MasterPage\ClassStudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\PeriodAdmissionBannerDtCtl.ascx" />
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
@@ -106,6 +107,7 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
+    <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
@@ -116,6 +118,7 @@
     <Content Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntry.aspx" />
@@ -123,6 +126,10 @@
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypeExtracurricular\PeriodClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx" />
     <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
+    <Content Include="Program\StudentMark\ClassStudentPageLauncher.aspx" />
+    <Content Include="Program\StudentMark\ExtracurricularMark\ClassStudentExtracurricularMarkList.aspx" />
+    <Content Include="Program\StudentMark\PersonalityMark\ClassStudentPersonalityMarkList.aspx" />
+    <Content Include="Program\StudentMark\SubjectMark\ClassStudentSubjectMarkList.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
     <Content Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx" />
     <Content Include="Program\StudentMark\StudentFinalMarkEntry.aspx" />
@@ -396,6 +403,20 @@
     <Compile Include="MasterPage\ClassSubjectBannerDtCtl.ascx.designer.cs">
       <DependentUpon>ClassSubjectBannerDtCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\ClassStudentBannerDtCtl.ascx.cs">
+      <DependentUpon>ClassStudentBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\ClassStudentBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>ClassStudentBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\MPClassStudentPageTrx.master.cs">
+      <DependentUpon>MPClassStudentPageTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPClassStudentPageTrx.master.designer.cs">
+      <DependentUpon>MPClassStudentPageTrx.master</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\MPClassSubjectPageTrxVisit.master.cs">
       <DependentUpon>MPClassSubjectPageTrxVisit.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -473,6 +494,13 @@
     <Compile Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentAcceptanceList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx.cs">
+      <DependentUpon>ExtracurricularWeeklyScheduleList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx.designer.cs">
+      <DependentUpon>ExtracurricularWeeklyScheduleList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx.cs">
       <DependentUpon>StudentSummaryViewDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -543,6 +571,13 @@
     <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassStudentExtracurricularQuickPicksEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx.cs">
+      <DependentUpon>PeriodClassTypePersonalityEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx.designer.cs">
+      <DependentUpon>PeriodClassTypePersonalityEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx.cs">
       <DependentUpon>SchoolClassExtracurricularEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -591,6 +626,34 @@
     </Compile>
     <Compile Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx.designer.cs">
       <DependentUpon>SchoolPeriodClosingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\ClassStudentPageLauncher.aspx.cs">
+      <DependentUpon>ClassStudentPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\ClassStudentPageLauncher.aspx.designer.cs">
+      <DependentUpon>ClassStudentPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\ExtracurricularMark\ClassStudentExtracurricularMarkList.aspx.cs">
+      <DependentUpon>ClassStudentExtracurricularMarkList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\ExtracurricularMark\ClassStudentExtracurricularMarkList.aspx.designer.cs">
+      <DependentUpon>ClassStudentExtracurricularMarkList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\PersonalityMark\ClassStudentPersonalityMarkList.aspx.cs">
+      <DependentUpon>ClassStudentPersonalityMarkList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\PersonalityMark\ClassStudentPersonalityMarkList.aspx.designer.cs">
+      <DependentUpon>ClassStudentPersonalityMarkList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\SubjectMark\ClassStudentSubjectMarkList.aspx.cs">
+      <DependentUpon>ClassStudentSubjectMarkList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\SubjectMark\ClassStudentSubjectMarkList.aspx.designer.cs">
+      <DependentUpon>ClassStudentSubjectMarkList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx.cs">
       <DependentUpon>TeacherStudentFinalMarkEntry.aspx</DependentUpon>
@@ -1163,6 +1226,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPClassSubjectPageTrxVisit.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPClassStudentPageTrx.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

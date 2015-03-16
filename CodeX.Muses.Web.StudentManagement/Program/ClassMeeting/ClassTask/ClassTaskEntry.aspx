@@ -15,11 +15,22 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            var GCSubjectMarkType = $('#<%=hdnGCSubjectMarkType.ClientID %>').val();
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
                 $('.grdStudent tr.trStudent').each(function () {
                     var studentID = $(this).find('.keyField').html();
-                    var mark = $(this).find('.txtMark').val();
+                    var mark = '';
+                    switch (GCSubjectMarkType) {
+                        case '<%=OnGetSubjectMarkTypeNumber() %>': mark = $(this).find('.txtMark').val(); break;
+                        case '<%=OnGetSubjectMarkTypeOption() %>':
+                            var idx = $(this).find('.hdnItemIndex').val();
+                            var cboStudentMarkOption = eval('cboStudentMarkOption' + idx);
+                            if (cboStudentMarkOption.GetValue() != null)
+                                mark = cboStudentMarkOption.GetValue(); break;
+                        case '<%=OnGetSubjectMarkTypeText() %>': mark = $(this).find('.txtStudentMarkDescription').val(); break;
+                    }
+
                     if (result != '')
                         result += '|';
                     result += studentID + ',' + mark;
@@ -111,6 +122,7 @@
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />
+    <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <style type="text/css">
         #ulMeetingViewList .divMeetingDate        { float: left; width: 66px; margin: 3px 10px 0 0; background-color: #6BBD46; padding: 3px 10px; font-size: 20px; color: White; vertical-align: middle; text-align: center; }
         #ulMeetingViewList li                          { padding: 5px 3px; cursor: pointer; list-style-type:none; margin-bottom: 1px; }
@@ -175,7 +187,7 @@
                                     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
                                         <tr>
                                             <th><%=GetLabel("Siswa") %></th>
-                                            <th class="thCenter" style="width:80px"><%=GetLabel("Nilai") %></th>
+                                            <th class="thCenter" style="width:300px"><%=GetLabel("Nilai") %></th>
                                         </tr>
                                         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                             <ItemTemplate>
@@ -197,7 +209,10 @@
                                                         </table>
                                                     </td>
                                                     <td align="center">
-                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="95%" />
+                                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="80px" />
+                                                        <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="200px" runat="server" />
+                                                        <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>

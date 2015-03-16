@@ -61,6 +61,8 @@ namespace CodeX.Common
             public const string SCHOOL_DAY = "MS020";
             public const string SCORE_GRADE = "MS022";
             public const string BANK_EXPORT_DATA_TYPE = "MS023";
+            public const string SUBJECT_MARK_TYPE = "MS025";
+            public const string SUBJECT_MARK_OPTION = "MS026";
         }
 
         public static class SchoolPeriodStatus
@@ -76,6 +78,13 @@ namespace CodeX.Common
             public const string OPEN = "MS021^001";
             public const string NAIK_KELAS = "MS021^002";
             public const string TIDAK_NAIK_KELAS = "MS021^003";
+        }
+
+        public static class SubjectMarkType
+        {
+            public const string NUMBER = "MS025^001";
+            public const string OPTION = "MS025^002";
+            public const string TEXT = "MS025^003";
         }
 
         public static class AdmissionType
@@ -110,6 +119,7 @@ namespace CodeX.Common
         {
             public const string REGULAR = "MS024^001";
             public const string EXTRACURRICULAR = "MS024^002";
+            public const string PERSONALITY = "MS024^003";
         }
 
         public static class AdmissionPaymentPeriod 
@@ -260,6 +270,7 @@ namespace CodeX.Common
                 public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
                 public const string EXTRACURRICULAR_CLASS_TYPE = "CP010112";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
+                public const string PERSONALITY = "CP010114";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
@@ -418,6 +429,7 @@ namespace CodeX.Common
                 public const string STUDENT_SCHOOL_FEE = "SM040500";
                 public const string SCHOOL_PERIOD_CLOSING = "SM040600";
                 public const string TEACHER_MARK_GROUP = "SM040700";
+                public const string EXTRACURRICULAR_WEEKLY_SCHEDULE = "SM040800";
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
@@ -431,6 +443,7 @@ namespace CodeX.Common
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE = "SM99010301";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT = "SM99010302";
                 public const string SP_GENERATE_SCHOOL_CLASS = "SM99010303";
+                public const string SP_SCHOOL_PERIOD_CLASS_TYPE_PERSONALITY = "SM99010304";
                 public const string SP_SCHOOL_CLASS = "SM99010401";
                 public const string SP_CLASS_SUBJECT = "SM99010402";
                 public const string SP_CLASS_SCHEDULE = "SM99010403";
@@ -480,6 +493,11 @@ namespace CodeX.Common
                 public const string TCS_ATTENDANCE_HISTORY = "SM99050201";
                 public const string TCS_STUDENT_MARK = "SM99050202";
                 public const string TCS_SUBJECT_MATTER = "SM99050203";
+
+                public const string CLASS_STUDENT_PAGE = "SM99060000";
+                public const string CS_SUBJECT_MARK = "SM99060101";
+                public const string CS_EXTRACURRICULAR_MARK = "SM99060102";
+                public const string CS_PERSONALITY_MARK = "SM99060103";
             }
             #endregion
             #endregion

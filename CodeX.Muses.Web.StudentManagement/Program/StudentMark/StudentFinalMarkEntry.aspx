@@ -58,9 +58,13 @@
         }
 
         $('.lblFinalMark').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html() + '|' + tacSchoolClass.getValue() + '|' + tacPeriodSection.getValue();
-            var url = ResolveUrl("~/Program/StudentMark/StudentFinalMarkDtCtl.ascx");
-            openUserControlPopup(url, id, 'Detil Nilai', 800, 550);       
+            //var id = $(this).closest('tr').find('.keyField').html() + '|' + tacSchoolClass.getValue() + '|' + tacPeriodSection.getValue();
+            //var url = ResolveUrl("~/Program/StudentMark/StudentFinalMarkDtCtl.ascx");
+            //openUserControlPopup(url, id, 'Detil Nilai', 800, 550);
+
+            var id = tacSchoolClass.getValue() + '|' + $(this).closest('tr').find('.keyField').html() + '|' + tacPeriodSection.getValue();
+            var url = ResolveUrl('~/Program/StudentMark/ClassStudentPageLauncher.aspx?id=' + id);
+            openWindowPopup(url, 'ClassStudent' + id, '1300', '650');  
         });
 
         function onCboSchoolPeriodValueChanged(s) {

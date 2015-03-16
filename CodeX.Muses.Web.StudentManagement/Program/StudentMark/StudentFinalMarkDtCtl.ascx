@@ -29,7 +29,8 @@
         <Columns>
             <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
             <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" ItemStyle-CssClass="tdSubjectName" />
-            <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai" ItemStyle-HorizontalAlign="Center">
+            <asp:BoundField DataField="PassingGrade" HeaderStyle-Width="60px" HeaderStyle-CssClass="thCenter" HeaderText="KKM" ItemStyle-HorizontalAlign="Center" />
+            <asp:TemplateField HeaderStyle-Width="60px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai" ItemStyle-HorizontalAlign="Center">
                 <ItemTemplate>
                     <div runat="server" id="divMark"></div>
                 </ItemTemplate>

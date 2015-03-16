@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string filterExpression = "1 = 0";
             if(cboClass.Value != null && cboClass.Value.ToString() != "0")
-                filterExpression = string.Format("SchoolClassID = {0}", cboClass.Value);
+                filterExpression = string.Format("SchoolClassID = {0} AND GCClassStudyType = '{1}'", cboClass.Value, Constant.ClassStudyType.REGULAR);
             List<vClassSubjectCustom> lstEntity = BusinessLayer.GetvClassSubjectCustomList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();

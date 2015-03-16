@@ -2782,6 +2782,8 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectTaskID;
         private Int32 _StudentID;
         private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassSubjectTaskID
@@ -2795,11 +2797,23 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "Mark", DataType = "Decimal")]
+        [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
         public Decimal Mark
         {
             get { return _Mark; }
             set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
         }
     }
 
@@ -2853,7 +2867,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _SchoolClassID;
         private Int32 _PeriodClassTypeSubjectID;
-        private Int32 _TeacherID;
+        private Int32? _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int32? _ParentID;
         private Boolean _IsCreatedBySystem;
@@ -2881,8 +2895,8 @@ namespace CodeX.Data.Model
             get { return _PeriodClassTypeSubjectID; }
             set { _PeriodClassTypeSubjectID = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
@@ -11912,7 +11926,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeSubjectID;
         private Int32 _PeriodClassTypeID;
         private Int32 _SubjectID;
-        private Int32 _TeacherID;
+        private Int32? _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
         private Boolean _IsDeleted;
@@ -11939,8 +11953,8 @@ namespace CodeX.Data.Model
             get { return _SubjectID; }
             set { _SubjectID = value; }
         }
-        [Column(Name = "TeacherID", DataType = "Int32")]
-        public Int32 TeacherID
+        [Column(Name = "TeacherID", DataType = "Int32", IsNullable = true)]
+        public Int32? TeacherID
         {
             get { return _TeacherID; }
             set { _TeacherID = value; }
@@ -20298,6 +20312,7 @@ namespace CodeX.Data.Model
         private String _SubjectName;
         private String _SiteID;
         private String _GCClassStudyType;
+        private String _GCSubjectMarkType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -20334,6 +20349,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "GCSubjectMarkType", DataType = "String")]
+        public String GCSubjectMarkType
+        {
+            get { return _GCSubjectMarkType; }
+            set { _GCSubjectMarkType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
