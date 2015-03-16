@@ -63,6 +63,7 @@ namespace CodeX.Common
             public const string BANK_EXPORT_DATA_TYPE = "MS023";
             public const string SUBJECT_MARK_TYPE = "MS025";
             public const string SUBJECT_MARK_OPTION = "MS026";
+            public const string LESSON_TYPE = "MS027";
         }
 
         public static class SchoolPeriodStatus
@@ -85,6 +86,13 @@ namespace CodeX.Common
             public const string NUMBER = "MS025^001";
             public const string OPTION = "MS025^002";
             public const string TEXT = "MS025^003";
+        }
+
+        public static class LessonType
+        {
+            public const string THEORY = "MS027^001";
+            public const string PRACTICE = "MS027^002";
+            public const string THEORY_PRACTICE = "MS027^003";
         }
 
         public static class AdmissionType

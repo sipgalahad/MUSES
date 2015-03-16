@@ -30,6 +30,10 @@
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Topik")%></label></td>
             <td><asp:TextBox ID="txtTopic" Width="200px" runat="server" /></td>
         </tr>
+        <tr id="trLessonType" runat="server">
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Pelajaran")%></label></td>
+            <td><dxe:ASPxComboBox runat="server" ID="cboLessonType" Width="200px" /></td>
+        </tr>
         <tr>
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tugas")%></label></td>
             <td><dxe:ASPxComboBox runat="server" ID="cboTaskType" Width="200px" /></td>

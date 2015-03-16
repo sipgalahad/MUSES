@@ -1624,6 +1624,7 @@ namespace CodeX.Data.Model
         private String _SubjectName;
         private String _GCSubjectMarkType;
         private String _SubjectGCClassStudyType;
+        private String _GCLessonType;
         private Int16 _NoMeetingHoursInWeek;
         private Int32 _ParentID;
         private Int32 _TeacherID;
@@ -1694,6 +1695,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectGCClassStudyType; }
             set { _SubjectGCClassStudyType = value; }
+        }
+        [Column(Name = "GCLessonType", DataType = "String")]
+        public String GCLessonType
+        {
+            get { return _GCLessonType; }
+            set { _GCLessonType = value; }
         }
         [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
         public Int16 NoMeetingHoursInWeek
@@ -1896,6 +1903,8 @@ namespace CodeX.Data.Model
         private String _ClassTaskCode;
         private String _GCTaskType;
         private String _TaskType;
+        private String _GCLessonType;
+        private String _LessonType;
         private Int16 _FinalMarkPercentage;
         private DateTime _TaskDate;
         private DateTime _StartDate;
@@ -1941,6 +1950,18 @@ namespace CodeX.Data.Model
         {
             get { return _TaskType; }
             set { _TaskType = value; }
+        }
+        [Column(Name = "GCLessonType", DataType = "String")]
+        public String GCLessonType
+        {
+            get { return _GCLessonType; }
+            set { _GCLessonType = value; }
+        }
+        [Column(Name = "LessonType", DataType = "String")]
+        public String LessonType
+        {
+            get { return _LessonType; }
+            set { _LessonType = value; }
         }
         [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
         public Int16 FinalMarkPercentage

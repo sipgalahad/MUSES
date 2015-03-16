@@ -157,7 +157,7 @@
                                         <input type="hidden" value='<%# Eval("ClassSubjectTaskID") %>' class="hdnClassSubjectTaskID" />
                                         <div class="divMeetingDate"><%# Eval("TaskDate", "{0:dd MMM}")%><br /><%# Eval("TaskDate", "{0:yyyy}")%></div>
                                         <div style="font-size: 24px; font-weight: 100;"><%#Eval("Topic") %> (<%#Eval("ClassTaskCode")%>)</div>
-                                        <div style="font-size: 12px;"><%#Eval("TaskType") %><br /><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
+                                        <div style="font-size: 12px;"><%#Eval("TaskType") %> (<%#Eval("LessonType") %>)<br /><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
                                     </li>                        
                                 </ItemTemplate>
                                 <FooterTemplate>

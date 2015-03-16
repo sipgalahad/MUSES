@@ -39,11 +39,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassSubject entity = (vClassSubject)e.Row.DataItem;
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
-                HtmlGenericControl divMark = (HtmlGenericControl)e.Row.FindControl("divMark");
+                HtmlGenericControl divMarkTheory = (HtmlGenericControl)e.Row.FindControl("divMarkTheory");
+                HtmlGenericControl divMarkPractice = (HtmlGenericControl)e.Row.FindControl("divMarkPractice");
                 if (studentMark != null)
-                    divMark.InnerHtml = studentMark.Mark.ToString();
+                {
+                    divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
+                    divMarkPractice.InnerHtml = studentMark.PracticeMark.ToString();
+                }
                 else
-                    divMark.InnerHtml = "-";
+                {
+                    divMarkTheory.InnerHtml = "-";
+                    divMarkPractice.InnerHtml = "-";
+                }
             }
         }
     }

@@ -103,22 +103,94 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
         
         /// <summary>
-        /// thMark control.
+        /// thTheory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thMark;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thTheory;
         
         /// <summary>
-        /// rptHeader control.
+        /// thPractice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeader;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thPractice;
+        
+        /// <summary>
+        /// thMarkTheory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thMarkTheory;
+        
+        /// <summary>
+        /// thFinalReadonlyMarkTheory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalReadonlyMarkTheory;
+        
+        /// <summary>
+        /// thFinalMarkTheory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalMarkTheory;
+        
+        /// <summary>
+        /// thMarkPractice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thMarkPractice;
+        
+        /// <summary>
+        /// thFinalReadonlyMarkPractice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalReadonlyMarkPractice;
+        
+        /// <summary>
+        /// thFinalMarkPractice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalMarkPractice;
+        
+        /// <summary>
+        /// rptHeaderTheory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderTheory;
+        
+        /// <summary>
+        /// rptHeaderPractice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderPractice;
         
         /// <summary>
         /// rptStudent control.

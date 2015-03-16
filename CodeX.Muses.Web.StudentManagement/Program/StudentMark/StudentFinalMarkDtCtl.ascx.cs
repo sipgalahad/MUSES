@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
                 HtmlGenericControl divMark = (HtmlGenericControl)e.Row.FindControl("divMark");
                 if (studentMark != null)
-                    divMark.InnerHtml = studentMark.Mark.ToString();
+                    divMark.InnerHtml = studentMark.TheoryMark.ToString();
                 else
                     divMark.InnerHtml = "-";
             }

@@ -2681,7 +2681,8 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
         private Int32 _PeriodSectionID;
-        private Decimal _Mark;
+        private Decimal _TheoryMark;
+        private Decimal _PracticeMark;
         private String _AffectiveMark;
         private String _AffectiveDescription;
         private String _ProgressDescription;
@@ -2704,11 +2705,17 @@ namespace CodeX.Data.Model
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
         }
-        [Column(Name = "Mark", DataType = "Decimal")]
-        public Decimal Mark
+        [Column(Name = "TheoryMark", DataType = "Decimal")]
+        public Decimal TheoryMark
         {
-            get { return _Mark; }
-            set { _Mark = value; }
+            get { return _TheoryMark; }
+            set { _TheoryMark = value; }
+        }
+        [Column(Name = "PracticeMark", DataType = "Decimal")]
+        public Decimal PracticeMark
+        {
+            get { return _PracticeMark; }
+            set { _PracticeMark = value; }
         }
         [Column(Name = "AffectiveMark", DataType = "String", IsNullable = true)]
         public String AffectiveMark
@@ -3074,6 +3081,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
         private String _GCTaskType;
+        private String _GCLessonType;
         private Int16 _FinalMarkPercentage;
         private DateTime _TaskDate;
         private DateTime _StartDate;
@@ -3117,6 +3125,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCTaskType; }
             set { _GCTaskType = value; }
+        }
+        [Column(Name = "GCLessonType", DataType = "String")]
+        public String GCLessonType
+        {
+            get { return _GCLessonType; }
+            set { _GCLessonType = value; }
         }
         [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
         public Int16 FinalMarkPercentage
@@ -20313,6 +20327,7 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private String _GCClassStudyType;
         private String _GCSubjectMarkType;
+        private String _GCLessonType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -20355,6 +20370,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCSubjectMarkType; }
             set { _GCSubjectMarkType = value; }
+        }
+        [Column(Name = "GCLessonType", DataType = "String")]
+        public String GCLessonType
+        {
+            get { return _GCLessonType; }
+            set { _GCLessonType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
