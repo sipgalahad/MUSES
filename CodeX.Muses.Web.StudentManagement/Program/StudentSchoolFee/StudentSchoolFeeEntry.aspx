@@ -62,6 +62,10 @@
             });
         });
 
+        function onAfterCustomClickSuccess() {
+            cbpView.PerformCallback('refresh');
+        }
+
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
             cbpView.PerformCallback('refresh');
@@ -181,6 +185,25 @@
         function addTableHeader() {
             $('#tblView thead').html($('#tblView1 thead').html());
         }
+
+        $('#tblView .txtNewValue').live('change', function () {
+            $(this).trigger('changeValue');
+            var value = $(this).attr('hiddenVal');
+            var idx = $('#tblView .txtNewValue').index($(this));
+            $('.trDt').each(function () {
+                $(this).find('.txtNewCompValue:eq(' + idx + ')').val(value).trigger('changeValue');
+            });
+        });
+
+        $('#tblView .txtMarkupValue').live('change', function () {
+            var value = parseFloat($(this).val());
+            var idx = $('#tblView .txtMarkupValue').index($(this));
+            $('.trDt').each(function () {
+                var oldValue = parseFloat($(this).find('.txtOldCompValue:eq(' + idx + ')').attr('hiddenVal'));
+                var newValue = oldValue * (value + 100) / 100;
+                $(this).find('.txtNewCompValue:eq(' + idx + ')').val(newValue).trigger('changeValue');
+            });
+        });
     </script>
     <style type="text/css">
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
@@ -191,7 +214,7 @@
     <input type="hidden" runat="server" id="hdnSaveValue" />
     <table>
         <tr>
-            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
+            <td class="tdLabel" style="width:180px;"><%=GetLabel("Tahun Ajaran") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
@@ -219,7 +242,7 @@
             </td>
         </tr>
         <tr>
-            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran Berikutnya") %></td>
+            <td class="tdLabel"><%=GetLabel("Tahun Ajaran Berikutnya") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboNextSchoolPeriod" ClientInstanceName="cboNextSchoolPeriod" Width="200px" />
             </td>
@@ -247,7 +270,11 @@
                 <asp:Repeater ID="rptStudentFeeCompTypeView2" runat="server">
                     <ItemTemplate>
                         <th class="thCenter" style="width:80px"><%=GetLabel("Lama") %></th>
-                        <th class="thCenter" style="width:80px"><%=GetLabel("Baru") %></th>
+                        <th class="thCenter" style="width:80px">
+                            <%=GetLabel("Baru") %><br />
+                            <input type="text" class="txtCurrency txtNewValue" value="0" style="width:80px" /><br />
+                            ↑ <input type="text" class="number txtMarkupValue" value="0" style="width:40px" /> [%]
+                        </th>
                     </ItemTemplate>
                 </asp:Repeater>
             </tr>
