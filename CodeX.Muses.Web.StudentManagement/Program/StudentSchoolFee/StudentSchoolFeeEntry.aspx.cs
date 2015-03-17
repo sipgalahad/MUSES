@@ -179,7 +179,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         }
                     }
                 }
-                //BusinessLayer.ProcessReRegistrationStudent(hdnSelectedValue.Value, SchoolPeriodID, AppSession.UserLogin.UserID, ctx);
+                BusinessLayer.ProcessReRegistrationStudent(hdnSelectedValue.Value, SchoolPeriodID, AppSession.UserLogin.UserID, ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

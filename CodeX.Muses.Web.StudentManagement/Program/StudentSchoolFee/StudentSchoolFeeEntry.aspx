@@ -31,9 +31,10 @@
                         lstStudentID += ',';
                     }
                     cboScholarship = eval('cboScholarship' + idx);
-                    var scholarshipID = cboScholarship.GetValue();
-                    if (scholarshipID != '0') param += id + ',' + scholarshipID;
-                    else param += id;
+                    var scholarshipID = 0;
+                    if (cboScholarship.GetValue() != null)
+                        scholarshipID = cboScholarship.GetValue();
+                    param += id + ',' + scholarshipID;
 
                     var temp = '';
                     $tr.find('.txtNewCompValue').each(function () {
@@ -47,7 +48,7 @@
                 $('#<%=hdnSelectedValue.ClientID %>').val(param);
                 $('#<%=hdnSaveValue.ClientID %>').val(result);
                 $('#<%=hdnLstStudentID.ClientID %>').val(lstStudentID);
-                
+
                 onCustomButtonClick('promote');
             })
 
