@@ -28,6 +28,7 @@ namespace CodeX.Muses.Web.Finance.Program
         String lstSiteID = "";
         protected override void InitializeDataControl()
         {
+            Helper.SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, true), "mpEntry");
             List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
             
             foreach(Site obj in lstSite)
@@ -50,17 +51,17 @@ namespace CodeX.Muses.Web.Finance.Program
             cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboMonth.DropDownStyle = DropDownStyle.DropDownList;
             cboMonth.DataBind();
-            //cboMonth.Value = DateTime.Now.Month.ToString();
+            cboMonth.Value = DateTime.Now.Month.ToString();
 
             cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 99, 100).Reverse();
             cboYear.EnableCallbackMode = false;
             cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboYear.DropDownStyle = DropDownStyle.DropDownList;
             cboYear.DataBind();
-            //cboYear.SelectedIndex = 0;
+            cboYear.SelectedIndex = 0;
 
-            //txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            //txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
             BindGridView();
         }
@@ -72,7 +73,6 @@ namespace CodeX.Muses.Web.Finance.Program
         public void BindGridView() 
         {
             List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ProspectiveStudentID = {0} AND GCTransactionStatus IN ('{1}','{2}','{3}')", AppSession.ProspectiveStudentID, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED));
-            
             grdView.DataSource = lstInvoiceDt;
             grdView.DataBind();
         }

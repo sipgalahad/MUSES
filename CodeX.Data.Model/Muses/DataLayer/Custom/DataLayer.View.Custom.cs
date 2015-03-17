@@ -28,6 +28,10 @@ namespace CodeX.Data.Model
     #region vARInvoiceDt
     public partial class vARInvoiceDt
     {
+        public Boolean IsProcessed
+        {
+            get { return _GCTransactionStatus == Constant.TransactionStatus.PROCESSED; }
+        }
         public String DueDateInString 
         {
             get { return _DueDate.ToString(Constant.FormatString.DATE_FORMAT); }

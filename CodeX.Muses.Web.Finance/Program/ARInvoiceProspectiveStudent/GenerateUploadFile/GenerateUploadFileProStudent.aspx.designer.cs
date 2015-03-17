@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.Finance.Program {
     public partial class GenerateUploadFileProStudent {
         
         /// <summary>
+        /// btnGenerate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnGenerate;
+        
+        /// <summary>
         /// hdnSelectedValue control.
         /// </summary>
         /// <remarks>
