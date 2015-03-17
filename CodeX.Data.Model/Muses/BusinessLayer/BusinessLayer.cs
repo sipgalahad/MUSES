@@ -9132,6 +9132,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFeeComp
+        public static StudentFeeComp GetStudentFeeComp(Int32 StudentFeeCompID)
+        {
+            return new StudentFeeCompDao().Get(StudentFeeCompID);
+        }
+        public static int InsertStudentFeeComp(StudentFeeComp record)
+        {
+            return new StudentFeeCompDao().Insert(record);
+        }
+        public static int UpdateStudentFeeComp(StudentFeeComp record)
+        {
+            return new StudentFeeCompDao().Update(record);
+        }
+        public static int DeleteStudentFeeComp(Int32 StudentFeeCompID)
+        {
+            return new StudentFeeCompDao().Delete(StudentFeeCompID);
+        }
+        public static List<StudentFeeComp> GetStudentFeeCompList(string filterExpression)
+        {
+            List<StudentFeeComp> result = new List<StudentFeeComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeComp)helper.IDataReaderToObject(reader, new StudentFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentFeeComp> GetStudentFeeCompList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentFeeComp> result = new List<StudentFeeComp>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeComp)helper.IDataReaderToObject(reader, new StudentFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region StudentFeeCompType
         public static StudentFeeCompType GetStudentFeeCompType(Int32 StudentFeeCompTypeID)
         {

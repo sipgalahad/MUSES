@@ -26,13 +26,26 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.STUDENT_SCHOOL_FEE;
         }
 
+        protected string OnGetClassStudyTypeRegular()
+        {
+            return Constant.ClassStudyType.REGULAR;
+        }
+
         protected string OnGetPeriodSectionFilterExpression()
         {
             return string.Format("GCPeriodSectionStatus != '{0}'", Constant.SchoolPeriodStatus.VOID);
         }
 
+        List<StudentFeeCompType> lstComp = null;
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod != '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
+            rptStudentFeeCompTypeView.DataSource = lstComp;
+            rptStudentFeeCompTypeView.DataBind();
+
+            rptStudentFeeCompTypeView2.DataSource = lstComp;
+            rptStudentFeeCompTypeView2.DataBind();
+
             List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             Methods.SetComboBoxField<SchoolPeriod>(cboNextSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
@@ -66,38 +79,59 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<Scholarship> lstScholarship = null;
-        List<ClassStudentMark> lstStudentMark = null;
+        List<StudentFeeComp> lstStudentFeeComp = null;
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
-            //if (tacSchoolClass.Value != "")
-            //    lstStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", tacSchoolClass.Value, tacPeriodSection.Value));
             List<vStudentCustom> lstEntity = BusinessLayer.GetvStudentCustomList(String.Format("{0} AND GCClassStudentStatus != '{1}' AND SchoolClassID IS NOT NULL", filterExpression, Constant.ClassStudentStatus.OPEN));
             lstScholarship = BusinessLayer.GetScholarshipList(String.Format("SiteID = '{0}' AND GCScholarshipType != '{1}' AND IsDeleted = 0",AppSession.UserLogin.SiteID, Constant.ScholarshipType.ADMISSION));
+
+            if (lstEntity.Count > 0)
+            {
+                string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
+                lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("StudentID IN ({0}) AND SchoolPeriodID IN ({1},{2})", lstStudentID, cboSchoolPeriod.Value, cboNextSchoolPeriod.Value));
+            }
+            else
+                lstStudentFeeComp = new List<StudentFeeComp>();
             Scholarship sch = new Scholarship();
             sch.ScholarshipID = 0;
             sch.ScholarshipName = "";
             lstScholarship.Insert(0, sch);
 
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+            if (lstComp == null) 
+                lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod != '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
+            rptView.DataSource = lstEntity;
+            rptView.DataBind();
         }
-
-        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vStudentCustom entity = (vStudentCustom)e.Row.DataItem;
-                ASPxComboBox cboScholarship = e.Row.FindControl("cboScholarship") as ASPxComboBox;
-                cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Row.DataItemIndex);
+                vStudentCustom entity = (vStudentCustom)e.Item.DataItem;
+                ASPxComboBox cboScholarship = e.Item.FindControl("cboScholarship") as ASPxComboBox;
+                cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Item.ItemIndex);
                 Methods.SetComboBoxField(cboScholarship, lstScholarship, "ScholarshipName", "ScholarshipID");
 
-                //ClassStudentMark studentMark = lstStudentMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
-                //if (studentMark != null)
-                //{
-                //    HtmlGenericControl lblFinalMark = (HtmlGenericControl)e.Row.FindControl("lblFinalMark");
-                //    lblFinalMark.InnerHtml = studentMark.FinalMark.ToString();    
-                //}
+                Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
+                rptViewDt.DataSource = lstComp;
+                rptViewDt.DataBind();
+            }
+        }
+        protected void rptViewDt_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vStudentCustom student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vStudentCustom;
+                StudentFeeCompType studentFeeCompType = (StudentFeeCompType)e.Item.DataItem;
+                StudentFeeComp entity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == student.StudentID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.SchoolPeriodID == Convert.ToInt32(cboSchoolPeriod.Value));
+                StudentFeeComp nextEntity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == student.StudentID && p.StudentFeeCompTypeID == studentFeeCompType.StudentFeeCompTypeID && p.SchoolPeriodID == Convert.ToInt32(cboNextSchoolPeriod.Value));
+                TextBox txtOldCompValue = (TextBox)e.Item.FindControl("txtOldCompValue");
+                TextBox txtNewCompValue = (TextBox)e.Item.FindControl("txtNewCompValue");
+                if (entity != null)
+                    txtNewCompValue.Text = txtOldCompValue.Text = entity.TotalAmount.ToString();
+                if (nextEntity != null)
+                    txtNewCompValue.Text = entity.TotalAmount.ToString();
+                txtNewCompValue.Attributes.Add("studentfeecomptypeid", studentFeeCompType.StudentFeeCompTypeID.ToString());
             }
         }
 
@@ -106,36 +140,51 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             BindGridView();
         }
 
-        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
-        {
-            string result = "";
-            string errMessage = "";
-            string[] param = e.Parameter.Split('|');
-            result = param[0] + "|";
-            if (param[0] == "promote")
-            {
-                if (OnProcessSchoolFeeEntity(ref errMessage))
-                    result += "success";
-                else
-                    result += string.Format("fail|{0}", errMessage);
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-        }
-
-        private bool OnProcessSchoolFeeEntity(ref string errMessage)
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            
+            StudentFeeCompDao entityStudentFeeCompDao = new StudentFeeCompDao(ctx);
             try
             {
-                BusinessLayer.ProcessReRegistrationStudent(hdnSelectedValue.Value, Convert.ToInt32(cboNextSchoolPeriod.Value), AppSession.UserLogin.UserID, ctx);
+                int SchoolPeriodID = Convert.ToInt32(cboNextSchoolPeriod.Value);
+                List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(string.Format("StudentID IN ({0}) AND SchoolPeriodID = {1}", hdnLstStudentID.Value, SchoolPeriodID), ctx);
+                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(',');
+                    int studentID = Convert.ToInt32(temp[0]);
+                    string[] lstSaveValue1 = temp[1].Split(';');
+                    foreach (string saveValue1 in lstSaveValue1)
+                    {
+                        string[] temp1 = saveValue1.Split('^');
+                        int studentFeeCompTypeID = Convert.ToInt32(temp1[0]);
+                        decimal totalAmount = Convert.ToDecimal(temp1[1]);
+                        StudentFeeComp entity = lstStudentFeeComp.FirstOrDefault(p => p.StudentID == studentID && p.StudentFeeCompTypeID == studentFeeCompTypeID);
+                        if (entity != null)
+                        {
+                            entity.TotalAmount = totalAmount;
+                            entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeCompDao.Update(entity);
+                        }
+                        else
+                        {
+                            entity = new StudentFeeComp();
+                            entity.SchoolPeriodID = SchoolPeriodID;
+                            entity.StudentID = studentID;
+                            entity.StudentFeeCompTypeID = studentFeeCompTypeID;
+                            entity.TotalAmount = totalAmount;
+                            entity.CreatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeCompDao.Insert(entity);
+                        }
+                    }
+                }
+                //BusinessLayer.ProcessReRegistrationStudent(hdnSelectedValue.Value, SchoolPeriodID, AppSession.UserLogin.UserID, ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 result = false;

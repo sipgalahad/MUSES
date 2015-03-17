@@ -133,7 +133,7 @@
 
         //#region Class
         function onGetClassFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND IsDeleted = 0";
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
             return filterExpression;
         }
 

@@ -43,7 +43,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vRegistrationInvoice entity = e.Row.DataItem as vRegistrationInvoice;
                 CheckBox chkIsAccepted = e.Row.FindControl("chkIsAccepted") as CheckBox;
                 CheckBox chkIsPaid = e.Row.FindControl("chkIsPaid") as CheckBox;
-                if (entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED)
+                if (entity.TotalClaimedAmount == entity.TotalPaymentAmount)
                     chkIsPaid.Checked = true;
                 else
                     chkIsPaid.Checked = false;

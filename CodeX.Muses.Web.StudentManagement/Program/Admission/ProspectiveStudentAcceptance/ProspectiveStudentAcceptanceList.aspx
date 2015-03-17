@@ -67,7 +67,7 @@
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
                         position: relative; font-size: 0.95em;">
-                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
+                        <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" OnRowDataBound="grdView_RowDataBound"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:TemplateField HeaderStyle-Width="50px" ItemStyle-HorizontalAlign="Center">

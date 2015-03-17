@@ -14,14 +14,12 @@
     <li id="btnProcess" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Process")%></div></li>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
-    <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
         $(function () {
-            var grd = new customGridView();
-            grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
-
             $('#<%=btnProcess.ClientID %>').click(function () {
                 var param = "";
+                var result = '';
+                var lstStudentID = '';
                 $('.chkIsSelected input:checked').each(function () {
                     $tr = $(this).closest('tr');
                     var id = $tr.find('.keyField').html();
@@ -29,14 +27,28 @@
 
                     if (param != '') {
                         param += '|';
+                        result += '|';
+                        lstStudentID += ',';
                     }
                     cboScholarship = eval('cboScholarship' + idx);
                     var scholarshipID = cboScholarship.GetValue();
                     if (scholarshipID != '0') param += id + ',' + scholarshipID;
                     else param += id;
+
+                    var temp = '';
+                    $tr.find('.txtNewCompValue').each(function () {
+                        if (temp != '')
+                            temp += ';';
+                        temp += $(this).attr('studentfeecomptypeid') + '^' + $(this).attr('hiddenVal');
+                    });
+                    result += id + ',' + temp;
+                    lstStudentID += id;
                 });
                 $('#<%=hdnSelectedValue.ClientID %>').val(param);
-                cbpProcess.PerformCallback('promote');
+                $('#<%=hdnSaveValue.ClientID %>').val(result);
+                $('#<%=hdnLstStudentID.ClientID %>').val(lstStudentID);
+                
+                onCustomButtonClick('promote');
             })
 
             setStudentImage();
@@ -44,7 +56,7 @@
         
         $('.chkSelectAll input').live('click',function () {
             var value = $(this).is(':checked');
-            $('#<%=grdView.ClientID %> .chkIsSelected input').each(function () {
+            $('.tblView .chkIsSelected input').each(function () {
                 $(this).prop("checked", value);
             });
         });
@@ -63,8 +75,12 @@
         }
 
         function onCbpViewEndCallback(s) {
+            addTableHeader();
             setStudentImage();
             hideLoadingPanel();
+            $('.tblView .txtCurrency').each(function () {
+                $(this).trigger('changeValue');
+            });
         }
 
         function setStudentImage() {
@@ -130,7 +146,7 @@
 
         //#region Class
         function onGetClassFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND IsDeleted = 0";
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
             return filterExpression;
         }
 
@@ -157,22 +173,21 @@
         }
         //#endregion
 
-        function onCbpProcesEndCallback(s) {
-            hideLoadingPanel();
-            var param = s.cpResult.split('|');
-            if (param[0] == 'save') {
-                if (param[1] == 'fail')
-                    showToast('Delete Failed', 'Error Message : ' + param[2]);
-                else
-                    cbpView.PerformCallback('refresh');
-            }
+        $(function () {
+            addTableHeader();
+        });
+
+        function addTableHeader() {
+            $('#tblView thead').html($('#tblView1 thead').html());
         }
     </script>
     <style type="text/css">
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
                                          background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
     </style>
+    <input type="hidden" runat="server" id="hdnLstStudentID" />
     <input type="hidden" runat="server" id="hdnSelectedValue" />
+    <input type="hidden" runat="server" id="hdnSaveValue" />
     <table>
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
@@ -211,6 +226,32 @@
     </table>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+
+    <table id="tblView1" rules="all" class="grdSelected grdBorder" style="display:none">
+        <thead>
+            <tr>
+                <th style="width:40px" class="thCenter" rowspan="2"><asp:CheckBox runat="server" ID="chkSelectAll" CssClass="chkSelectAll" /></th>
+                <th rowspan="2" style="width:40px">&nbsp;</th>
+                <th style="width:100px" rowspan="2"><%=GetLabel("NIS")%></th>        
+                <th rowspan="2"><%=GetLabel("Nama Siswa")%></th>        
+                <asp:Repeater ID="rptStudentFeeCompTypeView" runat="server">
+                    <ItemTemplate>
+                        <th class="thCenter" colspan="2"><%#Eval("StudentFeeCompTypeName")%></th>
+                    </ItemTemplate>
+                </asp:Repeater>      
+                <th style="width:120px" rowspan="2"><%=GetLabel("Beasiswa")%></th>
+                <th style="width:120px" rowspan="2"><%=GetLabel("Status")%></th>
+            </tr>
+            <tr> 
+                <asp:Repeater ID="rptStudentFeeCompTypeView2" runat="server">
+                    <ItemTemplate>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("Lama") %></th>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("Baru") %></th>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </tr>
+        </thead>
+    </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
@@ -219,45 +260,49 @@
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
-                        <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
-                            <Columns>
-                                <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
-                                    <HeaderTemplate>
-                                        <div style="text-align:center">
-                                            <asp:CheckBox runat="server" ID="chkSelectAll" CssClass="chkSelectAll" />
-                                        </div>
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.DataItemIndex %>' />
+                        <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                            <HeaderTemplate>
+                                <table id="tblView" rules="all" class="tblView grdSelected grdBorder">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                            </HeaderTemplate>
+                            <ItemTemplate>
+                                <tr class="trDt">
+                                    <td class="keyField"><%#Eval("StudentID") %></td>
+                                    <td align="center">    
+                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
                                         <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center">
-                                    <ItemTemplate>
+                                    </td>
+                                    <td align="center">
                                         <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
                                         <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
                                         <div class="gridCircle divStudentImage"></div>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
-                                <%--<asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai Akhir" ItemStyle-HorizontalAlign="Center">
-                                    <ItemTemplate>
-                                        <label class="lbl  Link lblFinalMark" runat="server" id="lblFinalMark"></label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>--%>
-                                <asp:TemplateField HeaderText="Beasiswa" HeaderStyle-Width="120px" >
-                                    <ItemTemplate>
+                                    </td>
+                                    <td><%#Eval("StudentCode") %></td>
+                                    <td><%#Eval("StudentName") %></td>                                    
+                                    <asp:Repeater ID="rptViewDt" runat="server" OnItemDataBound="rptViewDt_ItemDataBound">
+                                        <ItemTemplate>
+                                            <td align="center">
+                                                <asp:TextBox ID="txtOldCompValue" CssClass="txtOldCompValue txtCurrency" ReadOnly="true" runat="server" Width="100%" />
+                                            </td>
+                                            <td align="center">
+                                                <asp:TextBox ID="txtNewCompValue" CssClass="txtNewCompValue txtCurrency" runat="server" Width="100%" />
+                                            </td>
+                                        </ItemTemplate>
+                                    </asp:Repeater>     
+                                    <td align="center">
                                         <dxe:ASPxComboBox ID="cboScholarship" class="cboScholarship" Width="120px" runat="server" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField DataField="ClassStudentStatus" HeaderText="Status" HeaderStyle-Width="120px" />
-                            </Columns>
-                            <EmptyDataTemplate>
-                                <%=GetLabel("Data Tidak Tersedia")%>
-                            </EmptyDataTemplate>
-                        </asp:GridView>
+                                    </td>
+                                    <td><%#Eval("ClassStudentStatus")%></td>
+                                </tr>
+                            </ItemTemplate>
+                            <FooterTemplate>                                
+                                    </tbody>
+                                </table>
+                            </FooterTemplate>
+                        </asp:Repeater>
+                        
                     </asp:Panel>
                 </dx:PanelContent>
             </PanelCollection>
@@ -271,9 +316,5 @@
                 <div id="paging"></div>
             </div>
         </div> 
-        <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
-            ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
-            <ClientSideEvents BeginCallback="function(s,e) { showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }" />
-        </dxcp:ASPxCallbackPanel>
     </div>
 </asp:Content>
