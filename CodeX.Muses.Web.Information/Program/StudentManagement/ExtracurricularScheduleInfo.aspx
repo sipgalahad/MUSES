@@ -1,12 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master"
-    AutoEventWireup="true" CodeBehind="ClassScheduleInfo.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.ClassScheduleInfo" %>
+    AutoEventWireup="true" CodeBehind="ExtracurricularScheduleInfo.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.ExtracurricularScheduleInfo" %>
 
-<%@ Register Assembly="DevExpress.Web.ASPxPivotGrid.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
-    Namespace="DevExpress.Web.ASPxPivotGrid" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
-<%@ Register Assembly="DevExpress.Web.ASPxPivotGrid.v11.1.Export, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
-    Namespace="DevExpress.Web.ASPxPivotGrid.Export" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -16,45 +12,44 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
-         function onCboSchoolPeriodValueChanged(s) {
-             cbpView.PerformCallback('refresh');
-         }
+        function onCboSchoolPeriodValueChanged(s) {
+            tacSchoolClass.setValue('');
+            tacSchoolClass.setText('');
+            cbpView.PerformCallback('refresh');
+        }
 
-         //#region Class
-         function onGetClassFilterExpression() {
-             var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
-             return filterExpression;
-         }
+        //#region Class
+        function onGetClassFilterExpression() {
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeExtracurricular() %>' AND IsDeleted = 0";
+            return filterExpression;
+        }
 
-         function onTacClassButtonSearchClick() {
-             openSearchDialog('schoolclass', onGetClassFilterExpression(), function (value) {
-                 var filterExpression = onGetClassFilterExpression() + " AND SchoolClassCode = '" + value + "'";
-                 Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
-                     if (result != null) {
-                         tacSchoolClass.setValue(result.SchoolClassID);
-                         tacSchoolClass.setText(result.SchoolClassName);
-                     }
-                     else {
-                         tacSchoolClass.setValue('');
-                         tacSchoolClass.setText('');
-                     }
-                     onTacClassValueChanged();
-                 });
-             });
+        function onTacClassButtonSearchClick() {
+            openSearchDialog('schoolclass', onGetClassFilterExpression(), function (value) {
+                var filterExpression = onGetClassFilterExpression() + " AND SchoolClassCode = '" + value + "'";
+                Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSchoolClass.setValue(result.SchoolClassID);
+                        tacSchoolClass.setText(result.SchoolClassName);
+                    }
+                    else {
+                        tacSchoolClass.setValue('');
+                        tacSchoolClass.setText('');
+                    }
+                    onTacClassValueChanged();
+                });
+            });
 
-         }
+        }
 
-         function onTacClassValueChanged() {
-             cbpView.PerformCallback('refresh');
-         }
-         //#endregion
+        function onTacClassValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
     </script>
     <table>
-        <colgroup>
-            <col style="width: 120px" />
-        </colgroup>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
@@ -76,9 +71,8 @@
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
         .tblSchedule tr td                  { border: 1px solid #333; }
-        .tblSchedule tr.T001                { height: 75px; }
-        .tblSchedule tr.T001 b              { color: Red; }
-        .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
+        .tblSchedule tr.T999                { height: 75px; cursor: pointer; }
+        .tblSchedule tr.T999 td, .nts999    { background-color: #A32FD9; }
     </style>
 
     <div class="divTransactionEntry">
@@ -94,15 +88,20 @@
                             <tr>
                                 <td valign="top" id="tdSchoolDay1" runat="server">
                                     <h4 style="text-align: center"><%=GetLabel("Senin") %></h4>
-                                    <asp:Repeater ID="rptDay1" runat="server" OnItemDataBound="rptDay1_ItemDataBound">
+                                    <asp:Repeater ID="rptDay1" runat="server">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -112,15 +111,20 @@
                                 </td>
                                 <td valign="top" id="tdSchoolDay2" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Selasa") %></h4>
-                                    <asp:Repeater ID="rptDay2" runat="server" OnItemDataBound="rptDay2_ItemDataBound">
+                                    <asp:Repeater ID="rptDay2" runat="server">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -130,15 +134,20 @@
                                 </td>
                                 <td valign="top" id="tdSchoolDay3" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Rabu") %></h4>
-                                    <asp:Repeater ID="rptDay3" runat="server" OnItemDataBound="rptDay3_ItemDataBound">
+                                    <asp:Repeater ID="rptDay3" runat="server">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -148,15 +157,20 @@
                                 </td>
                                 <td valign="top" id="tdSchoolDay4" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Kamis") %></h4>
-                                    <asp:Repeater ID="rptDay4" runat="server" OnItemDataBound="rptDay4_ItemDataBound">
+                                    <asp:Repeater ID="rptDay4" runat="server">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -166,15 +180,20 @@
                                 </td>
                                 <td valign="top" id="tdSchoolDay5" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Jumat") %></h4>
-                                    <asp:Repeater ID="rptDay5" runat="server" OnItemDataBound="rptDay5_ItemDataBound">
+                                    <asp:Repeater ID="rptDay5" runat="server">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
@@ -184,46 +203,26 @@
                                 </td>
                                 <td valign="top" id="tdSchoolDay6" runat="server"> 
                                     <h4 style="text-align: center"><%=GetLabel("Sabtu") %></h4>
-                                    <asp:Repeater ID="rptDay6" runat="server" OnItemDataBound="rptDay6_ItemDataBound">
+                                    <asp:Repeater ID="rptDay6" runat="server">
                                         <HeaderTemplate>
                                             <table class="tblSchedule" cellpadding="0" cellspacing="0">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr class='T<%#Eval("cfDailyScheduleType") %>'>
-                                                <td style="display:none" id="tdClassSubjectID" runat="server" class="tdClassSubjectID"></td>
-                                                <td style="display:none" id="tdClassScheduleID" runat="server" class="tdClassScheduleID"></td>
-                                                <td id="tdHtmlText" runat="server"><%#Eval("StartTime") %> - <%#Eval("EndTime") %></td>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
                                             </table>
                                         </FooterTemplate>
                                     </asp:Repeater>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />    
-                        <table style="width:100%">
-                            <colgroup>
-                                <col style="width: 50%" />
-                            </colgroup>
-                            <tr>
-                                <td valign="top">
-                                    <div style="font-weight: bold;"><%=GetLabel("Keterangan") %> :</div>
-                                    <asp:Repeater ID="rptRemarks" runat="server">
-                                        <HeaderTemplate>
-                                            <table>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <tr>
-                                                <td><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
-                                                <td><%#Eval("StandardCodeName") %></td>
-                                            </tr>
-                                        </ItemTemplate>
-                                        <FooterTemplate>
-                                            </table>
-                                        </FooterTemplate>
-                                    </asp:Repeater>            
                                 </td>
                             </tr>
                         </table>

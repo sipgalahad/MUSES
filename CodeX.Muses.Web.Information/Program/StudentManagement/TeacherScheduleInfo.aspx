@@ -76,10 +76,12 @@
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
         .tblSchedule tr td                  { border: 1px solid #333; }
-        .tblSchedule tr.T001                { height: 75px; }
+        .tblSchedule tr.T001,                 
+        .tblSchedule tr.T999                { height: 75px; cursor: pointer; }
         .tblSchedule tr.T001 b              { color: Red; }
         .tblSchedule tr.T001 b.bPicket      { color: Blue; }
         .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
+        .tblSchedule tr.T999 td, .nts999    { background-color: #A32FD9; }
     </style>
 
     <div class="divTransactionEntry">
@@ -202,6 +204,143 @@
                                     </asp:Repeater>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="6"><h4 style="font-weight: bold; margin-top: 20px;"><%=GetLabel("Ekskul") %></h4></td>
+                            </tr>
+                            <tr>
+                                <td valign="top" id="tdExtra1" runat="server">
+                                    <asp:Repeater ID="rptExtra1" runat="server">
+                                        <HeaderTemplate>
+                                            <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </td>
+                                <td valign="top" id="tdExtra2" runat="server">
+                                    <asp:Repeater ID="rptExtra2" runat="server">
+                                        <HeaderTemplate>
+                                            <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </td>
+                                <td valign="top" id="tdExtra3" runat="server">
+                                    <asp:Repeater ID="rptExtra3" runat="server">
+                                        <HeaderTemplate>
+                                            <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </td>
+                                <td valign="top" id="tdExtra4" runat="server">
+                                    <asp:Repeater ID="rptExtra4" runat="server">
+                                        <HeaderTemplate>
+                                            <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </td>
+                                <td valign="top" id="tdExtra5" runat="server">
+                                    <asp:Repeater ID="rptExtra5" runat="server">
+                                        <HeaderTemplate>
+                                            <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </td>
+                                <td valign="top" id="tdExtra6" runat="server">
+                                    <asp:Repeater ID="rptExtra6" runat="server">
+                                        <HeaderTemplate>
+                                            <table class="tblSchedule" cellpadding="0" cellspacing="0">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <tr class='T999'>
+                                                <td style="display:none" class="tdClassSubjectID"><%#Eval("ClassSubjectID") %></td>
+                                                <td style="display:none" class="tdClassScheduleID"><%#Eval("ClassScheduleID") %></td>
+                                                <td id="tdHtmlText" runat="server">
+                                                    <%#Eval("StartTime") %> - <%#Eval("EndTime") %><br />
+                                                    <%#Eval("SchoolClassName") %><br />
+                                                    (<b><%#Eval("SubjectName")%></b>)<br />
+                                                    <%#Eval("RoomName")%>
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </table>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                </td>
+                            </tr>
                         </table>
                         <br />    
                         <table style="width:100%">
@@ -222,6 +361,10 @@
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
+                                                <tr>
+                                                    <td><div class='nts999' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
+                                                    <td><%=GetLabel("Ekskul") %></td>
+                                                </tr>
                                             </table>
                                         </FooterTemplate>
                                     </asp:Repeater>            

@@ -28,6 +28,11 @@ namespace CodeX.Muses.Web.Information.Program
             return Constant.MenuCode.Information.CLASS_SCHEDULE_INFO;
         }
 
+        protected string OnGetClassStudyTypeRegular()
+        {
+            return Constant.ClassStudyType.REGULAR;
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
             List<StandardCode> lstSchoolDay = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAY));
