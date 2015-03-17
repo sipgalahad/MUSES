@@ -13,7 +13,8 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtMeetingNo.ClientID %>').val('');
+                $('#<%=txtSubjectMatterCode.ClientID %>').val('');
+                $('#<%=txtSubjectMatterName.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
 
                 $('#entryDetailContainer').show();
@@ -46,7 +47,8 @@
             var entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterID);
-            $('#<%=txtMeetingNo.ClientID %>').val(entity.MeetingNo);
+            $('#<%=txtSubjectMatterCode.ClientID %>').val(entity.SubjectMatterCode);
+            $('#<%=txtSubjectMatterName.ClientID %>').val(entity.SubjectMatterName);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
             $('#entryDetailContainer').show();
         });
@@ -76,28 +78,21 @@
         function onCboFilterValueChanged() {
             cbpView.PerformCallback('refresh');
         }
+
+        $('.lnkSubjectMatterDt a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMatterDtEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectMatterID, 'Detil Pertemuan', 800, 550);
+        });
+
+        $('.lnkClassType a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMatterClassTypeEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectMatterID, 'Tipe Kelas', 800, 550);
+        });
     </script>
-    <table>
-        <colgroup>
-            <col style="width:150px" />
-        </colgroup>
-        <tr>
-            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tingkat (Kelas)")%></label></td>
-            <td>
-                <dxe:ASPxComboBox runat="server" ID="cboGrade" ClientInstanceName="cboGrade" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboFilterValueChanged(s); }" />
-                </dxe:ASPxComboBox>
-            </td>
-        </tr>
-        <tr>
-            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jurusan")%></label></td>
-            <td>
-                <dxe:ASPxComboBox runat="server" ID="cboMajor" ClientInstanceName="cboMajor" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboFilterValueChanged(s); }" />
-                </dxe:ASPxComboBox>
-            </td>
-        </tr>
-    </table>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -114,8 +109,12 @@
                                     <col style="width: 150px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pertemuan Ke")%></label></td>
-                                    <td><asp:TextBox ID="txtMeetingNo" runat="server" CssClass="number" Width="80px" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
+                                    <td><asp:TextBox ID="txtSubjectMatterCode" runat="server" Width="100px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
+                                    <td><asp:TextBox ID="txtSubjectMatterName" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
@@ -144,15 +143,18 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
-                                <asp:TemplateField HeaderStyle-Width="10px" />
+                                <asp:BoundField DataField="SubjectMatterCode" HeaderText="Kode" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Nama" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
+                                <asp:HyperLinkField HeaderText="Detil Pertemuan" Text="Detil Pertemuan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubjectMatterDt" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Tipe Kelas" Text="Tipe Kelas" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkClassType" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("SubjectMatterID") %>" bindingfield="SubjectMatterID" />
-                                        <input type="hidden" value="<%#Eval("MeetingNo") %>" bindingfield="MeetingNo" />
+                                        <input type="hidden" value="<%#Eval("SubjectMatterCode") %>" bindingfield="SubjectMatterCode" />
+                                        <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

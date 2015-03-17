@@ -63,9 +63,6 @@
         //#endregion
 
         $('.lnkDetail a').live('click', function () {
-            //var id = $(this).closest('tr').find('.keyField').html();
-            //var url = ResolveUrl("~/Program/Master/Subject/SubjectGradeMajorEntryCtl.ascx");
-            //openUserControlPopup(url, id, 'Detil Pelajaran', 600, 500);
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl('~/Program/Master/Subject/SubjectPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Subject', '1300', '650');

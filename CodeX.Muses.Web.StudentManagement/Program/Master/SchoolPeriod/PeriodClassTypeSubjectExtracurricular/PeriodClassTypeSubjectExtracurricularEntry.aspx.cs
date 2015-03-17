@@ -29,7 +29,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             BindGridView();
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacSubjectMatter, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -100,6 +101,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
+            if (tacSubjectMatter.Value != "")
+                entity.SubjectMatterID = Convert.ToInt32(tacSubjectMatter.Value);
+            else
+                entity.SubjectMatterID = null;
             entity.NoMeetingHoursInWeek = 1;
         }
 

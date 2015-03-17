@@ -7421,30 +7421,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vSubjectGradeMajor
-        public static List<vSubjectGradeMajor> GetvSubjectGradeMajorList(string filterExpression)
-        {
-            List<vSubjectGradeMajor> result = new List<vSubjectGradeMajor>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vSubjectGradeMajor));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vSubjectGradeMajor)helper.IDataReaderToObject(reader, new vSubjectGradeMajor()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region vSubLedgerHd
         public static List<vSubLedgerHd> GetvSubLedgerHdList(string filterExpression)
         {

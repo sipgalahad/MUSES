@@ -34,14 +34,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            vSchoolClass schoolClass = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID)).FirstOrDefault();
-            string filterExpression = string.Format("SubjectID = {0} AND IsDeleted = 0 AND GCGrade = '{1}'", classSubject.SubjectID, schoolClass.GCGrade);
-            if (schoolClass.GCMajor != "")
-                filterExpression += string.Format(" AND GCMajor = '{0}'", schoolClass.GCMajor);
-            else
-                filterExpression += " AND GCMajor IS NULL";
-
-            grdView.DataSource = BusinessLayer.GetSubjectMatterList(filterExpression);
+            string filterExpression = string.Format("SubjectMatterID = {0} AND IsDeleted = 0", classSubject.SubjectMatterID);
+            grdView.DataSource = BusinessLayer.GetSubjectMatterDtList(filterExpression);
             grdView.DataBind();
         }
 

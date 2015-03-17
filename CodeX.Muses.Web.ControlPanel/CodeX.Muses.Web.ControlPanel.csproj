@@ -178,10 +178,10 @@
     <Content Include="Program\Master\Subject\PersonalityList.aspx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
-    <Content Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
     <Content Include="Program\Master\Supplier\SupplierEntry.aspx" />
@@ -912,6 +912,13 @@
     <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.designer.cs">
       <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterDtEntryCtl.ascx.cs">
+      <DependentUpon>SubjectMatterDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectMatterDtEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.cs">
       <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -919,12 +926,12 @@
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.designer.cs">
       <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx.cs">
-      <DependentUpon>SubjectGradeMajorEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx.cs">
+      <DependentUpon>SubjectMatterClassTypeEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectGradeMajor\SubjectGradeMajorEntry.aspx.designer.cs">
-      <DependentUpon>SubjectGradeMajorEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectMatterClassTypeEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectPageLauncher.aspx.cs">
       <DependentUpon>SubjectPageLauncher.aspx</DependentUpon>
@@ -932,13 +939,6 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectPageLauncher.aspx.designer.cs">
       <DependentUpon>SubjectPageLauncher.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx.cs">
-      <DependentUpon>SubjectGradeMajorEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectGradeMajorEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectGradeMajorEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectEntry.aspx.cs">
       <DependentUpon>SubjectEntry.aspx</DependentUpon>

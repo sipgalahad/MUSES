@@ -17,6 +17,8 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 tacSubject.setValue('');
                 tacSubject.setText('');
+                tacSubjectMatter.setValue('');
+                tacSubjectMatter.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
@@ -58,6 +60,8 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeSubjectID);
             tacSubject.setValue(entity.SubjectID);
             tacSubject.setText(entity.SubjectName);
+            tacSubjectMatter.setValue(entity.SubjectMatterID);
+            tacSubjectMatter.setText(entity.SubjectMatterName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
@@ -101,6 +105,36 @@
         }
 
         function onTacSubjectValueChanged() {
+        }
+        //#endregion
+
+        //#region Subject Matter
+        function onGetSubjectMatterHdFilterExpression() {
+            var filterExpression = "1 = 0";
+            var subjectID = tacSubject.getValue();
+            if (subjectID != '')
+                filterExpression = "SubjectID = " + subjectID + " AND IsDeleted = 0";
+            return filterExpression;
+        }
+
+        function onTacSubjectMatterButtonSearchClick() {
+            openSearchDialog('subjectmatter', onGetSubjectMatterHdFilterExpression(), function (value) {
+                var filterExpression = onGetSubjectMatterHdFilterExpression() + " AND SubjectMatterCode = '" + value + "'";
+                Methods.getObject('GetSubjectMatterHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSubjectMatter.setValue(result.SubjectMatterID);
+                        tacSubjectMatter.setText(result.SubjectMatterName);
+                    }
+                    else {
+                        tacSubjectMatter.setValue('');
+                        tacSubjectMatter.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacSubjectMatterValueChanged() {
         }
         //#endregion
 
@@ -191,7 +225,7 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Pelajaran")%></label></td>
                                     <td>
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectGradeMajorList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectClassTypeList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
                                             SearchFields="SubjectName,SubjectCode" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectCode}</b>)" OrderByExpression="SubjectName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacSubjectValueChanged(); }" />
@@ -205,6 +239,16 @@
                                             SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacTeacherValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatter" ClientInstanceName="tacSubjectMatter" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
+                                            SearchFields="SubjectMatterName,SubjectMatterCode" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacSubjectMatterValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
@@ -243,7 +287,8 @@
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
-                                <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="280px" />
+                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Materi" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
@@ -253,6 +298,8 @@
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("SubjectMatterID") %>" bindingfield="SubjectMatterID" />
+                                        <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />

@@ -22,18 +22,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_GRADE, Constant.StandardCode.SCHOOL_MAJOR));
-            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-            Methods.SetComboBoxField<StandardCode>(cboGrade, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_GRADE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboMajor, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_MAJOR || p.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
-
-            cboGrade.SelectedIndex = 0;
-            cboMajor.SelectedIndex = 0;
-
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtMeetingNo, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtSubjectMatterCode, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtSubjectMatterName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -44,13 +37,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SubjectID = {0} AND IsDeleted = 0 AND GCGrade = '{1}'", AppSession.SubjectID, cboGrade.Value);
-            if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
-                filterExpression += string.Format(" AND GCMajor = '{0}'", cboMajor.Value);
-            else
-                filterExpression += " AND GCMajor IS NULL";
-
-            grdView.DataSource = BusinessLayer.GetSubjectMatterList(filterExpression);
+            string filterExpression = string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.SubjectID);
+            grdView.DataSource = BusinessLayer.GetSubjectMatterHdList(filterExpression);
             grdView.DataBind();
         }
 
@@ -96,9 +84,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectMatter entity)
+        private void ControlToEntity(SubjectMatterHd entity)
         {
-            entity.MeetingNo = Convert.ToInt16(txtMeetingNo.Text);
+            entity.SubjectMatterCode = txtSubjectMatterCode.Text;
+            entity.SubjectMatterName = txtSubjectMatterName.Text;
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -106,16 +95,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatter entity = new SubjectMatter();
+                SubjectMatterHd entity = new SubjectMatterHd();
                 ControlToEntity(entity);
-                entity.GCGrade = cboGrade.Value.ToString();
-                if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
-                    entity.GCMajor = cboMajor.Value.ToString();
-                else
-                    entity.GCMajor = null;
                 entity.SubjectID = AppSession.SubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectMatter(entity);
+                BusinessLayer.InsertSubjectMatterHd(entity);
                 return true;
             }
             catch (Exception ex)
@@ -130,10 +114,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatter entity = BusinessLayer.GetSubjectMatter(Convert.ToInt32(hdnEntryID.Value));
+                SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatter(entity);
+                BusinessLayer.UpdateSubjectMatterHd(entity);
                 return true;
             }
             catch (Exception ex)
@@ -148,10 +132,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatter entity = BusinessLayer.GetSubjectMatter(Convert.ToInt32(hdnEntryID.Value));
+                SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatter(entity);
+                BusinessLayer.UpdateSubjectMatterHd(entity);
                 return true;
             }
             catch (Exception ex)

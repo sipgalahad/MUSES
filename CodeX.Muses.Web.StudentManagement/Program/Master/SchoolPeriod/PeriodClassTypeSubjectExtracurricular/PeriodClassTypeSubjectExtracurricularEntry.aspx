@@ -19,6 +19,8 @@
                 tacSubject.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
+                tacSubjectMatter.setValue('');
+                tacSubjectMatter.setText('');
                 $('#entryDetailContainer').show();
             });
 
@@ -53,6 +55,8 @@
             tacSubject.setText(entity.SubjectName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
+            tacSubjectMatter.setValue(entity.SubjectMatterID);
+            tacSubjectMatter.setText(entity.SubjectMatterName);
             $('#entryDetailContainer').show();
         });
 
@@ -115,6 +119,36 @@
         }
         //#endregion
 
+        //#region Subject Matter
+        function onGetSubjectMatterHdFilterExpression() {
+            var filterExpression = "1 = 0";
+            var subjectID = tacSubject.getValue();
+            if (subjectID != '')
+                filterExpression = "SubjectID = " + subjectID + " AND IsDeleted = 0";
+            return filterExpression;
+        }
+
+        function onTacSubjectMatterButtonSearchClick() {
+            openSearchDialog('subjectmatter', onGetSubjectMatterHdFilterExpression(), function (value) {
+                var filterExpression = onGetSubjectMatterHdFilterExpression() + " AND SubjectMatterCode = '" + value + "'";
+                Methods.getObject('GetSubjectMatterHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSubjectMatter.setValue(result.SubjectMatterID);
+                        tacSubjectMatter.setText(result.SubjectMatterName);
+                    }
+                    else {
+                        tacSubjectMatter.setValue('');
+                        tacSubjectMatter.setText('');
+                    }
+                });
+            });
+
+        }
+
+        function onTacSubjectMatterValueChanged() {
+        }
+        //#endregion
+
         function onCboClassTypeValueChanged(s) {
             $('#btnCancel').click();
             cbpView.PerformCallback('refresh');
@@ -172,7 +206,7 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Ekskul")%></label></td>
                                     <td>
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectGradeMajorList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectClassTypeList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
                                             SearchFields="SubjectName,SubjectCode" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectCode}</b>)" OrderByExpression="SubjectName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacSubjectValueChanged(); }" />
@@ -186,6 +220,16 @@
                                             SearchFields="TeacherName,TeacherCode" TextField="TeacherName" ValueField="TeacherID" SearchText="${TeacherName} (<b>${TeacherCode}</b>)" OrderByExpression="TeacherName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacTeacherButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacTeacherValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>   
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatter" ClientInstanceName="tacSubjectMatter" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
+                                            SearchFields="SubjectMatterName,SubjectMatterCode" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacSubjectMatterValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
@@ -216,7 +260,8 @@
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Ekskul"/>
-                                <asp:BoundField DataField="TeacherName" HeaderText="Pembina" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="TeacherName" HeaderText="Pembina" HeaderStyle-Width="280px" />
+                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Materi" HeaderStyle-Width="200px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
@@ -226,6 +271,8 @@
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
+                                        <input type="hidden" value="<%#Eval("SubjectMatterID") %>" bindingfield="SubjectMatterID" />
+                                        <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

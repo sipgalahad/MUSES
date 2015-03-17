@@ -12,28 +12,23 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SubjectGradeMajorEntryCtl : BaseViewPopupCtl
+    public partial class SubjectMatterDtEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_GRADE, Constant.StandardCode.SCHOOL_MAJOR));
-            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "" });
-            Methods.SetComboBoxField<StandardCode>(cboGrade, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_GRADE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboMajor, lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_MAJOR || p.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
-
             hdnID.Value = param;
-            Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(hdnID.Value));
-            txtHeaderText.Text = string.Format("{0} - {1}", entity.SubjectCode, entity.SubjectName);
+            SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnID.Value));
+            txtHeaderText.Text = string.Format("{0} - {1}", entity.SubjectMatterCode, entity.SubjectMatterName);
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(cboMajor, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtMeetingNo, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetvSubjectGradeMajorList(string.Format("SubjectID = {0} ORDER BY GCGrade ASC", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetSubjectMatterDtList(string.Format("SubjectMatterID = {0} ORDER BY MeetingNo ASC", hdnID.Value));
             grdView.DataBind();
         }
 
@@ -51,7 +46,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             result = param[0] + "|";
             if (param[0] == "save")
             {
-                if (hdnIsAdd.Value.ToString() != "1")
+                if (hdnEntryID.Value.ToString() != "")
                 {
                     if (OnSaveEditRecordEntityDt(ref errMessage))
                         result += "success";
@@ -78,23 +73,21 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectGradeMajor entity)
+        private void ControlToEntity(SubjectMatterDt entity)
         {
-            if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
-                entity.GCMajor = cboMajor.Value.ToString();
-            else
-                entity.GCMajor = null;
+            entity.MeetingNo = Convert.ToInt16(txtMeetingNo.Text);
+            entity.Remarks = txtRemarks.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             try
             {
-                SubjectGradeMajor entity = new SubjectGradeMajor();
+                SubjectMatterDt entity = new SubjectMatterDt();
                 ControlToEntity(entity);
-                entity.GCGrade = cboGrade.Value.ToString();
-                entity.SubjectID = Convert.ToInt32(hdnID.Value);
-                BusinessLayer.InsertSubjectGradeMajor(entity);
+                entity.SubjectMatterID = Convert.ToInt32(hdnID.Value);
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.InsertSubjectMatterDt(entity);
                 return true;
             }
             catch (Exception ex)
@@ -109,9 +102,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectGradeMajor entity = BusinessLayer.GetSubjectGradeMajor(Convert.ToInt32(hdnID.Value), cboGrade.Value.ToString());
+                SubjectMatterDt entity = BusinessLayer.GetSubjectMatterDt(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
-                BusinessLayer.UpdateSubjectGradeMajor(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateSubjectMatterDt(entity);
                 return true;
             }
             catch (Exception ex)
@@ -126,7 +120,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                BusinessLayer.DeleteSubjectGradeMajor(Convert.ToInt32(hdnID.Value), cboGrade.Value.ToString());
+                SubjectMatterDt entity = BusinessLayer.GetSubjectMatterDt(Convert.ToInt32(hdnID.Value));
+                entity.IsDeleted = true;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateSubjectMatterDt(entity);
                 return true;
             }
             catch (Exception ex)

@@ -1640,6 +1640,7 @@ namespace CodeX.Data.Model
         private Int32 _RoomID;
         private String _RoomName;
         private Int16 _PassingGrade;
+        private Int32 _SubjectMatterID;
         private String _GCClassStudyType;
         private Boolean _IsDeleted;
 
@@ -1756,6 +1757,12 @@ namespace CodeX.Data.Model
         {
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
+        }
+        [Column(Name = "SubjectMatterID", DataType = "Int32")]
+        public Int32 SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType
@@ -10233,6 +10240,9 @@ namespace CodeX.Data.Model
         private String _SubjectCode;
         private String _SubjectName;
         private String _GCClassStudyType;
+        private Int32 _SubjectMatterID;
+        private String _SubjectMatterCode;
+        private String _SubjectMatterName;
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _TeacherName;
@@ -10312,6 +10322,24 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "SubjectMatterID", DataType = "Int32")]
+        public Int32 SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
+        }
+        [Column(Name = "SubjectMatterCode", DataType = "String")]
+        public String SubjectMatterCode
+        {
+            get { return _SubjectMatterCode; }
+            set { _SubjectMatterCode = value; }
+        }
+        [Column(Name = "SubjectMatterName", DataType = "String")]
+        public String SubjectMatterName
+        {
+            get { return _SubjectMatterName; }
+            set { _SubjectMatterName = value; }
         }
         [Column(Name = "TeacherID", DataType = "Int32")]
         public Int32 TeacherID
@@ -18947,70 +18975,6 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
-        }
-        [Column(Name = "GCGrade", DataType = "String")]
-        public String GCGrade
-        {
-            get { return _GCGrade; }
-            set { _GCGrade = value; }
-        }
-        [Column(Name = "Grade", DataType = "String")]
-        public String Grade
-        {
-            get { return _Grade; }
-            set { _Grade = value; }
-        }
-        [Column(Name = "GCMajor", DataType = "String")]
-        public String GCMajor
-        {
-            get { return _GCMajor; }
-            set { _GCMajor = value; }
-        }
-        [Column(Name = "Major", DataType = "String")]
-        public String Major
-        {
-            get { return _Major; }
-            set { _Major = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectGradeMajor
-    [Serializable]
-    [Table(Name = "vSubjectGradeMajor")]
-    public class vSubjectGradeMajor
-    {
-        private Int32 _SubjectID;
-        private String _SubjectCode;
-        private String _SubjectName;
-        private String _GCGrade;
-        private String _Grade;
-        private String _GCMajor;
-        private String _Major;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectID", DataType = "Int32")]
-        public Int32 SubjectID
-        {
-            get { return _SubjectID; }
-            set { _SubjectID = value; }
-        }
-        [Column(Name = "SubjectCode", DataType = "String")]
-        public String SubjectCode
-        {
-            get { return _SubjectCode; }
-            set { _SubjectCode = value; }
-        }
-        [Column(Name = "SubjectName", DataType = "String")]
-        public String SubjectName
-        {
-            get { return _SubjectName; }
-            set { _SubjectName = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade

@@ -9545,34 +9545,91 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region SubjectGradeMajor
-        public static SubjectGradeMajor GetSubjectGradeMajor(Int32 SubjectID, String GCGrade)
+        #region SubjectMatterClassType
+        public static SubjectMatterClassType GetSubjectMatterClassType(Int32 SubjectMatterID, Int32 ClassTypeID)
         {
-            return new SubjectGradeMajorDao().Get(SubjectID, GCGrade);
+            return new SubjectMatterClassTypeDao().Get(SubjectMatterID, ClassTypeID);
         }
-        public static int InsertSubjectGradeMajor(SubjectGradeMajor record)
+        public static int InsertSubjectMatterClassType(SubjectMatterClassType record)
         {
-            return new SubjectGradeMajorDao().Insert(record);
+            return new SubjectMatterClassTypeDao().Insert(record);
         }
-        public static int UpdateSubjectGradeMajor(SubjectGradeMajor record)
+        public static int UpdateSubjectMatterClassType(SubjectMatterClassType record)
         {
-            return new SubjectGradeMajorDao().Update(record);
+            return new SubjectMatterClassTypeDao().Update(record);
         }
-        public static int DeleteSubjectGradeMajor(Int32 SubjectID, String GCGrade)
+        public static int DeleteSubjectMatterClassType(Int32 SubjectMatterID, Int32 ClassTypeID)
         {
-            return new SubjectGradeMajorDao().Delete(SubjectID, GCGrade);
+            return new SubjectMatterClassTypeDao().Delete(SubjectMatterID, ClassTypeID);
         }
-        public static List<SubjectGradeMajor> GetSubjectGradeMajorList(string filterExpression)
+        public static List<SubjectMatterClassType> GetSubjectMatterClassTypeList(string filterExpression)
         {
-            List<SubjectGradeMajor> result = new List<SubjectGradeMajor>();
+            List<SubjectMatterClassType> result = new List<SubjectMatterClassType>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(SubjectGradeMajor));
+                DbHelper helper = new DbHelper(typeof(SubjectMatterClassType));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((SubjectGradeMajor)helper.IDataReaderToObject(reader, new SubjectGradeMajor()));
+                        result.Add((SubjectMatterClassType)helper.IDataReaderToObject(reader, new SubjectMatterClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectMatterClassType> GetSubjectMatterClassTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectMatterClassType> result = new List<SubjectMatterClassType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMatterClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMatterClassType)helper.IDataReaderToObject(reader, new SubjectMatterClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectMatterDt
+        public static SubjectMatterDt GetSubjectMatterDt(Int32 SubjectMatterDtID)
+        {
+            return new SubjectMatterDtDao().Get(SubjectMatterDtID);
+        }
+        public static int InsertSubjectMatterDt(SubjectMatterDt record)
+        {
+            return new SubjectMatterDtDao().Insert(record);
+        }
+        public static int UpdateSubjectMatterDt(SubjectMatterDt record)
+        {
+            return new SubjectMatterDtDao().Update(record);
+        }
+        public static int DeleteSubjectMatterDt(Int32 SubjectMatterDtID)
+        {
+            return new SubjectMatterDtDao().Delete(SubjectMatterDtID);
+        }
+        public static List<SubjectMatterDt> GetSubjectMatterDtList(string filterExpression)
+        {
+            List<SubjectMatterDt> result = new List<SubjectMatterDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMatterDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMatterDt)helper.IDataReaderToObject(reader, new SubjectMatterDt()));
             }
             catch (Exception ex)
             {
@@ -9585,34 +9642,34 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region SubjectMatter
-        public static SubjectMatter GetSubjectMatter(Int32 SubjectMatterID)
+        #region SubjectMatterHd
+        public static SubjectMatterHd GetSubjectMatterHd(Int32 SubjectMatterID)
         {
-            return new SubjectMatterDao().Get(SubjectMatterID);
+            return new SubjectMatterHdDao().Get(SubjectMatterID);
         }
-        public static int InsertSubjectMatter(SubjectMatter record)
+        public static int InsertSubjectMatterHd(SubjectMatterHd record)
         {
-            return new SubjectMatterDao().Insert(record);
+            return new SubjectMatterHdDao().Insert(record);
         }
-        public static int UpdateSubjectMatter(SubjectMatter record)
+        public static int UpdateSubjectMatterHd(SubjectMatterHd record)
         {
-            return new SubjectMatterDao().Update(record);
+            return new SubjectMatterHdDao().Update(record);
         }
-        public static int DeleteSubjectMatter(Int32 SubjectMatterID)
+        public static int DeleteSubjectMatterHd(Int32 SubjectMatterID)
         {
-            return new SubjectMatterDao().Delete(SubjectMatterID);
+            return new SubjectMatterHdDao().Delete(SubjectMatterID);
         }
-        public static List<SubjectMatter> GetSubjectMatterList(string filterExpression)
+        public static List<SubjectMatterHd> GetSubjectMatterHdList(string filterExpression)
         {
-            List<SubjectMatter> result = new List<SubjectMatter>();
+            List<SubjectMatterHd> result = new List<SubjectMatterHd>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(SubjectMatter));
+                DbHelper helper = new DbHelper(typeof(SubjectMatterHd));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((SubjectMatter)helper.IDataReaderToObject(reader, new SubjectMatter()));
+                        result.Add((SubjectMatterHd)helper.IDataReaderToObject(reader, new SubjectMatterHd()));
             }
             catch (Exception ex)
             {
