@@ -187,7 +187,7 @@
                                     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
                                         <tr>
                                             <th><%=GetLabel("Siswa") %></th>
-                                            <th class="thCenter" style="width:300px"><%=GetLabel("Nilai") %></th>
+                                            <th class="thCenter" style="width:80px"><%=GetLabel("Nilai") %></th>
                                         </tr>
                                         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                             <ItemTemplate>
