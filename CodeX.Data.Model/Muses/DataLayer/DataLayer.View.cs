@@ -406,7 +406,7 @@ namespace CodeX.Data.Model
         private DateTime _ARInvoiceDate;
         private DateTime _DueDate;
         private Int32 _RegistrationFeeID;
-        private Int32 _AdmissionFeeCompID;
+        private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
         private String _SFCTShortName;
         private String _GCTransactionStatus;
@@ -461,11 +461,11 @@ namespace CodeX.Data.Model
             get { return _RegistrationFeeID; }
             set { _RegistrationFeeID = value; }
         }
-        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
-        public Int32 AdmissionFeeCompID
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
         {
-            get { return _AdmissionFeeCompID; }
-            set { _AdmissionFeeCompID = value; }
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
         }
         [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
         public String StudentFeeCompTypeName

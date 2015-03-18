@@ -8,6 +8,10 @@
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
+<asp:Content ID="Content3" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnGenerate" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/download.png")%>' alt="" /><div><%=GetLabel("Download")%></div></li>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
@@ -15,7 +19,7 @@
             setDatePicker('<%=txtStartDate.ClientID %>');
             setDatePicker('<%=txtEndDate.ClientID %>');
 
-            $('#btnGenerate').click(function () {
+            $('#<%=btnGenerate.ClientID %>').click(function () {
                 var param = "";
                 $('.chkIsAccepted input:checked').each(function () {
                     var id = $(this).closest('tr').find('.keyField').html();
@@ -111,10 +115,6 @@
                     </table>
                 </td>
             </tr>
-            <tr>
-                <td></td>
-                <td><input type="button" id="btnGenerate" value="Generate" /></td>
-            </tr>
         </table>
     </div>
     <div class="divTransactionEntry">
@@ -145,6 +145,7 @@
                                 <asp:BoundField DataField="DueDateInString" HeaderText="Jatuh Tempo" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" HeaderStyle-Width="210px" />
                                 <asp:BoundField DataField="ClaimedAmount" HeaderText="Jumlah" HeaderStyle-Width="180px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                <asp:CheckBoxField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" HeaderText="Generate" DataField="IsProcessed" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
