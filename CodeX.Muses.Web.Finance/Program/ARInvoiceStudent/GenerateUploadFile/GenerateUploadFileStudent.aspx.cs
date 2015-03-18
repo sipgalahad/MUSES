@@ -99,7 +99,14 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 String StudentID = String.Join(",", lstInvoiceDt.GroupBy(x => x.StudentID).Where(x => x.Key != 0 && x.Key == AppSession.StudentID).Select(x => x.Key));
                 List<Student> lstPS = null;
-                if (StudentID != "") lstPS = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", StudentID));
+                List<SchoolClass> lstSchoolClass = null;
+                if (StudentID != "") 
+                {
+                    lstPS = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", StudentID));
+                    String lstSchooClassID = String.Join(",", lstPS.GroupBy(x => x.SchoolClassID).Where(x => x.Key != 0).Select(x => x.Key));
+                    if (lstSchooClassID != "")
+                        lstSchoolClass = BusinessLayer.GetSchoolClassList(String.Format("SchoolClassID IN ({0})", lstSchooClassID));
+                } 
 
                 SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
 
@@ -116,7 +123,15 @@ namespace CodeX.Muses.Web.Finance.Program
                         String tempFormat = format;
                         tempFormat = tempFormat.Replace("{NBS}", ps.VirtualAccountNo);
                         nbs = ps.VirtualAccountNo;
-                        tempFormat = tempFormat.Replace("{Class}", "Baru");
+                        if (ps.SchoolClassID != null)
+                        {
+                            SchoolClass schoolClass = lstSchoolClass.FirstOrDefault(x => x.SchoolClassID == ps.SchoolClassID);
+                            tempFormat = tempFormat.Replace("{Class}", schoolClass.SchoolClassName);
+                        }
+                        else
+                        {
+                            tempFormat = tempFormat.Replace("{Class}", "Siswa");
+                        }
                         SiteParameter sp = lstSiteParameter.FirstOrDefault(x => x.SiteID == ps.SiteID);
                         if (sp != null)
                         {
@@ -133,7 +148,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         int count = 1;
                         foreach (vAdmissionFeeComp obj in sfctList)
                         {
-                            List<vARInvoiceDt> entity = lstObj.Where(x => x.AdmissionFeeCompID == obj.AdmissionFeeCompID).ToList();
+                            List<vARInvoiceDt> entity = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;
                             if (entity.Count > 0)
                             {
@@ -149,13 +164,8 @@ namespace CodeX.Muses.Web.Finance.Program
 
                                 tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount))));
                                 tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount) / 1000)));
+                                count++;
                             }
-                            else
-                            {
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", "");
-                            }
-                            count++;
                         }
                         for (; count < 26; count++)
                         {

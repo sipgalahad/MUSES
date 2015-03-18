@@ -133,7 +133,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         int count = 1;
                         foreach (vAdmissionFeeComp obj in sfctList)
                         {
-                            List<vARInvoiceDt> entity = lstObj.Where(x => x.AdmissionFeeCompID == obj.AdmissionFeeCompID).ToList();
+                            List<vARInvoiceDt> entity = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;
                             if (entity.Count > 0)
                             {
@@ -149,13 +149,9 @@ namespace CodeX.Muses.Web.Finance.Program
 
                                 tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount))));
                                 tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount) / 1000)));
+                                count++;
                             }
-                            else
-                            {
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", "");
-                            }
-                            count++;
+                            
                         }
                         for (; count < 26; count++)
                         {
