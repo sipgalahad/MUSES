@@ -113,11 +113,18 @@
             cbpView.PerformCallback('refresh');
         }
 
-        $('.divDetailEdit').live('click', function () {
+        $('.divEdit').live('click', function () {
             $li = $(this).parent();
             var id = $li.find('.hdnClassSubjectTaskID').val();
             var url = ResolveUrl("~/Program/ClassMeeting/ClassTask/ClassTaskEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Entri Tugas', 600, 350);        
+            openUserControlPopup(url, id, 'Entri Tugas', 600, 350);
+        });
+
+        $('.divRemedial').live('click', function () {
+            $li = $(this).parent();
+            var id = $li.find('.hdnClassSubjectTaskID').val() + '|' + $('#<%=txtPassingGrade.ClientID %>').val();
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassTask/ClassTaskRemedialEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Remidi', 900, 550);
         });
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
@@ -130,9 +137,15 @@
         #ulMeetingViewList li:hover                    { background-color: #BCBCBC; }
         #ulMeetingViewList                             { margin: 0; padding: 0; }
         #ulMeetingViewList .tdMeetingDetail       { padding-left: 5px; }
-    
+        .divDetailEdit:hover                      { text-decoration:underline; }
         h4                                                  { color: #013EDD; }
     </style>
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
+            <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
+        </tr>
+    </table>
     <table style="width:100%">
         <colgroup>
             <col style="width:450px"/>
@@ -153,7 +166,8 @@
                                 <ItemTemplate>
                                     <li>
                                         <div style='float:right;' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;margin-right:10px;' class="divDetailEdit divEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;margin-right:10px;color:Red;' class="divDetailEdit divRemedial"><%=GetLabel("Remidi")%></div>
                                         <input type="hidden" value='<%# Eval("ClassSubjectTaskID") %>' class="hdnClassSubjectTaskID" />
                                         <div class="divMeetingDate"><%# Eval("TaskDate", "{0:dd MMM}")%><br /><%# Eval("TaskDate", "{0:yyyy}")%></div>
                                         <div style="font-size: 24px; font-weight: 100;"><%#Eval("Topic") %> (<%#Eval("ClassTaskCode")%>)</div>
@@ -187,7 +201,7 @@
                                     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
                                         <tr>
                                             <th><%=GetLabel("Siswa") %></th>
-                                            <th class="thCenter" style="width:80px"><%=GetLabel("Nilai") %></th>
+                                            <th class="thCenter" style="width:85px"><%=GetLabel("Nilai") %></th>
                                         </tr>
                                         <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                                             <ItemTemplate>
@@ -210,9 +224,10 @@
                                                     </td>
                                                     <td align="center">
                                                         <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="80px" />
+                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="60px" />
                                                         <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="200px" runat="server" />
                                                         <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />
+                                                        &nbsp;<b id="bIsRemedial" runat="server" style="color:Red;">R*</b>
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>
@@ -223,6 +238,8 @@
                         </dx:PanelContent>
                     </PanelCollection>
                 </dxcp:ASPxCallbackPanel>
+                <div style="font-weight: bold;"><%=GetLabel("Keterangan") %> :</div>
+                <b style="color:Red;">R*</b> : Remidi
             </td>
         </tr>
     </table>

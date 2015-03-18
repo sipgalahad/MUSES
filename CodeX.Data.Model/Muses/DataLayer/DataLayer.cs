@@ -2788,6 +2788,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectTaskID;
         private Int32 _StudentID;
+        private Boolean _IsRemedial;
+        private Decimal _OriginalMark;
         private Decimal _Mark;
         private String _GCOptionMark;
         private String _DescriptionMark;
@@ -2803,6 +2805,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "IsRemedial", DataType = "Boolean")]
+        public Boolean IsRemedial
+        {
+            get { return _IsRemedial; }
+            set { _IsRemedial = value; }
+        }
+        [Column(Name = "OriginalMark", DataType = "Decimal", IsNullable = true)]
+        public Decimal OriginalMark
+        {
+            get { return _OriginalMark; }
+            set { _OriginalMark = value; }
         }
         [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
         public Decimal Mark
@@ -2859,6 +2873,91 @@ namespace CodeX.Data.Model
             ClassStudentSubjectTaskMark record;
             if (_ctx.Transaction == null)
                 record = new ClassStudentSubjectTaskMarkDao().Get(ClassSubjectTaskID, StudentID);
+            else
+                record = Get(ClassSubjectTaskID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassStudentSubjectTaskRemedialMark
+    [Serializable]
+    [Table(Name = "ClassStudentSubjectTaskRemedialMark")]
+    public class ClassStudentSubjectTaskRemedialMark : DbDataModel
+    {
+        private Int32 _ClassSubjectTaskRemedialID;
+        private Int32 _StudentID;
+        private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _DescriptionMark;
+
+        [Column(Name = "ClassSubjectTaskRemedialID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectTaskRemedialID
+        {
+            get { return _ClassSubjectTaskRemedialID; }
+            set { _ClassSubjectTaskRemedialID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
+        public Decimal Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
+        }
+    }
+
+    public class ClassStudentSubjectTaskRemedialMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectTaskRemedialMark));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectTaskID = "@p_ClassSubjectTaskID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassStudentSubjectTaskRemedialMarkDao() { }
+        public ClassStudentSubjectTaskRemedialMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentSubjectTaskRemedialMark Get(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectTaskID, ClassSubjectTaskID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentSubjectTaskRemedialMark)_helper.DataRowToObject(row, new ClassStudentSubjectTaskRemedialMark());
+        }
+        public int Insert(ClassStudentSubjectTaskRemedialMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentSubjectTaskRemedialMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            ClassStudentSubjectTaskRemedialMark record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentSubjectTaskRemedialMarkDao().Get(ClassSubjectTaskID, StudentID);
             else
                 record = Get(ClassSubjectTaskID, StudentID);
             _helper.Delete(_ctx, record, _isAuditLog);
@@ -3249,6 +3348,154 @@ namespace CodeX.Data.Model
                 record = new ClassSubjectTaskDao().Get(ClassSubjectTaskID);
             else
                 record = Get(ClassSubjectTaskID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassSubjectTaskRemedial
+    [Serializable]
+    [Table(Name = "ClassSubjectTaskRemedial")]
+    public class ClassSubjectTaskRemedial : DbDataModel
+    {
+        private Int32 _ClassSubjectTaskRemedialID;
+        private Int32 _ClassSubjectTaskID;
+        private Int16 _DisplayOrder;
+        private DateTime _TaskDate;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _StartTime;
+        private String _EndTime;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ClassSubjectTaskRemedialID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassSubjectTaskRemedialID
+        {
+            get { return _ClassSubjectTaskRemedialID; }
+            set { _ClassSubjectTaskRemedialID = value; }
+        }
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "TaskDate", DataType = "DateTime")]
+        public DateTime TaskDate
+        {
+            get { return _TaskDate; }
+            set { _TaskDate = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ClassSubjectTaskRemedialDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassSubjectTaskRemedial));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectTaskRemedialID = "@p_ClassSubjectTaskRemedialID";
+        public ClassSubjectTaskRemedialDao() { }
+        public ClassSubjectTaskRemedialDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassSubjectTaskRemedial Get(Int32 ClassSubjectTaskRemedialID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectTaskRemedialID, ClassSubjectTaskRemedialID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassSubjectTaskRemedial)_helper.DataRowToObject(row, new ClassSubjectTaskRemedial());
+        }
+        public int Insert(ClassSubjectTaskRemedial record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassSubjectTaskRemedial record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectTaskRemedialID)
+        {
+            ClassSubjectTaskRemedial record;
+            if (_ctx.Transaction == null)
+                record = new ClassSubjectTaskRemedialDao().Get(ClassSubjectTaskRemedialID);
+            else
+                record = Get(ClassSubjectTaskRemedialID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

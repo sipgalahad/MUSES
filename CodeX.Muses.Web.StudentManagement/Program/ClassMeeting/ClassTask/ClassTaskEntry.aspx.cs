@@ -12,6 +12,7 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using DevExpress.Web.ASPxEditors;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -45,6 +46,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             vClassSubject entity = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnGCSubjectMarkType.Value = entity.GCSubjectMarkType;
+            txtPassingGrade.Text = entity.PassingGrade.ToString();
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
@@ -113,6 +115,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
                 ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
                 TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
+                HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");
 
                 cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}", e.Item.ItemIndex);
                 switch (hdnGCSubjectMarkType.Value)
@@ -129,7 +132,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     txtStudentMark.Text = studentMark.Mark.ToString();
                     cboStudentMarkOption.Value = studentMark.GCOptionMark;
                     txtStudentMarkDescription.Text = studentMark.DescriptionMark;
+                    if (!studentMark.IsRemedial)
+                        bIsRemedial.Style.Add("display", "none");
                 }
+                else
+                    bIsRemedial.Style.Add("display", "none");
             }
         }
 
@@ -172,7 +179,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         {
                             switch (GCSubjectMarkType)
                             {
-                                case Constant.SubjectMarkType.NUMBER: entityDt.Mark = Convert.ToDecimal(temp[1]); break;
+                                case Constant.SubjectMarkType.NUMBER: 
+                                    entityDt.Mark = Convert.ToDecimal(temp[1]);
+                                    if (!entityDt.IsRemedial) 
+                                        entityDt.OriginalMark = entityDt.Mark;
+                                    break;
                                 case Constant.SubjectMarkType.OPTION: entityDt.GCOptionMark = temp[1]; break;
                                 case Constant.SubjectMarkType.TEXT: entityDt.DescriptionMark = temp[1]; break;
                             }

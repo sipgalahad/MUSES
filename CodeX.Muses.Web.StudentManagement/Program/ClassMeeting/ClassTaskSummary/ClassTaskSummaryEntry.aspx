@@ -109,6 +109,12 @@
             openUserControlPopup(url, id, 'Riwayat Siswa', 800, 450);
         });
 
+        $('.bIsRemedial').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + $(this).attr('ClassSubjectTaskID');
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassTaskSummary/StudentRemedialMarkViewDtCtl.ascx");
+            openUserControlPopup(url, id, 'Remidi', 800, 450);
+        });
+
         function onAfterCustomClickSuccess(type) {
             if (type == 'approve') {
                 $('#<%=btnApprove.ClientID %>').hide();
@@ -208,6 +214,10 @@
         }
         //#endregion
     </script>
+    <style type="text/css">
+        .bIsRemedial                { cursor: pointer; }
+        .bIsRemedial:hover          { text-decoration: underline; }
+    </style>
     <input type="hidden" id="hdnListSaveHeaderValue" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
@@ -287,7 +297,7 @@
                             <ItemTemplate>
                                 <td align="center">
                                     <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                    <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="80px" />
+                                    <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
                                     <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
                                     <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkTheoryDescription" Text="" Width="390px" />                         
                                 </td>

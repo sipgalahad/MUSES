@@ -199,12 +199,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         break;
                     case Constant.SubjectMarkType.TEXT: cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
                 }
+                HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");
                 if (studentMark != null)
                 {
                     txtStudentMark.Text = studentMark.Mark.ToString();
                     cboStudentMarkOption.Value = studentMark.GCOptionMark;
                     txtStudentMarkDescription.Text = studentMark.DescriptionMark;
+                    if (!studentMark.IsRemedial)
+                        bIsRemedial.Style.Add("display", "none");
                 }
+                else
+                    bIsRemedial.Style.Add("display", "none");
+
+                bIsRemedial.Attributes.Add("ClassSubjectTaskID", subjectTask.ClassSubjectTaskID.ToString());
             }
         }
 

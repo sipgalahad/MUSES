@@ -108,7 +108,9 @@
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
     <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
+    <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
@@ -501,12 +503,26 @@
     <Compile Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx.designer.cs">
       <DependentUpon>ExtracurricularWeeklyScheduleList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx.cs">
+      <DependentUpon>StudentRemedialMarkViewDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentRemedialMarkViewDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx.cs">
       <DependentUpon>StudentSummaryViewDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx.designer.cs">
       <DependentUpon>StudentSummaryViewDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.cs">
+      <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.designer.cs">
+      <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx.cs">
       <DependentUpon>StudentNoteViewDtCtl.ascx</DependentUpon>

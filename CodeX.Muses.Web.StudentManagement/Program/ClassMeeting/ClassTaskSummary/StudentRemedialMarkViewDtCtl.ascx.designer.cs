@@ -10,25 +10,16 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassTaskEntry {
+    public partial class StudentRemedialMarkViewDtCtl {
         
         /// <summary>
-        /// btnSave control.
+        /// hdnStudentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSave;
-        
-        /// <summary>
-        /// hdnListSaveValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentID;
         
         /// <summary>
         /// hdnClassSubjectTaskID control.
@@ -40,75 +31,48 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassSubjectTaskID;
         
         /// <summary>
-        /// hdnGCSubjectMarkType control.
+        /// txtHeaderText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCSubjectMarkType;
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
         
         /// <summary>
-        /// txtPassingGrade control.
+        /// txtHeaderText2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText2;
         
         /// <summary>
-        /// cbpView control.
+        /// txtOriginalMark control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.TextBox txtOriginalMark;
         
         /// <summary>
-        /// PanelContent2 control.
+        /// txtFinalMark control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent2;
+        protected global::System.Web.UI.WebControls.TextBox txtFinalMark;
         
         /// <summary>
-        /// rptMeetingView control.
+        /// grdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMeetingView;
-        
-        /// <summary>
-        /// cbpMeetingDetail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMeetingDetail;
-        
-        /// <summary>
-        /// PanelContent1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
-        
-        /// <summary>
-        /// rptStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        protected global::System.Web.UI.WebControls.GridView grdView;
     }
 }

@@ -1365,6 +1365,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassStudentSubjectTaskRemedialMark
+        public static ClassStudentSubjectTaskRemedialMark GetClassStudentSubjectTaskRemedialMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskRemedialMarkDao().Get(ClassSubjectTaskID, StudentID);
+        }
+        public static int InsertClassStudentSubjectTaskRemedialMark(ClassStudentSubjectTaskRemedialMark record)
+        {
+            return new ClassStudentSubjectTaskRemedialMarkDao().Insert(record);
+        }
+        public static int UpdateClassStudentSubjectTaskRemedialMark(ClassStudentSubjectTaskRemedialMark record)
+        {
+            return new ClassStudentSubjectTaskRemedialMarkDao().Update(record);
+        }
+        public static int DeleteClassStudentSubjectTaskRemedialMark(Int32 ClassSubjectTaskID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskRemedialMarkDao().Delete(ClassSubjectTaskID, StudentID);
+        }
+        public static List<ClassStudentSubjectTaskRemedialMark> GetClassStudentSubjectTaskRemedialMarkList(string filterExpression)
+        {
+            List<ClassStudentSubjectTaskRemedialMark> result = new List<ClassStudentSubjectTaskRemedialMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskRemedialMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskRemedialMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskRemedialMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentSubjectTaskRemedialMark> GetClassStudentSubjectTaskRemedialMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentSubjectTaskRemedialMark> result = new List<ClassStudentSubjectTaskRemedialMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskRemedialMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskRemedialMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskRemedialMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassSubject
         public static ClassSubject GetClassSubject(Int32 ClassSubjectID)
         {
@@ -1523,6 +1580,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((ClassSubjectTask)helper.IDataReaderToObject(reader, new ClassSubjectTask()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ClassSubjectTaskRemedial
+        public static ClassSubjectTaskRemedial GetClassSubjectTaskRemedial(Int32 ClassSubjectTaskRemedialID)
+        {
+            return new ClassSubjectTaskRemedialDao().Get(ClassSubjectTaskRemedialID);
+        }
+        public static int InsertClassSubjectTaskRemedial(ClassSubjectTaskRemedial record)
+        {
+            return new ClassSubjectTaskRemedialDao().Insert(record);
+        }
+        public static int UpdateClassSubjectTaskRemedial(ClassSubjectTaskRemedial record)
+        {
+            return new ClassSubjectTaskRemedialDao().Update(record);
+        }
+        public static int DeleteClassSubjectTaskRemedial(Int32 ClassSubjectTaskRemedialID)
+        {
+            return new ClassSubjectTaskRemedialDao().Delete(ClassSubjectTaskRemedialID);
+        }
+        public static List<ClassSubjectTaskRemedial> GetClassSubjectTaskRemedialList(string filterExpression)
+        {
+            List<ClassSubjectTaskRemedial> result = new List<ClassSubjectTaskRemedial>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTaskRemedial));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectTaskRemedial)helper.IDataReaderToObject(reader, new ClassSubjectTaskRemedial()));
             }
             catch (Exception ex)
             {

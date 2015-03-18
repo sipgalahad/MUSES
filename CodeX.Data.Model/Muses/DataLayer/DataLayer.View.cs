@@ -1857,6 +1857,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectTaskID;
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
+        private Boolean _IsRemedial;
         private Decimal _Mark;
         private String _GCOptionMark;
         private String _OptionMark;
@@ -1880,6 +1881,12 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
+        [Column(Name = "IsRemedial", DataType = "Boolean")]
+        public Boolean IsRemedial
+        {
+            get { return _IsRemedial; }
+            set { _IsRemedial = value; }
+        }
         [Column(Name = "Mark", DataType = "Decimal")]
         public Decimal Mark
         {
@@ -1897,6 +1904,77 @@ namespace CodeX.Data.Model
         {
             get { return _OptionMark; }
             set { _OptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String")]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
+        }
+    }
+    #endregion
+    #region vClassStudentSubjectTaskRemedialMark
+    [Serializable]
+    [Table(Name = "vClassStudentSubjectTaskRemedialMark")]
+    public class vClassStudentSubjectTaskRemedialMark
+    {
+        private Int32 _ClassSubjectTaskRemedialID;
+        private Int32 _ClassSubjectTaskID;
+        private Int16 _DisplayOrder;
+        private DateTime _TaskDate;
+        private String _Remarks;
+        private Int32 _StudentID;
+        private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _DescriptionMark;
+
+        [Column(Name = "ClassSubjectTaskRemedialID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskRemedialID
+        {
+            get { return _ClassSubjectTaskRemedialID; }
+            set { _ClassSubjectTaskRemedialID = value; }
+        }
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "TaskDate", DataType = "DateTime")]
+        public DateTime TaskDate
+        {
+            get { return _TaskDate; }
+            set { _TaskDate = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Decimal")]
+        public Decimal Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String")]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
         }
         [Column(Name = "DescriptionMark", DataType = "String")]
         public String DescriptionMark
