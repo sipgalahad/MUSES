@@ -102,6 +102,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                         ClassSubjectModel classSubject = new ClassSubjectModel();
                         classSubject.ClassScheduleID = AppSession.ClassSubject.ClassScheduleID;
+                        classSubject.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                         classSubject.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                         classSubject.ClassMeetingID = BusinessLayer.GetClassMeetingMaxID(ctx);
 

@@ -164,13 +164,24 @@ namespace CodeX.Muses.Web.Finance.Program
                             entityReceivingHd.CashBackAmount = 0;
                             entityReceivingHd.Remarks = "";
                             entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                            entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_PROSPECTIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                            if (entityStudent != null)
+                                entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                            else
+                                entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_PROSPECTIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
                             entityReceivingHd.CreatedBy = entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                             ctx.CommandType = CommandType.Text;
                             ctx.Command.Parameters.Clear();
                             entityReceivingHdDao.Insert(entityReceivingHd);
-
                             entityReceivingHd.ARReceivingID = BusinessLayer.GetARReceivingHdMaxID(ctx);
+
+                            ARReceivingDt entityDt = new ARReceivingDt();
+                            entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
+                            entityDt.GCARPaymentMethod = Constant.PaymentMethod.CASH;
+                            entityDt.PaymentAmount = entityReceivingHd.TotalReceivingAmount;
+                            entityDt.CardFeeAmount = 0;
+                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                            entityReceivingDtDao.Insert(entityDt);
+
                             foreach (vARInvoiceHd obj in lstARInvoiceHd.Where(x => x.VirtualAccount == entity.NBS).ToList())
                             {
                                 ARInvoiceHd arInvoiceHD = arInvoiceHdDao.Get(obj.ARInvoiceID);
@@ -178,14 +189,6 @@ namespace CodeX.Muses.Web.Finance.Program
                                 arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
                                 arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
                                 arInvoiceHdDao.Update(arInvoiceHD);
-
-                                ARReceivingDt entityDt = new ARReceivingDt();
-                                entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
-                                entityDt.GCARPaymentMethod = Constant.PaymentMethod.CASH;
-                                entityDt.PaymentAmount = entityReceivingHd.TotalReceivingAmount;
-                                entityDt.CardFeeAmount = 0;
-                                entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                                entityReceivingDtDao.Insert(entityDt);
 
                                 List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == arInvoiceHD.ARInvoiceID).ToList();
                                 foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
