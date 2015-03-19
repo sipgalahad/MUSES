@@ -133,13 +133,21 @@
         //#region Theory
         var lstFinalMarkPercentageTheory = [];
         function setTotalPercentageTheory() {
-            var total = 0;
             $('.txtFinalMarkPercentageTheory').each(function () {
                 var value = parseFloat($(this).val());
                 lstFinalMarkPercentageTheory.push(value);
-                total += value;
             });
-            $('#txtTotalFinalMarkPercentageTheory').val(total);
+            $('.txtAverageFinalMarkPercentageTheory').each(function () {
+                var formulaDtID = $(this).attr('formuladtid');
+                var totalGroup = 0;
+                $('.txtFinalMarkPercentageTheory[formuladtid="' + formulaDtID + '"]').each(function () {
+                    var value = 0;
+                    if ($(this).val() != "-" && $(this).val() != "")
+                        value = parseFloat($(this).val());
+                    totalGroup += value;
+                });
+                $(this).val(totalGroup);
+            });
             $('.trDetail').each(function () {
                 setStudentFinalMarkTheory($(this));
             });
@@ -159,15 +167,24 @@
             var ctr = 0;
             var total = 0;
 
-            $tr.find('.txtStudentMarkTheory').each(function () {
-                var value = 0;
-                if ($(this).val() != "-")
-                    value = parseFloat($(this).val());
-                total += value * lstFinalMarkPercentageTheory[ctr] / 100;
-                ctr++;
+            $tr.find('.txtAverageStudentMarkTheoryGroup').each(function () {
+                var formulaDtID = $(this).attr('formuladtid');
+                var totalGroup = 0;
+                $tr.find('.txtStudentMarkTheory[formuladtid="' + formulaDtID + '"]').each(function () {
+                    var value = 0;
+                    if ($(this).val() != "-" && $(this).val() != "")
+                        value = parseFloat($(this).val());
+                    var ctr = $tr.find('.txtStudentMarkTheory').index($(this));
+                    totalGroup += value * lstFinalMarkPercentageTheory[ctr] / 100;
+                });
+
+                $(this).val(totalGroup);
+
+                var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
+                total += totalGroup * formulaPercentage / 100;
             });
+
             $tr.find('.txtTotalStudentMarkTheory').val(total);
-            //$tr.find('.txtFinalStudentMarkTheory').val(total);
 
         }
         //#endregion
@@ -234,16 +251,23 @@
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>
                 <th rowspan="3" style="width:300px"><%=GetLabel("Siswa") %></th>
-                <th id="thTheory" runat="server" class="thCenter"><%=GetLabel("TEORI") %></th>
-                <th id="thPractice" runat="server" class="thCenter"><%=GetLabel("PRAKTEK") %></th>
+                <th id="thTheory" runat="server" class="thCenter"><%=GetLabel("KOGNITIF / PENGETAHUAN") %></th>
+                <th id="thPractice" runat="server" class="thCenter"><%=GetLabel("PSIKOMOTORIK / PRAKTEK") %></th>
                 <th colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
                 <th rowspan="3" style="width:200px" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
             </tr>
             <tr> 
-                <th id="thMarkTheory" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
+                <asp:Repeater ID="rptHeaderTheoryTaskGroup" runat="server" OnItemDataBound="rptHeaderTheoryTaskGroup_ItemDataBound">
+                    <ItemTemplate>
+                        <th class="thCenter" id="thHeaderTheoryTaskGroup" runat="server">
+                            <%#Eval("StudentFinalMarkFormulaDtName")%> <br /><%#Eval("FormulaFinalMarkPercentage")%> [%]
+                            <input type="hidden" value='<%#Eval("StudentFinalMarkFormulaDtID")%>' class="StudentFinalMarkFormulaDtID" />
+                        </th>
+                    </ItemTemplate>
+                </asp:Repeater>
                 <th id="thFinalReadonlyMarkTheory" runat="server" rowspan="2" style="width:90px" class="thCenter">
                     <%=GetLabel("Total") %><br />
-                    <input type="text" id="txtTotalFinalMarkPercentageTheory" readonly="readonly" style="width:30px" class="number" />[%]
+                    <span id="spnTotalTheoryPercentage" runat="server"></span> [%]
                 </th>
                 <th id="thFinalMarkTheory" runat="server" rowspan="2" style="width:90px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
                 <th id="thMarkPractice" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
@@ -256,21 +280,30 @@
                 <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
             </tr>
             <tr>
-                <asp:Repeater ID="rptHeaderTheory" runat="server">
+                <asp:Repeater ID="rptHeaderTheoryGroup" runat="server" OnItemDataBound="rptHeaderTheoryGroup_ItemDataBound">
                     <ItemTemplate>
+                        <asp:Repeater ID="rptHeaderTheory" runat="server">
+                            <ItemTemplate>
+                                <th class="thCenter" style="width:90px">
+                                    <%#Eval("ClassTaskCode")%><br />
+                                    <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
+                                    <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" formuladtid='<%#Eval("StudentFinalMarkFormulaDtID") %>' class="number txtFinalMarkPercentageTheory" />[%]
+                                </th>
+                            </ItemTemplate>
+                        </asp:Repeater>
                         <th class="thCenter" style="width:90px">
-                            <%#Eval("ClassTaskCode")%><br />
-                            <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
-                            <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" class="number txtFinalMarkPercentageTheory" />[%]
+                            <%=GetLabel("Rata-Rata") %><br />
+                            <input type="text" class="txtAverageFinalMarkPercentageTheory number" formuladtid='<%#Eval("StudentFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
                         </th>
                     </ItemTemplate>
                 </asp:Repeater>
+                
                 <asp:Repeater ID="rptHeaderPractice" runat="server">
                     <ItemTemplate>
                         <th class="thCenter" style="width:90px">
                             <%#Eval("ClassTaskCode")%><br />
                             <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
-                            <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" class="number txtFinalMarkPercentagePractice" />[%]
+                            <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" formuladtid='<%#Eval("StudentFinalMarkFormulaDtID") %>' class="number txtFinalMarkPercentagePractice" />[%]
                         </th>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -293,14 +326,19 @@
                                 </tr>
                             </table>
                         </td>
-                        <asp:Repeater ID="rptStudentMarkTheory" runat="server" OnItemDataBound="rptStudentMarkTheory_ItemDataBound">
+                        <asp:Repeater ID="rptStudentMarkTheoryGroup" runat="server" OnItemDataBound="rptStudentMarkTheoryGroup_ItemDataBound">
                             <ItemTemplate>
-                                <td align="center">
-                                    <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                    <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
-                                    <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
-                                    <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkTheoryDescription" Text="" Width="390px" />                         
-                                </td>
+                                <asp:Repeater ID="rptStudentMarkTheory" runat="server" OnItemDataBound="rptStudentMarkTheory_ItemDataBound">
+                                    <ItemTemplate>
+                                        <td align="center">
+                                            <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                            <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                            <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
+                                            <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkTheoryDescription" Text="" Width="390px" />                         
+                                        </td>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                <td align="center" id="tdAverageStudentMarkTheoryGroup" runat="server"><input class="txtAverageStudentMarkTheoryGroup number" formulapercentage='<%#Eval("FormulaFinalMarkPercentage") %>' formuladtid='<%#Eval("StudentFinalMarkFormulaDtID") %>' readonly="readonly" style="width:90%" /></td>
                             </ItemTemplate>
                         </asp:Repeater>
                         <td align="center" id="tdTotalStudentMarkTheory" runat="server"><input class="txtTotalStudentMarkTheory number" readonly="readonly" style="width:90%" /></td>

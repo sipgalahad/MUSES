@@ -45,16 +45,29 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.TransactionStatus.APPROVED;
         }
 
-        List<ClassSubjectTask> lstClassTask = null;
-        List<ClassSubjectTask> lstTheory = null;
-        List<ClassSubjectTask> lstPractice = null;
+        List<vClassSubjectTaskCustom> lstClassTask = null;
+        List<vClassSubjectTaskCustom> lstTheory = null;
+        List<vClassSubjectTaskCustom> lstPractice = null;
+        List<vClassSubjectTaskCustom> lstTheoryGroup = null;
         protected override void InitializeDataControl()
         {
-            lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+            lstClassTask = BusinessLayer.GetvClassSubjectTaskCustomList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
             lstTheory = lstClassTask.Where(p => p.GCLessonType == Constant.LessonType.THEORY).ToList();
             lstPractice = lstClassTask.Where(p => p.GCLessonType == Constant.LessonType.PRACTICE).ToList();
-            rptHeaderTheory.DataSource = lstTheory;
-            rptHeaderTheory.DataBind();
+
+            lstTheoryGroup = (from p in lstTheory
+                                              select new vClassSubjectTaskCustom { 
+                                                  StudentFinalMarkFormulaDtID = p.StudentFinalMarkFormulaDtID, 
+                                                  StudentFinalMarkFormulaDtName = p.StudentFinalMarkFormulaDtName,
+                                                  DisplayOrder = p.DisplayOrder,
+                                                  FormulaFinalMarkPercentage = p.FormulaFinalMarkPercentage}).GroupBy(p => p.StudentFinalMarkFormulaDtID).Select(p => p.First()).OrderBy(p => p.DisplayOrder).ToList();
+            rptHeaderTheoryTaskGroup.DataSource = lstTheoryGroup;
+            rptHeaderTheoryTaskGroup.DataBind();
+
+            spnTotalTheoryPercentage.InnerHtml = lstTheoryGroup.Sum(p => p.FormulaFinalMarkPercentage).ToString();
+
+            rptHeaderTheoryGroup.DataSource = lstTheoryGroup;
+            rptHeaderTheoryGroup.DataBind();
 
             rptHeaderPractice.DataSource = lstPractice;
             rptHeaderPractice.DataBind();
@@ -63,7 +76,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 thFinalMarkTheory.Style.Add("display", "none");
                 thFinalReadonlyMarkTheory.Style.Add("display", "none");
-                thMarkTheory.Style.Add("display", "none");
                 thTheory.Style.Add("display", "none");
             }
             if (lstPractice.Count < 1)
@@ -73,10 +85,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 thMarkPractice.Style.Add("display", "none");
                 thPractice.Style.Add("display", "none");
             }
-
-            thTheory.ColSpan = lstTheory.Count + 2;
+            thTheory.ColSpan = lstTheory.Count + 2 + lstTheoryGroup.Count;
             thPractice.ColSpan = lstPractice.Count + 2;
-            thMarkTheory.ColSpan = lstTheory.Count;
             thMarkPractice.ColSpan = lstPractice.Count;
 
             vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
@@ -126,6 +136,27 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
+        protected void rptHeaderTheoryTaskGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
+                HtmlTableCell thHeaderTheoryTaskGroup = (HtmlTableCell)e.Item.FindControl("thHeaderTheoryTaskGroup");
+                thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.StudentFinalMarkFormulaDtID == entityGroup.StudentFinalMarkFormulaDtID).Count() + 1;
+            }
+        }
+
+        protected void rptHeaderTheoryGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
+                Repeater rptHeaderTheory = (Repeater)e.Item.FindControl("rptHeaderTheory");
+                rptHeaderTheory.DataSource = lstTheory.Where(p => p.StudentFinalMarkFormulaDtID == entityGroup.StudentFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
+                rptHeaderTheory.DataBind();
+            }
+        }
+
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
         List<ClassStudentSubjectMark> lstStudentFinalMark = null;
         List<StandardCode> lstOption = null;
@@ -149,9 +180,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     txtProgressDescription.Text = studentFinalMark.ProgressDescription;
                 }
 
-                Repeater rptStudentMarkTheory = (Repeater)e.Item.FindControl("rptStudentMarkTheory");
-                rptStudentMarkTheory.DataSource = lstTheory;
-                rptStudentMarkTheory.DataBind();
+                Repeater rptStudentMarkTheoryGroup = (Repeater)e.Item.FindControl("rptStudentMarkTheoryGroup");
+                rptStudentMarkTheoryGroup.DataSource = lstTheoryGroup;
+                rptStudentMarkTheoryGroup.DataBind();
                 Repeater rptStudentMarkPractice = (Repeater)e.Item.FindControl("rptStudentMarkPractice");
                 rptStudentMarkPractice.DataSource = lstPractice;
                 rptStudentMarkPractice.DataBind();
@@ -175,12 +206,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
-        private void rptStudentMarkTheory_ItemDataBound(object sender, RepeaterItemEventArgs e, string type)
+        protected void rptStudentMarkTheoryGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                ClassSubjectTask subjectTask = (ClassSubjectTask)e.Item.DataItem;
-                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
+                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
+                Repeater rptStudentMarkTheory = (Repeater)e.Item.FindControl("rptStudentMarkTheory");
+                rptStudentMarkTheory.DataSource = lstTheory.Where(p => p.StudentFinalMarkFormulaDtID == entityGroup.StudentFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
+                rptStudentMarkTheory.DataBind();
+            }
+        }
+
+        protected void rptStudentMarkTheory_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassSubjectTaskCustom subjectTask = (vClassSubjectTaskCustom)e.Item.DataItem;
+                vClassStudent student = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vClassStudent;
 
                 TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
                 ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
@@ -188,8 +230,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
 
                 int parentIndex = ((RepeaterItem)e.Item.Parent.Parent).ItemIndex;
-                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}", type, parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
+                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}", "Theory", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
                 txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
+                txtStudentMark.Attributes.Add("formuladtid", subjectTask.StudentFinalMarkFormulaDtID.ToString());
                 switch (hdnGCSubjectMarkType.Value)
                 {
                     case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
@@ -215,14 +258,45 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
-        protected void rptStudentMarkTheory_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            rptStudentMarkTheory_ItemDataBound(sender, e, "Theory");
-        }
-
         protected void rptStudentMarkPractice_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            rptStudentMarkTheory_ItemDataBound(sender, e, "Practice");
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassSubjectTaskCustom subjectTask = (vClassSubjectTaskCustom)e.Item.DataItem;
+                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
+
+                TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
+                ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
+                TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
+                vClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
+
+                int parentIndex = ((RepeaterItem)e.Item.Parent.Parent).ItemIndex;
+                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}", "Practice", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
+                txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
+                txtStudentMark.Attributes.Add("formuladtid", subjectTask.StudentFinalMarkFormulaDtID.ToString());
+                switch (hdnGCSubjectMarkType.Value)
+                {
+                    case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.OPTION:
+                        txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
+                        Methods.SetComboBoxField<StandardCode>(cboStudentMarkOption, lstOption, "StandardCodeName", "StandardCodeID");
+                        break;
+                    case Constant.SubjectMarkType.TEXT: cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
+                }
+                HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");
+                if (studentMark != null)
+                {
+                    txtStudentMark.Text = studentMark.Mark.ToString();
+                    cboStudentMarkOption.Value = studentMark.GCOptionMark;
+                    txtStudentMarkDescription.Text = studentMark.DescriptionMark;
+                    if (!studentMark.IsRemedial)
+                        bIsRemedial.Style.Add("display", "none");
+                }
+                else
+                    bIsRemedial.Style.Add("display", "none");
+
+                bIsRemedial.Attributes.Add("ClassSubjectTaskID", subjectTask.ClassSubjectTaskID.ToString());
+            }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -244,7 +318,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     string[] lstSaveValue = hdnListSaveHeaderValue.Value.Split('|');
 
-                    lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+                    List<ClassSubjectTask> lstClassTask = BusinessLayer.GetClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
                     List<int> lstClassSubjectTaskID = new List<int>();
                     foreach (String saveValue in lstSaveValue)
                     {

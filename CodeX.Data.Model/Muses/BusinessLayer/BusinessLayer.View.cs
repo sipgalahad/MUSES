@@ -938,6 +938,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassSubjectTaskCustom
+        public static List<vClassSubjectTaskCustom> GetvClassSubjectTaskCustomList(string filterExpression)
+        {
+            List<vClassSubjectTaskCustom> result = new List<vClassSubjectTaskCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubjectTaskCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassSubjectTaskCustom)helper.IDataReaderToObject(reader, new vClassSubjectTaskCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassType
         public static List<vClassType> GetvClassTypeList(string filterExpression)
         {

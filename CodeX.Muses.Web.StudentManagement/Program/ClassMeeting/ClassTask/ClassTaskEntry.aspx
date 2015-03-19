@@ -148,7 +148,7 @@
     </table>
     <table style="width:100%">
         <colgroup>
-            <col style="width:450px"/>
+            <col style="width:500px"/>
         </colgroup>
         <tr>
             <td valign="top">

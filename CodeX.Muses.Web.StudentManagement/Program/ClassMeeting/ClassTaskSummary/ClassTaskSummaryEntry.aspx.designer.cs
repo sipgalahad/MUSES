@@ -121,13 +121,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thPractice;
         
         /// <summary>
-        /// thMarkTheory control.
+        /// rptHeaderTheoryTaskGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thMarkTheory;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderTheoryTaskGroup;
         
         /// <summary>
         /// thFinalReadonlyMarkTheory control.
@@ -137,6 +137,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalReadonlyMarkTheory;
+        
+        /// <summary>
+        /// spnTotalTheoryPercentage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnTotalTheoryPercentage;
         
         /// <summary>
         /// thFinalMarkTheory control.
@@ -175,13 +184,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalMarkPractice;
         
         /// <summary>
-        /// rptHeaderTheory control.
+        /// rptHeaderTheoryGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderTheory;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderTheoryGroup;
         
         /// <summary>
         /// rptHeaderPractice control.
