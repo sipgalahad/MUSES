@@ -12062,6 +12062,8 @@ namespace CodeX.Data.Model
         private Int32? _PeriodSectionID;
         private Int32 _ClassTypeID;
         private Int32? _DailySchedulePackageID;
+        private Int32? _TheoryFinalMarkFormulaID;
+        private Int32? _PracticeFinalMarkFormulaID;
         private Int16 _NoOfClass;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -12098,6 +12100,18 @@ namespace CodeX.Data.Model
         {
             get { return _DailySchedulePackageID; }
             set { _DailySchedulePackageID = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "NoOfClass", DataType = "Int16")]
         public Int16 NoOfClass
@@ -12190,6 +12204,8 @@ namespace CodeX.Data.Model
         private Int32? _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
+        private Int32? _TheoryFinalMarkFormulaID;
+        private Int32? _PracticeFinalMarkFormulaID;
         private Int32? _SubjectMatterID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -12232,6 +12248,18 @@ namespace CodeX.Data.Model
         {
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "SubjectMatterID", DataType = "Int32", IsNullable = true)]
         public Int32? SubjectMatterID
@@ -18606,7 +18634,8 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _DailySchedulePackageID;
         private Int32 _ExamSchedulePackageID;
-        private Int32 _StudentFinalMarkFormulaID;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
         private String _GCSchoolPeriodStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -18662,11 +18691,17 @@ namespace CodeX.Data.Model
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
         }
-        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 StudentFinalMarkFormulaID
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
         {
-            get { return _StudentFinalMarkFormulaID; }
-            set { _StudentFinalMarkFormulaID = value; }
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus
@@ -21392,6 +21427,7 @@ namespace CodeX.Data.Model
         private String _SubjectMatterCode;
         private String _SubjectMatterName;
         private Int32 _SubjectID;
+        private String _CompetencyStandard;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -21422,6 +21458,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectID; }
             set { _SubjectID = value; }
+        }
+        [Column(Name = "CompetencyStandard", DataType = "String", IsNullable = true)]
+        public String CompetencyStandard
+        {
+            get { return _CompetencyStandard; }
+            set { _CompetencyStandard = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

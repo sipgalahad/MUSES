@@ -26,8 +26,16 @@
                 }
             });
 
-            $('#btnStudentFinalMarkFormulaDt').click(function () {
-                var id = cboStudentFinalMarkFormula.GetValue();
+            $('#btnTheoryFinalMarkFormulaDt').click(function () {
+                var id = cboTheoryFinalMarkFormula.GetValue();
+                if (id != null && id != '') {
+                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
+                }
+            });
+
+            $('#btnPracticeFinalMarkFormulaDt').click(function () {
+                var id = cboPracticeFinalMarkFormula.GetValue();
                 if (id != null && id != '') {
                     var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
                     openUserControlPopup(url, id, 'Detil Formula', 900, 400);
@@ -44,7 +52,7 @@
             <td style="padding:5px;vertical-align:top">
                 <table class="tblEntryContent" style="width:50%">
                     <colgroup>
-                        <col style="width:30%"/>
+                        <col style="width:210px"/>
                         <col style="width:300px"/>
                     </colgroup>
                     <tr>
@@ -78,9 +86,14 @@
                         <td><input type="button" id="btnExamSchedulePackageDt" class="btnMore" value="..." /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Formula Nilai Rapor")%></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboStudentFinalMarkFormula" ClientInstanceName="cboStudentFinalMarkFormula" Width="300px" /></td>
-                        <td><input type="button" id="btnStudentFinalMarkFormulaDt" class="btnMore" value="..." /></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Formula Nilai Rapor (Teori)")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboTheoryFinalMarkFormula" ClientInstanceName="cboTheoryFinalMarkFormula" Width="300px" /></td>
+                        <td><input type="button" id="btnTheoryFinalMarkFormulaDt" class="btnMore" value="..." /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Formula Nilai Rapor (Praktek)")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboPracticeFinalMarkFormula" ClientInstanceName="cboPracticeFinalMarkFormula" Width="300px" /></td>
+                        <td><input type="button" id="btnPracticeFinalMarkFormulaDt" class="btnMore" value="..." /></td>
                     </tr>
                 </table>
             </td>

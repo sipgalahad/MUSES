@@ -85,12 +85,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboExamSchedulePackage;
         
         /// <summary>
-        /// cboStudentFinalMarkFormula control.
+        /// cboTheoryFinalMarkFormula control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStudentFinalMarkFormula;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTheoryFinalMarkFormula;
+        
+        /// <summary>
+        /// cboPracticeFinalMarkFormula control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPracticeFinalMarkFormula;
     }
 }

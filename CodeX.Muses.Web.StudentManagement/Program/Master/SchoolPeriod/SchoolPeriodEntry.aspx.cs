@@ -48,8 +48,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboExamSchedulePackage.SelectedIndex = 0;
 
             List<StudentFinalMarkFormulaHd> lstFormula = BusinessLayer.GetStudentFinalMarkFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboStudentFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
-            cboStudentFinalMarkFormula.SelectedIndex = 0;
+            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboTheoryFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
+            cboTheoryFinalMarkFormula.SelectedIndex = 0;
+
+            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboPracticeFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
+            cboPracticeFinalMarkFormula.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -61,7 +64,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboDailySchedulePackage, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboExamSchedulePackage, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboStudentFinalMarkFormula, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboTheoryFinalMarkFormula, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboPracticeFinalMarkFormula, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(SchoolPeriod entity)
@@ -73,7 +77,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtRemarks.Text = entity.Remarks;
             cboDailySchedulePackage.Value = entity.DailySchedulePackageID.ToString();
             cboExamSchedulePackage.Value = entity.ExamSchedulePackageID.ToString();
-            cboStudentFinalMarkFormula.Value = entity.StudentFinalMarkFormulaID.ToString();
+            cboTheoryFinalMarkFormula.Value = entity.TheoryFinalMarkFormulaID.ToString();
+            cboPracticeFinalMarkFormula.Value = entity.PracticeFinalMarkFormulaID.ToString();
         }
 
         private void ControlToEntity(SchoolPeriod entity)
@@ -84,7 +89,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.DailySchedulePackageID = Convert.ToInt32(cboDailySchedulePackage.Value);
             entity.ExamSchedulePackageID = Convert.ToInt32(cboExamSchedulePackage.Value);
-            entity.StudentFinalMarkFormulaID = Convert.ToInt32(cboStudentFinalMarkFormula.Value);
+            entity.TheoryFinalMarkFormulaID = Convert.ToInt32(cboTheoryFinalMarkFormula.Value);
+            entity.PracticeFinalMarkFormulaID = Convert.ToInt32(cboPracticeFinalMarkFormula.Value);
             entity.Remarks = txtRemarks.Text;
         }
 

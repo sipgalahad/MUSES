@@ -15,6 +15,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtSubjectMatterCode.ClientID %>').val('');
                 $('#<%=txtSubjectMatterName.ClientID %>').val('');
+                $('#<%=txtCompetencyStandard.ClientID %>').val(''); 
                 $('#<%=txtRemarks.ClientID %>').val('');
 
                 $('#entryDetailContainer').show();
@@ -49,6 +50,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterID);
             $('#<%=txtSubjectMatterCode.ClientID %>').val(entity.SubjectMatterCode);
             $('#<%=txtSubjectMatterName.ClientID %>').val(entity.SubjectMatterName);
+            $('#<%=txtCompetencyStandard.ClientID %>').val(entity.CompetencyStandard); 
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
             $('#entryDetailContainer').show();
         });
@@ -106,7 +108,7 @@
                         <td valign="top">
                             <table>
                                 <colgroup>
-                                    <col style="width: 150px" />
+                                    <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
@@ -115,6 +117,10 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtSubjectMatterName" runat="server" Width="200px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Standar Kompetensi")%></label></td>
+                                    <td><asp:TextBox runat="server" ID="txtCompetencyStandard" Width="300px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
@@ -144,8 +150,9 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SubjectMatterCode" HeaderText="Kode" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Nama" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
+                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Nama" HeaderStyle-Width="180px" />
+                                <asp:BoundField DataField="CompetencyStandard" HeaderText="Standar Kompetensi" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:HyperLinkField HeaderText="Detil Pertemuan" Text="Detil Pertemuan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubjectMatterDt" HeaderStyle-Width="120px" />
                                 <asp:HyperLinkField HeaderText="Tipe Kelas" Text="Tipe Kelas" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkClassType" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
@@ -155,6 +162,7 @@
                                         <input type="hidden" value="<%#Eval("SubjectMatterID") %>" bindingfield="SubjectMatterID" />
                                         <input type="hidden" value="<%#Eval("SubjectMatterCode") %>" bindingfield="SubjectMatterCode" />
                                         <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
+                                        <input type="hidden" value="<%#Eval("CompetencyStandard") %>" bindingfield="CompetencyStandard" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

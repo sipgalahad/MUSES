@@ -74,7 +74,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override bool OnBeforeSaveEditRecord(ref string errMessage)
         {
             errMessage = string.Empty;
-            string FilterExpression = string.Format("StudentFinalMarkFormulaCode = '{0}' AND StudentFinalMarkFormulaHdID != {1}", txtStudentFinalMarkFormulaCode.Text, hdnID.Value);
+            string FilterExpression = string.Format("StudentFinalMarkFormulaCode = '{0}' AND StudentFinalMarkFormulaID != {1}", txtStudentFinalMarkFormulaCode.Text, hdnID.Value);
             List<StudentFinalMarkFormulaHd> lst = BusinessLayer.GetStudentFinalMarkFormulaHdList(FilterExpression);
 
             if (lst.Count > 0)

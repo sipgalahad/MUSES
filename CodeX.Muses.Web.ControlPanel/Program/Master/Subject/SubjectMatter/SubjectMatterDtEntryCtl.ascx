@@ -84,6 +84,10 @@
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Standar Kompetensi")%></label></td>
+            <td colspan="2"><asp:TextBox ID="txtHeaderText2" ReadOnly="true" Width="100%" runat="server" /></td>
+        </tr> 
     </table>
                 
     <div class="divTransactionEntry">   

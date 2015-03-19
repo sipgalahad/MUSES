@@ -2121,10 +2121,14 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
         private String _GCTaskType;
-        private Int32 _StudentFinalMarkFormulaDtID;
-        private String _StudentFinalMarkFormulaDtName;
-        private Int16 _DisplayOrder;
-        private Decimal _FormulaFinalMarkPercentage;
+        private Int32 _TheoryFinalMarkFormulaDtID;
+        private String _TheoryFinalMarkFormulaDtName;
+        private Int16 _TheoryDisplayOrder;
+        private Decimal _TheoryFinalMarkPercentage;
+        private Int32 _PracticeFinalMarkFormulaDtID;
+        private String _PracticeFinalMarkFormulaDtName;
+        private Int16 _PracticeDisplayOrder;
+        private Decimal _PracticeFinalMarkPercentage;
         private String _TaskType;
         private String _GCLessonType;
         private String _LessonType;
@@ -2136,7 +2140,8 @@ namespace CodeX.Data.Model
         private String _EndTime;
         private String _Topic;
         private String _Remarks;
-        private Int32 _StudentFinalMarkFormulaID;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
@@ -2169,29 +2174,53 @@ namespace CodeX.Data.Model
             get { return _GCTaskType; }
             set { _GCTaskType = value; }
         }
-        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32")]
-        public Int32 StudentFinalMarkFormulaDtID
+        [Column(Name = "TheoryFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaDtID
         {
-            get { return _StudentFinalMarkFormulaDtID; }
-            set { _StudentFinalMarkFormulaDtID = value; }
+            get { return _TheoryFinalMarkFormulaDtID; }
+            set { _TheoryFinalMarkFormulaDtID = value; }
         }
-        [Column(Name = "StudentFinalMarkFormulaDtName", DataType = "String")]
-        public String StudentFinalMarkFormulaDtName
+        [Column(Name = "TheoryFinalMarkFormulaDtName", DataType = "String")]
+        public String TheoryFinalMarkFormulaDtName
         {
-            get { return _StudentFinalMarkFormulaDtName; }
-            set { _StudentFinalMarkFormulaDtName = value; }
+            get { return _TheoryFinalMarkFormulaDtName; }
+            set { _TheoryFinalMarkFormulaDtName = value; }
         }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
+        [Column(Name = "TheoryDisplayOrder", DataType = "Int16")]
+        public Int16 TheoryDisplayOrder
         {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
+            get { return _TheoryDisplayOrder; }
+            set { _TheoryDisplayOrder = value; }
         }
-        [Column(Name = "FormulaFinalMarkPercentage", DataType = "Decimal")]
-        public Decimal FormulaFinalMarkPercentage
+        [Column(Name = "TheoryFinalMarkPercentage", DataType = "Decimal")]
+        public Decimal TheoryFinalMarkPercentage
         {
-            get { return _FormulaFinalMarkPercentage; }
-            set { _FormulaFinalMarkPercentage = value; }
+            get { return _TheoryFinalMarkPercentage; }
+            set { _TheoryFinalMarkPercentage = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaDtID
+        {
+            get { return _PracticeFinalMarkFormulaDtID; }
+            set { _PracticeFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaDtName", DataType = "String")]
+        public String PracticeFinalMarkFormulaDtName
+        {
+            get { return _PracticeFinalMarkFormulaDtName; }
+            set { _PracticeFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "PracticeDisplayOrder", DataType = "Int16")]
+        public Int16 PracticeDisplayOrder
+        {
+            get { return _PracticeDisplayOrder; }
+            set { _PracticeDisplayOrder = value; }
+        }
+        [Column(Name = "PracticeFinalMarkPercentage", DataType = "Decimal")]
+        public Decimal PracticeFinalMarkPercentage
+        {
+            get { return _PracticeFinalMarkPercentage; }
+            set { _PracticeFinalMarkPercentage = value; }
         }
         [Column(Name = "TaskType", DataType = "String")]
         public String TaskType
@@ -2259,11 +2288,17 @@ namespace CodeX.Data.Model
             get { return _Remarks; }
             set { _Remarks = value; }
         }
-        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 StudentFinalMarkFormulaID
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
         {
-            get { return _StudentFinalMarkFormulaID; }
-            set { _StudentFinalMarkFormulaID = value; }
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -10349,6 +10384,8 @@ namespace CodeX.Data.Model
         private String _Major;
         private Int32 _DailySchedulePackageID;
         private String _DailySchedulePackageName;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
         private Int16 _NoOfClass;
         private Int32 _CreatedClass;
         private Boolean _IsDeleted;
@@ -10443,6 +10480,18 @@ namespace CodeX.Data.Model
             get { return _DailySchedulePackageName; }
             set { _DailySchedulePackageName = value; }
         }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
+        }
         [Column(Name = "NoOfClass", DataType = "Int16")]
         public Int16 NoOfClass
         {
@@ -10488,6 +10537,8 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
         private Boolean _IsEditable;
         private Boolean _IsDeleted;
 
@@ -10610,6 +10661,18 @@ namespace CodeX.Data.Model
         {
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "IsEditable", DataType = "Boolean")]
         public Boolean IsEditable

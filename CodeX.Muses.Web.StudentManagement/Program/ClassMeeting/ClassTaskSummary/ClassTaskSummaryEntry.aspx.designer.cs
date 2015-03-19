@@ -157,13 +157,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalMarkTheory;
         
         /// <summary>
-        /// thMarkPractice control.
+        /// rptHeaderPracticeTaskGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thMarkPractice;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderPracticeTaskGroup;
         
         /// <summary>
         /// thFinalReadonlyMarkPractice control.
@@ -173,6 +173,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalReadonlyMarkPractice;
+        
+        /// <summary>
+        /// spnTotalPracticePercentage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnTotalPracticePercentage;
         
         /// <summary>
         /// thFinalMarkPractice control.
@@ -193,13 +202,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptHeaderTheoryGroup;
         
         /// <summary>
-        /// rptHeaderPractice control.
+        /// rptHeaderPracticeGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderPractice;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderPracticeGroup;
         
         /// <summary>
         /// rptStudent control.
