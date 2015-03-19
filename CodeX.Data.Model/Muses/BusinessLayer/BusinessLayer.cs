@@ -9715,6 +9715,166 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentProgressRuleDt
+        public static StudentProgressRuleDt GetStudentProgressRuleDt(Int32 StudentProgressRuleDtID)
+        {
+            return new StudentProgressRuleDtDao().Get(StudentProgressRuleDtID);
+        }
+        public static int InsertStudentProgressRuleDt(StudentProgressRuleDt record)
+        {
+            return new StudentProgressRuleDtDao().Insert(record);
+        }
+        public static int UpdateStudentProgressRuleDt(StudentProgressRuleDt record)
+        {
+            return new StudentProgressRuleDtDao().Update(record);
+        }
+        public static int DeleteStudentProgressRuleDt(Int32 StudentProgressRuleDtID)
+        {
+            return new StudentProgressRuleDtDao().Delete(StudentProgressRuleDtID);
+        }
+        public static List<StudentProgressRuleDt> GetStudentProgressRuleDtList(string filterExpression)
+        {
+            List<StudentProgressRuleDt> result = new List<StudentProgressRuleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentProgressRuleDt)helper.IDataReaderToObject(reader, new StudentProgressRuleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StudentProgressRuleHd
+        public static StudentProgressRuleHd GetStudentProgressRuleHd(Int32 StudentProgressRuleID)
+        {
+            return new StudentProgressRuleHdDao().Get(StudentProgressRuleID);
+        }
+        public static int InsertStudentProgressRuleHd(StudentProgressRuleHd record)
+        {
+            return new StudentProgressRuleHdDao().Insert(record);
+        }
+        public static int UpdateStudentProgressRuleHd(StudentProgressRuleHd record)
+        {
+            return new StudentProgressRuleHdDao().Update(record);
+        }
+        public static int DeleteStudentProgressRuleHd(Int32 StudentProgressRuleID)
+        {
+            return new StudentProgressRuleHdDao().Delete(StudentProgressRuleID);
+        }
+        public static List<StudentProgressRuleHd> GetStudentProgressRuleHdList(string filterExpression)
+        {
+            List<StudentProgressRuleHd> result = new List<StudentProgressRuleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentProgressRuleHd)helper.IDataReaderToObject(reader, new StudentProgressRuleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentProgressRuleHd> GetStudentProgressRuleHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<StudentProgressRuleHd> result = new List<StudentProgressRuleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentProgressRuleHd)helper.IDataReaderToObject(reader, new StudentProgressRuleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentProgressRuleHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentProgressRuleHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "StudentProgressRuleID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentProgressRuleHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.SelectMaxColumn("StudentProgressRuleID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Subject
         public static Subject GetSubject(Int32 SubjectID)
         {

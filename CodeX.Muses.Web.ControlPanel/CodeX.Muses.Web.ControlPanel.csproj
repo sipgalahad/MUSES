@@ -132,6 +132,9 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx" />
+    <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx" />
+    <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx" />
     <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaEntry.aspx" />
     <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -592,6 +595,27 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx.cs">
+      <DependentUpon>StudentProgressRuleDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>StudentProgressRuleDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx.cs">
+      <DependentUpon>StudentProgressRuleEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx.designer.cs">
+      <DependentUpon>StudentProgressRuleEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx.cs">
+      <DependentUpon>StudentProgressRuleList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx.designer.cs">
+      <DependentUpon>StudentProgressRuleList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaEntry.aspx.cs">
       <DependentUpon>StudentFinalMarkFormulaEntry.aspx</DependentUpon>

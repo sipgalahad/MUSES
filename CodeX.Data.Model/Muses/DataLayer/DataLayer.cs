@@ -21036,6 +21036,274 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentProgressRuleDt
+    [Serializable]
+    [Table(Name = "StudentProgressRuleDt")]
+    public partial class StudentProgressRuleDt : DbDataModel
+    {
+        private Int32 _StudentProgressRuleDtID;
+        private Int32 _StudentProgressRuleID;
+        private String _StudentProgressRuleDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FromValue;
+        private Boolean _IsFromPassingGrade;
+        private Decimal _ToValue;
+        private Boolean _IsToPassingGrade;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentProgressRuleDtID
+        {
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
+        }
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
+        }
+        [Column(Name = "StudentProgressRuleDtName", DataType = "String")]
+        public String StudentProgressRuleDtName
+        {
+            get { return _StudentProgressRuleDtName; }
+            set { _StudentProgressRuleDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FromValue", DataType = "Decimal")]
+        public Decimal FromValue
+        {
+            get { return _FromValue; }
+            set { _FromValue = value; }
+        }
+        [Column(Name = "IsFromPassingGrade", DataType = "Boolean")]
+        public Boolean IsFromPassingGrade
+        {
+            get { return _IsFromPassingGrade; }
+            set { _IsFromPassingGrade = value; }
+        }
+        [Column(Name = "ToValue", DataType = "Decimal")]
+        public Decimal ToValue
+        {
+            get { return _ToValue; }
+            set { _ToValue = value; }
+        }
+        [Column(Name = "IsToPassingGrade", DataType = "Boolean")]
+        public Boolean IsToPassingGrade
+        {
+            get { return _IsToPassingGrade; }
+            set { _IsToPassingGrade = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentProgressRuleDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentProgressRuleDt));
+        private bool _isAuditLog = false;
+        private const string p_StudentProgressRuleDtID = "@p_StudentProgressRuleDtID";
+        public StudentProgressRuleDtDao() { }
+        public StudentProgressRuleDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentProgressRuleDt Get(Int32 StudentProgressRuleDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentProgressRuleDtID, StudentProgressRuleDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentProgressRuleDt)_helper.DataRowToObject(row, new StudentProgressRuleDt());
+        }
+        public int Insert(StudentProgressRuleDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentProgressRuleDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentProgressRuleDtID)
+        {
+            StudentProgressRuleDt record;
+            if (_ctx.Transaction == null)
+                record = new StudentProgressRuleDtDao().Get(StudentProgressRuleDtID);
+            else
+                record = Get(StudentProgressRuleDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentProgressRuleHd
+    [Serializable]
+    [Table(Name = "StudentProgressRuleHd")]
+    public class StudentProgressRuleHd : DbDataModel
+    {
+        private Int32 _StudentProgressRuleID;
+        private String _SiteID;
+        private String _StudentProgressRuleCode;
+        private String _StudentProgressRuleName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StudentProgressRuleCode", DataType = "String")]
+        public String StudentProgressRuleCode
+        {
+            get { return _StudentProgressRuleCode; }
+            set { _StudentProgressRuleCode = value; }
+        }
+        [Column(Name = "StudentProgressRuleName", DataType = "String")]
+        public String StudentProgressRuleName
+        {
+            get { return _StudentProgressRuleName; }
+            set { _StudentProgressRuleName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentProgressRuleHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentProgressRuleHd));
+        private bool _isAuditLog = false;
+        private const string p_StudentProgressRuleID = "@p_StudentProgressRuleID";
+        public StudentProgressRuleHdDao() { }
+        public StudentProgressRuleHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentProgressRuleHd Get(Int32 StudentProgressRuleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentProgressRuleID, StudentProgressRuleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentProgressRuleHd)_helper.DataRowToObject(row, new StudentProgressRuleHd());
+        }
+        public int Insert(StudentProgressRuleHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentProgressRuleHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentProgressRuleID)
+        {
+            StudentProgressRuleHd record;
+            if (_ctx.Transaction == null)
+                record = new StudentProgressRuleHdDao().Get(StudentProgressRuleID);
+            else
+                record = Get(StudentProgressRuleID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Subject
     [Serializable]
     [Table(Name = "Subject")]

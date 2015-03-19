@@ -280,6 +280,7 @@ namespace CodeX.Common
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
                 public const string PERSONALITY = "CP010114";
                 public const string STUDENT_FINAL_MARK_FORMULA = "CP010115";
+                public const string STUDENT_PROGRESS_RULE = "CP010116";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
