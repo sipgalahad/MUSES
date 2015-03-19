@@ -18930,6 +18930,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFinalMarkFormulaDt
+    [Serializable]
+    [Table(Name = "vStudentFinalMarkFormulaDt")]
+    public class vStudentFinalMarkFormulaDt
+    {
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _StudentFinalMarkFormulaID;
+        private String _StudentFinalMarkFormulaDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private String _ListGCTaskType;
+        private String _ListTaskType;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaDtName", DataType = "String")]
+        public String StudentFinalMarkFormulaDtName
+        {
+            get { return _StudentFinalMarkFormulaDtName; }
+            set { _StudentFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "ListGCTaskType", DataType = "String")]
+        public String ListGCTaskType
+        {
+            get { return _ListGCTaskType; }
+            set { _ListGCTaskType = value; }
+        }
+        [Column(Name = "ListTaskType", DataType = "String")]
+        public String ListTaskType
+        {
+            get { return _ListTaskType; }
+            set { _ListTaskType = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStudentPastStudy
     [Serializable]
     [Table(Name = "vStudentPastStudy")]

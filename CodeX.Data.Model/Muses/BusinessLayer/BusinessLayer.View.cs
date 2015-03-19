@@ -7397,6 +7397,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentFinalMarkFormulaDt
+        public static List<vStudentFinalMarkFormulaDt> GetvStudentFinalMarkFormulaDtList(string filterExpression)
+        {
+            List<vStudentFinalMarkFormulaDt> result = new List<vStudentFinalMarkFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFinalMarkFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFinalMarkFormulaDt)helper.IDataReaderToObject(reader, new vStudentFinalMarkFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentPastStudy
         public static List<vStudentPastStudy> GetvStudentPastStudyList(string filterExpression)
         {

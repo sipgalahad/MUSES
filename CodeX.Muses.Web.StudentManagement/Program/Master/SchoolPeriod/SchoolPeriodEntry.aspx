@@ -25,6 +25,14 @@
                     openUserControlPopup(url, schedulePackage, 'Jadwal', 1000, 550);
                 }
             });
+
+            $('#btnStudentFinalMarkFormulaDt').click(function () {
+                var id = cboStudentFinalMarkFormula.GetValue();
+                if (id != null && id != '') {
+                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
+                }
+            });
         }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
@@ -68,6 +76,11 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal Ujian")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboExamSchedulePackage" ClientInstanceName="cboExamSchedulePackage" Width="300px" /></td>
                         <td><input type="button" id="btnExamSchedulePackageDt" class="btnMore" value="..." /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Formula Nilai Rapor")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboStudentFinalMarkFormula" ClientInstanceName="cboStudentFinalMarkFormula" Width="300px" /></td>
+                        <td><input type="button" id="btnStudentFinalMarkFormulaDt" class="btnMore" value="..." /></td>
                     </tr>
                 </table>
             </td>

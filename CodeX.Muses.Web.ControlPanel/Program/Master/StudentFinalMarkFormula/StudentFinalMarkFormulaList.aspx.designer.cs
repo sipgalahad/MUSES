@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class SchoolPeriodEntry {
+    public partial class StudentFinalMarkFormulaList {
         
         /// <summary>
         /// hdnID control.
@@ -22,75 +22,48 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// txtSchoolPeriodCode control.
+        /// hdnFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
         
         /// <summary>
-        /// txtSchoolPeriodName control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodName;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
-        /// txtStartDate control.
+        /// PanelContent1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// txtEndDate control.
+        /// pnlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
+        protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// txtRemarks control.
+        /// grdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
-        
-        /// <summary>
-        /// cboDailySchedulePackage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboDailySchedulePackage;
-        
-        /// <summary>
-        /// cboExamSchedulePackage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboExamSchedulePackage;
-        
-        /// <summary>
-        /// cboStudentFinalMarkFormula control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStudentFinalMarkFormula;
+        protected global::System.Web.UI.WebControls.GridView grdView;
     }
 }

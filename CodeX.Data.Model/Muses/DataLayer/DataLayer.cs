@@ -18606,6 +18606,7 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _DailySchedulePackageID;
         private Int32 _ExamSchedulePackageID;
+        private Int32 _StudentFinalMarkFormulaID;
         private String _GCSchoolPeriodStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -18660,6 +18661,12 @@ namespace CodeX.Data.Model
         {
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus
@@ -20410,6 +20417,310 @@ namespace CodeX.Data.Model
                 record = new StudentFeeCompTypeDao().Get(StudentFeeCompTypeID);
             else
                 record = Get(StudentFeeCompTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFinalMarkFormulaDt
+    [Serializable]
+    [Table(Name = "StudentFinalMarkFormulaDt")]
+    public class StudentFinalMarkFormulaDt : DbDataModel
+    {
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _StudentFinalMarkFormulaID;
+        private String _StudentFinalMarkFormulaDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaDtName", DataType = "String")]
+        public String StudentFinalMarkFormulaDtName
+        {
+            get { return _StudentFinalMarkFormulaDtName; }
+            set { _StudentFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFinalMarkFormulaDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFinalMarkFormulaDt));
+        private bool _isAuditLog = false;
+        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
+        public StudentFinalMarkFormulaDtDao() { }
+        public StudentFinalMarkFormulaDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFinalMarkFormulaDt Get(Int32 StudentFinalMarkFormulaDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFinalMarkFormulaDt)_helper.DataRowToObject(row, new StudentFinalMarkFormulaDt());
+        }
+        public int Insert(StudentFinalMarkFormulaDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFinalMarkFormulaDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFinalMarkFormulaDtID)
+        {
+            StudentFinalMarkFormulaDt record;
+            if (_ctx.Transaction == null)
+                record = new StudentFinalMarkFormulaDtDao().Get(StudentFinalMarkFormulaDtID);
+            else
+                record = Get(StudentFinalMarkFormulaDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFinalMarkFormulaDtTaskType
+    [Serializable]
+    [Table(Name = "StudentFinalMarkFormulaDtTaskType")]
+    public class StudentFinalMarkFormulaDtTaskType : DbDataModel
+    {
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private String _GCTaskType;
+
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String", IsPrimaryKey = true)]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
+        }
+    }
+
+    public class StudentFinalMarkFormulaDtTaskTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFinalMarkFormulaDtTaskType));
+        private bool _isAuditLog = false;
+        private const string p_GCTaskType = "@p_GCTaskType";
+        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
+        public StudentFinalMarkFormulaDtTaskTypeDao() { }
+        public StudentFinalMarkFormulaDtTaskTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFinalMarkFormulaDtTaskType Get(Int32 StudentFinalMarkFormulaDtID, String GCTaskType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCTaskType, GCTaskType);
+            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFinalMarkFormulaDtTaskType)_helper.DataRowToObject(row, new StudentFinalMarkFormulaDtTaskType());
+        }
+        public int Insert(StudentFinalMarkFormulaDtTaskType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFinalMarkFormulaDtTaskType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFinalMarkFormulaDtID, String GCTaskType)
+        {
+            StudentFinalMarkFormulaDtTaskType record;
+            if (_ctx.Transaction == null)
+                record = new StudentFinalMarkFormulaDtTaskTypeDao().Get(StudentFinalMarkFormulaDtID, GCTaskType);
+            else
+                record = Get(StudentFinalMarkFormulaDtID, GCTaskType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFinalMarkFormulaHd
+    [Serializable]
+    [Table(Name = "StudentFinalMarkFormulaHd")]
+    public class StudentFinalMarkFormulaHd : DbDataModel
+    {
+        private Int32 _StudentFinalMarkFormulaID;
+        private String _SiteID;
+        private String _StudentFinalMarkFormulaCode;
+        private String _StudentFinalMarkFormulaName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaCode", DataType = "String")]
+        public String StudentFinalMarkFormulaCode
+        {
+            get { return _StudentFinalMarkFormulaCode; }
+            set { _StudentFinalMarkFormulaCode = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaName", DataType = "String")]
+        public String StudentFinalMarkFormulaName
+        {
+            get { return _StudentFinalMarkFormulaName; }
+            set { _StudentFinalMarkFormulaName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFinalMarkFormulaHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+        private bool _isAuditLog = false;
+        private const string p_StudentFinalMarkFormulaID = "@p_StudentFinalMarkFormulaID";
+        public StudentFinalMarkFormulaHdDao() { }
+        public StudentFinalMarkFormulaHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFinalMarkFormulaHd Get(Int32 StudentFinalMarkFormulaID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFinalMarkFormulaID, StudentFinalMarkFormulaID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFinalMarkFormulaHd)_helper.DataRowToObject(row, new StudentFinalMarkFormulaHd());
+        }
+        public int Insert(StudentFinalMarkFormulaHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFinalMarkFormulaHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFinalMarkFormulaID)
+        {
+            StudentFinalMarkFormulaHd record;
+            if (_ctx.Transaction == null)
+                record = new StudentFinalMarkFormulaHdDao().Get(StudentFinalMarkFormulaID);
+            else
+                record = Get(StudentFinalMarkFormulaID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

@@ -45,7 +45,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboDailySchedulePackage.SelectedIndex = 0;
 
             Methods.SetComboBoxField<DailySchedulePackage>(cboExamSchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
-            cboExamSchedulePackage.SelectedIndex = 0;            
+            cboExamSchedulePackage.SelectedIndex = 0;
+
+            List<StudentFinalMarkFormulaHd> lstFormula = BusinessLayer.GetStudentFinalMarkFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboStudentFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
+            cboStudentFinalMarkFormula.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -57,6 +61,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboDailySchedulePackage, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboExamSchedulePackage, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboStudentFinalMarkFormula, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(SchoolPeriod entity)
@@ -68,6 +73,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtRemarks.Text = entity.Remarks;
             cboDailySchedulePackage.Value = entity.DailySchedulePackageID.ToString();
             cboExamSchedulePackage.Value = entity.ExamSchedulePackageID.ToString();
+            cboStudentFinalMarkFormula.Value = entity.StudentFinalMarkFormulaID.ToString();
         }
 
         private void ControlToEntity(SchoolPeriod entity)
@@ -78,6 +84,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.DailySchedulePackageID = Convert.ToInt32(cboDailySchedulePackage.Value);
             entity.ExamSchedulePackageID = Convert.ToInt32(cboExamSchedulePackage.Value);
+            entity.StudentFinalMarkFormulaID = Convert.ToInt32(cboStudentFinalMarkFormula.Value);
             entity.Remarks = txtRemarks.Text;
         }
 

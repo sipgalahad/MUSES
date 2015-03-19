@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class SchoolPeriodEntry {
+    public partial class StudentFinalMarkFormulaDtEntryCtl {
         
         /// <summary>
         /// hdnID control.
@@ -22,75 +22,111 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// txtSchoolPeriodCode control.
+        /// hdnLstTaskTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstTaskTypeID;
         
         /// <summary>
-        /// txtSchoolPeriodName control.
+        /// txtHeaderText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodName;
+        protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
         
         /// <summary>
-        /// txtStartDate control.
+        /// hdnEntryID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtEndDate control.
+        /// txtStudentFinalMarkFormulaDtName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
+        protected global::System.Web.UI.WebControls.TextBox txtStudentFinalMarkFormulaDtName;
         
         /// <summary>
-        /// txtRemarks control.
+        /// txtDisplayOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        protected global::System.Web.UI.WebControls.TextBox txtDisplayOrder;
         
         /// <summary>
-        /// cboDailySchedulePackage control.
+        /// ddeTaskType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboDailySchedulePackage;
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeTaskType;
         
         /// <summary>
-        /// cboExamSchedulePackage control.
+        /// txtFinalMarkPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboExamSchedulePackage;
+        protected global::System.Web.UI.WebControls.TextBox txtFinalMarkPercentage;
         
         /// <summary>
-        /// cboStudentFinalMarkFormula control.
+        /// cbpViewPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStudentFinalMarkFormula;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
+        
+        /// <summary>
+        /// PanelContent1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        
+        /// <summary>
+        /// pnlPatientVisitTransHdGrdView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlPatientVisitTransHdGrdView;
+        
+        /// <summary>
+        /// grdView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdView;
+        
+        /// <summary>
+        /// cbpProcessPopup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessPopup;
     }
 }

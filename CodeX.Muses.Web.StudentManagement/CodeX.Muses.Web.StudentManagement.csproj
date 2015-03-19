@@ -120,6 +120,7 @@
     <Content Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx" />
@@ -586,6 +587,13 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassStudentExtracurricularQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx.cs">
+      <DependentUpon>StudentFinalMarkFormulaDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentFinalMarkFormulaDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx.cs">
       <DependentUpon>PeriodClassTypePersonalityEntry.aspx</DependentUpon>
