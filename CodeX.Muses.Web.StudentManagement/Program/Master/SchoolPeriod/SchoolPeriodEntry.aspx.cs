@@ -57,6 +57,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<StudentProgressRuleHd> lstProgress = BusinessLayer.GetStudentProgressRuleHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<StudentProgressRuleHd>(cboStudentProgressRule, lstProgress, "StudentProgressRuleName", "StudentProgressRuleID");
             cboStudentProgressRule.SelectedIndex = 0;
+
+            Methods.SetComboBoxField<StudentProgressRuleHd>(cboExtracurricularProgressRule, lstProgress, "StudentProgressRuleName", "StudentProgressRuleID");
+            cboExtracurricularProgressRule.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -71,6 +74,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(cboTheoryFinalMarkFormula, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboPracticeFinalMarkFormula, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboStudentProgressRule, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboExtracurricularProgressRule, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(SchoolPeriod entity)
@@ -85,6 +89,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboTheoryFinalMarkFormula.Value = entity.TheoryFinalMarkFormulaID.ToString();
             cboPracticeFinalMarkFormula.Value = entity.PracticeFinalMarkFormulaID.ToString();
             cboStudentProgressRule.Value = entity.StudentProgressRuleID.ToString();
+            cboExtracurricularProgressRule.Value = entity.ExtracurricularProgressRuleID.ToString();
         }
 
         private void ControlToEntity(SchoolPeriod entity)
@@ -98,6 +103,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.TheoryFinalMarkFormulaID = Convert.ToInt32(cboTheoryFinalMarkFormula.Value);
             entity.PracticeFinalMarkFormulaID = Convert.ToInt32(cboPracticeFinalMarkFormula.Value);
             entity.StudentProgressRuleID = Convert.ToInt32(cboStudentProgressRule.Value);
+            entity.ExtracurricularProgressRuleID = Convert.ToInt32(cboExtracurricularProgressRule.Value);
             entity.Remarks = txtRemarks.Text;
         }
 

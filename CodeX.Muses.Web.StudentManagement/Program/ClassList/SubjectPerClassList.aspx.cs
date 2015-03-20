@@ -55,7 +55,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SchoolClassID = {0} AND ParentID IS NULL AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR);
+            filterExpression += string.Format("SchoolClassID = {0} AND ParentID IS NULL AND SubjectGCClassStudyType IN ('{1}','{2}') AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR, Constant.ClassStudyType.EXTRACURRICULAR);
             return filterExpression;
         }
 

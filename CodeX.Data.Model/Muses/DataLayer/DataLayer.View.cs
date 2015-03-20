@@ -1866,8 +1866,8 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private Boolean _IsRemedial;
         private Decimal _Mark;
-        private String _GCOptionMark;
-        private String _OptionMark;
+        private Int32 _StudentProgressRuleDtID;
+        private String _StudentProgressRuleDtName;
         private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
@@ -1900,17 +1900,17 @@ namespace CodeX.Data.Model
             get { return _Mark; }
             set { _Mark = value; }
         }
-        [Column(Name = "GCOptionMark", DataType = "String")]
-        public String GCOptionMark
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32")]
+        public Int32 StudentProgressRuleDtID
         {
-            get { return _GCOptionMark; }
-            set { _GCOptionMark = value; }
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
         }
-        [Column(Name = "OptionMark", DataType = "String")]
-        public String OptionMark
+        [Column(Name = "StudentProgressRuleDtName", DataType = "String")]
+        public String StudentProgressRuleDtName
         {
-            get { return _OptionMark; }
-            set { _OptionMark = value; }
+            get { return _StudentProgressRuleDtName; }
+            set { _StudentProgressRuleDtName = value; }
         }
         [Column(Name = "DescriptionMark", DataType = "String")]
         public String DescriptionMark

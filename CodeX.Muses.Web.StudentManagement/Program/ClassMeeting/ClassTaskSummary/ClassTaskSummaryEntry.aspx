@@ -43,7 +43,7 @@
                     var tempResult = '';
                     var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
                     var studentProgressRuleDtID = cboStudentProgressRule.GetValue();
-                    if (studentProgressRuleDtID == null)
+                    if (studentProgressRuleDtID == null || studentProgressRuleDtID == "0")
                         studentProgressRuleDtID = "";
 
                     $(this).find('.txtStudentMarkTheory').each(function () {
@@ -53,7 +53,7 @@
                             case '<%=OnGetSubjectMarkTypeNumber() %>': value = $(this).val(); break;
                             case '<%=OnGetSubjectMarkTypeOption() %>':
                                 var cboStudentMarkOption = eval('cboStudentMarkOptionTheory' + positiontag);
-                                if (cboStudentMarkOption.GetValue() != null)
+                                if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
                                     value = cboStudentMarkOption.GetValue(); break;
                             case '<%=OnGetSubjectMarkTypeText() %>': value = $(this).parent().find('.txtStudentMarkTheoryDescription').val(); break;
                         }
@@ -347,6 +347,7 @@
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnListProgress" runat="server" />
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
+    <input type="hidden" id="hdnGCClassStudyType" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
@@ -363,7 +364,7 @@
                 <th rowspan="3" style="width:300px"><%=GetLabel("Siswa") %></th>
                 <th id="thTheory" runat="server" class="thCenter"><%=GetLabel("KOGNITIF / PENGETAHUAN") %></th>
                 <th id="thPractice" runat="server" class="thCenter"><%=GetLabel("PSIKOMOTORIK / PRAKTEK") %></th>
-                <th colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
+                <th id="thAffective" runat="server" colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
                 <th colspan="2" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
             </tr>
             <tr> 
@@ -391,8 +392,8 @@
                     <span id="spnTotalPracticePercentage" runat="server"></span> [%]
                 </th>
                 <th id="thFinalMarkPractice" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor")%></th>
-                <th class="thCenter" rowspan="2" style="width:40px"><%=GetLabel("Nilai") %></th>
-                <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
+                <th id="thAffectiveMark" runat="server" class="thCenter" rowspan="2" style="width:40px"><%=GetLabel("Nilai") %></th>
+                <th id="thAffectiveDescription" runat="server" class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
                 <th class="thCenter" rowspan="2" style="width:80px"><%=GetLabel("Kriteria") %></th>
                 <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
             </tr>
@@ -408,11 +409,11 @@
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <th class="thCenter" style="width:80px; background-color:#B9EB33">
+                        <th id="thAverageMarkTheory" runat="server" class="thCenter" style="width:80px; background-color:#B9EB33">
                             <%=GetLabel("Rata-Rata") %><br />
                             <input type="text" class="txtAverageFinalMarkPercentageTheory number" formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
                         </th>
-                        <th class="thCenter" style="width:80px; background-color:#B9EB33">
+                        <th id="thFinalMarkTheory" runat="server" class="thCenter" style="width:80px; background-color:#B9EB33">
                             <%=GetLabel("Nilai") %><br />
                         </th>
                     </ItemTemplate>
@@ -429,11 +430,11 @@
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <th class="thCenter" style="width:65px; background-color:#B9EB33">
+                        <th id="thAverageMarkPractice" runat="server" class="thCenter" style="width:65px; background-color:#B9EB33">
                             <%=GetLabel("Rata-Rata") %><br />
                             <input type="text" class="txtAverageFinalMarkPercentagePractice number" formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
                         </th>
-                        <th class="thCenter" style="width:65px; background-color:#B9EB33">
+                        <th id="thFinalMarkPractice" runat="server" class="thCenter" style="width:65px; background-color:#B9EB33">
                             <%=GetLabel("Nilai") %><br />
                         </th>
                     </ItemTemplate>
@@ -463,7 +464,9 @@
                                     <ItemTemplate>
                                         <td align="center">
                                             <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                            <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                            <div id="divMark" runat="server">
+                                                <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                            </div>
                                             <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
                                             <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkTheoryDescription" Text="" Width="390px" />                         
                                         </td>
@@ -482,7 +485,9 @@
                                     <ItemTemplate>
                                         <td align="center">
                                             <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                            <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkPractice" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                            <div id="divMark" runat="server">
+                                                <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkPractice" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                            </div>
                                             <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
                                             <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkPracticeDescription" Text="" Width="390px" />                         
                                         </td>
@@ -495,8 +500,8 @@
                         <td align="center" id="tdTotalStudentMarkPractice" runat="server"><input class="txtTotalStudentMarkPractice number" readonly="readonly" style="width:90%" /></td>
                         <td align="center" id="tdFinalStudentMarkPractice" runat="server"><asp:TextBox ID="txtFinalStudentMarkPractice" CssClass="txtFinalStudentMarkPractice number" Text="-" runat="server" Width="90%" /></td>
                         
-                        <td align="center"><asp:TextBox ID="txtAffectiveMark" CssClass="txtAffectiveMark" runat="server" Width="90%" /></td>
-                        <td align="center"><asp:TextBox ID="txtAffectiveDescription" CssClass="txtAffectiveDescription" runat="server" Width="90%" /></td>
+                        <td align="center" id="tdStudentAffectiveMark" runat="server"><asp:TextBox ID="txtAffectiveMark" CssClass="txtAffectiveMark" runat="server" Width="90%" /></td>
+                        <td align="center" id="tdStudentAffectiveDescription" runat="server"><asp:TextBox ID="txtAffectiveDescription" CssClass="txtAffectiveDescription" runat="server" Width="90%" /></td>
                         <td align="center">
                             <dxe:ASPxComboBox ID="cboStudentProgressRule" runat="server" Width="90%">                        
                                 <ClientSideEvents ValueChanged="function(s,e){ onCboStudentProgressRuleValueChanged(s, '<%# Container.ItemIndex %>'); }" />

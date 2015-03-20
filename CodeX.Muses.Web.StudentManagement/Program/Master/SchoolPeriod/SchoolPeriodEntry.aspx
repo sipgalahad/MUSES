@@ -49,6 +49,14 @@
                     openUserControlPopup(url, id, 'Detil Kriteria', 900, 400);
                 }
             });
+
+            $('#btnExtracurricularProgressRuleDt').click(function () {
+                var id = cboExtracurricularProgressRule.GetValue();
+                if (id != null && id != '') {
+                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentProgressRuleDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Detil Kriteria', 900, 400);
+                }
+            });
         }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
@@ -107,6 +115,11 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kriteria Progres Siswa")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboStudentProgressRule" ClientInstanceName="cboStudentProgressRule" Width="300px" /></td>
                         <td><input type="button" id="btnStudentProgressRuleDt" class="btnMore" value="..." /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kriteria Progres Ekskul")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboExtracurricularProgressRule" ClientInstanceName="cboExtracurricularProgressRule" Width="300px" /></td>
+                        <td><input type="button" id="btnExtracurricularProgressRuleDt" class="btnMore" value="..." /></td>
                     </tr>
                 </table>
             </td>

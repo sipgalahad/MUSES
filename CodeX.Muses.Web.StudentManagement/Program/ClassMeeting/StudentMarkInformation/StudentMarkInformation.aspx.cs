@@ -63,7 +63,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     switch (hdnGCSubjectMarkType.Value)
                     {
                         case Constant.SubjectMarkType.NUMBER: divStudentMark.InnerHtml = entity.Mark.ToString(); break;
-                        case Constant.SubjectMarkType.OPTION: divStudentMark.InnerHtml = entity.OptionMark; break;
+                        case Constant.SubjectMarkType.OPTION: divStudentMark.InnerHtml = entity.StudentProgressRuleDtName; break;
                         case Constant.SubjectMarkType.TEXT: divStudentMark.InnerHtml = entity.DescriptionMark; break;
                     }
                 }

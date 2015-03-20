@@ -26,7 +26,7 @@
                         case '<%=OnGetSubjectMarkTypeOption() %>':
                             var idx = $(this).find('.hdnItemIndex').val();
                             var cboStudentMarkOption = eval('cboStudentMarkOption' + idx);
-                            if (cboStudentMarkOption.GetValue() != null)
+                            if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
                                 mark = cboStudentMarkOption.GetValue(); break;
                         case '<%=OnGetSubjectMarkTypeText() %>': mark = $(this).find('.txtStudentMarkDescription').val(); break;
                     }
@@ -129,6 +129,7 @@
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />
+    <input type="hidden" id="hdnStudentProgressRuleID" runat="server" />
     <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <style type="text/css">
         #ulMeetingViewList .divMeetingDate        { float: left; width: 66px; margin: 3px 10px 0 0; background-color: #6BBD46; padding: 3px 10px; font-size: 20px; color: White; vertical-align: middle; text-align: center; }
@@ -224,10 +225,12 @@
                                                     </td>
                                                     <td align="center">
                                                         <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="60px" />
-                                                        <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="200px" runat="server" />
+                                                        <div id="divMark" runat="server">
+                                                            <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="60px" />
+                                                            &nbsp;<b id="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                                        </div>
+                                                        <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="100px" runat="server" />
                                                         <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />
-                                                        &nbsp;<b id="bIsRemedial" runat="server" style="color:Red;">R*</b>
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>

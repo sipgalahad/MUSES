@@ -2901,7 +2901,7 @@ namespace CodeX.Data.Model
         private Boolean _IsRemedial;
         private Decimal _OriginalMark;
         private Decimal _Mark;
-        private String _GCOptionMark;
+        private Int32? _StudentProgressRuleDtID;
         private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
@@ -2934,11 +2934,11 @@ namespace CodeX.Data.Model
             get { return _Mark; }
             set { _Mark = value; }
         }
-        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
-        public String GCOptionMark
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentProgressRuleDtID
         {
-            get { return _GCOptionMark; }
-            set { _GCOptionMark = value; }
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
         }
         [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
         public String DescriptionMark
@@ -18747,6 +18747,7 @@ namespace CodeX.Data.Model
         private Int32 _TheoryFinalMarkFormulaID;
         private Int32 _PracticeFinalMarkFormulaID;
         private Int32 _StudentProgressRuleID;
+        private Int32 _ExtracurricularProgressRuleID;
         private String _GCSchoolPeriodStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -18819,6 +18820,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentProgressRuleID; }
             set { _StudentProgressRuleID = value; }
+        }
+        [Column(Name = "ExtracurricularProgressRuleID", DataType = "Int32")]
+        public Int32 ExtracurricularProgressRuleID
+        {
+            get { return _ExtracurricularProgressRuleID; }
+            set { _ExtracurricularProgressRuleID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus

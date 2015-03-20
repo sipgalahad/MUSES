@@ -11,25 +11,39 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <div style="height:440px; overflow-y:auto">
         <input type="hidden" id="hdnID" value="" runat="server" />  
-         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
-            <Columns>
-                <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" ItemStyle-CssClass="tdSubjectName" />
-                <asp:BoundField DataField="PassingGrade" HeaderStyle-Width="60px" HeaderStyle-CssClass="thCenter" HeaderText="KKM" ItemStyle-HorizontalAlign="Center" />
-                <asp:TemplateField HeaderStyle-Width="60px" HeaderStyle-CssClass="thCenter" HeaderText="Teori" ItemStyle-HorizontalAlign="Center">
-                    <ItemTemplate>
-                        <div runat="server" id="divMarkTheory"></div>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderStyle-Width="60px" HeaderStyle-CssClass="thCenter" HeaderText="Praktek" ItemStyle-HorizontalAlign="Center">
-                    <ItemTemplate>
-                        <div runat="server" id="divMarkPractice"></div>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <EmptyDataTemplate>
-                <%=GetLabel("No Data To Display")%>
-            </EmptyDataTemplate>
-        </asp:GridView>
+        <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+            <HeaderTemplate>
+                <table rules="all" class="grdBorder grdSelected">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="thCenter"><%=GetLabel("Mata Pelajaran") %></th>
+                            <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("KKM") %></th>
+                            <th colspan="2" class="thCenter"><%=GetLabel("NILAI") %></th>
+                            <th colspan="2" class="thCenter"><%=GetLabel("Affective") %></th>
+                            <th rowspan="2" class="thCenter" style="width:350px"><%=GetLabel("Deskripsi Kemajuan Belajar") %></th>
+                        </tr>
+                        <tr>
+                            <th class="thCenter" style="width:60px"><%=GetLabel("Teori") %></th>
+                            <th class="thCenter" style="width:60px"><%=GetLabel("Praktek") %></th>
+                            <th class="thCenter" style="width:60px"><%=GetLabel("Nilai") %></th>
+                            <th class="thCenter" style="width:250px"><%=GetLabel("Deskripsi") %></th>
+                        </tr>
+            </HeaderTemplate> 
+            <ItemTemplate>
+                <tr>
+                    <td><%#Eval("SubjectName") %></td>
+                    <td align="center"><%#Eval("PassingGrade") %></td>
+                    <td align="center"><div runat="server" id="divMarkTheory"></div></td>
+                    <td align="center"><div runat="server" id="divMarkPractice"></div></td>
+                    <td align="center"><div runat="server" id="divAffectiveMark"></div></td>
+                    <td><div runat="server" id="divAffectiveDescription"></div></td>
+                    <td><div runat="server" id="divProgressDescription"></div></td>
+                </tr>
+            </ItemTemplate>
+            <FooterTemplate>
+                    </thead>
+                </table>
+            </FooterTemplate>
+        </asp:Repeater>
     </div>
 </asp:Content>
