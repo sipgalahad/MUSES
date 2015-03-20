@@ -27,7 +27,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<vClassSubject> lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID IN (SELECT ClassSubjectID FROM ClassSubject WHERE SchoolClassID IN (SELECT SchoolClassID FROM ClassStudent WHERE StudentID = {0})) AND SubjectGCClassStudyType = '{1}' AND ParentID IS NULL", AppSession.ClassStudent.SchoolClassID, Constant.ClassStudyType.EXTRACURRICULAR));
 
             string lstClassSubjectID = string.Join(",", lstSubject.Select(p => p.ClassSubjectID).ToList());
-            lstMark = BusinessLayer.GetClassStudentSubjectMarkList(String.Format("ClassSubjectID IN ({0}) AND StudentID = {1} AND PeriodSectionID = {2}", lstClassSubjectID, AppSession.ClassStudent.StudentID, AppSession.ClassStudent.PeriodSectionID));
+            if (lstClassSubjectID == "")
+                lstMark = new List<ClassStudentSubjectMark>();
+            else
+                lstMark = BusinessLayer.GetClassStudentSubjectMarkList(String.Format("ClassSubjectID IN ({0}) AND StudentID = {1} AND PeriodSectionID = {2}", lstClassSubjectID, AppSession.ClassStudent.StudentID, AppSession.ClassStudent.PeriodSectionID));
             grdView.DataSource = lstSubject;
             grdView.DataBind();
         }

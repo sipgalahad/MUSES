@@ -1308,6 +1308,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassStudentSubjectTaskGroupMark
+        public static ClassStudentSubjectTaskGroupMark GetClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+        }
+        public static int InsertClassStudentSubjectTaskGroupMark(ClassStudentSubjectTaskGroupMark record)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Insert(record);
+        }
+        public static int UpdateClassStudentSubjectTaskGroupMark(ClassStudentSubjectTaskGroupMark record)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Update(record);
+        }
+        public static int DeleteClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Delete(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+        }
+        public static List<ClassStudentSubjectTaskGroupMark> GetClassStudentSubjectTaskGroupMarkList(string filterExpression)
+        {
+            List<ClassStudentSubjectTaskGroupMark> result = new List<ClassStudentSubjectTaskGroupMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskGroupMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskGroupMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentSubjectTaskGroupMark> GetClassStudentSubjectTaskGroupMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentSubjectTaskGroupMark> result = new List<ClassStudentSubjectTaskGroupMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskGroupMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskGroupMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassStudentSubjectTaskMark
         public static ClassStudentSubjectTaskMark GetClassStudentSubjectTaskMark(Int32 ClassSubjectTaskID, Int32 StudentID)
         {

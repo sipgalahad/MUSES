@@ -16,6 +16,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        var isOnLoad = true;
         $(function () {
             var GCSubjectMarkType = $('#<%=hdnGCSubjectMarkType.ClientID %>').val();
             $('#<%=btnSave.ClientID %>').click(function () {
@@ -44,6 +45,7 @@
                     var studentProgressRuleDtID = cboStudentProgressRule.GetValue();
                     if (studentProgressRuleDtID == null)
                         studentProgressRuleDtID = "";
+
                     $(this).find('.txtStudentMarkTheory').each(function () {
                         var value = '';
                         var positiontag = $(this).attr('positiontag');
@@ -59,6 +61,14 @@
                         if (tempResult != '')
                             tempResult += ',';
                         tempResult += value;
+                    });
+
+                    var tempResult2 = '';
+                    $(this).find('.txtFinalStudentMarkTheoryGroup').each(function () {
+                        var value = $(this).val();
+                        if (tempResult2 != '')
+                            tempResult2 += ',';
+                        tempResult2 += $(this).attr('formuladtid') + ')' + value;
                     });
 
                     $(this).find('.txtStudentMarkPractice').each(function () {
@@ -77,9 +87,16 @@
                             tempResult += ',';
                         tempResult += value;
                     });
+
+                    $(this).find('.txtFinalStudentMarkPracticeGroup').each(function () {
+                        var value = $(this).val();
+                        if (tempResult2 != '')
+                            tempResult2 += ',';
+                        tempResult2 += $(this).attr('formuladtid') + ')' + value;
+                    });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMarkTheory').val() + '*' + $(this).find('.txtFinalStudentMarkPractice').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + studentProgressRuleDtID + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult;
+                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMarkTheory').val() + '*' + $(this).find('.txtFinalStudentMarkPractice').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + studentProgressRuleDtID + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult + '*' + tempResult2;
                     idx++;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
@@ -105,8 +122,11 @@
             //width = 1250;
             $('#tblView').width(width);
 
-            setTotalPercentageTheory();
-            setTotalPercentagePractice();
+            setTimeout(function () {
+                setTotalPercentageTheory();
+                setTotalPercentagePractice();
+                isOnLoad = false;
+            }, 500);
         });
 
         $('.lblStudent').live('click', function () {
@@ -154,11 +174,9 @@
                 });
                 $(this).val(totalGroup);
             });
-            setTimeout(function () {
-                $('.trDetail').each(function () {
-                    setStudentFinalMarkTheory($(this));
-                });
-            }, 500);
+            $('.trDetail').each(function () {
+                setStudentGroupMarkTheory($(this));
+            });
         }
 
         $('.txtFinalMarkPercentageTheory').live('change', function () {
@@ -168,12 +186,11 @@
         });
 
         $('.txtStudentMarkTheory').live('change', function () {
-            setStudentFinalMarkTheory($(this).closest('.trDetail'));
+            setStudentGroupMarkTheory($(this).closest('.trDetail'));
         });
 
-        function setStudentFinalMarkTheory($tr) {
+        function setStudentGroupMarkTheory($tr) {
             var ctr = 0;
-            var total = 0;
 
             $tr.find('.txtAverageStudentMarkTheoryGroup').each(function () {
                 var formulaDtID = $(this).attr('formuladtid');
@@ -187,16 +204,33 @@
                 });
 
                 $(this).val(totalGroup);
+                if (!isOnLoad) {
+                    $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkTheoryGroup');
+                    $txtFinal.val(totalGroup);
+                    $txtFinal.change();
+                }
+            });
+            setStudentFinalMarkTheory($tr);
+        }
 
+        function setStudentFinalMarkTheory($tr) {
+            var total = 0;
+            $tr.find('.txtFinalStudentMarkTheoryGroup').each(function () {
                 var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
-                total += totalGroup * formulaPercentage / 100;
+                total += $(this).val() * formulaPercentage / 100;
             });
 
             $tr.find('.txtTotalStudentMarkTheory').val(total);
-            //$tr.find('.txtFinalStudentMarkTheory').val(total);
-            //$tr.find('.txtFinalStudentMarkTheory').change();
-
+            if (!isOnLoad) {
+                $tr.find('.txtFinalStudentMarkTheory').val(total);
+                $tr.find('.txtFinalStudentMarkTheory').change();
+            }
         }
+
+        $('.txtFinalStudentMarkTheoryGroup').live('change', function () {
+            $tr = $(this).closest('.trDetail');
+            setStudentFinalMarkTheory($tr);
+        });
         //#endregion
 
         //#region Practice
@@ -218,7 +252,7 @@
                 $(this).val(totalGroup);
             });
             $('.trDetail').each(function () {
-                setStudentFinalMarkPractice($(this));
+                setStudentGroupMarkPractice($(this));
             });
         }
 
@@ -229,12 +263,11 @@
         });
 
         $('.txtStudentMarkPractice').live('change', function () {
-            setStudentFinalMarkPractice($(this).closest('.trDetail'));
+            setStudentGroupMarkPractice($(this).closest('.trDetail'));
         });
 
-        function setStudentFinalMarkPractice($tr) {
+        function setStudentGroupMarkPractice($tr) {
             var ctr = 0;
-            var total = 0;
 
             $tr.find('.txtAverageStudentMarkPracticeGroup').each(function () {
                 var formulaDtID = $(this).attr('formuladtid');
@@ -248,14 +281,33 @@
                 });
 
                 $(this).val(totalGroup);
+                if (!isOnLoad) {
+                    $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkPracticeGroup');
+                    $txtFinal.val(totalGroup);
+                    $txtFinal.change();
+                }
+            });
+            setStudentFinalMarkPractice($tr);
+        }
 
+        function setStudentFinalMarkPractice($tr) {
+            var total = 0;
+            $tr.find('.txtFinalStudentMarkPracticeGroup').each(function () {
                 var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
-                total += totalGroup * formulaPercentage / 100;
+                total += $(this).val() * formulaPercentage / 100;
             });
 
             $tr.find('.txtTotalStudentMarkPractice').val(total);
-
+            if (!isOnLoad) {
+                $tr.find('.txtFinalStudentMarkPractice').val(total);
+                $tr.find('.txtFinalStudentMarkPractice').change();
+            }
         }
+
+        $('.txtFinalStudentMarkPracticeGroup').live('change', function () {
+            $tr = $(this).closest('.trDetail');
+            setStudentFinalMarkPractice($tr);
+        });
         //#endregion
 
         //#region Progress Description
@@ -360,6 +412,9 @@
                             <%=GetLabel("Rata-Rata") %><br />
                             <input type="text" class="txtAverageFinalMarkPercentageTheory number" formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
                         </th>
+                        <th class="thCenter" style="width:80px; background-color:#B9EB33">
+                            <%=GetLabel("Nilai") %><br />
+                        </th>
                     </ItemTemplate>
                 </asp:Repeater>
 
@@ -374,9 +429,12 @@
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <th class="thCenter" style="width:80px; background-color:#B9EB33">
+                        <th class="thCenter" style="width:65px; background-color:#B9EB33">
                             <%=GetLabel("Rata-Rata") %><br />
                             <input type="text" class="txtAverageFinalMarkPercentagePractice number" formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
+                        </th>
+                        <th class="thCenter" style="width:65px; background-color:#B9EB33">
+                            <%=GetLabel("Nilai") %><br />
                         </th>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -411,7 +469,8 @@
                                         </td>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                                <td align="center" id="tdAverageStudentMarkTheoryGroup" runat="server"><input class="txtAverageStudentMarkTheoryGroup number" formulapercentage='<%#Eval("TheoryFinalMarkPercentage") %>' formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:90%" /></td>
+                                <td align="center" id="tdAverageStudentMarkTheoryGroup" runat="server"><input class="txtAverageStudentMarkTheoryGroup number" formulapercentage='<%#Eval("TheoryFinalMarkPercentage") %>' formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:60px" /></td>
+                                <td align="center" id="tdFinalStudentMarkTheoryGroup" runat="server"><asp:TextBox ID="txtFinalStudentMarkTheoryGroup" runat="server" CssClass="number txtFinalStudentMarkTheoryGroup" Text="" Width="60px" /></td>
                             </ItemTemplate>
                         </asp:Repeater>
                         <td align="center" id="tdTotalStudentMarkTheory" runat="server"><input class="txtTotalStudentMarkTheory number" readonly="readonly" style="width:90%" /></td>
@@ -429,7 +488,8 @@
                                         </td>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                                <td align="center" id="tdAverageStudentMarkPracticeGroup" runat="server"><input class="txtAverageStudentMarkPracticeGroup number" formulapercentage='<%#Eval("PracticeFinalMarkPercentage") %>' formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:90%" /></td>
+                                <td align="center" id="tdAverageStudentMarkPracticeGroup" runat="server"><input class="txtAverageStudentMarkPracticeGroup number" formulapercentage='<%#Eval("PracticeFinalMarkPercentage") %>' formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:60px" /></td>
+                                <td align="center" id="tdFinalStudentMarkTheoryGroup" runat="server"><asp:TextBox ID="txtFinalStudentMarkPracticeGroup" runat="server" CssClass="number txtFinalStudentMarkPracticeGroup" Text="" Width="60px" /></td>
                             </ItemTemplate>
                         </asp:Repeater>
                         <td align="center" id="tdTotalStudentMarkPractice" runat="server"><input class="txtTotalStudentMarkPractice number" readonly="readonly" style="width:90%" /></td>

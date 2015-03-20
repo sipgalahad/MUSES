@@ -2788,6 +2788,109 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassStudentSubjectTaskGroupMark
+    [Serializable]
+    [Table(Name = "ClassStudentSubjectTaskGroupMark")]
+    public class ClassStudentSubjectTaskGroupMark : DbDataModel
+    {
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _StudentID;
+        private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _DescriptionMark;
+
+        [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
+        public Decimal Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
+        }
+    }
+
+    public class ClassStudentSubjectTaskGroupMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassStudentSubjectTaskGroupMarkDao() { }
+        public ClassStudentSubjectTaskGroupMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentSubjectTaskGroupMark Get(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentSubjectTaskGroupMark)_helper.DataRowToObject(row, new ClassStudentSubjectTaskGroupMark());
+        }
+        public int Insert(ClassStudentSubjectTaskGroupMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentSubjectTaskGroupMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            ClassStudentSubjectTaskGroupMark record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+            else
+                record = Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassStudentSubjectTaskMark
     [Serializable]
     [Table(Name = "ClassStudentSubjectTaskMark")]

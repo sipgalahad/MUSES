@@ -41,6 +41,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
                 HtmlGenericControl divMarkTheory = (HtmlGenericControl)e.Row.FindControl("divMarkTheory");
                 HtmlGenericControl divMarkPractice = (HtmlGenericControl)e.Row.FindControl("divMarkPractice");
+
                 if (studentMark != null)
                 {
                     divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
@@ -51,6 +52,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     divMarkTheory.InnerHtml = "-";
                     divMarkPractice.InnerHtml = "-";
                 }
+
+                if (entity.GCLessonType == Constant.LessonType.PRACTICE)
+                    divMarkTheory.InnerHtml = "-";
+                else if (entity.GCLessonType == Constant.LessonType.THEORY)
+                    divMarkPractice.InnerHtml = "-";
             }
         }
     }

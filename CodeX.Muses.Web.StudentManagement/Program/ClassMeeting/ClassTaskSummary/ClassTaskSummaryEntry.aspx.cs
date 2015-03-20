@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected int OnGetTableViewWidth()
         {
-            return 1280 + (lstClassTask.Count * 90);
+            return 1200 + (lstClassTask.Count * 90) + (lstTheoryGroup.Count * 90) + (lstPracticeGroup.Count * 90);
         }
         protected string OnGetSubjectMarkTypeNumber()
         {
@@ -92,7 +92,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 thFinalReadonlyMarkTheory.Style.Add("display", "none");
                 thTheory.Style.Add("display", "none");
             }
-            thTheory.ColSpan = lstTheory.Count + 2 + lstTheoryGroup.Count;
+            thTheory.ColSpan = lstTheory.Count + 2 + (lstTheoryGroup.Count * 2);
             #endregion
 
             #region Practice
@@ -120,7 +120,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 thFinalReadonlyMarkPractice.Style.Add("display", "none");
                 thPractice.Style.Add("display", "none");
             }
-            thPractice.ColSpan = lstPractice.Count + 2 + lstPracticeGroup.Count;
+            thPractice.ColSpan = lstPractice.Count + 2 + (lstPracticeGroup.Count * 2);
             #endregion
 
             string filterExpression = "";
@@ -135,6 +135,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 hdnParentClassSubjectID.Value = entityClassSubject.ParentID.ToString();
             }
             lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(filterExpression);
+            lstStudentGroupMark = BusinessLayer.GetClassStudentSubjectTaskGroupMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID));
 
             filterExpression = string.Format("{0} AND PeriodSectionID = {1}", filterExpression, AppSession.ClassSubject.PeriodSectionID);
             lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(filterExpression);
@@ -173,7 +174,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
                 HtmlTableCell thHeaderTheoryTaskGroup = (HtmlTableCell)e.Item.FindControl("thHeaderTheoryTaskGroup");
-                thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).Count() + 1;
+                thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).Count() + 2;
             }
         }
 
@@ -196,7 +197,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
                 HtmlTableCell thHeaderPracticeTaskGroup = (HtmlTableCell)e.Item.FindControl("thHeaderPracticeTaskGroup");
-                thHeaderPracticeTaskGroup.ColSpan = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).Count() + 1;
+                thHeaderPracticeTaskGroup.ColSpan = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).Count() + 2;
             }
         }
 
@@ -213,6 +214,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #endregion
         #endregion
 
+        List<ClassStudentSubjectTaskGroupMark> lstStudentGroupMark = null;
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
         List<ClassStudentSubjectMark> lstStudentFinalMark = null;
         List<StandardCode> lstOption = null;
@@ -224,6 +226,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
                 TextBox txtFinalStudentMarkTheory = (TextBox)e.Item.FindControl("txtFinalStudentMarkTheory");
                 txtFinalStudentMarkTheory.Attributes.Add("itemindex", e.Item.ItemIndex.ToString());
+
+                TextBox txtFinalStudentMarkPractice = (TextBox)e.Item.FindControl("txtFinalStudentMarkPractice");
+                txtFinalStudentMarkPractice.Attributes.Add("itemindex", e.Item.ItemIndex.ToString());
+
                 ASPxComboBox cboStudentProgressRule = (ASPxComboBox)e.Item.FindControl("cboStudentProgressRule");
                 cboStudentProgressRule.ClientInstanceName = string.Format("cboStudentProgressRule{0}", e.Item.ItemIndex);
                 Methods.SetComboBoxField<StudentProgressRuleDt>(cboStudentProgressRule, lstProgress, "StudentProgressRuleDtName", "StudentProgressRuleDtID");
@@ -231,7 +237,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 if (studentFinalMark != null)
                 {
-                    TextBox txtFinalStudentMarkPractice = (TextBox)e.Item.FindControl("txtFinalStudentMarkPractice");
                     TextBox txtAffectiveMark = (TextBox)e.Item.FindControl("txtAffectiveMark");
                     TextBox txtAffectiveDescription = (TextBox)e.Item.FindControl("txtAffectiveDescription");
                     TextBox txtProgressDescription = (TextBox)e.Item.FindControl("txtProgressDescription");
@@ -276,9 +281,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
+                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
                 Repeater rptStudentMarkTheory = (Repeater)e.Item.FindControl("rptStudentMarkTheory");
                 rptStudentMarkTheory.DataSource = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
                 rptStudentMarkTheory.DataBind();
+
+                TextBox txtFinalStudentMarkTheoryGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkTheoryGroup");
+                txtFinalStudentMarkTheoryGroup.Attributes.Add("formulapercentage", entityGroup.TheoryFinalMarkPercentage.ToString());
+                txtFinalStudentMarkTheoryGroup.Attributes.Add("formuladtid", entityGroup.TheoryFinalMarkFormulaDtID.ToString());
+                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID && p.StudentID == student.StudentID);
+                if (entityMark != null)
+                    txtFinalStudentMarkTheoryGroup.Text = entityMark.Mark.ToString();
             }
         }
 
@@ -330,9 +343,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
+                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
                 Repeater rptStudentMarkPractice = (Repeater)e.Item.FindControl("rptStudentMarkPractice");
                 rptStudentMarkPractice.DataSource = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
                 rptStudentMarkPractice.DataBind();
+
+                TextBox txtFinalStudentMarkPracticeGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkPracticeGroup");
+                txtFinalStudentMarkPracticeGroup.Attributes.Add("formulapercentage", entityGroup.PracticeFinalMarkPercentage.ToString());
+                txtFinalStudentMarkPracticeGroup.Attributes.Add("formuladtid", entityGroup.PracticeFinalMarkFormulaDtID.ToString());
+                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID && p.StudentID == student.StudentID);
+                if (entityMark != null)
+                    txtFinalStudentMarkPracticeGroup.Text = entityMark.Mark.ToString();
             }
         }
 
@@ -394,6 +415,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassSubjectTaskDao entityDtDao = new ClassSubjectTaskDao(ctx);
                 ClassStudentSubjectTaskMarkDao entityStudentSubjectTaskMarkDao = new ClassStudentSubjectTaskMarkDao(ctx);
                 ClassStudentSubjectMarkDao entityStudentSubjectMarkDao = new ClassStudentSubjectMarkDao(ctx);
+                ClassStudentSubjectTaskGroupMarkDao entityStudentSubjectTaskGroupMarkDao = new ClassStudentSubjectTaskGroupMarkDao(ctx);
                 try
                 {
                     string[] lstSaveValue = hdnListSaveHeaderValue.Value.Split('|');
@@ -425,6 +447,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     }
 
                     List<ClassStudentSubjectTaskMark> lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(string.Format("ClassSubjectTaskID IN ({0})", string.Join(",", lstClassSubjectTaskID.Select(p => p).ToList())), ctx);
+                    List<ClassStudentSubjectTaskGroupMark> lstStudentGroupMark = BusinessLayer.GetClassStudentSubjectTaskGroupMarkList(string.Format("ClassSubjectID = {0} AND PeriodSectionID = {1}", AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID), ctx);
                     List<ClassStudentSubjectMark> lstStudentFinalMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, hdnParentClassSubjectID.Value), ctx);
                     lstSaveValue = hdnListSaveValue.Value.Split('|');
                     int ClassSubjectID = Convert.ToInt32(hdnParentClassSubjectID.Value);
@@ -440,7 +463,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 finalStudentMarkTheory = Convert.ToDecimal(temp[1]);
                             decimal finalStudentMarkPractice = -1;
                             if (temp[1] != "-")
-                                finalStudentMarkPractice = Convert.ToDecimal(temp[1]);
+                                finalStudentMarkPractice = Convert.ToDecimal(temp[2]);
                             ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == studentID);
                             if (studentFinalMark == null)
                             {
@@ -567,6 +590,42 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                     }
                                 }
                                 ctr++;
+                            }
+
+                            lstSaveValue2 = temp[8].Split(',');
+                            ctr = 0;
+                            foreach (String saveValue2 in lstSaveValue2)
+                            {
+                                string[] temp1 = saveValue2.Split(')');
+                                int StudentFinalMarkFormulaDtID = Convert.ToInt32(temp1[0]);
+                                ClassStudentSubjectTaskGroupMark studentMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == StudentFinalMarkFormulaDtID && p.StudentID == studentID);
+
+                                Decimal mark = -1;
+                                if (temp1[1] != "-" && temp1[1] != "")
+                                    mark = Convert.ToDecimal(temp1[1]);
+                                if (studentMark == null)
+                                {
+                                    if (mark > -1)
+                                    {
+                                        studentMark = new ClassStudentSubjectTaskGroupMark();
+                                        studentMark.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
+                                        studentMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
+                                        studentMark.StudentID = studentID;
+                                        studentMark.StudentFinalMarkFormulaDtID = StudentFinalMarkFormulaDtID;
+                                        studentMark.Mark = mark;
+                                        entityStudentSubjectTaskGroupMarkDao.Insert(studentMark);
+                                    }
+                                }
+                                else if (studentMark.Mark != mark)
+                                {
+                                    if (mark > -1)
+                                    {
+                                        studentMark.Mark = mark;
+                                        entityStudentSubjectTaskGroupMarkDao.Update(studentMark);
+                                    }
+                                    else
+                                        entityStudentSubjectTaskGroupMarkDao.Delete(AppSession.ClassSubject.ClassSubjectID, AppSession.ClassSubject.PeriodSectionID, StudentFinalMarkFormulaDtID, studentID);
+                                }
                             }
                         }
                     }
