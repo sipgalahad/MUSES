@@ -37,8 +37,13 @@
                 $('#<%=hdnListSaveHeaderValue.ClientID %>').val(result);
 
                 result = '';
+                var idx = 0;
                 $('.trDetail').each(function () {
                     var tempResult = '';
+                    var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
+                    var studentProgressRuleDtID = cboStudentProgressRule.GetValue();
+                    if (studentProgressRuleDtID == null)
+                        studentProgressRuleDtID = "";
                     $(this).find('.txtStudentMarkTheory').each(function () {
                         var value = '';
                         var positiontag = $(this).attr('positiontag');
@@ -74,7 +79,8 @@
                     });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMarkTheory').val() + '*' + $(this).find('.txtFinalStudentMarkPractice').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult;
+                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMarkTheory').val() + '*' + $(this).find('.txtFinalStudentMarkPractice').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + studentProgressRuleDtID + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult;
+                    idx++;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
@@ -148,9 +154,11 @@
                 });
                 $(this).val(totalGroup);
             });
-            $('.trDetail').each(function () {
-                setStudentFinalMarkTheory($(this));
-            });
+            setTimeout(function () {
+                $('.trDetail').each(function () {
+                    setStudentFinalMarkTheory($(this));
+                });
+            }, 500);
         }
 
         $('.txtFinalMarkPercentageTheory').live('change', function () {
@@ -185,6 +193,8 @@
             });
 
             $tr.find('.txtTotalStudentMarkTheory').val(total);
+            //$tr.find('.txtFinalStudentMarkTheory').val(total);
+            //$tr.find('.txtFinalStudentMarkTheory').change();
 
         }
         //#endregion
@@ -247,6 +257,35 @@
 
         }
         //#endregion
+
+        //#region Progress Description
+        $('.txtFinalStudentMarkTheory').live('change', function () {
+            var value = parseFloat($(this).val());
+            var idx = $(this).attr('itemindex');
+            $tr = $('.trDetail:eq(' + idx + ')');
+            var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
+            var lstProgress = $('#<%=hdnListProgress.ClientID %>').val().split('|');
+            for (var i = 0; i < lstProgress.length; ++i) {
+                var temp = lstProgress[i].split(';');
+                if (value >= parseFloat(temp[1]) && value <= parseFloat(temp[2])) {
+                    $tr.find('.txtProgressDescription').val(temp[3]);
+                    cboStudentProgressRule.SetValue(temp[0]);
+                }
+            }
+        });
+
+        function onCboStudentProgressRuleValueChanged(s, idx) {
+            $tr = $('.trDetail:eq(' + idx + ')');
+            var value = s.GetValue();
+            var lstProgress = $('#<%=hdnListProgress.ClientID %>').val().split('|');
+            for (var i = 0; i < lstProgress.length; ++i) {
+                var temp = lstProgress[i].split(';');
+                if (temp[0] == value) {
+                    $tr.find('.txtProgressDescription').val(temp[3]);
+                }
+            }
+        }
+        //#endregion
     </script>
     <style type="text/css">
         .bIsRemedial                { cursor: pointer; }
@@ -254,10 +293,12 @@
     </style>
     <input type="hidden" id="hdnListSaveHeaderValue" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
+    <input type="hidden" id="hdnListProgress" runat="server" />
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
+    <input type="hidden" id="hdnCompetencyStandard" runat="server" />
     <table cellspacing="0" cellpadding="0">
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
@@ -271,7 +312,7 @@
                 <th id="thTheory" runat="server" class="thCenter"><%=GetLabel("KOGNITIF / PENGETAHUAN") %></th>
                 <th id="thPractice" runat="server" class="thCenter"><%=GetLabel("PSIKOMOTORIK / PRAKTEK") %></th>
                 <th colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
-                <th rowspan="3" style="width:200px" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
+                <th colspan="2" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
             </tr>
             <tr> 
                 <asp:Repeater ID="rptHeaderTheoryTaskGroup" runat="server" OnItemDataBound="rptHeaderTheoryTaskGroup_ItemDataBound">
@@ -300,6 +341,8 @@
                 <th id="thFinalMarkPractice" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor")%></th>
                 <th class="thCenter" rowspan="2" style="width:40px"><%=GetLabel("Nilai") %></th>
                 <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
+                <th class="thCenter" rowspan="2" style="width:80px"><%=GetLabel("Kriteria") %></th>
+                <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeaderTheoryGroup" runat="server" OnItemDataBound="rptHeaderTheoryGroup_ItemDataBound">
@@ -313,7 +356,7 @@
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <th class="thCenter" style="width:90px; background-color:#B9EB33">
+                        <th class="thCenter" style="width:80px; background-color:#B9EB33">
                             <%=GetLabel("Rata-Rata") %><br />
                             <input type="text" class="txtAverageFinalMarkPercentageTheory number" formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
                         </th>
@@ -331,7 +374,7 @@
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <th class="thCenter" style="width:90px; background-color:#B9EB33">
+                        <th class="thCenter" style="width:80px; background-color:#B9EB33">
                             <%=GetLabel("Rata-Rata") %><br />
                             <input type="text" class="txtAverageFinalMarkPercentagePractice number" formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
                         </th>
@@ -394,6 +437,11 @@
                         
                         <td align="center"><asp:TextBox ID="txtAffectiveMark" CssClass="txtAffectiveMark" runat="server" Width="90%" /></td>
                         <td align="center"><asp:TextBox ID="txtAffectiveDescription" CssClass="txtAffectiveDescription" runat="server" Width="90%" /></td>
+                        <td align="center">
+                            <dxe:ASPxComboBox ID="cboStudentProgressRule" runat="server" Width="90%">                        
+                                <ClientSideEvents ValueChanged="function(s,e){ onCboStudentProgressRuleValueChanged(s, '<%# Container.ItemIndex %>'); }" />
+                            </dxe:ASPxComboBox>
+                        </td>
                         <td align="center"><asp:TextBox ID="txtProgressDescription" CssClass="txtProgressDescription" runat="server" Width="90%" /></td>
                     </tr>
                 </ItemTemplate>

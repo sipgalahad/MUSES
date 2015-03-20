@@ -2685,6 +2685,7 @@ namespace CodeX.Data.Model
         private Decimal _PracticeMark;
         private String _AffectiveMark;
         private String _AffectiveDescription;
+        private Int32? _StudentProgressRuleDtID;
         private String _ProgressDescription;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
@@ -2728,6 +2729,12 @@ namespace CodeX.Data.Model
         {
             get { return _AffectiveDescription; }
             set { _AffectiveDescription = value; }
+        }
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentProgressRuleDtID
+        {
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
         }
         [Column(Name = "ProgressDescription", DataType = "String", IsNullable = true)]
         public String ProgressDescription
@@ -18636,6 +18643,7 @@ namespace CodeX.Data.Model
         private Int32 _ExamSchedulePackageID;
         private Int32 _TheoryFinalMarkFormulaID;
         private Int32 _PracticeFinalMarkFormulaID;
+        private Int32 _StudentProgressRuleID;
         private String _GCSchoolPeriodStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -18702,6 +18710,12 @@ namespace CodeX.Data.Model
         {
             get { return _PracticeFinalMarkFormulaID; }
             set { _PracticeFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus

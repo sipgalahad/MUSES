@@ -1642,6 +1642,7 @@ namespace CodeX.Data.Model
         private Int16 _PassingGrade;
         private Int32 _SubjectMatterID;
         private String _GCClassStudyType;
+        private Int32 _StudentProgressRuleID;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -1769,6 +1770,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
