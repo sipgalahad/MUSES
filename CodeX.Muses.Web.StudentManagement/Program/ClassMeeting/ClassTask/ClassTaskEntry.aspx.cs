@@ -48,13 +48,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnGCSubjectMarkType.Value = entity.GCSubjectMarkType;
             txtPassingGrade.Text = entity.PassingGrade.ToString();
             hdnStudentProgressRuleID.Value = entity.StudentProgressRuleID.ToString();
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.TASK_TYPE));
+            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = " -- Semua -- " });
+            Methods.SetComboBoxField<StandardCode>(cboFilterTaskType, lstSc, "StandardCodeName", "StandardCodeID");
+            cboFilterTaskType.SelectedIndex = 0;
+
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, AppSession.ClassSubject.ClassSubjectID);
-
+            if (cboFilterTaskType.Value != null && cboFilterTaskType.Value.ToString() != "")
+                filterExpression += string.Format(" AND GCTaskType = '{0}'", cboFilterTaskType.Value);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvClassSubjectTaskRowCount(filterExpression);
@@ -172,7 +179,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.StudentID = studentID;
                             switch (GCSubjectMarkType)
                             {
-                                case Constant.SubjectMarkType.NUMBER: entityDt.Mark = Convert.ToDecimal(temp[1]); break;
+                                case Constant.SubjectMarkType.NUMBER: entityDt.OriginalMark = entityDt.Mark = Convert.ToDecimal(temp[1]); break;
                                 case Constant.SubjectMarkType.OPTION: entityDt.StudentProgressRuleDtID = Convert.ToInt32(temp[1]); break;
                                 case Constant.SubjectMarkType.TEXT: entityDt.DescriptionMark = temp[1]; break;
                             }

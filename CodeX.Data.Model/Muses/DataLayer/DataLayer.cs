@@ -2602,6 +2602,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private Int32 _StudentID;
         private Decimal _FinalMark;
+        private String _Remarks;
 
         [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 SchoolClassID
@@ -2626,6 +2627,12 @@ namespace CodeX.Data.Model
         {
             get { return _FinalMark; }
             set { _FinalMark = value; }
+        }
+        [Column(Name = "Remarks", DataType = "Decimal", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
 

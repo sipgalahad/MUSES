@@ -380,12 +380,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 HtmlGenericControl divMark = (HtmlGenericControl)e.Item.FindControl("divMark");
                 switch (hdnGCSubjectMarkType.Value)
                 {
-                    case Constant.SubjectMarkType.NUMBER: divMark.Style.Add("display", "none"); cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
                     case Constant.SubjectMarkType.OPTION:
+                        divMark.Style.Add("display", "none"); 
                         txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
                         Methods.SetComboBoxField<StudentProgressRuleDt>(cboStudentMarkOption, lstProgress, "StudentProgressRuleDtName", "StudentProgressRuleDtID");
                         break;
-                    case Constant.SubjectMarkType.TEXT: cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.TEXT: divMark.Style.Add("display", "none"); cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
                 }
                 HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");
                 if (studentMark != null)

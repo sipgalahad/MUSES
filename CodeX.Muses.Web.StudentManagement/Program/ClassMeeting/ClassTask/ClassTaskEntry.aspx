@@ -126,6 +126,10 @@
             var url = ResolveUrl("~/Program/ClassMeeting/ClassTask/ClassTaskRemedialEntryCtl.ascx");
             openUserControlPopup(url, id, 'Remidi', 900, 550);
         });
+
+        function onCboFilterTaskTypeValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />
@@ -145,6 +149,14 @@
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
+        </tr>
+        <tr>
+            <td class="tdLabel"><%=GetLabel("Tipe Tugas") %></td>
+            <td>
+                <dxe:ASPxComboBox ID="cboFilterTaskType" ClientInstanceName="cboFilterTaskType" runat="server" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e){ onCboFilterTaskTypeValueChanged(); }" />
+                </dxe:ASPxComboBox>
+            </td>
         </tr>
     </table>
     <table style="width:100%">

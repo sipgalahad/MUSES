@@ -56,7 +56,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             lstRemedial = BusinessLayer.GetClassSubjectTaskRemedialList(string.Format("ClassSubjectTaskID = {0} AND IsDeleted = 0 ORDER BY DisplayOrder ASC", hdnID.Value));
 
             string lstRemedialID = string.Join(",", lstRemedial.Select(p => p.ClassSubjectTaskRemedialID).ToList());
-            lstStudentRemedialMark = BusinessLayer.GetClassStudentSubjectTaskRemedialMarkList(string.Format("ClassSubjectTaskRemedialID IN ({0})", lstRemedialID));
+            if (lstRemedialID != "")
+                lstStudentRemedialMark = BusinessLayer.GetClassStudentSubjectTaskRemedialMarkList(string.Format("ClassSubjectTaskRemedialID IN ({0})", lstRemedialID));
+            else
+                lstStudentRemedialMark = new List<ClassStudentSubjectTaskRemedialMark>();
 
             rptHeader.DataSource = lstRemedial;
             rptHeader.DataBind();
