@@ -22,13 +22,13 @@
         //#region edit and delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');
-            if (confirm("Are You Sure Want To Delete This Data?")) {
+            showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
                     $('#<%=hdnEntryID.ClientID %>').val(entity.ClassTypeID);
                     cbpProcessPopup.PerformCallback('delete');
                 }
-            }
+            });
         });
         //#endregion
 

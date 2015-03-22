@@ -4218,6 +4218,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vOrganizationDt
+        public static List<vOrganizationDt> GetvOrganizationDtList(string filterExpression)
+        {
+            List<vOrganizationDt> result = new List<vOrganizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOrganizationDt)helper.IDataReaderToObject(reader, new vOrganizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPeriodAdmission
         public static List<vPeriodAdmission> GetvPeriodAdmissionList(string filterExpression)
         {

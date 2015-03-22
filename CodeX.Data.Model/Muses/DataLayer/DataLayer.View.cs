@@ -10272,6 +10272,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vOrganizationDt
+    [Serializable]
+    [Table(Name = "vOrganizationDt")]
+    public class vOrganizationDt
+    {
+        private Int32 _OrganizationDtID;
+        private Int32 _OrganizationID;
+        private String _Position;
+        private Int16 _DisplayOrder;
+        private Int32 _StudentCoordinatorID;
+        private String _StudentCoordinatorCode;
+        private String _StudentCoordinatorName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "OrganizationDtID", DataType = "Int32")]
+        public Int32 OrganizationDtID
+        {
+            get { return _OrganizationDtID; }
+            set { _OrganizationDtID = value; }
+        }
+        [Column(Name = "OrganizationID", DataType = "Int32")]
+        public Int32 OrganizationID
+        {
+            get { return _OrganizationID; }
+            set { _OrganizationID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "StudentCoordinatorID", DataType = "Int32")]
+        public Int32 StudentCoordinatorID
+        {
+            get { return _StudentCoordinatorID; }
+            set { _StudentCoordinatorID = value; }
+        }
+        [Column(Name = "StudentCoordinatorCode", DataType = "String")]
+        public String StudentCoordinatorCode
+        {
+            get { return _StudentCoordinatorCode; }
+            set { _StudentCoordinatorCode = value; }
+        }
+        [Column(Name = "StudentCoordinatorName", DataType = "String")]
+        public String StudentCoordinatorName
+        {
+            get { return _StudentCoordinatorName; }
+            set { _StudentCoordinatorName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vPeriodAdmission
     [Serializable]
     [Table(Name = "vPeriodAdmission")]

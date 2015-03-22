@@ -66,6 +66,11 @@ namespace CodeX.Common
             public const string LESSON_TYPE = "MS027";
         }
 
+        public static class StudentStatus
+        {
+            public const string ACTIVE = "MS006^001";
+        }
+
         public static class SchoolPeriodStatus
         {
             public const string OPEN = "MS001^001";
@@ -459,7 +464,6 @@ namespace CodeX.Common
                 public const string SP_CLASS_SUBJECT = "SM99010402";
                 public const string SP_CLASS_SCHEDULE = "SM99010403";
                 public const string SP_CLASS_STUDENT = "SM99010404";
-                public const string SP_TEACHER_SCHEDULE = "SM99010405";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_EXTRACURRICULAR = "SM99010501";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT_EXTRACURRICULAR = "SM99010502";
                 public const string SP_GENERATE_SCHOOL_CLASS_EXTRACURRICULAR = "SM99010503";
@@ -467,6 +471,8 @@ namespace CodeX.Common
                 public const string SP_CLASS_SUBJECT_EXTRACURRICULAR = "SM99010602";
                 public const string SP_CLASS_SCHEDULE_EXTRACURRICULAR = "SM99010603";
                 public const string SP_CLASS_STUDENT_EXTRACURRICULAR = "SM99010604";
+                public const string SP_TEACHER_SCHEDULE = "SM99010701";
+                public const string SP_ORGANIZATION = "SM99010702";
 
                 public const string STUDENT_PAGE = "SM99020000";
                 public const string ST_STUDENT_PAST_STUDY = "SM99020101";

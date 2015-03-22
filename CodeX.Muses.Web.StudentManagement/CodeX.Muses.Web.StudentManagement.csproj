@@ -120,6 +120,8 @@
     <Content Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx" />
@@ -589,6 +591,20 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassStudentExtracurricularQuickPicksEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx.cs">
+      <DependentUpon>OrganizationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx.designer.cs">
+      <DependentUpon>OrganizationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx.cs">
+      <DependentUpon>OrganizationDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>OrganizationDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx.cs">
       <DependentUpon>StudentProgressRuleDtCtl.ascx</DependentUpon>

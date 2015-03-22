@@ -190,7 +190,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnID.Value));
+                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateClassSubjectTaskRemedial(entity);
@@ -208,7 +208,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnID.Value));
+                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateClassSubjectTaskRemedial(entity);

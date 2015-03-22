@@ -76,6 +76,18 @@
         });
     });
 
+    $('.divDetailDelete').die('click');
+    $('.divDetailDelete').live('click', function () {
+        $row = $(this).closest('th');
+        showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
+            if (result) {
+                var entity = rowToObject($row);
+                $('#<%=hdnID.ClientID %>').val(entity.ClassSubjectTaskRemedialID);
+                cbpProcessPopup.PerformCallback('delete');
+            }
+        });
+    });
+
     $('.lblRemedialDisplayOrder').die('click');
     $('.lblRemedialDisplayOrder').live('click', function () {
         $row = $(this).closest('th');
@@ -258,7 +270,8 @@
                             <asp:Repeater ID="rptHeader" runat="server">
                                 <ItemTemplate>
                                     <th class="thCenter" style="width:80px">
-                                        <label class="lblLink lblRemedialDisplayOrder">R<%#Eval("DisplayOrder") %></label>
+                                        <div class="divDetailDelete" style="float:right;"></div>
+                                        <label class="lblLink lblRemedialDisplayOrder" style="margin-right: -15px;">R<%#Eval("DisplayOrder") %></label>
                                         <input type="hidden" value="<%#Eval("ClassSubjectTaskRemedialID") %>" bindingfield="ClassSubjectTaskRemedialID" />
                                         <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                         <input type="hidden" value="<%#Eval("TaskDate", "{0:dd-MM-yyyy}") %>" bindingfield="TaskDate" />

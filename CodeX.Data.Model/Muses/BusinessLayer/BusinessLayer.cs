@@ -5705,6 +5705,142 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region OrganizationDt
+        public static OrganizationDt GetOrganizationDt(Int32 OrganizationDtID)
+        {
+            return new OrganizationDtDao().Get(OrganizationDtID);
+        }
+        public static int InsertOrganizationDt(OrganizationDt record)
+        {
+            return new OrganizationDtDao().Insert(record);
+        }
+        public static int UpdateOrganizationDt(OrganizationDt record)
+        {
+            return new OrganizationDtDao().Update(record);
+        }
+        public static int DeleteOrganizationDt(Int32 OrganizationDtID)
+        {
+            return new OrganizationDtDao().Delete(OrganizationDtID);
+        }
+        public static List<OrganizationDt> GetOrganizationDtList(string filterExpression)
+        {
+            List<OrganizationDt> result = new List<OrganizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDt)helper.IDataReaderToObject(reader, new OrganizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetOrganizationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDt));
+                ctx.CommandText = helper.SelectMaxColumn("OrganizationDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region OrganizationDtStudent
+        public static OrganizationDtStudent GetOrganizationDtStudent(Int32 OrganizationDtID, Int32 StudentID)
+        {
+            return new OrganizationDtStudentDao().Get(OrganizationDtID, StudentID);
+        }
+        public static int InsertOrganizationDtStudent(OrganizationDtStudent record)
+        {
+            return new OrganizationDtStudentDao().Insert(record);
+        }
+        public static int UpdateOrganizationDtStudent(OrganizationDtStudent record)
+        {
+            return new OrganizationDtStudentDao().Update(record);
+        }
+        public static int DeleteOrganizationDtStudent(Int32 OrganizationDtID, Int32 StudentID)
+        {
+            return new OrganizationDtStudentDao().Delete(OrganizationDtID, StudentID);
+        }
+        public static List<OrganizationDtStudent> GetOrganizationDtStudentList(string filterExpression)
+        {
+            List<OrganizationDtStudent> result = new List<OrganizationDtStudent>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDtStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDtStudent)helper.IDataReaderToObject(reader, new OrganizationDtStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region OrganizationHd
+        public static OrganizationHd GetOrganizationHd(Int32 OrganizationID)
+        {
+            return new OrganizationHdDao().Get(OrganizationID);
+        }
+        public static int InsertOrganizationHd(OrganizationHd record)
+        {
+            return new OrganizationHdDao().Insert(record);
+        }
+        public static int UpdateOrganizationHd(OrganizationHd record)
+        {
+            return new OrganizationHdDao().Update(record);
+        }
+        public static int DeleteOrganizationHd(Int32 OrganizationID)
+        {
+            return new OrganizationHdDao().Delete(OrganizationID);
+        }
+        public static List<OrganizationHd> GetOrganizationHdList(string filterExpression)
+        {
+            List<OrganizationHd> result = new List<OrganizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationHd)helper.IDataReaderToObject(reader, new OrganizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PeriodAdmission
         public static PeriodAdmission GetPeriodAdmission(Int32 PeriodAdmissionID)
         {

@@ -632,6 +632,18 @@
   </searchdialog>
 
   <!-- #EndRegion -->
+  <!-- #Region Student-->
+  <searchdialog type="student" methodname="GetStudentList" keyfieldname="StudentCode" orderbyexpression="StudentName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="StudentCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="StudentName" headertext="Nama" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="StudentCode" headertext="Kode" description="" />
+      <intellisensetext datafield="StudentName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Sub Ledger Dt -->
   <searchdialog type="subledgerdt" methodname="GetSubLedgerDtList" keyfieldname="SubLedgerDtCode" orderbyexpression="SubLedgerDtCode">
     <gridcolumns>
