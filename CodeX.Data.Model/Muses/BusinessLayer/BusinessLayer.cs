@@ -9229,6 +9229,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFee
+        public static StudentFee GetStudentFee(Int32 StudentFeeID)
+        {
+            return new StudentFeeDao().Get(StudentFeeID);
+        }
+        public static int InsertStudentFee(StudentFee record)
+        {
+            return new StudentFeeDao().Insert(record);
+        }
+        public static int UpdateStudentFee(StudentFee record)
+        {
+            return new StudentFeeDao().Update(record);
+        }
+        public static int DeleteStudentFee(Int32 StudentFeeID)
+        {
+            return new StudentFeeDao().Delete(StudentFeeID);
+        }
+        public static List<StudentFee> GetStudentFeeList(string filterExpression)
+        {
+            List<StudentFee> result = new List<StudentFee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFee)helper.IDataReaderToObject(reader, new StudentFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentFeeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFee));
+                ctx.CommandText = helper.SelectMaxColumn("StudentFeeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region StudentFeeComp
         public static StudentFeeComp GetStudentFeeComp(Int32 StudentFeeCompID)
         {
