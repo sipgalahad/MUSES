@@ -40,6 +40,10 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             return String.Format("IsDeleted = 0 AND SiteID = '{0}'", AppSession.UserLogin.SiteID);
         }
+        public String OnGetSchoolPeriodFilterExpression() 
+        {
+            return String.Format("SiteID = '{0}' AND GCSchoolPeriodStatus = '{1}'",AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.START);
+        }
         #endregion
 
         public class TempClass
@@ -74,7 +78,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = String.Format("StudentID = {0} AND GCAdmissionPaymentPeriod IN ('{1}','{2}') AND IsDeleted = 0", tacStudent.Value, Constant.AdmissionPaymentPeriod.TAHUNAN, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR);
+            string filterExpression = String.Format("StudentID = {0} AND GCAdmissionPaymentPeriod IN ('{1}','{2}') AND IsDeleted = 0 AND SchoolPeriodID = {3}", tacStudent.Value, Constant.AdmissionPaymentPeriod.TAHUNAN, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR, hdnSchoolPeriodID.Value);
             return filterExpression;
         }
 
@@ -84,9 +88,12 @@ namespace CodeX.Muses.Web.Finance.Program
             String filterExpression = GetFilterExpression();
             List<vStudentFeeComp> lstStudentFeeComp = BusinessLayer.GetvStudentFeeCompList(filterExpression);
             String StudentFeeCompID = String.Join(",", lstStudentFeeComp.Select(x => x.StudentFeeCompID));
-            lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0})", StudentFeeCompID));
-            rptStudentFeeComp.DataSource = lstStudentFeeComp;
-            rptStudentFeeComp.DataBind();
+            if (StudentFeeCompID != "") 
+            {
+                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0})", StudentFeeCompID));
+                rptStudentFeeComp.DataSource = lstStudentFeeComp;
+                rptStudentFeeComp.DataBind();
+            }
         }
 
         protected void rptStudentFeeComp_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -94,18 +101,29 @@ namespace CodeX.Muses.Web.Finance.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vStudentFeeComp entity = e.Item.DataItem as vStudentFeeComp;
-                
+                List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.IsDeleted == false && (x.GCTransactionStatus != Constant.TransactionStatus.CLOSED && x.GCTransactionStatus != Constant.TransactionStatus.VOID)).ToList(); 
                 Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
-                rptStudentFee.DataSource = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.IsDeleted == false && (x.GCTransactionStatus != Constant.TransactionStatus.CLOSED && x.GCTransactionStatus != Constant.TransactionStatus.VOID));
+                rptStudentFee.DataSource = lstTemp;
                 rptStudentFee.DataBind();
 
-                HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
-                hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0}", entity.StudentFeeCompID));
-                Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.IsDeleted == false && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
-                hdnTotalAmount.Value = totalAmount.ToString();
+                if (lstTemp.Count() > 0)
+                {
+                    HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
+                    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0}", entity.StudentFeeCompID));
+                    Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.IsDeleted == false && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
+                    hdnTotalAmount.Value = totalAmount.ToString();
 
-                HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
-                tdTotalAmount.InnerHtml = totalAmount.ToString("N");
+                    HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
+                    tdTotalAmount.InnerHtml = totalAmount.ToString("N");
+                }
+                else
+                {
+                    HtmlTableRow trDataHeader = e.Item.FindControl("trDataHeader") as HtmlTableRow;
+                    trDataHeader.Style.Add("display", "none");
+
+                    HtmlTableRow trDataDetail = e.Item.FindControl("trDataDetail") as HtmlTableRow;
+                    trDataDetail.Style.Add("display", "none");
+                }
             }
         }
 
@@ -171,7 +189,7 @@ namespace CodeX.Muses.Web.Finance.Program
             String filterExpression = GetFilterExpression();
             List<vStudentFeeComp> lstStudentFeeComp = BusinessLayer.GetvStudentFeeCompList(filterExpression);
             String StudentFeeCompID = String.Join(",", lstStudentFeeComp.Select(x => x.StudentFeeCompID));
-            lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0}) AND IsDeleted = 0 AND GCTransactionStatus IN ('{1}','{2}','{3}')", StudentFeeCompID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.PROCESSED));
+            lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0}) AND IsDeleted = 0 AND GCTransactionStatus IN ('{1}','{2}','{3}') AND SchoolPeriodID = {4}", StudentFeeCompID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.PROCESSED, hdnSchoolPeriodID.Value));
 
             List<Int32> lstStudentFeeCompID = lstStudentFeeComp.GroupBy(x => x.StudentFeeCompID).Select(x => x.Key).ToList();
             String studentFeeID = String.Join(",", lstStudentFee.Select(x => x.StudentFeeID));
@@ -195,8 +213,8 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 foreach (Int32 studentFeeCompID in lstStudentFeeCompID)
                 {
-                    Int32 countEdit = lstTempClass.Select(x => x.StudentFeeCompID == studentFeeCompID).Count();
-                    Int32 countSF = lstStudentFee.Select(x => x.StudentFeeCompID == studentFeeCompID).Count();
+                    Int32 countEdit = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
+                    Int32 countSF = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
                     List<vStudentFee> lstSf = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
                     List<TempClass> lstTc = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
 

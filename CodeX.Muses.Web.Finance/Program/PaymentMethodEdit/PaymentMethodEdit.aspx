@@ -54,7 +54,6 @@
                         tacStudent.setValue('');
                         tacStudent.setText('');
                         cbpView.PerformCallback('refresh');
-                        //entityToControlRegistration(result);
                     }
                 });
             });
@@ -70,15 +69,47 @@
                 });
             }
         }
+        //#endregion
 
-        function entityToControlStudent(result) {
-            if (result != null) {
-                
+        //#region SchoolPeriod
+        function onGetSchoolPeriodFilterExpression() {
+            var filterExpression = "<%=OnGetSchoolPeriodFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacSchoolPeriodButtonSearchClick() {
+            openSearchDialog('schoolperiod', onGetSchoolPeriodFilterExpression(), function (value) {
+                var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
+                Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSchoolPeriod.setValue(result.SchoolPeriodCode);
+                        tacSchoolPeriod.setText(result.SchoolPeriodName);
+                        $('#<%=hdnSchoolPeriodID.ClientID %>').val(result.SchoolPeriodID);
+                        cbpView.PerformCallback('refresh');
+                    }
+                    else {
+                        tacSchoolPeriod.setValue('');
+                        tacSchoolPeriod.setText('');
+                        $('#<%=hdnSchoolPeriodID.ClientID %>').val('');
+                        cbpView.PerformCallback('refresh');
+                    }
+                });
+            });
+
+        }
+
+        function onTacSchoolPeriodValueChanged() {
+            var id = tacStudent.getValue();
+            if (id != '') {
+                var filterExpression = onGetSchoolPeriodFilterExpression() + " AND SchoolPeriodCode = '" + value + "'";
+                Methods.getObject('GetvSchoolPeriodList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnSchoolPeriodID.ClientID %>').val(result.SchoolPeriodID)
+                        cbpView.PerformCallback('refresh');
+                    }
+                    
+                });
             }
-            else {
-                
-            }
-            //cbpScholarship.PerformCallback('refresh');
         }
         //#endregion
 
@@ -204,6 +235,17 @@
                         </cdx:CodeXAutoCompleteTextBox>   
                     </td>
                 </tr>
+                <tr>
+                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tahun Ajaran")%></label></td>
+                    <td>
+                        <input type="hidden" id="hdnSchoolPeriodID" runat="server" value="0" />
+                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolPeriod" ClientInstanceName="tacSchoolPeriod" MethodName="GetvSchoolPeriodList" GetFilterExpressionFunction="onGetSchoolPeriodFilterExpression"
+                            SearchFields="SchoolPeriodName" TextField="SchoolPeriodName" ValueField="SchoolPeriodCode" SearchText="${SchoolPeriodName} (<b>${SchoolPeriodCode}</b>)" OrderByExpression="SchoolPeriodName">
+                            <ClientSideEvents ButtonSearchClick="function(){ onTacSchoolPeriodButtonSearchClick(); }"
+                                ValueChanged="function(){ onTacSchoolPeriodValueChanged(); }" />
+                        </cdx:CodeXAutoCompleteTextBox>   
+                    </td>
+                </tr>
         </table>
     </div>
     <div>
@@ -224,12 +266,12 @@
                             </colgroup>
                             <asp:Repeater runat="server" ID="rptStudentFeeComp" OnItemDataBound="rptStudentFeeComp_ItemDataBound">
                                 <ItemTemplate>                                        
-                                        <tr>
+                                        <tr id="trDataHeader" runat="server">
                                             <td>Sisa <%#:Eval("StudentFeeCompTypeName") %></td>
                                             <td>:</td>
                                             <td id="tdTotalAmount" runat="server"></td>
                                         </tr>
-                                        <tr>
+                                        <tr id="trDataDetail" runat="server">
                                             <td colspan="3">
                                                 <input type="hidden" class="hdnKeyField" runat="server" value='<%#:Eval("StudentFeeCompID") %>' />
                                                 <input type="hidden" id="hdnTotalAmount" runat="server" />
