@@ -5800,6 +5800,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<OrganizationDtStudent> GetOrganizationDtStudentList(string filterExpression, IDbContext ctx)
+        {
+            List<OrganizationDtStudent> result = new List<OrganizationDtStudent>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDtStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDtStudent)helper.IDataReaderToObject(reader, new OrganizationDtStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region OrganizationHd
         public static OrganizationHd GetOrganizationHd(Int32 OrganizationID)

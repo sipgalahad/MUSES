@@ -4242,6 +4242,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vOrganizationDtStudent
+        public static List<vOrganizationDtStudent> GetvOrganizationDtStudentList(string filterExpression)
+        {
+            List<vOrganizationDtStudent> result = new List<vOrganizationDtStudent>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDtStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOrganizationDtStudent)helper.IDataReaderToObject(reader, new vOrganizationDtStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPeriodAdmission
         public static List<vPeriodAdmission> GetvPeriodAdmissionList(string filterExpression)
         {

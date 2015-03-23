@@ -10279,11 +10279,14 @@ namespace CodeX.Data.Model
     {
         private Int32 _OrganizationDtID;
         private Int32 _OrganizationID;
+        private String _OrganizationName;
         private String _Position;
         private Int16 _DisplayOrder;
         private Int32 _StudentCoordinatorID;
         private String _StudentCoordinatorCode;
         private String _StudentCoordinatorName;
+        private String _ListStudentID;
+        private String _ListStudentName;
         private Boolean _IsDeleted;
 
         [Column(Name = "OrganizationDtID", DataType = "Int32")]
@@ -10297,6 +10300,12 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationID; }
             set { _OrganizationID = value; }
+        }
+        [Column(Name = "OrganizationName", DataType = "String")]
+        public String OrganizationName
+        {
+            get { return _OrganizationName; }
+            set { _OrganizationName = value; }
         }
         [Column(Name = "Position", DataType = "String")]
         public String Position
@@ -10328,11 +10337,66 @@ namespace CodeX.Data.Model
             get { return _StudentCoordinatorName; }
             set { _StudentCoordinatorName = value; }
         }
+        [Column(Name = "ListStudentID", DataType = "String")]
+        public String ListStudentID
+        {
+            get { return _ListStudentID; }
+            set { _ListStudentID = value; }
+        }
+        [Column(Name = "ListStudentName", DataType = "String")]
+        public String ListStudentName
+        {
+            get { return _ListStudentName; }
+            set { _ListStudentName = value; }
+        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vOrganizationDtStudent
+    [Serializable]
+    [Table(Name = "vOrganizationDtStudent")]
+    public class vOrganizationDtStudent
+    {
+        private Int32 _OrganizationDtID;
+        private Int32 _OrganizationID;
+        private String _OrganizationName;
+        private String _Position;
+        private Int32 _StudentID;
+
+        [Column(Name = "OrganizationDtID", DataType = "Int32")]
+        public Int32 OrganizationDtID
+        {
+            get { return _OrganizationDtID; }
+            set { _OrganizationDtID = value; }
+        }
+        [Column(Name = "OrganizationID", DataType = "Int32")]
+        public Int32 OrganizationID
+        {
+            get { return _OrganizationID; }
+            set { _OrganizationID = value; }
+        }
+        [Column(Name = "OrganizationName", DataType = "String")]
+        public String OrganizationName
+        {
+            get { return _OrganizationName; }
+            set { _OrganizationName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
         }
     }
     #endregion

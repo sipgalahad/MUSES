@@ -516,6 +516,7 @@ namespace CodeX.Common
                 public const string CS_EXTRACURRICULAR_MARK = "SM99060102";
                 public const string CS_PERSONALITY_MARK = "SM99060103";
                 public const string CS_CLASS_STUDENT_NOTE = "SM99060104";
+                public const string CS_ORGANIZATION_MARK = "SM99060105";
             }
             #endregion
             #endregion

@@ -92,7 +92,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             OrganizationDtDao entityDao = new OrganizationDtDao(ctx);
-            //OrganizationDtTaskTypeDao entityDtDao = new OrganizationDtTaskTypeDao(ctx);
+            OrganizationDtStudentDao entityDtDao = new OrganizationDtStudentDao(ctx);
             try
             {
                 OrganizationDt entity = new OrganizationDt();
@@ -102,14 +102,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Insert(entity);
                 entity.OrganizationDtID = BusinessLayer.GetOrganizationDtMaxID(ctx);
 
-                //string[] lstTaskTypeID = hdnLstTaskTypeID.Value.Split(',');
-                //foreach (string taskTypeID in lstTaskTypeID)
-                //{
-                //    OrganizationDtTaskType entityDt = new OrganizationDtTaskType();
-                //    entityDt.OrganizationDtID = entity.OrganizationDtID;
-                //    entityDt.GCTaskType = taskTypeID;
-                //    entityDtDao.Insert(entityDt);
-                //}
+                string[] lstStudentID = hdnStudentSave.Value.Split(',');
+                foreach (string studentID in lstStudentID)
+                {
+                    OrganizationDtStudent entityDt = new OrganizationDtStudent();
+                    entityDt.OrganizationDtID = entity.OrganizationDtID;
+                    entityDt.StudentID = Convert.ToInt32(studentID);
+                    entityDtDao.Insert(entityDt);
+                }
 
                 ctx.CommitTransaction();
             }
@@ -132,7 +132,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             OrganizationDtDao entityDao = new OrganizationDtDao(ctx);
-            //OrganizationDtTaskTypeDao entityDtDao = new OrganizationDtTaskTypeDao(ctx);
+            OrganizationDtStudentDao entityDtDao = new OrganizationDtStudentDao(ctx);
             try
             {
                 OrganizationDt entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
@@ -140,26 +140,29 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
 
-                //List<OrganizationDtTaskType> lstEntityDt = BusinessLayer.GetOrganizationDtTaskTypeList(string.Format("OrganizationDtID = {0}", entity.OrganizationDtID), ctx);
-                //string[] lstTaskTypeID = hdnLstTaskTypeID.Value.Split(',');
-                //foreach (string taskTypeID in lstTaskTypeID)
-                //{
-                //    OrganizationDtTaskType entityDt = lstEntityDt.FirstOrDefault(p => p.GCTaskType == taskTypeID);
-                //    if (entityDt == null)
-                //    {
-                //        entityDt = new OrganizationDtTaskType();
-                //        entityDt.OrganizationDtID = entity.OrganizationDtID;
-                //        entityDt.GCTaskType = taskTypeID;
-                //        entityDtDao.Insert(entityDt);
-                //    }
-                //    else
-                //        lstEntityDt.Remove(entityDt);
-                //}
+                List<OrganizationDtStudent> lstEntityDt = BusinessLayer.GetOrganizationDtStudentList(string.Format("OrganizationDtID = {0}", entity.OrganizationDtID), ctx);
+                if (hdnStudentSave.Value != "")
+                {
+                    string[] lstStudentID = hdnStudentSave.Value.Split(',');
+                    foreach (string studentID in lstStudentID)
+                    {
+                        OrganizationDtStudent entityDt = lstEntityDt.FirstOrDefault(p => p.StudentID == Convert.ToInt32(studentID));
+                        if (entityDt == null)
+                        {
+                            entityDt = new OrganizationDtStudent();
+                            entityDt.OrganizationDtID = entity.OrganizationDtID;
+                            entityDt.StudentID = Convert.ToInt32(studentID);
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                            lstEntityDt.Remove(entityDt);
+                    }
+                }
 
-                //foreach (OrganizationDtTaskType entityDt in lstEntityDt)
-                //{
-                //    entityDtDao.Delete(entityDt.OrganizationDtID, entityDt.GCTaskType);
-                //}
+                foreach (OrganizationDtStudent entityDt in lstEntityDt)
+                {
+                    entityDtDao.Delete(entityDt.OrganizationDtID, entityDt.StudentID);
+                }
 
                 ctx.CommitTransaction();
             }

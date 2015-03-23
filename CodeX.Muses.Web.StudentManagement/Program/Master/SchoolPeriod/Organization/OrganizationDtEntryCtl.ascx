@@ -19,6 +19,12 @@
             tacStudentCoordinator.setValue('');
             tacStudentCoordinator.setText('');
             $('#<%=hdnStudentCoordinatorID.ClientID %>').val('');
+
+            idxStudent = 0;
+            $('.trStudentDt').each(function () {
+                $(this).remove();
+            });
+
             $('#entryDetailContainerPopup').show();
         });
 
@@ -27,8 +33,16 @@
         });
 
         $('#btnSavePopup').click(function (evt) {
-            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup'))
+            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup')) {
+                var result = '';
+                $('.tacStudent').each(function () {
+                    if (result != "")
+                        result += ',';
+                    result += $(this).find('.hdnAutoCompleteValue').val();
+                });
+                $('#<%=hdnStudentSave.ClientID %>').val(result);
                 cbpProcessPopup.PerformCallback('save');
+            }
         });
     });
 
@@ -53,7 +67,24 @@
         $('#<%=txtPosition.ClientID %>').val(entity.Position);
         tacStudentCoordinator.setValue(entity.StudentCoordinatorID);
         tacStudentCoordinator.setText(entity.StudentCoordinatorName);
-        $('#<%=hdnStudentCoordinatorID.ClientID %>').val(result.StudentCoordinatorID);  
+        $('#<%=hdnStudentCoordinatorID.ClientID %>').val(entity.StudentCoordinatorID);
+
+        idxStudent = 0;
+        $('.trStudentDt').each(function () {
+            $(this).remove();
+        });
+
+        var lstStudentID = entity.ListStudentID.split(',');
+        var lstStudentName = entity.ListStudentName.split(', ');
+        for (var i = 0; i < lstStudentID.length; ++i) {
+            $('#divEntryDtAdd').click();
+
+            $tr = $('.trStudentDt').last();
+            $tacStudent = $tr.find('.tacStudent');
+            $tacStudent.find('.hdnAutoCompleteValue').val(lstStudentID[i]);
+            $tacStudent.find('.hdnAutoCompleteText').val(lstStudentName[i]);
+            $tacStudent.find('.txtAutoComplete').val(lstStudentName[i]);
+        }
 
         $('#entryDetailContainerPopup').show();
     });
@@ -79,7 +110,7 @@
     }
 
     //#region Student
-    function onGetStudentFilterExpression() {
+    window.onGetStudentFilterExpression = function() {
         var filterExpression = "<%=OnGetStudentFilterExpression() %>";
         return filterExpression;
     }
@@ -120,17 +151,109 @@
             $('#<%=hdnStudentCoordinatorID.ClientID %>').val('');
     }
     //#endregion
+
+    var idxStudent = 0;
+    $('#divEntryDtAdd').click(function () {
+        $newTr = $('#tmplEntityDt').html().replace('script1', 'script').replace('script1', 'script');
+        $newTr = $newTr.replace(/\$\{idx}/g, idxStudent);
+        $newTr = $($newTr);
+        $newTr.insertBefore($('#trSaveEntryPopup'));
+
+        var tempHelper = new CodeXClientAutoCompleteHelper();
+        tempHelper.init("Student" + idxStudent, "StudentCode,StudentName", "GetStudentList", "", "onGetStudentFilterExpression", "StudentID");
+        tempHelper.setClientSideEvents(onStudentIDValueChanged);
+        tempHelper.initializeControl();
+        idxStudent++;
+    });
+
+    function onStudentIDValueChanged($s) {
+        $tacTr = $s.closest('tr');
+        if ($s.val() != '') {
+            //var trIdx = $('.trJournalEntry').index($tacTr);
+            //if (trIdx == $('.trJournalEntry').length - 1)
+            //    addEntityRowPrescription();
+        }
+    }
+
+    $('.divDeleteEntryDt').live('click', function () {
+        $tr = $(this).closest('tr').parent().closest('tr');
+        $tr.remove();
+    });
+
+    $('.tacStudent .btnAutoCompleteSearchMore').die('click');
+    $('.tacStudent .btnAutoCompleteSearchMore').live('click', function () {
+        $tacTr = $(this).closest('tr');
+        openSearchDialog('student', onGetStudentFilterExpression(), function (value) {
+            var filterExpression = onGetStudentFilterExpression() + " AND StudentCode = '" + value + "'";
+            Methods.getObject('GetStudentList', filterExpression, function (result) {
+                $tacCOA = $tacTr.find('.tacStudent');
+                if (result != null) {
+                    $tacCOA.find('.hdnAutoCompleteValue').val(result.StudentID);
+                    $tacCOA.find('.hdnAutoCompleteText').val(result.StudentName);
+                    $tacCOA.find('.txtAutoComplete').val(result.StudentName);
+                }
+                else {
+                    $tacCOA.find('.hdnAutoCompleteValue').val('');
+                    $tacCOA.find('.hdnAutoCompleteText').val('');
+                    $tacCOA.find('.txtAutoComplete').val('');
+                }
+                onStudentIDValueChanged($tacCOA.find('.txtAutoComplete'));
+            });
+            //var trIdx = $('.trPrescriptionEntry').index($tacTr);
+            //if (trIdx == $('.trPrescriptionEntry').length - 1)
+            //    addEntityRowPrescription();
+            $tacTr = null;
+        });
+    });
 </script>
 
 <div style="height:440px; overflow-y:auto">
     <input type="hidden" id="hdnID" value="" runat="server" />
+    <input type="hidden" id="hdnStudentSave" value="" runat="server" />
+    <script id="tmplEntityDt" type="text/x-jquery-tmpl">
+        <tr class="trStudentDt">
+            <td>&nbsp;</td>
+            <td>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <div id="Student${idx}" class="tacStudent">
+                                <div>
+                                    <div class="containerAutoComplete">
+                                        <input type="hidden" class="hdnAutoCompleteValue"/>
+                                        <input type="hidden" class="hdnAutoCompleteText"/>
+                                        <input type="hidden" class="hdnIsRequired" value="1"/>
+                                        <input type="hidden" class="hdnValidationGroup" value="mpDrugsQuickPicks"/>
+                                        <input type="text" class="required txtAutoComplete" validationgroup="mpTrxPopup" style="width:145px"/>
+                                        <input type="button" class="btnAutoCompleteSearchMore btnSearch"/>
+                                        <div class="divListAutoCompleteResultBox">
+                                            <div class="divListAutoCompleteResult">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script class="tmpltAutoComplete" type="text/x-jquery-tmpl">
+                                        <div>
+                                            ${StudentName} (<b>${StudentCode}</b>)
+                                            <input type='hidden' value='${StudentName}' class='hdnAutoCompleteRowText'/>
+                                            <input type='hidden' value='${StudentID}' class='hdnAutoCompleteRowValue'/>
+                                        </div>
+                                    </script1>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </script>
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
             <col style="width:160px"/>
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Formula")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Organisasi")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
     </table>
@@ -140,7 +263,7 @@
         <div id="entryDetailContainerPopup" class="entryDetailContainer" style="display: none">
             <fieldset id="fsTrxPopup" style="margin:0"> 
                 <input type="hidden" id="hdnEntryID" runat="server" value="" />
-                <table>
+                <table id="tblEntryPopup">
                     <colgroup>
                         <col style="width:150px"/>
                         <col />
@@ -165,6 +288,10 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>&nbsp;</td>
+                        <td><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Member")%></span><br /></td>
+                    </tr>
+                    <tr id="trSaveEntryPopup">
                         <td> 
                             <input type="button" id="btnSavePopup" class="btnWhite" value="Commit"/>
                             <input type="button" id="btnCancelPopup" class="btnWhite" value="Cancel"/>
@@ -184,8 +311,9 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
-                            <asp:BoundField DataField="Position" HeaderText="Jabatan / Posisi" />
-                            <asp:BoundField DataField="StudentCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="300px" />
+                            <asp:BoundField DataField="Position" HeaderText="Jabatan / Posisi" HeaderStyle-Width="150px" />
+                            <asp:BoundField DataField="StudentCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="200px" />
+                            <asp:BoundField DataField="ListStudentName" HeaderText="Member" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <div style='float:right;' class="divDetailDelete"></div>
@@ -195,6 +323,8 @@
                                     <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                     <input type="hidden" value="<%#Eval("StudentCoordinatorID") %>" bindingfield="StudentCoordinatorID" />
                                     <input type="hidden" value="<%#Eval("StudentCoordinatorName") %>" bindingfield="StudentCoordinatorName" />
+                                    <input type="hidden" value="<%#Eval("ListStudentID") %>" bindingfield="ListStudentID" />
+                                    <input type="hidden" value="<%#Eval("ListStudentName") %>" bindingfield="ListStudentName" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
