@@ -1308,6 +1308,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassStudentSubjectTaskGroupMark
+        public static ClassStudentSubjectTaskGroupMark GetClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+        }
+        public static int InsertClassStudentSubjectTaskGroupMark(ClassStudentSubjectTaskGroupMark record)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Insert(record);
+        }
+        public static int UpdateClassStudentSubjectTaskGroupMark(ClassStudentSubjectTaskGroupMark record)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Update(record);
+        }
+        public static int DeleteClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            return new ClassStudentSubjectTaskGroupMarkDao().Delete(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+        }
+        public static List<ClassStudentSubjectTaskGroupMark> GetClassStudentSubjectTaskGroupMarkList(string filterExpression)
+        {
+            List<ClassStudentSubjectTaskGroupMark> result = new List<ClassStudentSubjectTaskGroupMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskGroupMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskGroupMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentSubjectTaskGroupMark> GetClassStudentSubjectTaskGroupMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentSubjectTaskGroupMark> result = new List<ClassStudentSubjectTaskGroupMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectTaskGroupMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectTaskGroupMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassStudentSubjectTaskMark
         public static ClassStudentSubjectTaskMark GetClassStudentSubjectTaskMark(Int32 ClassSubjectTaskID, Int32 StudentID)
         {
@@ -1858,6 +1915,62 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((COABudget)helper.IDataReaderToObject(reader, new COABudget()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region COAGroup
+        public static COAGroup GetCOAGroup(Int32 COAGroupID)
+        {
+            return new COAGroupDao().Get(COAGroupID);
+        }
+        public static int InsertCOAGroup(COAGroup record)
+        {
+            return new COAGroupDao().Insert(record);
+        }
+        public static int UpdateCOAGroup(COAGroup record)
+        {
+            return new COAGroupDao().Update(record);
+        }
+        public static int DeleteCOAGroup(Int32 COAGroupID)
+        {
+            return new COAGroupDao().Delete(COAGroupID);
+        }
+        public static List<COAGroup> GetCOAGroupList(string filterExpression)
+        {
+            List<COAGroup> result = new List<COAGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(COAGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((COAGroup)helper.IDataReaderToObject(reader, new COAGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCOAGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(COAGroup));
+                ctx.CommandText = helper.SelectMaxColumn("COAGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {
@@ -5648,6 +5761,159 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region OrganizationDt
+        public static OrganizationDt GetOrganizationDt(Int32 OrganizationDtID)
+        {
+            return new OrganizationDtDao().Get(OrganizationDtID);
+        }
+        public static int InsertOrganizationDt(OrganizationDt record)
+        {
+            return new OrganizationDtDao().Insert(record);
+        }
+        public static int UpdateOrganizationDt(OrganizationDt record)
+        {
+            return new OrganizationDtDao().Update(record);
+        }
+        public static int DeleteOrganizationDt(Int32 OrganizationDtID)
+        {
+            return new OrganizationDtDao().Delete(OrganizationDtID);
+        }
+        public static List<OrganizationDt> GetOrganizationDtList(string filterExpression)
+        {
+            List<OrganizationDt> result = new List<OrganizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDt)helper.IDataReaderToObject(reader, new OrganizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetOrganizationDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDt));
+                ctx.CommandText = helper.SelectMaxColumn("OrganizationDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region OrganizationDtStudent
+        public static OrganizationDtStudent GetOrganizationDtStudent(Int32 OrganizationDtID, Int32 StudentID)
+        {
+            return new OrganizationDtStudentDao().Get(OrganizationDtID, StudentID);
+        }
+        public static int InsertOrganizationDtStudent(OrganizationDtStudent record)
+        {
+            return new OrganizationDtStudentDao().Insert(record);
+        }
+        public static int UpdateOrganizationDtStudent(OrganizationDtStudent record)
+        {
+            return new OrganizationDtStudentDao().Update(record);
+        }
+        public static int DeleteOrganizationDtStudent(Int32 OrganizationDtID, Int32 StudentID)
+        {
+            return new OrganizationDtStudentDao().Delete(OrganizationDtID, StudentID);
+        }
+        public static List<OrganizationDtStudent> GetOrganizationDtStudentList(string filterExpression)
+        {
+            List<OrganizationDtStudent> result = new List<OrganizationDtStudent>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDtStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDtStudent)helper.IDataReaderToObject(reader, new OrganizationDtStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<OrganizationDtStudent> GetOrganizationDtStudentList(string filterExpression, IDbContext ctx)
+        {
+            List<OrganizationDtStudent> result = new List<OrganizationDtStudent>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationDtStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationDtStudent)helper.IDataReaderToObject(reader, new OrganizationDtStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region OrganizationHd
+        public static OrganizationHd GetOrganizationHd(Int32 OrganizationID)
+        {
+            return new OrganizationHdDao().Get(OrganizationID);
+        }
+        public static int InsertOrganizationHd(OrganizationHd record)
+        {
+            return new OrganizationHdDao().Insert(record);
+        }
+        public static int UpdateOrganizationHd(OrganizationHd record)
+        {
+            return new OrganizationHdDao().Update(record);
+        }
+        public static int DeleteOrganizationHd(Int32 OrganizationID)
+        {
+            return new OrganizationHdDao().Delete(OrganizationID);
+        }
+        public static List<OrganizationHd> GetOrganizationHdList(string filterExpression)
+        {
+            List<OrganizationHd> result = new List<OrganizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(OrganizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((OrganizationHd)helper.IDataReaderToObject(reader, new OrganizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region PeriodAdmission
         public static PeriodAdmission GetPeriodAdmission(Int32 PeriodAdmissionID)
         {
@@ -7691,120 +7957,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region RegistrationFee
-        public static RegistrationFee GetRegistrationFee(Int32 RegistrationFeeID)
-        {
-            return new RegistrationFeeDao().Get(RegistrationFeeID);
-        }
-        public static int InsertRegistrationFee(RegistrationFee record)
-        {
-            return new RegistrationFeeDao().Insert(record);
-        }
-        public static int UpdateRegistrationFee(RegistrationFee record)
-        {
-            return new RegistrationFeeDao().Update(record);
-        }
-        public static int DeleteRegistrationFee(Int32 RegistrationFeeID)
-        {
-            return new RegistrationFeeDao().Delete(RegistrationFeeID);
-        }
-        public static List<RegistrationFee> GetRegistrationFeeList(string filterExpression)
-        {
-            List<RegistrationFee> result = new List<RegistrationFee>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFee));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFee)helper.IDataReaderToObject(reader, new RegistrationFee()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<RegistrationFee> GetRegistrationFeeList(string filterExpression, IDbContext ctx)
-        {
-            List<RegistrationFee> result = new List<RegistrationFee>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFee));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFee)helper.IDataReaderToObject(reader, new RegistrationFee()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
-        #region RegistrationFeeComp
-        public static RegistrationFeeComp GetRegistrationFeeComp(Int32 RegistrationFeeCompID)
-        {
-            return new RegistrationFeeCompDao().Get(RegistrationFeeCompID);
-        }
-        public static int InsertRegistrationFeeComp(RegistrationFeeComp record)
-        {
-            return new RegistrationFeeCompDao().Insert(record);
-        }
-        public static int UpdateRegistrationFeeComp(RegistrationFeeComp record)
-        {
-            return new RegistrationFeeCompDao().Update(record);
-        }
-        public static int DeleteRegistrationFeeComp(Int32 RegistrationFeeCompID)
-        {
-            return new RegistrationFeeCompDao().Delete(RegistrationFeeCompID);
-        }
-        public static List<RegistrationFeeComp> GetRegistrationFeeCompList(string filterExpression)
-        {
-            List<RegistrationFeeComp> result = new List<RegistrationFeeComp>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFeeComp));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFeeComp)helper.IDataReaderToObject(reader, new RegistrationFeeComp()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<RegistrationFeeComp> GetRegistrationFeeCompList(string filterExpression, IDbContext ctx)
-        {
-            List<RegistrationFeeComp> result = new List<RegistrationFeeComp>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFeeComp));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFeeComp)helper.IDataReaderToObject(reader, new RegistrationFeeComp()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
         #region RegistrationMark
         public static RegistrationMark GetRegistrationMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 RegistrationID)
         {
@@ -9268,15 +9420,16 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static Int32 GetStudentFeeMaxID(IDbContext ctx)
+        public static List<StudentFee> GetStudentFeeList(string filterExpression, IDbContext ctx)
         {
-            Int32 result = 0;
+            List<StudentFee> result = new List<StudentFee>();
             try
             {
                 DbHelper helper = new DbHelper(typeof(StudentFee));
-                ctx.CommandText = helper.SelectMaxColumn("StudentFeeID");
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFee)helper.IDataReaderToObject(reader, new StudentFee()));
             }
             catch (Exception ex)
             {
@@ -9341,6 +9494,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetStudentFeeCompMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeComp));
+                ctx.CommandText = helper.SelectMaxColumn("StudentFeeCompID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region StudentFeeCompType
         public static StudentFeeCompType GetStudentFeeCompType(Int32 StudentFeeCompTypeID)
@@ -9388,6 +9557,239 @@ namespace CodeX.Data.Model
             {
                 DbHelper helper = new DbHelper(typeof(StudentFeeCompType));
                 ctx.CommandText = helper.SelectMaxColumn("StudentFeeCompTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentFinalMarkFormulaDt
+        public static StudentFinalMarkFormulaDt GetStudentFinalMarkFormulaDt(Int32 StudentFinalMarkFormulaDtID)
+        {
+            return new StudentFinalMarkFormulaDtDao().Get(StudentFinalMarkFormulaDtID);
+        }
+        public static int InsertStudentFinalMarkFormulaDt(StudentFinalMarkFormulaDt record)
+        {
+            return new StudentFinalMarkFormulaDtDao().Insert(record);
+        }
+        public static int UpdateStudentFinalMarkFormulaDt(StudentFinalMarkFormulaDt record)
+        {
+            return new StudentFinalMarkFormulaDtDao().Update(record);
+        }
+        public static int DeleteStudentFinalMarkFormulaDt(Int32 StudentFinalMarkFormulaDtID)
+        {
+            return new StudentFinalMarkFormulaDtDao().Delete(StudentFinalMarkFormulaDtID);
+        }
+        public static List<StudentFinalMarkFormulaDt> GetStudentFinalMarkFormulaDtList(string filterExpression)
+        {
+            List<StudentFinalMarkFormulaDt> result = new List<StudentFinalMarkFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFinalMarkFormulaDt)helper.IDataReaderToObject(reader, new StudentFinalMarkFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentFinalMarkFormulaDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaDt));
+                ctx.CommandText = helper.SelectMaxColumn("StudentFinalMarkFormulaDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentFinalMarkFormulaDtTaskType
+        public static StudentFinalMarkFormulaDtTaskType GetStudentFinalMarkFormulaDtTaskType(Int32 StudentFinalMarkFormulaDtID, String GCTaskType)
+        {
+            return new StudentFinalMarkFormulaDtTaskTypeDao().Get(StudentFinalMarkFormulaDtID, GCTaskType);
+        }
+        public static int InsertStudentFinalMarkFormulaDtTaskType(StudentFinalMarkFormulaDtTaskType record)
+        {
+            return new StudentFinalMarkFormulaDtTaskTypeDao().Insert(record);
+        }
+        public static int UpdateStudentFinalMarkFormulaDtTaskType(StudentFinalMarkFormulaDtTaskType record)
+        {
+            return new StudentFinalMarkFormulaDtTaskTypeDao().Update(record);
+        }
+        public static int DeleteStudentFinalMarkFormulaDtTaskType(Int32 StudentFinalMarkFormulaDtID, String GCTaskType)
+        {
+            return new StudentFinalMarkFormulaDtTaskTypeDao().Delete(StudentFinalMarkFormulaDtID, GCTaskType);
+        }
+        public static List<StudentFinalMarkFormulaDtTaskType> GetStudentFinalMarkFormulaDtTaskTypeList(string filterExpression)
+        {
+            List<StudentFinalMarkFormulaDtTaskType> result = new List<StudentFinalMarkFormulaDtTaskType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaDtTaskType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFinalMarkFormulaDtTaskType)helper.IDataReaderToObject(reader, new StudentFinalMarkFormulaDtTaskType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentFinalMarkFormulaDtTaskType> GetStudentFinalMarkFormulaDtTaskTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentFinalMarkFormulaDtTaskType> result = new List<StudentFinalMarkFormulaDtTaskType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaDtTaskType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFinalMarkFormulaDtTaskType)helper.IDataReaderToObject(reader, new StudentFinalMarkFormulaDtTaskType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentFinalMarkFormulaHd
+        public static StudentFinalMarkFormulaHd GetStudentFinalMarkFormulaHd(Int32 StudentFinalMarkFormulaID)
+        {
+            return new StudentFinalMarkFormulaHdDao().Get(StudentFinalMarkFormulaID);
+        }
+        public static int InsertStudentFinalMarkFormulaHd(StudentFinalMarkFormulaHd record)
+        {
+            return new StudentFinalMarkFormulaHdDao().Insert(record);
+        }
+        public static int UpdateStudentFinalMarkFormulaHd(StudentFinalMarkFormulaHd record)
+        {
+            return new StudentFinalMarkFormulaHdDao().Update(record);
+        }
+        public static int DeleteStudentFinalMarkFormulaHd(Int32 StudentFinalMarkFormulaID)
+        {
+            return new StudentFinalMarkFormulaHdDao().Delete(StudentFinalMarkFormulaID);
+        }
+        public static List<StudentFinalMarkFormulaHd> GetStudentFinalMarkFormulaHdList(string filterExpression)
+        {
+            List<StudentFinalMarkFormulaHd> result = new List<StudentFinalMarkFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFinalMarkFormulaHd)helper.IDataReaderToObject(reader, new StudentFinalMarkFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentFinalMarkFormulaHd> GetStudentFinalMarkFormulaHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<StudentFinalMarkFormulaHd> result = new List<StudentFinalMarkFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFinalMarkFormulaHd)helper.IDataReaderToObject(reader, new StudentFinalMarkFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentFinalMarkFormulaHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentFinalMarkFormulaHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "StudentFinalMarkFormulaID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentFinalMarkFormulaHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+                ctx.CommandText = helper.SelectMaxColumn("StudentFinalMarkFormulaID");
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -9534,6 +9936,166 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StudentProgressRuleDt
+        public static StudentProgressRuleDt GetStudentProgressRuleDt(Int32 StudentProgressRuleDtID)
+        {
+            return new StudentProgressRuleDtDao().Get(StudentProgressRuleDtID);
+        }
+        public static int InsertStudentProgressRuleDt(StudentProgressRuleDt record)
+        {
+            return new StudentProgressRuleDtDao().Insert(record);
+        }
+        public static int UpdateStudentProgressRuleDt(StudentProgressRuleDt record)
+        {
+            return new StudentProgressRuleDtDao().Update(record);
+        }
+        public static int DeleteStudentProgressRuleDt(Int32 StudentProgressRuleDtID)
+        {
+            return new StudentProgressRuleDtDao().Delete(StudentProgressRuleDtID);
+        }
+        public static List<StudentProgressRuleDt> GetStudentProgressRuleDtList(string filterExpression)
+        {
+            List<StudentProgressRuleDt> result = new List<StudentProgressRuleDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentProgressRuleDt)helper.IDataReaderToObject(reader, new StudentProgressRuleDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region StudentProgressRuleHd
+        public static StudentProgressRuleHd GetStudentProgressRuleHd(Int32 StudentProgressRuleID)
+        {
+            return new StudentProgressRuleHdDao().Get(StudentProgressRuleID);
+        }
+        public static int InsertStudentProgressRuleHd(StudentProgressRuleHd record)
+        {
+            return new StudentProgressRuleHdDao().Insert(record);
+        }
+        public static int UpdateStudentProgressRuleHd(StudentProgressRuleHd record)
+        {
+            return new StudentProgressRuleHdDao().Update(record);
+        }
+        public static int DeleteStudentProgressRuleHd(Int32 StudentProgressRuleID)
+        {
+            return new StudentProgressRuleHdDao().Delete(StudentProgressRuleID);
+        }
+        public static List<StudentProgressRuleHd> GetStudentProgressRuleHdList(string filterExpression)
+        {
+            List<StudentProgressRuleHd> result = new List<StudentProgressRuleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentProgressRuleHd)helper.IDataReaderToObject(reader, new StudentProgressRuleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentProgressRuleHd> GetStudentProgressRuleHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<StudentProgressRuleHd> result = new List<StudentProgressRuleHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentProgressRuleHd)helper.IDataReaderToObject(reader, new StudentProgressRuleHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentProgressRuleHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentProgressRuleHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "StudentProgressRuleID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentProgressRuleHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentProgressRuleHd));
+                ctx.CommandText = helper.SelectMaxColumn("StudentProgressRuleID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

@@ -57,7 +57,7 @@
             }, 0);
         }
 
-        $('.lblFinalMark').live('click', function () {
+        $('.lblDetail').live('click', function () {
             //var id = $(this).closest('tr').find('.keyField').html() + '|' + tacSchoolClass.getValue() + '|' + tacPeriodSection.getValue();
             //var url = ResolveUrl("~/Program/StudentMark/StudentFinalMarkDtCtl.ascx");
             //openUserControlPopup(url, id, 'Detil Nilai', 800, 550);
@@ -190,7 +190,12 @@
                                 <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai Akhir" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <label class="lblLink lblFinalMark" runat="server" id="lblFinalMark"></label>
+                                        <label runat="server" id="lblFinalMark"></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Detail" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <label class="lblLink lblDetail"><%=GetLabel("Detail")%></label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

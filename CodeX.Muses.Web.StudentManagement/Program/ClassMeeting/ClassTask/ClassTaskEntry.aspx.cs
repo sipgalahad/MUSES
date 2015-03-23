@@ -47,13 +47,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             vClassSubject entity = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnGCSubjectMarkType.Value = entity.GCSubjectMarkType;
             txtPassingGrade.Text = entity.PassingGrade.ToString();
+            hdnStudentProgressRuleID.Value = entity.StudentProgressRuleID.ToString();
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.TASK_TYPE));
+            lstSc.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = " -- Semua -- " });
+            Methods.SetComboBoxField<StandardCode>(cboFilterTaskType, lstSc, "StandardCodeName", "StandardCodeID");
+            cboFilterTaskType.SelectedIndex = 0;
+
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = string.Format("PeriodSectionID = {0} AND ClassSubjectID = {1}", AppSession.ClassSubject.PeriodSectionID, AppSession.ClassSubject.ClassSubjectID);
-
+            if (cboFilterTaskType.Value != null && cboFilterTaskType.Value.ToString() != "")
+                filterExpression += string.Format(" AND GCTaskType = '{0}'", cboFilterTaskType.Value);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvClassSubjectTaskRowCount(filterExpression);
@@ -95,7 +103,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (hdnClassSubjectTaskID.Value != "")
                 filterExpression = string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value);
             lstStudentMark = BusinessLayer.GetClassStudentSubjectTaskMarkList(filterExpression);
-            lstOption = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MARK_OPTION));
+            lstOption = BusinessLayer.GetStudentProgressRuleDtList(string.Format("StudentProgressRuleID = {0} AND IsDeleted = 0", hdnStudentProgressRuleID.Value));
+            lstOption.Insert(0, new StudentProgressRuleDt { StudentProgressRuleDtID = 0, StudentProgressRuleDtName = "" });
 
             ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
@@ -104,7 +113,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<ClassStudentSubjectTaskMark> lstStudentMark = null;
-        List<StandardCode> lstOption = null;
+        List<StudentProgressRuleDt> lstOption = null;
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -116,21 +125,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
                 TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
                 HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");
+                HtmlGenericControl divMark = (HtmlGenericControl)e.Item.FindControl("divMark");
 
                 cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}", e.Item.ItemIndex);
                 switch (hdnGCSubjectMarkType.Value)
                 {
                     case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
-                    case Constant.SubjectMarkType.OPTION: 
-                        txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
-                        Methods.SetComboBoxField<StandardCode>(cboStudentMarkOption, lstOption, "StandardCodeName", "StandardCodeID");
+                    case Constant.SubjectMarkType.OPTION:
+                        divMark.Style.Add("display", "none"); txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
+                        Methods.SetComboBoxField<StudentProgressRuleDt>(cboStudentMarkOption, lstOption, "StudentProgressRuleDtName", "StudentProgressRuleDtID");
                         break;
-                    case Constant.SubjectMarkType.TEXT: cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.TEXT: divMark.Style.Add("display", "none"); cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
                 }
                 if (studentMark != null)
                 {
                     txtStudentMark.Text = studentMark.Mark.ToString();
-                    cboStudentMarkOption.Value = studentMark.GCOptionMark;
+                    cboStudentMarkOption.Value = studentMark.StudentProgressRuleDtID.ToString();
                     txtStudentMarkDescription.Text = studentMark.DescriptionMark;
                     if (!studentMark.IsRemedial)
                         bIsRemedial.Style.Add("display", "none");
@@ -169,8 +179,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.StudentID = studentID;
                             switch (GCSubjectMarkType)
                             {
-                                case Constant.SubjectMarkType.NUMBER: entityDt.Mark = Convert.ToDecimal(temp[1]); break;
-                                case Constant.SubjectMarkType.OPTION: entityDt.GCOptionMark = temp[1]; break;
+                                case Constant.SubjectMarkType.NUMBER: entityDt.OriginalMark = entityDt.Mark = Convert.ToDecimal(temp[1]); break;
+                                case Constant.SubjectMarkType.OPTION: entityDt.StudentProgressRuleDtID = Convert.ToInt32(temp[1]); break;
                                 case Constant.SubjectMarkType.TEXT: entityDt.DescriptionMark = temp[1]; break;
                             }
                             entityDtDao.Insert(entityDt);
@@ -184,7 +194,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                     if (!entityDt.IsRemedial) 
                                         entityDt.OriginalMark = entityDt.Mark;
                                     break;
-                                case Constant.SubjectMarkType.OPTION: entityDt.GCOptionMark = temp[1]; break;
+                                case Constant.SubjectMarkType.OPTION: entityDt.StudentProgressRuleDtID = Convert.ToInt32(temp[1]); break;
                                 case Constant.SubjectMarkType.TEXT: entityDt.DescriptionMark = temp[1]; break;
                             }
                             entityDtDao.Update(entityDt);

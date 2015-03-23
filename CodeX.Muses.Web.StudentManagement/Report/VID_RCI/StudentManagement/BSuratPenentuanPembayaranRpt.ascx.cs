@@ -12,14 +12,14 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.StudentManagement.Report
 {
-    public partial class BResepRpt : BaseCustomReportCtl
+    public partial class BSuratPenentuanPembayaranRpt : BaseCustomReportCtl
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
         
-        List<RegistrationFee> lstRegFee = null;
+        List<StudentFee> lstRegFee = null;
 
         public override void Bind(string filterExpression, string[] param)
         {
@@ -31,11 +31,11 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             text = text.Replace("{Class}",entity.Grade);
             text = text.Replace("{ProspectiveStudentCode}", entity.ProspectiveStudentCode);
             divDataSiswa.InnerHtml = text;
-            List<vRegistrationFeeComp> lstStudentFee = BusinessLayer.GetvRegistrationFeeCompList(String.Format("{0} AND IsDeleted = 0",filterExpression));
+            List<vStudentFeeComp> lstStudentFee = BusinessLayer.GetvStudentFeeCompList(String.Format("{0} AND IsDeleted = 0",filterExpression));
             rptStudentFeeComp.DataSource = lstStudentFee;
             rptStudentFeeComp.DataBind();
 
-            lstRegFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", entity.RegistrationID));
+            lstRegFee = BusinessLayer.GetStudentFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", entity.RegistrationID));
 
             text = tdTotalLineAmount.InnerHtml;
             text = text.Replace("{TotalLineAmount}", lstStudentFee.Sum(x => x.TotalAmount).ToString("N2"));
@@ -55,9 +55,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
             {
-                vRegistrationFeeComp entity = (vRegistrationFeeComp)e.Item.DataItem;
+                vStudentFeeComp entity = (vStudentFeeComp)e.Item.DataItem;
                 Repeater rptPaymentDt = (Repeater)e.Item.FindControl("rptPaymentDt");
-                rptPaymentDt.DataSource = lstRegFee.Where(x => x.AdmissionFeeCompID == entity.AdmissionFeeCompID);
+                rptPaymentDt.DataSource = lstRegFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID);
                 rptPaymentDt.DataBind();
             }
         }

@@ -41,7 +41,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
                 TextBox txtMarkDescription = (TextBox)e.Row.FindControl("txtMarkDescription");
                 if (studentMark != null)
-                    txtMarkDescription.Text = studentMark.AffectiveDescription;
+                    txtMarkDescription.Text = studentMark.ProgressDescription;
             }
         }
 
@@ -67,12 +67,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entity.ClassSubjectID = ClassSubjectID;
                             entity.PeriodSectionID = AppSession.ClassStudent.PeriodSectionID;
                             entity.StudentID = AppSession.ClassStudent.StudentID;
-                            entity.AffectiveDescription = temp[1];
+                            entity.ProgressDescription = temp[1];
                             entityDao.Insert(entity);
                         }
                         else
                         {
-                            entity.AffectiveDescription = temp[1];
+                            entity.ProgressDescription = temp[1];
                             entityDao.Update(entity);
                         }
                     }

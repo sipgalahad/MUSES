@@ -19,6 +19,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             hdnID.Value = param;
             SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0} - {1}", entity.SubjectMatterCode, entity.SubjectMatterName);
+            txtHeaderText2.Text = entity.CompetencyStandard;
 
             BindGridView();
 

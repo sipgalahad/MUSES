@@ -56,7 +56,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             lstRemedial = BusinessLayer.GetClassSubjectTaskRemedialList(string.Format("ClassSubjectTaskID = {0} AND IsDeleted = 0 ORDER BY DisplayOrder ASC", hdnID.Value));
 
             string lstRemedialID = string.Join(",", lstRemedial.Select(p => p.ClassSubjectTaskRemedialID).ToList());
-            lstStudentRemedialMark = BusinessLayer.GetClassStudentSubjectTaskRemedialMarkList(string.Format("ClassSubjectTaskRemedialID IN ({0})", lstRemedialID));
+            if (lstRemedialID != "")
+                lstStudentRemedialMark = BusinessLayer.GetClassStudentSubjectTaskRemedialMarkList(string.Format("ClassSubjectTaskRemedialID IN ({0})", lstRemedialID));
+            else
+                lstStudentRemedialMark = new List<ClassStudentSubjectTaskRemedialMark>();
 
             rptHeader.DataSource = lstRemedial;
             rptHeader.DataBind();
@@ -187,7 +190,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnID.Value));
+                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateClassSubjectTaskRemedial(entity);
@@ -205,7 +208,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnID.Value));
+                ClassSubjectTaskRemedial entity = BusinessLayer.GetClassSubjectTaskRemedial(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.UpdateClassSubjectTaskRemedial(entity);

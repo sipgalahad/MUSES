@@ -77,6 +77,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region COA Group -->
+  <searchdialog type="coagroup" methodname="GetvCOAGroupList" keyfieldname="COAGroupCode" istreeview="1">
+    <gridcolumns>
+      <gridcolumn datafield="COAGroupCode" headertext="Kode Kelompok" width="100px" />
+      <gridcolumn datafield="COAGroupName" headertext="Nama Kelompok" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="COAGroupName" headertext="Nama Kelompok" description="" />
+      <intellisensetext datafield="COAGroupCode" headertext="Kode Kelompok" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Direct Purchase-->
   <searchdialog type="directpurchase" methodname="GetvDirectPurchaseHdList" keyfieldname="DirectPurchaseNo" orderbyexpression="DirectPurchaseID DESC">
     <gridcolumns>
@@ -631,6 +643,18 @@
     </intellisensetexts>
   </searchdialog>
 
+  <!-- #EndRegion -->
+  <!-- #Region Student-->
+  <searchdialog type="student" methodname="GetStudentList" keyfieldname="StudentCode" orderbyexpression="StudentName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="StudentCode" headertext="Kode" width="100px" />
+      <gridcolumn datafield="StudentName" headertext="Nama" width="100px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="StudentCode" headertext="Kode" description="" />
+      <intellisensetext datafield="StudentName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Student -->
   <searchdialog type="student" methodname="GetStudentList" keyfieldname="StudentCode" orderbyexpression="StudentName ASC">

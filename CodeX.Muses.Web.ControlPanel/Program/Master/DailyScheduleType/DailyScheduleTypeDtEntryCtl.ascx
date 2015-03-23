@@ -33,13 +33,13 @@
     $('#<%=grdView.ClientID %> .divDetailDelete').die('click');
     $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
         $row = $(this).closest('tr');
-        if (confirm("Are You Sure Want To Delete This Data?")) {
+        showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
                 $('#<%=hdnEntryID.ClientID %>').val(entity.DailyScheduleTypeDtID);
                 cbpProcessPopup.PerformCallback('delete');
             }
-        }
+        });
     });
 
     $('#<%=grdView.ClientID %> .divDetailEdit').die('click');

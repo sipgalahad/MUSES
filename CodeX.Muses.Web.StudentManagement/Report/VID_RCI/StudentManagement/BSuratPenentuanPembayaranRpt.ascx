@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BSuratPenentuanPembayaranRpt.ascx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Report.BResepRpt" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BSuratPenentuanPembayaranRpt.ascx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Report.BSuratPenentuanPembayaranRpt" %>
 
 <div id="divReportHeader" runat="server">
     <style type="text/css">

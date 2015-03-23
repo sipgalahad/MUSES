@@ -703,6 +703,43 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region PostingJournal
+        public static bool PostingJournal(String SiteID, String PeriodNo, Int32 CreatedBy, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "PostingJournal";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@PeriodNo", PeriodNo));
+            ctx.Command.Parameters.Add(new SqlParameter("@CreatedBy", CreatedBy));
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.Bit;
+            param.Size = 1;
+            param.Direction = ParameterDirection.Output;
+            ctx.Command.Parameters.Add(param);
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+            return (bool)param.Value;
+        }
+        #endregion
         #region ProcessInterfaceJournal
         public static string ProcessInterfaceJournal(String SiteID, String JournalDate, String TransactionCode, int UserID, IDbContext ctx = null)
         {

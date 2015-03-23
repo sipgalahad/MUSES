@@ -66,6 +66,11 @@ namespace CodeX.Common
             public const string LESSON_TYPE = "MS027";
         }
 
+        public static class StudentStatus
+        {
+            public const string ACTIVE = "MS006^001";
+        }
+
         public static class SchoolPeriodStatus
         {
             public const string OPEN = "MS001^001";
@@ -221,11 +226,12 @@ namespace CodeX.Common
             #region Accounting
             public static class Accounting
             {
-                public const string CHART_OF_ACCOUNT = "AC010100";
-                public const string SUB_LEDGER_TYPE = "AC010200";
-                public const string SUB_LEDGER = "AC010300";
-                public const string JOURNAL_TEMPLATE = "AC010400";
-                public const string PRODUCT_LINE = "AC010500";
+                public const string COA_GROUP = "AC010100";
+                public const string CHART_OF_ACCOUNT = "AC010200";
+                public const string SUB_LEDGER_TYPE = "AC010300";
+                public const string SUB_LEDGER = "AC010400";
+                public const string JOURNAL_TEMPLATE = "AC010500";
+                public const string PRODUCT_LINE = "AC010600";
 
                 public const string GL_SETTING = "AC020100";
                 public const string GL_PRODUCT_LINE = "AC020201";
@@ -242,6 +248,9 @@ namespace CodeX.Common
                 public const string JOURNAL_ENTRY = "AC050100";
                 public const string JOURNAL_LIST = "AC050200";
                 public const string INTERFACE_JOURNAL_PROCESS = "AC050300";
+
+                public const string JOURNAL_POSTING = "AC060100";
+
                 public const string PROFIT_LOSS_INFORMATION = "AC080500";
             }
             #endregion
@@ -279,6 +288,8 @@ namespace CodeX.Common
                 public const string EXTRACURRICULAR_CLASS_TYPE = "CP010112";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
                 public const string PERSONALITY = "CP010114";
+                public const string STUDENT_FINAL_MARK_FORMULA = "CP010115";
+                public const string STUDENT_PROGRESS_RULE = "CP010116";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
@@ -458,7 +469,6 @@ namespace CodeX.Common
                 public const string SP_CLASS_SUBJECT = "SM99010402";
                 public const string SP_CLASS_SCHEDULE = "SM99010403";
                 public const string SP_CLASS_STUDENT = "SM99010404";
-                public const string SP_TEACHER_SCHEDULE = "SM99010405";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_EXTRACURRICULAR = "SM99010501";
                 public const string SP_SCHOOL_PERIOD_CLASS_TYPE_SUBJECT_EXTRACURRICULAR = "SM99010502";
                 public const string SP_GENERATE_SCHOOL_CLASS_EXTRACURRICULAR = "SM99010503";
@@ -466,6 +476,8 @@ namespace CodeX.Common
                 public const string SP_CLASS_SUBJECT_EXTRACURRICULAR = "SM99010602";
                 public const string SP_CLASS_SCHEDULE_EXTRACURRICULAR = "SM99010603";
                 public const string SP_CLASS_STUDENT_EXTRACURRICULAR = "SM99010604";
+                public const string SP_TEACHER_SCHEDULE = "SM99010701";
+                public const string SP_ORGANIZATION = "SM99010702";
 
                 public const string STUDENT_PAGE = "SM99020000";
                 public const string ST_STUDENT_PAST_STUDY = "SM99020101";
@@ -508,6 +520,8 @@ namespace CodeX.Common
                 public const string CS_SUBJECT_MARK = "SM99060101";
                 public const string CS_EXTRACURRICULAR_MARK = "SM99060102";
                 public const string CS_PERSONALITY_MARK = "SM99060103";
+                public const string CS_CLASS_STUDENT_NOTE = "SM99060104";
+                public const string CS_ORGANIZATION_MARK = "SM99060105";
             }
             #endregion
             #endregion

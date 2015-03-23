@@ -63,7 +63,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<AdmissionPaymentDt> lstPaymentDt = null;
-        List<RegistrationFee> lstRegistrationFee = null;
+        List<vStudentFee> lstStudentFee = null;
         List<ScholarshipComp> lstScholarshipComp = null;
         List<RegistrationScholarship> lstRegistrationScholarshipFee = null;
         protected void cbpScholarship_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -105,19 +105,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 isLoadRegistration = temp[1] == "1";
 
                 lstPaymentDt = BusinessLayer.GetAdmissionPaymentDtList(string.Format("PaymentID = {0}", cboPaymentType.Value));
-                lstRegistrationFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
+                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
                 if (hdnLstScholarshipID.Value != "")
                     lstScholarshipComp = BusinessLayer.GetScholarshipCompList(string.Format("ScholarshipID IN ({0}) AND DiscountAmount > 0", hdnLstScholarshipID.Value));
                 else
                     lstScholarshipComp = new List<ScholarshipComp>();
 
-                List<RegistrationFeeComp> lstRegistrationFeeComp = BusinessLayer.GetRegistrationFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
+                List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
                 List<vAdmissionFeeRuleDtCustom> lstEntity = BusinessLayer.GetvAdmissionFeeRuleDtCustomList(string.Format("SchoolPeriodID = {0} AND (IsFixedAmount = 1 OR (IsFixedAmount = 0 AND PeriodAdmissionID = {1} AND AdmissionFeeRuleID = {2})) AND IsDeleted = 0", hdnSchoolPeriodID.Value, AppSession.PeriodAdmissionID, tacAdmissionFeeRule.Value));
-                foreach (RegistrationFeeComp registrationFeeComp in lstRegistrationFeeComp)
+                foreach (StudentFeeComp studentFeeComp in lstStudentFeeComp)
                 {
-                    vAdmissionFeeRuleDtCustom entityDtCustom = lstEntity.FirstOrDefault(p => p.AdmissionFeeCompID == registrationFeeComp.AdmissionFeeCompID);
+                    vAdmissionFeeRuleDtCustom entityDtCustom = lstEntity.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeComp.StudentFeeCompTypeID);
                     if (entityDtCustom != null)
-                        entityDtCustom.TotalAmount = registrationFeeComp.TotalAmount;
+                        entityDtCustom.TotalAmount = studentFeeComp.TotalAmount;
                 }
                 rptAdmissionComp.DataSource = lstEntity;
                 rptAdmissionComp.DataBind();
@@ -140,9 +140,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 ScholarshipComp entityScholarshipComp = lstScholarshipComp.FirstOrDefault(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
 
-                List<RegistrationFee> lstRegistrationFee1 = lstRegistrationFee.Where(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID).ToList();
+                List<vStudentFee> lstStudentFee1 = lstStudentFee.Where(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).ToList();
 
-                List<RegistrationFee> lstEntity = new List<RegistrationFee>();
+                List<vStudentFee> lstEntity = new List<vStudentFee>();
                 List<AdmissionPaymentDt> lstPaymentDt1 = lstPaymentDt.Where(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID).ToList();
                 short ctr = 1;
                 foreach (AdmissionPaymentDt paymentDt in lstPaymentDt1)
@@ -163,10 +163,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     totalPaymentInPercentage = totalPaymentInPercentage / paymentDt.NoOfPayment;
                     for (int i = 0; i < paymentDt.NoOfPayment; ++i)
                     {
-                        RegistrationFee entityDt = lstRegistrationFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
+                        vStudentFee entityDt = lstStudentFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
                         if (entityDt == null)
                         {
-                            entityDt = new RegistrationFee();
+                            entityDt = new vStudentFee();
                             if (paymentDt.PaymentDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
                                 entityDt.PaymentDate = DateTime.Now;
                             else
@@ -219,8 +219,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void OnSaveRecord(IDbContext ctx, int registrationID)
         {
             RegistrationDao entityDao = new RegistrationDao(ctx);
-            RegistrationFeeDao entityFeeDao = new RegistrationFeeDao(ctx);
-            RegistrationFeeCompDao entityFeeCompDao = new RegistrationFeeCompDao(ctx);
+            StudentFeeDao entityFeeDao = new StudentFeeDao(ctx);
+            StudentFeeCompDao entityFeeCompDao = new StudentFeeCompDao(ctx);
             RegistrationScholarshipDao entityScholarshipDao = new RegistrationScholarshipDao(ctx);
             
             Registration entity = entityDao.Get(registrationID);
@@ -251,45 +251,54 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityScholarshipDao.Delete(entityScholarship.RegistrationID, entityScholarship.ScholarshipID);
             }
 
-            List<RegistrationFee> lstRegistrationFee = BusinessLayer.GetRegistrationFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
-            List<RegistrationFeeComp> lstRegistrationFeeComp = BusinessLayer.GetRegistrationFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
+            List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
+            List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
             string[] lstSaveValue = hdnSaveValue.Value.Split('|');
             foreach (string saveValue in lstSaveValue)
             {
                 string[] temp = saveValue.Split(';');
-                int admissionFeeCompID = Convert.ToInt32(temp[0]);
-                decimal admissionFeeCompValue = Convert.ToDecimal(temp[1]);
-                List<RegistrationFee> lstRegistrationFee1 = lstRegistrationFee.Where(p => p.AdmissionFeeCompID == admissionFeeCompID).ToList();
-                RegistrationFeeComp registrationFeeComp = lstRegistrationFeeComp.FirstOrDefault(p => p.AdmissionFeeCompID == admissionFeeCompID);
-                if (registrationFeeComp != null)
+                int studentFeeCompTypeID = Convert.ToInt32(temp[0]);
+                short noOfPeriod = Convert.ToInt16(temp[1]);
+                decimal admissionFeeCompValue = Convert.ToDecimal(temp[2]);
+                StudentFeeComp studentFeeComp = lstStudentFeeComp.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeCompTypeID);
+                List<StudentFee> lstStudentFee1 = null;
+                if (studentFeeComp != null)
                 {
-                    registrationFeeComp.TotalAmount = admissionFeeCompValue;
-                    registrationFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityFeeCompDao.Update(registrationFeeComp);
+                    studentFeeComp.NoOfPeriod = noOfPeriod;
+                    studentFeeComp.TotalAmount = admissionFeeCompValue;
+                    studentFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityFeeCompDao.Update(studentFeeComp);
 
-                    lstRegistrationFeeComp.Remove(registrationFeeComp);
+                    lstStudentFeeComp.Remove(studentFeeComp);
+                    lstStudentFee1 = lstStudentFee.Where(p => p.StudentFeeCompID == studentFeeComp.StudentFeeCompID).ToList();
                 }
                 else
                 {
-                    registrationFeeComp = new RegistrationFeeComp();
-                    registrationFeeComp.RegistrationID = entity.RegistrationID;
-                    registrationFeeComp.AdmissionFeeCompID = admissionFeeCompID;
-                    registrationFeeComp.TotalAmount = admissionFeeCompValue;
-                    registrationFeeComp.CreatedBy = AppSession.UserLogin.UserID;
-                    entityFeeCompDao.Insert(registrationFeeComp);
+                    studentFeeComp = new StudentFeeComp();
+                    studentFeeComp.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
+                    studentFeeComp.RegistrationID = entity.RegistrationID;
+                    studentFeeComp.StudentFeeCompTypeID = studentFeeCompTypeID;
+                    studentFeeComp.NoOfPeriod = noOfPeriod;
+                    studentFeeComp.TotalAmount = admissionFeeCompValue;
+                    studentFeeComp.CreatedBy = AppSession.UserLogin.UserID;
+                    entityFeeCompDao.Insert(studentFeeComp);
+                    studentFeeComp.StudentFeeCompID = BusinessLayer.GetStudentFeeCompMaxID(ctx);
+
+                    lstStudentFee1 = new List<StudentFee>();
                 }
 
-                string[] lstSaveValue1 = temp[2].Split(',');
+                string[] lstSaveValue1 = temp[3].Split(',');
                 short ctr = 1;
                 foreach (string saveValue1 in lstSaveValue1)
                 {
                     string[] temp1 = saveValue1.Split('^');
-                    RegistrationFee entityFee = lstRegistrationFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
+                    StudentFee entityFee = lstStudentFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
                     if (entityFee == null)
                     {
-                        entityFee = new RegistrationFee();
+                        entityFee = new StudentFee();
+                        entityFee.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
+                        entityFee.StudentFeeCompID = studentFeeComp.StudentFeeCompID;
                         entityFee.RegistrationID = entity.RegistrationID;
-                        entityFee.AdmissionFeeCompID = admissionFeeCompID;
                         entityFee.DisplayOrder = ctr;
                         entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
                         entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
@@ -317,18 +326,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                         entityFeeDao.Update(entityFee);
 
-                        lstRegistrationFee.Remove(entityFee);
+                        lstStudentFee.Remove(entityFee);
                     }
                     ctr++;
                 }
             }
-            foreach (RegistrationFeeComp entityFeeComp in lstRegistrationFeeComp)
+            foreach (StudentFeeComp entityFeeComp in lstStudentFeeComp)
             {
                 entityFeeComp.IsDeleted = true;
                 entityFeeComp.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityFeeCompDao.Update(entityFeeComp);
             }
-            foreach (RegistrationFee entityFee in lstRegistrationFee)
+            foreach (StudentFee entityFee in lstStudentFee)
             {
                 entityFee.IsDeleted = true;
                 entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;

@@ -28,29 +28,44 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             string lstClassSubjectID = string.Join(",", lstSubject.Select(p => p.ClassSubjectID).ToList());
             lstMark = BusinessLayer.GetClassStudentSubjectMarkList(String.Format("ClassSubjectID IN ({0}) AND StudentID = {1} AND PeriodSectionID = {2}", lstClassSubjectID, AppSession.ClassStudent.StudentID, AppSession.ClassStudent.PeriodSectionID));
-            grdView.DataSource = lstSubject;
-            grdView.DataBind();
+            rptView.DataSource = lstSubject;
+            rptView.DataBind();
         }
-
+        
         List<ClassStudentSubjectMark> lstMark = null;
-        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubject entity = (vClassSubject)e.Row.DataItem;
+                vClassSubject entity = (vClassSubject)e.Item.DataItem;
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
-                HtmlGenericControl divMarkTheory = (HtmlGenericControl)e.Row.FindControl("divMarkTheory");
-                HtmlGenericControl divMarkPractice = (HtmlGenericControl)e.Row.FindControl("divMarkPractice");
+                HtmlGenericControl divMarkTheory = (HtmlGenericControl)e.Item.FindControl("divMarkTheory");
+                HtmlGenericControl divMarkPractice = (HtmlGenericControl)e.Item.FindControl("divMarkPractice");
+                HtmlGenericControl divAffectiveMark = (HtmlGenericControl)e.Item.FindControl("divAffectiveMark");
+                HtmlGenericControl divAffectiveDescription = (HtmlGenericControl)e.Item.FindControl("divAffectiveDescription");
+                HtmlGenericControl divProgressDescription = (HtmlGenericControl)e.Item.FindControl("divProgressDescription");
+
                 if (studentMark != null)
                 {
                     divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
                     divMarkPractice.InnerHtml = studentMark.PracticeMark.ToString();
+                    divAffectiveMark.InnerHtml = studentMark.AffectiveMark;
+                    divAffectiveDescription.InnerHtml = studentMark.AffectiveDescription;
+                    divProgressDescription.InnerHtml = studentMark.ProgressDescription;
                 }
                 else
                 {
                     divMarkTheory.InnerHtml = "-";
                     divMarkPractice.InnerHtml = "-";
+                    divAffectiveMark.InnerHtml = "-";
+                    divAffectiveDescription.InnerHtml = "-";
+                    divProgressDescription.InnerHtml = "-";
                 }
+
+                if (entity.GCLessonType == Constant.LessonType.PRACTICE)
+                    divMarkTheory.InnerHtml = "-";
+                else if (entity.GCLessonType == Constant.LessonType.THEORY)
+                    divMarkPractice.InnerHtml = "-";
             }
         }
     }

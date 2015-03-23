@@ -2609,6 +2609,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private Int32 _StudentID;
         private Decimal _FinalMark;
+        private String _Remarks;
 
         [Column(Name = "SchoolClassID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 SchoolClassID
@@ -2633,6 +2634,12 @@ namespace CodeX.Data.Model
         {
             get { return _FinalMark; }
             set { _FinalMark = value; }
+        }
+        [Column(Name = "Remarks", DataType = "Decimal", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
 
@@ -2692,6 +2699,7 @@ namespace CodeX.Data.Model
         private Decimal _PracticeMark;
         private String _AffectiveMark;
         private String _AffectiveDescription;
+        private Int32? _StudentProgressRuleDtID;
         private String _ProgressDescription;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
@@ -2735,6 +2743,12 @@ namespace CodeX.Data.Model
         {
             get { return _AffectiveDescription; }
             set { _AffectiveDescription = value; }
+        }
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentProgressRuleDtID
+        {
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
         }
         [Column(Name = "ProgressDescription", DataType = "String", IsNullable = true)]
         public String ProgressDescription
@@ -2788,6 +2802,109 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassStudentSubjectTaskGroupMark
+    [Serializable]
+    [Table(Name = "ClassStudentSubjectTaskGroupMark")]
+    public class ClassStudentSubjectTaskGroupMark : DbDataModel
+    {
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _StudentID;
+        private Decimal _Mark;
+        private String _GCOptionMark;
+        private String _DescriptionMark;
+
+        [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
+        public Decimal Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
+        public String GCOptionMark
+        {
+            get { return _GCOptionMark; }
+            set { _GCOptionMark = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
+        }
+    }
+
+    public class ClassStudentSubjectTaskGroupMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
+        private const string p_StudentID = "@p_StudentID";
+        public ClassStudentSubjectTaskGroupMarkDao() { }
+        public ClassStudentSubjectTaskGroupMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentSubjectTaskGroupMark Get(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentSubjectTaskGroupMark)_helper.DataRowToObject(row, new ClassStudentSubjectTaskGroupMark());
+        }
+        public int Insert(ClassStudentSubjectTaskGroupMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentSubjectTaskGroupMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        {
+            ClassStudentSubjectTaskGroupMark record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+            else
+                record = Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassStudentSubjectTaskMark
     [Serializable]
     [Table(Name = "ClassStudentSubjectTaskMark")]
@@ -2798,7 +2915,7 @@ namespace CodeX.Data.Model
         private Boolean _IsRemedial;
         private Decimal _OriginalMark;
         private Decimal _Mark;
-        private String _GCOptionMark;
+        private Int32? _StudentProgressRuleDtID;
         private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
@@ -2831,11 +2948,11 @@ namespace CodeX.Data.Model
             get { return _Mark; }
             set { _Mark = value; }
         }
-        [Column(Name = "GCOptionMark", DataType = "String", IsNullable = true)]
-        public String GCOptionMark
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentProgressRuleDtID
         {
-            get { return _GCOptionMark; }
-            set { _GCOptionMark = value; }
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
         }
         [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
         public String DescriptionMark
@@ -3814,6 +3931,140 @@ namespace CodeX.Data.Model
                 record = new COABudgetDao().Get(ID);
             else
                 record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region COAGroup
+    [Serializable]
+    [Table(Name = "COAGroup")]
+    public class COAGroup : DbDataModel
+    {
+        private Int32 _COAGroupID;
+        private String _GCCOAType;
+        private String _COAGroupCode;
+        private String _COAGroupName;
+        private Boolean _IsHeader;
+        private Int32? _ParentID;
+        private Int16 _PrintOrder;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "COAGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
+        }
+        [Column(Name = "GCCOAType", DataType = "String")]
+        public String GCCOAType
+        {
+            get { return _GCCOAType; }
+            set { _GCCOAType = value; }
+        }
+        [Column(Name = "COAGroupCode", DataType = "String")]
+        public String COAGroupCode
+        {
+            get { return _COAGroupCode; }
+            set { _COAGroupCode = value; }
+        }
+        [Column(Name = "COAGroupName", DataType = "String")]
+        public String COAGroupName
+        {
+            get { return _COAGroupName; }
+            set { _COAGroupName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "PrintOrder", DataType = "Int16")]
+        public Int16 PrintOrder
+        {
+            get { return _PrintOrder; }
+            set { _PrintOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class COAGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(COAGroup));
+        private bool _isAuditLog = false;
+        private const string p_COAGroupID = "@p_COAGroupID";
+        public COAGroupDao() { }
+        public COAGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public COAGroup Get(Int32 COAGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_COAGroupID, COAGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (COAGroup)_helper.DataRowToObject(row, new COAGroup());
+        }
+        public int Insert(COAGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(COAGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 COAGroupID)
+        {
+            COAGroup record;
+            if (_ctx.Transaction == null)
+                record = new COAGroupDao().Get(COAGroupID);
+            else
+                record = Get(COAGroupID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -11897,6 +12148,317 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region OrganizationDt
+    [Serializable]
+    [Table(Name = "OrganizationDt")]
+    public class OrganizationDt : DbDataModel
+    {
+        private Int32 _OrganizationDtID;
+        private Int32 _OrganizationID;
+        private String _Position;
+        private Int16 _DisplayOrder;
+        private Int32 _StudentCoordinatorID;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "OrganizationDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 OrganizationDtID
+        {
+            get { return _OrganizationDtID; }
+            set { _OrganizationDtID = value; }
+        }
+        [Column(Name = "OrganizationID", DataType = "Int32")]
+        public Int32 OrganizationID
+        {
+            get { return _OrganizationID; }
+            set { _OrganizationID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "StudentCoordinatorID", DataType = "Int32")]
+        public Int32 StudentCoordinatorID
+        {
+            get { return _StudentCoordinatorID; }
+            set { _StudentCoordinatorID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class OrganizationDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OrganizationDt));
+        private bool _isAuditLog = false;
+        private const string p_OrganizationDtID = "@p_OrganizationDtID";
+        public OrganizationDtDao() { }
+        public OrganizationDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OrganizationDt Get(Int32 OrganizationDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_OrganizationDtID, OrganizationDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OrganizationDt)_helper.DataRowToObject(row, new OrganizationDt());
+        }
+        public int Insert(OrganizationDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OrganizationDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 OrganizationDtID)
+        {
+            OrganizationDt record;
+            if (_ctx.Transaction == null)
+                record = new OrganizationDtDao().Get(OrganizationDtID);
+            else
+                record = Get(OrganizationDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region OrganizationDtStudent
+    [Serializable]
+    [Table(Name = "OrganizationDtStudent")]
+    public class OrganizationDtStudent : DbDataModel
+    {
+        private Int32 _OrganizationDtID;
+        private Int32 _StudentID;
+
+        [Column(Name = "OrganizationDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 OrganizationDtID
+        {
+            get { return _OrganizationDtID; }
+            set { _OrganizationDtID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+    }
+
+    public class OrganizationDtStudentDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OrganizationDtStudent));
+        private bool _isAuditLog = false;
+        private const string p_OrganizationDtID = "@p_OrganizationDtID";
+        private const string p_StudentID = "@p_StudentID";
+        public OrganizationDtStudentDao() { }
+        public OrganizationDtStudentDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OrganizationDtStudent Get(Int32 OrganizationDtID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_OrganizationDtID, OrganizationDtID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OrganizationDtStudent)_helper.DataRowToObject(row, new OrganizationDtStudent());
+        }
+        public int Insert(OrganizationDtStudent record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OrganizationDtStudent record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 OrganizationDtID, Int32 StudentID)
+        {
+            OrganizationDtStudent record;
+            if (_ctx.Transaction == null)
+                record = new OrganizationDtStudentDao().Get(OrganizationDtID, StudentID);
+            else
+                record = Get(OrganizationDtID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region OrganizationHd
+    [Serializable]
+    [Table(Name = "OrganizationHd")]
+    public class OrganizationHd : DbDataModel
+    {
+        private Int32 _OrganizationID;
+        private String _OrganizationCode;
+        private String _OrganizationName;
+        private Boolean _IsAllStudentAsMember;
+        private Int32 _SchoolPeriodID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "OrganizationID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 OrganizationID
+        {
+            get { return _OrganizationID; }
+            set { _OrganizationID = value; }
+        }
+        [Column(Name = "OrganizationCode", DataType = "String")]
+        public String OrganizationCode
+        {
+            get { return _OrganizationCode; }
+            set { _OrganizationCode = value; }
+        }
+        [Column(Name = "OrganizationName", DataType = "String")]
+        public String OrganizationName
+        {
+            get { return _OrganizationName; }
+            set { _OrganizationName = value; }
+        }
+        [Column(Name = "IsAllStudentAsMember", DataType = "Boolean")]
+        public Boolean IsAllStudentAsMember
+        {
+            get { return _IsAllStudentAsMember; }
+            set { _IsAllStudentAsMember = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class OrganizationHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(OrganizationHd));
+        private bool _isAuditLog = false;
+        private const string p_OrganizationID = "@p_OrganizationID";
+        public OrganizationHdDao() { }
+        public OrganizationHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public OrganizationHd Get(Int32 OrganizationID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_OrganizationID, OrganizationID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (OrganizationHd)_helper.DataRowToObject(row, new OrganizationHd());
+        }
+        public int Insert(OrganizationHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(OrganizationHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 OrganizationID)
+        {
+            OrganizationHd record;
+            if (_ctx.Transaction == null)
+                record = new OrganizationHdDao().Get(OrganizationID);
+            else
+                record = Get(OrganizationID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodAdmission
     [Serializable]
     [Table(Name = "PeriodAdmission")]
@@ -12069,6 +12631,8 @@ namespace CodeX.Data.Model
         private Int32? _PeriodSectionID;
         private Int32 _ClassTypeID;
         private Int32? _DailySchedulePackageID;
+        private Int32? _TheoryFinalMarkFormulaID;
+        private Int32? _PracticeFinalMarkFormulaID;
         private Int16 _NoOfClass;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -12105,6 +12669,18 @@ namespace CodeX.Data.Model
         {
             get { return _DailySchedulePackageID; }
             set { _DailySchedulePackageID = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "NoOfClass", DataType = "Int16")]
         public Int16 NoOfClass
@@ -12197,6 +12773,8 @@ namespace CodeX.Data.Model
         private Int32? _TeacherID;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
+        private Int32? _TheoryFinalMarkFormulaID;
+        private Int32? _PracticeFinalMarkFormulaID;
         private Int32? _SubjectMatterID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -12239,6 +12817,18 @@ namespace CodeX.Data.Model
         {
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "SubjectMatterID", DataType = "Int32", IsNullable = true)]
         public Int32? SubjectMatterID
@@ -17318,288 +17908,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region RegistrationFee
-    [Serializable]
-    [Table(Name = "RegistrationFee")]
-    public partial class RegistrationFee : DbDataModel
-    {
-        private Int32 _RegistrationFeeID;
-        private Int32 _RegistrationID;
-        private Int32 _AdmissionFeeCompID;
-        private Int16 _DisplayOrder;
-        private DateTime _PaymentDate;
-        private Boolean _IsPaymentAmountInPercentage;
-        private Decimal _PaymentAmount;
-        private Decimal _TotalPaymentAmount;
-        private Boolean _IsDiscountAmountInPercentage;
-        private Decimal _DiscountAmount;
-        private Decimal _TotalDiscountAmount;
-        private Decimal _LineAmount;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "RegistrationFeeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 RegistrationFeeID
-        {
-            get { return _RegistrationFeeID; }
-            set { _RegistrationFeeID = value; }
-        }
-        [Column(Name = "RegistrationID", DataType = "Int32")]
-        public Int32 RegistrationID
-        {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
-        }
-        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
-        public Int32 AdmissionFeeCompID
-        {
-            get { return _AdmissionFeeCompID; }
-            set { _AdmissionFeeCompID = value; }
-        }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
-        {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
-        }
-        [Column(Name = "PaymentDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime PaymentDate
-        {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
-        }
-        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsPaymentAmountInPercentage
-        {
-            get { return _IsPaymentAmountInPercentage; }
-            set { _IsPaymentAmountInPercentage = value; }
-        }
-        [Column(Name = "PaymentAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal PaymentAmount
-        {
-            get { return _PaymentAmount; }
-            set { _PaymentAmount = value; }
-        }
-        [Column(Name = "TotalPaymentAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalPaymentAmount
-        {
-            get { return _TotalPaymentAmount; }
-            set { _TotalPaymentAmount = value; }
-        }
-        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsDiscountAmountInPercentage
-        {
-            get { return _IsDiscountAmountInPercentage; }
-            set { _IsDiscountAmountInPercentage = value; }
-        }
-        [Column(Name = "DiscountAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal DiscountAmount
-        {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
-        }
-        [Column(Name = "TotalDiscountAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalDiscountAmount
-        {
-            get { return _TotalDiscountAmount; }
-            set { _TotalDiscountAmount = value; }
-        }
-        [Column(Name = "LineAmount", DataType = "Decimal")]
-        public Decimal LineAmount
-        {
-            get { return _LineAmount; }
-            set { _LineAmount = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class RegistrationFeeDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(RegistrationFee));
-        private bool _isAuditLog = false;
-        private const string p_RegistrationFeeID = "@p_RegistrationFeeID";
-        public RegistrationFeeDao() { }
-        public RegistrationFeeDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public RegistrationFee Get(Int32 RegistrationFeeID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_RegistrationFeeID, RegistrationFeeID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (RegistrationFee)_helper.DataRowToObject(row, new RegistrationFee());
-        }
-        public int Insert(RegistrationFee record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(RegistrationFee record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 RegistrationFeeID)
-        {
-            RegistrationFee record;
-            if (_ctx.Transaction == null)
-                record = new RegistrationFeeDao().Get(RegistrationFeeID);
-            else
-                record = Get(RegistrationFeeID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region RegistrationFeeComp
-    [Serializable]
-    [Table(Name = "RegistrationFeeComp")]
-    public class RegistrationFeeComp : DbDataModel
-    {
-        private Int32 _RegistrationFeeCompID;
-        private Int32 _RegistrationID;
-        private Int32 _AdmissionFeeCompID;
-        private Decimal _TotalAmount;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "RegistrationFeeCompID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 RegistrationFeeCompID
-        {
-            get { return _RegistrationFeeCompID; }
-            set { _RegistrationFeeCompID = value; }
-        }
-        [Column(Name = "RegistrationID", DataType = "Int32")]
-        public Int32 RegistrationID
-        {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
-        }
-        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
-        public Int32 AdmissionFeeCompID
-        {
-            get { return _AdmissionFeeCompID; }
-            set { _AdmissionFeeCompID = value; }
-        }
-        [Column(Name = "TotalAmount", DataType = "Decimal")]
-        public Decimal TotalAmount
-        {
-            get { return _TotalAmount; }
-            set { _TotalAmount = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class RegistrationFeeCompDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(RegistrationFeeComp));
-        private bool _isAuditLog = false;
-        private const string p_RegistrationFeeCompID = "@p_RegistrationFeeCompID";
-        public RegistrationFeeCompDao() { }
-        public RegistrationFeeCompDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public RegistrationFeeComp Get(Int32 RegistrationFeeCompID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_RegistrationFeeCompID, RegistrationFeeCompID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (RegistrationFeeComp)_helper.DataRowToObject(row, new RegistrationFeeComp());
-        }
-        public int Insert(RegistrationFeeComp record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(RegistrationFeeComp record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 RegistrationFeeCompID)
-        {
-            RegistrationFeeComp record;
-            if (_ctx.Transaction == null)
-                record = new RegistrationFeeCompDao().Get(RegistrationFeeCompID);
-            else
-                record = Get(RegistrationFeeCompID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
     #region RegistrationMark
     [Serializable]
     [Table(Name = "RegistrationMark")]
@@ -18613,6 +18921,10 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _DailySchedulePackageID;
         private Int32 _ExamSchedulePackageID;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
+        private Int32 _StudentProgressRuleID;
+        private Int32 _ExtracurricularProgressRuleID;
         private String _GCSchoolPeriodStatus;
         private String _Remarks;
         private Int32? _CreatedBy;
@@ -18667,6 +18979,30 @@ namespace CodeX.Data.Model
         {
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
+        }
+        [Column(Name = "ExtracurricularProgressRuleID", DataType = "Int32")]
+        public Int32 ExtracurricularProgressRuleID
+        {
+            get { return _ExtracurricularProgressRuleID; }
+            set { _ExtracurricularProgressRuleID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus
@@ -20309,15 +20645,207 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentFee
+    [Serializable]
+    [Table(Name = "StudentFee")]
+    public partial class StudentFee : DbDataModel
+    {
+        private Int32 _StudentFeeID;
+        private Int32? _StudentID;
+        private Int32? _RegistrationID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _StudentFeeCompID;
+        private Int16 _DisplayOrder;
+        private DateTime _PaymentDate;
+        private Boolean _IsPaymentAmountInPercentage;
+        private Decimal _PaymentAmount;
+        private Decimal _TotalPaymentAmount;
+        private Boolean _IsDiscountAmountInPercentage;
+        private Decimal _DiscountAmount;
+        private Decimal _TotalDiscountAmount;
+        private Decimal _LineAmount;
+        private Boolean _IsPaid;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFeeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFeeID
+        {
+            get { return _StudentFeeID; }
+            set { _StudentFeeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
+        public Int32? RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StudentFeeCompID", DataType = "Int32")]
+        public Int32 StudentFeeCompID
+        {
+            get { return _StudentFeeCompID; }
+            set { _StudentFeeCompID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsPaymentAmountInPercentage
+        {
+            get { return _IsPaymentAmountInPercentage; }
+            set { _IsPaymentAmountInPercentage = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+        [Column(Name = "TotalPaymentAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal TotalPaymentAmount
+        {
+            get { return _TotalPaymentAmount; }
+            set { _TotalPaymentAmount = value; }
+        }
+        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsDiscountAmountInPercentage
+        {
+            get { return _IsDiscountAmountInPercentage; }
+            set { _IsDiscountAmountInPercentage = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "TotalDiscountAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal TotalDiscountAmount
+        {
+            get { return _TotalDiscountAmount; }
+            set { _TotalDiscountAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
+        }
+        [Column(Name = "IsPaid", DataType = "Boolean")]
+        public Boolean IsPaid
+        {
+            get { return _IsPaid; }
+            set { _IsPaid = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFeeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFee));
+        private bool _isAuditLog = false;
+        private const string p_StudentFeeID = "@p_StudentFeeID";
+        public StudentFeeDao() { }
+        public StudentFeeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFee Get(Int32 StudentFeeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFeeID, StudentFeeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFee)_helper.DataRowToObject(row, new StudentFee());
+        }
+        public int Insert(StudentFee record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFee record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFeeID)
+        {
+            StudentFee record;
+            if (_ctx.Transaction == null)
+                record = new StudentFeeDao().Get(StudentFeeID);
+            else
+                record = Get(StudentFeeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StudentFeeComp
     [Serializable]
     [Table(Name = "StudentFeeComp")]
     public class StudentFeeComp : DbDataModel
     {
         private Int32 _StudentFeeCompID;
-        private Int32 _StudentID;
+        private Int32? _StudentID;
+        private Int32? _RegistrationID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompTypeID;
+        private Int16 _NoOfPeriod;
         private Decimal _TotalAmount;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -20331,11 +20859,17 @@ namespace CodeX.Data.Model
             get { return _StudentFeeCompID; }
             set { _StudentFeeCompID = value; }
         }
-        [Column(Name = "StudentID", DataType = "Int32")]
-        public Int32 StudentID
+        [Column(Name = "StudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentID
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
+        public Int32? RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -20348,6 +20882,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeID; }
             set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "NoOfPeriod", DataType = "Int16")]
+        public Int16 NoOfPeriod
+        {
+            get { return _NoOfPeriod; }
+            set { _NoOfPeriod = value; }
         }
         [Column(Name = "TotalAmount", DataType = "Decimal")]
         public Decimal TotalAmount
@@ -20565,6 +21105,310 @@ namespace CodeX.Data.Model
                 record = new StudentFeeCompTypeDao().Get(StudentFeeCompTypeID);
             else
                 record = Get(StudentFeeCompTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFinalMarkFormulaDt
+    [Serializable]
+    [Table(Name = "StudentFinalMarkFormulaDt")]
+    public class StudentFinalMarkFormulaDt : DbDataModel
+    {
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _StudentFinalMarkFormulaID;
+        private String _StudentFinalMarkFormulaDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaDtName", DataType = "String")]
+        public String StudentFinalMarkFormulaDtName
+        {
+            get { return _StudentFinalMarkFormulaDtName; }
+            set { _StudentFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFinalMarkFormulaDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFinalMarkFormulaDt));
+        private bool _isAuditLog = false;
+        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
+        public StudentFinalMarkFormulaDtDao() { }
+        public StudentFinalMarkFormulaDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFinalMarkFormulaDt Get(Int32 StudentFinalMarkFormulaDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFinalMarkFormulaDt)_helper.DataRowToObject(row, new StudentFinalMarkFormulaDt());
+        }
+        public int Insert(StudentFinalMarkFormulaDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFinalMarkFormulaDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFinalMarkFormulaDtID)
+        {
+            StudentFinalMarkFormulaDt record;
+            if (_ctx.Transaction == null)
+                record = new StudentFinalMarkFormulaDtDao().Get(StudentFinalMarkFormulaDtID);
+            else
+                record = Get(StudentFinalMarkFormulaDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFinalMarkFormulaDtTaskType
+    [Serializable]
+    [Table(Name = "StudentFinalMarkFormulaDtTaskType")]
+    public class StudentFinalMarkFormulaDtTaskType : DbDataModel
+    {
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private String _GCTaskType;
+
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String", IsPrimaryKey = true)]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
+        }
+    }
+
+    public class StudentFinalMarkFormulaDtTaskTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFinalMarkFormulaDtTaskType));
+        private bool _isAuditLog = false;
+        private const string p_GCTaskType = "@p_GCTaskType";
+        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
+        public StudentFinalMarkFormulaDtTaskTypeDao() { }
+        public StudentFinalMarkFormulaDtTaskTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFinalMarkFormulaDtTaskType Get(Int32 StudentFinalMarkFormulaDtID, String GCTaskType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCTaskType, GCTaskType);
+            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFinalMarkFormulaDtTaskType)_helper.DataRowToObject(row, new StudentFinalMarkFormulaDtTaskType());
+        }
+        public int Insert(StudentFinalMarkFormulaDtTaskType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFinalMarkFormulaDtTaskType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFinalMarkFormulaDtID, String GCTaskType)
+        {
+            StudentFinalMarkFormulaDtTaskType record;
+            if (_ctx.Transaction == null)
+                record = new StudentFinalMarkFormulaDtTaskTypeDao().Get(StudentFinalMarkFormulaDtID, GCTaskType);
+            else
+                record = Get(StudentFinalMarkFormulaDtID, GCTaskType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFinalMarkFormulaHd
+    [Serializable]
+    [Table(Name = "StudentFinalMarkFormulaHd")]
+    public class StudentFinalMarkFormulaHd : DbDataModel
+    {
+        private Int32 _StudentFinalMarkFormulaID;
+        private String _SiteID;
+        private String _StudentFinalMarkFormulaCode;
+        private String _StudentFinalMarkFormulaName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaCode", DataType = "String")]
+        public String StudentFinalMarkFormulaCode
+        {
+            get { return _StudentFinalMarkFormulaCode; }
+            set { _StudentFinalMarkFormulaCode = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaName", DataType = "String")]
+        public String StudentFinalMarkFormulaName
+        {
+            get { return _StudentFinalMarkFormulaName; }
+            set { _StudentFinalMarkFormulaName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFinalMarkFormulaHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFinalMarkFormulaHd));
+        private bool _isAuditLog = false;
+        private const string p_StudentFinalMarkFormulaID = "@p_StudentFinalMarkFormulaID";
+        public StudentFinalMarkFormulaHdDao() { }
+        public StudentFinalMarkFormulaHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFinalMarkFormulaHd Get(Int32 StudentFinalMarkFormulaID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFinalMarkFormulaID, StudentFinalMarkFormulaID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFinalMarkFormulaHd)_helper.DataRowToObject(row, new StudentFinalMarkFormulaHd());
+        }
+        public int Insert(StudentFinalMarkFormulaHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFinalMarkFormulaHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFinalMarkFormulaID)
+        {
+            StudentFinalMarkFormulaHd record;
+            if (_ctx.Transaction == null)
+                record = new StudentFinalMarkFormulaHdDao().Get(StudentFinalMarkFormulaID);
+            else
+                record = Get(StudentFinalMarkFormulaID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -20840,6 +21684,274 @@ namespace CodeX.Data.Model
                 record = new StudentPastStudyDao().Get(StudentPastStudyID);
             else
                 record = Get(StudentPastStudyID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentProgressRuleDt
+    [Serializable]
+    [Table(Name = "StudentProgressRuleDt")]
+    public partial class StudentProgressRuleDt : DbDataModel
+    {
+        private Int32 _StudentProgressRuleDtID;
+        private Int32 _StudentProgressRuleID;
+        private String _StudentProgressRuleDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FromValue;
+        private Boolean _IsFromPassingGrade;
+        private Decimal _ToValue;
+        private Boolean _IsToPassingGrade;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentProgressRuleDtID
+        {
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
+        }
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
+        }
+        [Column(Name = "StudentProgressRuleDtName", DataType = "String")]
+        public String StudentProgressRuleDtName
+        {
+            get { return _StudentProgressRuleDtName; }
+            set { _StudentProgressRuleDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FromValue", DataType = "Decimal")]
+        public Decimal FromValue
+        {
+            get { return _FromValue; }
+            set { _FromValue = value; }
+        }
+        [Column(Name = "IsFromPassingGrade", DataType = "Boolean")]
+        public Boolean IsFromPassingGrade
+        {
+            get { return _IsFromPassingGrade; }
+            set { _IsFromPassingGrade = value; }
+        }
+        [Column(Name = "ToValue", DataType = "Decimal")]
+        public Decimal ToValue
+        {
+            get { return _ToValue; }
+            set { _ToValue = value; }
+        }
+        [Column(Name = "IsToPassingGrade", DataType = "Boolean")]
+        public Boolean IsToPassingGrade
+        {
+            get { return _IsToPassingGrade; }
+            set { _IsToPassingGrade = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentProgressRuleDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentProgressRuleDt));
+        private bool _isAuditLog = false;
+        private const string p_StudentProgressRuleDtID = "@p_StudentProgressRuleDtID";
+        public StudentProgressRuleDtDao() { }
+        public StudentProgressRuleDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentProgressRuleDt Get(Int32 StudentProgressRuleDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentProgressRuleDtID, StudentProgressRuleDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentProgressRuleDt)_helper.DataRowToObject(row, new StudentProgressRuleDt());
+        }
+        public int Insert(StudentProgressRuleDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentProgressRuleDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentProgressRuleDtID)
+        {
+            StudentProgressRuleDt record;
+            if (_ctx.Transaction == null)
+                record = new StudentProgressRuleDtDao().Get(StudentProgressRuleDtID);
+            else
+                record = Get(StudentProgressRuleDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentProgressRuleHd
+    [Serializable]
+    [Table(Name = "StudentProgressRuleHd")]
+    public class StudentProgressRuleHd : DbDataModel
+    {
+        private Int32 _StudentProgressRuleID;
+        private String _SiteID;
+        private String _StudentProgressRuleCode;
+        private String _StudentProgressRuleName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StudentProgressRuleCode", DataType = "String")]
+        public String StudentProgressRuleCode
+        {
+            get { return _StudentProgressRuleCode; }
+            set { _StudentProgressRuleCode = value; }
+        }
+        [Column(Name = "StudentProgressRuleName", DataType = "String")]
+        public String StudentProgressRuleName
+        {
+            get { return _StudentProgressRuleName; }
+            set { _StudentProgressRuleName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentProgressRuleHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentProgressRuleHd));
+        private bool _isAuditLog = false;
+        private const string p_StudentProgressRuleID = "@p_StudentProgressRuleID";
+        public StudentProgressRuleHdDao() { }
+        public StudentProgressRuleHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentProgressRuleHd Get(Int32 StudentProgressRuleID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentProgressRuleID, StudentProgressRuleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentProgressRuleHd)_helper.DataRowToObject(row, new StudentProgressRuleHd());
+        }
+        public int Insert(StudentProgressRuleHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentProgressRuleHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentProgressRuleID)
+        {
+            StudentProgressRuleHd record;
+            if (_ctx.Transaction == null)
+                record = new StudentProgressRuleHdDao().Get(StudentProgressRuleID);
+            else
+                record = Get(StudentProgressRuleID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -21236,6 +22348,7 @@ namespace CodeX.Data.Model
         private String _SubjectMatterCode;
         private String _SubjectMatterName;
         private Int32 _SubjectID;
+        private String _CompetencyStandard;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -21266,6 +22379,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectID; }
             set { _SubjectID = value; }
+        }
+        [Column(Name = "CompetencyStandard", DataType = "String", IsNullable = true)]
+        public String CompetencyStandard
+        {
+            get { return _CompetencyStandard; }
+            set { _CompetencyStandard = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

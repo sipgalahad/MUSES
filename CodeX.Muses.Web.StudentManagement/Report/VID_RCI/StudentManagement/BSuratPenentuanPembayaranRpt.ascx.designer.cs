@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Report {
     
     
-    public partial class BResepRpt {
+    public partial class BSuratPenentuanPembayaranRpt {
         
         /// <summary>
         /// divReportHeader control.

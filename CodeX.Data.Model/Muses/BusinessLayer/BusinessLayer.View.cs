@@ -938,6 +938,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassSubjectTaskCustom
+        public static List<vClassSubjectTaskCustom> GetvClassSubjectTaskCustomList(string filterExpression)
+        {
+            List<vClassSubjectTaskCustom> result = new List<vClassSubjectTaskCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubjectTaskCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassSubjectTaskCustom)helper.IDataReaderToObject(reader, new vClassSubjectTaskCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassType
         public static List<vClassType> GetvClassTypeList(string filterExpression)
         {
@@ -1038,6 +1062,95 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vClassTypeExtracurricular)helper.IDataReaderToObject(reader, new vClassTypeExtracurricular()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCOAGroup
+        public static List<vCOAGroup> GetvCOAGroupList(string filterExpression)
+        {
+            List<vCOAGroup> result = new List<vCOAGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCOAGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCOAGroup)helper.IDataReaderToObject(reader, new vCOAGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vCOAGroup> GetvCOAGroupList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vCOAGroup> result = new List<vCOAGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCOAGroup));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCOAGroup)helper.IDataReaderToObject(reader, new vCOAGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvCOAGroupRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCOAGroup));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvCOAGroupRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCOAGroup));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "COAGroupID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {
@@ -4182,6 +4295,54 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "LocationID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vOrganizationDt
+        public static List<vOrganizationDt> GetvOrganizationDtList(string filterExpression)
+        {
+            List<vOrganizationDt> result = new List<vOrganizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOrganizationDt)helper.IDataReaderToObject(reader, new vOrganizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vOrganizationDtStudent
+        public static List<vOrganizationDtStudent> GetvOrganizationDtStudentList(string filterExpression)
+        {
+            List<vOrganizationDtStudent> result = new List<vOrganizationDtStudent>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vOrganizationDtStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vOrganizationDtStudent)helper.IDataReaderToObject(reader, new vOrganizationDtStudent()));
             }
             catch (Exception ex)
             {
@@ -7433,6 +7594,30 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "StudentFeeCompTypeID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vStudentFinalMarkFormulaDt
+        public static List<vStudentFinalMarkFormulaDt> GetvStudentFinalMarkFormulaDtList(string filterExpression)
+        {
+            List<vStudentFinalMarkFormulaDt> result = new List<vStudentFinalMarkFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFinalMarkFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFinalMarkFormulaDt)helper.IDataReaderToObject(reader, new vStudentFinalMarkFormulaDt()));
             }
             catch (Exception ex)
             {

@@ -1649,6 +1649,7 @@ namespace CodeX.Data.Model
         private Int16 _PassingGrade;
         private Int32 _SubjectMatterID;
         private String _GCClassStudyType;
+        private Int32 _StudentProgressRuleID;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -1777,6 +1778,12 @@ namespace CodeX.Data.Model
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
         }
+        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
+        public Int32 StudentProgressRuleID
+        {
+            get { return _StudentProgressRuleID; }
+            set { _StudentProgressRuleID = value; }
+        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
@@ -1866,8 +1873,8 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private Boolean _IsRemedial;
         private Decimal _Mark;
-        private String _GCOptionMark;
-        private String _OptionMark;
+        private Int32 _StudentProgressRuleDtID;
+        private String _StudentProgressRuleDtName;
         private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
@@ -1900,17 +1907,17 @@ namespace CodeX.Data.Model
             get { return _Mark; }
             set { _Mark = value; }
         }
-        [Column(Name = "GCOptionMark", DataType = "String")]
-        public String GCOptionMark
+        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32")]
+        public Int32 StudentProgressRuleDtID
         {
-            get { return _GCOptionMark; }
-            set { _GCOptionMark = value; }
+            get { return _StudentProgressRuleDtID; }
+            set { _StudentProgressRuleDtID = value; }
         }
-        [Column(Name = "OptionMark", DataType = "String")]
-        public String OptionMark
+        [Column(Name = "StudentProgressRuleDtName", DataType = "String")]
+        public String StudentProgressRuleDtName
         {
-            get { return _OptionMark; }
-            set { _OptionMark = value; }
+            get { return _StudentProgressRuleDtName; }
+            set { _StudentProgressRuleDtName = value; }
         }
         [Column(Name = "DescriptionMark", DataType = "String")]
         public String DescriptionMark
@@ -2118,6 +2125,203 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassSubjectTaskCustom
+    [Serializable]
+    [Table(Name = "vClassSubjectTaskCustom")]
+    public class vClassSubjectTaskCustom
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _ClassSubjectID;
+        private Int32 _PeriodSectionID;
+        private String _ClassTaskCode;
+        private String _GCTaskType;
+        private Int32 _TheoryFinalMarkFormulaDtID;
+        private String _TheoryFinalMarkFormulaDtName;
+        private Int16 _TheoryDisplayOrder;
+        private Decimal _TheoryFinalMarkPercentage;
+        private Int32 _PracticeFinalMarkFormulaDtID;
+        private String _PracticeFinalMarkFormulaDtName;
+        private Int16 _PracticeDisplayOrder;
+        private Decimal _PracticeFinalMarkPercentage;
+        private String _TaskType;
+        private String _GCLessonType;
+        private String _LessonType;
+        private Int16 _FinalMarkPercentage;
+        private DateTime _TaskDate;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _StartTime;
+        private String _EndTime;
+        private String _Topic;
+        private String _Remarks;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "ClassTaskCode", DataType = "String")]
+        public String ClassTaskCode
+        {
+            get { return _ClassTaskCode; }
+            set { _ClassTaskCode = value; }
+        }
+        [Column(Name = "GCTaskType", DataType = "String")]
+        public String GCTaskType
+        {
+            get { return _GCTaskType; }
+            set { _GCTaskType = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaDtID
+        {
+            get { return _TheoryFinalMarkFormulaDtID; }
+            set { _TheoryFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaDtName", DataType = "String")]
+        public String TheoryFinalMarkFormulaDtName
+        {
+            get { return _TheoryFinalMarkFormulaDtName; }
+            set { _TheoryFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "TheoryDisplayOrder", DataType = "Int16")]
+        public Int16 TheoryDisplayOrder
+        {
+            get { return _TheoryDisplayOrder; }
+            set { _TheoryDisplayOrder = value; }
+        }
+        [Column(Name = "TheoryFinalMarkPercentage", DataType = "Decimal")]
+        public Decimal TheoryFinalMarkPercentage
+        {
+            get { return _TheoryFinalMarkPercentage; }
+            set { _TheoryFinalMarkPercentage = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaDtID
+        {
+            get { return _PracticeFinalMarkFormulaDtID; }
+            set { _PracticeFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaDtName", DataType = "String")]
+        public String PracticeFinalMarkFormulaDtName
+        {
+            get { return _PracticeFinalMarkFormulaDtName; }
+            set { _PracticeFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "PracticeDisplayOrder", DataType = "Int16")]
+        public Int16 PracticeDisplayOrder
+        {
+            get { return _PracticeDisplayOrder; }
+            set { _PracticeDisplayOrder = value; }
+        }
+        [Column(Name = "PracticeFinalMarkPercentage", DataType = "Decimal")]
+        public Decimal PracticeFinalMarkPercentage
+        {
+            get { return _PracticeFinalMarkPercentage; }
+            set { _PracticeFinalMarkPercentage = value; }
+        }
+        [Column(Name = "TaskType", DataType = "String")]
+        public String TaskType
+        {
+            get { return _TaskType; }
+            set { _TaskType = value; }
+        }
+        [Column(Name = "GCLessonType", DataType = "String")]
+        public String GCLessonType
+        {
+            get { return _GCLessonType; }
+            set { _GCLessonType = value; }
+        }
+        [Column(Name = "LessonType", DataType = "String")]
+        public String LessonType
+        {
+            get { return _LessonType; }
+            set { _LessonType = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
+        public Int16 FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "TaskDate", DataType = "DateTime")]
+        public DateTime TaskDate
+        {
+            get { return _TaskDate; }
+            set { _TaskDate = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "Topic", DataType = "String")]
+        public String Topic
+        {
+            get { return _Topic; }
+            set { _Topic = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vClassType
     [Serializable]
     [Table(Name = "vClassType")]
@@ -2243,6 +2447,105 @@ namespace CodeX.Data.Model
         {
             get { return _ExtracurricularClassTypeID; }
             set { _ExtracurricularClassTypeID = value; }
+        }
+    }
+    #endregion
+    #region vCOAGroup
+    [Serializable]
+    [Table(Name = "vCOAGroup")]
+    public class vCOAGroup
+    {
+        private Int32 _COAGroupID;
+        private String _GCCOAType;
+        private String _COAType;
+        private String _COAGroupCode;
+        private String _COAGroupName;
+        private Boolean _IsHeader;
+        private Int32 _ParentID;
+        private String _ParentCode;
+        private String _ParentName;
+        private Int16 _PrintOrder;
+        private Boolean _IsDeleted;
+        private Int32 _Level;
+        private String _DisplayPath;
+
+        [Column(Name = "COAGroupID", DataType = "Int32")]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
+        }
+        [Column(Name = "GCCOAType", DataType = "String")]
+        public String GCCOAType
+        {
+            get { return _GCCOAType; }
+            set { _GCCOAType = value; }
+        }
+        [Column(Name = "COAType", DataType = "String")]
+        public String COAType
+        {
+            get { return _COAType; }
+            set { _COAType = value; }
+        }
+        [Column(Name = "COAGroupCode", DataType = "String")]
+        public String COAGroupCode
+        {
+            get { return _COAGroupCode; }
+            set { _COAGroupCode = value; }
+        }
+        [Column(Name = "COAGroupName", DataType = "String")]
+        public String COAGroupName
+        {
+            get { return _COAGroupName; }
+            set { _COAGroupName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentCode", DataType = "String")]
+        public String ParentCode
+        {
+            get { return _ParentCode; }
+            set { _ParentCode = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "PrintOrder", DataType = "Int16")]
+        public Int16 PrintOrder
+        {
+            get { return _PrintOrder; }
+            set { _PrintOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
         }
     }
     #endregion
@@ -10075,6 +10378,134 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vOrganizationDt
+    [Serializable]
+    [Table(Name = "vOrganizationDt")]
+    public class vOrganizationDt
+    {
+        private Int32 _OrganizationDtID;
+        private Int32 _OrganizationID;
+        private String _OrganizationName;
+        private String _Position;
+        private Int16 _DisplayOrder;
+        private Int32 _StudentCoordinatorID;
+        private String _StudentCoordinatorCode;
+        private String _StudentCoordinatorName;
+        private String _ListStudentID;
+        private String _ListStudentName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "OrganizationDtID", DataType = "Int32")]
+        public Int32 OrganizationDtID
+        {
+            get { return _OrganizationDtID; }
+            set { _OrganizationDtID = value; }
+        }
+        [Column(Name = "OrganizationID", DataType = "Int32")]
+        public Int32 OrganizationID
+        {
+            get { return _OrganizationID; }
+            set { _OrganizationID = value; }
+        }
+        [Column(Name = "OrganizationName", DataType = "String")]
+        public String OrganizationName
+        {
+            get { return _OrganizationName; }
+            set { _OrganizationName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "StudentCoordinatorID", DataType = "Int32")]
+        public Int32 StudentCoordinatorID
+        {
+            get { return _StudentCoordinatorID; }
+            set { _StudentCoordinatorID = value; }
+        }
+        [Column(Name = "StudentCoordinatorCode", DataType = "String")]
+        public String StudentCoordinatorCode
+        {
+            get { return _StudentCoordinatorCode; }
+            set { _StudentCoordinatorCode = value; }
+        }
+        [Column(Name = "StudentCoordinatorName", DataType = "String")]
+        public String StudentCoordinatorName
+        {
+            get { return _StudentCoordinatorName; }
+            set { _StudentCoordinatorName = value; }
+        }
+        [Column(Name = "ListStudentID", DataType = "String")]
+        public String ListStudentID
+        {
+            get { return _ListStudentID; }
+            set { _ListStudentID = value; }
+        }
+        [Column(Name = "ListStudentName", DataType = "String")]
+        public String ListStudentName
+        {
+            get { return _ListStudentName; }
+            set { _ListStudentName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vOrganizationDtStudent
+    [Serializable]
+    [Table(Name = "vOrganizationDtStudent")]
+    public class vOrganizationDtStudent
+    {
+        private Int32 _OrganizationDtID;
+        private Int32 _OrganizationID;
+        private String _OrganizationName;
+        private String _Position;
+        private Int32 _StudentID;
+
+        [Column(Name = "OrganizationDtID", DataType = "Int32")]
+        public Int32 OrganizationDtID
+        {
+            get { return _OrganizationDtID; }
+            set { _OrganizationDtID = value; }
+        }
+        [Column(Name = "OrganizationID", DataType = "Int32")]
+        public Int32 OrganizationID
+        {
+            get { return _OrganizationID; }
+            set { _OrganizationID = value; }
+        }
+        [Column(Name = "OrganizationName", DataType = "String")]
+        public String OrganizationName
+        {
+            get { return _OrganizationName; }
+            set { _OrganizationName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+    }
+    #endregion
     #region vPeriodAdmission
     [Serializable]
     [Table(Name = "vPeriodAdmission")]
@@ -10194,6 +10625,8 @@ namespace CodeX.Data.Model
         private String _Major;
         private Int32 _DailySchedulePackageID;
         private String _DailySchedulePackageName;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
         private Int16 _NoOfClass;
         private Int32 _CreatedClass;
         private Boolean _IsDeleted;
@@ -10288,6 +10721,18 @@ namespace CodeX.Data.Model
             get { return _DailySchedulePackageName; }
             set { _DailySchedulePackageName = value; }
         }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
+        }
         [Column(Name = "NoOfClass", DataType = "Int16")]
         public Int16 NoOfClass
         {
@@ -10333,6 +10778,8 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
+        private Int32 _TheoryFinalMarkFormulaID;
+        private Int32 _PracticeFinalMarkFormulaID;
         private Boolean _IsEditable;
         private Boolean _IsDeleted;
 
@@ -10455,6 +10902,18 @@ namespace CodeX.Data.Model
         {
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
+        }
+        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 TheoryFinalMarkFormulaID
+        {
+            get { return _TheoryFinalMarkFormulaID; }
+            set { _TheoryFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 PracticeFinalMarkFormulaID
+        {
+            get { return _PracticeFinalMarkFormulaID; }
+            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "IsEditable", DataType = "Boolean")]
         public Boolean IsEditable
@@ -19050,6 +19509,225 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFee
+    [Serializable]
+    [Table(Name = "vStudentFee")]
+    public class vStudentFee
+    {
+        private Int32 _StudentFeeID;
+        private Int32 _StudentID;
+        private Int32 _RegistrationID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _StudentFeeCompID;
+        private Int32 _StudentFeeCompTypeID;
+        private Int16 _DisplayOrder;
+        private DateTime _PaymentDate;
+        private Boolean _IsPaymentAmountInPercentage;
+        private Decimal _PaymentAmount;
+        private Decimal _TotalPaymentAmount;
+        private Boolean _IsDiscountAmountInPercentage;
+        private Decimal _DiscountAmount;
+        private Decimal _TotalDiscountAmount;
+        private Decimal _LineAmount;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentFeeID", DataType = "Int32")]
+        public Int32 StudentFeeID
+        {
+            get { return _StudentFeeID; }
+            set { _StudentFeeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32")]
+        public Int32 RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StudentFeeCompID", DataType = "Int32")]
+        public Int32 StudentFeeCompID
+        {
+            get { return _StudentFeeCompID; }
+            set { _StudentFeeCompID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "DateTime")]
+        public DateTime PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsPaymentAmountInPercentage
+        {
+            get { return _IsPaymentAmountInPercentage; }
+            set { _IsPaymentAmountInPercentage = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal")]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+        [Column(Name = "TotalPaymentAmount", DataType = "Decimal")]
+        public Decimal TotalPaymentAmount
+        {
+            get { return _TotalPaymentAmount; }
+            set { _TotalPaymentAmount = value; }
+        }
+        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsDiscountAmountInPercentage
+        {
+            get { return _IsDiscountAmountInPercentage; }
+            set { _IsDiscountAmountInPercentage = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
+        public Decimal TotalDiscountAmount
+        {
+            get { return _TotalDiscountAmount; }
+            set { _TotalDiscountAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vStudentFeeComp
+    [Serializable]
+    [Table(Name = "vStudentFeeComp")]
+    public partial class vStudentFeeComp
+    {
+        private Int32 _StudentFeeCompID;
+        private Int32 _StudentID;
+        private Int32 _RegistrationID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _StudentFeeCompTypeID;
+        private String _StudentFeeCompTypeName;
+        private String _GCAdmissionPaymentPeriod;
+        private String _AdmissionPaymentPeriod;
+        private Int32 _PaymentDate;
+        private Int32 _PaymentMonth;
+        private Int16 _PenaltyPercentage;
+        private Decimal _TotalAmount;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentFeeCompID", DataType = "Int32")]
+        public Int32 StudentFeeCompID
+        {
+            get { return _StudentFeeCompID; }
+            set { _StudentFeeCompID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32")]
+        public Int32 RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
+        {
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "AdmissionPaymentPeriod", DataType = "String")]
+        public String AdmissionPaymentPeriod
+        {
+            get { return _AdmissionPaymentPeriod; }
+            set { _AdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "Int32")]
+        public Int32 PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "PaymentMonth", DataType = "Int32")]
+        public Int32 PaymentMonth
+        {
+            get { return _PaymentMonth; }
+            set { _PaymentMonth = value; }
+        }
+        [Column(Name = "PenaltyPercentage", DataType = "Int16")]
+        public Int16 PenaltyPercentage
+        {
+            get { return _PenaltyPercentage; }
+            set { _PenaltyPercentage = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStudentFeeCompType
     [Serializable]
     [Table(Name = "vStudentFeeCompType")]
@@ -19105,6 +19783,70 @@ namespace CodeX.Data.Model
         {
             get { return _PaymentMonth; }
             set { _PaymentMonth = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vStudentFinalMarkFormulaDt
+    [Serializable]
+    [Table(Name = "vStudentFinalMarkFormulaDt")]
+    public class vStudentFinalMarkFormulaDt
+    {
+        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _StudentFinalMarkFormulaID;
+        private String _StudentFinalMarkFormulaDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private String _ListGCTaskType;
+        private String _ListTaskType;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaDtID
+        {
+            get { return _StudentFinalMarkFormulaDtID; }
+            set { _StudentFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 StudentFinalMarkFormulaID
+        {
+            get { return _StudentFinalMarkFormulaID; }
+            set { _StudentFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "StudentFinalMarkFormulaDtName", DataType = "String")]
+        public String StudentFinalMarkFormulaDtName
+        {
+            get { return _StudentFinalMarkFormulaDtName; }
+            set { _StudentFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "ListGCTaskType", DataType = "String")]
+        public String ListGCTaskType
+        {
+            get { return _ListGCTaskType; }
+            set { _ListGCTaskType = value; }
+        }
+        [Column(Name = "ListTaskType", DataType = "String")]
+        public String ListTaskType
+        {
+            get { return _ListTaskType; }
+            set { _ListTaskType = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

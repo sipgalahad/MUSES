@@ -26,6 +26,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             Helper.SetControlEntrySetting(txtSubjectMatterCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtSubjectMatterName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtCompetencyStandard, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
@@ -88,6 +89,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.SubjectMatterCode = txtSubjectMatterCode.Text;
             entity.SubjectMatterName = txtSubjectMatterName.Text;
+            entity.CompetencyStandard = txtCompetencyStandard.Text;
             entity.Remarks = txtRemarks.Text;
         }
 

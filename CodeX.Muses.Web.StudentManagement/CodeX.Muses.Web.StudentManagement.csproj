@@ -120,6 +120,10 @@
     <Content Include="Program\Master\SchoolPeriod\ClassSubjectExtracurricular\ClassSubjectExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx" />
@@ -129,6 +133,8 @@
     <Content Include="Program\Master\SchoolPeriod\TeacherSchedule\TeacherScheduleEntry.aspx" />
     <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
     <Content Include="Program\StudentMark\ClassStudentPageLauncher.aspx" />
+    <Content Include="Program\StudentMark\ClassStudentNote\ClassStudentNoteEntry.aspx" />
+    <Content Include="Program\StudentMark\OrganizationMark\OrganizationMarkList.aspx" />
     <Content Include="Program\StudentMark\ExtracurricularMark\ClassStudentExtracurricularMarkList.aspx" />
     <Content Include="Program\StudentMark\PersonalityMark\ClassStudentPersonalityMarkList.aspx" />
     <Content Include="Program\StudentMark\SubjectMark\ClassStudentSubjectMarkList.aspx" />
@@ -587,6 +593,34 @@
     <Compile Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassStudentExtracurricularQuickPicksEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx.cs">
+      <DependentUpon>OrganizationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx.designer.cs">
+      <DependentUpon>OrganizationEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx.cs">
+      <DependentUpon>OrganizationDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>OrganizationDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx.cs">
+      <DependentUpon>StudentProgressRuleDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentProgressRuleDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx.cs">
+      <DependentUpon>StudentFinalMarkFormulaDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentFinalMarkFormulaDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx.cs">
       <DependentUpon>PeriodClassTypePersonalityEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -649,6 +683,20 @@
     </Compile>
     <Compile Include="Program\StudentMark\ClassStudentPageLauncher.aspx.designer.cs">
       <DependentUpon>ClassStudentPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\ClassStudentNote\ClassStudentNoteEntry.aspx.cs">
+      <DependentUpon>ClassStudentNoteEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\ClassStudentNote\ClassStudentNoteEntry.aspx.designer.cs">
+      <DependentUpon>ClassStudentNoteEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\OrganizationMark\OrganizationMarkList.aspx.cs">
+      <DependentUpon>OrganizationMarkList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\OrganizationMark\OrganizationMarkList.aspx.designer.cs">
+      <DependentUpon>OrganizationMarkList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentMark\ExtracurricularMark\ClassStudentExtracurricularMarkList.aspx.cs">
       <DependentUpon>ClassStudentExtracurricularMarkList.aspx</DependentUpon>
