@@ -257,8 +257,9 @@
 
         function getSaveValue() {
             var lstSaveValue = '';
-            $('.hdnAdmissionFeeCompID').each(function () {
-                var admissionFeeCompID = $(this).val();
+            $('.hdnStudentFeeCompTypeID').each(function () {
+                var studentFeeCompTypeID = $(this).val();
+                var noOfPeriod = $(this).closest('tr').prev().prev().find('.txtNoOfRegistrationPaymentPeriod').val();
                 var admissionFeeCompValue = $(this).closest('tr').prev().prev().prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal');
                 $tbl = $(this).next().find('.tblView');
                 var lstTemp = '';
@@ -275,7 +276,7 @@
                 });
                 if (lstSaveValue != '')
                     lstSaveValue += '|';
-                lstSaveValue += admissionFeeCompID + ';' + admissionFeeCompValue + ';' + lstTemp;
+                lstSaveValue += studentFeeCompTypeID + ';' + noOfPeriod + ';' + admissionFeeCompValue + ';' + lstTemp;
             });
             $('#<%=hdnSaveValue.ClientID %>').val(lstSaveValue);
         }
@@ -566,7 +567,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4">
-                                        <input type="hidden" class="hdnAdmissionFeeCompID" value='<%#Eval("AdmissionFeeCompID") %>' />
+                                        <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' />
                                         <div id="containerTableFee" runat="server">
                                             <asp:Repeater ID="rptViewDt" runat="server">
                                                 <HeaderTemplate>

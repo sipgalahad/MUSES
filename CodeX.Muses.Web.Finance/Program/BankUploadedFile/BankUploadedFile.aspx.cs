@@ -108,11 +108,16 @@ namespace CodeX.Muses.Web.Finance.Program
             ARReceivingHdDao entityReceivingHdDao = new ARReceivingHdDao(ctx);
             ARReceivingDtDao entityReceivingDtDao = new ARReceivingDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
+            StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
             try
             {
                 List<vARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetvARInvoiceHdList(String.Format("GCTransactionStatus = '{0}'", Constant.TransactionStatus.PROCESSED), ctx);
                 String lstARInvoiceID = String.Join(",", lstARInvoiceHd.Select(x => x.ARInvoiceID).ToList());
                 List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(String.Format("ARInvoiceID IN ({0})", lstARInvoiceID), ctx);
+
+                String lstStudentFeeID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeID).ToList());
+                List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
+
                 String studentID = String.Join(",", lstARInvoiceHd.Where(s => s.StudentID != 0).Select(x => x.StudentID).ToList());
                 List<Student> lstStudent = null;
                 if (studentID != "")
@@ -193,6 +198,11 @@ namespace CodeX.Muses.Web.Finance.Program
                                 List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == arInvoiceHD.ARInvoiceID).ToList();
                                 foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
                                 {
+                                    StudentFee studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == aRInvoiceDt.StudentFeeID);
+                                    studentFee.IsPaid = true;
+                                    studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                    entityStudentFeeDao.Update(studentFee);
+
                                     ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
                                     ARInvoiceReceivingObj.ARInvoiceID = arInvoiceHD.ARInvoiceID;
                                     ARInvoiceReceivingObj.ARReceivingID = entityReceivingHd.ARReceivingID;

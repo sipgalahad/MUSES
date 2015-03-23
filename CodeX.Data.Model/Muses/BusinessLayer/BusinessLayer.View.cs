@@ -7357,6 +7357,54 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentFee
+        public static List<vStudentFee> GetvStudentFeeList(string filterExpression)
+        {
+            List<vStudentFee> result = new List<vStudentFee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFee)helper.IDataReaderToObject(reader, new vStudentFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vStudentFeeComp
+        public static List<vStudentFeeComp> GetvStudentFeeCompList(string filterExpression)
+        {
+            List<vStudentFeeComp> result = new List<vStudentFeeComp>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFeeComp)helper.IDataReaderToObject(reader, new vStudentFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentFeeCompType
         public static List<vStudentFeeCompType> GetvStudentFeeCompTypeList(string filterExpression)
         {

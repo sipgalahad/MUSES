@@ -7884,120 +7884,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region RegistrationFee
-        public static RegistrationFee GetRegistrationFee(Int32 RegistrationFeeID)
-        {
-            return new RegistrationFeeDao().Get(RegistrationFeeID);
-        }
-        public static int InsertRegistrationFee(RegistrationFee record)
-        {
-            return new RegistrationFeeDao().Insert(record);
-        }
-        public static int UpdateRegistrationFee(RegistrationFee record)
-        {
-            return new RegistrationFeeDao().Update(record);
-        }
-        public static int DeleteRegistrationFee(Int32 RegistrationFeeID)
-        {
-            return new RegistrationFeeDao().Delete(RegistrationFeeID);
-        }
-        public static List<RegistrationFee> GetRegistrationFeeList(string filterExpression)
-        {
-            List<RegistrationFee> result = new List<RegistrationFee>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFee));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFee)helper.IDataReaderToObject(reader, new RegistrationFee()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<RegistrationFee> GetRegistrationFeeList(string filterExpression, IDbContext ctx)
-        {
-            List<RegistrationFee> result = new List<RegistrationFee>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFee));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFee)helper.IDataReaderToObject(reader, new RegistrationFee()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
-        #region RegistrationFeeComp
-        public static RegistrationFeeComp GetRegistrationFeeComp(Int32 RegistrationFeeCompID)
-        {
-            return new RegistrationFeeCompDao().Get(RegistrationFeeCompID);
-        }
-        public static int InsertRegistrationFeeComp(RegistrationFeeComp record)
-        {
-            return new RegistrationFeeCompDao().Insert(record);
-        }
-        public static int UpdateRegistrationFeeComp(RegistrationFeeComp record)
-        {
-            return new RegistrationFeeCompDao().Update(record);
-        }
-        public static int DeleteRegistrationFeeComp(Int32 RegistrationFeeCompID)
-        {
-            return new RegistrationFeeCompDao().Delete(RegistrationFeeCompID);
-        }
-        public static List<RegistrationFeeComp> GetRegistrationFeeCompList(string filterExpression)
-        {
-            List<RegistrationFeeComp> result = new List<RegistrationFeeComp>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFeeComp));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFeeComp)helper.IDataReaderToObject(reader, new RegistrationFeeComp()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<RegistrationFeeComp> GetRegistrationFeeCompList(string filterExpression, IDbContext ctx)
-        {
-            List<RegistrationFeeComp> result = new List<RegistrationFeeComp>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(RegistrationFeeComp));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((RegistrationFeeComp)helper.IDataReaderToObject(reader, new RegistrationFeeComp()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
-        #endregion
         #region RegistrationMark
         public static RegistrationMark GetRegistrationMark(Int32 PeriodAdmissionID, Int32 AdmissionSelectionID, Int32 RegistrationID)
         {
@@ -9422,6 +9308,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFee
+        public static StudentFee GetStudentFee(Int32 StudentFeeID)
+        {
+            return new StudentFeeDao().Get(StudentFeeID);
+        }
+        public static int InsertStudentFee(StudentFee record)
+        {
+            return new StudentFeeDao().Insert(record);
+        }
+        public static int UpdateStudentFee(StudentFee record)
+        {
+            return new StudentFeeDao().Update(record);
+        }
+        public static int DeleteStudentFee(Int32 StudentFeeID)
+        {
+            return new StudentFeeDao().Delete(StudentFeeID);
+        }
+        public static List<StudentFee> GetStudentFeeList(string filterExpression)
+        {
+            List<StudentFee> result = new List<StudentFee>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFee)helper.IDataReaderToObject(reader, new StudentFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentFee> GetStudentFeeList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentFee> result = new List<StudentFee>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFee));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFee)helper.IDataReaderToObject(reader, new StudentFee()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region StudentFeeComp
         public static StudentFeeComp GetStudentFeeComp(Int32 StudentFeeCompID)
         {
@@ -9471,6 +9414,22 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((StudentFeeComp)helper.IDataReaderToObject(reader, new StudentFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static Int32 GetStudentFeeCompMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeComp));
+                ctx.CommandText = helper.SelectMaxColumn("StudentFeeCompID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {

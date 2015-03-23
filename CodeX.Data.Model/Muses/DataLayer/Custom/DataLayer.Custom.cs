@@ -126,15 +126,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region RegistrationFee
-    public partial class RegistrationFee 
-    {
-        public String PaymentDateInString 
-        {
-            get { return _PaymentDate.ToString(Constant.FormatString.DATE_FORMAT); }
-        }
-    }
-    #endregion
     #region PurchaseRequestHd
     public partial class PurchaseRequestHd
     {
@@ -173,6 +164,15 @@ namespace CodeX.Data.Model
                     return string.Format("{0} %", _DiscountAmount);
                 return _DiscountAmount.ToString("N");
             }
+        }
+    }
+    #endregion
+    #region StudentFee
+    public partial class StudentFee
+    {
+        public String PaymentDateInString
+        {
+            get { return _PaymentDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
     }
     #endregion
