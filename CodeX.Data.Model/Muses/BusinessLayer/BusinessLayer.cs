@@ -1923,6 +1923,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region COAGroup
+        public static COAGroup GetCOAGroup(Int32 COAGroupID)
+        {
+            return new COAGroupDao().Get(COAGroupID);
+        }
+        public static int InsertCOAGroup(COAGroup record)
+        {
+            return new COAGroupDao().Insert(record);
+        }
+        public static int UpdateCOAGroup(COAGroup record)
+        {
+            return new COAGroupDao().Update(record);
+        }
+        public static int DeleteCOAGroup(Int32 COAGroupID)
+        {
+            return new COAGroupDao().Delete(COAGroupID);
+        }
+        public static List<COAGroup> GetCOAGroupList(string filterExpression)
+        {
+            List<COAGroup> result = new List<COAGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(COAGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((COAGroup)helper.IDataReaderToObject(reader, new COAGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCOAGroupMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(COAGroup));
+                ctx.CommandText = helper.SelectMaxColumn("COAGroupID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region CreditCard
         public static CreditCard GetCreditCard(Int32 CreditCardID)
         {

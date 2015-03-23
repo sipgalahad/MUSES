@@ -7,72 +7,90 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Report {
+namespace CodeX.Muses.Web.Accounting.Program {
     
     
-    public partial class BSuratPenentuanPembayaranRpt {
+    public partial class COAGroupEntry {
         
         /// <summary>
-        /// divReportHeader control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportHeader;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// divReportBody control.
+        /// hdnGCCOAType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCCOAType;
         
         /// <summary>
-        /// divDataSiswa control.
+        /// txtCOAGroupCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDataSiswa;
+        protected global::System.Web.UI.WebControls.TextBox txtCOAGroupCode;
         
         /// <summary>
-        /// rptStudentFeeComp control.
+        /// txtCOAGroupName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeComp;
+        protected global::System.Web.UI.WebControls.TextBox txtCOAGroupName;
         
         /// <summary>
-        /// tdTotalLineAmount control.
+        /// hdnParentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdTotalLineAmount;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentID;
         
         /// <summary>
-        /// rptPayment control.
+        /// txtParentCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptPayment;
+        protected global::System.Web.UI.WebControls.TextBox txtParentCode;
         
         /// <summary>
-        /// divPageFooter control.
+        /// txtParentName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPageFooter;
+        protected global::System.Web.UI.WebControls.TextBox txtParentName;
+        
+        /// <summary>
+        /// txtPrintOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPrintOrder;
+        
+        /// <summary>
+        /// chkIsHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
     }
 }

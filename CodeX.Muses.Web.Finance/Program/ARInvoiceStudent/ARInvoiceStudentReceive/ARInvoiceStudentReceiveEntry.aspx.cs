@@ -193,6 +193,7 @@ namespace CodeX.Web.Finance.Program
             ARReceivingHdDao entityReceivingHdDao = new ARReceivingHdDao(ctx);
             ARReceivingDtDao entityReceivingDtDao = new ARReceivingDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
+            StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
             try
             {
                 #region ARReceivingHD
@@ -272,12 +273,19 @@ namespace CodeX.Web.Finance.Program
                 {
                     List<ARInvoiceHd> lstARInvoiceHD = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value), ctx);
                     List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value), ctx);
+                    String lstStudentFeeID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeID).ToList());
+                    List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
                     decimal totalPaymentAmount = entityReceivingHd.TotalReceivingAmount;
                     foreach (ARInvoiceHd ARInvoiceHdobj in lstARInvoiceHD)
                     {
                         List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == ARInvoiceHdobj.ARInvoiceID).ToList();
                         foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
                         {
+                            StudentFee studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == aRInvoiceDt.StudentFeeID);
+                            studentFee.IsPaid = true;
+                            studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeDao.Update(studentFee);
+
                             ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
                             ARInvoiceReceivingObj.ARInvoiceID = ARInvoiceHdobj.ARInvoiceID;
                             ARInvoiceReceivingObj.ARReceivingID = entityReceivingHd.ARReceivingID;
@@ -346,6 +354,7 @@ namespace CodeX.Web.Finance.Program
             ARInvoiceHdDao entityARIHdDao = new ARInvoiceHdDao(ctx);
             ARInvoiceDtDao entityARIDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
+            StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
             try
             {
                 ARReceivingHd entityARR = entityARRHdDao.Get(Convert.ToInt32(hdnARReceivingID.Value));
@@ -361,11 +370,22 @@ namespace CodeX.Web.Finance.Program
                     List<ARInvoiceReceiving> lstARIR1 = lstARIR.Where(p => p.ARInvoiceID == enARI.ARInvoiceID).ToList();
                     string lstARInvoiceDtID = string.Join(",", lstARIR1.Select(p => p.ARInvoiceDtID).ToList());
                     List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceDtID IN ({0})", lstARInvoiceDtID), ctx);
+                    String lstStudentFeeID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeID).ToList());
+                    List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
+
                     foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt)
                     {
                         aRInvoiceDt.PaymentAmount -= lstARIR1.FirstOrDefault(p => p.ARInvoiceDtID == aRInvoiceDt.ARInvoiceDtID).ReceivingAmount;
                         aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityARIDtDao.Update(aRInvoiceDt);
+
+                        StudentFee studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == aRInvoiceDt.StudentFeeID);
+                        if (aRInvoiceDt.PaymentAmount == 0)
+                        {
+                            studentFee.IsPaid = false;
+                            studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeDao.Update(studentFee);
+                        }
                     }
 
                     enARI.TotalPaymentAmount -= lstARIR.Where(p => p.ARInvoiceID == enARI.ARInvoiceID).Sum(p => p.ReceivingAmount);

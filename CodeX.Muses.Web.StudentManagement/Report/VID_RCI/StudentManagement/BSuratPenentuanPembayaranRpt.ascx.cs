@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.StudentManagement.Report
 {
-    public partial class BResepRpt : BaseCustomReportCtl
+    public partial class BSuratPenentuanPembayaranRpt : BaseCustomReportCtl
     {
         protected void Page_Load(object sender, EventArgs e)
         {

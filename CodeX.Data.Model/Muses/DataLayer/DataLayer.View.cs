@@ -2443,6 +2443,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCOAGroup
+    [Serializable]
+    [Table(Name = "vCOAGroup")]
+    public class vCOAGroup
+    {
+        private Int32 _COAGroupID;
+        private String _GCCOAType;
+        private String _COAType;
+        private String _COAGroupCode;
+        private String _COAGroupName;
+        private Boolean _IsHeader;
+        private Int32 _ParentID;
+        private String _ParentCode;
+        private String _ParentName;
+        private Int16 _PrintOrder;
+        private Boolean _IsDeleted;
+        private Int32 _Level;
+        private String _DisplayPath;
+
+        [Column(Name = "COAGroupID", DataType = "Int32")]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
+        }
+        [Column(Name = "GCCOAType", DataType = "String")]
+        public String GCCOAType
+        {
+            get { return _GCCOAType; }
+            set { _GCCOAType = value; }
+        }
+        [Column(Name = "COAType", DataType = "String")]
+        public String COAType
+        {
+            get { return _COAType; }
+            set { _COAType = value; }
+        }
+        [Column(Name = "COAGroupCode", DataType = "String")]
+        public String COAGroupCode
+        {
+            get { return _COAGroupCode; }
+            set { _COAGroupCode = value; }
+        }
+        [Column(Name = "COAGroupName", DataType = "String")]
+        public String COAGroupName
+        {
+            get { return _COAGroupName; }
+            set { _COAGroupName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentCode", DataType = "String")]
+        public String ParentCode
+        {
+            get { return _ParentCode; }
+            set { _ParentCode = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "PrintOrder", DataType = "Int16")]
+        public Int16 PrintOrder
+        {
+            get { return _PrintOrder; }
+            set { _PrintOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
+        }
+    }
+    #endregion
     #region vCreditCard
     [Serializable]
     [Table(Name = "vCreditCard")]

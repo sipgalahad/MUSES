@@ -3936,6 +3936,140 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region COAGroup
+    [Serializable]
+    [Table(Name = "COAGroup")]
+    public class COAGroup : DbDataModel
+    {
+        private Int32 _COAGroupID;
+        private String _GCCOAType;
+        private String _COAGroupCode;
+        private String _COAGroupName;
+        private Boolean _IsHeader;
+        private Int32? _ParentID;
+        private Int16 _PrintOrder;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "COAGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
+        }
+        [Column(Name = "GCCOAType", DataType = "String")]
+        public String GCCOAType
+        {
+            get { return _GCCOAType; }
+            set { _GCCOAType = value; }
+        }
+        [Column(Name = "COAGroupCode", DataType = "String")]
+        public String COAGroupCode
+        {
+            get { return _COAGroupCode; }
+            set { _COAGroupCode = value; }
+        }
+        [Column(Name = "COAGroupName", DataType = "String")]
+        public String COAGroupName
+        {
+            get { return _COAGroupName; }
+            set { _COAGroupName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "PrintOrder", DataType = "Int16")]
+        public Int16 PrintOrder
+        {
+            get { return _PrintOrder; }
+            set { _PrintOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class COAGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(COAGroup));
+        private bool _isAuditLog = false;
+        private const string p_COAGroupID = "@p_COAGroupID";
+        public COAGroupDao() { }
+        public COAGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public COAGroup Get(Int32 COAGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_COAGroupID, COAGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (COAGroup)_helper.DataRowToObject(row, new COAGroup());
+        }
+        public int Insert(COAGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(COAGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 COAGroupID)
+        {
+            COAGroup record;
+            if (_ctx.Transaction == null)
+                record = new COAGroupDao().Get(COAGroupID);
+            else
+                record = Get(COAGroupID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region CreditCard
     [Serializable]
     [Table(Name = "CreditCard")]

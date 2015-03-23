@@ -121,6 +121,8 @@
     <Content Include="Program\Journal\JournalTemplateCtl.ascx" />
     <Content Include="Program\Master\ChartOfAccount\ChartOfAccountEntry.aspx" />
     <Content Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx" />
+    <Content Include="Program\Master\COAGroup\COAGroupEntry.aspx" />
+    <Content Include="Program\Master\COAGroup\COAGroupList.aspx" />
     <Content Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx" />
     <Content Include="Program\Master\JournalTemplate\JournalTemplateDtViewCtl.ascx" />
     <Content Include="Program\Master\JournalTemplate\JournalTemplateEntry.aspx" />
@@ -503,6 +505,20 @@
     </Compile>
     <Compile Include="Program\Master\ChartOfAccount\ChartOfAccountList.aspx.designer.cs">
       <DependentUpon>ChartOfAccountList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\COAGroup\COAGroupEntry.aspx.cs">
+      <DependentUpon>COAGroupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\COAGroup\COAGroupEntry.aspx.designer.cs">
+      <DependentUpon>COAGroupEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\COAGroup\COAGroupList.aspx.cs">
+      <DependentUpon>COAGroupList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\COAGroup\COAGroupList.aspx.designer.cs">
+      <DependentUpon>COAGroupList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\JournalTemplate\JournalTemplateDtEntryCtl.ascx.cs">
       <DependentUpon>JournalTemplateDtEntryCtl.ascx</DependentUpon>
