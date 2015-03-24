@@ -49,24 +49,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboAdmissionPaymentPeriod;
         
         /// <summary>
-        /// txtDay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDay;
-        
-        /// <summary>
-        /// cboMonth control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMonth;
-        
-        /// <summary>
         /// txtPenaltyPercentage control.
         /// </summary>
         /// <remarks>

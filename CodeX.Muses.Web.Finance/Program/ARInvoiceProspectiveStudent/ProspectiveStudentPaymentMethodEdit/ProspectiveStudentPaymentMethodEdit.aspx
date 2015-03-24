@@ -20,18 +20,34 @@
     <script type="text/javascript">
         $(function () {
             $('#<%=btnGenerate.ClientID %>').click(function () {
-                var param = "";
-                $('.hdnKeyField').each(function () {
-                    var keyField = $(this).val();
-                    var count = 0;
-                    $('.tpd' + keyField).each(function () {
-                        var paymentAmount = parseFloat($('.pa' + keyField).eq(count).attr('hiddenVal'));
-                        param += keyField + ";" + $(this).val() + ";" + paymentAmount + "|";
-                        count++;
-                    })
-                });
-                $('#<%=hdnParam.ClientID %>').val(param);
-                cbpProcess.PerformCallback('save');
+                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                    var isAllowSave = true;
+                    $('.hdnTotalAmount').each(function () {
+                        if (isAllowSave) {
+                            var total = parseFloat($(this).val());
+                            var studentFeeCompType = $(this).closest('td').find('.hdnStudentFeeCompTypeName').val();
+                            var totalPayment = parseFloat($(this).closest('td').find('.txtTotalPayment').attr('hiddenVal'));
+                            if (total != totalPayment) {
+                                isAllowSave = false;
+                                showToast('Warning', 'Total ' + studentFeeCompType + ' Tidak Sama');
+                            }
+                        }
+                    });
+                    if (isAllowSave) {
+                        var param = "";
+                        $('.hdnKeyField').each(function () {
+                            var keyField = $(this).val();
+                            var count = 0;
+                            $('.tpd' + keyField).each(function () {
+                                var paymentAmount = parseFloat($('.pa' + keyField).eq(count).attr('hiddenVal'));
+                                param += keyField + ";" + $(this).val() + ";" + paymentAmount + "|";
+                                count++;
+                            })
+                        });
+                        $('#<%=hdnParam.ClientID %>').val(param);
+                        cbpProcess.PerformCallback('save');
+                    }
+                }
             });
         });
 
@@ -120,8 +136,7 @@
         });
 
         function addEntryDt(className) {
-
-            var rowCount = $('.' + className).length + 1;
+            var rowCount = parseInt($tr.closest('.tblView').find('.' + className).last().find('td').first().html()) + 1;
             $newTr = $($('#tmplEntityDt').html());
             $newTr.addClass(className);
             $newTr.insertAfter($('.tblView').find('.' + className).last());
@@ -215,8 +230,8 @@
         <script id="tmplEntityDt" type="text/x-jquery-tmpl">
             <tr>
                 <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" id="txtPaymentDate" class="txtPaymentDate datepicker required tpd{KeyField}" value='' style="width:120px" /></td>
-                <td align="center"><input type="text" class="txtPaymentAmount txtCurrency required pa{KeyField}" style="width:90%" value='0' /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" id="txtPaymentDate" class="txtPaymentDate datepicker required tpd{KeyField}" value='' style="width:120px" /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" class="txtPaymentAmount txtCurrency required pa{KeyField}" style="width:90%" value='0' /></td>
                 <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
             </tr>
         </script>
@@ -249,57 +264,59 @@
                         <input type="hidden" value="" />
                         <table class="tblStudentFeeComp">
                             <colgroup>
-                                <col width="150px"/>
+                                <col width="250px"/>
                                 <col width="3px"/>
                                 <col width="300px"/>
                             </colgroup>
                             <asp:Repeater runat="server" ID="rptStudentFeeComp" OnItemDataBound="rptStudentFeeComp_ItemDataBound">
                                 <ItemTemplate>                                        
-                                        <tr id="trDataHeader" runat="server">
-                                            <td>Sisa <%#:Eval("StudentFeeCompTypeName") %></td>
-                                            <td>:</td>
-                                            <td id="tdTotalAmount" runat="server"></td>
-                                        </tr>
-                                        <tr id="trDataDetail" runat="server">
-                                            <td colspan="3">
-                                                <input type="hidden" class="hdnKeyField" runat="server" value='<%#:Eval("StudentFeeCompID") %>' />
-                                                <input type="hidden" id="hdnTotalAmount" runat="server" />
-                                                <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
-                                                    <asp:Repeater runat="server" ID="rptStudentFee">
-                                                        <HeaderTemplate>
-                                                            <colgroup>
-                                                                <col style="width:3px"/>
-                                                                <col style="width:200px"/>
-                                                                <col style="width:150px" />
-                                                                <col style="width:3px" />
-                                                            </colgroup>
-                                                            <tr>
-                                                                <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
-                                                                <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
-                                                                <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
-                                                            </tr>
-                                                        </HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <tr class="trDetail<%#:Eval("StudentFeeCompID") %>">
-                                                                <td align="center"><%#:Eval("DisplayOrder") %></td>
-                                                                <td align="center"><input type="text" id="txtPaymentDate" <%#Eval("GCTransactionStatus").ToString() == "X121^004" ? "readonly='readonly'" : "" %> class="txtPaymentDate datepicker required tpd<%#:Eval("GCTransactionStatus").ToString() == "X121^004" ?  "" : Eval("StudentFeeCompID") %>" value='<%#:Eval("PaymentDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
-                                                                <td align="center"><input type="text" <%#Eval("GCTransactionStatus").ToString() == "X121^004" ? "readonly='readonly'" : "" %>  class='txtPaymentAmount txtCurrency required pa<%#:Eval("GCTransactionStatus").ToString() == "X121^004" ?  "" : Eval("StudentFeeCompID").ToString() %>' style="width:90%" value='<%#:Eval("TotalPaymentAmount") %>' /></td>
-                                                                <td><div <%#(Container.ItemIndex + 1).ToString() != "1" ? "style='float:right;'" : "style='display:none;'" %>  class="divDeleteEntryDt divDetailDelete"></div></td>
-                                                            </tr>
-                                                        </ItemTemplate>
-                                                        <FooterTemplate>
-                                                            <tr>
-                                                                <td colspan="2">Total</td>
-                                                                <td align="center"><input type="text" class="txtTotalPayment txtCurrency " readonly="readonly" runat="server" style="width:90%" /></td>
-                                                            </tr>
-                                                        </FooterTemplate>
-                                                    </asp:Repeater>
-                                                </table>
-                                                <div style="width:100%;text-align:center" id="divContainerAddData" runat="server">
-                                                    <span class="lblLink" id="lblEntryPopupAddData"><%= GetLabel("Tambah Data")%></span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    <tr id="trDataHeader" runat="server">
+                                        <td>Sisa <%#:Eval("StudentFeeCompTypeName") %></td>
+                                        <td>:</td>
+                                        <td id="tdTotalAmount" class="tdTotalAmount" runat="server" style="color: Red; font-weight: bold"></td>
+                                    </tr>
+                                    <tr id="trDataDetail" runat="server">
+                                        <td colspan="3">
+                                            <input type="hidden" class="hdnStudentFeeCompTypeName" value='<%#:Eval("StudentFeeCompTypeName") %>' />
+                                            <input type="hidden" class="hdnKeyField" runat="server" value='<%#:Eval("StudentFeeCompID") %>' />
+                                            <input type="hidden" id="hdnTotalAmount" runat="server" />
+                                            <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
+                                                <asp:Repeater runat="server" ID="rptStudentFee">
+                                                    <HeaderTemplate>
+                                                        <colgroup>
+                                                            <col style="width:3px"/>
+                                                            <col style="width:200px"/>
+                                                            <col style="width:150px" />
+                                                            <col style="width:17px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <tr class="trDetail<%#:Eval("StudentFeeCompID") %>">
+                                                            <td align="center"><%#:Eval("DisplayOrder") %></td>
+                                                            <td align="center"><input type="text" id="txtPaymentDate" <%#Eval("GCTransactionStatus").ToString() == "X121^004" ? "readonly='readonly'" : "" %> class="txtPaymentDate datepicker required tpd<%#:Eval("GCTransactionStatus").ToString() == "X121^004" ?  "" : Eval("StudentFeeCompID") %>" value='<%#:Eval("PaymentDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" <%#Eval("GCTransactionStatus").ToString() == "X121^004" ? "readonly='readonly'" : "" %>  class='txtPaymentAmount txtCurrency required pa<%#:Eval("GCTransactionStatus").ToString() == "X121^004" ?  "" : Eval("StudentFeeCompID").ToString() %>' style="width:90%" value='<%#:Eval("TotalPaymentAmount") %>' /></td>
+                                                            <td><div <%#(Container.ItemIndex + 1).ToString() != "1" ? "style='float:right;'" : "style='display:none;'" %>  class="divDeleteEntryDt divDetailDelete"></div></td>
+                                                        </tr>
+                                                    </ItemTemplate>
+                                                    <FooterTemplate>
+                                                        <tr>
+                                                            <td colspan="2">Total</td>
+                                                            <td align="center"><input type="text" class="txtTotalPayment txtCurrency" readonly="readonly" runat="server" style="width:90%" /></td>
+                                                        </tr>
+                                                    </FooterTemplate>
+                                                </asp:Repeater>
+                                            </table>
+                                            <div style="width:100%;text-align:center" id="divContainerAddData" runat="server">
+                                                <span class="lblLink" id="lblEntryPopupAddData"><%= GetLabel("Tambah Data")%></span>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
                         </table>

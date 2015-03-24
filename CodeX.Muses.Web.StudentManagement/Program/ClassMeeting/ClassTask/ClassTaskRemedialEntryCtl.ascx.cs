@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string[] temp = param.Split('|');
             hdnID.Value = temp[0];
-            txtPassingGrade.Text = temp[1];
+            hdnPassingGrade.Value = txtPassingGrade.Text = temp[1];
             ClassSubjectTask entity = BusinessLayer.GetClassSubjectTask(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0} - {1}", entity.ClassTaskCode, entity.Topic);
 
@@ -66,7 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             filterExpression = string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value);
             if (chkFilterUnderPassingGrade.Checked)
-                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudentSubjectTaskMark WHERE ClassSubjectTaskID = {0} AND OriginalMark < {1})", hdnID.Value, Request.Form[txtPassingGrade.UniqueID]);
+                filterExpression += string.Format(" AND StudentID IN (SELECT StudentID FROM ClassStudentSubjectTaskMark WHERE ClassSubjectTaskID = {0} AND OriginalMark < {1})", hdnID.Value, hdnPassingGrade.Value);
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(filterExpression);
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();

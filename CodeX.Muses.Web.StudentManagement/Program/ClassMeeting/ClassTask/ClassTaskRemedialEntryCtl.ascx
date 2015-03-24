@@ -143,7 +143,7 @@
             if (param[1] == 'fail')
                 showToast('Save Failed', 'Error Message : ' + param[2]);
             else {
-                $('#divTransactionAddPopup').click();
+                $('#entryDetailContainerPopup').hide();
                 cbpViewPopup.PerformCallback('refresh');
             }
         }
@@ -170,6 +170,7 @@
     <input type="hidden" id="hdnSaveValue" value="" runat="server" />
     <input type="hidden" id="hdnListStudentID" value="" runat="server" />
     <input type="hidden" id="hdnListRemedialID" value="" runat="server" />
+    <input type="hidden" id="hdnPassingGrade" value="" runat="server" />
     
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
@@ -252,7 +253,7 @@
             </fieldset>
         </div>
     </div>
-    <asp:CheckBox runat="server" ID="chkFilterUnderPassingGrade" /> <%=GetLabel("Tampilkan Hanya Yang Di Bawah KKM") %>
+    <asp:CheckBox runat="server" ID="chkFilterUnderPassingGrade" Checked="true" /> <%=GetLabel("Tampilkan Hanya Yang Di Bawah KKM") %>
     <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
         ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
         <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"

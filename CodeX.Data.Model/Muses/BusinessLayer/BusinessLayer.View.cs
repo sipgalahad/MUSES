@@ -6716,54 +6716,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vRegistrationFee
-        public static List<vRegistrationFee> GetvRegistrationFeeList(string filterExpression)
-        {
-            List<vRegistrationFee> result = new List<vRegistrationFee>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vRegistrationFee));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vRegistrationFee)helper.IDataReaderToObject(reader, new vRegistrationFee()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
-        #region vRegistrationFeeComp
-        public static List<vRegistrationFeeComp> GetvRegistrationFeeCompList(string filterExpression)
-        {
-            List<vRegistrationFeeComp> result = new List<vRegistrationFeeComp>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vRegistrationFeeComp));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vRegistrationFeeComp)helper.IDataReaderToObject(reader, new vRegistrationFeeComp()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region vRegistrationInvoice
         public static List<vRegistrationInvoice> GetvRegistrationInvoiceList(string filterExpression)
         {

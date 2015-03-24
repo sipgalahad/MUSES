@@ -202,7 +202,7 @@ namespace CodeX.Web.Finance.Program
                 decimal totalInvoice = 0;
 
                 entityReceivingHd.StudentID = AppSession.StudentID;
-                entityReceivingHd.StudentID = null;
+                entityReceivingHd.ProspectiveStudentID = null;
                 entityReceivingHd.ReceivingDate = Helper.GetDatePickerValue(txtReceivingDate);
                 entityReceivingHd.TotalReceivingAmount = Convert.ToDecimal(hdnTotalPaymentAmount.Value);
                 entityReceivingHd.TotalFeeAmount = Convert.ToDecimal(hdnTotalFeeAmount.Value);

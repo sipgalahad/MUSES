@@ -405,7 +405,6 @@ namespace CodeX.Data.Model
         private String _ARInvoiceNo;
         private DateTime _ARInvoiceDate;
         private DateTime _DueDate;
-        private Int32 _RegistrationFeeID;
         private Int32 _StudentFeeID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
@@ -455,12 +454,6 @@ namespace CodeX.Data.Model
         {
             get { return _DueDate; }
             set { _DueDate = value; }
-        }
-        [Column(Name = "RegistrationFeeID", DataType = "Int32")]
-        public Int32 RegistrationFeeID
-        {
-            get { return _RegistrationFeeID; }
-            set { _RegistrationFeeID = value; }
         }
         [Column(Name = "StudentFeeID", DataType = "Int32")]
         public Int32 StudentFeeID
@@ -17265,190 +17258,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vRegistrationFee
-    [Serializable]
-    [Table(Name = "vRegistrationFee")]
-    public class vRegistrationFee
-    {
-        private Int32 _RegistrationFeeID;
-        private Int32 _RegistrationID;
-        private Int32 _AdmissionFeeCompID;
-        private String _StudentFeeCompTypeName;
-        private String _SFCTShortName;
-        private Int16 _DisplayOrder;
-        private DateTime _PaymentDate;
-        private Boolean _IsPaymentAmountInPercentage;
-        private Decimal _PaymentAmount;
-        private Decimal _TotalPaymentAmount;
-        private Boolean _IsDiscountAmountInPercentage;
-        private Decimal _DiscountAmount;
-        private Decimal _TotalDiscountAmount;
-        private Decimal _LineAmount;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "RegistrationFeeID", DataType = "Int32")]
-        public Int32 RegistrationFeeID
-        {
-            get { return _RegistrationFeeID; }
-            set { _RegistrationFeeID = value; }
-        }
-        [Column(Name = "RegistrationID", DataType = "Int32")]
-        public Int32 RegistrationID
-        {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
-        }
-        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
-        public Int32 AdmissionFeeCompID
-        {
-            get { return _AdmissionFeeCompID; }
-            set { _AdmissionFeeCompID = value; }
-        }
-        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
-        public String StudentFeeCompTypeName
-        {
-            get { return _StudentFeeCompTypeName; }
-            set { _StudentFeeCompTypeName = value; }
-        }
-        [Column(Name = "SFCTShortName", DataType = "String")]
-        public String SFCTShortName
-        {
-            get { return _SFCTShortName; }
-            set { _SFCTShortName = value; }
-        }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
-        {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
-        }
-        [Column(Name = "PaymentDate", DataType = "DateTime")]
-        public DateTime PaymentDate
-        {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
-        }
-        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsPaymentAmountInPercentage
-        {
-            get { return _IsPaymentAmountInPercentage; }
-            set { _IsPaymentAmountInPercentage = value; }
-        }
-        [Column(Name = "PaymentAmount", DataType = "Decimal")]
-        public Decimal PaymentAmount
-        {
-            get { return _PaymentAmount; }
-            set { _PaymentAmount = value; }
-        }
-        [Column(Name = "TotalPaymentAmount", DataType = "Decimal")]
-        public Decimal TotalPaymentAmount
-        {
-            get { return _TotalPaymentAmount; }
-            set { _TotalPaymentAmount = value; }
-        }
-        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsDiscountAmountInPercentage
-        {
-            get { return _IsDiscountAmountInPercentage; }
-            set { _IsDiscountAmountInPercentage = value; }
-        }
-        [Column(Name = "DiscountAmount", DataType = "Decimal")]
-        public Decimal DiscountAmount
-        {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
-        }
-        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
-        public Decimal TotalDiscountAmount
-        {
-            get { return _TotalDiscountAmount; }
-            set { _TotalDiscountAmount = value; }
-        }
-        [Column(Name = "LineAmount", DataType = "Decimal")]
-        public Decimal LineAmount
-        {
-            get { return _LineAmount; }
-            set { _LineAmount = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vRegistrationFeeComp
-    [Serializable]
-    [Table(Name = "vRegistrationFeeComp")]
-    public class vRegistrationFeeComp
-    {
-        private Int32 _RegistrationFeeCompID;
-        private Int32 _RegistrationID;
-        private Int32 _AdmissionFeeCompID;
-        private String _StudentFeeCompTypeName;
-        private String _SFCTShortName;
-        private String _GCAdmissionPaymentPeriod;
-        private String _AdmissionPaymentPeriod;
-        private Decimal _TotalAmount;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "RegistrationFeeCompID", DataType = "Int32")]
-        public Int32 RegistrationFeeCompID
-        {
-            get { return _RegistrationFeeCompID; }
-            set { _RegistrationFeeCompID = value; }
-        }
-        [Column(Name = "RegistrationID", DataType = "Int32")]
-        public Int32 RegistrationID
-        {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
-        }
-        [Column(Name = "AdmissionFeeCompID", DataType = "Int32")]
-        public Int32 AdmissionFeeCompID
-        {
-            get { return _AdmissionFeeCompID; }
-            set { _AdmissionFeeCompID = value; }
-        }
-        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
-        public String StudentFeeCompTypeName
-        {
-            get { return _StudentFeeCompTypeName; }
-            set { _StudentFeeCompTypeName = value; }
-        }
-        [Column(Name = "SFCTShortName", DataType = "String")]
-        public String SFCTShortName
-        {
-            get { return _SFCTShortName; }
-            set { _SFCTShortName = value; }
-        }
-        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
-        public String GCAdmissionPaymentPeriod
-        {
-            get { return _GCAdmissionPaymentPeriod; }
-            set { _GCAdmissionPaymentPeriod = value; }
-        }
-        [Column(Name = "AdmissionPaymentPeriod", DataType = "String")]
-        public String AdmissionPaymentPeriod
-        {
-            get { return _AdmissionPaymentPeriod; }
-            set { _AdmissionPaymentPeriod = value; }
-        }
-        [Column(Name = "TotalAmount", DataType = "Decimal")]
-        public Decimal TotalAmount
-        {
-            get { return _TotalAmount; }
-            set { _TotalAmount = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
     #region vRegistrationInvoice
     [Serializable]
     [Table(Name = "vRegistrationInvoice")]
@@ -19515,8 +19324,6 @@ namespace CodeX.Data.Model
         private String _StudentFeeCompTypeName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
-        private Int32 _PaymentDate;
-        private Int32 _PaymentMonth;
         private Int16 _PenaltyPercentage;
         private Decimal _TotalAmount;
         private Boolean _IsDeleted;
@@ -19575,18 +19382,6 @@ namespace CodeX.Data.Model
             get { return _AdmissionPaymentPeriod; }
             set { _AdmissionPaymentPeriod = value; }
         }
-        [Column(Name = "PaymentDate", DataType = "Int32")]
-        public Int32 PaymentDate
-        {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
-        }
-        [Column(Name = "PaymentMonth", DataType = "Int32")]
-        public Int32 PaymentMonth
-        {
-            get { return _PaymentMonth; }
-            set { _PaymentMonth = value; }
-        }
         [Column(Name = "PenaltyPercentage", DataType = "Int16")]
         public Int16 PenaltyPercentage
         {
@@ -19617,8 +19412,6 @@ namespace CodeX.Data.Model
         private String _StudentFeeCompTypeName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
-        private Int32 _PaymentDate;
-        private Int32 _PaymentMonth;
         private Boolean _IsDeleted;
 
         [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
@@ -19650,18 +19443,6 @@ namespace CodeX.Data.Model
         {
             get { return _AdmissionPaymentPeriod; }
             set { _AdmissionPaymentPeriod = value; }
-        }
-        [Column(Name = "PaymentDate", DataType = "Int32")]
-        public Int32 PaymentDate
-        {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
-        }
-        [Column(Name = "PaymentMonth", DataType = "Int32")]
-        public Int32 PaymentMonth
-        {
-            get { return _PaymentMonth; }
-            set { _PaymentMonth = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

@@ -84,7 +84,7 @@ namespace CodeX.Muses.Web.Finance.Program
             String StudentFeeCompID = String.Join(",", lstStudentFeeComp.Select(x => x.StudentFeeCompID));
             if (StudentFeeCompID != "") 
             {
-                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0}) AND IsTransferred = 0 AND ProspectiveStudentID IS NOT NULL", StudentFeeCompID));
+                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0}) AND IsTransferred = 0 AND GCTransactionStatus != '{1}' AND ProspectiveStudentID IS NOT NULL AND IsDeleted = 0", StudentFeeCompID, Constant.TransactionStatus.VOID));
                 rptStudentFeeComp.DataSource = lstStudentFeeComp;
                 rptStudentFeeComp.DataBind();
             }
@@ -95,7 +95,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vStudentFeeComp entity = e.Item.DataItem as vStudentFeeComp;
-                List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.IsDeleted == false && (x.GCTransactionStatus != Constant.TransactionStatus.CLOSED && x.GCTransactionStatus != Constant.TransactionStatus.VOID)).ToList(); 
+                List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus != Constant.TransactionStatus.CLOSED).ToList(); 
                 Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
                 rptStudentFee.DataSource = lstTemp;
                 rptStudentFee.DataBind();
@@ -103,8 +103,8 @@ namespace CodeX.Muses.Web.Finance.Program
                 if (lstTemp.Count() > 0)
                 {
                     HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
-                    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0}", entity.StudentFeeCompID));
-                    Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.IsDeleted == false && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
+                    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0} hdnTotalAmount", entity.StudentFeeCompID));
+                    Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
                     hdnTotalAmount.Value = totalAmount.ToString();
 
                     HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
@@ -192,9 +192,8 @@ namespace CodeX.Muses.Web.Finance.Program
             String arInvoiceID = String.Join(",", lstARInvoiceDt.Select(x => x.ARInvoiceID));
             List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(String.Format("ARInvoiceID IN ({0})", arInvoiceID));
 
-            List<StudentFeeCompType> lstSfct = BusinessLayer.GetStudentFeeCompTypeList(String.Format("SiteID = '{0}' AND IsDeleted = 0",AppSession.UserLogin.SiteID));
-            List<Bank> lstBankID = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Int32 BankID = lstBankID.FirstOrDefault().BankID;
+            List<StudentFeeCompType> lstSfct = BusinessLayer.GetStudentFeeCompTypeList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            Int32 BankID = Convert.ToInt32(BusinessLayer.GetSiteParameterList(String.Format("SiteID = '{0}' AND ParameterCode = '{1}'", AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK)).FirstOrDefault().ParameterValue);
             #endregion
 
             Boolean status = true;
@@ -256,7 +255,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             Int32 StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
 
                             ARInvoiceHd arhd = new ARInvoiceHd();
-                            arhd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_STUDENT, DateTime.Now,ctx);
+                            arhd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT, DateTime.Now,ctx);
                             ctx.CommandType = System.Data.CommandType.Text;
                             arhd.BankID = BankID;
                             arhd.ARInvoiceDate = DateTime.Now;
@@ -325,6 +324,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 status = false;
