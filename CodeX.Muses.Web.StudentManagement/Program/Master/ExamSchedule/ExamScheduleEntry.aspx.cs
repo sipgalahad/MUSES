@@ -26,6 +26,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
 
+        protected string OnGetClassStudyTypeRegular()
+        {
+            return Constant.ClassStudyType.REGULAR;
+        }
+
         protected string OnGetTeacherFilterExpression()
         {
             return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
@@ -91,7 +96,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             string filterExpression = "1 = 0";
             if (tacClassType.Value != null && tacClassType.Value.ToString() != "0")
-                filterExpression = string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", tacClassType.Value);
+                filterExpression = string.Format("PeriodClassTypeID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", tacClassType.Value, Constant.ClassStudyType.REGULAR);
             List<vPeriodClassTypeSubject> lstEntity = BusinessLayer.GetvPeriodClassTypeSubjectList(filterExpression);
             if (hdnID.Value != "")
                 lstExamScheduleDt = BusinessLayer.GetvExamScheduleDtList(string.Format("ExamScheduleID = {0} AND IsDeleted = 0", hdnID.Value));
