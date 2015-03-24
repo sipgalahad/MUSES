@@ -132,6 +132,7 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
     <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx" />
     <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx" />
     <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx" />
@@ -595,6 +596,13 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx.cs">
+      <DependentUpon>StudentFeeCompTypePaymentEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx.designer.cs">
+      <DependentUpon>StudentFeeCompTypePaymentEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx.cs">
       <DependentUpon>StudentProgressRuleDtEntryCtl.ascx</DependentUpon>

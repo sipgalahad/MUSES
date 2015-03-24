@@ -9600,6 +9600,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFeeCompTypePayment
+        public static StudentFeeCompTypePayment GetStudentFeeCompTypePayment(Int32 StudentFeeCompTypePaymentID)
+        {
+            return new StudentFeeCompTypePaymentDao().Get(StudentFeeCompTypePaymentID);
+        }
+        public static int InsertStudentFeeCompTypePayment(StudentFeeCompTypePayment record)
+        {
+            return new StudentFeeCompTypePaymentDao().Insert(record);
+        }
+        public static int UpdateStudentFeeCompTypePayment(StudentFeeCompTypePayment record)
+        {
+            return new StudentFeeCompTypePaymentDao().Update(record);
+        }
+        public static int DeleteStudentFeeCompTypePayment(Int32 StudentFeeCompTypePaymentID)
+        {
+            return new StudentFeeCompTypePaymentDao().Delete(StudentFeeCompTypePaymentID);
+        }
+        public static List<StudentFeeCompTypePayment> GetStudentFeeCompTypePaymentList(string filterExpression)
+        {
+            List<StudentFeeCompTypePayment> result = new List<StudentFeeCompTypePayment>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeCompTypePayment));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeCompTypePayment)helper.IDataReaderToObject(reader, new StudentFeeCompTypePayment()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region StudentFinalMarkFormulaDt
         public static StudentFinalMarkFormulaDt GetStudentFinalMarkFormulaDt(Int32 StudentFinalMarkFormulaDtID)
         {
