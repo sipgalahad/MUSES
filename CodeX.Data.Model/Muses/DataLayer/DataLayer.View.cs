@@ -19373,6 +19373,7 @@ namespace CodeX.Data.Model
         private Decimal _DiscountAmount;
         private Decimal _TotalDiscountAmount;
         private Decimal _LineAmount;
+        private Boolean _IsTransferred;
         private Boolean _IsDeleted;
         private String _GCTransactionStatus;
 
@@ -19466,6 +19467,12 @@ namespace CodeX.Data.Model
             get { return _LineAmount; }
             set { _LineAmount = value; }
         }
+        [Column(Name = "IsTransferred", DataType = "Boolean")]
+        public Boolean IsTransferred
+        {
+            get { return _IsTransferred; }
+            set { _IsTransferred = value; }
+        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
@@ -19488,6 +19495,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeCompID;
         private Int32 _StudentID;
         private Int32 _RegistrationID;
+        private Int32 _ProspectiveStudentID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
@@ -19516,6 +19524,12 @@ namespace CodeX.Data.Model
         {
             get { return _RegistrationID; }
             set { _RegistrationID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID

@@ -348,12 +348,14 @@ namespace CodeX.Common
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN040102";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN040103";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN040104";
+                public const string PROSPECTIVE_STUDENT_PAYMENT_METHOD_EDIT = "FN040105";
 
                 public const string STUDENT_LIST = "FN040200";
                 public const string GENERATE_STUDENT_UPLOAD_FILE = "FN040201";
                 public const string AR_INVOICE_STUDENT_PROCESS = "FN040202";
                 public const string AR_INVOICE_STUDENT_EDIT = "FN040203";
                 public const string AR_INVOICE_STUDENT_RECEIVE = "FN040204";
+                public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040205";
 
                 public const string GENERATE_UPLOAD_FILE = "FN040300";
                 public const string BANK_UPLOADED_FILE = "FN040400";
