@@ -688,7 +688,7 @@ namespace CodeX.Data.Model
         private Decimal _TransactionAmount;
         private Decimal _ClaimedAmount;
         private Decimal _DiscountAmount;
-        private Decimal _VarianceAmount;
+        private Decimal? _VarianceAmount;
         private Decimal _PaymentAmount;
         private String _ReferenceNo;
         private Int32 _CreatedBy;
@@ -744,8 +744,8 @@ namespace CodeX.Data.Model
             get { return _DiscountAmount; }
             set { _DiscountAmount = value; }
         }
-        [Column(Name = "VarianceAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal VarianceAmount
+        [Column(Name = "VarianceAmount", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal? VarianceAmount
         {
             get { return _VarianceAmount; }
             set { _VarianceAmount = value; }

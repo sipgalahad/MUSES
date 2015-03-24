@@ -406,6 +406,7 @@ namespace CodeX.Data.Model
         private DateTime _ARInvoiceDate;
         private DateTime _DueDate;
         private Int32 _RegistrationFeeID;
+        private Int32 _StudentFeeID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
         private String _SFCTShortName;
@@ -460,6 +461,12 @@ namespace CodeX.Data.Model
         {
             get { return _RegistrationFeeID; }
             set { _RegistrationFeeID = value; }
+        }
+        [Column(Name = "StudentFeeID", DataType = "Int32")]
+        public Int32 StudentFeeID
+        {
+            get { return _StudentFeeID; }
+            set { _StudentFeeID = value; }
         }
         [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
         public Int32 StudentFeeCompTypeID
@@ -19367,6 +19374,7 @@ namespace CodeX.Data.Model
         private Decimal _TotalDiscountAmount;
         private Decimal _LineAmount;
         private Boolean _IsDeleted;
+        private String _GCTransactionStatus;
 
         [Column(Name = "StudentFeeID", DataType = "Int32")]
         public Int32 StudentFeeID
@@ -19463,6 +19471,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
     }
     #endregion

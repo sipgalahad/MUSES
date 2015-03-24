@@ -357,6 +357,7 @@ namespace CodeX.Common
 
                 public const string GENERATE_UPLOAD_FILE = "FN040300";
                 public const string BANK_UPLOADED_FILE = "FN040400";
+                public const string PAYMENT_METHOD_EDIT = "FN040500";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
