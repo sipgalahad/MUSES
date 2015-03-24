@@ -114,15 +114,16 @@
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx" />
+    <Content Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
     <Content Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx" />
+    <Content Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
     <Content Include="Program\BankUploadedFile\BankUploadedFile.aspx" />
     <Content Include="Program\GenerateUploadFile\GenerateUploadFile.aspx" />
-    <Content Include="Program\PaymentMethodEdit\PaymentMethodEdit.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -456,6 +457,13 @@
     <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentPageLauncher.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx.cs">
+      <DependentUpon>ProspectiveStudentPaymentMethodEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx.designer.cs">
+      <DependentUpon>ProspectiveStudentPaymentMethodEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx.cs">
       <DependentUpon>ARInvoiceStudentEditEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -498,6 +506,13 @@
     <Compile Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx.designer.cs">
       <DependentUpon>StudentPageLauncher.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.cs">
+      <DependentUpon>StudentPaymentMethodEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.designer.cs">
+      <DependentUpon>StudentPaymentMethodEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\BankUploadedFile\BankUploadedFile.aspx.cs">
       <DependentUpon>BankUploadedFile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -511,13 +526,6 @@
     </Compile>
     <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\PaymentMethodEdit\PaymentMethodEdit.aspx.cs">
-      <DependentUpon>PaymentMethodEdit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\PaymentMethodEdit\PaymentMethodEdit.aspx.designer.cs">
-      <DependentUpon>PaymentMethodEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
