@@ -2011,6 +2011,7 @@ namespace CodeX.Data.Model
         private String _GLAccountName;
         private Int32? _ParentGLAccount;
         private String _GCGLAccountType;
+        private Int32 _COAGroupID;
         private Int32? _SubLedgerID;
         private String _Position;
         private Boolean _IsHeader;
@@ -2057,6 +2058,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCGLAccountType; }
             set { _GCGLAccountType = value; }
+        }
+        [Column(Name = "COAGroupID", DataType = "Int32")]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
         }
         [Column(Name = "SubLedgerID", DataType = "Int32", IsNullable = true)]
         public Int32? SubLedgerID

@@ -49,6 +49,33 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCGLAccountType;
         
         /// <summary>
+        /// hdnCOAGroupID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOAGroupID;
+        
+        /// <summary>
+        /// txtCOAGroupCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCOAGroupCode;
+        
+        /// <summary>
+        /// txtCOAGroupName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCOAGroupName;
+        
+        /// <summary>
         /// hdnParentAccountID control.
         /// </summary>
         /// <remarks>

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPEntry.master" AutoEventWireup="true" 
-CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.ChartOfAccountEntry" %>
+    CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.ChartOfAccountEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -36,6 +36,39 @@ CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Pr
                         $('#<%=hdnParentAccountID.ClientID %>').val('');
                         $('#<%=txtParentAccountNo.ClientID %>').val('');
                         $('#<%=txtParentAccountName.ClientID %>').val('');
+                    }
+                });
+            }
+            //#endregion
+
+            //#region COA Group
+            function onGetCOAGroupFilterExpression() {
+                var filterExpression = "GCCOAType = '" + cboGCGLAccountType.GetValue() + "' AND IsDeleted = 0";
+                return filterExpression;
+            }
+
+            $('#lblCOAGroup.lblLink').click(function () {
+                openSearchDialog('coagroup', onGetCOAGroupFilterExpression(), function (value) {
+                    $('#<%=txtCOAGroupCode.ClientID %>').val(value);
+                    onTxtCOAGroupAccountNoChanged(value);
+                });
+            });
+
+            $('#<%=txtCOAGroupCode.ClientID %>').change(function () {
+                onTxtCOAGroupAccountNoChanged($(this).val());
+            });
+
+            function onTxtCOAGroupAccountNoChanged(value) {
+                var filterExpression = onGetCOAGroupFilterExpression() + " AND COAGroupCode = '" + value + "'";
+                Methods.getObject('GetCOAGroupList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnCOAGroupID.ClientID %>').val(result.COAGroupID);
+                        $('#<%=txtCOAGroupName.ClientID %>').val(result.COAGroupName);
+                    }
+                    else {
+                        $('#<%=hdnCOAGroupID.ClientID %>').val('');
+                        $('#<%=txtCOAGroupCode.ClientID %>').val('');
+                        $('#<%=txtCOAGroupName.ClientID %>').val('');
                     }
                 });
             }
@@ -82,6 +115,13 @@ CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Pr
                 }
             });
         }
+
+        function onCboGLAccountTypeValueChanged() {
+            $('#<%=hdnCOAGroupID.ClientID %>').val('');
+            $('#<%=txtCOAGroupCode.ClientID %>').val('');
+            $('#<%=txtCOAGroupName.ClientID %>').val('');
+            
+        }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table class="tblContentArea">
@@ -92,7 +132,7 @@ CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Pr
             <td style="padding:5px;vertical-align:top">
                 <table class="tblEntryContent" style="width:50%">
                     <colgroup>
-                        <col style="width:150px"/>
+                        <col style="width:160px"/>
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode Perkiraan")%></label></td>
@@ -103,8 +143,30 @@ CodeBehind="ChartOfAccountEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Pr
                         <td><asp:TextBox ID="txtGLAccountName" Width="350" runat="server" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelompok Perkiraan")%></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboGCGLAccountType" ClientInstanceName="cboGCGLAccountType" Width="355 px" /></td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Perkiraan")%></label></td>
+                        <td>
+                            <dxe:ASPxComboBox runat="server" ID="cboGCGLAccountType" ClientInstanceName="cboGCGLAccountType" Width="200px">
+                                <ClientSideEvents ValueChanged="function(){ onCboGLAccountTypeValueChanged(); }" />
+                            </dxe:ASPxComboBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblLink lblMandatory" id="lblCOAGroup"><%=GetLabel("Kelompok Perkiraan")%></label></td>
+                        <td>
+                            <input type="hidden" id="hdnCOAGroupID" runat="server" />
+                            <table style="width:100%" cellpadding="0" cellspacing="0">
+                                <colgroup>
+                                    <col style="width:30%"/>
+                                    <col style="width:3px"/>
+                                    <col/>
+                                </colgroup>
+                                <tr>
+                                    <td><asp:TextBox runat="server" ID="txtCOAGroupCode" Width="100%" /></td>
+                                    <td>&nbsp;</td>
+                                    <td><asp:TextBox runat="server" ID="txtCOAGroupName" Width="100%" /></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblLink" id="lblParent"><%=GetLabel("Kode Induk")%></label></td>

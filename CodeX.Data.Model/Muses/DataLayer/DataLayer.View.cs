@@ -1086,6 +1086,9 @@ namespace CodeX.Data.Model
         private String _ParentGLAccountName;
         private String _GCGLAccountType;
         private String _GLAccountType;
+        private Int32 _COAGroupID;
+        private String _COAGroupCode;
+        private String _COAGroupName;
         private Int32 _SubLedgerID;
         private String _SubLedgerCode;
         private String _SubLedgerName;
@@ -1160,6 +1163,24 @@ namespace CodeX.Data.Model
         {
             get { return _GLAccountType; }
             set { _GLAccountType = value; }
+        }
+        [Column(Name = "COAGroupID", DataType = "Int32")]
+        public Int32 COAGroupID
+        {
+            get { return _COAGroupID; }
+            set { _COAGroupID = value; }
+        }
+        [Column(Name = "COAGroupCode", DataType = "String")]
+        public String COAGroupCode
+        {
+            get { return _COAGroupCode; }
+            set { _COAGroupCode = value; }
+        }
+        [Column(Name = "COAGroupName", DataType = "String")]
+        public String COAGroupName
+        {
+            get { return _COAGroupName; }
+            set { _COAGroupName = value; }
         }
         [Column(Name = "SubLedgerID", DataType = "Int32")]
         public Int32 SubLedgerID

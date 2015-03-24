@@ -111,7 +111,9 @@
                                    HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center"  />
                                 <asp:BoundField DataField="ParentGLAccountName" HeaderText="Perkiraan Induk" HeaderStyle-Width="250px"
                                     HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="GLAccountType" HeaderText="Kelompok Perkiraan" HeaderStyle-Width="150px"
+                                <asp:BoundField DataField="GLAccountType" HeaderText="Tipe Perkiraan" HeaderStyle-Width="120px"
+                                    HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="COAGroupName" HeaderText="Kelompok Perkiraan" HeaderStyle-Width="120px"
                                     HeaderStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubLedger"
                                     HeaderText="Sub Perkiraan" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px">

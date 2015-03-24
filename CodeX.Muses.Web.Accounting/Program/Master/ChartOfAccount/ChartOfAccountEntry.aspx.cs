@@ -61,6 +61,10 @@ namespace CodeX.Muses.Web.Accounting.Program
 
             SetControlEntrySetting(cboGCGLAccountType, new ControlEntrySetting(true, true, false));
 
+            SetControlEntrySetting(hdnCOAGroupID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtCOAGroupCode, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtCOAGroupName, new ControlEntrySetting(false, false, true));
+
             SetControlEntrySetting(hdnSubLedgerID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtSubLedgerCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtSubLedgerName, new ControlEntrySetting(false, false, false));
@@ -81,6 +85,10 @@ namespace CodeX.Muses.Web.Accounting.Program
             txtParentAccountNo.Text = entity.ParentGLAccountNo;
             txtParentAccountName.Text = entity.ParentGLAccountName;
             cboGCGLAccountType.Value = entity.GCGLAccountType;
+
+            hdnCOAGroupID.Value = entity.COAGroupID.ToString();
+            txtCOAGroupCode.Text = entity.COAGroupCode;
+            txtCOAGroupName.Text = entity.COAGroupName;
 
             hdnSubLedgerID.Value = entity.SubLedgerID.ToString();
             txtSubLedgerCode.Text = entity.SubLedgerCode;
@@ -105,6 +113,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 entity.GCGLAccountType = cboGCGLAccountType.Value.ToString();
             else
                 entity.GCGLAccountType = null;
+            entity.COAGroupID = Convert.ToInt32(hdnCOAGroupID.Value);
             if (hdnSubLedgerID.Value != "" && hdnSubLedgerID.Value != "0")
                 entity.SubLedgerID = Convert.ToInt32(hdnSubLedgerID.Value);
             else
