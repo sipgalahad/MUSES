@@ -127,8 +127,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
             List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            if (lstMajor.Count == 0)
-                trMajor.Style.Add("display", "none");
+            //if (lstMajor.Count == 0)
+            trMajor.Style.Add("display", "none");
             lstMajor.Insert(0, new vSchoolMajor { GCMajor = "", Major = "" });
             Methods.SetComboBoxField(cboMajor, lstMajor, "Major", "GCMajor");
 

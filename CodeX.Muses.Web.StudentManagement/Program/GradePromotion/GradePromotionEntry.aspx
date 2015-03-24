@@ -23,15 +23,26 @@
 
             $('#<%=btnPromote.ClientID %>').click(function () {
                 var param = "";
+                var lstStudentID = '';
                 $('.chkIsSelected input:checked').each(function () {
-                    var id = $(this).closest('tr').find('.keyField').html();
-
+                    $tr = $(this).closest('tr');
+                    var id = $tr.find('.keyField').html();
                     if (param != '') {
-                        param += ',';
+                        param += '|';
+                        lstStudentID += ',';
                     }
-                    param += id;
+                    var idx = $tr.find('.hdnItemIndex').val();
+
+                    var GCMajor = '';
+                    var cboGCMajor = eval('cboGCMajor' + idx);
+                    if (cboGCMajor.GetValue() != null && cboGCMajor.GetValue() != '')
+                        GCMajor = cboGCMajor.GetValue();
+
+                    param += id + ';' + GCMajor;
+                    lstStudentID += id;
                 });
                 $('#<%=hdnSelectedValue.ClientID %>').val(param);
+                $('#<%=hdnLstStudentID.ClientID %>').val(lstStudentID);
                 cbpProcess.PerformCallback('promote');
             })
 
@@ -45,7 +56,8 @@
                     }
                     param += id;
                 });
-                $('#<%=hdnSelectedValue.ClientID %>').val(param);
+                $('#<%=hdnLstStudentID.ClientID %>').val(param);
+                
                 cbpProcess.PerformCallback('reject');
             })
 
@@ -144,10 +156,12 @@
                     if (result != null) {
                         tacSchoolClass.setValue(result.SchoolClassID);
                         tacSchoolClass.setText(result.SchoolClassName);
+                        entityToControlClass(result);
                     }
                     else {
                         tacSchoolClass.setValue('');
                         tacSchoolClass.setText('');
+                        entityToControlClass(null);
                     }
                     onTacClassValueChanged();
                 });
@@ -156,6 +170,28 @@
         }
 
         function onTacClassValueChanged() {
+            var schoolClassID = tacSchoolClass.getValue();
+            if (schoolClassID != '') {
+                var filterExpression = "SchoolClassID = " + schoolClassID;
+                Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
+                    entityToControlClass(result);
+                });
+            }
+        }
+
+        function entityToControlClass(entity) {
+            if (entity != null) {
+                $('#<%=hdnGCMajor.ClientID %>').val(entity.GCMajor);
+                $('#<%=hdnGCGrade.ClientID %>').val(entity.GCGrade);
+                $('#<%=hdnNextGCGrade.ClientID %>').val(entity.NextGCGrade);
+                $('#<%=hdnNextGrade.ClientID %>').val(entity.NextGrade); 
+            }
+            else {
+                $('#<%=hdnGCMajor.ClientID %>').val('');
+                $('#<%=hdnGCGrade.ClientID %>').val('');
+                $('#<%=hdnNextGCGrade.ClientID %>').val('');
+                $('#<%=hdnNextGrade.ClientID %>').val('');
+            }
             cbpView.PerformCallback('refresh');
         }
         //#endregion
@@ -176,6 +212,8 @@
                                          background-position : center center; -webkit-border-radius: 99em; -moz-border-radius: 99em; border-radius: 99em; border: 1px solid #eee;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
     </style>
     <input type="hidden" runat="server" id="hdnSelectedValue" />
+    <input type="hidden" runat="server" id="hdnLstStudentID" />
+    <input type="hidden" runat="server" id="hdnNextSchoolPeriod" />
     <table>
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
@@ -198,6 +236,10 @@
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelas")%></label></td>
             <td>
+                <input type="hidden" id="hdnGCGrade" runat="server" />
+                <input type="hidden" id="hdnNextGCGrade" runat="server" />
+                <input type="hidden" id="hdnNextGrade" runat="server" />
+                <input type="hidden" id="hdnGCMajor" runat="server" />
                 <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolClass" ClientInstanceName="tacSchoolClass" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetClassFilterExpression"
                     SearchFields="SchoolClassName,SchoolClassCode" TextField="SchoolClassName" ValueField="SchoolClassID" SearchText="${SchoolClassName} (<b>${SchoolClassCode}</b>)" OrderByExpression="SchoolClassName">
                     <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
@@ -236,6 +278,17 @@
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Nilai Akhir" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <label class="lblLink lblFinalMark" runat="server" id="lblFinalMark"></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thCenter" HeaderText="Naik Ke Kelas" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <div runat="server" id="divNextGrade"></div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-Width="120px" HeaderStyle-CssClass="thCenter" HeaderText="Jurusan" ItemStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                        <dxe:ASPxComboBox ID="cboGCMajor" runat="server" Width="100px" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

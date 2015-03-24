@@ -17987,6 +17987,8 @@ namespace CodeX.Data.Model
         private Int32 _TeacherID;
         private String _TeacherName;
         private Int16 _MaxStudent;
+        private String _NextGCGrade;
+        private String _NextGrade;
         private Boolean _IsDeleted;
 
         [Column(Name = "SchoolClassID", DataType = "Int32")]
@@ -18102,6 +18104,18 @@ namespace CodeX.Data.Model
         {
             get { return _MaxStudent; }
             set { _MaxStudent = value; }
+        }
+        [Column(Name = "NextGCGrade", DataType = "String")]
+        public String NextGCGrade
+        {
+            get { return _NextGCGrade; }
+            set { _NextGCGrade = value; }
+        }
+        [Column(Name = "NextGrade", DataType = "String")]
+        public String NextGrade
+        {
+            get { return _NextGrade; }
+            set { _NextGrade = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

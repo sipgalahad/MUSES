@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -52,6 +53,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacPeriodSection.Value = periodSection.PeriodSectionID.ToString();
                 tacPeriodSection.Text = periodSection.PeriodSectionName;
             }
+
+            SchoolPeriod nextSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now.AddYears(1) && p.EndDate >= DateTime.Now.AddYears(1));
+            if (nextSchoolPeriod != null)
+                hdnNextSchoolPeriod.Value = nextSchoolPeriod.SchoolPeriodID.ToString();
+            else
+                hdnNextSchoolPeriod.Value = cboSchoolPeriod.Value.ToString();
+
             BindGridView();
         }
 
@@ -67,11 +75,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<ClassStudentMark> lstStudentMark = null;
+        List<vPeriodClassType> lstPeriodClassType = null;
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
             if (tacSchoolClass.Value != "")
                 lstStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", tacSchoolClass.Value, tacPeriodSection.Value));
+
+            lstPeriodClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCGrade = '{1}' AND IsDeleted = 0", hdnNextSchoolPeriod.Value, hdnNextGCGrade.Value));
+
             List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(String.Format("{0} AND GCClassStudentStatus = '{1}'", filterExpression, Constant.ClassStudentStatus.OPEN));
             grdView.DataSource = lstEntity;
             grdView.DataBind();
@@ -87,6 +99,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     HtmlGenericControl lblFinalMark = (HtmlGenericControl)e.Row.FindControl("lblFinalMark");
                     lblFinalMark.InnerHtml = studentMark.FinalMark.ToString();
+                }
+
+                HtmlGenericControl divNextGrade = (HtmlGenericControl)e.Row.FindControl("divNextGrade");
+                divNextGrade.InnerHtml = hdnNextGrade.Value;
+
+                ASPxComboBox cboGCMajor = (ASPxComboBox)e.Row.FindControl("cboGCMajor");
+                cboGCMajor.ClientInstanceName = string.Format("cboGCMajor{0}", e.Row.DataItemIndex);
+                Methods.SetComboBoxField<vPeriodClassType>(cboGCMajor, lstPeriodClassType, "Major", "GCMajor");
+
+                if (hdnGCMajor.Value != "")
+                {
+                    cboGCMajor.Value = hdnGCMajor.Value;
+                    cboGCMajor.ClientEnabled = false;
                 }
             }
         }
@@ -129,17 +154,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             ClassStudentDao classStudentDao = new ClassStudentDao(ctx);
             try
             {
-                List<Student> lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", hdnSelectedValue.Value), ctx);
-                List<SchoolGrade> lstGrade = BusinessLayer.GetSchoolGradeList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID), ctx);
+                List<Student> lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", hdnLstStudentID.Value), ctx);
+                List<ClassStudent> lstClassStudent = BusinessLayer.GetClassStudentList(String.Format("SchoolClassID = {0} AND StudentID IN ({1})", tacSchoolClass.Value, hdnLstStudentID.Value), ctx);
                 
-                foreach (Student entity in lstStudent) 
+                string[] lstSaveValue = hdnSelectedValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue) 
                 {
-                    int DisplayOrder = lstGrade.FirstOrDefault(x => x.GCGrade == entity.GCGrade).DisplayOrder;
-                    string GcGrade = lstGrade.FirstOrDefault(x => x.DisplayOrder == DisplayOrder+1).GCGrade;
-                    entity.GCGrade = GcGrade;
-                    ClassStudent csEntity = classStudentDao.Get(Convert.ToInt32(entity.SchoolClassID), entity.StudentID);
+                    string[] temp = saveValue.Split(';');
+
+                    Student entity = lstStudent.FirstOrDefault(p => p.StudentID == Convert.ToInt32(temp[0]));
+                    entity.GCGrade = hdnNextGCGrade.Value;
+                    entity.GCMajor = temp[1];
+
+                    ClassStudent csEntity = lstClassStudent.FirstOrDefault(p => p.StudentID == entity.StudentID);
                     csEntity.GCClassStudentStatus = Constant.ClassStudentStatus.NAIK_KELAS;
-                    
                     classStudentDao.Update(csEntity);
                     studentDao.Update(entity);
                 }
@@ -147,6 +175,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             catch(Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 result = false;
@@ -165,19 +194,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             ClassStudentDao classStudentDao = new ClassStudentDao(ctx);
             try
             {
-                List<Student> lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", hdnSelectedValue.Value), ctx);
-                
-                foreach (Student entity in lstStudent)
-                {
-                    ClassStudent csEntity = classStudentDao.Get(Convert.ToInt32(entity.SchoolClassID), entity.StudentID);
-                    csEntity.GCClassStudentStatus = Constant.ClassStudentStatus.TIDAK_NAIK_KELAS;
+                List<ClassStudent> lstClassStudent = BusinessLayer.GetClassStudentList(String.Format("SchoolClassID = {0} AND StudentID IN ({1})", tacSchoolClass.Value, hdnLstStudentID.Value), ctx);
 
-                    classStudentDao.Update(csEntity);
+                foreach (ClassStudent entity in lstClassStudent)
+                {
+                    entity.GCClassStudentStatus = Constant.ClassStudentStatus.TIDAK_NAIK_KELAS;
+                    classStudentDao.Update(entity);
                 }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 result = false;

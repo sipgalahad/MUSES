@@ -12,6 +12,7 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -34,6 +35,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<StandardCode>(cboProspectiveStudentStatus, lstSc, "StandardCodeName", "StandardCodeID");
             cboProspectiveStudentStatus.SelectedIndex = 0;
 
+            hdnSchoolPeriodID.Value = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID).SchoolPeriodID.ToString();
+
             lstAdmissionSelection = BusinessLayer.GetAdmissionSelectionList(string.Format("PeriodAdmissionID = {0} AND IsDeleted = 0", AppSession.PeriodAdmissionID));
             rptHeader.DataSource = lstAdmissionSelection;
             rptHeader.DataBind();
@@ -50,6 +53,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
+        List<vPeriodClassType> lstPeriodClassType = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = string.Format("PeriodAdmissionID = {0} AND GCRegistrationStatus NOT IN ('{1}','{2}') AND RegistrationNo LIKE '%{3}%' AND ProspectiveStudentName LIKE '%{4}%'", AppSession.PeriodAdmissionID, Constant.RegistrationStatus.VOID, Constant.RegistrationStatus.CLOSED, hdnFilterCode.Value, hdnFilterName.Value);
@@ -62,6 +66,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rowCount = BusinessLayer.GetvRegistrationRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
+
+            lstPeriodClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriodID.Value));
 
             List<vRegistration> lstStudent = BusinessLayer.GetvRegistrationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "FinalMark DESC");
             if (lstStudent.Count > 0)
@@ -112,6 +118,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rptStudentMark.DataSource = lstAdmissionSelection;
                 rptStudentMark.DataBind();
 
+                ASPxComboBox cboGCMajor = (ASPxComboBox)e.Item.FindControl("cboGCMajor");
+                cboGCMajor.ClientInstanceName = string.Format("cboGCMajor{0}", e.Item.ItemIndex);
+                List<vPeriodClassType> lst = lstPeriodClassType.Where(p => p.GCGrade == entity.GCGrade).ToList();
+                Methods.SetComboBoxField<vPeriodClassType>(cboGCMajor, lst, "Major", "GCMajor");
+                cboGCMajor.Value = entity.GCMajor;
+                if (lst.Count > 0)
+                    Helper.SetControlEntrySetting(cboGCMajor, new ControlEntrySetting(true, true, true), "mpEntry");
+
                 CheckBox chkIsSelected = e.Item.FindControl("chkIsSelected") as CheckBox;
                 if (entity.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED || entity.GCRegistrationStatus == Constant.RegistrationStatus.PAID || entity.GCRegistrationStatus == Constant.RegistrationStatus.SETTLED || entity.GCRegistrationStatus == Constant.RegistrationStatus.CLOSED)
                     chkIsSelected.Visible = false;
@@ -152,33 +166,45 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 if (type == "accept")
                 {
+                    string[] lstRegistrationID = hdnSelectedMember.Value.Substring(1).Split(',');
+                    string[] lstGCMajor = hdnLstGCMajor.Value.Substring(1).Split(',');
                     string filterExpression = String.Format("RegistrationID IN ({0})", hdnSelectedMember.Value.Substring(1));
                     List<Registration> lstEntity = BusinessLayer.GetRegistrationList(filterExpression, ctx);
-                    foreach (Registration entity in lstEntity)
+                    for (int i = 0; i < lstRegistrationID.Length;++i)
                     {
+                        Registration entity = lstEntity.FirstOrDefault(p => p.RegistrationID == Convert.ToInt32(lstRegistrationID[i]));
                         entity.GCRegistrationStatus = Constant.RegistrationStatus.ACCEPTED;
+                        entity.GCMajor = lstGCMajor[i];
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
                     }
                 }
                 else if (type == "reject")
                 {
+                    string[] lstRegistrationID = hdnSelectedMember.Value.Substring(1).Split(',');
+                    string[] lstGCMajor = hdnLstGCMajor.Value.Substring(1).Split(',');
                     string filterExpression = String.Format("RegistrationID IN ({0})", hdnSelectedMember.Value.Substring(1));
                     List<Registration> lstEntity = BusinessLayer.GetRegistrationList(filterExpression, ctx);
-                    foreach (Registration entity in lstEntity)
+                    for (int i = 0; i < lstRegistrationID.Length; ++i)
                     {
+                        Registration entity = lstEntity.FirstOrDefault(p => p.RegistrationID == Convert.ToInt32(lstRegistrationID[i]));
                         entity.GCRegistrationStatus = Constant.RegistrationStatus.REJECTED;
+                        entity.GCMajor = lstGCMajor[i];
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
                     }
                 }
                 else
                 {
+                    string[] lstRegistrationID = hdnSelectedMember.Value.Substring(1).Split(',');
+                    string[] lstGCMajor = hdnLstGCMajor.Value.Substring(1).Split(',');
                     string filterExpression = String.Format("RegistrationID IN ({0})", hdnSelectedMember.Value.Substring(1));
                     List<Registration> lstEntity = BusinessLayer.GetRegistrationList(filterExpression, ctx);
-                    foreach (Registration entity in lstEntity)
+                    for (int i = 0; i < lstRegistrationID.Length; ++i)
                     {
+                        Registration entity = lstEntity.FirstOrDefault(p => p.RegistrationID == Convert.ToInt32(lstRegistrationID[i]));
                         entity.GCRegistrationStatus = Constant.RegistrationStatus.OPEN;
+                        entity.GCMajor = lstGCMajor[i];
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
                     }
@@ -187,6 +213,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

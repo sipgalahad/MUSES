@@ -27,37 +27,39 @@
 
         $(function () {
             $('#<%=btnAccept.ClientID %>').click(function () {
-                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    getCheckedMember();
+                //if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                if (getCheckedMember()) {
                     if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
                         showToast('Warning', 'Please Select Item First');
                     }
                     else {
                         onCustomButtonClick('accept');
+                        //alert($('#<%=hdnLstGCMajor.ClientID %>').val());
                     }
                 }
+                //}
             });
             $('#<%=btnReject.ClientID %>').click(function () {
-                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    getCheckedMember();
-                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
-                        showToast('Warning', 'Please Select Item First');
-                    }
-                    else {
-                        onCustomButtonClick('reject');
-                    }
+                //if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                getCheckedMember();
+                if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
+                    showToast('Warning', 'Please Select Item First');
                 }
+                else {
+                    onCustomButtonClick('reject');
+                }
+                //}
             });
             $('#<%=btnOpen.ClientID %>').click(function () {
-                if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    getCheckedMember();
-                    if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
-                        showToast('Warning', 'Please Select Item First');
-                    }
-                    else {
-                        onCustomButtonClick('open');
-                    }
+                //if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                getCheckedMember();
+                if ($('#<%=hdnSelectedMember.ClientID %>').val() == '') {
+                    showToast('Warning', 'Please Select Item First');
                 }
+                else {
+                    onCustomButtonClick('open');
+                }
+                //}
             });
         });
 
@@ -66,21 +68,39 @@
         }
 
         function getCheckedMember() {
+            var isAllowSave = true;
             var lstSelectedMember = $('#<%=hdnSelectedMember.ClientID %>').val().split(',');
+            var lstGCMajor = $('#<%=hdnLstGCMajor.ClientID %>').val().split(',');
             var result = '';
             $('#tblView .chkIsSelected input').each(function () {
+                $tr = $(this).closest('tr');
                 if ($(this).is(':checked')) {
-                    var key = $(this).closest('tr').find('.keyField').html();
-                    if (lstSelectedMember.indexOf(key) < 0)
+                    var key = $tr.find('.keyField').html();
+                    if (lstSelectedMember.indexOf(key) < 0) {
+                        var GCMajor = '';
+                        var idx = $tr.find('.hdnItemIndex').val();
+                        var cboGCMajor = eval('cboGCMajor' + idx);
+                        cboGCMajor.Validate();
+                        if (cboGCMajor.GetValue() != null && cboGCMajor.GetValue() != '')
+                            GCMajor = cboGCMajor.GetValue();
                         lstSelectedMember.push(key);
+                        lstGCMajor.push(GCMajor);
+                        if (GCMajor == '')
+                            isAllowSave = false;
+                    }
                 }
                 else {
-                    var key = $(this).closest('tr').find('.keyField').html();
-                    if (lstSelectedMember.indexOf(key) > -1)
-                        lstSelectedMember.splice(lstSelectedMember.indexOf(key), 1);
+                    var key = $tr.find('.keyField').html();
+                    if (lstSelectedMember.indexOf(key) > -1) {
+                        var idx = lstSelectedMember.indexOf(key);
+                        lstSelectedMember.splice(idx, 1);
+                        lstGCMajor.splice(idx, 1);
+                    }
                 }
             });
             $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
+            $('#<%=hdnLstGCMajor.ClientID %>').val(lstGCMajor.join(','));
+            return isAllowSave;
         }
 
         //#region Paging
@@ -171,7 +191,9 @@
     <style type="text/css">
         .grdStudent th b        { color: Red; }
     </style>
+    <input type="hidden" id="hdnSchoolPeriodID" runat="server" />
     <input type="hidden" id="hdnSelectedMember" runat="server" />
+    <input type="hidden" id="hdnLstGCMajor" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnFilterCode" runat="server" />
     <input type="hidden" id="hdnFilterName" runat="server" />
@@ -200,6 +222,8 @@
                 <th rowspan="3"><%=GetLabel("Calon Siswa") %></th>
                 <th id="thMarkHeader" runat="server" class="thCenter"><%=GetLabel("NILAI") %></th>
                 <th rowspan="3" style="width:60px" class="thCenter"><%=GetLabel("Nilai Akhir") %></th>
+                <th rowspan="3" style="width:60px" class="thCenter"><%=GetLabel("Kelas") %></th>
+                <th rowspan="3" style="width:100px" class="thCenter"><%=GetLabel("Jurusan") %></th>
                 <th rowspan="3" style="width:180px"><%=GetLabel("Status") %></th>
             </tr>
             <tr>
@@ -251,6 +275,11 @@
                                                 </ItemTemplate>
                                             </asp:Repeater>
                                             <td align="center"><%#Eval("FinalMark") %></td>
+                                            <td><%#Eval("Grade") %></td>
+                                            <td>
+                                                <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                                <dxe:ASPxComboBox ID="cboGCMajor" runat="server" Width="100px" />
+                                            </td>
                                             <td><%#Eval("RegistrationStatus") %></td>
                                         </tr>
                                     </ItemTemplate>

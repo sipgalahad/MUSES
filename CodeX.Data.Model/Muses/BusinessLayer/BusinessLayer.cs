@@ -1210,6 +1210,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<ClassStudent> GetClassStudentList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudent> result = new List<ClassStudent>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudent));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudent)helper.IDataReaderToObject(reader, new ClassStudent()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ClassStudentMark
         public static ClassStudentMark GetClassStudentMark(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID)
