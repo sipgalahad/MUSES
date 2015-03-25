@@ -87,6 +87,9 @@
     <Content Include="Program\Finance\ARStudent\ARStudentInformation.aspx" />
     <Content Include="Program\Finance\ARStudent\ARStudentInformationDtCtl.ascx" />
     <Content Include="Program\Finance\ARStudent\ARStudentMovementInformationDtCtl.ascx" />
+    <Content Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformation.aspx" />
+    <Content Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformationDtCtl.ascx" />
+    <Content Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentMovementInformationDtCtl.ascx" />
     <Content Include="Program\Inventory\StockDetailInfo.aspx" />
     <Content Include="Program\Inventory\StockDetailInfoDtCtl.ascx" />
     <Content Include="Program\Main.aspx" />
@@ -252,6 +255,27 @@
     </Compile>
     <Compile Include="Program\Finance\ARStudent\ARStudentMovementInformationDtCtl.ascx.designer.cs">
       <DependentUpon>ARStudentMovementInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformation.aspx.cs">
+      <DependentUpon>ARProspectiveStudentInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformation.aspx.designer.cs">
+      <DependentUpon>ARProspectiveStudentInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformationDtCtl.ascx.cs">
+      <DependentUpon>ARProspectiveStudentInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>ARProspectiveStudentInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentMovementInformationDtCtl.ascx.cs">
+      <DependentUpon>ARProspectiveStudentMovementInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentMovementInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>ARProspectiveStudentMovementInformationDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Inventory\StockDetailInfo.aspx.cs">
       <DependentUpon>StockDetailInfo.aspx</DependentUpon>

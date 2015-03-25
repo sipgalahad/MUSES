@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master" AutoEventWireup="true" 
-    CodeBehind="ARStudentInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.ARStudentInformation" %>
+    CodeBehind="ARProspectiveStudentInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.ARProspectiveStudentInformation" %>
 
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
     Namespace="CodeX.Web.CustomControl" TagPrefix="qis" %>
@@ -55,41 +55,41 @@
         }
         //#endregion
 
-        $('.lblStudentName').live('click', function () {
+        $('.lblProspectiveStudentName').live('click', function () {
             $tr = $(this).closest('tr');
-            var businessPartnerID = $tr.find('.hdnStudentID').val();
-            var url = ResolveUrl("~/Program/Finance/ARStudent/ARStudentMovementInformationDtCtl.ascx");
+            var businessPartnerID = $tr.find('.hdnProspectiveStudentID').val();
+            var url = ResolveUrl("~/Program/Finance/ARProspectiveStudent/ARProspectiveStudentMovementInformationDtCtl.ascx");
             openUserControlPopup(url, businessPartnerID, 'Detail Information', 1200, 550);
         });
 
         $('.lbl0_30').live('click', function () {
             $tr = $(this).closest('tr');
-            var businessPartnerID = $tr.find('.hdnStudentID').val();
-            var url = ResolveUrl("~/Program/Finance/ARStudent/ARStudentInformationDtCtl.ascx");
+            var businessPartnerID = $tr.find('.hdnProspectiveStudentID').val();
+            var url = ResolveUrl("~/Program/Finance/ARProspectiveStudent/ARProspectiveStudentInformationDtCtl.ascx");
             var param = businessPartnerID + '|' + 0 + '|' + 30;
             openUserControlPopup(url, param, 'Detail Information', 800, 550);
         });
 
         $('.lbl30_60').live('click', function () {
             $tr = $(this).closest('tr');
-            var businessPartnerID = $tr.find('.hdnStudentID').val();
-            var url = ResolveUrl("~/Program/Finance/ARStudent/ARStudentInformationDtCtl.ascx");
+            var businessPartnerID = $tr.find('.hdnProspectiveStudentID').val();
+            var url = ResolveUrl("~/Program/Finance/ARProspectiveStudent/ARProspectiveStudentInformationDtCtl.ascx");
             var param = businessPartnerID + '|' + 30 + '|' + 60;
             openUserControlPopup(url, param, 'Detail Information', 1200, 550);
         });
         
         $('.lbl60_90').live('click', function () {
             $tr = $(this).closest('tr');
-            var businessPartnerID = $tr.find('.hdnStudentID').val();
-            var url = ResolveUrl("~/Program/Finance/ARStudent/ARStudentInformationDtCtl.ascx");
+            var businessPartnerID = $tr.find('.hdnProspectiveStudentID').val();
+            var url = ResolveUrl("~/Program/Finance/ARProspectiveStudent/ARProspectiveStudentInformationDtCtl.ascx");
             var param = businessPartnerID + '|' + 60 + '|' + 90;
             openUserControlPopup(url, param, 'Detail Information', 1200, 550);
         });
         
         $('.lbl90').live('click', function () {
             $tr = $(this).closest('tr');
-            var businessPartnerID = $tr.find('.hdnStudentID').val();
-            var url = ResolveUrl("~/Program/Finance/ARStudent/ARStudentInformationDtCtl.ascx");
+            var businessPartnerID = $tr.find('.hdnProspectiveStudentID').val();
+            var url = ResolveUrl("~/Program/Finance/ARProspectiveStudent/ARProspectiveStudentInformationDtCtl.ascx");
             var param = businessPartnerID + '|' + 90 + '|' + 0;
             openUserControlPopup(url, param, 'Detail Information', 1200, 550);
         });
@@ -133,7 +133,7 @@
                                                 <table id="tblView" runat="server" class="grdView notAllowSelect lvwView" cellspacing="0" rules="all" border="1" >
                                                     <tr>
                                                         <th rowspan="2" style="width:120px"><%=GetLabel("NIS")%></th>
-                                                        <th rowspan="2"><%=GetLabel("Nama Calon Siswa")%></th>
+                                                        <th rowspan="2"><%=GetLabel("Nama Siswa")%></th>
                                                         <th rowspan="2" style="width:100px"><%=GetLabel("Saldo Awal") %></th>
                                                         <th rowspan="2" style="width:100px"><%=GetLabel("Penambahan")%></th>
                                                         <th rowspan="2" style="width:100px"><%=GetLabel("Pengurangan")%></th>
@@ -157,7 +157,7 @@
                                                 <table id="tblView" runat="server" class="grdView grdBorder notAllowSelect lvwView" cellspacing="0" rules="all" border="1" >
                                                     <tr>
                                                         <th rowspan="2" style="width:120px"><%=GetLabel("NIS")%></th>
-                                                        <th rowspan="2"><%=GetLabel("Nama Calon Siswa")%></th>
+                                                        <th rowspan="2"><%=GetLabel("Nama Siswa")%></th>
                                                         <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Saldo Awal") %></th>
                                                         <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Penambahan")%></th>
                                                         <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Pengurangan")%></th>
@@ -175,10 +175,10 @@
                                             </LayoutTemplate>
                                             <ItemTemplate>
                                                 <tr>
-                                                    <td><%# Eval("StudentCode")%></td>
+                                                    <td><%# Eval("ProspectiveStudentCode")%></td>
                                                     <td>
-                                                        <input type="hidden" class="hdnStudentID" value="<%# Eval("StudentID")%>" />
-                                                        <label class="lblLink lblStudentName"><%# Eval("StudentName")%></label>
+                                                        <input type="hidden" class="hdnProspectiveStudentID" value="<%# Eval("ProspectiveStudentID")%>" />
+                                                        <label class="lblLink lblProspectiveStudentName"><%# Eval("ProspectiveStudentName")%></label>
                                                     </td>
                                                     <td align="right"><%# Eval("BalanceBegin", "{0:N}")%></td>
                                                     <td align="right"><%# Eval("BalanceIN", "{0:N}")%></td>

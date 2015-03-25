@@ -174,6 +174,148 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetARProspectiveStudentInformation
+    [Serializable]
+    [Table(Name = "GetARProspectiveStudentInformation")]
+    public partial class GetARProspectiveStudentInformation
+    {
+        private Int32 _ProspectiveStudentID;
+        private String _ProspectiveStudentCode;
+        private String _ProspectiveStudentName;
+        private Decimal _BalanceBegin;
+        private Decimal _BalanceIN;
+        private Decimal _BalanceOUT;
+        private Decimal _Days_0_30;
+        private Decimal _Days_30_60;
+        private Decimal _Days_60_90;
+        private Decimal _Days_90;
+        private Decimal _BalanceEND;
+
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentCode", DataType = "String")]
+        public String ProspectiveStudentCode
+        {
+            get { return _ProspectiveStudentCode; }
+            set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "ProspectiveStudentName", DataType = "String")]
+        public String ProspectiveStudentName
+        {
+            get { return _ProspectiveStudentName; }
+            set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "BalanceBegin", DataType = "Decimal")]
+        public Decimal BalanceBegin
+        {
+            get { return _BalanceBegin; }
+            set { _BalanceBegin = value; }
+        }
+        [Column(Name = "BalanceIN", DataType = "Decimal")]
+        public Decimal BalanceIN
+        {
+            get { return _BalanceIN; }
+            set { _BalanceIN = value; }
+        }
+        [Column(Name = "BalanceOUT", DataType = "Decimal")]
+        public Decimal BalanceOUT
+        {
+            get { return _BalanceOUT; }
+            set { _BalanceOUT = value; }
+        }
+        [Column(Name = "Days_0_30", DataType = "Decimal")]
+        public Decimal Days_0_30
+        {
+            get { return _Days_0_30; }
+            set { _Days_0_30 = value; }
+        }
+        [Column(Name = "Days_30_60", DataType = "Decimal")]
+        public Decimal Days_30_60
+        {
+            get { return _Days_30_60; }
+            set { _Days_30_60 = value; }
+        }
+        [Column(Name = "Days_60_90", DataType = "Decimal")]
+        public Decimal Days_60_90
+        {
+            get { return _Days_60_90; }
+            set { _Days_60_90 = value; }
+        }
+        [Column(Name = "Days_90", DataType = "Decimal")]
+        public Decimal Days_90
+        {
+            get { return _Days_90; }
+            set { _Days_90 = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+    }
+    #endregion
+    #region GetARProspectiveStudentInformationDt
+    [Serializable]
+    [Table(Name = "GetARProspectiveStudentInformationDt")]
+    public partial class GetARProspectiveStudentInformationDt
+    {
+        private DateTime _ARInvoiceDate;
+        private String _ARInvoiceNo;
+        private Int32 _ProspectiveStudentID;
+        private String _ProspectiveStudentCode;
+        private String _ProspectiveStudentName;
+        private Decimal _InvoiceAmount;
+        private Decimal _PaymentAmount;
+
+        [Column(Name = "ARInvoiceDate", DataType = "DateTime")]
+        public DateTime ARInvoiceDate
+        {
+            get { return _ARInvoiceDate; }
+            set { _ARInvoiceDate = value; }
+        }
+        [Column(Name = "ARInvoiceNo", DataType = "String")]
+        public String ARInvoiceNo
+        {
+            get { return _ARInvoiceNo; }
+            set { _ARInvoiceNo = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentCode", DataType = "String")]
+        public String ProspectiveStudentCode
+        {
+            get { return _ProspectiveStudentCode; }
+            set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "ProspectiveStudentName", DataType = "String")]
+        public String ProspectiveStudentName
+        {
+            get { return _ProspectiveStudentName; }
+            set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "InvoiceAmount", DataType = "Decimal")]
+        public Decimal InvoiceAmount
+        {
+            get { return _InvoiceAmount; }
+            set { _InvoiceAmount = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal")]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+    }
+    #endregion
     #region GetARStudentInformation
     [Serializable]
     [Table(Name = "GetARStudentInformation")]

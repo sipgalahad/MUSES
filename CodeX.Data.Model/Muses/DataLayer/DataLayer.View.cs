@@ -747,6 +747,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private Int32 _ProspectiveStudentID;
+        private String _ProspectiveStudentCode;
+        private String _ProspectiveStudentName;
         private String _TransactionDescription;
         private String _DetailDesc;
         private Decimal _BalanceBEGIN;
@@ -813,6 +816,24 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentCode", DataType = "String")]
+        public String ProspectiveStudentCode
+        {
+            get { return _ProspectiveStudentCode; }
+            set { _ProspectiveStudentCode = value; }
+        }
+        [Column(Name = "ProspectiveStudentName", DataType = "String")]
+        public String ProspectiveStudentName
+        {
+            get { return _ProspectiveStudentName; }
+            set { _ProspectiveStudentName = value; }
         }
         [Column(Name = "TransactionDescription", DataType = "String")]
         public String TransactionDescription

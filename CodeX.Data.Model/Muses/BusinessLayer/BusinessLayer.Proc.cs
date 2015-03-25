@@ -232,6 +232,69 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetARProspectiveStudentInformation
+        public static List<GetARProspectiveStudentInformation> GetARProspectiveStudentInformation(String MovementDate, Int32 PageIndex, Int32 NumRows)
+        {
+            List<GetARProspectiveStudentInformation> result = new List<GetARProspectiveStudentInformation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARProspectiveStudentInformation));
+                ctx.CommandText = "GetARProspectiveStudentInformation";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARProspectiveStudentInformation)helper.IDataReaderToObject(reader, new GetARProspectiveStudentInformation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetARProspectiveStudentInformationDt
+        public static List<GetARProspectiveStudentInformationDt> GetARProspectiveStudentInformationDtList(String MovementDate, Int32 ProspectiveStudentID, Int32 Start, Int32 End)
+        {
+            List<GetARProspectiveStudentInformationDt> result = new List<GetARProspectiveStudentInformationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARProspectiveStudentInformationDt));
+                ctx.CommandText = "GetARProspectiveStudentInformationDt";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("ProspectiveStudentID", ProspectiveStudentID);
+                ctx.Add("Start", Start);
+                ctx.Add("End", End);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARProspectiveStudentInformationDt)helper.IDataReaderToObject(reader, new GetARProspectiveStudentInformationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetARStudentInformation
         public static List<GetARStudentInformation> GetARStudentInformation(String MovementDate, Int32 PageIndex, Int32 NumRows)
         {

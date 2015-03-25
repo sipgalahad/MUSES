@@ -6501,6 +6501,27 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetProspectiveStudentRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProspectiveStudent));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         public static Int32 GetProspectiveStudentMaxID(IDbContext ctx)
         {
             Int32 result = 0;
