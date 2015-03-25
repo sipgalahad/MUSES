@@ -232,6 +232,69 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetARStudentInformation
+        public static List<GetARStudentInformation> GetARStudentInformation(String MovementDate, Int32 PageIndex, Int32 NumRows)
+        {
+            List<GetARStudentInformation> result = new List<GetARStudentInformation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARStudentInformation));
+                ctx.CommandText = "GetARStudentInformation";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARStudentInformation)helper.IDataReaderToObject(reader, new GetARStudentInformation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetARStudentInformationDt
+        public static List<GetARStudentInformationDt> GetARStudentInformationDtList(String MovementDate, Int32 StudentID, Int32 Start, Int32 End)
+        {
+            List<GetARStudentInformationDt> result = new List<GetARStudentInformationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARStudentInformationDt));
+                ctx.CommandText = "GetARStudentInformationDt";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("StudentID", StudentID);
+                ctx.Add("Start", Start);
+                ctx.Add("End", End);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARStudentInformationDt)helper.IDataReaderToObject(reader, new GetARStudentInformationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetGLBalanceDtPerPeriod
         public static Int32 GetGLBalanceDtPerPeriodRowCount(Int32 GLAccountID, Int32 year, Int32 month, IDbContext ctx)
         {

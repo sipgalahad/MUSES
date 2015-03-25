@@ -58,6 +58,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vARMovement
+    public partial class vARMovement
+    {
+        public String MovementDateInString
+        {
+            get { return _MovementDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vARReceivingDt
     public partial class vARReceivingDt
     {

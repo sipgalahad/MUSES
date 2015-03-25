@@ -174,7 +174,148 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetARStudentInformation
+    [Serializable]
+    [Table(Name = "GetARStudentInformation")]
+    public partial class GetARStudentInformation
+    {
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+        private Decimal _BalanceBegin;
+        private Decimal _BalanceIN;
+        private Decimal _BalanceOUT;
+        private Decimal _Days_0_30;
+        private Decimal _Days_30_60;
+        private Decimal _Days_60_90;
+        private Decimal _Days_90;
+        private Decimal _BalanceEND;
 
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "BalanceBegin", DataType = "Decimal")]
+        public Decimal BalanceBegin
+        {
+            get { return _BalanceBegin; }
+            set { _BalanceBegin = value; }
+        }
+        [Column(Name = "BalanceIN", DataType = "Decimal")]
+        public Decimal BalanceIN
+        {
+            get { return _BalanceIN; }
+            set { _BalanceIN = value; }
+        }
+        [Column(Name = "BalanceOUT", DataType = "Decimal")]
+        public Decimal BalanceOUT
+        {
+            get { return _BalanceOUT; }
+            set { _BalanceOUT = value; }
+        }
+        [Column(Name = "Days_0_30", DataType = "Decimal")]
+        public Decimal Days_0_30
+        {
+            get { return _Days_0_30; }
+            set { _Days_0_30 = value; }
+        }
+        [Column(Name = "Days_30_60", DataType = "Decimal")]
+        public Decimal Days_30_60
+        {
+            get { return _Days_30_60; }
+            set { _Days_30_60 = value; }
+        }
+        [Column(Name = "Days_60_90", DataType = "Decimal")]
+        public Decimal Days_60_90
+        {
+            get { return _Days_60_90; }
+            set { _Days_60_90 = value; }
+        }
+        [Column(Name = "Days_90", DataType = "Decimal")]
+        public Decimal Days_90
+        {
+            get { return _Days_90; }
+            set { _Days_90 = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+    }
+    #endregion
+    #region GetARStudentInformationDt
+    [Serializable]
+    [Table(Name = "GetARStudentInformationDt")]
+    public partial class GetARStudentInformationDt
+    {
+        private DateTime _ARInvoiceDate;
+        private String _ARInvoiceNo;
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+        private Decimal _InvoiceAmount;
+        private Decimal _PaymentAmount;
+
+        [Column(Name = "ARInvoiceDate", DataType = "DateTime")]
+        public DateTime ARInvoiceDate
+        {
+            get { return _ARInvoiceDate; }
+            set { _ARInvoiceDate = value; }
+        }
+        [Column(Name = "ARInvoiceNo", DataType = "String")]
+        public String ARInvoiceNo
+        {
+            get { return _ARInvoiceNo; }
+            set { _ARInvoiceNo = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "InvoiceAmount", DataType = "Decimal")]
+        public Decimal InvoiceAmount
+        {
+            get { return _InvoiceAmount; }
+            set { _InvoiceAmount = value; }
+        }
+        [Column(Name = "PaymentAmount", DataType = "Decimal")]
+        public Decimal PaymentAmount
+        {
+            get { return _PaymentAmount; }
+            set { _PaymentAmount = value; }
+        }
+    }
+    #endregion
     #region GetGLBalanceDtInformation
     public partial class GetGLBalanceDtInformation
     {

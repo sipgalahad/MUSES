@@ -381,6 +381,7 @@ namespace CodeX.Common
                 public const string STOCK_DETAIL_INFO = "IF020100";
 
                 public const string AP_SUPPLIER_INFORMATION = "IF030100";
+                public const string AR_STUDENT_INFORMATION = "IF030200";
 
                 public const string UNBALANCE_JOURNAL = "IF040100";
                 public const string BALANCE_INFORMATION = "IF040200";
