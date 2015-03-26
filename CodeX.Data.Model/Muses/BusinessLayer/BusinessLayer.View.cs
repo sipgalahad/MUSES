@@ -1230,6 +1230,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCoverageTypeDt
+        public static List<vCoverageTypeDt> GetvCoverageTypeDtList(string filterExpression)
+        {
+            List<vCoverageTypeDt> result = new List<vCoverageTypeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCoverageTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCoverageTypeDt)helper.IDataReaderToObject(reader, new vCoverageTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCreditCard
         public static List<vCreditCard> GetvCreditCardList(string filterExpression)
         {
@@ -1306,6 +1330,54 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "CreditCardID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCustomer
+        public static List<vCustomer> GetvCustomerList(string filterExpression)
+        {
+            List<vCustomer> result = new List<vCustomer>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCustomer));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCustomer)helper.IDataReaderToObject(reader, new vCustomer()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCustomerContractMemberCustom
+        public static List<vCustomerContractMemberCustom> GetvCustomerContractMemberCustomList(string filterExpression)
+        {
+            List<vCustomerContractMemberCustom> result = new List<vCustomerContractMemberCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCustomerContractMemberCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCustomerContractMemberCustom)helper.IDataReaderToObject(reader, new vCustomerContractMemberCustom()));
             }
             catch (Exception ex)
             {
