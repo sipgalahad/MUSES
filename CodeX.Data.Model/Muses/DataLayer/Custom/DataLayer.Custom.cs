@@ -83,6 +83,19 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CustomerContract
+    public partial class CustomerContract
+    {
+        public String StartDateInString
+        {
+            get { return _StartDate.ToString("dd-MMM-yyyy"); }
+        }
+        public String EndDateInString
+        {
+            get { return _EndDate.ToString("dd-MMM-yyyy"); }
+        }
+    }
+    #endregion
     #region DailyScheduleTypeDt
     public partial class DailyScheduleTypeDt
     {

@@ -45,7 +45,7 @@
     </gridcolumns>
     <intellisensetexts>
       <intellisensetext datafield="BusinessPartnerName" headertext="Nama" description="" />
-      <intellisensetext datafield="BusinessPartnerCode" headertext="Kode Instansi" description="" />
+      <intellisensetext datafield="BusinessPartnerCode" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
@@ -86,6 +86,18 @@
     <intellisensetexts>
       <intellisensetext datafield="COAGroupName" headertext="Nama Kelompok" description="" />
       <intellisensetext datafield="COAGroupCode" headertext="Kode Kelompok" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Coverage Type -->
+  <searchdialog type="coveragetype" methodname="GetCoverageTypeList" keyfieldname="CoverageTypeCode" orderbyexpression="CoverageTypeName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="CoverageTypeCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="CoverageTypeName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="CoverageTypeName" headertext="Nama" description="" />
+      <intellisensetext datafield="CoverageTypeCode" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

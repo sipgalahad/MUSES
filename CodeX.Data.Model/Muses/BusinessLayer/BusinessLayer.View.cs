@@ -1366,6 +1366,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCustomerContractMemberCustom
+        public static List<vCustomerContractMemberCustom> GetvCustomerContractMemberCustomList(string filterExpression)
+        {
+            List<vCustomerContractMemberCustom> result = new List<vCustomerContractMemberCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCustomerContractMemberCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCustomerContractMemberCustom)helper.IDataReaderToObject(reader, new vCustomerContractMemberCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vDailyScheduleTypeDt
         public static List<vDailyScheduleTypeDt> GetvDailyScheduleTypeDtList(string filterExpression)
         {

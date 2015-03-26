@@ -4712,6 +4712,206 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CustomerContract
+    [Serializable]
+    [Table(Name = "CustomerContract")]
+    public partial class CustomerContract : DbDataModel
+    {
+        private Int32 _ContractID;
+        private Int32 _BusinessPartnerID;
+        private String _ContractNo;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _ContractSummary;
+        private Boolean _IsDeleted;
+        private DateTime _CreatedDate;
+        private Int32? _CreatedBy;
+        private DateTime _LastUpdatedDate;
+        private Int32? _LastUpdatedBy;
+
+        [Column(Name = "ContractID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ContractID
+        {
+            get { return _ContractID; }
+            set { _ContractID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "ContractNo", DataType = "String")]
+        public String ContractNo
+        {
+            get { return _ContractNo; }
+            set { _ContractNo = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "ContractSummary", DataType = "String", IsNullable = true)]
+        public String ContractSummary
+        {
+            get { return _ContractSummary; }
+            set { _ContractSummary = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+    }
+
+    public class CustomerContractDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CustomerContract));
+        private bool _isAuditLog = false;
+        private const string p_ContractID = "@p_ContractID";
+        public CustomerContractDao() { }
+        public CustomerContractDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CustomerContract Get(Int32 ContractID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ContractID, ContractID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CustomerContract)_helper.DataRowToObject(row, new CustomerContract());
+        }
+        public int Insert(CustomerContract record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CustomerContract record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ContractID)
+        {
+            CustomerContract record;
+            if (_ctx.Transaction == null)
+                record = new CustomerContractDao().Get(ContractID);
+            else
+                record = Get(ContractID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region CustomerContractMember
+    [Serializable]
+    [Table(Name = "CustomerContractMember")]
+    public class CustomerContractMember : DbDataModel
+    {
+        private Int32 _ContractID;
+        private Int32 _CoverageTypeID;
+        private Int32 _StudentID;
+
+        [Column(Name = "ContractID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ContractID
+        {
+            get { return _ContractID; }
+            set { _ContractID = value; }
+        }
+        [Column(Name = "CoverageTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+    }
+
+    public class CustomerContractMemberDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CustomerContractMember));
+        private bool _isAuditLog = false;
+        private const string p_ContractID = "@p_ContractID";
+        private const string p_CoverageTypeID = "@p_CoverageTypeID";
+        private const string p_StudentID = "@p_StudentID";
+        public CustomerContractMemberDao() { }
+        public CustomerContractMemberDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CustomerContractMember Get(Int32 ContractID, Int32 CoverageTypeID, Int32 StudentID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ContractID, ContractID);
+            _ctx.Add(p_CoverageTypeID, CoverageTypeID);
+            _ctx.Add(p_StudentID, StudentID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CustomerContractMember)_helper.DataRowToObject(row, new CustomerContractMember());
+        }
+        public int Insert(CustomerContractMember record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CustomerContractMember record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ContractID, Int32 CoverageTypeID, Int32 StudentID)
+        {
+            CustomerContractMember record;
+            if (_ctx.Transaction == null)
+                record = new CustomerContractMemberDao().Get(ContractID, CoverageTypeID, StudentID);
+            else
+                record = Get(ContractID, CoverageTypeID, StudentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region DailySchedule
     [Serializable]
     [Table(Name = "DailySchedule")]

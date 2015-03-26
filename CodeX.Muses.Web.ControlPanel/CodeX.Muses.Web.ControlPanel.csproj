@@ -135,6 +135,10 @@
     <Content Include="Program\Master\CoverageType\CoverageTypeEntry.aspx" />
     <Content Include="Program\Master\CoverageType\CoverageTypeList.aspx" />
     <Content Include="Program\Master\CoverageType\CoverageTypeDtEntryCtl.ascx" />
+    <Content Include="Program\Master\CustomerContract\CustomerContractEntry.aspx" />
+    <Content Include="Program\Master\CustomerContract\CustomerContractList.aspx" />
+    <Content Include="Program\Master\CustomerContract\CustomerContractSummaryViewCtl.ascx" />
+    <Content Include="Program\Master\CustomerContract\CustomerContractMemberEntryCtl.ascx" />
     <Content Include="Program\Master\Customer\CustomerEntry.aspx" />
     <Content Include="Program\Master\Customer\CustomerList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
@@ -622,6 +626,34 @@
     </Compile>
     <Compile Include="Program\Master\CoverageType\CoverageTypeDtEntryCtl.ascx.designer.cs">
       <DependentUpon>CoverageTypeDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractEntry.aspx.cs">
+      <DependentUpon>CustomerContractEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractEntry.aspx.designer.cs">
+      <DependentUpon>CustomerContractEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractList.aspx.cs">
+      <DependentUpon>CustomerContractList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractList.aspx.designer.cs">
+      <DependentUpon>CustomerContractList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractSummaryViewCtl.ascx.cs">
+      <DependentUpon>CustomerContractSummaryViewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractSummaryViewCtl.ascx.designer.cs">
+      <DependentUpon>CustomerContractSummaryViewCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractMemberEntryCtl.ascx.cs">
+      <DependentUpon>CustomerContractMemberEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\CustomerContract\CustomerContractMemberEntryCtl.ascx.designer.cs">
+      <DependentUpon>CustomerContractMemberEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Customer\CustomerEntry.aspx.cs">
       <DependentUpon>CustomerEntry.aspx</DependentUpon>

@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="OrganizationDtEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.StudentManagement.Program.OrganizationDtEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CustomerContractMemberEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanel.Program.CustomerContractMemberEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -14,11 +14,9 @@
     $(function () {
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
-            $('#<%=txtDisplayOrder.ClientID %>').val('');
-            $('#<%=txtPosition.ClientID %>').val('');
-            tacStudentCoordinator.setValue('');
-            tacStudentCoordinator.setText('');
-            $('#<%=hdnStudentCoordinatorID.ClientID %>').val('');
+            tacCoverageType.setValue('');
+            tacCoverageType.setText('');
+            $('#<%=hdnCoverageTypeID.ClientID %>').val('');
 
             idxStudent = 0;
             $('.trStudentDt').each(function () {
@@ -62,12 +60,10 @@
     $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.OrganizationDtID);
-        $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
-        $('#<%=txtPosition.ClientID %>').val(entity.Position);
-        tacStudentCoordinator.setValue(entity.StudentCoordinatorID);
-        tacStudentCoordinator.setText(entity.StudentCoordinatorName);
-        $('#<%=hdnStudentCoordinatorID.ClientID %>').val(entity.StudentCoordinatorID);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.CoverageTypeID);
+        tacCoverageType.setValue(entity.CoverageTypeID);
+        tacCoverageType.setText(entity.CoverageTypeName);
+        $('#<%=hdnCoverageTypeID.ClientID %>').val(entity.CoverageTypeID);
 
         idxStudent = 0;
         $('.trStudentDt').each(function () {
@@ -109,46 +105,46 @@
         }
     }
 
-    //#region Student
-    window.onGetStudentFilterExpression = function() {
-        var filterExpression = "<%=OnGetStudentFilterExpression() %>";
+    //#region Coverage Type
+    window.onGetCoverageTypeFilterExpression = function () {
+        var filterExpression = "IsDeleted = 0";
         return filterExpression;
     }
 
-    function onTacStudentCoordinatorButtonSearchClick() {
-        openSearchDialog('student', onGetStudentFilterExpression(), function (value) {
-            var filterExpression = onGetStudentFilterExpression() + " AND StudentCode = '" + value + "'";
-            Methods.getObject('GetStudentList', filterExpression, function (result) {
+    function onTacCoverageTypeButtonSearchClick() {
+        openSearchDialog('coveragetype', onGetCoverageTypeFilterExpression(), function (value) {
+            var filterExpression = onGetCoverageTypeFilterExpression() + " AND CoverageTypeCode = '" + value + "'";
+            Methods.getObject('GetCoverageTypeList', filterExpression, function (result) {
                 if (result != null) {
-                    tacStudentCoordinator.setValue(result.StudentID);
-                    tacStudentCoordinator.setText(result.StudentName);
-                    entityToControlStudent(result);
+                    tacCoverageType.setValue(result.CoverageTypeID);
+                    tacCoverageType.setText(result.CoverageTypeName);
+                    entityToControlCoverageType(result);
                 }
                 else {
-                    tacStudentCoordinator.setValue('');
-                    tacStudentCoordinator.setText('');
-                    entityToControlStudent(null);
+                    tacCoverageType.setValue('');
+                    tacCoverageType.setText('');
+                    entityToControlCoverageType(null);
                 }
             });
         });
 
     }
 
-    function onTacStudentCoordinatorValueChanged() {
-        var id = tacStudentCoordinator.getValue();
+    function onTacCoverageTypeValueChanged() {
+        var id = tacCoverageType.getValue();
         if (id != '') {
-            var filterExpression = "StudentID = " + value;
-            Methods.getObject('GetStudentList', filterExpression, function (result) {
-                entityToControlStudent(result);
+            var filterExpression = "CoverageTypeID = " + value;
+            Methods.getObject('GetCoverageTypeList', filterExpression, function (result) {
+                entityToControlCoverageType(result);
             });
         }
     }
 
-    function entityToControlStudent(result) {
+    function entityToControlCoverageType(result) {
         if (result != null)
-            $('#<%=hdnStudentCoordinatorID.ClientID %>').val(result.StudentID);        
+            $('#<%=hdnCoverageTypeID.ClientID %>').val(result.CoverageTypeID);        
         else
-            $('#<%=hdnStudentCoordinatorID.ClientID %>').val('');
+            $('#<%=hdnCoverageTypeID.ClientID %>').val('');
     }
     //#endregion
 
@@ -179,6 +175,11 @@
         $tr = $(this).closest('tr').parent().closest('tr');
         $tr.remove();
     });
+
+    window.onGetStudentFilterExpression = function () {
+        var filterExpression = "<%=OnGetStudentFilterExpression() %>";
+        return filterExpression;
+    }
 
     $('.tacStudent .btnAutoCompleteSearchMore').die('click');
     $('.tacStudent .btnAutoCompleteSearchMore').live('click', function () {
@@ -253,7 +254,7 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Organisasi")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Contract")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
     </table>
@@ -269,21 +270,13 @@
                         <col />
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jabatan / Posisi") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtPosition" Width="200px" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Urutan")%></label></td>
-                        <td><asp:TextBox ID="txtDisplayOrder" runat="server" Width="80px" CssClass="number" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Koordinator")%></label></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Coverage")%></label></td>
                         <td>
-                            <input type="hidden" id="hdnStudentCoordinatorID" value="" runat="server" />
-                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacStudentCoordinator" ClientInstanceName="tacStudentCoordinator" MethodName="GetStudentList" GetFilterExpressionFunction="onGetStudentFilterExpression"
-                                SearchFields="StudentName,StudentCode" TextField="StudentName" ValueField="StudentID" SearchText="${StudentName} (<b>${StudentCode}</b>)" OrderByExpression="StudentName">
-                                <ClientSideEvents ButtonSearchClick="function(){ onTacStudentCoordinatorButtonSearchClick(); }"
-                                    ValueChanged="function(){ onTacStudentCoordinatorValueChanged(); }" />
+                            <input type="hidden" id="hdnCoverageTypeID" value="" runat="server" />
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacCoverageType" ClientInstanceName="tacCoverageType" MethodName="GetCoverageTypeList" GetFilterExpressionFunction="onGetStudentFilterExpression"
+                                SearchFields="CoverageTypeName,CoverageTypeCode" TextField="CoverageTypeName" ValueField="CoverageTypeID" SearchText="${CoverageTypeName} (<b>${CoverageTypeCode}</b>)" OrderByExpression="CoverageTypeName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacCoverageTypeButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacCoverageTypeValueChanged(); }" />
                             </cdx:CodeXAutoCompleteTextBox>   
                         </td>
                     </tr>
@@ -311,18 +304,14 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
-                            <asp:BoundField DataField="Position" HeaderText="Jabatan / Posisi" HeaderStyle-Width="150px" />
-                            <asp:BoundField DataField="StudentCoordinatorName" HeaderText="Koordinator" HeaderStyle-Width="200px" />
+                            <asp:BoundField DataField="CoverageTypeName" HeaderText="Koordinator" HeaderStyle-Width="200px" />
                             <asp:BoundField DataField="ListStudentName" HeaderText="Member" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <div style='float:right;' class="divDetailDelete"></div>
                                     <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("OrganizationDtID") %>" bindingfield="OrganizationDtID" />
-                                    <input type="hidden" value="<%#Eval("Position") %>" bindingfield="Position" />
-                                    <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
-                                    <input type="hidden" value="<%#Eval("StudentCoordinatorID") %>" bindingfield="StudentCoordinatorID" />
-                                    <input type="hidden" value="<%#Eval("StudentCoordinatorName") %>" bindingfield="StudentCoordinatorName" />
+                                    <input type="hidden" value="<%#Eval("CoverageTypeID") %>" bindingfield="CoverageTypeID" />
+                                    <input type="hidden" value="<%#Eval("CoverageTypeName") %>" bindingfield="CoverageTypeName" />
                                     <input type="hidden" value="<%#Eval("ListStudentID") %>" bindingfield="ListStudentID" />
                                     <input type="hidden" value="<%#Eval("ListStudentName") %>" bindingfield="ListStudentName" />
                                 </ItemTemplate>

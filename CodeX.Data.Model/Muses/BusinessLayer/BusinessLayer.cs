@@ -2382,6 +2382,183 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CustomerContract
+        public static CustomerContract GetCustomerContract(Int32 ContractID)
+        {
+            return new CustomerContractDao().Get(ContractID);
+        }
+        public static int InsertCustomerContract(CustomerContract record)
+        {
+            return new CustomerContractDao().Insert(record);
+        }
+        public static int UpdateCustomerContract(CustomerContract record)
+        {
+            return new CustomerContractDao().Update(record);
+        }
+        public static int DeleteCustomerContract(Int32 ContractID)
+        {
+            return new CustomerContractDao().Delete(ContractID);
+        }
+        public static List<CustomerContract> GetCustomerContractList(string filterExpression)
+        {
+            List<CustomerContract> result = new List<CustomerContract>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContract));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CustomerContract)helper.IDataReaderToObject(reader, new CustomerContract()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CustomerContract> GetCustomerContractList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<CustomerContract> result = new List<CustomerContract>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContract));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CustomerContract)helper.IDataReaderToObject(reader, new CustomerContract()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCustomerContractRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContract));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCustomerContractRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContract));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "ContractID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCustomerContractMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContract));
+                ctx.CommandText = helper.SelectMaxColumn("ContractID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CustomerContractMember
+        public static CustomerContractMember GetCustomerContractMember(Int32 ContractID, Int32 CoverageTypeID, Int32 StudentID)
+        {
+            return new CustomerContractMemberDao().Get(ContractID, CoverageTypeID, StudentID);
+        }
+        public static int InsertCustomerContractMember(CustomerContractMember record)
+        {
+            return new CustomerContractMemberDao().Insert(record);
+        }
+        public static int UpdateCustomerContractMember(CustomerContractMember record)
+        {
+            return new CustomerContractMemberDao().Update(record);
+        }
+        public static int DeleteCustomerContractMember(Int32 ContractID, Int32 CoverageTypeID, Int32 StudentID)
+        {
+            return new CustomerContractMemberDao().Delete(ContractID, CoverageTypeID, StudentID);
+        }
+        public static List<CustomerContractMember> GetCustomerContractMemberList(string filterExpression)
+        {
+            List<CustomerContractMember> result = new List<CustomerContractMember>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContractMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CustomerContractMember)helper.IDataReaderToObject(reader, new CustomerContractMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CustomerContractMember> GetCustomerContractMemberList(string filterExpression, IDbContext ctx)
+        {
+            List<CustomerContractMember> result = new List<CustomerContractMember>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CustomerContractMember));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CustomerContractMember)helper.IDataReaderToObject(reader, new CustomerContractMember()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region DailySchedule
         public static DailySchedule GetDailySchedule(Int32 DailyScheduleID)
         {

@@ -302,6 +302,7 @@ namespace CodeX.Common
 
                 public const string COVERAGE_TYPE = "CP010301";
                 public const string CUSTOMER = "CP010302";
+                public const string CUSTOMER_CONTRACT = "CP010303";
                 public const string SUPPLIER = "CP010304";
                 public const string TERM = "CP010305";
                 public const string BANK = "CP010306";

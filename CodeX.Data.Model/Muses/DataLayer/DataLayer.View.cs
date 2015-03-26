@@ -3001,6 +3001,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCustomerContractMemberCustom
+    [Serializable]
+    [Table(Name = "vCustomerContractMemberCustom")]
+    public class vCustomerContractMemberCustom
+    {
+        private Int32 _ContractID;
+        private Int32 _CoverageTypeID;
+        private String _CoverageTypeName;
+        private String _ListStudentID;
+        private String _ListStudentName;
+
+        [Column(Name = "ContractID", DataType = "Int32")]
+        public Int32 ContractID
+        {
+            get { return _ContractID; }
+            set { _ContractID = value; }
+        }
+        [Column(Name = "CoverageTypeID", DataType = "Int32")]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "CoverageTypeName", DataType = "String")]
+        public String CoverageTypeName
+        {
+            get { return _CoverageTypeName; }
+            set { _CoverageTypeName = value; }
+        }
+        [Column(Name = "ListStudentID", DataType = "String")]
+        public String ListStudentID
+        {
+            get { return _ListStudentID; }
+            set { _ListStudentID = value; }
+        }
+        [Column(Name = "ListStudentName", DataType = "String")]
+        public String ListStudentName
+        {
+            get { return _ListStudentName; }
+            set { _ListStudentName = value; }
+        }
+    }
+    #endregion
     #region vDailyScheduleTypeDt
     [Serializable]
     [Table(Name = "vDailyScheduleTypeDt")]
