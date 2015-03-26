@@ -1996,6 +1996,126 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CoverageType
+        public static CoverageType GetCoverageType(Int32 CoverageTypeID)
+        {
+            return new CoverageTypeDao().Get(CoverageTypeID);
+        }
+        public static int InsertCoverageType(CoverageType record)
+        {
+            return new CoverageTypeDao().Insert(record);
+        }
+        public static int UpdateCoverageType(CoverageType record)
+        {
+            return new CoverageTypeDao().Update(record);
+        }
+        public static int DeleteCoverageType(Int32 CoverageTypeID)
+        {
+            return new CoverageTypeDao().Delete(CoverageTypeID);
+        }
+        public static List<CoverageType> GetCoverageTypeList(string filterExpression)
+        {
+            List<CoverageType> result = new List<CoverageType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CoverageType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CoverageType)helper.IDataReaderToObject(reader, new CoverageType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CoverageType> GetCoverageTypeList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<CoverageType> result = new List<CoverageType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CoverageType));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CoverageType)helper.IDataReaderToObject(reader, new CoverageType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCoverageTypeRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CoverageType));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCoverageTypeRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CoverageType));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "CoverageTypeID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCoverageTypeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CoverageType));
+                ctx.CommandText = helper.SelectMaxColumn("CoverageTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region CreditCard
         public static CreditCard GetCreditCard(Int32 CreditCardID)
         {
@@ -2048,6 +2168,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region Customer
+        public static Customer GetCustomer(Int32 BusinessPartnerID)
+        {
+            return new CustomerDao().Get(BusinessPartnerID);
+        }
+        public static int InsertCustomer(Customer record)
+        {
+            return new CustomerDao().Insert(record);
+        }
+        public static int UpdateCustomer(Customer record)
+        {
+            return new CustomerDao().Update(record);
+        }
+        public static int DeleteCustomer(Int32 BusinessPartnerID)
+        {
+            return new CustomerDao().Delete(BusinessPartnerID);
+        }
+        public static List<Customer> GetCustomerList(string filterExpression)
+        {
+            List<Customer> result = new List<Customer>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Customer));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Customer)helper.IDataReaderToObject(reader, new Customer()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

@@ -177,6 +177,7 @@ namespace CodeX.Common
             public const string ITEM = "X017^002";
             public const string USER = "X017^004";
             public const string SUPPLIER = "X017^004";
+            public const string CUSTOMER = "X017^005";
         }
 
         public static class AddressType
@@ -299,13 +300,15 @@ namespace CodeX.Common
                 public const string LOCATION = "CP010205";
                 public const string LOCATION_PERMISSION = "CP010206";
 
-                public const string SUPPLIER = "CP010301";
-                public const string TERM = "CP010302";
-                public const string BANK = "CP010303";
-                public const string EDC_MACHINE = "CP010304";
-                public const string CREDIT_CARD_FEE = "CP010305";
-                public const string MARKUP_MARGIN = "CP010306";
-                public const string STUDENT_FEE_COMP = "CP010307";
+                public const string COVERAGE_TYPE = "CP010301";
+                public const string CUSTOMER = "CP010302";
+                public const string SUPPLIER = "CP010304";
+                public const string TERM = "CP010305";
+                public const string BANK = "CP010306";
+                public const string EDC_MACHINE = "CP010307";
+                public const string CREDIT_CARD_FEE = "CP010308";
+                public const string MARKUP_MARGIN = "CP010309";
+                public const string STUDENT_FEE_COMP = "CP010310";
 
                 public const string HOLIDAY = "CP010901";
 

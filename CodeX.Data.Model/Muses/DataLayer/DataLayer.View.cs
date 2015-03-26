@@ -2831,6 +2831,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCustomer
+    [Serializable]
+    [Table(Name = "vCustomer")]
+    public class vCustomer
+    {
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
+        private String _GCCustomerType;
+        private String _CustomerType;
+        private Int32 _CustomerBillTo;
+        private String _CustomerBillToCode;
+        private String _CustomerBillToName;
+        private Decimal _CreditLimit;
+        private Decimal _CreditBalance;
+        private Boolean _IsDummy;
+        private Boolean _IsCreditHold;
+        private Boolean _IsHasContract;
+        private Boolean _IsUsingDunningLetter;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "GCCustomerType", DataType = "String")]
+        public String GCCustomerType
+        {
+            get { return _GCCustomerType; }
+            set { _GCCustomerType = value; }
+        }
+        [Column(Name = "CustomerType", DataType = "String")]
+        public String CustomerType
+        {
+            get { return _CustomerType; }
+            set { _CustomerType = value; }
+        }
+        [Column(Name = "CustomerBillTo", DataType = "Int32")]
+        public Int32 CustomerBillTo
+        {
+            get { return _CustomerBillTo; }
+            set { _CustomerBillTo = value; }
+        }
+        [Column(Name = "CustomerBillToCode", DataType = "String")]
+        public String CustomerBillToCode
+        {
+            get { return _CustomerBillToCode; }
+            set { _CustomerBillToCode = value; }
+        }
+        [Column(Name = "CustomerBillToName", DataType = "String")]
+        public String CustomerBillToName
+        {
+            get { return _CustomerBillToName; }
+            set { _CustomerBillToName = value; }
+        }
+        [Column(Name = "CreditLimit", DataType = "Decimal")]
+        public Decimal CreditLimit
+        {
+            get { return _CreditLimit; }
+            set { _CreditLimit = value; }
+        }
+        [Column(Name = "CreditBalance", DataType = "Decimal")]
+        public Decimal CreditBalance
+        {
+            get { return _CreditBalance; }
+            set { _CreditBalance = value; }
+        }
+        [Column(Name = "IsDummy", DataType = "Boolean")]
+        public Boolean IsDummy
+        {
+            get { return _IsDummy; }
+            set { _IsDummy = value; }
+        }
+        [Column(Name = "IsCreditHold", DataType = "Boolean")]
+        public Boolean IsCreditHold
+        {
+            get { return _IsCreditHold; }
+            set { _IsCreditHold = value; }
+        }
+        [Column(Name = "IsHasContract", DataType = "Boolean")]
+        public Boolean IsHasContract
+        {
+            get { return _IsHasContract; }
+            set { _IsHasContract = value; }
+        }
+        [Column(Name = "IsUsingDunningLetter", DataType = "Boolean")]
+        public Boolean IsUsingDunningLetter
+        {
+            get { return _IsUsingDunningLetter; }
+            set { _IsUsingDunningLetter = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vDailyScheduleTypeDt
     [Serializable]
     [Table(Name = "vDailyScheduleTypeDt")]

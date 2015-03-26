@@ -1318,6 +1318,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCustomer
+        public static List<vCustomer> GetvCustomerList(string filterExpression)
+        {
+            List<vCustomer> result = new List<vCustomer>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCustomer));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCustomer)helper.IDataReaderToObject(reader, new vCustomer()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vDailyScheduleTypeDt
         public static List<vDailyScheduleTypeDt> GetvDailyScheduleTypeDtList(string filterExpression)
         {

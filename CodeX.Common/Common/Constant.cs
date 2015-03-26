@@ -53,6 +53,7 @@ namespace CodeX.Common
         {
             public const string ITEM = "XXX001";
             public const string SUPPLIER = "XXX002";
+            public const string CUSTOMER = "XXX003";
         }
 
         #region Standard Code
@@ -68,6 +69,7 @@ namespace CodeX.Common
             public const string PROVINCE = "0347";
             public const string ITEM_TYPE = "X001";
             public const string ITEM_UNIT = "X003";
+            public const string CUSTOMER_TYPE = "X004";
             public const string BLOOD_TYPE = "X009";
             public const string OCCUPATION = "X012";
             public const string EDUCATION = "X013";

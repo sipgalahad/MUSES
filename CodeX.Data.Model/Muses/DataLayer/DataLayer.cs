@@ -4070,6 +4070,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CoverageType
+    [Serializable]
+    [Table(Name = "CoverageType")]
+    public class CoverageType : DbDataModel
+    {
+        private Int32 _CoverageTypeID;
+        private String _CoverageTypeCode;
+        private String _CoverageTypeName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "CoverageTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "CoverageTypeCode", DataType = "String")]
+        public String CoverageTypeCode
+        {
+            get { return _CoverageTypeCode; }
+            set { _CoverageTypeCode = value; }
+        }
+        [Column(Name = "CoverageTypeName", DataType = "String")]
+        public String CoverageTypeName
+        {
+            get { return _CoverageTypeName; }
+            set { _CoverageTypeName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class CoverageTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CoverageType));
+        private bool _isAuditLog = false;
+        private const string p_CoverageTypeID = "@p_CoverageTypeID";
+        public CoverageTypeDao() { }
+        public CoverageTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CoverageType Get(Int32 CoverageTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CoverageTypeID, CoverageTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CoverageType)_helper.DataRowToObject(row, new CoverageType());
+        }
+        public int Insert(CoverageType record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CoverageType record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CoverageTypeID)
+        {
+            CoverageType record;
+            if (_ctx.Transaction == null)
+                record = new CoverageTypeDao().Get(CoverageTypeID);
+            else
+                record = Get(CoverageTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region CreditCard
     [Serializable]
     [Table(Name = "CreditCard")]
@@ -4192,6 +4305,132 @@ namespace CodeX.Data.Model
                 record = new CreditCardDao().Get(CreditCardID);
             else
                 record = Get(CreditCardID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region Customer
+    [Serializable]
+    [Table(Name = "Customer")]
+    public class Customer : DbDataModel
+    {
+        private Int32 _BusinessPartnerID;
+        private String _GCCustomerType;
+        private Int32? _CustomerBillTo;
+        private Decimal _CreditLimit;
+        private Decimal _CreditBalance;
+        private Boolean _IsDummy;
+        private Boolean _IsCreditHold;
+        private Boolean _IsHasContract;
+        private Boolean _IsUsingDunningLetter;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "GCCustomerType", DataType = "String")]
+        public String GCCustomerType
+        {
+            get { return _GCCustomerType; }
+            set { _GCCustomerType = value; }
+        }
+        [Column(Name = "CustomerBillTo", DataType = "Int32", IsNullable = true)]
+        public Int32? CustomerBillTo
+        {
+            get { return _CustomerBillTo; }
+            set { _CustomerBillTo = value; }
+        }
+        [Column(Name = "CreditLimit", DataType = "Decimal", IsNullable = true)]
+        public Decimal CreditLimit
+        {
+            get { return _CreditLimit; }
+            set { _CreditLimit = value; }
+        }
+        [Column(Name = "CreditBalance", DataType = "Decimal", IsNullable = true)]
+        public Decimal CreditBalance
+        {
+            get { return _CreditBalance; }
+            set { _CreditBalance = value; }
+        }
+        [Column(Name = "IsDummy", DataType = "Boolean")]
+        public Boolean IsDummy
+        {
+            get { return _IsDummy; }
+            set { _IsDummy = value; }
+        }
+        [Column(Name = "IsCreditHold", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsCreditHold
+        {
+            get { return _IsCreditHold; }
+            set { _IsCreditHold = value; }
+        }
+        [Column(Name = "IsHasContract", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsHasContract
+        {
+            get { return _IsHasContract; }
+            set { _IsHasContract = value; }
+        }
+        [Column(Name = "IsUsingDunningLetter", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsUsingDunningLetter
+        {
+            get { return _IsUsingDunningLetter; }
+            set { _IsUsingDunningLetter = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class CustomerDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(Customer));
+        private bool _isAuditLog = false;
+        private const string p_BusinessPartnerID = "@p_BusinessPartnerID";
+        public CustomerDao() { }
+        public CustomerDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public Customer Get(Int32 BusinessPartnerID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BusinessPartnerID, BusinessPartnerID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (Customer)_helper.DataRowToObject(row, new Customer());
+        }
+        public int Insert(Customer record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(Customer record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BusinessPartnerID)
+        {
+            Customer record;
+            if (_ctx.Transaction == null)
+                record = new CustomerDao().Get(BusinessPartnerID);
+            else
+                record = Get(BusinessPartnerID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
