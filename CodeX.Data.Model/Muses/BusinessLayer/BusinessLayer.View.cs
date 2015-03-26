@@ -1230,6 +1230,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCoverageTypeDt
+        public static List<vCoverageTypeDt> GetvCoverageTypeDtList(string filterExpression)
+        {
+            List<vCoverageTypeDt> result = new List<vCoverageTypeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCoverageTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCoverageTypeDt)helper.IDataReaderToObject(reader, new vCoverageTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCreditCard
         public static List<vCreditCard> GetvCreditCardList(string filterExpression)
         {

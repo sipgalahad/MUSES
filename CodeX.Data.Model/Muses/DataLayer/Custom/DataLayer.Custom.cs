@@ -60,6 +60,29 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CoverageTypeDtComp
+    public partial class CoverageTypeDtComp
+    {
+        public String cfDiscountAmount
+        {
+            get
+            {
+                if (_IsDiscountInPercentage)
+                    return string.Format("{0} %", _DiscountAmount);
+                return _DiscountAmount.ToString("N");
+            }
+        }
+        public String cfCoverageAmount
+        {
+            get
+            {
+                if (_IsCoverageInPercentage)
+                    return string.Format("{0} %", _CoverageAmount);
+                return _CoverageAmount.ToString("N");
+            }
+        }
+    }
+    #endregion
     #region DailyScheduleTypeDt
     public partial class DailyScheduleTypeDt
     {

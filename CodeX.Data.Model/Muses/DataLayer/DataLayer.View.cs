@@ -2739,6 +2739,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCoverageTypeDt
+    [Serializable]
+    [Table(Name = "vCoverageTypeDt")]
+    public class vCoverageTypeDt
+    {
+        private Int32 _CoverageTypeDtID;
+        private Int32 _CoverageTypeID;
+        private String _ListClassTypeID;
+        private String _ListClassTypeName;
+        private String _CoverageTypeDtName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CoverageTypeDtID", DataType = "Int32")]
+        public Int32 CoverageTypeDtID
+        {
+            get { return _CoverageTypeDtID; }
+            set { _CoverageTypeDtID = value; }
+        }
+        [Column(Name = "CoverageTypeID", DataType = "Int32")]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "ListClassTypeID", DataType = "String")]
+        public String ListClassTypeID
+        {
+            get { return _ListClassTypeID; }
+            set { _ListClassTypeID = value; }
+        }
+        [Column(Name = "ListClassTypeName", DataType = "String")]
+        public String ListClassTypeName
+        {
+            get { return _ListClassTypeName; }
+            set { _ListClassTypeName = value; }
+        }
+        [Column(Name = "CoverageTypeDtName", DataType = "String")]
+        public String CoverageTypeDtName
+        {
+            get { return _CoverageTypeDtName; }
+            set { _CoverageTypeDtName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vCreditCard
     [Serializable]
     [Table(Name = "vCreditCard")]

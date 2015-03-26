@@ -66,7 +66,7 @@
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Master/CoverageType/CoverageTypeDtEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Detail', 1000, 500);
+            openUserControlPopup(url, id, 'Detail', 1250, 500);
         });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
