@@ -207,6 +207,7 @@
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
     <Content Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1202,6 +1203,13 @@
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx.designer.cs">
       <DependentUpon>BSuratPenentuanPembayaranRpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx.cs">
+      <DependentUpon>BRaporMidSemesterRpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx.designer.cs">
+      <DependentUpon>BRaporMidSemesterRpt.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
