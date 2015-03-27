@@ -102,13 +102,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Insert(entity);
                 entity.OrganizationDtID = BusinessLayer.GetOrganizationDtMaxID(ctx);
 
-                string[] lstStudentID = hdnStudentSave.Value.Split(',');
-                foreach (string studentID in lstStudentID)
+                if (hdnStudentSave.Value != "")
                 {
-                    OrganizationDtStudent entityDt = new OrganizationDtStudent();
-                    entityDt.OrganizationDtID = entity.OrganizationDtID;
-                    entityDt.StudentID = Convert.ToInt32(studentID);
-                    entityDtDao.Insert(entityDt);
+                    string[] lstStudentID = hdnStudentSave.Value.Split(',');
+                    foreach (string studentID in lstStudentID)
+                    {
+                        OrganizationDtStudent entityDt = new OrganizationDtStudent();
+                        entityDt.OrganizationDtID = entity.OrganizationDtID;
+                        entityDt.StudentID = Convert.ToInt32(studentID);
+                        entityDtDao.Insert(entityDt);
+                    }
                 }
 
                 ctx.CommitTransaction();

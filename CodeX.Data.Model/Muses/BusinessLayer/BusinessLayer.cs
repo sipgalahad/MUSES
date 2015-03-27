@@ -10861,6 +10861,103 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectCompetencyStandard
+        public static SubjectCompetencyStandard GetSubjectCompetencyStandard(Int32 SubjectCompetencyStandardID)
+        {
+            return new SubjectCompetencyStandardDao().Get(SubjectCompetencyStandardID);
+        }
+        public static int InsertSubjectCompetencyStandard(SubjectCompetencyStandard record)
+        {
+            return new SubjectCompetencyStandardDao().Insert(record);
+        }
+        public static int UpdateSubjectCompetencyStandard(SubjectCompetencyStandard record)
+        {
+            return new SubjectCompetencyStandardDao().Update(record);
+        }
+        public static int DeleteSubjectCompetencyStandard(Int32 SubjectCompetencyStandardID)
+        {
+            return new SubjectCompetencyStandardDao().Delete(SubjectCompetencyStandardID);
+        }
+        public static List<SubjectCompetencyStandard> GetSubjectCompetencyStandardList(string filterExpression)
+        {
+            List<SubjectCompetencyStandard> result = new List<SubjectCompetencyStandard>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCompetencyStandard));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCompetencyStandard)helper.IDataReaderToObject(reader, new SubjectCompetencyStandard()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCompetencyStandardSummary
+        public static SubjectCompetencyStandardSummary GetSubjectCompetencyStandardSummary(Int32 SubjectCompetencyStandardSummaryID)
+        {
+            return new SubjectCompetencyStandardSummaryDao().Get(SubjectCompetencyStandardSummaryID);
+        }
+        public static int InsertSubjectCompetencyStandardSummary(SubjectCompetencyStandardSummary record)
+        {
+            return new SubjectCompetencyStandardSummaryDao().Insert(record);
+        }
+        public static int UpdateSubjectCompetencyStandardSummary(SubjectCompetencyStandardSummary record)
+        {
+            return new SubjectCompetencyStandardSummaryDao().Update(record);
+        }
+        public static int DeleteSubjectCompetencyStandardSummary(Int32 SubjectCompetencyStandardSummaryID)
+        {
+            return new SubjectCompetencyStandardSummaryDao().Delete(SubjectCompetencyStandardSummaryID);
+        }
+        public static List<SubjectCompetencyStandardSummary> GetSubjectCompetencyStandardSummaryList(string filterExpression)
+        {
+            List<SubjectCompetencyStandardSummary> result = new List<SubjectCompetencyStandardSummary>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCompetencyStandardSummary));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCompetencyStandardSummary)helper.IDataReaderToObject(reader, new SubjectCompetencyStandardSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectCompetencyStandardSummary> GetSubjectCompetencyStandardSummaryList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectCompetencyStandardSummary> result = new List<SubjectCompetencyStandardSummary>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCompetencyStandardSummary));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCompetencyStandardSummary)helper.IDataReaderToObject(reader, new SubjectCompetencyStandardSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SubjectMatterClassType
         public static SubjectMatterClassType GetSubjectMatterClassType(Int32 SubjectMatterID, Int32 ClassTypeID)
         {

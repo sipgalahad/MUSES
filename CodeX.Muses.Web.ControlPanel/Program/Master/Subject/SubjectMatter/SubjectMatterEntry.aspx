@@ -15,8 +15,17 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtSubjectMatterCode.ClientID %>').val('');
                 $('#<%=txtSubjectMatterName.ClientID %>').val('');
-                $('#<%=txtCompetencyStandard.ClientID %>').val(''); 
                 $('#<%=txtRemarks.ClientID %>').val('');
+
+                $('#<%=hdnLstClassTypeID.ClientID %>').val('');
+                ddeClassType.SetText('');
+                $('.chkClassType input:checked').each(function () {
+                    $(this).prop('checked', false);
+                });
+
+                $('.txtSummaryName').each(function () {
+                    $(this).val('');
+                });
 
                 $('#entryDetailContainer').show();
             });
@@ -26,10 +35,25 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
+                    getSaveValue();
                     cbpProcess.PerformCallback('save');
+                }
             });
         });
+
+        function getSaveValue() {
+            var lstSaveValue = '';
+            $('.txtSummaryName').each(function () {
+                if (lstSaveValue != '')
+                    lstSaveValue += '|';
+                var summaryName = $(this).val();
+                $tr = $(this).closest('tr');
+                var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
+                lstSaveValue += GCPeriodSection + ';' + summaryName;
+            });
+            $('#<%=hdnLstPeriodSectionSummary.ClientID %>').val(lstSaveValue);
+        }
 
         //#region edit and delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
@@ -50,12 +74,59 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterID);
             $('#<%=txtSubjectMatterCode.ClientID %>').val(entity.SubjectMatterCode);
             $('#<%=txtSubjectMatterName.ClientID %>').val(entity.SubjectMatterName);
-            $('#<%=txtCompetencyStandard.ClientID %>').val(entity.CompetencyStandard); 
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+
+            $('.chkClassType input:checked').each(function () {
+                $(this).prop('checked', false);
+            });
+
+            var lstClassTypeID = entity.ListClassTypeID.split(',');
+            for (var i = 0; i < lstClassTypeID.length; ++i) {
+                $('.chkClassType').each(function () {
+                    if ($(this).attr('classtypeid') == lstClassTypeID[i])
+                        $(this).find('input').prop('checked', true);
+                });
+            }
+            setDdeClassTypeText();
+            
+            $('.txtSummaryName').each(function () {
+                $(this).val('');
+            });
+            var filterExpression = 'SubjectMatterID = ' + entity.SubjectMatterID;
+            Methods.getListObject('GetSubjectCompetencyStandardSummaryList', filterExpression, function (result) {
+                for (var i = 0; i < result.length; ++i) {
+                    $('.txtSummaryName').each(function () {
+                        $tr = $(this).closest('tr');
+                        var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
+                        if(GCPeriodSection == result[i].GCPeriodSection)
+                            $(this).val(result[i].SummaryName);
+                    });
+                }
+            });
+
             $('#entryDetailContainer').show();
         });
 
         //#endregion
+
+        $('.chkClassType input').change(function () {
+            setDdeClassTypeText();
+        });
+
+        function setDdeClassTypeText() {
+            var lstClassTypeID = '';
+            var lstClassTypeName = '';
+            $('.chkClassType input:checked').each(function () {
+                if (lstClassTypeName != '') {
+                    lstClassTypeName += ', ';
+                    lstClassTypeID += ',';
+                }
+                lstClassTypeID += $(this).parent().attr('classtypeid');
+                lstClassTypeName += $(this).parent().attr('classtypename');
+            });
+            $('#<%=hdnLstClassTypeID.ClientID %>').val(lstClassTypeID);
+            ddeClassType.SetText(lstClassTypeName);
+        }
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
@@ -81,20 +152,22 @@
             cbpView.PerformCallback('refresh');
         }
 
+        $('.lnkCompetencyStandard a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectCompetencyStandardEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectMatterID, 'Standar Kompetensi', 800, 550);
+        });
+
         $('.lnkSubjectMatterDt a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMatterDtEntryCtl.ascx");
             openUserControlPopup(url, entity.SubjectMatterID, 'Detil Pertemuan', 800, 550);
         });
-
-        $('.lnkClassType a').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMatterClassTypeEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectMatterID, 'Tipe Kelas', 800, 550);
-        });
     </script>
+    <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
+    <input type="hidden" id="hdnLstPeriodSectionSummary" value="" runat="server" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -119,13 +192,39 @@
                                     <td><asp:TextBox ID="txtSubjectMatterName" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Standar Kompetensi")%></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtCompetencyStandard" Width="300px" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
+                                    <td colspan="5">
+                                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassType" ID="ddeClassType"
+                                            Width="300px" runat="server" EnableAnimation="False">
+                                            <DropDownWindowStyle BackColor="#EDEDED" />
+                                            <DropDownWindowTemplate>
+                                                <asp:Repeater ID="rptClassType" runat="server" OnItemDataBound="rptClassType_ItemDataBound">
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkClassType" CssClass="chkClassType" runat="server"  /> <%#Eval("ClassTypeName") %><br />
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
+                                            </DropDownWindowTemplate>
+                                        </dxe:ASPxDropDownEdit>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2"><h4><%=GetLabel("Pokok Standar Kompetensi") %></h4></td>
+                                </tr>
+                                <asp:Repeater ID="rptPeriodSection" runat="server" OnItemDataBound="rptPeriodSection_ItemDataBound">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td class="tdLabel">
+                                                <input type="hidden" class="hdnGCPeriodSection" value='<%#Eval("StandardCodeID")%>' />
+                                                <label class="lblMandatory"><%#Eval("StandardCodeName")%></label>
+                                            </td>
+                                            <td><asp:TextBox ID="txtSummaryName" CssClass="txtSummaryName" Width="100%" runat="server" /></td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                             </table>
                         </td>
                     </tr>
@@ -151,10 +250,10 @@
                             <Columns>
                                 <asp:BoundField DataField="SubjectMatterCode" HeaderText="Kode" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="SubjectMatterName" HeaderText="Nama" HeaderStyle-Width="180px" />
-                                <asp:BoundField DataField="CompetencyStandard" HeaderText="Standar Kompetensi" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="ListClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:HyperLinkField HeaderText="Standar Kompetensi" Text="Standar Kompetensi" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkCompetencyStandard" HeaderStyle-Width="160px" />
                                 <asp:HyperLinkField HeaderText="Detil Pertemuan" Text="Detil Pertemuan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubjectMatterDt" HeaderStyle-Width="120px" />
-                                <asp:HyperLinkField HeaderText="Tipe Kelas" Text="Tipe Kelas" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkClassType" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
@@ -163,6 +262,8 @@
                                         <input type="hidden" value="<%#Eval("SubjectMatterCode") %>" bindingfield="SubjectMatterCode" />
                                         <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
                                         <input type="hidden" value="<%#Eval("CompetencyStandard") %>" bindingfield="CompetencyStandard" />
+                                        <input type="hidden" value="<%#Eval("ListClassTypeID") %>" bindingfield="ListClassTypeID" />
+                                        <input type="hidden" value="<%#Eval("ListClassTypeName") %>" bindingfield="ListClassTypeName" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

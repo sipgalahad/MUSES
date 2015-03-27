@@ -22,12 +22,40 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
+            Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
+            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.ClassStudyType.REGULAR));
+            rptClassType.DataSource = lstClassType;
+            rptClassType.DataBind();
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
+            rptPeriodSection.DataSource = lstSc;
+            rptPeriodSection.DataBind();
+
             BindGridView();
 
             Helper.SetControlEntrySetting(txtSubjectMatterCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtSubjectMatterName, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtCompetencyStandard, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrx");
+        }
+
+        protected void rptPeriodSection_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                TextBox txtSummaryName = (TextBox)e.Item.FindControl("txtSummaryName");
+                Helper.SetControlEntrySetting(txtSummaryName, new ControlEntrySetting(true, true, true), "mpTrx");
+            }
+        }
+
+        protected void rptClassType_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                ClassType obj = (ClassType)e.Item.DataItem;
+                CheckBox chkClassType = (CheckBox)e.Item.FindControl("chkClassType");
+                chkClassType.Attributes.Add("classtypename", obj.ClassTypeName);
+                chkClassType.Attributes.Add("classtypeid", obj.ClassTypeID.ToString());
+            }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -39,7 +67,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void BindGridView()
         {
             string filterExpression = string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.SubjectID);
-            grdView.DataSource = BusinessLayer.GetSubjectMatterHdList(filterExpression);
+            grdView.DataSource = BusinessLayer.GetvSubjectMatterHdList(filterExpression);
             grdView.DataBind();
         }
 
@@ -89,45 +117,130 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.SubjectMatterCode = txtSubjectMatterCode.Text;
             entity.SubjectMatterName = txtSubjectMatterName.Text;
-            entity.CompetencyStandard = txtCompetencyStandard.Text;
             entity.Remarks = txtRemarks.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            SubjectMatterHdDao entityDao = new SubjectMatterHdDao(ctx);
+            SubjectMatterClassTypeDao entityClassTypeDao = new SubjectMatterClassTypeDao(ctx);
+            SubjectCompetencyStandardSummaryDao entitySummaryDao = new SubjectCompetencyStandardSummaryDao(ctx);
             try
             {
                 SubjectMatterHd entity = new SubjectMatterHd();
                 ControlToEntity(entity);
                 entity.SubjectID = AppSession.SubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectMatterHd(entity);
-                return true;
+                entityDao.Insert(entity);
+
+                string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
+                foreach (string classTypeID in lstClassTypeID)
+                {
+                    SubjectMatterClassType entityDt = new SubjectMatterClassType();
+                    entityDt.SubjectMatterID = entity.SubjectMatterID;
+                    entityDt.ClassTypeID = Convert.ToInt32(classTypeID);
+                    entityClassTypeDao.Insert(entityDt);
+                }
+
+                string[] lstSaveValue = hdnLstPeriodSectionSummary.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    SubjectCompetencyStandardSummary entityDt = new SubjectCompetencyStandardSummary();
+                    entityDt.SubjectMatterID = entity.SubjectMatterID;
+                    entityDt.GCPeriodSection = temp[0];
+                    entityDt.SummaryName = temp[1];
+                    entitySummaryDao.Insert(entityDt);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            SubjectMatterHdDao entityDao = new SubjectMatterHdDao(ctx);
+            SubjectMatterClassTypeDao entityClassTypeDao = new SubjectMatterClassTypeDao(ctx);
+            SubjectCompetencyStandardSummaryDao entitySummaryDao = new SubjectCompetencyStandardSummaryDao(ctx);
             try
             {
-                SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnEntryID.Value));
+                SubjectMatterHd entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatterHd(entity);
-                return true;
+                entityDao.Update(entity);
+
+                List<SubjectCompetencyStandardSummary> lstEntityComp = BusinessLayer.GetSubjectCompetencyStandardSummaryList(string.Format("SubjectMatterID = {0}", entity.SubjectMatterID), ctx);
+                string[] lstSaveValue = hdnLstPeriodSectionSummary.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    string GCPeriodSection = temp[0];
+                    SubjectCompetencyStandardSummary entityDt = lstEntityComp.FirstOrDefault(p => p.GCPeriodSection == GCPeriodSection);
+                    if (entityDt == null)
+                    {
+                        entityDt = new SubjectCompetencyStandardSummary();
+                        entityDt.SubjectMatterID = entity.SubjectMatterID;
+                        entityDt.GCPeriodSection = GCPeriodSection;
+                        entityDt.SummaryName = temp[1];
+                        entitySummaryDao.Insert(entityDt);
+                    }
+                    else
+                    {
+                        entityDt.SummaryName = temp[1];
+                        entitySummaryDao.Update(entityDt);
+                    }
+                }
+
+                List<SubjectMatterClassType> lstEntityDt = BusinessLayer.GetSubjectMatterClassTypeList(string.Format("SubjectMatterID = {0}", entity.SubjectMatterID), ctx);
+                string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
+                foreach (string classTypeID in lstClassTypeID)
+                {
+                    SubjectMatterClassType entityDt = lstEntityDt.FirstOrDefault(p => p.ClassTypeID.ToString() == classTypeID);
+                    if (entityDt == null)
+                    {
+                        entityDt = new SubjectMatterClassType();
+                        entityDt.SubjectMatterID = entity.SubjectMatterID;
+                        entityDt.ClassTypeID = Convert.ToInt32(classTypeID);
+                        entityClassTypeDao.Insert(entityDt);
+                    }
+                    else
+                        lstEntityDt.Remove(entityDt);
+                }
+
+                foreach (SubjectMatterClassType entityDt in lstEntityDt)
+                {
+                    entityClassTypeDao.Delete(entityDt.SubjectMatterID, entityDt.ClassTypeID);
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnDeleteEntityDt(ref string errMessage)

@@ -55,7 +55,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             string filterExpression = "IsAllStudentAsMember = 1 AND IsDeleted = 0";
             if (lstOrganizationID != "")
-                filterExpression = string.Format("OrganizationID NOT IN ({0}) AND IsAllStudentAsMember = 1 AND IsDeleted = 0");
+                filterExpression = string.Format("OrganizationID NOT IN ({0}) AND IsAllStudentAsMember = 1 AND IsDeleted = 0", lstOrganizationID);
             List<OrganizationHd> lstOrganizationHd = BusinessLayer.GetOrganizationHdList(filterExpression);
             foreach (OrganizationHd entity in lstOrganizationHd)
             {

@@ -189,46 +189,47 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             ClassScheduleDao entityDtDao = new ClassScheduleDao(ctx);
             try
             {
-                string[] lstClassSubjectID = hdnLstClassSubjectID.Value.Split(',');
-                string[] lstRoomID = hdnLstRoomID.Value.Split(',');
-                string[] lstDayNumber = hdnLstDayNumber.Value.Split(',');
-                string[] lstHoursIndex = hdnLstHoursIndex.Value.Split(',');
                 int SchoolClassID = Convert.ToInt32(cboClass.Value);
-
                 List<ClassSchedule> lstClassSchedule = BusinessLayer.GetClassScheduleList(string.Format("SchoolClassID = {0} AND IsDeleted = 0", SchoolClassID), ctx);
-                for (int ct = 0; ct < lstClassSubjectID.Length; ++ct)
+                if (hdnLstClassSubjectID.Value != "")
                 {
-                    Int16 dayNumber = Convert.ToInt16(lstDayNumber[ct]);
-                    Int16 hoursIndex = Convert.ToInt16(lstHoursIndex[ct]);
-                    ClassSchedule entityDt = lstClassSchedule.FirstOrDefault(p => p.DayNumber == dayNumber && p.HoursIndex == hoursIndex);
-                    if (entityDt == null)
+                    string[] lstClassSubjectID = hdnLstClassSubjectID.Value.Split(',');
+                    string[] lstRoomID = hdnLstRoomID.Value.Split(',');
+                    string[] lstDayNumber = hdnLstDayNumber.Value.Split(',');
+                    string[] lstHoursIndex = hdnLstHoursIndex.Value.Split(',');
+
+                    for (int ct = 0; ct < lstClassSubjectID.Length; ++ct)
                     {
-                        entityDt = new ClassSchedule();
-                        entityDt.SchoolClassID = SchoolClassID;
-                        entityDt.HoursIndex = hoursIndex;
-                        entityDt.DayNumber = dayNumber;
-                        entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
-                        entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
-                        entityDt.CreatedBy = AppSession.UserLogin.UserID;
-                        entityDtDao.Insert(entityDt);
-                    }
-                    else
-                    {
-                        entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
-                        entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
-                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        entityDtDao.Update(entityDt);
+                        Int16 dayNumber = Convert.ToInt16(lstDayNumber[ct]);
+                        Int16 hoursIndex = Convert.ToInt16(lstHoursIndex[ct]);
+                        ClassSchedule entityDt = lstClassSchedule.FirstOrDefault(p => p.DayNumber == dayNumber && p.HoursIndex == hoursIndex);
+                        if (entityDt == null)
+                        {
+                            entityDt = new ClassSchedule();
+                            entityDt.SchoolClassID = SchoolClassID;
+                            entityDt.HoursIndex = hoursIndex;
+                            entityDt.DayNumber = dayNumber;
+                            entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                            entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
+                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                            entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
+                            entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityDtDao.Update(entityDt);
+
+                            lstClassSchedule.Remove(entityDt);
+                        }
                     }
                 }
-
                 foreach (ClassSchedule entity in lstClassSchedule)
                 {
-                    if (!lstDayNumber.Contains(entity.DayNumber.ToString()) || !lstHoursIndex.Contains(entity.HoursIndex.ToString()))
-                    {
-                        entity.IsDeleted = true;
-                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                        entityDtDao.Update(entity);
-                    }
+                    entity.IsDeleted = true;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entity);
                 }
                 ctx.CommitTransaction();
             }

@@ -20061,6 +20061,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSubjectMatterHd
+    [Serializable]
+    [Table(Name = "vSubjectMatterHd")]
+    public class vSubjectMatterHd
+    {
+        private Int32 _SubjectMatterID;
+        private String _SubjectMatterCode;
+        private String _SubjectMatterName;
+        private Int32 _SubjectID;
+        private String _CompetencyStandard;
+        private String _ListClassTypeID;
+        private String _ListClassTypeName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectMatterID", DataType = "Int32")]
+        public Int32 SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
+        }
+        [Column(Name = "SubjectMatterCode", DataType = "String")]
+        public String SubjectMatterCode
+        {
+            get { return _SubjectMatterCode; }
+            set { _SubjectMatterCode = value; }
+        }
+        [Column(Name = "SubjectMatterName", DataType = "String")]
+        public String SubjectMatterName
+        {
+            get { return _SubjectMatterName; }
+            set { _SubjectMatterName = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "CompetencyStandard", DataType = "String")]
+        public String CompetencyStandard
+        {
+            get { return _CompetencyStandard; }
+            set { _CompetencyStandard = value; }
+        }
+        [Column(Name = "ListClassTypeID", DataType = "String")]
+        public String ListClassTypeID
+        {
+            get { return _ListClassTypeID; }
+            set { _ListClassTypeID = value; }
+        }
+        [Column(Name = "ListClassTypeName", DataType = "String")]
+        public String ListClassTypeName
+        {
+            get { return _ListClassTypeName; }
+            set { _ListClassTypeName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vSubLedgerHd
     [Serializable]
     [Table(Name = "vSubLedgerHd")]

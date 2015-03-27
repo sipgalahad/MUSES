@@ -22,7 +22,7 @@
     </script>
     <table cellspacing="0" cellpadding="0">
         <tr>
-            <td class="tdLabel" style="width:100px; vertical-align: top; padding-top: 5px"><%=GetLabel("Catatan") %></td>
+            <td class="tdLabel" style="width:100px; vertical-align: top; padding-top: 5px"><%=GetLabel("Catatan Wali Kelas") %></td>
             <td><asp:TextBox ID="txtRemarks" runat="server" TextMode="MultiLine" Rows="5" Width="500px" /></td>
         </tr>
     </table>
