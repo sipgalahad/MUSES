@@ -10821,6 +10821,86 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectBasicCompetency
+        public static SubjectBasicCompetency GetSubjectBasicCompetency(Int32 SubjectBasicCompetencyID)
+        {
+            return new SubjectBasicCompetencyDao().Get(SubjectBasicCompetencyID);
+        }
+        public static int InsertSubjectBasicCompetency(SubjectBasicCompetency record)
+        {
+            return new SubjectBasicCompetencyDao().Insert(record);
+        }
+        public static int UpdateSubjectBasicCompetency(SubjectBasicCompetency record)
+        {
+            return new SubjectBasicCompetencyDao().Update(record);
+        }
+        public static int DeleteSubjectBasicCompetency(Int32 SubjectBasicCompetencyID)
+        {
+            return new SubjectBasicCompetencyDao().Delete(SubjectBasicCompetencyID);
+        }
+        public static List<SubjectBasicCompetency> GetSubjectBasicCompetencyList(string filterExpression)
+        {
+            List<SubjectBasicCompetency> result = new List<SubjectBasicCompetency>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetency));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectBasicCompetency)helper.IDataReaderToObject(reader, new SubjectBasicCompetency()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectBasicCompetencyIndicator
+        public static SubjectBasicCompetencyIndicator GetSubjectBasicCompetencyIndicator(Int32 SubjectBasicCompetencyIndicatorID)
+        {
+            return new SubjectBasicCompetencyIndicatorDao().Get(SubjectBasicCompetencyIndicatorID);
+        }
+        public static int InsertSubjectBasicCompetencyIndicator(SubjectBasicCompetencyIndicator record)
+        {
+            return new SubjectBasicCompetencyIndicatorDao().Insert(record);
+        }
+        public static int UpdateSubjectBasicCompetencyIndicator(SubjectBasicCompetencyIndicator record)
+        {
+            return new SubjectBasicCompetencyIndicatorDao().Update(record);
+        }
+        public static int DeleteSubjectBasicCompetencyIndicator(Int32 SubjectBasicCompetencyIndicatorID)
+        {
+            return new SubjectBasicCompetencyIndicatorDao().Delete(SubjectBasicCompetencyIndicatorID);
+        }
+        public static List<SubjectBasicCompetencyIndicator> GetSubjectBasicCompetencyIndicatorList(string filterExpression)
+        {
+            List<SubjectBasicCompetencyIndicator> result = new List<SubjectBasicCompetencyIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new SubjectBasicCompetencyIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SubjectClassType
         public static SubjectClassType GetSubjectClassType(Int32 SubjectID, Int32 ClassTypeID)
         {

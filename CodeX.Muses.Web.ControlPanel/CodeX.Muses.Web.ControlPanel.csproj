@@ -192,6 +192,8 @@
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx" />
     <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\PersonalityList.aspx" />
+    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx" />
@@ -1026,6 +1028,20 @@
     </Compile>
     <Compile Include="Program\Master\Subject\PersonalityList.aspx.designer.cs">
       <DependentUpon>PersonalityList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx.cs">
+      <DependentUpon>SubjectBasicCompetencyEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx.designer.cs">
+      <DependentUpon>SubjectBasicCompetencyEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyIndicatorEntryCtl.ascx.cs">
+      <DependentUpon>SubjectBasicCompetencyIndicatorEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyIndicatorEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectBasicCompetencyIndicatorEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.cs">
       <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>

@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectMatterDtEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectMatterDtEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectBasicCompetencyIndicatorEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectBasicCompetencyIndicatorEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -12,10 +12,10 @@
     $(function () {
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
-            $('#<%=txtMeetingNo.ClientID %>').val('');
-            $('#<%=txtRemarks.ClientID %>').val('');
+            $('#<%=txtSubjectBasicCompetencyIndicatorName.ClientID %>').val('');
 
             $('#entryDetailContainerPopup').show();
+            $('#<%=txtSubjectBasicCompetencyIndicatorName.ClientID %>').focus();
         });
 
         $('#btnCancelPopup').click(function () {
@@ -34,7 +34,7 @@
         showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterDtID);
+                $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectBasicCompetencyIndicatorID);
                 cbpProcessPopup.PerformCallback('delete');
             }
         });
@@ -44,11 +44,11 @@
     $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterDtID);
-        $('#<%=txtMeetingNo.ClientID %>').val(entity.MeetingNo);
-        $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectBasicCompetencyIndicatorID);
+        $('#<%=txtSubjectBasicCompetencyIndicatorName.ClientID %>').val(entity.SubjectBasicCompetencyIndicatorName);
 
         $('#entryDetailContainerPopup').show();
+        $('#<%=txtSubjectBasicCompetencyIndicatorName.ClientID %>').focus();
     });
 
     function onCbpProcesPopupEndCallback(s) {
@@ -81,12 +81,8 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kompetensi Dasar")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
-        </tr> 
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pokok Standar Kompetensi")%></label></td>
-            <td colspan="2"><asp:TextBox ID="txtHeaderText2" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
     </table>
                 
@@ -97,16 +93,12 @@
                 <input type="hidden" id="hdnEntryID" runat="server" value="" />
                 <table>
                     <colgroup>
-                        <col style="width:150px"/>
+                        <col style="width:160px"/>
                         <col />
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pertemuan Ke")%></label></td>
-                        <td><asp:TextBox ID="txtMeetingNo" runat="server" Width="80px" CssClass="number" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Keterangan") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
+                        <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Indikator Pencapaian")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtSubjectBasicCompetencyIndicatorName" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                     </tr>
                     <tr>
                         <td> 
@@ -128,15 +120,13 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
-                            <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
-                            <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                            <asp:BoundField DataField="SubjectBasicCompetencyIndicatorName" HeaderText="Indikator Pencapaian" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <div style='float:right;' class="divDetailDelete"></div>
                                     <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("SubjectMatterDtID") %>" bindingfield="SubjectMatterDtID" />
-                                    <input type="hidden" value="<%#Eval("MeetingNo") %>" bindingfield="MeetingNo" />
-                                    <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
+                                    <input type="hidden" value="<%#Eval("SubjectBasicCompetencyIndicatorID") %>" bindingfield="SubjectBasicCompetencyIndicatorID" />
+                                    <input type="hidden" value="<%#Eval("SubjectBasicCompetencyIndicatorName") %>" bindingfield="SubjectBasicCompetencyIndicatorName" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

@@ -343,6 +343,7 @@ namespace CodeX.Common
                 public const string SUBJECT_PAGE = "CP99010000";
                 public const string SB_SUBJECT_CLASS_TYPE = "CP99010100";
                 public const string SB_SUBJECT_MATTER = "CP99010200";
+                public const string SB_SUBJECT_BASIC_COMPETENCY = "CP99010300";
             }
             #endregion
 

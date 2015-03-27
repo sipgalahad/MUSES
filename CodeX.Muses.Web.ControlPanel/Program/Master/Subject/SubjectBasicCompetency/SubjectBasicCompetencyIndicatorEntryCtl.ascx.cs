@@ -12,24 +12,22 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SubjectMatterDtEntryCtl : BaseViewPopupCtl
+    public partial class SubjectBasicCompetencyIndicatorEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
             hdnID.Value = param;
-            SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnID.Value));
-            txtHeaderText.Text = string.Format("{0} - {1}", entity.SubjectMatterCode, entity.SubjectMatterName);
-            txtHeaderText2.Text = entity.CompetencyStandard;
+            SubjectBasicCompetency entity = BusinessLayer.GetSubjectBasicCompetency(Convert.ToInt32(hdnID.Value));
+            txtHeaderText.Text = string.Format("{0}", entity.SubjectBasicCompetencyName);
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtMeetingNo, new ControlEntrySetting(true, true, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtSubjectBasicCompetencyIndicatorName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetSubjectMatterDtList(string.Format("SubjectMatterID = {0} AND IsDeleted = 0 ORDER BY MeetingNo ASC", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetSubjectBasicCompetencyIndicatorList(string.Format("SubjectBasicCompetencyID = {0} AND IsDeleted = 0", hdnID.Value));
             grdView.DataBind();
         }
 
@@ -74,21 +72,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectMatterDt entity)
+        private void ControlToEntity(SubjectBasicCompetencyIndicator entity)
         {
-            entity.MeetingNo = Convert.ToInt16(txtMeetingNo.Text);
-            entity.Remarks = txtRemarks.Text;
+            entity.SubjectBasicCompetencyIndicatorName = txtSubjectBasicCompetencyIndicatorName.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             try
             {
-                SubjectMatterDt entity = new SubjectMatterDt();
+                SubjectBasicCompetencyIndicator entity = new SubjectBasicCompetencyIndicator();
                 ControlToEntity(entity);
-                entity.SubjectMatterID = Convert.ToInt32(hdnID.Value);
+                entity.SubjectBasicCompetencyID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectMatterDt(entity);
+                BusinessLayer.InsertSubjectBasicCompetencyIndicator(entity);
                 return true;
             }
             catch (Exception ex)
@@ -103,10 +100,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatterDt entity = BusinessLayer.GetSubjectMatterDt(Convert.ToInt32(hdnID.Value));
+                SubjectBasicCompetencyIndicator entity = BusinessLayer.GetSubjectBasicCompetencyIndicator(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatterDt(entity);
+                BusinessLayer.UpdateSubjectBasicCompetencyIndicator(entity);
                 return true;
             }
             catch (Exception ex)
@@ -121,10 +118,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatterDt entity = BusinessLayer.GetSubjectMatterDt(Convert.ToInt32(hdnID.Value));
+                SubjectBasicCompetencyIndicator entity = BusinessLayer.GetSubjectBasicCompetencyIndicator(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatterDt(entity);
+                BusinessLayer.UpdateSubjectBasicCompetencyIndicator(entity);
                 return true;
             }
             catch (Exception ex)
