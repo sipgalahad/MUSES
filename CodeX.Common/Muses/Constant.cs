@@ -590,6 +590,16 @@ namespace CodeX.Common
         }
         #endregion
 
+        public class TaskType 
+        { 
+            public const string UTS = "MS009^001";
+            public const string UAS = "MS009^002";
+            public const string ULANGAN = "MS009^003";
+            public const string PEKERJAAN_RUMAH = "MS009^004";
+            public const string TUGAS_KELAS = "MS009^005";
+            public const string TUGAS_KELOMPOK = "MS009^006";
+        }
+
         public class BankExportDataType 
         {
             public const string MANDIRI = "MS023^001";
