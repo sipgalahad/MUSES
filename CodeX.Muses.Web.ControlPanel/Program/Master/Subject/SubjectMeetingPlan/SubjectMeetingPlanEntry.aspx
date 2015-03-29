@@ -1,27 +1,23 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="PeriodSectionEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.PeriodSectionEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSubjectPageTrxVisit.master" AutoEventWireup="true" 
+    CodeBehind="SubjectMeetingPlanEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectMeetingPlanEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
-    Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+    Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>    
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            setDatePicker('<%=txtStartDate.ClientID %>');
-            setDatePicker('<%=txtEndDate.ClientID %>');
-
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtPeriodSectionCode.ClientID %>').val('');
-                cboGCPeriodSection.SetValue('');
-                $('#<%=txtPeriodSectionName.ClientID %>').val('');
-                $('#<%=txtStartDate.ClientID %>').val('');
-                $('#<%=txtEndDate.ClientID %>').val('');
+                $('#<%=txtMeetingNo.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
+
                 $('#entryDetailContainer').show();
             });
 
@@ -30,7 +26,7 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
                     cbpProcess.PerformCallback('save');
             });
         });
@@ -38,11 +34,11 @@
         //#region edit and delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');
-            showToastConfirmation('Are You Sure Want To Delete?', function (result) {
+            showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodSectionID);
-                    cbpProcess.PerformCallback('delete');
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectBasicCompetencyID);
+                    cbpProcessPopup.PerformCallback('delete');
                 }
             });
         });
@@ -51,12 +47,8 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodSectionID);
-            $('#<%=txtPeriodSectionCode.ClientID %>').val(entity.PeriodSectionCode);
-            cboGCPeriodSection.SetValue(entity.GCPeriodSection);
-            $('#<%=txtPeriodSectionName.ClientID %>').val(entity.PeriodSectionName);
-            $('#<%=txtStartDate.ClientID %>').val(entity.StartDateInDatePickerFormat);
-            $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMeetingPlanHdID);
+            $('#<%=txtMeetingNo.ClientID %>').val(entity.MeetingNo);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
             $('#entryDetailContainer').show();
         });
@@ -82,12 +74,76 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        function onCboFilterValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+
+        //#region SubjectMatterHd
+        function onGetSubjectMatterHdFilterExpression() {
+            var filterExpression = "<%=OnGetSubjectMatterHdFilterExpression() %>";
+            return filterExpression;
+        }
+
+        function onTacSubjectMatterHdButtonSearchClick() {
+            openSearchDialog('subjectmatter', onGetSubjectMatterHdFilterExpression(), function (value) {
+                var filterExpression = onGetSubjectMatterHdFilterExpression() + " AND SubjectMatterCode = '" + value + "'";
+                Methods.getObject('GetSubjectMatterHdList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSubjectMatterHd.setValue(result.SubjectMatterID);
+                        tacSubjectMatterHd.setText(result.SubjectMatterName);
+                    }
+                    else {
+                        tacSubjectMatterHd.setValue('');
+                        tacSubjectMatterHd.setText('');
+                    }
+                    cbpView.PerformCallback('refresh');
+                });
+            });
+
+        }
+
+        function onTacSubjectMatterHdValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
+
+        $('.lnkIndicator a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectBasicCompetency/SubjectBasicCompetencyIndicatorEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectBasicCompetencyID, 'Indikator', 800, 550);
+        });
     </script>
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:200px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+            <td>            
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatterHd" ClientInstanceName="tacSubjectMatterHd" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
+                    SearchFields="SubjectMatterName,SubjectMatterID" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterHdButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacSubjectMatterHdValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox>   
+            </td>
+        </tr> 
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+            <td>
+                <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
+                    <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr> 
+    </table>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
             <fieldset id="fsTrx" style="margin: 0">
-                <input type="hidden" value="" id="hdnEntryID" runat="server" />
+                <input type="hidden" id="hdnEntryID" runat="server" value="" />
                 <table style="width: 100%">
                     <colgroup>
                         <col style="width: 50%" />
@@ -96,30 +152,14 @@
                         <td valign="top">
                             <table>
                                 <colgroup>
-                                    <col style="width: 150px" />
+                                    <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
-                                    <td><asp:TextBox ID="txtPeriodSectionCode" Width="100px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pertemuan Ke")%></label></td>
+                                    <td><asp:TextBox ID="txtMeetingNo" runat="server" Width="80px" CssClass="number" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Tipe")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtPeriodSectionName" Width="300px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai")%></label></td>
-                                    <td><asp:TextBox ID="txtStartDate" CssClass="datepicker" Width="120px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Selesai")%></label></td>
-                                    <td><asp:TextBox ID="txtEndDate" CssClass="datepicker" Width="120px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
+                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Keterangan") %></label></td>
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                                 </tr>
                             </table>
@@ -145,21 +185,14 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="PeriodSectionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="PeriodSectionCode" HeaderText="Kode" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="PeriodSectionName" HeaderText="Nama"/>
-                                <asp:BoundField DataField="StartDateInString" HeaderText="Tanggal Mulai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="EndDateInString" HeaderText="Tanggal Selesai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
+                                <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("PeriodSectionID") %>" bindingfield="PeriodSectionID" />
-                                        <input type="hidden" value="<%#Eval("PeriodSectionCode") %>" bindingfield="PeriodSectionCode" />
-                                        <input type="hidden" value="<%#Eval("GCPeriodSection") %>" bindingfield="GCPeriodSection" />
-                                        <input type="hidden" value="<%#Eval("PeriodSectionName") %>" bindingfield="PeriodSectionName" />
-                                        <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
-                                        <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />
+                                        <input type="hidden" value="<%#Eval("SubjectMeetingPlanHdID") %>" bindingfield="SubjectMeetingPlanHdID" />
+                                        <input type="hidden" value="<%#Eval("MeetingNo") %>" bindingfield="MeetingNo" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

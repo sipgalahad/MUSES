@@ -6,57 +6,46 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using CodeX.Web.Common.UI;
 using CodeX.Data.Model;
-using CodeX.Web.Common;
-using System.Data;
-using CodeX.Data.Core.Dal;
-using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
+using CodeX.Web.Common;
+using CodeX.Common;
 
-namespace CodeX.Muses.Web.StudentManagement.Program
+namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class PeriodSectionEntry : BasePageTrx
+    public partial class SubjectMeetingPlanEntryCtl : BaseViewPopupCtl
     {
-        public override string OnGetMenuCode()
+        public override void InitializeDataControl(string param)
         {
-            return Constant.MenuCode.StudentManagement.SP_SCHOOL_PERIOD_SECTION;
-        }
-        protected override void InitializeDataControl()
-        {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
+            hdnID.Value = param;
+            SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnID.Value));
+            txtHeaderText.Text = string.Format("{0} - {1}", entity.SubjectMatterCode, entity.SubjectMatterName);
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
             Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
             cboGCPeriodSection.SelectedIndex = 0;
 
+            SubjectCompetencyStandardSummary entitySummary = BusinessLayer.GetSubjectCompetencyStandardSummaryList(string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}'", entity.SubjectMatterID, cboGCPeriodSection.Value)).FirstOrDefault();
+            txtHeaderText2.Text = entitySummary.SummaryName;
+
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtPeriodSectionCode, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboGCPeriodSection, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtPeriodSectionName, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtMeetingNo, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
-        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
-        {
-            IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
-        }
-
-        #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCPeriodSectionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID);
-            List<vPeriodSection> lstEntity = BusinessLayer.GetvPeriodSectionList(filterExpression);
-            grdView.DataSource = lstEntity;
+            grdView.DataSource = BusinessLayer.GetSubjectMeetingPlanHdList(string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}' AND IsDeleted = 0 ORDER BY MeetingNo ASC", hdnID.Value, cboGCPeriodSection.Value));
             grdView.DataBind();
         }
 
-        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
         }
-        #endregion
 
         #region Process Detail
-        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected void cbpProcessPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             string result = "";
             string errMessage = "";
@@ -91,13 +80,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(PeriodSection entity)
+        private void ControlToEntity(SubjectMeetingPlanHd entity)
         {
-            entity.PeriodSectionCode = txtPeriodSectionCode.Text;
-            entity.GCPeriodSection = cboGCPeriodSection.Value.ToString();
-            entity.PeriodSectionName = txtPeriodSectionName.Text;
-            entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
-            entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
+            entity.MeetingNo = Convert.ToInt16(txtMeetingNo.Text);
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -105,12 +90,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                PeriodSection entity = new PeriodSection();
+                SubjectMeetingPlanHd entity = new SubjectMeetingPlanHd();
                 ControlToEntity(entity);
-                entity.SchoolPeriodID = AppSession.SchoolPeriodID;
-                entity.GCPeriodSectionStatus = Constant.SchoolPeriodStatus.OPEN;
+                entity.GCPeriodSection = cboGCPeriodSection.Value.ToString();
+                entity.SubjectMatterID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertPeriodSection(entity);
+                BusinessLayer.InsertSubjectMeetingPlanHd(entity);
                 return true;
             }
             catch (Exception ex)
@@ -125,10 +110,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                PeriodSection entity = BusinessLayer.GetPeriodSection(Convert.ToInt32(hdnEntryID.Value));
+                SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePeriodSection(entity);
+                BusinessLayer.UpdateSubjectMeetingPlanHd(entity);
                 return true;
             }
             catch (Exception ex)
@@ -143,10 +128,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                PeriodSection entity = BusinessLayer.GetPeriodSection(Convert.ToInt32(hdnEntryID.Value));
-                entity.GCPeriodSectionStatus = Constant.SchoolPeriodStatus.VOID;
-                entity.LastUpdatedDate = DateTime.Now;
-                BusinessLayer.UpdatePeriodSection(entity);
+                SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnEntryID.Value));
+                entity.IsDeleted = true;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateSubjectMeetingPlanHd(entity);
                 return true;
             }
             catch (Exception ex)

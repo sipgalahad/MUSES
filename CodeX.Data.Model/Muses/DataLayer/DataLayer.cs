@@ -13780,6 +13780,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _PeriodSectionID;
         private String _PeriodSectionCode;
+        private String _GCPeriodSection;
         private String _PeriodSectionName;
         private Int32 _SchoolPeriodID;
         private DateTime _StartDate;
@@ -13802,6 +13803,12 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodSectionCode; }
             set { _PeriodSectionCode = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
         }
         [Column(Name = "PeriodSectionName", DataType = "String")]
         public String PeriodSectionName
@@ -23379,119 +23386,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region SubjectMatterDt
-    [Serializable]
-    [Table(Name = "SubjectMatterDt")]
-    public class SubjectMatterDt : DbDataModel
-    {
-        private Int32 _SubjectMatterDtID;
-        private Int32 _SubjectMatterID;
-        private Int16 _MeetingNo;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "SubjectMatterDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SubjectMatterDtID
-        {
-            get { return _SubjectMatterDtID; }
-            set { _SubjectMatterDtID = value; }
-        }
-        [Column(Name = "SubjectMatterID", DataType = "Int32")]
-        public Int32 SubjectMatterID
-        {
-            get { return _SubjectMatterID; }
-            set { _SubjectMatterID = value; }
-        }
-        [Column(Name = "MeetingNo", DataType = "Int16")]
-        public Int16 MeetingNo
-        {
-            get { return _MeetingNo; }
-            set { _MeetingNo = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class SubjectMatterDtDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SubjectMatterDt));
-        private bool _isAuditLog = false;
-        private const string p_SubjectMatterDtID = "@p_SubjectMatterDtID";
-        public SubjectMatterDtDao() { }
-        public SubjectMatterDtDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SubjectMatterDt Get(Int32 SubjectMatterDtID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SubjectMatterDtID, SubjectMatterDtID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SubjectMatterDt)_helper.DataRowToObject(row, new SubjectMatterDt());
-        }
-        public int Insert(SubjectMatterDt record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SubjectMatterDt record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SubjectMatterDtID)
-        {
-            SubjectMatterDt record;
-            if (_ctx.Transaction == null)
-                record = new SubjectMatterDtDao().Get(SubjectMatterDtID);
-            else
-                record = Get(SubjectMatterDtID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
     #region SubjectMatterHd
     [Serializable]
     [Table(Name = "SubjectMatterHd")]
@@ -23501,7 +23395,6 @@ namespace CodeX.Data.Model
         private String _SubjectMatterCode;
         private String _SubjectMatterName;
         private Int32 _SubjectID;
-        private String _CompetencyStandard;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -23532,12 +23425,6 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectID; }
             set { _SubjectID = value; }
-        }
-        [Column(Name = "CompetencyStandard", DataType = "String", IsNullable = true)]
-        public String CompetencyStandard
-        {
-            get { return _CompetencyStandard; }
-            set { _CompetencyStandard = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -23614,6 +23501,126 @@ namespace CodeX.Data.Model
                 record = new SubjectMatterHdDao().Get(SubjectMatterID);
             else
                 record = Get(SubjectMatterID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubjectMeetingPlanHd
+    [Serializable]
+    [Table(Name = "SubjectMeetingPlanHd")]
+    public class SubjectMeetingPlanHd : DbDataModel
+    {
+        private Int32 _SubjectMeetingPlanHdID;
+        private Int32 _SubjectMatterID;
+        private String _GCPeriodSection;
+        private Int16 _MeetingNo;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SubjectMeetingPlanHdID
+        {
+            get { return _SubjectMeetingPlanHdID; }
+            set { _SubjectMeetingPlanHdID = value; }
+        }
+        [Column(Name = "SubjectMatterID", DataType = "Int32")]
+        public Int32 SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
+        }
+        [Column(Name = "MeetingNo", DataType = "Int16")]
+        public Int16 MeetingNo
+        {
+            get { return _MeetingNo; }
+            set { _MeetingNo = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SubjectMeetingPlanHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectMeetingPlanHd));
+        private bool _isAuditLog = false;
+        private const string p_SubjectMeetingPlanHdID = "@p_SubjectMeetingPlanHdID";
+        public SubjectMeetingPlanHdDao() { }
+        public SubjectMeetingPlanHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectMeetingPlanHd Get(Int32 SubjectMeetingPlanHdID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubjectMeetingPlanHdID, SubjectMeetingPlanHdID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectMeetingPlanHd)_helper.DataRowToObject(row, new SubjectMeetingPlanHd());
+        }
+        public int Insert(SubjectMeetingPlanHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectMeetingPlanHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectMeetingPlanHdID)
+        {
+            SubjectMeetingPlanHd record;
+            if (_ctx.Transaction == null)
+                record = new SubjectMeetingPlanHdDao().Get(SubjectMeetingPlanHdID);
+            else
+                record = Get(SubjectMeetingPlanHdID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

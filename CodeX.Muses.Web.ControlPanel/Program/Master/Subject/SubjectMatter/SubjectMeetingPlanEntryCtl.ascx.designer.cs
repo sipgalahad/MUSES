@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class SubjectMatterDtEntryCtl {
+    public partial class SubjectMeetingPlanEntryCtl {
         
         /// <summary>
         /// hdnID control.
@@ -29,6 +29,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtHeaderText;
+        
+        /// <summary>
+        /// cboGCPeriodSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCPeriodSection;
         
         /// <summary>
         /// txtHeaderText2 control.

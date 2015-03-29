@@ -11095,46 +11095,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region SubjectMatterDt
-        public static SubjectMatterDt GetSubjectMatterDt(Int32 SubjectMatterDtID)
-        {
-            return new SubjectMatterDtDao().Get(SubjectMatterDtID);
-        }
-        public static int InsertSubjectMatterDt(SubjectMatterDt record)
-        {
-            return new SubjectMatterDtDao().Insert(record);
-        }
-        public static int UpdateSubjectMatterDt(SubjectMatterDt record)
-        {
-            return new SubjectMatterDtDao().Update(record);
-        }
-        public static int DeleteSubjectMatterDt(Int32 SubjectMatterDtID)
-        {
-            return new SubjectMatterDtDao().Delete(SubjectMatterDtID);
-        }
-        public static List<SubjectMatterDt> GetSubjectMatterDtList(string filterExpression)
-        {
-            List<SubjectMatterDt> result = new List<SubjectMatterDt>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(SubjectMatterDt));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((SubjectMatterDt)helper.IDataReaderToObject(reader, new SubjectMatterDt()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region SubjectMatterHd
         public static SubjectMatterHd GetSubjectMatterHd(Int32 SubjectMatterID)
         {
@@ -11163,6 +11123,46 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((SubjectMatterHd)helper.IDataReaderToObject(reader, new SubjectMatterHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectMeetingPlanHd
+        public static SubjectMeetingPlanHd GetSubjectMeetingPlanHd(Int32 SubjectMeetingPlanHdID)
+        {
+            return new SubjectMeetingPlanHdDao().Get(SubjectMeetingPlanHdID);
+        }
+        public static int InsertSubjectMeetingPlanHd(SubjectMeetingPlanHd record)
+        {
+            return new SubjectMeetingPlanHdDao().Insert(record);
+        }
+        public static int UpdateSubjectMeetingPlanHd(SubjectMeetingPlanHd record)
+        {
+            return new SubjectMeetingPlanHdDao().Update(record);
+        }
+        public static int DeleteSubjectMeetingPlanHd(Int32 SubjectMeetingPlanHdID)
+        {
+            return new SubjectMeetingPlanHdDao().Delete(SubjectMeetingPlanHdID);
+        }
+        public static List<SubjectMeetingPlanHd> GetSubjectMeetingPlanHdList(string filterExpression)
+        {
+            List<SubjectMeetingPlanHd> result = new List<SubjectMeetingPlanHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMeetingPlanHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMeetingPlanHd)helper.IDataReaderToObject(reader, new SubjectMeetingPlanHd()));
             }
             catch (Exception ex)
             {

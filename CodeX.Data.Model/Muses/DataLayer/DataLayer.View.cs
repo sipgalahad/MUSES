@@ -11431,6 +11431,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _PeriodSectionID;
         private String _PeriodSectionCode;
+        private String _GCPeriodSection;
+        private String _PeriodSection;
         private String _PeriodSectionName;
         private Int32 _SchoolPeriodID;
         private DateTime _StartDate;
@@ -11450,6 +11452,18 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodSectionCode; }
             set { _PeriodSectionCode = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
+        }
+        [Column(Name = "PeriodSection", DataType = "String")]
+        public String PeriodSection
+        {
+            get { return _PeriodSection; }
+            set { _PeriodSection = value; }
         }
         [Column(Name = "PeriodSectionName", DataType = "String")]
         public String PeriodSectionName
@@ -20070,7 +20084,6 @@ namespace CodeX.Data.Model
         private String _SubjectMatterCode;
         private String _SubjectMatterName;
         private Int32 _SubjectID;
-        private String _CompetencyStandard;
         private String _ListClassTypeID;
         private String _ListClassTypeName;
         private String _Remarks;
@@ -20099,12 +20112,6 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectID; }
             set { _SubjectID = value; }
-        }
-        [Column(Name = "CompetencyStandard", DataType = "String")]
-        public String CompetencyStandard
-        {
-            get { return _CompetencyStandard; }
-            set { _CompetencyStandard = value; }
         }
         [Column(Name = "ListClassTypeID", DataType = "String")]
         public String ListClassTypeID

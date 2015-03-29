@@ -162,7 +162,7 @@
         $('.lnkSubjectMatterDt a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMatterDtEntryCtl.ascx");
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMeetingPlanEntryCtl.ascx");
             openUserControlPopup(url, entity.SubjectMatterID, 'Detil Pertemuan', 800, 550);
         });
     </script>
@@ -261,7 +261,6 @@
                                         <input type="hidden" value="<%#Eval("SubjectMatterID") %>" bindingfield="SubjectMatterID" />
                                         <input type="hidden" value="<%#Eval("SubjectMatterCode") %>" bindingfield="SubjectMatterCode" />
                                         <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
-                                        <input type="hidden" value="<%#Eval("CompetencyStandard") %>" bindingfield="CompetencyStandard" />
                                         <input type="hidden" value="<%#Eval("ListClassTypeID") %>" bindingfield="ListClassTypeID" />
                                         <input type="hidden" value="<%#Eval("ListClassTypeName") %>" bindingfield="ListClassTypeName" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
