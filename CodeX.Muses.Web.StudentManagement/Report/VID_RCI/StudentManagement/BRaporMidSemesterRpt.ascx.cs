@@ -15,9 +15,12 @@ namespace CodeX.Muses.Web.StudentManagement.Report
     public partial class BRaporMidSemesterRpt : BaseCustomReportCtl
     {
         private Int32 StudentID = 0;
-        private String lstClassSubjectUlanganID = "";
-        private String lstClassSubjectTugasID = "";
+        //private String lstClassSubjectUlanganID = "";
+        //private String lstClassSubjectTugasID = "";
         List<vClassSubjectTask> lstClassSubjectTask = null;
+        List<ClassStudentSubjectTaskMark> lstNilai = null;
+        //List<ClassStudentSubjectTaskMark> lstNilaiTugas = null;
+
         int MaxUlangan = 0;
         int MaxTugas = 0;
         
@@ -61,11 +64,24 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         
         public override void Bind(string filterExpression, string[] param)
         {
+            #region Initialization
+            StudentID = 1;
+
+            vClassStudent student = BusinessLayer.GetvClassStudentList(String.Format("StudentID = {0} AND GCClassStudyType = '{1}'", StudentID, Constant.ClassStudyType.REGULAR))[0];
+            tdStudentName.InnerHtml = student.StudentName;
+            tdNIS.InnerHtml = student.StudentCode;
+            tdClass.InnerHtml = String.Format("{0} / {1}", student.SchoolClassName, student.PeriodSectionName);
+            tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
+
+            Site site = BusinessLayer.GetSite(AppSession.UserLogin.SiteID);
+            tdSchoolName.InnerHtml = site.SiteName;
+
             List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolClassID = 1 AND SchoolPeriodID = 2 AND IsDeleted = 0"));
             String lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
             lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
 
-            StudentID = 1;
+            lstNilai = BusinessLayer.GetClassStudentSubjectTaskMarkList(String.Format("StudentID = {0}", StudentID)).OrderBy(x => x.ClassSubjectTaskID).ToList();
+            #endregion
 
             #region header ulangan
             var temp = lstClassSubjectTask.Where(m => m.GCTaskType == Constant.TaskType.ULANGAN).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
@@ -76,8 +92,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 lstDataHeader.Add(String.Format("{0}", i + 1));
             }
-            lstDataHeader.Add("Rata-Rata");
-            tdUlangan.ColSpan = MaxUlangan + 1;
+            //lstDataHeader.Add("Rata-Rata");
+            //tdUlangan.ColSpan = MaxUlangan + 1;
+            tdUlangan.ColSpan = MaxUlangan;
 
             rptUlanganHeader.DataSource = lstDataHeader;
             rptUlanganHeader.DataBind();
@@ -92,8 +109,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 lstDataHeader.Add(String.Format("{0}", i + 1));
             }
-            lstDataHeader.Add("Rata-Rata");
-            tdTugas.ColSpan = MaxTugas + 1;
+            //lstDataHeader.Add("Rata-Rata");
+            //tdTugas.ColSpan = MaxTugas + 1;
+            tdTugas.ColSpan = MaxTugas;
 
             rptTugasHeader.DataSource = lstDataHeader;
             rptTugasHeader.DataBind();
@@ -110,19 +128,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
 
                 #region Detail Ulangan
-                lstClassSubjectUlanganID = String.Join(",", lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID &&  m.GCTaskType == Constant.TaskType.ULANGAN).Select(x => x.ClassSubjectTaskID));
-                List<ClassStudentSubjectTaskMark> lstNilaiUlangan = null;
+                List<Int32> lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && m.GCTaskType == Constant.TaskType.ULANGAN).Select(x => x.ClassSubjectTaskID).ToList();
                 List<String> lstDetailUlangan = new List<String>();
-                if(lstClassSubjectUlanganID != "")
+                if (lstCS.Count() > 0)
                 {
-                    lstNilaiUlangan = BusinessLayer.GetClassStudentSubjectTaskMarkList(String.Format("StudentID = {0} AND ClassSubjectTaskID IN ({1})", StudentID, lstClassSubjectUlanganID)).OrderBy(x => x.ClassSubjectTaskID).ToList();
-                    foreach (ClassStudentSubjectTaskMark obj in lstNilaiUlangan) lstDetailUlangan.Add(obj.Mark.ToString("N"));
+                    foreach (Int32 obj in lstCS)
+                    {
+                        ClassStudentSubjectTaskMark cssEntity = lstNilai.FirstOrDefault(x => x.ClassSubjectTaskID == obj);
+                        if (cssEntity != null) lstDetailUlangan.Add(cssEntity.Mark.ToString("N"));
+                        else { lstDetailUlangan.Add("-"); }
+                    }
                 }
-                Decimal average = 0;
-                if(lstDetailUlangan.Count > 0) average = lstDetailUlangan.Average(x => Convert.ToDecimal(x));
+                //Decimal average = 0;
+                //if(lstDetailUlangan.Count > 0) average = lstDetailUlangan.Average(x => Convert.ToDecimal(x));
                 if (lstDetailUlangan.Count < MaxUlangan) for (int i = lstDetailUlangan.Count; i < MaxUlangan; i++) lstDetailUlangan.Add("-");
-                if (average != 0) lstDetailUlangan.Add(average.ToString("N"));
-                else lstDetailUlangan.Add("-");
+                //if (average != 0) lstDetailUlangan.Add(average.ToString("N"));
+                //else lstDetailUlangan.Add("-");
 
                 Repeater rptUlanganDetail = (Repeater)e.Item.FindControl("rptUlanganDetail");
                 rptUlanganDetail.DataSource = lstDetailUlangan;
@@ -130,32 +151,42 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 #endregion
 
                 #region Detail Tugas
-                lstClassSubjectTugasID = String.Join(",", lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH)).Select(x => x.ClassSubjectTaskID));
-                List<ClassStudentSubjectTaskMark> lstNilaiTugas = null;
+                //lstClassSubjectTugasID = String.Join(",", lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH)).Select(x => x.ClassSubjectTaskID));
+                lstCS.Clear();
+                lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH)).Select(x => x.ClassSubjectTaskID).ToList();
                 List<String> lstDetailTugas = new List<String>();
-                if (lstClassSubjectTugasID != "")
+
+                if (lstCS.Count() > 0)
                 {
-                    lstNilaiTugas = BusinessLayer.GetClassStudentSubjectTaskMarkList(String.Format("StudentID = {0} AND ClassSubjectTaskID IN ({1})", StudentID, lstClassSubjectTugasID));
-                    foreach (ClassStudentSubjectTaskMark obj in lstNilaiTugas) lstDetailTugas.Add(obj.Mark.ToString("N"));
+                    foreach (Int32 obj in lstCS) 
+                    {
+                        ClassStudentSubjectTaskMark cssEntity = lstNilai.FirstOrDefault(x => x.ClassSubjectTaskID == obj);
+                        if (cssEntity != null) lstDetailTugas.Add(cssEntity.Mark.ToString("N"));
+                        else { lstDetailTugas.Add("-"); }
+                    } 
                 }
-                average = 0;
-                if (lstDetailTugas.Count > 0) average = lstDetailTugas.Average(x => Convert.ToDecimal(x));
+                //average = 0;
+                //if (lstDetailTugas.Count > 0) average = lstDetailTugas.Average(x => Convert.ToDecimal(x));
                 if (lstDetailTugas.Count < MaxTugas) for (int i = lstDetailTugas.Count; i < MaxTugas; i++) lstDetailTugas.Add("-");
-                if (average != 0) lstDetailTugas.Add(average.ToString("N"));
-                else lstDetailTugas.Add("-");
+                //if (average != 0) lstDetailTugas.Add(average.ToString("N"));
+                //else lstDetailTugas.Add("-");
 
                 Repeater rptTugasDetail = (Repeater)e.Item.FindControl("rptTugasDetail");
                 rptTugasDetail.DataSource = lstDetailTugas;
                 rptTugasDetail.DataBind();
                 #endregion
 
+                #region UTS
                 HtmlTableCell tdDetailUTS = e.Item.FindControl("tdDetailUTS") as HtmlTableCell;
                 vClassSubjectTask entityCST = lstClassSubjectTask.FirstOrDefault(x => x.GCTaskType == Constant.TaskType.UTS);
-                if (entityCST != null) tdDetailUTS.InnerHtml = BusinessLayer.GetClassStudentSubjectTaskMark(entityCST.ClassSubjectTaskID, StudentID).Mark.ToString("N2");
-                else tdDetailUTS.InnerHtml = "0.00";
+                if (entityCST != null) tdDetailUTS.InnerHtml =  lstNilai.FirstOrDefault(x => x.ClassSubjectTaskID == entityCST.ClassSubjectTaskID).Mark.ToString("N2");
+                else tdDetailUTS.InnerHtml = "-";
+                #endregion
 
+                #region Final Score
                 HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
-                tdFinalScore.InnerHtml = "0.00";
+                tdFinalScore.InnerHtml = "-";
+                #endregion
             }
         }
     }

@@ -1755,6 +1755,16 @@ namespace CodeX.Data.Model
     public partial class vClassStudent
     {
         private Int32 _SchoolClassID;
+        private Int32 _StudentSchoolClassID;
+        private String _SchoolClassName;
+        private String _GCClassStudyType;
+        private String _ClassStudyType;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCMajor;
+        private String _Major;
+        private String _SchoolPeriodName;
+        private String _PeriodSectionName;
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
@@ -1768,6 +1778,66 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolClassID; }
             set { _SchoolClassID = value; }
+        }
+        [Column(Name = "StudentSchoolClassID", DataType = "Int32")]
+        public Int32 StudentSchoolClassID
+        {
+            get { return _StudentSchoolClassID; }
+            set { _StudentSchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "ClassStudyType", DataType = "String")]
+        public String ClassStudyType
+        {
+            get { return _ClassStudyType; }
+            set { _ClassStudyType = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
+        }
+        [Column(Name = "PeriodSectionName", DataType = "String")]
+        public String PeriodSectionName
+        {
+            get { return _PeriodSectionName; }
+            set { _PeriodSectionName = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID

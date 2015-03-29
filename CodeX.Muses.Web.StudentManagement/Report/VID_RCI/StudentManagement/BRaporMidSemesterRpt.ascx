@@ -18,17 +18,17 @@
                     <tr>
                         <td>Nama Peserta Didik</td>
                         <td>:</td>
-                        <td></td>
+                        <td id="tdStudentName" runat="server"></td>
                     </tr>
                     <tr>
                         <td>Nomor Induk</td>
                         <td>:</td>
-                        <td></td>
+                        <td id="tdNIS" runat="server"></td>
                     </tr>
                     <tr>
                         <td>Nama Sekolah</td>
                         <td>:</td>
-                        <td></td>
+                        <td id="tdSchoolName" runat="server"></td>
                     </tr>
                 </table>
             </td>
@@ -42,12 +42,12 @@
                     <tr>
                         <td>Kelas / Semester</td>
                         <td>:</td>
-                        <td></td>
+                        <td id="tdClass" runat="server"></td>
                     </tr>
                     <tr>
                         <td>Tahun Pelajaran</td>
                         <td>:</td>
-                        <td></td>
+                        <td id="tdSchoolPeriod" runat="server"></td>
                     </tr>
                 </table>
             </td>
@@ -86,7 +86,7 @@
                 <tr>
                     <td align="center" style="width:50px;"><%# Container.ItemIndex + 1 %></td>
                     <td><%#:Eval("SubjectName") %></td>
-                    <td align="right"><%#:Eval("PassingGrade") %></td>
+                    <td align="right"><%#:Eval("PassingGrade","{0:N}") %></td>
                     <asp:Repeater runat="server" ID="rptUlanganDetail">
                         <ItemTemplate>
                             <td align="right"><%#: Container.DataItem.ToString() %></td>

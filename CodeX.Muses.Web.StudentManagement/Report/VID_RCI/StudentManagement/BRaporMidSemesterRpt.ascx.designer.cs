@@ -22,6 +22,51 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportHeader;
         
         /// <summary>
+        /// tdStudentName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdStudentName;
+        
+        /// <summary>
+        /// tdNIS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdNIS;
+        
+        /// <summary>
+        /// tdSchoolName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolName;
+        
+        /// <summary>
+        /// tdClass control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdClass;
+        
+        /// <summary>
+        /// tdSchoolPeriod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolPeriod;
+        
+        /// <summary>
         /// divReportBody control.
         /// </summary>
         /// <remarks>
