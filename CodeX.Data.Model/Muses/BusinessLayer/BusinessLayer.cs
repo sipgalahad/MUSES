@@ -1228,6 +1228,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassStudentDailyAttendance
+        public static ClassStudentDailyAttendance GetClassStudentDailyAttendance(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID, DateTime SchoolDate)
+        {
+            return new ClassStudentDailyAttendanceDao().Get(SchoolClassID, PeriodSectionID, StudentID, SchoolDate);
+        }
+        public static int InsertClassStudentDailyAttendance(ClassStudentDailyAttendance record)
+        {
+            return new ClassStudentDailyAttendanceDao().Insert(record);
+        }
+        public static int UpdateClassStudentDailyAttendance(ClassStudentDailyAttendance record)
+        {
+            return new ClassStudentDailyAttendanceDao().Update(record);
+        }
+        public static int DeleteClassStudentDailyAttendance(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID, DateTime SchoolDate)
+        {
+            return new ClassStudentDailyAttendanceDao().Delete(SchoolClassID, PeriodSectionID, StudentID, SchoolDate);
+        }
+        public static List<ClassStudentDailyAttendance> GetClassStudentDailyAttendanceList(string filterExpression)
+        {
+            List<ClassStudentDailyAttendance> result = new List<ClassStudentDailyAttendance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentDailyAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentDailyAttendance)helper.IDataReaderToObject(reader, new ClassStudentDailyAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentDailyAttendance> GetClassStudentDailyAttendanceList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentDailyAttendance> result = new List<ClassStudentDailyAttendance>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentDailyAttendance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentDailyAttendance)helper.IDataReaderToObject(reader, new ClassStudentDailyAttendance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassStudentMark
         public static ClassStudentMark GetClassStudentMark(Int32 SchoolClassID, Int32 PeriodSectionID, Int32 StudentID)
         {

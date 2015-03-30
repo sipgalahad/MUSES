@@ -463,6 +463,7 @@ namespace CodeX.Common
                 public const string SCHOOL_PERIOD_CLOSING = "SM040600";
                 public const string TEACHER_MARK_GROUP = "SM040700";
                 public const string EXTRACURRICULAR_WEEKLY_SCHEDULE = "SM040800";
+                public const string STUDENT_DAILY_ATTENDANCE = "SM040900";
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
