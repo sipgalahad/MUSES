@@ -14,11 +14,17 @@
     <script type="text/javascript">
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
-                $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtMeetingNo.ClientID %>').val('');
-                $('#<%=txtRemarks.ClientID %>').val('');
+                if (IsValid(evt, 'fsFilter', 'mpFilter')) {
+                    $('#<%=hdnEntryID.ClientID %>').val('');
+                    $('#<%=txtMeetingNo.ClientID %>').val('');
+                    $('#<%=txtRemarks.ClientID %>').val('');
+                    lstBasicCompetencyID = '';
+                    cboCompetencyStandard.SetValue('');
+                    ddeBasicCompetency.SetText('');
+                    cbpBasicCompetency.PerformCallback('refresh');
 
-                $('#entryDetailContainer').show();
+                    $('#entryDetailContainer').show();
+                }
             });
 
             $('#btnCancel').click(function () {
@@ -26,7 +32,7 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
+                if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
         });
@@ -50,10 +56,15 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMeetingPlanHdID);
             $('#<%=txtMeetingNo.ClientID %>').val(entity.MeetingNo);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+            lstBasicCompetencyID = entity.ListSubjectBasicCompetencyID;
+            cboCompetencyStandard.SetValue(entity.SubjectCompetencyStandardID);
+            cbpBasicCompetency.PerformCallback('refresh');
             $('#entryDetailContainer').show();
         });
 
         //#endregion
+
+        var lstBasicCompetencyID = '';
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
@@ -97,6 +108,7 @@
                         tacSubjectMatterHd.setValue('');
                         tacSubjectMatterHd.setText('');
                     }
+                    cboCompetencyStandard.PerformCallback();
                     cbpView.PerformCallback('refresh');
                 });
             });
@@ -104,41 +116,80 @@
         }
 
         function onTacSubjectMatterHdValueChanged() {
+            cboCompetencyStandard.PerformCallback();
             cbpView.PerformCallback('refresh');
         }
         //#endregion
+
+        $('.chkBasicCompetency input').live('change', function () {
+            setDdeBasicCompetencyText();
+        });
+
+        function setDdeBasicCompetencyText() {
+            var lstID = '';
+            var lstName = '';
+            $('.chkBasicCompetency input:checked').each(function () {
+                if (lstName != '') {
+                    lstName += ', ';
+                    lstID += ',';
+                }
+                lstID += $(this).parent().attr('id');
+                lstName += $(this).parent().attr('name');
+            });
+            $('#<%=hdnLstBasicCompetencyID.ClientID %>').val(lstID);
+            ddeBasicCompetency.SetText(lstName);
+        }
+
+        function onCbpBasicCompetencyEndCallback() {
+            var lst = lstBasicCompetencyID.split(',');
+            for (var i = 0; i < lst.length; ++i) {
+                $('.chkBasicCompetency').each(function () {
+                    if ($(this).attr('id') == lst[i])
+                        $(this).find('input').prop('checked', true);
+                });
+            }
+            setDdeBasicCompetencyText();
+            hideLoadingPanel();
+        }
+
+        function onCboCompetencyStandardValueChanged() {
+            cbpBasicCompetency.PerformCallback('refresh');
+        }
 
         $('.lnkIndicator a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             var url = ResolveUrl("~/Program/Master/Subject/SubjectMeetingPlan/SubjectMeetingPlanIndicatorEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectMeetingPlanHdID, 'Indikator', 1000, 550);
+            openUserControlPopup(url, entity.SubjectMeetingPlanHdID, 'Indikator', 1100, 550);
         });
     </script>
-    <table class="tblEntryContent" style="width:70%">
-        <colgroup>
-            <col style="width:200px"/>
-            <col/>
-        </colgroup>
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
-            <td>            
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatterHd" ClientInstanceName="tacSubjectMatterHd" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
-                    SearchFields="SubjectMatterName,SubjectMatterID" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterHdButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacSubjectMatterHdValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
-            </td>
-        </tr> 
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
-            <td>
-                <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
-                    <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
-                </dxe:ASPxComboBox>
-            </td>
-        </tr> 
-    </table>
+    <input type="hidden" id="hdnLstBasicCompetencyID" value="" runat="server" />
+    <fieldset id="fsFilter">
+        <table class="tblEntryContent" style="width:70%">
+            <colgroup>
+                <col style="width:200px"/>
+                <col/>
+            </colgroup>
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+                <td>            
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatterHd" ClientInstanceName="tacSubjectMatterHd" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
+                        SearchFields="SubjectMatterName,SubjectMatterID" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterHdButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacSubjectMatterHdValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr> 
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+                <td>
+                    <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
+                        <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr> 
+        </table>
+    </fieldset>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -157,6 +208,48 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pertemuan Ke")%></label></td>
                                     <td><asp:TextBox ID="txtMeetingNo" runat="server" Width="80px" CssClass="number" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Standar Kompetensi")%></label></td>
+                                    <td>
+                                        <dxe:ASPxComboBox ID="cboCompetencyStandard" ClientInstanceName="cboCompetencyStandard" runat="server" Width="200px" OnCallback="cboCompetencyStandard_Callback">
+                                            <ClientSideEvents ValueChanged="function(s,e){ onCboCompetencyStandardValueChanged() }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kompetensi Dasar")%></label></td>
+                                    <td>
+                                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeBasicCompetency" ID="ddeBasicCompetency"
+                                            Width="500px" runat="server" EnableAnimation="False">
+                                            <DropDownWindowStyle BackColor="#EDEDED" />
+                                            <DropDownWindowTemplate>
+                                                <dxcp:ASPxCallbackPanel ID="cbpBasicCompetency" runat="server" Width="100%" ClientInstanceName="cbpBasicCompetency"
+                                                    ShowLoadingPanel="false" OnCallback="cbpBasicCompetency_Callback">
+                                                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
+                                                        EndCallback="function(s,e){ onCbpBasicCompetencyEndCallback(); }" />
+                                                    <PanelCollection>
+                                                        <dx:PanelContent ID="PanelContent1" runat="server">
+                                                            <asp:Panel runat="server" ID="pnlView" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                                                position: relative;">
+                                                                <asp:GridView ID="grdBasicCompetency" runat="server" CssClass="grdSelected grdBorder" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdBasicCompetency_RowDataBound">
+                                                                    <Columns>
+                                                                        <asp:TemplateField HeaderStyle-Width="30px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                                                            <ItemTemplate>
+                                                                                <asp:CheckBox ID="chkBasicCompetency" CssClass="chkBasicCompetency" runat="server"  />         
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:BoundField DataField="SubjectCompetencyStandardName" HeaderText="Standar Kompetensi" HeaderStyle-Width="150px" />
+                                                                        <asp:BoundField DataField="SubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" />
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </asp:Panel>
+                                                        </dx:PanelContent>
+                                                    </PanelCollection>
+                                                </dxcp:ASPxCallbackPanel>
+                                            </DropDownWindowTemplate>
+                                        </dxe:ASPxDropDownEdit>                                        
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblMandatory"><%=GetLabel("Keterangan") %></label></td>
@@ -185,7 +278,9 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="SubjectCompetencyStandardName" HeaderText="Standar Kompetensi" HeaderStyle-Width="180px" />
+                                <asp:BoundField DataField="ListSubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:HyperLinkField HeaderText="Indikator" Text="Indikator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
@@ -195,6 +290,9 @@
                                         <input type="hidden" value="<%#Eval("SubjectMeetingPlanHdID") %>" bindingfield="SubjectMeetingPlanHdID" />
                                         <input type="hidden" value="<%#Eval("MeetingNo") %>" bindingfield="MeetingNo" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
+                                        <input type="hidden" value="<%#Eval("SubjectCompetencyStandardID") %>" bindingfield="SubjectCompetencyStandardID" />
+                                        <input type="hidden" value="<%#Eval("ListSubjectBasicCompetencyID") %>" bindingfield="ListSubjectBasicCompetencyID" />
+                                        <input type="hidden" value="<%#Eval("ListSubjectBasicCompetencyName") %>" bindingfield="ListSubjectBasicCompetencyName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

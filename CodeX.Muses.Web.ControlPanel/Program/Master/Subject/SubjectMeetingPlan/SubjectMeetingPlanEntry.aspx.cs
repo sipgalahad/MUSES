@@ -34,8 +34,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
+            Helper.SetControlEntrySetting(tacSubjectMatterHd, new ControlEntrySetting(true, true, true), "mpFilter");
+            Helper.SetControlEntrySetting(cboGCPeriodSection, new ControlEntrySetting(true, true, true), "mpFilter");
+
             Helper.SetControlEntrySetting(txtMeetingNo, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboCompetencyStandard, new ControlEntrySetting(true, true, true), "mpTrxPopup");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+        }
+
+        protected void cboCompetencyStandard_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string filterExpression = "1 = 0";
+            if (tacSubjectMatterHd.Value != "")
+                filterExpression = string.Format("SubjectMatterID = {0} AND IsDeleted = 0", tacSubjectMatterHd.Value);
+            List<SubjectCompetencyStandard> lstCompetencyStandard = BusinessLayer.GetSubjectCompetencyStandardList(filterExpression);
+            Methods.SetComboBoxField<SubjectCompetencyStandard>(cboCompetencyStandard, lstCompetencyStandard, "SubjectCompetencyStandardName", "SubjectCompetencyStandardID");
+            cboCompetencyStandard.SelectedIndex = 0;
         }
 
 
@@ -44,13 +58,37 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
         }
 
+        protected void cbpBasicCompetency_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            string filterExpression = "1 = 0";
+            if (cboCompetencyStandard.Value != null)
+                filterExpression = string.Format("SubjectCompetencyStandardID = {0} AND IsDeleted = 0", cboCompetencyStandard.Value);
+            List<vSubjectBasicCompetency> lstBasicCompetency = BusinessLayer.GetvSubjectBasicCompetencyList(filterExpression);
+
+            ASPxCallbackPanel cbpBasicCompetency = (ASPxCallbackPanel)ddeBasicCompetency.FindControl("cbpBasicCompetency");
+            GridView grdBasicCompetency = (GridView)cbpBasicCompetency.FindControl("grdBasicCompetency");
+            grdBasicCompetency.DataSource = lstBasicCompetency;
+            grdBasicCompetency.DataBind();
+        }
+
+        protected void grdBasicCompetency_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vSubjectBasicCompetency entity = (vSubjectBasicCompetency)e.Row.DataItem;
+                CheckBox chkBasicCompetency = (CheckBox)e.Row.FindControl("chkBasicCompetency");
+                chkBasicCompetency.Attributes.Add("id", entity.SubjectBasicCompetencyID.ToString());
+                chkBasicCompetency.Attributes.Add("name", entity.SubjectBasicCompetencyName);
+            }
+        }
+
         #region Bind Grid View
         private void BindGridView()
         {
             string filterExpression = "1 = 0";
             if (tacSubjectMatterHd.Value != "")
                 filterExpression = string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}' AND IsDeleted = 0 ORDER BY MeetingNo ASC", tacSubjectMatterHd.Value, cboGCPeriodSection.Value);
-            grdView.DataSource = BusinessLayer.GetSubjectMeetingPlanHdList(filterExpression);
+            grdView.DataSource = BusinessLayer.GetvSubjectMeetingPlanHdList(filterExpression);
             grdView.DataBind();
         }
 
@@ -104,6 +142,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            SubjectMeetingPlanHdDao entityDao = new SubjectMeetingPlanHdDao(ctx);
+            SubjectMeetingPlanBasicCompetencyDao entityBasicCompDao = new SubjectMeetingPlanBasicCompetencyDao(ctx);
             try
             {
                 SubjectMeetingPlanHd entity = new SubjectMeetingPlanHd();
@@ -111,33 +153,85 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.GCPeriodSection = cboGCPeriodSection.Value.ToString();
                 entity.SubjectMatterID = Convert.ToInt32(tacSubjectMatterHd.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectMeetingPlanHd(entity);
-                return true;
+                entityDao.Insert(entity);
+
+                entity.SubjectMeetingPlanHdID = BusinessLayer.GetSubjectMeetingPlanHdMaxID(ctx);
+
+                string[] lstBasicCompetencyID = hdnLstBasicCompetencyID.Value.Split(',');
+                foreach (string basicCompetencyID in lstBasicCompetencyID)
+                {
+                    SubjectMeetingPlanBasicCompetency entityDt = new SubjectMeetingPlanBasicCompetency();
+                    entityDt.SubjectMeetingPlanID = entity.SubjectMeetingPlanHdID;
+                    entityDt.BasicCompetencyID = Convert.ToInt32(basicCompetencyID);
+                    entityBasicCompDao.Insert(entityDt);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            SubjectMeetingPlanHdDao entityDao = new SubjectMeetingPlanHdDao(ctx);
+            SubjectMeetingPlanBasicCompetencyDao entityBasicCompDao = new SubjectMeetingPlanBasicCompetencyDao(ctx);
             try
             {
-                SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnEntryID.Value));
+                SubjectMeetingPlanHd entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMeetingPlanHd(entity);
-                return true;
+                entityDao.Update(entity);
+
+                List<SubjectMeetingPlanBasicCompetency> lstEntityDt = BusinessLayer.GetSubjectMeetingPlanBasicCompetencyList(string.Format("SubjectMeetingPlanID = {0}", entity.SubjectMeetingPlanHdID), ctx);
+                if (hdnLstBasicCompetencyID.Value != "")
+                {
+                    string[] lstBasicCompetencyID = hdnLstBasicCompetencyID.Value.Split(',');
+                    foreach (string basicCompetencyID in lstBasicCompetencyID)
+                    {
+                        SubjectMeetingPlanBasicCompetency entityDt = lstEntityDt.FirstOrDefault(p => p.BasicCompetencyID.ToString() == basicCompetencyID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new SubjectMeetingPlanBasicCompetency();
+                            entityDt.SubjectMeetingPlanID = entity.SubjectMeetingPlanHdID;
+                            entityDt.BasicCompetencyID = Convert.ToInt32(basicCompetencyID);
+                            entityBasicCompDao.Insert(entityDt);
+                        }
+                        else
+                            lstEntityDt.Remove(entityDt);
+                    }
+                }
+                foreach (SubjectMeetingPlanBasicCompetency entityDt in lstEntityDt)
+                {
+                    entityBasicCompDao.Delete(entityDt.SubjectMeetingPlanID, entityDt.BasicCompetencyID);
+                }
+
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnDeleteEntityDt(ref string errMessage)

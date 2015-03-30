@@ -14,7 +14,7 @@
         $trFilter = $("<tr><td></td><td></td><td></td></tr>");
 
         $input = $("<input type='text' id='txtFilterItemName' style='width:100%;height:20px' />").val($('#<%=hdnFilterItemName.ClientID %>').val());
-        $trFilter.find('td').eq(1).append($input);
+        $trFilter.find('td').eq(2).append($input);
         $trFilter.insertAfter($trHeader);
     }
 
@@ -159,8 +159,8 @@
     </table>
     <table style="width:100%">
         <colgroup>
-            <col style="width:50%"/>
-            <col style="width:50%"/>
+            <col style="width:65%"/>
+            <col style="width:35%"/>
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
@@ -181,7 +181,8 @@
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:BoundField DataField="SubjectBasicCompetencyIndicatorName" HeaderText="Nama" ItemStyle-CssClass="tdSubjectBasicCompetencyIndicatorName" />
+                                        <asp:BoundField DataField="SubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" ItemStyle-CssClass="tdSubjectBasicCompetencyName" HeaderStyle-Width="240px" />
+                                        <asp:BoundField DataField="SubjectBasicCompetencyIndicatorName" HeaderText="Indikator" ItemStyle-CssClass="tdSubjectBasicCompetencyIndicatorName" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
@@ -203,7 +204,7 @@
                     <table id="tblSelectedItem" class="grdView notAllowSelect" cellspacing="0" rules="all" >
                         <tr id="trHeader2">
                             <th style="width:40px">&nbsp;</th>
-                            <th align="center"><%=GetLabel("Nama")%></th> 
+                            <th align="center"><%=GetLabel("Indikator")%></th> 
                         </tr>
                         <asp:Repeater ID="rptSelected" runat="server">
                             <ItemTemplate>

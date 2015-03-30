@@ -23506,6 +23506,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SubjectMeetingPlanBasicCompetency
+    [Serializable]
+    [Table(Name = "SubjectMeetingPlanBasicCompetency")]
+    public class SubjectMeetingPlanBasicCompetency : DbDataModel
+    {
+        private Int32 _SubjectMeetingPlanID;
+        private Int32 _BasicCompetencyID;
+
+        [Column(Name = "SubjectMeetingPlanID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectMeetingPlanID
+        {
+            get { return _SubjectMeetingPlanID; }
+            set { _SubjectMeetingPlanID = value; }
+        }
+        [Column(Name = "BasicCompetencyID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BasicCompetencyID
+        {
+            get { return _BasicCompetencyID; }
+            set { _BasicCompetencyID = value; }
+        }
+    }
+
+    public class SubjectMeetingPlanBasicCompetencyDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectMeetingPlanBasicCompetency));
+        private bool _isAuditLog = false;
+        private const string p_BasicCompetencyID = "@p_BasicCompetencyID";
+        private const string p_SubjectMeetingPlanID = "@p_SubjectMeetingPlanID";
+        public SubjectMeetingPlanBasicCompetencyDao() { }
+        public SubjectMeetingPlanBasicCompetencyDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectMeetingPlanBasicCompetency Get(Int32 SubjectMeetingPlanID, Int32 BasicCompetencyID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BasicCompetencyID, BasicCompetencyID);
+            _ctx.Add(p_SubjectMeetingPlanID, SubjectMeetingPlanID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectMeetingPlanBasicCompetency)_helper.DataRowToObject(row, new SubjectMeetingPlanBasicCompetency());
+        }
+        public int Insert(SubjectMeetingPlanBasicCompetency record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectMeetingPlanBasicCompetency record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectMeetingPlanID, Int32 BasicCompetencyID)
+        {
+            SubjectMeetingPlanBasicCompetency record;
+            if (_ctx.Transaction == null)
+                record = new SubjectMeetingPlanBasicCompetencyDao().Get(SubjectMeetingPlanID, BasicCompetencyID);
+            else
+                record = Get(SubjectMeetingPlanID, BasicCompetencyID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SubjectMeetingPlanHd
     [Serializable]
     [Table(Name = "SubjectMeetingPlanHd")]

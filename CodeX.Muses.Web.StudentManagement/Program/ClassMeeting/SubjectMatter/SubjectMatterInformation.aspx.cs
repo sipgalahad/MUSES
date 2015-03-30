@@ -35,7 +35,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             string filterExpression = string.Format("SubjectMatterID = {0} AND IsDeleted = 0", classSubject.SubjectMatterID);
-            grdView.DataSource = BusinessLayer.GetSubjectMeetingPlanHdList(filterExpression);
+            grdView.DataSource = BusinessLayer.GetvSubjectMeetingPlanHdList(filterExpression);
             grdView.DataBind();
         }
 

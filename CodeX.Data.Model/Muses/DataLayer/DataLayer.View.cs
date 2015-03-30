@@ -20060,6 +20060,106 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSubjectBasicCompetency
+    [Serializable]
+    [Table(Name = "vSubjectBasicCompetency")]
+    public class vSubjectBasicCompetency
+    {
+        private Int32 _SubjectBasicCompetencyID;
+        private Int32 _SubjectCompetencyStandardID;
+        private String _SubjectCompetencyStandardName;
+        private String _SubjectBasicCompetencyName;
+        private String _StudySource;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
+        public Int32 SubjectBasicCompetencyID
+        {
+            get { return _SubjectBasicCompetencyID; }
+            set { _SubjectBasicCompetencyID = value; }
+        }
+        [Column(Name = "SubjectCompetencyStandardID", DataType = "Int32")]
+        public Int32 SubjectCompetencyStandardID
+        {
+            get { return _SubjectCompetencyStandardID; }
+            set { _SubjectCompetencyStandardID = value; }
+        }
+        [Column(Name = "SubjectCompetencyStandardName", DataType = "String")]
+        public String SubjectCompetencyStandardName
+        {
+            get { return _SubjectCompetencyStandardName; }
+            set { _SubjectCompetencyStandardName = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyName", DataType = "String")]
+        public String SubjectBasicCompetencyName
+        {
+            get { return _SubjectBasicCompetencyName; }
+            set { _SubjectBasicCompetencyName = value; }
+        }
+        [Column(Name = "StudySource", DataType = "String")]
+        public String StudySource
+        {
+            get { return _StudySource; }
+            set { _StudySource = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSubjectBasicCompetencyIndicator
+    [Serializable]
+    [Table(Name = "vSubjectBasicCompetencyIndicator")]
+    public class vSubjectBasicCompetencyIndicator
+    {
+        private Int32 _SubjectBasicCompetencyIndicatorID;
+        private Int32 _SubjectBasicCompetencyID;
+        private String _SubjectBasicCompetencyName;
+        private String _SubjectBasicCompetencyIndicatorName;
+        private Int16 _DisplayOrder;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectBasicCompetencyIndicatorID", DataType = "Int32")]
+        public Int32 SubjectBasicCompetencyIndicatorID
+        {
+            get { return _SubjectBasicCompetencyIndicatorID; }
+            set { _SubjectBasicCompetencyIndicatorID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
+        public Int32 SubjectBasicCompetencyID
+        {
+            get { return _SubjectBasicCompetencyID; }
+            set { _SubjectBasicCompetencyID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyName", DataType = "String")]
+        public String SubjectBasicCompetencyName
+        {
+            get { return _SubjectBasicCompetencyName; }
+            set { _SubjectBasicCompetencyName = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyIndicatorName", DataType = "String")]
+        public String SubjectBasicCompetencyIndicatorName
+        {
+            get { return _SubjectBasicCompetencyIndicatorName; }
+            set { _SubjectBasicCompetencyIndicatorName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vSubjectClassType
     [Serializable]
     [Table(Name = "vSubjectClassType")]
@@ -20194,6 +20294,91 @@ namespace CodeX.Data.Model
         {
             get { return _ListClassTypeName; }
             set { _ListClassTypeName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSubjectMeetingPlanHd
+    [Serializable]
+    [Table(Name = "vSubjectMeetingPlanHd")]
+    public class vSubjectMeetingPlanHd
+    {
+        private Int32 _SubjectMeetingPlanHdID;
+        private Int32 _SubjectMatterID;
+        private String _GCPeriodSection;
+        private String _PeriodSection;
+        private Int16 _MeetingNo;
+        private Int32 _SubjectCompetencyStandardID;
+        private String _SubjectCompetencyStandardName;
+        private String _ListSubjectBasicCompetencyID;
+        private String _ListSubjectBasicCompetencyName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32")]
+        public Int32 SubjectMeetingPlanHdID
+        {
+            get { return _SubjectMeetingPlanHdID; }
+            set { _SubjectMeetingPlanHdID = value; }
+        }
+        [Column(Name = "SubjectMatterID", DataType = "Int32")]
+        public Int32 SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
+        }
+        [Column(Name = "PeriodSection", DataType = "String")]
+        public String PeriodSection
+        {
+            get { return _PeriodSection; }
+            set { _PeriodSection = value; }
+        }
+        [Column(Name = "MeetingNo", DataType = "Int16")]
+        public Int16 MeetingNo
+        {
+            get { return _MeetingNo; }
+            set { _MeetingNo = value; }
+        }
+        [Column(Name = "SubjectCompetencyStandardID", DataType = "Int32")]
+        public Int32 SubjectCompetencyStandardID
+        {
+            get { return _SubjectCompetencyStandardID; }
+            set { _SubjectCompetencyStandardID = value; }
+        }
+        [Column(Name = "SubjectCompetencyStandardName", DataType = "String")]
+        public String SubjectCompetencyStandardName
+        {
+            get { return _SubjectCompetencyStandardName; }
+            set { _SubjectCompetencyStandardName = value; }
+        }
+        [Column(Name = "ListSubjectBasicCompetencyID", DataType = "String")]
+        public String ListSubjectBasicCompetencyID
+        {
+            get { return _ListSubjectBasicCompetencyID; }
+            set { _ListSubjectBasicCompetencyID = value; }
+        }
+        [Column(Name = "ListSubjectBasicCompetencyName", DataType = "String")]
+        public String ListSubjectBasicCompetencyName
+        {
+            get { return _ListSubjectBasicCompetencyName; }
+            set { _ListSubjectBasicCompetencyName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

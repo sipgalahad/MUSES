@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
     public partial class SubjectMeetingPlanEntry {
         
         /// <summary>
+        /// hdnLstBasicCompetencyID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstBasicCompetencyID;
+        
+        /// <summary>
         /// tacSubjectMatterHd control.
         /// </summary>
         /// <remarks>
@@ -47,6 +56,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtMeetingNo;
+        
+        /// <summary>
+        /// cboCompetencyStandard control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCompetencyStandard;
+        
+        /// <summary>
+        /// ddeBasicCompetency control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeBasicCompetency;
         
         /// <summary>
         /// txtRemarks control.

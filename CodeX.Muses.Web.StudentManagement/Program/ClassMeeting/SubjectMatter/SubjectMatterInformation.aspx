@@ -25,7 +25,9 @@
                             <Columns>
                                 <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                 <asp:TemplateField HeaderStyle-Width="10px" />
-                                <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
+                                <asp:BoundField DataField="SubjectCompetencyStandardName" HeaderText="Standar Kompetensi" HeaderStyle-Width="180px" />
+                                <asp:BoundField DataField="ListSubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" HeaderStyle-Width="300px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

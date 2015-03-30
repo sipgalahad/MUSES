@@ -61,7 +61,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("SubjectBasicCompetencyIndicatorName LIKE '%{0}%' AND IsDeleted = 0", hdnFilterItemName.Value);
+            string filterExpression = string.Format("SubjectBasicCompetencyIndicatorName LIKE '%{0}%' AND SubjectBasicCompetencyID IN (SELECT SubjectBasicCompetencyID FROM SubjectMeetingPlanBasicCompetency WHERE SubjectMeetingPlanID = {1}) AND IsDeleted = 0", hdnFilterItemName.Value, hdnSubjectMeetingPlanHdID.Value);
             return filterExpression;
         }
 
@@ -70,11 +70,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetSubjectBasicCompetencyIndicatorRowCount(filterExpression);
+                int rowCount = BusinessLayer.GetvSubjectBasicCompetencyIndicatorRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 10);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            List<SubjectBasicCompetencyIndicator> lstEntity = BusinessLayer.GetSubjectBasicCompetencyIndicatorList(filterExpression, 10, pageIndex, "");
+            List<vSubjectBasicCompetencyIndicator> lstEntity = BusinessLayer.GetvSubjectBasicCompetencyIndicatorList(filterExpression, 10, pageIndex, "");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -83,7 +83,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                SubjectBasicCompetencyIndicator entity = e.Row.DataItem as SubjectBasicCompetencyIndicator;
+                vSubjectBasicCompetencyIndicator entity = e.Row.DataItem as vSubjectBasicCompetencyIndicator;
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
                 if (lstSelectedMember.Contains(entity.SubjectBasicCompetencyIndicatorID.ToString()))
                     chkIsSelected.Checked = true;
