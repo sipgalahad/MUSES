@@ -7793,6 +7793,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSubjectMeetingPlanIndicator
+        public static List<vSubjectMeetingPlanIndicator> GetvSubjectMeetingPlanIndicatorList(string filterExpression)
+        {
+            List<vSubjectMeetingPlanIndicator> result = new List<vSubjectMeetingPlanIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectMeetingPlanIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectMeetingPlanIndicator)helper.IDataReaderToObject(reader, new vSubjectMeetingPlanIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSubLedgerHd
         public static List<vSubLedgerHd> GetvSubLedgerHdList(string filterExpression)
         {

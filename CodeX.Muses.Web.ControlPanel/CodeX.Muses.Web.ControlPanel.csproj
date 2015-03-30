@@ -201,6 +201,7 @@
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
     <Content Include="Program\Master\Subject\SubjectEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
@@ -1092,6 +1093,13 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx.designer.cs">
       <DependentUpon>SubjectMeetingPlanEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx.cs">
+      <DependentUpon>SubjectMeetingPlanIndicatorEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectMeetingPlanIndicatorEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectPageLauncher.aspx.cs">
       <DependentUpon>SubjectPageLauncher.aspx</DependentUpon>

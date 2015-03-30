@@ -23626,6 +23626,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SubjectMeetingPlanIndicator
+    [Serializable]
+    [Table(Name = "SubjectMeetingPlanIndicator")]
+    public class SubjectMeetingPlanIndicator : DbDataModel
+    {
+        private Int32 _SubjectMeetingPlanID;
+        private Int32 _IndicatorID;
+
+        [Column(Name = "SubjectMeetingPlanID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectMeetingPlanID
+        {
+            get { return _SubjectMeetingPlanID; }
+            set { _SubjectMeetingPlanID = value; }
+        }
+        [Column(Name = "IndicatorID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 IndicatorID
+        {
+            get { return _IndicatorID; }
+            set { _IndicatorID = value; }
+        }
+    }
+
+    public class SubjectMeetingPlanIndicatorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectMeetingPlanIndicator));
+        private bool _isAuditLog = false;
+        private const string p_IndicatorID = "@p_IndicatorID";
+        private const string p_SubjectMeetingPlanID = "@p_SubjectMeetingPlanID";
+        public SubjectMeetingPlanIndicatorDao() { }
+        public SubjectMeetingPlanIndicatorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectMeetingPlanIndicator Get(Int32 SubjectMeetingPlanID, Int32 IndicatorID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_IndicatorID, IndicatorID);
+            _ctx.Add(p_SubjectMeetingPlanID, SubjectMeetingPlanID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectMeetingPlanIndicator)_helper.DataRowToObject(row, new SubjectMeetingPlanIndicator());
+        }
+        public int Insert(SubjectMeetingPlanIndicator record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectMeetingPlanIndicator record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectMeetingPlanID, Int32 IndicatorID)
+        {
+            SubjectMeetingPlanIndicator record;
+            if (_ctx.Transaction == null)
+                record = new SubjectMeetingPlanIndicatorDao().Get(SubjectMeetingPlanID, IndicatorID);
+            else
+                record = Get(SubjectMeetingPlanID, IndicatorID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SubLedgerType
     [Serializable]
     [Table(Name = "SubLedgerType")]

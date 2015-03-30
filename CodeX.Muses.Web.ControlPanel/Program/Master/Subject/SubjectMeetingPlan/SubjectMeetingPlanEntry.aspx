@@ -111,8 +111,8 @@
         $('.lnkIndicator a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectBasicCompetency/SubjectBasicCompetencyIndicatorEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectBasicCompetencyID, 'Indikator', 800, 550);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectMeetingPlan/SubjectMeetingPlanIndicatorEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectMeetingPlanHdID, 'Indikator', 1000, 550);
         });
     </script>
     <table class="tblEntryContent" style="width:70%">
@@ -187,6 +187,7 @@
                             <Columns>
                                 <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:HyperLinkField HeaderText="Indikator" Text="Indikator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

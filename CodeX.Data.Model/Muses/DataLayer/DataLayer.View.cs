@@ -20209,6 +20209,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSubjectMeetingPlanIndicator
+    [Serializable]
+    [Table(Name = "vSubjectMeetingPlanIndicator")]
+    public class vSubjectMeetingPlanIndicator
+    {
+        private Int32 _SubjectMeetingPlanID;
+        private Int32 _IndicatorID;
+        private String _SubjectBasicCompetencyIndicatorName;
+
+        [Column(Name = "SubjectMeetingPlanID", DataType = "Int32")]
+        public Int32 SubjectMeetingPlanID
+        {
+            get { return _SubjectMeetingPlanID; }
+            set { _SubjectMeetingPlanID = value; }
+        }
+        [Column(Name = "IndicatorID", DataType = "Int32")]
+        public Int32 IndicatorID
+        {
+            get { return _IndicatorID; }
+            set { _IndicatorID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyIndicatorName", DataType = "String")]
+        public String SubjectBasicCompetencyIndicatorName
+        {
+            get { return _SubjectBasicCompetencyIndicatorName; }
+            set { _SubjectBasicCompetencyIndicatorName = value; }
+        }
+    }
+    #endregion
     #region vSubLedgerHd
     [Serializable]
     [Table(Name = "vSubLedgerHd")]

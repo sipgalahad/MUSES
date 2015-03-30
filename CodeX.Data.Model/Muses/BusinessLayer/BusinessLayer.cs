@@ -10900,6 +10900,49 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SubjectBasicCompetencyIndicator> GetSubjectBasicCompetencyIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SubjectBasicCompetencyIndicator> result = new List<SubjectBasicCompetencyIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new SubjectBasicCompetencyIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubjectBasicCompetencyIndicatorRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
         #region SubjectClassType
         public static SubjectClassType GetSubjectClassType(Int32 SubjectID, Int32 ClassTypeID)
@@ -11171,6 +11214,63 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectMeetingPlanIndicator
+        public static SubjectMeetingPlanIndicator GetSubjectMeetingPlanIndicator(Int32 SubjectMeetingPlanID, Int32 IndicatorID)
+        {
+            return new SubjectMeetingPlanIndicatorDao().Get(SubjectMeetingPlanID, IndicatorID);
+        }
+        public static int InsertSubjectMeetingPlanIndicator(SubjectMeetingPlanIndicator record)
+        {
+            return new SubjectMeetingPlanIndicatorDao().Insert(record);
+        }
+        public static int UpdateSubjectMeetingPlanIndicator(SubjectMeetingPlanIndicator record)
+        {
+            return new SubjectMeetingPlanIndicatorDao().Update(record);
+        }
+        public static int DeleteSubjectMeetingPlanIndicator(Int32 SubjectMeetingPlanID, Int32 IndicatorID)
+        {
+            return new SubjectMeetingPlanIndicatorDao().Delete(SubjectMeetingPlanID, IndicatorID);
+        }
+        public static List<SubjectMeetingPlanIndicator> GetSubjectMeetingPlanIndicatorList(string filterExpression)
+        {
+            List<SubjectMeetingPlanIndicator> result = new List<SubjectMeetingPlanIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMeetingPlanIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMeetingPlanIndicator)helper.IDataReaderToObject(reader, new SubjectMeetingPlanIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectMeetingPlanIndicator> GetSubjectMeetingPlanIndicatorList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectMeetingPlanIndicator> result = new List<SubjectMeetingPlanIndicator>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMeetingPlanIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMeetingPlanIndicator)helper.IDataReaderToObject(reader, new SubjectMeetingPlanIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }
