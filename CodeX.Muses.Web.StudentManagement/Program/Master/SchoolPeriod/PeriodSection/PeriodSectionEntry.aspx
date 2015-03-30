@@ -17,6 +17,7 @@
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtPeriodSectionCode.ClientID %>').val('');
+                cboGCPeriodSection.SetValue('');
                 $('#<%=txtPeriodSectionName.ClientID %>').val('');
                 $('#<%=txtStartDate.ClientID %>').val('');
                 $('#<%=txtEndDate.ClientID %>').val('');
@@ -52,6 +53,7 @@
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodSectionID);
             $('#<%=txtPeriodSectionCode.ClientID %>').val(entity.PeriodSectionCode);
+            cboGCPeriodSection.SetValue(entity.GCPeriodSection);
             $('#<%=txtPeriodSectionName.ClientID %>').val(entity.PeriodSectionName);
             $('#<%=txtStartDate.ClientID %>').val(entity.StartDateInDatePickerFormat);
             $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
@@ -99,6 +101,10 @@
                                 <tr>
                                     <td class="tdLabel"><label><%=GetLabel("Kode")%></label></td>
                                     <td><asp:TextBox ID="txtPeriodSectionCode" Width="100px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label><%=GetLabel("Tipe")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
@@ -150,6 +156,7 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodSectionID") %>" bindingfield="PeriodSectionID" />
                                         <input type="hidden" value="<%#Eval("PeriodSectionCode") %>" bindingfield="PeriodSectionCode" />
+                                        <input type="hidden" value="<%#Eval("GCPeriodSection") %>" bindingfield="GCPeriodSection" />
                                         <input type="hidden" value="<%#Eval("PeriodSectionName") %>" bindingfield="PeriodSectionName" />
                                         <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
                                         <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />

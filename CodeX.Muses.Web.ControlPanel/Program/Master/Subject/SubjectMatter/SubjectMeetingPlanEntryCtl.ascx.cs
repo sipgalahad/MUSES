@@ -12,14 +12,20 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SubjectMatterDtEntryCtl : BaseViewPopupCtl
+    public partial class SubjectMeetingPlanEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
             hdnID.Value = param;
             SubjectMatterHd entity = BusinessLayer.GetSubjectMatterHd(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0} - {1}", entity.SubjectMatterCode, entity.SubjectMatterName);
-            txtHeaderText2.Text = entity.CompetencyStandard;
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
+            Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
+            cboGCPeriodSection.SelectedIndex = 0;
+
+            SubjectCompetencyStandardSummary entitySummary = BusinessLayer.GetSubjectCompetencyStandardSummaryList(string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}'", entity.SubjectMatterID, cboGCPeriodSection.Value)).FirstOrDefault();
+            txtHeaderText2.Text = entitySummary.SummaryName;
 
             BindGridView();
 
@@ -29,7 +35,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetSubjectMatterDtList(string.Format("SubjectMatterID = {0} AND IsDeleted = 0 ORDER BY MeetingNo ASC", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetSubjectMeetingPlanHdList(string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}' AND IsDeleted = 0 ORDER BY MeetingNo ASC", hdnID.Value, cboGCPeriodSection.Value));
             grdView.DataBind();
         }
 
@@ -74,7 +80,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectMatterDt entity)
+        private void ControlToEntity(SubjectMeetingPlanHd entity)
         {
             entity.MeetingNo = Convert.ToInt16(txtMeetingNo.Text);
             entity.Remarks = txtRemarks.Text;
@@ -84,11 +90,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatterDt entity = new SubjectMatterDt();
+                SubjectMeetingPlanHd entity = new SubjectMeetingPlanHd();
                 ControlToEntity(entity);
+                entity.GCPeriodSection = cboGCPeriodSection.Value.ToString();
                 entity.SubjectMatterID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectMatterDt(entity);
+                BusinessLayer.InsertSubjectMeetingPlanHd(entity);
                 return true;
             }
             catch (Exception ex)
@@ -103,10 +110,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatterDt entity = BusinessLayer.GetSubjectMatterDt(Convert.ToInt32(hdnID.Value));
+                SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatterDt(entity);
+                BusinessLayer.UpdateSubjectMeetingPlanHd(entity);
                 return true;
             }
             catch (Exception ex)
@@ -121,10 +128,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMatterDt entity = BusinessLayer.GetSubjectMatterDt(Convert.ToInt32(hdnID.Value));
+                SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMatterDt(entity);
+                BusinessLayer.UpdateSubjectMeetingPlanHd(entity);
                 return true;
             }
             catch (Exception ex)

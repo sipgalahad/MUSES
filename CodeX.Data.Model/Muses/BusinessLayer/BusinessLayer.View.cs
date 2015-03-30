@@ -7513,6 +7513,186 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentCoverageTransactionDtCustom
+        public static List<vStudentCoverageTransactionDtCustom> GetvStudentCoverageTransactionDtCustomList(string filterExpression)
+        {
+            List<vStudentCoverageTransactionDtCustom> result = new List<vStudentCoverageTransactionDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionDtCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCoverageTransactionDtCustom)helper.IDataReaderToObject(reader, new vStudentCoverageTransactionDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vStudentCoverageTransactionDtCustom> GetvStudentCoverageTransactionDtCustomList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentCoverageTransactionDtCustom> result = new List<vStudentCoverageTransactionDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionDtCustom));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCoverageTransactionDtCustom)helper.IDataReaderToObject(reader, new vStudentCoverageTransactionDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentCoverageTransactionDtCustomRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionDtCustom));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vStudentCoverageTransactionHd
+        public static List<vStudentCoverageTransactionHd> GetvStudentCoverageTransactionHdList(string filterExpression)
+        {
+            List<vStudentCoverageTransactionHd> result = new List<vStudentCoverageTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCoverageTransactionHd)helper.IDataReaderToObject(reader, new vStudentCoverageTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vStudentCoverageTransactionHd> GetvStudentCoverageTransactionHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentCoverageTransactionHd> result = new List<vStudentCoverageTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCoverageTransactionHd)helper.IDataReaderToObject(reader, new vStudentCoverageTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentCoverageTransactionHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentCoverageTransactionHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static vStudentCoverageTransactionHd GetvStudentCoverageTransactionHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentCoverageTransactionHd> result = new List<vStudentCoverageTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCoverageTransactionHd)helper.IDataReaderToObject(reader, new vStudentCoverageTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        #endregion
         #region vStudentCustom
         public static List<vStudentCustom> GetvStudentCustomList(string filterExpression)
         {
@@ -7745,6 +7925,97 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSubjectBasicCompetency
+        public static List<vSubjectBasicCompetency> GetvSubjectBasicCompetencyList(string filterExpression)
+        {
+            List<vSubjectBasicCompetency> result = new List<vSubjectBasicCompetency>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetency));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectBasicCompetency)helper.IDataReaderToObject(reader, new vSubjectBasicCompetency()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectBasicCompetencyIndicator
+        public static List<vSubjectBasicCompetencyIndicator> GetvSubjectBasicCompetencyIndicatorList(string filterExpression)
+        {
+            List<vSubjectBasicCompetencyIndicator> result = new List<vSubjectBasicCompetencyIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetencyIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new vSubjectBasicCompetencyIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vSubjectBasicCompetencyIndicator> GetvSubjectBasicCompetencyIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vSubjectBasicCompetencyIndicator> result = new List<vSubjectBasicCompetencyIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetencyIndicator));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new vSubjectBasicCompetencyIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvSubjectBasicCompetencyIndicatorRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetencyIndicator));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSubjectClassType
         public static List<vSubjectClassType> GetvSubjectClassTypeList(string filterExpression)
         {
@@ -7781,6 +8052,54 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vSubjectMatterHd)helper.IDataReaderToObject(reader, new vSubjectMatterHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectMeetingPlanHd
+        public static List<vSubjectMeetingPlanHd> GetvSubjectMeetingPlanHdList(string filterExpression)
+        {
+            List<vSubjectMeetingPlanHd> result = new List<vSubjectMeetingPlanHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectMeetingPlanHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectMeetingPlanHd)helper.IDataReaderToObject(reader, new vSubjectMeetingPlanHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectMeetingPlanIndicator
+        public static List<vSubjectMeetingPlanIndicator> GetvSubjectMeetingPlanIndicatorList(string filterExpression)
+        {
+            List<vSubjectMeetingPlanIndicator> result = new List<vSubjectMeetingPlanIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectMeetingPlanIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectMeetingPlanIndicator)helper.IDataReaderToObject(reader, new vSubjectMeetingPlanIndicator()));
             }
             catch (Exception ex)
             {

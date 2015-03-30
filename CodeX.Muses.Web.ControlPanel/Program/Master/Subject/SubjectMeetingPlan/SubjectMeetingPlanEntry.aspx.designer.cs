@@ -7,28 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class PeriodSectionEntry {
+    public partial class SubjectMeetingPlanEntry {
         
         /// <summary>
-        /// hdnEntryID control.
+        /// hdnLstBasicCompetencyID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstBasicCompetencyID;
         
         /// <summary>
-        /// txtPeriodSectionCode control.
+        /// tacSubjectMatterHd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPeriodSectionCode;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectMatterHd;
         
         /// <summary>
         /// cboGCPeriodSection control.
@@ -40,31 +40,40 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCPeriodSection;
         
         /// <summary>
-        /// txtPeriodSectionName control.
+        /// hdnEntryID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPeriodSectionName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtStartDate control.
+        /// txtMeetingNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
+        protected global::System.Web.UI.WebControls.TextBox txtMeetingNo;
         
         /// <summary>
-        /// txtEndDate control.
+        /// cboCompetencyStandard control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCompetencyStandard;
+        
+        /// <summary>
+        /// ddeBasicCompetency control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeBasicCompetency;
         
         /// <summary>
         /// txtRemarks control.

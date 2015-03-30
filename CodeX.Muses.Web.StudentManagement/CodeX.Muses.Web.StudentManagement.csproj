@@ -111,6 +111,7 @@
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
+    <Content Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
     <Content Include="Program\GradePromotion\GradePromotionEntry.aspx" />
@@ -530,6 +531,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx.cs">
+      <DependentUpon>StudentDailyAttendanceEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx.designer.cs">
+      <DependentUpon>StudentDailyAttendanceEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx.cs">
       <DependentUpon>StudentNoteViewDtCtl.ascx</DependentUpon>

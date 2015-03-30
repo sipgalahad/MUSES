@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectMatterDtEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectMatterDtEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectMeetingPlanEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectMeetingPlanEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -14,16 +14,18 @@
             $('#<%=hdnEntryID.ClientID %>').val('');
             $('#<%=txtMeetingNo.ClientID %>').val('');
             $('#<%=txtRemarks.ClientID %>').val('');
+            cboGCPeriodSection.SetEnabled(false);
 
             $('#entryDetailContainerPopup').show();
         });
 
         $('#btnCancelPopup').click(function () {
+            cboGCPeriodSection.SetEnabled(true);
             $('#entryDetailContainerPopup').hide();
         });
 
         $('#btnSavePopup').click(function (evt) {
-            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup'))
+            if (IsValid(evt, 'fsTrxPopup', 'mpTrxPopup')) 
                 cbpProcessPopup.PerformCallback('save');
         });
     });
@@ -34,7 +36,7 @@
         showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterDtID);
+                $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMeetingPlanHdID);
                 cbpProcessPopup.PerformCallback('delete');
             }
         });
@@ -44,9 +46,10 @@
     $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMatterDtID);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMeetingPlanHdID);
         $('#<%=txtMeetingNo.ClientID %>').val(entity.MeetingNo);
         $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+        cboGCPeriodSection.SetEnabled(false);
 
         $('#entryDetailContainerPopup').show();
     });
@@ -70,6 +73,14 @@
                 cbpViewPopup.PerformCallback('refresh');
         }
     }
+
+    function onCboGCPeriodSectionValueChanged() {
+        var filterExpression = 'SubjectMatterID = ' + $('#<%=hdnID.ClientID %>').val() + " AND GCPeriodSection = '" + cboGCPeriodSection.GetValue() + "'";
+        Methods.getObject('GetSubjectCompetencyStandardSummaryList', filterExpression, function (result) {
+            $('#<%=txtHeaderText2.ClientID %>').val(result.SummaryName);
+            cbpViewPopup.PerformCallback('refresh');
+        });
+    }
 </script>
 
 <div style="height:440px; overflow-y:auto">
@@ -77,15 +88,23 @@
     
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
-            <col style="width:160px"/>
+            <col style="width:200px"/>
             <col/>
         </colgroup>
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText" ReadOnly="true" Width="100%" runat="server" /></td>
-        </tr> 
+        </tr>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pokok Standar Kompetensi")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+            <td colspan="2">
+                <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
+                    <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>  
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Standar Kompetensi Utama")%></label></td>
             <td colspan="2"><asp:TextBox ID="txtHeaderText2" ReadOnly="true" Width="100%" runat="server" /></td>
         </tr> 
     </table>
@@ -134,7 +153,7 @@
                                 <ItemTemplate>
                                     <div style='float:right;' class="divDetailDelete"></div>
                                     <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("SubjectMatterDtID") %>" bindingfield="SubjectMatterDtID" />
+                                    <input type="hidden" value="<%#Eval("SubjectMeetingPlanHdID") %>" bindingfield="SubjectMeetingPlanHdID" />
                                     <input type="hidden" value="<%#Eval("MeetingNo") %>" bindingfield="MeetingNo" />
                                     <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                 </ItemTemplate>

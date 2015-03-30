@@ -668,6 +668,20 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Student Coverage Transaction -->
+  <searchdialog type="studentcoveragetransactionhd" methodname="GetvStudentCoverageTransactionHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="TransactionNo" headertext="Transaction No" width="100px" />
+      <gridcolumn datafield="TransactionDateInString" headertext="Transaction Date" width="100px" horizontalalign="center" />
+      <gridcolumn datafield="BusinessPartnerName" headertext="Pembayar" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TransactionNo" headertext="Transaction No" description="" />
+      <intellisensetext datafield="TransactionDateInString" headertext="Transaction Date" description="" />
+      <intellisensetext datafield="BusinessPartnerName" headertext="Pembayar" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Sub Ledger Dt -->
   <searchdialog type="subledgerdt" methodname="GetSubLedgerDtList" keyfieldname="SubLedgerDtCode" orderbyexpression="SubLedgerDtCode">
     <gridcolumns>

@@ -27,7 +27,7 @@
                         attendanceStatus = selected.val();
                     if (result != '')
                         result += '|';
-                    result += studentID + ',' + attendanceStatus;
+                    result += studentID + ',' + attendanceStatus + ',' + $(this).find('.txtRemarks').val();
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
                 onCustomButtonClick('save');
@@ -60,7 +60,8 @@
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>
             <th rowspan="2"><%=GetLabel("Siswa") %></th>
-            <th colspan="10" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+            <th id="thHeaderAttendance" runat="server" class="thCenter"><%=GetLabel("STATUS KEHADIRAN") %></th>
+            <th rowspan="2" style="width:200px"><%=GetLabel("Keterangan") %></th>
         </tr>
         <tr>
             <asp:Repeater ID="rptHeader" runat="server">
@@ -98,6 +99,7 @@
                             </td>
                         </ItemTemplate>
                     </asp:Repeater>
+                    <td><asp:TextBox ID="txtRemarks" CssClass="txtRemarks" runat="server" Width="100%" /></td>
                 </tr>
             </ItemTemplate>
         </asp:Repeater>

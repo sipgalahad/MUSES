@@ -55,6 +55,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<StudentProgressRuleDt> lstProgress = null;
         protected override void InitializeDataControl()
         {
+            PeriodSection periodSection = BusinessLayer.GetPeriodSection(AppSession.ClassSubject.PeriodSectionID);
+
             vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnIsMainTeacher.Value = entityClassSubject.ParentID == 0 ? "1" : "0";
             txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
@@ -63,7 +65,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             lstProgress = BusinessLayer.GetStudentProgressRuleDtList(string.Format("StudentProgressRuleID = {0} AND IsDeleted = 0", entityClassSubject.StudentProgressRuleID));
             SubjectMatterHd subjectMatterHd = BusinessLayer.GetSubjectMatterHd(entityClassSubject.SubjectMatterID);
             if (subjectMatterHd != null)
-                hdnCompetencyStandard.Value = subjectMatterHd.CompetencyStandard;
+            {
+                SubjectCompetencyStandardSummary entitySummary = BusinessLayer.GetSubjectCompetencyStandardSummaryList(string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}'", subjectMatterHd.SubjectMatterID, periodSection.GCPeriodSection)).FirstOrDefault();
+                if (entitySummary != null)
+                    hdnCompetencyStandard.Value = entitySummary.SummaryName;
+                else
+                    hdnCompetencyStandard.Value = "";
+            }
             else
                 hdnCompetencyStandard.Value = "";
 

@@ -1703,6 +1703,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentCoverageTransactionHd
+    public partial class vStudentCoverageTransactionHd
+    {
+        public String TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vStudentCustom
     public partial class vStudentCustom
     {

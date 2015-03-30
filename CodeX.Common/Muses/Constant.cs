@@ -344,6 +344,7 @@ namespace CodeX.Common
                 public const string SB_SUBJECT_CLASS_TYPE = "CP99010100";
                 public const string SB_SUBJECT_MATTER = "CP99010200";
                 public const string SB_SUBJECT_BASIC_COMPETENCY = "CP99010300";
+                public const string SB_SUBJECT_MEETING_PLAN = "CP99010400";
             }
             #endregion
 
@@ -366,7 +367,7 @@ namespace CodeX.Common
 
                 public const string GENERATE_UPLOAD_FILE = "FN040300";
                 public const string BANK_UPLOADED_FILE = "FN040400";
-                public const string PAYMENT_METHOD_EDIT = "FN040500";
+                public const string STUDENT_COVERAGE_TRANSACTION = "FN040500";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
@@ -462,6 +463,7 @@ namespace CodeX.Common
                 public const string SCHOOL_PERIOD_CLOSING = "SM040600";
                 public const string TEACHER_MARK_GROUP = "SM040700";
                 public const string EXTRACURRICULAR_WEEKLY_SCHEDULE = "SM040800";
+                public const string STUDENT_DAILY_ATTENDANCE = "SM040900";
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
@@ -562,6 +564,7 @@ namespace CodeX.Common
             public const string AR_INVOICE_STUDENT = "5103";
             public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5104";
             public const string AR_RECEIVE_STUDENT = "5105";
+            public const string STUDENT_COVERAGE = "5106";
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";

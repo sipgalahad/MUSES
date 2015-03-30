@@ -26,6 +26,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             lstAttendanceStatus = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.STUDENT_ATTENDANCE));
+            thHeaderAttendance.ColSpan = lstAttendanceStatus.Count;
+
             rptHeader.DataSource = lstAttendanceStatus;
             rptHeader.DataBind();
 
@@ -44,10 +46,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassStudent entity = (vClassStudent)e.Item.DataItem;
                 HtmlInputHidden hdnAttendance = (HtmlInputHidden)e.Item.FindControl("hdnAttendance");
+                TextBox txtRemarks = (TextBox)e.Item.FindControl("txtRemarks");
 
                 ClassMeetingAttendance attendance = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == entity.StudentID);
                 if (attendance != null)
+                {
                     hdnAttendance.Value = attendance.GCAttendanceStatus;
+                    txtRemarks.Text = attendance.Remarks;
+                }
 
                 Repeater rptStudentAttendance = (Repeater)e.Item.FindControl("rptStudentAttendance");
                 rptStudentAttendance.DataSource = lstAttendanceStatus;
@@ -75,6 +81,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     string[] temp = saveValue.Split(',');
                     int studentID = Convert.ToInt32(temp[0]);
                     string GCAttendanceStatus = temp[1];
+                    string Remarks = temp[2];
                     if (GCAttendanceStatus != "")
                     {
                         ClassMeetingAttendance entityDt = lstClassMeetingAttendance.FirstOrDefault(p => p.StudentID == studentID);
@@ -84,11 +91,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.ClassMeetingID = AppSession.ClassSubject.ClassMeetingID;
                             entityDt.StudentID = studentID;
                             entityDt.GCAttendanceStatus = GCAttendanceStatus;
+                            entityDt.Remarks = Remarks;
                             entityDtDao.Insert(entityDt);
                         }
                         else
                         {
                             entityDt.GCAttendanceStatus = GCAttendanceStatus;
+                            entityDt.Remarks = Remarks;
                             entityDtDao.Update(entityDt);
                         }
                     }
