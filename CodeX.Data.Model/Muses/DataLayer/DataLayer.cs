@@ -2325,6 +2325,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassMeetingID;
         private Int32 _StudentID;
         private String _GCAttendanceStatus;
+        private String _Remarks;
 
         [Column(Name = "ClassMeetingID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassMeetingID
@@ -2343,6 +2344,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCAttendanceStatus; }
             set { _GCAttendanceStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
         }
     }
 
@@ -21057,6 +21064,223 @@ namespace CodeX.Data.Model
                 record = new StudentAchievementDao().Get(StudentAchievementID);
             else
                 record = Get(StudentAchievementID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentCoverageTransactionDt
+    [Serializable]
+    [Table(Name = "StudentCoverageTransactionDt")]
+    public class StudentCoverageTransactionDt : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32 _TransactionID;
+        private Int32 _CoverageTypeID;
+        private Int32 _StudentID;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "CoverageTypeID", DataType = "Int32")]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+    }
+
+    public class StudentCoverageTransactionDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentCoverageTransactionDt));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public StudentCoverageTransactionDtDao() { }
+        public StudentCoverageTransactionDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentCoverageTransactionDt Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentCoverageTransactionDt)_helper.DataRowToObject(row, new StudentCoverageTransactionDt());
+        }
+        public int Insert(StudentCoverageTransactionDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentCoverageTransactionDt record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            StudentCoverageTransactionDt record;
+            if (_ctx.Transaction == null)
+                record = new StudentCoverageTransactionDtDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentCoverageTransactionHd
+    [Serializable]
+    [Table(Name = "StudentCoverageTransactionHd")]
+    public class StudentCoverageTransactionHd : DbDataModel
+    {
+        private Int32 _TransactionID;
+        private String _TransactionCode;
+        private DateTime _TransactionDate;
+        private String _TransactionNo;
+        private Int32 _BusinessPartnerID;
+        private DateTime _StartingDate;
+        private String _ReferenceNo;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TransactionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentCoverageTransactionHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentCoverageTransactionHd));
+        private bool _isAuditLog = false;
+        private const string p_TransactionID = "@p_TransactionID";
+        public StudentCoverageTransactionHdDao() { }
+        public StudentCoverageTransactionHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentCoverageTransactionHd Get(Int32 TransactionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TransactionID, TransactionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentCoverageTransactionHd)_helper.DataRowToObject(row, new StudentCoverageTransactionHd());
+        }
+        public int Insert(StudentCoverageTransactionHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentCoverageTransactionHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TransactionID)
+        {
+            StudentCoverageTransactionHd record;
+            if (_ctx.Transaction == null)
+                record = new StudentCoverageTransactionHdDao().Get(TransactionID);
+            else
+                record = Get(TransactionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

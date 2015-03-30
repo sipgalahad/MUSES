@@ -124,6 +124,7 @@
     <Content Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
     <Content Include="Program\BankUploadedFile\BankUploadedFile.aspx" />
     <Content Include="Program\GenerateUploadFile\GenerateUploadFile.aspx" />
+    <Content Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -526,6 +527,13 @@
     </Compile>
     <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.cs">
+      <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.designer.cs">
+      <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

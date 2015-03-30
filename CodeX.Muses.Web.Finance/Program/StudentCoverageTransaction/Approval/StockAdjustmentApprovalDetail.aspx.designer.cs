@@ -7,82 +7,109 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.Inventory.Program {
     
     
-    public partial class StudentDailyAttendanceEntry {
+    public partial class StockAdjustmentApprovalDetail {
         
         /// <summary>
-        /// btnSave control.
+        /// btnItemRequestDetailApprove control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSave;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnItemRequestDetailApprove;
         
         /// <summary>
-        /// hdnListSaveValue control.
+        /// btnOrderListBack control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnOrderListBack;
         
         /// <summary>
-        /// cboSchoolPeriod control.
+        /// hdnAdjustmentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentID;
         
         /// <summary>
-        /// tacPeriodSection control.
+        /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacPeriodSection;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
         
         /// <summary>
-        /// tacSchoolClass control.
+        /// txtAdjustmentNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolClass;
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentNo;
         
         /// <summary>
-        /// txtSchoolDate control.
+        /// txtAdjustmentDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolDate;
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentDate;
         
         /// <summary>
-        /// hdnID control.
+        /// hdnLocationID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLocationID;
         
         /// <summary>
-        /// hdnFilterExpression control.
+        /// txtLocationCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression;
+        protected global::System.Web.UI.WebControls.TextBox txtLocationCode;
+        
+        /// <summary>
+        /// txtLocationName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLocationName;
+        
+        /// <summary>
+        /// txtAdjustmentType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentType;
+        
+        /// <summary>
+        /// txtRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
         
         /// <summary>
         /// cbpView control.
@@ -112,30 +139,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// thHeaderAttendance control.
+        /// grdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thHeaderAttendance;
-        
-        /// <summary>
-        /// rptHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeader;
-        
-        /// <summary>
-        /// rptStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudent;
+        protected global::System.Web.UI.WebControls.GridView grdView;
     }
 }

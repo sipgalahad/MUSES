@@ -9926,6 +9926,119 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentCoverageTransactionDt
+        public static StudentCoverageTransactionDt GetStudentCoverageTransactionDt(Int32 ID)
+        {
+            return new StudentCoverageTransactionDtDao().Get(ID);
+        }
+        public static int InsertStudentCoverageTransactionDt(StudentCoverageTransactionDt record)
+        {
+            return new StudentCoverageTransactionDtDao().Insert(record);
+        }
+        public static int UpdateStudentCoverageTransactionDt(StudentCoverageTransactionDt record)
+        {
+            return new StudentCoverageTransactionDtDao().Update(record);
+        }
+        public static int DeleteStudentCoverageTransactionDt(Int32 ID)
+        {
+            return new StudentCoverageTransactionDtDao().Delete(ID);
+        }
+        public static List<StudentCoverageTransactionDt> GetStudentCoverageTransactionDtList(string filterExpression)
+        {
+            List<StudentCoverageTransactionDt> result = new List<StudentCoverageTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentCoverageTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentCoverageTransactionDt)helper.IDataReaderToObject(reader, new StudentCoverageTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentCoverageTransactionDt> GetStudentCoverageTransactionDtList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentCoverageTransactionDt> result = new List<StudentCoverageTransactionDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentCoverageTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentCoverageTransactionDt)helper.IDataReaderToObject(reader, new StudentCoverageTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentCoverageTransactionHd
+        public static StudentCoverageTransactionHd GetStudentCoverageTransactionHd(Int32 TransactionID)
+        {
+            return new StudentCoverageTransactionHdDao().Get(TransactionID);
+        }
+        public static int InsertStudentCoverageTransactionHd(StudentCoverageTransactionHd record)
+        {
+            return new StudentCoverageTransactionHdDao().Insert(record);
+        }
+        public static int UpdateStudentCoverageTransactionHd(StudentCoverageTransactionHd record)
+        {
+            return new StudentCoverageTransactionHdDao().Update(record);
+        }
+        public static int DeleteStudentCoverageTransactionHd(Int32 TransactionID)
+        {
+            return new StudentCoverageTransactionHdDao().Delete(TransactionID);
+        }
+        public static List<StudentCoverageTransactionHd> GetStudentCoverageTransactionHdList(string filterExpression)
+        {
+            List<StudentCoverageTransactionHd> result = new List<StudentCoverageTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentCoverageTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentCoverageTransactionHd)helper.IDataReaderToObject(reader, new StudentCoverageTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentCoverageTransactionHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentCoverageTransactionHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region StudentFamily
         public static StudentFamily GetStudentFamily(Int32 FamilyID)
         {

@@ -19332,6 +19332,141 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentCoverageTransactionDtCustom
+    [Serializable]
+    [Table(Name = "vStudentCoverageTransactionDtCustom")]
+    public class vStudentCoverageTransactionDtCustom
+    {
+        private Int32 _TransactionID;
+        private Int32 _CoverageTypeID;
+        private String _CoverageTypeName;
+        private String _ListStudentID;
+        private String _ListStudentName;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "CoverageTypeID", DataType = "Int32")]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "CoverageTypeName", DataType = "String")]
+        public String CoverageTypeName
+        {
+            get { return _CoverageTypeName; }
+            set { _CoverageTypeName = value; }
+        }
+        [Column(Name = "ListStudentID", DataType = "String")]
+        public String ListStudentID
+        {
+            get { return _ListStudentID; }
+            set { _ListStudentID = value; }
+        }
+        [Column(Name = "ListStudentName", DataType = "String")]
+        public String ListStudentName
+        {
+            get { return _ListStudentName; }
+            set { _ListStudentName = value; }
+        }
+    }
+    #endregion
+    #region vStudentCoverageTransactionHd
+    [Serializable]
+    [Table(Name = "vStudentCoverageTransactionHd")]
+    public partial class vStudentCoverageTransactionHd
+    {
+        private Int32 _TransactionID;
+        private String _TransactionCode;
+        private DateTime _TransactionDate;
+        private String _TransactionNo;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
+        private DateTime _StartingDate;
+        private String _ReferenceNo;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionDate", DataType = "DateTime")]
+        public DateTime TransactionDate
+        {
+            get { return _TransactionDate; }
+            set { _TransactionDate = value; }
+        }
+        [Column(Name = "TransactionNo", DataType = "String")]
+        public String TransactionNo
+        {
+            get { return _TransactionNo; }
+            set { _TransactionNo = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "ReferenceNo", DataType = "String")]
+        public String ReferenceNo
+        {
+            get { return _ReferenceNo; }
+            set { _ReferenceNo = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
     #region vStudentCustom
     [Serializable]
     [Table(Name = "vStudentCustom")]
