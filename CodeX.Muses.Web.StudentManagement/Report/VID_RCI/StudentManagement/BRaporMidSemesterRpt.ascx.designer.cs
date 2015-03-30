@@ -76,6 +76,24 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
         
         /// <summary>
+        /// tdHeaderHasil control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderHasil;
+        
+        /// <summary>
+        /// tdHeaderNilai control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderNilai;
+        
+        /// <summary>
         /// tdUlangan control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdTugas;
         
         /// <summary>
+        /// tdPsikomotorik control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdPsikomotorik;
+        
+        /// <summary>
         /// rptUlanganHeader control.
         /// </summary>
         /// <remarks>
@@ -110,6 +137,15 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptTugasHeader;
+        
+        /// <summary>
+        /// rptPsikomotorikHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPsikomotorikHeader;
         
         /// <summary>
         /// rptSubject control.

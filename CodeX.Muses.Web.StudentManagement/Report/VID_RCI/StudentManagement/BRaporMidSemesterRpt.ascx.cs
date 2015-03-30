@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
         int MaxUlangan = 0;
         int MaxTugas = 0;
-        
+        int MaxPsikomotorik = 0;
         public class TempClass 
         {
             Int32 _ClassSubjectID;
@@ -66,59 +66,80 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         {
             #region Initialization
             StudentID = 1;
-
+            
             vClassStudent student = BusinessLayer.GetvClassStudentList(String.Format("StudentID = {0} AND GCClassStudyType = '{1}'", StudentID, Constant.ClassStudyType.REGULAR))[0];
             tdStudentName.InnerHtml = student.StudentName;
             tdNIS.InnerHtml = student.StudentCode;
-            tdClass.InnerHtml = String.Format("{0} / {1}", student.SchoolClassName, student.PeriodSectionName);
+            PeriodSection ps = BusinessLayer.GetPeriodSection(Convert.ToInt32(param[1]));
+            tdClass.InnerHtml = String.Format("{0} / {1}", student.SchoolClassName, ps.PeriodSectionName);
             tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
 
             Site site = BusinessLayer.GetSite(AppSession.UserLogin.SiteID);
             tdSchoolName.InnerHtml = site.SiteName;
 
-            List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolClassID = 1 AND SchoolPeriodID = 2 AND IsDeleted = 0"));
+            List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND PeriodSectionID = {1} AND SchoolClassID = {2} AND SubjectGCClassStudyType = '{3}' AND IsDeleted = 0", param[0], param[1], param[2], Constant.ClassStudyType.REGULAR));
             String lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
-            lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
-
-            lstNilai = BusinessLayer.GetClassStudentSubjectTaskMarkList(String.Format("StudentID = {0}", StudentID)).OrderBy(x => x.ClassSubjectTaskID).ToList();
-            #endregion
-
-            #region header ulangan
-            var temp = lstClassSubjectTask.Where(m => m.GCTaskType == Constant.TaskType.ULANGAN).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
-            
-            List<String> lstDataHeader = new List<String>();
-            MaxUlangan = temp.Max(x => x.Count);
-            for (int i = 0; i < MaxUlangan; i++) 
+            if (lstClassSubjectID != "") 
             {
-                lstDataHeader.Add(String.Format("{0}", i + 1));
-            }
-            //lstDataHeader.Add("Rata-Rata");
-            //tdUlangan.ColSpan = MaxUlangan + 1;
-            tdUlangan.ColSpan = MaxUlangan;
+                lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
+                lstNilai = BusinessLayer.GetClassStudentSubjectTaskMarkList(String.Format("StudentID = {0}", StudentID)).OrderBy(x => x.ClassSubjectTaskID).ToList();
 
-            rptUlanganHeader.DataSource = lstDataHeader;
-            rptUlanganHeader.DataBind();
+                #region header ulangan
+                var temp = lstClassSubjectTask.Where(m => m.GCTaskType == Constant.TaskType.ULANGAN && m.GCLessonType == Constant.LessonType.THEORY).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
+
+                List<String> lstDataHeader = new List<String>();
+                MaxUlangan = temp.Max(x => x.Count);
+                for (int i = 0; i < MaxUlangan; i++)
+                {
+                    lstDataHeader.Add(String.Format("{0}", i + 1));
+                }
+                //lstDataHeader.Add("Rata-Rata");
+                //tdUlangan.ColSpan = MaxUlangan + 1;
+                tdUlangan.ColSpan = MaxUlangan;
+
+                rptUlanganHeader.DataSource = lstDataHeader;
+                rptUlanganHeader.DataBind();
+                #endregion
+
+                #region header Tugas
+                temp = lstClassSubjectTask.Where(m => (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH) && m.GCLessonType == Constant.LessonType.THEORY).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
+
+                MaxTugas = temp.Max(x => x.Count);
+                lstDataHeader.Clear();
+                for (int i = 0; i < MaxTugas; i++)
+                {
+                    lstDataHeader.Add(String.Format("{0}", i + 1));
+                }
+                //lstDataHeader.Add("Rata-Rata");
+                //tdTugas.ColSpan = MaxTugas + 1;
+                tdTugas.ColSpan = MaxTugas;
+
+                rptTugasHeader.DataSource = lstDataHeader;
+                rptTugasHeader.DataBind();
+                #endregion
+
+                #region header Psikomotorik
+                temp = lstClassSubjectTask.Where(m => m.GCLessonType == Constant.LessonType.PRACTICE).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
+                MaxPsikomotorik = temp.Max(x => x.Count);
+                lstDataHeader.Clear();
+                for (int i = 0; i < MaxTugas; i++)
+                {
+                    lstDataHeader.Add(String.Format("{0}", i + 1));
+                }
+                tdPsikomotorik.ColSpan = MaxTugas;
+
+                rptPsikomotorikHeader.DataSource = lstDataHeader;
+                rptPsikomotorikHeader.DataBind();
+                #endregion
+
+                tdHeaderNilai.ColSpan = MaxTugas + MaxUlangan + MaxPsikomotorik + 1;
+                tdHeaderHasil.ColSpan = tdHeaderNilai.ColSpan + 1;
+                rptSubject.DataSource = lstClassSubject;
+                rptSubject.DataBind();
+            } 
+
+            //ClassStudentDailyAttendance
             #endregion
-            
-            #region header Tugas
-            temp = lstClassSubjectTask.Where(m => m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
-            
-            MaxTugas = temp.Max(x => x.Count);
-            lstDataHeader.Clear();
-            for (int i = 0; i < MaxTugas; i++)
-            {
-                lstDataHeader.Add(String.Format("{0}", i + 1));
-            }
-            //lstDataHeader.Add("Rata-Rata");
-            //tdTugas.ColSpan = MaxTugas + 1;
-            tdTugas.ColSpan = MaxTugas;
-
-            rptTugasHeader.DataSource = lstDataHeader;
-            rptTugasHeader.DataBind();
-            #endregion
-
-            rptSubject.DataSource = lstClassSubject;
-            rptSubject.DataBind();
         }
 
         protected void rptSubject_ItemDataBound(object sender, RepeaterItemEventArgs e) 
@@ -128,7 +149,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
 
                 #region Detail Ulangan
-                List<Int32> lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && m.GCTaskType == Constant.TaskType.ULANGAN).Select(x => x.ClassSubjectTaskID).ToList();
+                List<Int32> lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && m.GCTaskType == Constant.TaskType.ULANGAN && m.GCLessonType == Constant.LessonType.THEORY).Select(x => x.ClassSubjectTaskID).ToList();
                 List<String> lstDetailUlangan = new List<String>();
                 if (lstCS.Count() > 0)
                 {
@@ -153,7 +174,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 #region Detail Tugas
                 //lstClassSubjectTugasID = String.Join(",", lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH)).Select(x => x.ClassSubjectTaskID));
                 lstCS.Clear();
-                lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH)).Select(x => x.ClassSubjectTaskID).ToList();
+                lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH) && m.GCLessonType == Constant.LessonType.THEORY).Select(x => x.ClassSubjectTaskID).ToList();
                 List<String> lstDetailTugas = new List<String>();
 
                 if (lstCS.Count() > 0)
@@ -176,16 +197,32 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 rptTugasDetail.DataBind();
                 #endregion
 
+                #region Detail Psikomotorik
+                lstCS.Clear();
+                lstCS = lstClassSubjectTask.Where(m => m.ClassSubjectID == entity.ClassSubjectID && m.GCLessonType == Constant.LessonType.PRACTICE).Select(x => x.ClassSubjectTaskID).ToList();
+                List<String> lstDetailPsikomtorik = new List<String>();
+
+                if (lstCS.Count() > 0)
+                {
+                    foreach (Int32 obj in lstCS)
+                    {
+                        ClassStudentSubjectTaskMark cssEntity = lstNilai.FirstOrDefault(x => x.ClassSubjectTaskID == obj);
+                        if (cssEntity != null) lstDetailPsikomtorik.Add(cssEntity.Mark.ToString("N"));
+                        else { lstDetailPsikomtorik.Add("-"); }
+                    }
+                }
+                if (lstDetailPsikomtorik.Count < MaxPsikomotorik) for (int i = lstDetailPsikomtorik.Count; i < MaxPsikomotorik; i++) lstDetailPsikomtorik.Add("-");
+
+                Repeater rptPsikomotorikDetail = (Repeater)e.Item.FindControl("rptPsikomotorikDetail");
+                rptPsikomotorikDetail.DataSource = lstDetailPsikomtorik;
+                rptPsikomotorikDetail.DataBind();
+                #endregion
+
                 #region UTS
                 HtmlTableCell tdDetailUTS = e.Item.FindControl("tdDetailUTS") as HtmlTableCell;
                 vClassSubjectTask entityCST = lstClassSubjectTask.FirstOrDefault(x => x.GCTaskType == Constant.TaskType.UTS);
                 if (entityCST != null) tdDetailUTS.InnerHtml =  lstNilai.FirstOrDefault(x => x.ClassSubjectTaskID == entityCST.ClassSubjectTaskID).Mark.ToString("N2");
                 else tdDetailUTS.InnerHtml = "-";
-                #endregion
-
-                #region Final Score
-                HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
-                tdFinalScore.InnerHtml = "-";
                 #endregion
             }
         }
