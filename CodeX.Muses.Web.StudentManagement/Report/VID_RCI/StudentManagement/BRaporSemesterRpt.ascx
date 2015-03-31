@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BRaporMidSemesterRpt.ascx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Report.BRaporMidSemesterRpt" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BRaporSemesterRpt.ascx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Report.BRaporMidSemesterRpt" %>
 
 <div id="divReportHeader" runat="server">
     <style type="text/css">
@@ -8,7 +8,7 @@
          .lblHeader {font-weight:bold;}
     </style>
     <div style="text-align:center">
-        <h1>LAPORAN HASIL BELAJAR TENGAH SEMESTER GENAP</h1>
+        <h1>LAPORAN HASIL BELAJAR SEMESTER GENAP</h1>
     </div>
 </div>
 

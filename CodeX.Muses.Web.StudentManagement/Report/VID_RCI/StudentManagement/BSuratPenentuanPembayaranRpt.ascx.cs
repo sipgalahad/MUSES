@@ -23,8 +23,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
         public override void Bind(string filterExpression, string[] param)
         {
+            vPeriodAdmission pa = BusinessLayer.GetvPeriodAdmissionList(String.Format("PeriodAdmissionID = {0}", AppSession.PeriodAdmissionID))[0];
+            
             vRegistration entity = BusinessLayer.GetvRegistrationList(filterExpression)[0];
-            String text = divDataSiswa.InnerHtml;
+            String text = divReportHeader.InnerHtml;
+            text = text.Replace("{Periode}", pa.SchoolPeriodName);
+            divReportHeader.InnerHtml = text;
+                
+            text = divDataSiswa.InnerHtml;
             text = text.Replace("{ProspectiveStudentName}",entity.ProspectiveStudentName);
             text = text.Replace("{Address}",entity.HomeAddress);
             text = text.Replace("{PhoneNo}",entity.PhoneNo1);

@@ -23,7 +23,7 @@
 
             $('#<%=btnPrint.ClientID %>').click(function () {
                 var reportCode = "SM-00002";
-                var filterExpression = "";
+                var filterExpression = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
                 openReportViewer(reportCode, filterExpression);
             });
 

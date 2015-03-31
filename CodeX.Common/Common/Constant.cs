@@ -29,6 +29,7 @@ namespace CodeX.Common
             public const string DATE_FORMAT_112 = "yyyyMMdd";
             public const string TIME_FORMAT = "HH:mm";
             public const string DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm:ss";
+            public const string DATE_REPORT_FORMAT = "dd MMMM yyyy";
         }
 
         public static class ConstantDate

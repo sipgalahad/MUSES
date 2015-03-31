@@ -1890,6 +1890,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectID;
         private Int32 _SchoolPeriodID;
+        private Int32 _PeriodSectionID;
         private Int32 _SchoolClassID;
         private String _SchoolClassName;
         private Int32 _PeriodClassTypeSubjectID;
@@ -1923,6 +1924,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
         }
         [Column(Name = "SchoolClassID", DataType = "Int32")]
         public Int32 SchoolClassID
@@ -10989,6 +10996,7 @@ namespace CodeX.Data.Model
         private String _PeriodAdmissionName;
         private String _Initial;
         private Int32 _SchoolPeriodID;
+        private String _SchoolPeriodName;
         private DateTime _RegistrationStartDate;
         private DateTime _RegistrationEndDate;
         private DateTime _StartDate;
@@ -11027,6 +11035,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
         }
         [Column(Name = "RegistrationStartDate", DataType = "DateTime")]
         public DateTime RegistrationStartDate

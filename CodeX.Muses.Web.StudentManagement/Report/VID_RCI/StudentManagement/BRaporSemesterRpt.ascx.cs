@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.StudentManagement.Report
 {
-    public partial class BRaporMidSemesterRpt : BaseCustomReportCtl
+    public partial class BRaporSemesterRpt : BaseCustomReportCtl
     {
         
         private Int32 SchoolPeriodID = 0;
