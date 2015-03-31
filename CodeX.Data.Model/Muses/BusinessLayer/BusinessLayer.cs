@@ -10338,6 +10338,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFeeDt
+        public static StudentFeeDt GetStudentFeeDt(Int32 StudentFeeDtID)
+        {
+            return new StudentFeeDtDao().Get(StudentFeeDtID);
+        }
+        public static int InsertStudentFeeDt(StudentFeeDt record)
+        {
+            return new StudentFeeDtDao().Insert(record);
+        }
+        public static int UpdateStudentFeeDt(StudentFeeDt record)
+        {
+            return new StudentFeeDtDao().Update(record);
+        }
+        public static int DeleteStudentFeeDt(Int32 StudentFeeDtID)
+        {
+            return new StudentFeeDtDao().Delete(StudentFeeDtID);
+        }
+        public static List<StudentFeeDt> GetStudentFeeDtList(string filterExpression)
+        {
+            List<StudentFeeDt> result = new List<StudentFeeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeDt)helper.IDataReaderToObject(reader, new StudentFeeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentFeeDt> GetStudentFeeDtList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentFeeDt> result = new List<StudentFeeDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeDt)helper.IDataReaderToObject(reader, new StudentFeeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region StudentFinalMarkFormulaDt
         public static StudentFinalMarkFormulaDt GetStudentFinalMarkFormulaDt(Int32 StudentFinalMarkFormulaDtID)
         {

@@ -95,29 +95,29 @@ namespace CodeX.Muses.Web.Finance.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vStudentFeeComp entity = e.Item.DataItem as vStudentFeeComp;
-                List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus != Constant.TransactionStatus.CLOSED).ToList(); 
-                Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
-                rptStudentFee.DataSource = lstTemp;
-                rptStudentFee.DataBind();
+                //List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus != Constant.TransactionStatus.CLOSED).ToList(); 
+                //Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
+                //rptStudentFee.DataSource = lstTemp;
+                //rptStudentFee.DataBind();
 
-                if (lstTemp.Count() > 0)
-                {
-                    HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
-                    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0} hdnTotalAmount", entity.StudentFeeCompID));
-                    Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
-                    hdnTotalAmount.Value = totalAmount.ToString();
+                //if (lstTemp.Count() > 0)
+                //{
+                //    HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
+                //    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0} hdnTotalAmount", entity.StudentFeeCompID));
+                //    Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
+                //    hdnTotalAmount.Value = totalAmount.ToString();
 
-                    HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
-                    tdTotalAmount.InnerHtml = totalAmount.ToString("N");
-                }
-                else
-                {
-                    HtmlTableRow trDataHeader = e.Item.FindControl("trDataHeader") as HtmlTableRow;
-                    trDataHeader.Style.Add("display", "none");
+                //    HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
+                //    tdTotalAmount.InnerHtml = totalAmount.ToString("N");
+                //}
+                //else
+                //{
+                //    HtmlTableRow trDataHeader = e.Item.FindControl("trDataHeader") as HtmlTableRow;
+                //    trDataHeader.Style.Add("display", "none");
 
-                    HtmlTableRow trDataDetail = e.Item.FindControl("trDataDetail") as HtmlTableRow;
-                    trDataDetail.Style.Add("display", "none");
-                }
+                //    HtmlTableRow trDataDetail = e.Item.FindControl("trDataDetail") as HtmlTableRow;
+                //    trDataDetail.Style.Add("display", "none");
+                //}
             }
         }
 
@@ -204,121 +204,121 @@ namespace CodeX.Muses.Web.Finance.Program
 
             try
             {
-                foreach (Int32 studentFeeCompID in lstStudentFeeCompID)
-                {
-                    Int32 countEdit = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
-                    Int32 countSF = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
-                    List<vStudentFee> lstSf = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
-                    List<TempClass> lstTc = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
+                //foreach (Int32 studentFeeCompID in lstStudentFeeCompID)
+                //{
+                //    Int32 countEdit = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
+                //    Int32 countSF = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
+                //    List<vStudentFee> lstSf = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
+                //    List<TempClass> lstTc = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
 
-                    if (countEdit > countSF)
-                    {
-                        Int32 SchoolPeriodID = 0;
-                        Int32? StudentFeeCompTypeID = 0;
-                        Int32? RegistrationID = null;
-                        //Update
-                        Int32 count = 0;
-                        Int32 DisplayOrder = 0;
-                        foreach (vStudentFee obj in lstSf)
-                        {
-                            StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
-                            SchoolPeriodID = sf.SchoolPeriodID;
-                            RegistrationID = sf.RegistrationID;
-                            sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
-                            sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
-                            DisplayOrder = sf.DisplayOrder;
-                            studentFeeDao.Update(sf);
+                //    if (countEdit > countSF)
+                //    {
+                //        Int32 SchoolPeriodID = 0;
+                //        Int32? StudentFeeCompTypeID = 0;
+                //        Int32? RegistrationID = null;
+                //        //Update
+                //        Int32 count = 0;
+                //        Int32 DisplayOrder = 0;
+                //        foreach (vStudentFee obj in lstSf)
+                //        {
+                //            StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
+                //            SchoolPeriodID = sf.SchoolPeriodID;
+                //            RegistrationID = sf.RegistrationID;
+                //            sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
+                //            sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
+                //            DisplayOrder = sf.DisplayOrder;
+                //            studentFeeDao.Update(sf);
 
-                            ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x=> x.StudentFeeID == obj.StudentFeeID);
-                            StudentFeeCompTypeID = ardt.StudentFeeCompTypeID;
-                            ardt.TransactionAmount = lstTc[count].PaymentAmount;
-                            ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
-                            ardtDao.Update(ardt);
+                //            ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x=> x.StudentFeeID == obj.StudentFeeID);
+                //            StudentFeeCompTypeID = ardt.StudentFeeCompTypeID;
+                //            ardt.TransactionAmount = lstTc[count].PaymentAmount;
+                //            ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
+                //            ardtDao.Update(ardt);
 
-                            count++;
-                        }
+                //            count++;
+                //        }
 
-                        for (int i = 0; i < countEdit - countSF; i++)
-                        {
-                            StudentFee sf = new StudentFee();
-                            sf.RegistrationID = RegistrationID;
-                            sf.SchoolPeriodID = SchoolPeriodID;
-                            sf.StudentFeeCompID = studentFeeCompID;
-                            sf.DisplayOrder = Convert.ToInt16(++DisplayOrder);
-                            sf.PaymentDate = Helper.GetDatePickerValue(lstTc[count].DueDate);
-                            sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
-                            sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
-                            sf.IsDeleted = false;
-                            sf.CreatedBy = AppSession.UserLogin.UserID;
-                            sf.CreatedDate = DateTime.Now;
-                            studentFeeDao.Insert(sf);
-                            Int32 StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
+                //        for (int i = 0; i < countEdit - countSF; i++)
+                //        {
+                //            StudentFee sf = new StudentFee();
+                //            sf.RegistrationID = RegistrationID;
+                //            sf.SchoolPeriodID = SchoolPeriodID;
+                //            sf.StudentFeeCompID = studentFeeCompID;
+                //            sf.DisplayOrder = Convert.ToInt16(++DisplayOrder);
+                //            sf.PaymentDate = Helper.GetDatePickerValue(lstTc[count].DueDate);
+                //            sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
+                //            sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
+                //            sf.IsDeleted = false;
+                //            sf.CreatedBy = AppSession.UserLogin.UserID;
+                //            sf.CreatedDate = DateTime.Now;
+                //            studentFeeDao.Insert(sf);
+                //            Int32 StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
 
-                            ARInvoiceHd arhd = new ARInvoiceHd();
-                            arhd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT, DateTime.Now,ctx);
-                            ctx.CommandType = System.Data.CommandType.Text;
-                            arhd.BankID = BankID;
-                            arhd.ARInvoiceDate = DateTime.Now;
-                            arhd.ProspectiveStudentID = Convert.ToInt32(AppSession.ProspectiveStudentID);
-                            DateTime DueDate = Helper.GetDatePickerValue(lstTc[count].DueDate);
-                            arhd.DueDate = DueDate;
-                            arhd.Remarks = String.Format("Tagihan {0} {1} {2}",lstSfct.FirstOrDefault(x => x.StudentFeeCompTypeID == StudentFeeCompTypeID).StudentFeeCompTypeName,
-                                            DueDate.ToString("MMMM", CultureInfo.InvariantCulture), DueDate.Year);
-                            arhd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                            arhd.CreatedBy = AppSession.UserLogin.UserID;
-                            arhdDao.Insert(arhd);
-                            Int32 ARInvoiceHdID = BusinessLayer.GetARInvoiceHdMaxID(ctx);
+                //            ARInvoiceHd arhd = new ARInvoiceHd();
+                //            arhd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT, DateTime.Now,ctx);
+                //            ctx.CommandType = System.Data.CommandType.Text;
+                //            arhd.BankID = BankID;
+                //            arhd.ARInvoiceDate = DateTime.Now;
+                //            arhd.ProspectiveStudentID = Convert.ToInt32(AppSession.ProspectiveStudentID);
+                //            DateTime DueDate = Helper.GetDatePickerValue(lstTc[count].DueDate);
+                //            arhd.DueDate = DueDate;
+                //            arhd.Remarks = String.Format("Tagihan {0} {1} {2}",lstSfct.FirstOrDefault(x => x.StudentFeeCompTypeID == StudentFeeCompTypeID).StudentFeeCompTypeName,
+                //                            DueDate.ToString("MMMM", CultureInfo.InvariantCulture), DueDate.Year);
+                //            arhd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                //            arhd.CreatedBy = AppSession.UserLogin.UserID;
+                //            arhdDao.Insert(arhd);
+                //            Int32 ARInvoiceHdID = BusinessLayer.GetARInvoiceHdMaxID(ctx);
                             
-                            ARInvoiceDt ardt = new ARInvoiceDt();
-                            ardt.ARInvoiceID = ARInvoiceHdID;
-                            ardt.StudentFeeID = StudentFeeID;
-                            ardt.StudentFeeCompTypeID = StudentFeeCompTypeID;
-                            ardt.TransactionAmount = lstTc[count].PaymentAmount;
-                            ardt.DiscountAmount = 0;
-                            ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
-                            ardt.VarianceAmount = null;
-                            ardt.CreatedBy = AppSession.UserLogin.UserID;
-                            ardtDao.Insert(ardt);
+                //            ARInvoiceDt ardt = new ARInvoiceDt();
+                //            ardt.ARInvoiceID = ARInvoiceHdID;
+                //            ardt.StudentFeeID = StudentFeeID;
+                //            ardt.StudentFeeCompTypeID = StudentFeeCompTypeID;
+                //            ardt.TransactionAmount = lstTc[count].PaymentAmount;
+                //            ardt.DiscountAmount = 0;
+                //            ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
+                //            ardt.VarianceAmount = null;
+                //            ardt.CreatedBy = AppSession.UserLogin.UserID;
+                //            ardtDao.Insert(ardt);
 
-                            count++;
-                        }
+                //            count++;
+                //        }
                         
-                    }
-                    else if (countEdit < countSF)
-                    {
-                        //Update
-                        Int32 count = 0;
-                        foreach (vStudentFee obj in lstSf)
-                        {
-                            if (count < countEdit)
-                            {
-                                StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
-                                sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
-                                sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
-                                studentFeeDao.Update(sf);
+                //    }
+                //    else if (countEdit < countSF)
+                //    {
+                //        //Update
+                //        Int32 count = 0;
+                //        foreach (vStudentFee obj in lstSf)
+                //        {
+                //            if (count < countEdit)
+                //            {
+                //                StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
+                //                sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
+                //                sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
+                //                studentFeeDao.Update(sf);
 
-                                ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x => x.StudentFeeID == obj.StudentFeeID);
-                                ardt.TransactionAmount = lstTc[count].PaymentAmount;
-                                ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
-                                ardtDao.Update(ardt);
-                            }
-                            else 
-                            {
-                                StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
-                                sf.IsDeleted = true;
-                                studentFeeDao.Update(sf);
+                //                ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x => x.StudentFeeID == obj.StudentFeeID);
+                //                ardt.TransactionAmount = lstTc[count].PaymentAmount;
+                //                ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
+                //                ardtDao.Update(ardt);
+                //            }
+                //            else 
+                //            {
+                //                StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
+                //                sf.IsDeleted = true;
+                //                studentFeeDao.Update(sf);
 
-                                ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x => x.StudentFeeID == obj.StudentFeeID);
-                                ARInvoiceHd arhd = lstARInvoiceHd.FirstOrDefault(x => x.ARInvoiceID == ardt.ARInvoiceID);
-                                arhd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                                arhd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                arhdDao.Update(arhd);
-                                ardtDao.Delete(ardt.ARInvoiceDtID);
-                            }
-                            count++;
-                        }
-                    }
-                }
+                //                ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x => x.StudentFeeID == obj.StudentFeeID);
+                //                ARInvoiceHd arhd = lstARInvoiceHd.FirstOrDefault(x => x.ARInvoiceID == ardt.ARInvoiceID);
+                //                arhd.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                //                arhd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                //                arhdDao.Update(arhd);
+                //                ardtDao.Delete(ardt.ARInvoiceDtID);
+                //            }
+                //            count++;
+                //        }
+                //    }
+                //}
                 
                 ctx.CommitTransaction();
             }

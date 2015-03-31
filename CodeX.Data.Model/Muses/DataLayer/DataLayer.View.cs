@@ -405,7 +405,7 @@ namespace CodeX.Data.Model
         private String _ARInvoiceNo;
         private DateTime _ARInvoiceDate;
         private DateTime _DueDate;
-        private Int32 _StudentFeeID;
+        private Int32 _StudentFeeDtID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
         private String _SFCTShortName;
@@ -455,11 +455,11 @@ namespace CodeX.Data.Model
             get { return _DueDate; }
             set { _DueDate = value; }
         }
-        [Column(Name = "StudentFeeID", DataType = "Int32")]
-        public Int32 StudentFeeID
+        [Column(Name = "StudentFeeDtID", DataType = "Int32")]
+        public Int32 StudentFeeDtID
         {
-            get { return _StudentFeeID; }
-            set { _StudentFeeID = value; }
+            get { return _StudentFeeDtID; }
+            set { _StudentFeeDtID = value; }
         }
         [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
         public Int32 StudentFeeCompTypeID
@@ -19791,22 +19791,19 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentFeeID;
         private Int32 _StudentID;
-        private Int32 _RegistrationID;
+        private Int32 _ProspectiveStudentID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int32 _StudentFeeCompTypeID;
         private Int16 _DisplayOrder;
-        private DateTime _PaymentDate;
-        private Boolean _IsPaymentAmountInPercentage;
-        private Decimal _PaymentAmount;
-        private Decimal _TotalPaymentAmount;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private Decimal _TransactionAmount;
         private Boolean _IsDiscountAmountInPercentage;
         private Decimal _DiscountAmount;
         private Decimal _TotalDiscountAmount;
         private Decimal _LineAmount;
-        private Boolean _IsTransferred;
         private Boolean _IsDeleted;
-        private String _GCTransactionStatus;
 
         [Column(Name = "StudentFeeID", DataType = "Int32")]
         public Int32 StudentFeeID
@@ -19820,11 +19817,11 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "RegistrationID", DataType = "Int32")]
-        public Int32 RegistrationID
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
         {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -19850,29 +19847,23 @@ namespace CodeX.Data.Model
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
         }
-        [Column(Name = "PaymentDate", DataType = "DateTime")]
-        public DateTime PaymentDate
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
         {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
         }
-        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsPaymentAmountInPercentage
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
         {
-            get { return _IsPaymentAmountInPercentage; }
-            set { _IsPaymentAmountInPercentage = value; }
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
         }
-        [Column(Name = "PaymentAmount", DataType = "Decimal")]
-        public Decimal PaymentAmount
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
         {
-            get { return _PaymentAmount; }
-            set { _PaymentAmount = value; }
-        }
-        [Column(Name = "TotalPaymentAmount", DataType = "Decimal")]
-        public Decimal TotalPaymentAmount
-        {
-            get { return _TotalPaymentAmount; }
-            set { _TotalPaymentAmount = value; }
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
         }
         [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
         public Boolean IsDiscountAmountInPercentage
@@ -19898,23 +19889,11 @@ namespace CodeX.Data.Model
             get { return _LineAmount; }
             set { _LineAmount = value; }
         }
-        [Column(Name = "IsTransferred", DataType = "Boolean")]
-        public Boolean IsTransferred
-        {
-            get { return _IsTransferred; }
-            set { _IsTransferred = value; }
-        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
-        }
-        [Column(Name = "GCTransactionStatus", DataType = "String")]
-        public String GCTransactionStatus
-        {
-            get { return _GCTransactionStatus; }
-            set { _GCTransactionStatus = value; }
         }
     }
     #endregion
@@ -20057,6 +20036,189 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vStudentFeeDt
+    [Serializable]
+    [Table(Name = "vStudentFeeDt")]
+    public partial class vStudentFeeDt
+    {
+        private Int32 _StudentFeeDtID;
+        private Int32 _StudentFeeID;
+        private Int32 _StudentID;
+        private Int32 _ProspectiveStudentID;
+        private Int32 _SchoolPeriodID;
+        private Int32 _StudentFeeCompID;
+        private Int32 _StudentFeeCompTypeID;
+        private String _StudentFeeCompTypeName;
+        private String _GCAdmissionPaymentPeriod;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private Int16 _DisplayOrder;
+        private DateTime _DueDate;
+        private Boolean _IsTransactionAmountInPercentage;
+        private Decimal _TransactionAmount;
+        private Decimal _TotalTransactionAmount;
+        private Boolean _IsDiscountAmountInPercentage;
+        private Decimal _DiscountAmount;
+        private Decimal _TotalDiscountAmount;
+        private Decimal _StudentAmount;
+        private Decimal _PayerAmount;
+        private Decimal _LineAmount;
+        private Boolean _IsTransferred;
+        private Boolean _IsDeleted;
+        private String _GCTransactionStatus;
+
+        [Column(Name = "StudentFeeDtID", DataType = "Int32")]
+        public Int32 StudentFeeDtID
+        {
+            get { return _StudentFeeDtID; }
+            set { _StudentFeeDtID = value; }
+        }
+        [Column(Name = "StudentFeeID", DataType = "Int32")]
+        public Int32 StudentFeeID
+        {
+            get { return _StudentFeeID; }
+            set { _StudentFeeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StudentFeeCompID", DataType = "Int32")]
+        public Int32 StudentFeeCompID
+        {
+            get { return _StudentFeeCompID; }
+            set { _StudentFeeCompID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
+        {
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime")]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
+        }
+        [Column(Name = "IsTransactionAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsTransactionAmountInPercentage
+        {
+            get { return _IsTransactionAmountInPercentage; }
+            set { _IsTransactionAmountInPercentage = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+        [Column(Name = "TotalTransactionAmount", DataType = "Decimal")]
+        public Decimal TotalTransactionAmount
+        {
+            get { return _TotalTransactionAmount; }
+            set { _TotalTransactionAmount = value; }
+        }
+        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsDiscountAmountInPercentage
+        {
+            get { return _IsDiscountAmountInPercentage; }
+            set { _IsDiscountAmountInPercentage = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal")]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
+        public Decimal TotalDiscountAmount
+        {
+            get { return _TotalDiscountAmount; }
+            set { _TotalDiscountAmount = value; }
+        }
+        [Column(Name = "StudentAmount", DataType = "Decimal")]
+        public Decimal StudentAmount
+        {
+            get { return _StudentAmount; }
+            set { _StudentAmount = value; }
+        }
+        [Column(Name = "PayerAmount", DataType = "Decimal")]
+        public Decimal PayerAmount
+        {
+            get { return _PayerAmount; }
+            set { _PayerAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
+        }
+        [Column(Name = "IsTransferred", DataType = "Boolean")]
+        public Boolean IsTransferred
+        {
+            get { return _IsTransferred; }
+            set { _IsTransferred = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
         }
     }
     #endregion

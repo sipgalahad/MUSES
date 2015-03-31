@@ -71,6 +71,70 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region GenerateARInvoiceProspectiveStudent
+        public static void GenerateARInvoiceProspectiveStudent(String lstProspectiveStudent, String SiteID, int Month, int Year, int UserID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateARInvoiceProspectiveStudent";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@lstProspectiveStudent", lstProspectiveStudent));
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@Month", Month));
+            ctx.Command.Parameters.Add(new SqlParameter("@Year", Year));
+            ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
+        #region GenerateARInvoiceStudent
+        public static void GenerateARInvoiceStudent(String lstStudent, String SiteID, int Month, int Year, int UserID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateARInvoiceStudent";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@lstStudent", lstStudent));
+            ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
+            ctx.Command.Parameters.Add(new SqlParameter("@Month", Month));
+            ctx.Command.Parameters.Add(new SqlParameter("@Year", Year));
+            ctx.Command.Parameters.Add(new SqlParameter("@UserID", UserID));
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+        }
+        #endregion
         #region GenerateARProspectiveStudent
         public static void GenerateARProspectiveStudent(int UserID, String SiteID, int RegistrationID, IDbContext ctx = null)
         {

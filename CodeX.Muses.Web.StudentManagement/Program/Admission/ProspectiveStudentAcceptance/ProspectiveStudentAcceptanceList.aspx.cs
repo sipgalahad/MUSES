@@ -86,7 +86,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             bool result = true;
             try
             {
-                BusinessLayer.ProcessProspectiveStudentAcceptance(hdnSelectedValue.Value,AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, ctx);
+                BusinessLayer.ProcessProspectiveStudentAcceptance(hdnSelectedValue.Value, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

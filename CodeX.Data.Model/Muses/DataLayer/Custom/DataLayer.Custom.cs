@@ -203,12 +203,12 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region StudentFee
-    public partial class StudentFee
+    #region StudentFeeDt
+    public partial class StudentFeeDt
     {
-        public String PaymentDateInString
+        public String DueDateInString
         {
-            get { return _PaymentDate.ToString(Constant.FormatString.DATE_FORMAT); }
+            get { return _DueDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
     }
     #endregion

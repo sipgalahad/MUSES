@@ -7877,6 +7877,73 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentFeeDt
+        public static List<vStudentFeeDt> GetvStudentFeeDtList(string filterExpression)
+        {
+            List<vStudentFeeDt> result = new List<vStudentFeeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFeeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFeeDt)helper.IDataReaderToObject(reader, new vStudentFeeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vStudentFeeDt> GetvStudentFeeDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentFeeDt> result = new List<vStudentFeeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFeeDt));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFeeDt)helper.IDataReaderToObject(reader, new vStudentFeeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentFeeDtRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFeeDt));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentFinalMarkFormulaDt
         public static List<vStudentFinalMarkFormulaDt> GetvStudentFinalMarkFormulaDtList(string filterExpression)
         {

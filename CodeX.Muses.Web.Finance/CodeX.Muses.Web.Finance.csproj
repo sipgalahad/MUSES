@@ -123,6 +123,10 @@
     <Content Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx" />
     <Content Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
     <Content Include="Program\BankUploadedFile\BankUploadedFile.aspx" />
+    <Content Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx" />
+    <Content Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx" />
+    <Content Include="Program\GenerateARStudent\GenerateARStudentEntry.aspx" />
+    <Content Include="Program\GenerateARStudent\GenerateARStudentDtCtl.ascx" />
     <Content Include="Program\GenerateUploadFile\GenerateUploadFile.aspx" />
     <Content Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
     <Content Include="Web.config" />
@@ -520,6 +524,34 @@
     </Compile>
     <Compile Include="Program\BankUploadedFile\BankUploadedFile.aspx.designer.cs">
       <DependentUpon>BankUploadedFile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.cs">
+      <DependentUpon>GenerateARProspectiveStudentDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.designer.cs">
+      <DependentUpon>GenerateARProspectiveStudentDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx.cs">
+      <DependentUpon>GenerateARProspectiveStudentEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx.designer.cs">
+      <DependentUpon>GenerateARProspectiveStudentEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GenerateARStudent\GenerateARStudentEntry.aspx.cs">
+      <DependentUpon>GenerateARStudentEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GenerateARStudent\GenerateARStudentEntry.aspx.designer.cs">
+      <DependentUpon>GenerateARStudentEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GenerateARStudent\GenerateARStudentDtCtl.ascx.cs">
+      <DependentUpon>GenerateARStudentDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GenerateARStudent\GenerateARStudentDtCtl.ascx.designer.cs">
+      <DependentUpon>GenerateARStudentDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>

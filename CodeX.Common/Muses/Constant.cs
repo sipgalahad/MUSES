@@ -368,6 +368,8 @@ namespace CodeX.Common
                 public const string GENERATE_UPLOAD_FILE = "FN040300";
                 public const string BANK_UPLOADED_FILE = "FN040400";
                 public const string STUDENT_COVERAGE_TRANSACTION = "FN040500";
+                public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN040600";
+                public const string GENERATE_AR_INVOICE_STUDENT = "FN040700";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";

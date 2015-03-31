@@ -682,7 +682,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ARInvoiceDtID;
         private Int32 _ARInvoiceID;
-        private Int32? _StudentFeeID;
+        private Int32? _StudentFeeDtID;
         private Int32? _StudentFeeCompTypeID;
         private Decimal _TransactionAmount;
         private Decimal _ClaimedAmount;
@@ -707,11 +707,11 @@ namespace CodeX.Data.Model
             get { return _ARInvoiceID; }
             set { _ARInvoiceID = value; }
         }
-        [Column(Name = "StudentFeeID", DataType = "Int32", IsNullable = true)]
-        public Int32? StudentFeeID
+        [Column(Name = "StudentFeeDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentFeeDtID
         {
-            get { return _StudentFeeID; }
-            set { _StudentFeeID = value; }
+            get { return _StudentFeeDtID; }
+            set { _StudentFeeDtID = value; }
         }
         [Column(Name = "StudentFeeCompTypeID", DataType = "Int32", IsNullable = true)]
         public Int32? StudentFeeCompTypeID
@@ -21542,23 +21542,23 @@ namespace CodeX.Data.Model
     #region StudentFee
     [Serializable]
     [Table(Name = "StudentFee")]
-    public partial class StudentFee : DbDataModel
+    public class StudentFee : DbDataModel
     {
         private Int32 _StudentFeeID;
         private Int32? _StudentID;
-        private Int32? _RegistrationID;
+        private Int32? _ProspectiveStudentID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int16 _DisplayOrder;
-        private DateTime _PaymentDate;
-        private Boolean _IsPaymentAmountInPercentage;
-        private Decimal _PaymentAmount;
-        private Decimal _TotalPaymentAmount;
+        private Int32? _TransactionMonth;
+        private Int32? _TransactionYear;
+        private Decimal _TransactionAmount;
         private Boolean _IsDiscountAmountInPercentage;
         private Decimal _DiscountAmount;
         private Decimal _TotalDiscountAmount;
+        private Decimal _StudentAmount;
+        private Decimal _PayerAmount;
         private Decimal _LineAmount;
-        private Boolean _IsPaid;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -21577,11 +21577,11 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
-        public Int32? RegistrationID
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProspectiveStudentID
         {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -21601,29 +21601,23 @@ namespace CodeX.Data.Model
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
         }
-        [Column(Name = "PaymentDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime PaymentDate
+        [Column(Name = "TransactionMonth", DataType = "Int32", IsNullable = true)]
+        public Int32? TransactionMonth
         {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
         }
-        [Column(Name = "IsPaymentAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsPaymentAmountInPercentage
+        [Column(Name = "TransactionYear", DataType = "Int32", IsNullable = true)]
+        public Int32? TransactionYear
         {
-            get { return _IsPaymentAmountInPercentage; }
-            set { _IsPaymentAmountInPercentage = value; }
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
         }
-        [Column(Name = "PaymentAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal PaymentAmount
+        [Column(Name = "TransactionAmount", DataType = "Decimal")]
+        public Decimal TransactionAmount
         {
-            get { return _PaymentAmount; }
-            set { _PaymentAmount = value; }
-        }
-        [Column(Name = "TotalPaymentAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalPaymentAmount
-        {
-            get { return _TotalPaymentAmount; }
-            set { _TotalPaymentAmount = value; }
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
         }
         [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
         public Boolean IsDiscountAmountInPercentage
@@ -21643,17 +21637,23 @@ namespace CodeX.Data.Model
             get { return _TotalDiscountAmount; }
             set { _TotalDiscountAmount = value; }
         }
+        [Column(Name = "StudentAmount", DataType = "Decimal")]
+        public Decimal StudentAmount
+        {
+            get { return _StudentAmount; }
+            set { _StudentAmount = value; }
+        }
+        [Column(Name = "PayerAmount", DataType = "Decimal")]
+        public Decimal PayerAmount
+        {
+            get { return _PayerAmount; }
+            set { _PayerAmount = value; }
+        }
         [Column(Name = "LineAmount", DataType = "Decimal")]
         public Decimal LineAmount
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
-        }
-        [Column(Name = "IsPaid", DataType = "Boolean")]
-        public Boolean IsPaid
-        {
-            get { return _IsPaid; }
-            set { _IsPaid = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -21736,10 +21736,12 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentFeeCompID;
         private Int32? _StudentID;
-        private Int32? _RegistrationID;
+        private Int32? _ProspectiveStudentID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompTypeID;
         private Int16 _NoOfPeriod;
+        private Decimal _StudentAmount;
+        private Decimal _PayerAmount;
         private Decimal _TotalAmount;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -21759,11 +21761,11 @@ namespace CodeX.Data.Model
             get { return _StudentID; }
             set { _StudentID = value; }
         }
-        [Column(Name = "RegistrationID", DataType = "Int32", IsNullable = true)]
-        public Int32? RegistrationID
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProspectiveStudentID
         {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -21782,6 +21784,18 @@ namespace CodeX.Data.Model
         {
             get { return _NoOfPeriod; }
             set { _NoOfPeriod = value; }
+        }
+        [Column(Name = "StudentAmount", DataType = "Decimal")]
+        public Decimal StudentAmount
+        {
+            get { return _StudentAmount; }
+            set { _StudentAmount = value; }
+        }
+        [Column(Name = "PayerAmount", DataType = "Decimal")]
+        public Decimal PayerAmount
+        {
+            get { return _PayerAmount; }
+            set { _PayerAmount = value; }
         }
         [Column(Name = "TotalAmount", DataType = "Decimal")]
         public Decimal TotalAmount
@@ -22112,6 +22126,189 @@ namespace CodeX.Data.Model
                 record = new StudentFeeCompTypePaymentDao().Get(StudentFeeCompTypePaymentID);
             else
                 record = Get(StudentFeeCompTypePaymentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region StudentFeeDt
+    [Serializable]
+    [Table(Name = "StudentFeeDt")]
+    public partial class StudentFeeDt : DbDataModel
+    {
+        private Int32 _StudentFeeDtID;
+        private Int32 _StudentFeeID;
+        private Int16 _DisplayOrder;
+        private DateTime _DueDate;
+        private Boolean _IsTransactionAmountInPercentage;
+        private Decimal _TransactionAmount;
+        private Decimal _TotalTransactionAmount;
+        private Boolean _IsDiscountAmountInPercentage;
+        private Decimal _DiscountAmount;
+        private Decimal _TotalDiscountAmount;
+        private Decimal _StudentAmount;
+        private Decimal _PayerAmount;
+        private Decimal _LineAmount;
+        private Boolean _IsPaid;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFeeDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFeeDtID
+        {
+            get { return _StudentFeeDtID; }
+            set { _StudentFeeDtID = value; }
+        }
+        [Column(Name = "StudentFeeID", DataType = "Int32")]
+        public Int32 StudentFeeID
+        {
+            get { return _StudentFeeID; }
+            set { _StudentFeeID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
+        }
+        [Column(Name = "IsTransactionAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsTransactionAmountInPercentage
+        {
+            get { return _IsTransactionAmountInPercentage; }
+            set { _IsTransactionAmountInPercentage = value; }
+        }
+        [Column(Name = "TransactionAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal TransactionAmount
+        {
+            get { return _TransactionAmount; }
+            set { _TransactionAmount = value; }
+        }
+        [Column(Name = "TotalTransactionAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal TotalTransactionAmount
+        {
+            get { return _TotalTransactionAmount; }
+            set { _TotalTransactionAmount = value; }
+        }
+        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsDiscountAmountInPercentage
+        {
+            get { return _IsDiscountAmountInPercentage; }
+            set { _IsDiscountAmountInPercentage = value; }
+        }
+        [Column(Name = "DiscountAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal DiscountAmount
+        {
+            get { return _DiscountAmount; }
+            set { _DiscountAmount = value; }
+        }
+        [Column(Name = "TotalDiscountAmount", DataType = "Decimal", IsNullable = true)]
+        public Decimal TotalDiscountAmount
+        {
+            get { return _TotalDiscountAmount; }
+            set { _TotalDiscountAmount = value; }
+        }
+        [Column(Name = "StudentAmount", DataType = "Decimal")]
+        public Decimal StudentAmount
+        {
+            get { return _StudentAmount; }
+            set { _StudentAmount = value; }
+        }
+        [Column(Name = "PayerAmount", DataType = "Decimal")]
+        public Decimal PayerAmount
+        {
+            get { return _PayerAmount; }
+            set { _PayerAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
+        }
+        [Column(Name = "IsPaid", DataType = "Boolean")]
+        public Boolean IsPaid
+        {
+            get { return _IsPaid; }
+            set { _IsPaid = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFeeDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFeeDt));
+        private bool _isAuditLog = false;
+        private const string p_StudentFeeDtID = "@p_StudentFeeDtID";
+        public StudentFeeDtDao() { }
+        public StudentFeeDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFeeDt Get(Int32 StudentFeeDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFeeDtID, StudentFeeDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFeeDt)_helper.DataRowToObject(row, new StudentFeeDt());
+        }
+        public int Insert(StudentFeeDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFeeDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFeeDtID)
+        {
+            StudentFeeDt record;
+            if (_ctx.Transaction == null)
+                record = new StudentFeeDtDao().Get(StudentFeeDtID);
+            else
+                record = Get(StudentFeeDtID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

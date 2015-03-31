@@ -53,7 +53,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             PeriodAdmission entity = BusinessLayer.GetPeriodAdmission(AppSession.PeriodAdmissionID);
             hdnSchoolPeriodID.Value = entity.SchoolPeriodID.ToString();
 
-            hdnYear.Value = entity.StartDate.Year.ToString();
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(entity.SchoolPeriodID);
+            hdnYear.Value = entitySchoolPeriod.StartDate.Year.ToString();
+            hdnMonth.Value = entitySchoolPeriod.StartDate.Month.ToString();
             List<AdmissionPaymentHd> lstPayment = BusinessLayer.GetAdmissionPaymentHdList(string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", hdnSchoolPeriodID.Value));
             Methods.SetComboBoxField<AdmissionPaymentHd>(cboPaymentType, lstPayment, "PaymentName", "PaymentID");
 
@@ -63,7 +65,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<AdmissionPaymentDt> lstPaymentDt = null;
-        List<vStudentFee> lstStudentFee = null;
+        List<vStudentFeeDt> lstStudentFeeDt = null;
         List<ScholarshipComp> lstScholarshipComp = null;
         List<RegistrationScholarship> lstRegistrationScholarshipFee = null;
         protected void cbpScholarship_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -105,13 +107,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 isLoadRegistration = temp[1] == "1";
 
                 lstPaymentDt = BusinessLayer.GetAdmissionPaymentDtList(string.Format("PaymentID = {0}", cboPaymentType.Value));
-                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
+                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", hdnProspectiveStudentID.Value));
                 if (hdnLstScholarshipID.Value != "")
                     lstScholarshipComp = BusinessLayer.GetScholarshipCompList(string.Format("ScholarshipID IN ({0}) AND DiscountAmount > 0", hdnLstScholarshipID.Value));
                 else
                     lstScholarshipComp = new List<ScholarshipComp>();
 
-                List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value));
+                List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", hdnProspectiveStudentID.Value));
                 List<vAdmissionFeeRuleDtCustom> lstEntity = BusinessLayer.GetvAdmissionFeeRuleDtCustomList(string.Format("SchoolPeriodID = {0} AND (IsFixedAmount = 1 OR (IsFixedAmount = 0 AND PeriodAdmissionID = {1} AND AdmissionFeeRuleID = {2})) AND IsDeleted = 0", hdnSchoolPeriodID.Value, AppSession.PeriodAdmissionID, tacAdmissionFeeRule.Value));
                 foreach (StudentFeeComp studentFeeComp in lstStudentFeeComp)
                 {
@@ -140,9 +142,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 ScholarshipComp entityScholarshipComp = lstScholarshipComp.FirstOrDefault(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
 
-                List<vStudentFee> lstStudentFee1 = lstStudentFee.Where(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).ToList();
+                List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).ToList();
 
-                List<vStudentFee> lstEntity = new List<vStudentFee>();
+                List<vStudentFeeDt> lstEntity = new List<vStudentFeeDt>();
                 List<AdmissionPaymentDt> lstPaymentDt1 = lstPaymentDt.Where(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID).ToList();
                 short ctr = 1;
                 foreach (AdmissionPaymentDt paymentDt in lstPaymentDt1)
@@ -163,16 +165,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     totalPaymentInPercentage = totalPaymentInPercentage / paymentDt.NoOfPayment;
                     for (int i = 0; i < paymentDt.NoOfPayment; ++i)
                     {
-                        vStudentFee entityDt = lstStudentFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
+                        vStudentFeeDt entityDt = lstStudentFeeDt1.FirstOrDefault(p => p.DisplayOrder == ctr);
                         if (entityDt == null)
                         {
-                            entityDt = new vStudentFee();
+                            entityDt = new vStudentFeeDt();
                             if (paymentDt.PaymentDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) == Constant.ConstantDate.DEFAULT_NULL)
-                                entityDt.PaymentDate = DateTime.Now;
+                                entityDt.DueDate = DateTime.Now;
                             else
-                                entityDt.PaymentDate = paymentDt.PaymentDate;
-                            entityDt.TotalPaymentAmount = totalPayment;
-                            entityDt.PaymentAmount = totalPaymentInPercentage;
+                                entityDt.DueDate = paymentDt.PaymentDate;
+                            entityDt.TotalTransactionAmount = totalPayment;
+                            entityDt.TransactionAmount = totalPaymentInPercentage;
                             entityDt.DisplayOrder = ctr;
                         }
                         if (!isLoadRegistration && entityScholarshipComp != null)
@@ -182,12 +184,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
                                 {
                                     Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
-                                    entityDt.TotalDiscountAmount = DiscountAmount * entityDt.TotalPaymentAmount / 100;
+                                    entityDt.TotalDiscountAmount = DiscountAmount * entityDt.TotalTransactionAmount / 100;
                                     entityDt.DiscountAmount = DiscountAmount;
                                 }
                                 else
                                 {
-                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalPaymentAmount / 100;
+                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalTransactionAmount / 100;
                                     entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount;
                                 }
                             }
@@ -196,17 +198,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
                                 {
                                     entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod;
-                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod * 100 / entityDt.TotalPaymentAmount;
+                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod * 100 / entityDt.TotalTransactionAmount;
                                 }
                                 else
                                 {
                                     Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
                                     entityDt.TotalDiscountAmount = DiscountAmount;
-                                    entityDt.DiscountAmount = DiscountAmount * 100 / entityDt.TotalPaymentAmount;
+                                    entityDt.DiscountAmount = DiscountAmount * 100 / entityDt.TotalTransactionAmount;
                                 }
                             }
                         }
-                        entityDt.LineAmount = entityDt.TotalPaymentAmount - entityDt.TotalDiscountAmount;
+                        entityDt.LineAmount = entityDt.TotalTransactionAmount - entityDt.TotalDiscountAmount;
                         lstEntity.Add(entityDt);
                         ctr++;
                     }
@@ -216,16 +218,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
-        private void OnSaveRecord(IDbContext ctx, int registrationID)
+        private void OnSaveRecord(IDbContext ctx, int registrationID, bool isApproved)
         {
             RegistrationDao entityDao = new RegistrationDao(ctx);
             StudentFeeDao entityFeeDao = new StudentFeeDao(ctx);
+            StudentFeeDtDao entityFeeDtDao = new StudentFeeDtDao(ctx);
             StudentFeeCompDao entityFeeCompDao = new StudentFeeCompDao(ctx);
             RegistrationScholarshipDao entityScholarshipDao = new RegistrationScholarshipDao(ctx);
             
             Registration entity = entityDao.Get(registrationID);
             entity.AdmissionFeeRuleID = Convert.ToInt32(tacAdmissionFeeRule.Value);
             entity.PaymentID = Convert.ToInt32(cboPaymentType.Value);
+            if (isApproved)
+                entity.GCRegistrationStatus = Constant.RegistrationStatus.AR_PROCESSED;
             entity.LastUpdatedBy = AppSession.UserLogin.UserID;
             entityDao.Update(entity);
 
@@ -251,8 +256,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityScholarshipDao.Delete(entityScholarship.RegistrationID, entityScholarship.ScholarshipID);
             }
 
-            List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
-            List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", tacRegistration.Value), ctx);
+            List<StudentFeeComp> lstStudentFeeComp = BusinessLayer.GetStudentFeeCompList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", hdnProspectiveStudentID.Value), ctx);
+            List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", hdnProspectiveStudentID.Value), ctx);
+            string lstStudentFeeID = string.Join(",", lstStudentFee.Select(p => p.StudentFeeID).ToList());
+            List<StudentFeeDt> lstStudentFeeDt = null;
+            if (lstStudentFeeID != "")
+                lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
+            else
+                lstStudentFeeDt = new List<StudentFeeDt>();
+
             string[] lstSaveValue = hdnSaveValue.Value.Split('|');
             foreach (string saveValue in lstSaveValue)
             {
@@ -260,8 +272,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 int studentFeeCompTypeID = Convert.ToInt32(temp[0]);
                 short noOfPeriod = Convert.ToInt16(temp[1]);
                 decimal admissionFeeCompValue = Convert.ToDecimal(temp[2]);
+                string GCAdmissionPaymentPeriod = temp[3];
                 StudentFeeComp studentFeeComp = lstStudentFeeComp.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeCompTypeID);
-                List<StudentFee> lstStudentFee1 = null;
+                StudentFee studentFee = null;
+                List<StudentFeeDt> lstStudentFeeDt1 = null;
                 if (studentFeeComp != null)
                 {
                     studentFeeComp.NoOfPeriod = noOfPeriod;
@@ -270,13 +284,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entityFeeCompDao.Update(studentFeeComp);
 
                     lstStudentFeeComp.Remove(studentFeeComp);
-                    lstStudentFee1 = lstStudentFee.Where(p => p.StudentFeeCompID == studentFeeComp.StudentFeeCompID).ToList();
+                    studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeCompID == studentFeeComp.StudentFeeCompID);
+                    lstStudentFeeDt1 = lstStudentFeeDt.Where(p => p.StudentFeeID == studentFee.StudentFeeID).ToList();
+
+                    lstStudentFee.Remove(studentFee);
+                    studentFee.TransactionAmount = studentFee.StudentAmount = studentFee.LineAmount = admissionFeeCompValue;
+                    studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityFeeDao.Update(studentFee);
                 }
                 else
                 {
                     studentFeeComp = new StudentFeeComp();
                     studentFeeComp.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
-                    studentFeeComp.RegistrationID = entity.RegistrationID;
+                    studentFeeComp.ProspectiveStudentID = entity.ProspectiveStudentID;
                     studentFeeComp.StudentFeeCompTypeID = studentFeeCompTypeID;
                     studentFeeComp.NoOfPeriod = noOfPeriod;
                     studentFeeComp.TotalAmount = admissionFeeCompValue;
@@ -284,49 +304,65 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entityFeeCompDao.Insert(studentFeeComp);
                     studentFeeComp.StudentFeeCompID = BusinessLayer.GetStudentFeeCompMaxID(ctx);
 
-                    lstStudentFee1 = new List<StudentFee>();
+                    studentFee = new StudentFee();
+                    studentFee.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
+                    studentFee.DisplayOrder = 1;
+
+                    if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                    {
+                        studentFee.TransactionMonth = Convert.ToInt32(hdnMonth.Value);
+                        studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
+                    }
+                    else if (GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                        studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
+                    studentFee.ProspectiveStudentID = entity.ProspectiveStudentID;
+                    studentFee.StudentFeeCompID = studentFeeComp.StudentFeeCompID;
+                    studentFee.TransactionAmount = studentFee.StudentAmount = studentFee.LineAmount = admissionFeeCompValue;
+                    studentFee.CreatedBy = AppSession.UserLogin.UserID;
+                    entityFeeDao.Insert(studentFee);
+                    studentFee.StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
+
+                    lstStudentFeeDt1 = new List<StudentFeeDt>();
                 }
 
-                string[] lstSaveValue1 = temp[3].Split(',');
+                string[] lstSaveValue1 = temp[4].Split(',');
                 short ctr = 1;
                 foreach (string saveValue1 in lstSaveValue1)
                 {
                     string[] temp1 = saveValue1.Split('^');
-                    StudentFee entityFee = lstStudentFee1.FirstOrDefault(p => p.DisplayOrder == ctr);
-                    if (entityFee == null)
+                    StudentFeeDt entityFeeDt = lstStudentFeeDt1.FirstOrDefault(p => p.DisplayOrder == ctr);
+                    if (entityFeeDt == null)
                     {
-                        entityFee = new StudentFee();
-                        entityFee.SchoolPeriodID = Convert.ToInt32(hdnSchoolPeriodID.Value);
-                        entityFee.StudentFeeCompID = studentFeeComp.StudentFeeCompID;
-                        entityFee.RegistrationID = entity.RegistrationID;
-                        entityFee.DisplayOrder = ctr;
-                        entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
-                        entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
-                        entityFee.IsPaymentAmountInPercentage = true;
-                        entityFee.TotalPaymentAmount = Convert.ToDecimal(temp1[2]);
-                        entityFee.DiscountAmount = Convert.ToDecimal(temp1[3]);
-                        entityFee.IsDiscountAmountInPercentage = true;
-                        entityFee.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
-                        entityFee.LineAmount = Convert.ToDecimal(temp1[5]);
-                        entityFee.CreatedBy = AppSession.UserLogin.UserID;
+                        entityFeeDt = new StudentFeeDt();
+                        entityFeeDt.StudentFeeID = studentFee.StudentFeeID;
+                        entityFeeDt.DisplayOrder = ctr;
+                        entityFeeDt.DueDate = Helper.GetDatePickerValue(temp1[0]);
+                        entityFeeDt.TransactionAmount = Convert.ToDecimal(temp1[1]);
+                        entityFeeDt.IsTransactionAmountInPercentage = true;
+                        entityFeeDt.TotalTransactionAmount = Convert.ToDecimal(temp1[2]);
+                        entityFeeDt.DiscountAmount = Convert.ToDecimal(temp1[3]);
+                        entityFeeDt.IsDiscountAmountInPercentage = true;
+                        entityFeeDt.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
+                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[5]);
+                        entityFeeDt.CreatedBy = AppSession.UserLogin.UserID;
 
-                        entityFeeDao.Insert(entityFee);
+                        entityFeeDtDao.Insert(entityFeeDt);
                     }
                     else
                     {
-                        entityFee.PaymentDate = Helper.GetDatePickerValue(temp1[0]);
-                        entityFee.PaymentAmount = Convert.ToDecimal(temp1[1]);
-                        entityFee.IsPaymentAmountInPercentage = true;
-                        entityFee.TotalPaymentAmount = Convert.ToDecimal(temp1[2]);
-                        entityFee.DiscountAmount = Convert.ToDecimal(temp1[3]);
-                        entityFee.IsDiscountAmountInPercentage = true;
-                        entityFee.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
-                        entityFee.LineAmount = Convert.ToDecimal(temp1[5]);
-                        entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityFeeDt.DueDate = Helper.GetDatePickerValue(temp1[0]);
+                        entityFeeDt.TransactionAmount = Convert.ToDecimal(temp1[1]);
+                        entityFeeDt.IsTransactionAmountInPercentage = true;
+                        entityFeeDt.TotalTransactionAmount = Convert.ToDecimal(temp1[2]);
+                        entityFeeDt.DiscountAmount = Convert.ToDecimal(temp1[3]);
+                        entityFeeDt.IsDiscountAmountInPercentage = true;
+                        entityFeeDt.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
+                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[5]);
+                        entityFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
 
-                        entityFeeDao.Update(entityFee);
+                        entityFeeDtDao.Update(entityFeeDt);
 
-                        lstStudentFee.Remove(entityFee);
+                        lstStudentFeeDt.Remove(entityFeeDt);
                     }
                     ctr++;
                 }
@@ -343,6 +379,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityFeeDao.Update(entityFee);
             }
+            foreach (StudentFeeDt entityFeeDt in lstStudentFeeDt)
+            {
+                entityFeeDt.IsDeleted = true;
+                entityFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityFeeDtDao.Update(entityFeeDt);
+            }
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
@@ -354,7 +396,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 int registrationID = Convert.ToInt32(tacRegistration.Value);
                 if (type == "save")
                 {
-                    OnSaveRecord(ctx, registrationID);
+                    OnSaveRecord(ctx, registrationID, false);
                 }
                 else if(type == "void")
                 {
@@ -363,7 +405,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 else
                 {
                     ProspectiveStudentDao entityProspectiveStudentDao = new ProspectiveStudentDao(ctx);
-                    OnSaveRecord(ctx, registrationID);
+                    OnSaveRecord(ctx, registrationID, true);
 
                     int prospectiveStudentID = Convert.ToInt32(hdnProspectiveStudentID.Value);
                     ProspectiveStudent entityProspectiveStudent = entityProspectiveStudentDao.Get(prospectiveStudentID);
@@ -375,7 +417,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityProspectiveStudentDao.Update(entityProspectiveStudent);
                     }
-                    BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID, ctx);
+                    //BusinessLayer.GenerateARProspectiveStudent(AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID, registrationID, ctx);
                 }
                 ctx.CommitTransaction();
             }

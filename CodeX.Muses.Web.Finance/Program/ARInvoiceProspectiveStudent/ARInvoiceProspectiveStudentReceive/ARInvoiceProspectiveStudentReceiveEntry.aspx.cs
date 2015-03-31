@@ -194,7 +194,7 @@ namespace CodeX.Web.Finance.Program
             ARReceivingDtDao entityReceivingDtDao = new ARReceivingDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
             RegistrationDao entityRegDao = new RegistrationDao(ctx);
-            StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
+            StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
                 #region ARReceivingHD
@@ -274,18 +274,18 @@ namespace CodeX.Web.Finance.Program
                 {
                     List<ARInvoiceHd> lstARInvoiceHD = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value), ctx);
                     List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value), ctx);
-                    String lstStudentFeeID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeID).ToList());
-                    List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
+                    String lstStudentFeeDtID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeDtID).ToList());
+                    List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
                     decimal totalPaymentAmount = entityReceivingHd.TotalReceivingAmount;
                     foreach (ARInvoiceHd ARInvoiceHdobj in lstARInvoiceHD)
                     {
                         List<ARInvoiceDt> lstARInvoiceDt1 = lstARInvoiceDt.Where(p => p.ARInvoiceID == ARInvoiceHdobj.ARInvoiceID).ToList();
                         foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt1)
                         {
-                            StudentFee studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == aRInvoiceDt.StudentFeeID);
-                            studentFee.IsPaid = true;
-                            studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            entityStudentFeeDao.Update(studentFee);
+                            StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
+                            studentFeeDt.IsPaid = true;
+                            studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeDtDao.Update(studentFeeDt);
 
                             ARInvoiceReceiving ARInvoiceReceivingObj = new ARInvoiceReceiving();
                             ARInvoiceReceivingObj.ARInvoiceID = ARInvoiceHdobj.ARInvoiceID;
@@ -371,7 +371,7 @@ namespace CodeX.Web.Finance.Program
             ARInvoiceDtDao entityARIDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
             RegistrationDao entityRegDao = new RegistrationDao(ctx);
-            StudentFeeDao entityStudentFeeDao = new StudentFeeDao(ctx);
+            StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
                 ARReceivingHd entityARR = entityARRHdDao.Get(Convert.ToInt32(hdnARReceivingID.Value));
@@ -387,8 +387,8 @@ namespace CodeX.Web.Finance.Program
                     List<ARInvoiceReceiving> lstARIR1 = lstARIR.Where(p => p.ARInvoiceID == enARI.ARInvoiceID).ToList();
                     string lstARInvoiceDtID = string.Join(",", lstARIR1.Select(p => p.ARInvoiceDtID).ToList());
                     List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceDtID IN ({0})", lstARInvoiceDtID), ctx);
-                    String lstStudentFeeID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeID).ToList());
-                    List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(String.Format("StudentFeeID IN ({0})", lstStudentFeeID), ctx);
+                    String lstStudentFeeDtID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeDtID).ToList());
+                    List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
 
                     foreach (ARInvoiceDt aRInvoiceDt in lstARInvoiceDt)
                     {
@@ -396,12 +396,12 @@ namespace CodeX.Web.Finance.Program
                         aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityARIDtDao.Update(aRInvoiceDt);
 
-                        StudentFee studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == aRInvoiceDt.StudentFeeID);
+                        StudentFeeDt studentFeeDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeDtID == aRInvoiceDt.StudentFeeDtID);
                         if (aRInvoiceDt.PaymentAmount == 0)
                         {
-                            studentFee.IsPaid = false;
-                            studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            entityStudentFeeDao.Update(studentFee);
+                            studentFeeDt.IsPaid = false;
+                            studentFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityStudentFeeDtDao.Update(studentFeeDt);
                         }
                     }
 
