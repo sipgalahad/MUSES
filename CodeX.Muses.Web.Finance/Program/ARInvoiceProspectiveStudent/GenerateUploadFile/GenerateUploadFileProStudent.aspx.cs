@@ -24,20 +24,10 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             return Constant.MenuCode.Finance.GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE;
         }
-        
-        String lstSiteID = "";
+
         protected override void InitializeDataControl()
         {
-            Helper.SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, true), "mpEntry");
-            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            
-            foreach(Site obj in lstSite)
-            {
-                if(lstSiteID != "") lstSiteID += ',';
-                lstSiteID += String.Format("'{0}'", obj.SiteID);
-            }
-
-            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
+            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
@@ -64,105 +54,135 @@ namespace CodeX.Muses.Web.Finance.Program
             txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
             BindGridView();
+
+            Helper.SetControlEntrySetting(cboBank, new ControlEntrySetting(true, true, true), "mpEntry");
+        }
+        public void BindGridView() 
+        {
+            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND IsPaid = 0", AppSession.ProspectiveStudentID));
+            grdView.DataSource = lstEntity;
+            grdView.DataBind();
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
         }
-        public void BindGridView() 
-        {
-            List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ProspectiveStudentID = {0} AND GCTransactionStatus IN ('{1}','{2}','{3}')", AppSession.ProspectiveStudentID, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED));
-            grdView.DataSource = lstInvoiceDt;
-            grdView.DataBind();
-        }
-        private string GetFilterExpression()
-        {
-            string filterExpression = "";
-            return filterExpression;
-        }
 
         protected void btnExport_Click(object sender, EventArgs e)
         {
             IDbContext ctx = DbFactory.Configure(true);
+            ProspectiveStudentDao prospectiveStudentDao = new ProspectiveStudentDao(ctx);
+            SchoolClassDao schoolClassDao = new SchoolClassDao(ctx);
             ARInvoiceDtDao arInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
+            SiteParameterDao siteParameterDao = new SiteParameterDao(ctx);
             try
             {
-                //Build the Text file data.
+                ProspectiveStudent prospectiveStudent = prospectiveStudentDao.Get(AppSession.ProspectiveStudentID);
+                List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
+                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
+
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", prospectiveStudent.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
+                foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
+                {
+                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    arInvoiceHdDao.Update(arInvoiceHD);
+                }
+
+                String schoolType = siteParameterDao.Get(prospectiveStudent.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
+
+                #region Insert AR Invoice
+                string remarks = "";
+                foreach (vStudentFeeDt studentFeeDt in lstStudentFeeDt)
+                {
+                    if (remarks != "")
+                        remarks += ", ";
+                    remarks += studentFeeDt.cfStudentFeeCompTypeName;
+                }
+
+                DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
+                Int32 BankID = Convert.ToInt32(siteParameterDao.Get(AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK).ParameterValue);
+
+                ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
+                entityARInvoiceHd.ARInvoiceDate = DateTime.Now;
+                entityARInvoiceHd.BankID = BankID;
+                entityARInvoiceHd.StudentID = AppSession.StudentID;
+                entityARInvoiceHd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_STUDENT, DateTime.Now, ctx);
+                ctx.CommandType = System.Data.CommandType.Text;
+                entityARInvoiceHd.DueDate = DueDate;
+                entityARInvoiceHd.Remarks = remarks;
+                entityARInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                entityARInvoiceHd.CreatedBy = AppSession.UserLogin.UserID;
+                arInvoiceHdDao.Insert(entityARInvoiceHd);
+                Int32 ARInvoiceHdID = BusinessLayer.GetARInvoiceHdMaxID(ctx);
+
+                foreach (vStudentFeeDt studentFeeDt in lstStudentFeeDt)
+                {
+                    ARInvoiceDt entityARInvoiceDt = new ARInvoiceDt();
+                    entityARInvoiceDt.ARInvoiceID = ARInvoiceHdID;
+                    entityARInvoiceDt.StudentFeeDtID = studentFeeDt.StudentFeeDtID;
+                    entityARInvoiceDt.StudentFeeCompTypeID = studentFeeDt.StudentFeeCompTypeID;
+                    entityARInvoiceDt.ClaimedAmount = entityARInvoiceDt.TransactionAmount = studentFeeDt.StudentAmount;
+                    entityARInvoiceDt.DiscountAmount = 0;
+                    entityARInvoiceDt.VarianceAmount = null;
+                    entityARInvoiceDt.CreatedBy = AppSession.UserLogin.UserID;
+                    arInvoiceDtDao.Insert(entityARInvoiceDt);
+                }
+
+                entityARInvoiceHd = arInvoiceHdDao.Get(ARInvoiceHdID);
+                entityARInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
+                entityARInvoiceHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                arInvoiceHdDao.Update(entityARInvoiceHd);
+                #endregion
+
+                #region Build Text File
                 String txt = string.Empty;
                 String format = "";
-
-                List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID IN ({0}) AND ParameterCode = '{1}'", lstSiteID, Constant.SiteParameter.SCHOOL_TYPE));
-                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE));
-                List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("ARInvoiceDtID IN ({0})", hdnSelectedValue.Value));
-
-                String ProspectiveStudentID = String.Join(",", lstInvoiceDt.GroupBy(x => x.ProspectiveStudentID).Where(x => x.Key != 0).Select(x => x.Key));
-                List<ProspectiveStudent> lstPS = null;
-                if (ProspectiveStudentID != "") lstPS = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", ProspectiveStudentID));
-
                 SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
-
                 List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID));
 
                 if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
                 String nbs = "";
                 #region ProspectiveStudent
-                if (lstPS != null)
+                String tempFormat = format;
+                tempFormat = tempFormat.Replace("{NBS}", prospectiveStudent.ProspectiveStudentCode);
+                nbs = prospectiveStudent.ProspectiveStudentCode;
+                tempFormat = tempFormat.Replace("{Class}", "Baru");
+                if (schoolType != "")
                 {
-                    foreach (ProspectiveStudent ps in lstPS)
-                    {
-                        String tempFormat = format;
-                        tempFormat = tempFormat.Replace("{NBS}", ps.ProspectiveStudentCode);
-                        nbs = ps.ProspectiveStudentCode;
-                        tempFormat = tempFormat.Replace("{Class}", "Baru");
-                        SiteParameter sp = lstSiteParameter.FirstOrDefault(x => x.SiteID == ps.SiteID);
-                        if (sp != null)
-                        {
-                            StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == sp.ParameterValue);
-                            tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
-                        }
-                        tempFormat = tempFormat.Replace("{StudentName}", ps.ProspectiveStudentName);
-                        tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                        tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                        tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
-                        tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
-
-                        List<vARInvoiceDt> lstObj = lstInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
-                        int count = 1;
-                        foreach (vAdmissionFeeComp obj in sfctList)
-                        {
-                            List<vARInvoiceDt> entity = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                            string ShortName = obj.ShortName;
-                            if (entity.Count > 0)
-                            {
-                                foreach (vARInvoiceDt x in entity)
-                                {
-                                    ARInvoiceHd arInvoiceHd = arInvoiceHdDao.Get(x.ARInvoiceID);
-                                    if (arInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL || arInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.APPROVED) 
-                                    {
-                                        arInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
-                                        arInvoiceHdDao.Update(arInvoiceHd);
-                                    }
-                                }
-
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount))));
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount) / 1000)));
-                                count++;
-                            }
-                            
-                        }
-                        for (; count < 26; count++)
-                        {
-                            tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                            tempFormat = tempFormat.Replace("{NA" + count + "}", "");
-                        }
-                        txt += String.Format("{0}\n", tempFormat);
-                    }
+                    StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == schoolType);
+                    tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
                 }
-                #endregion
+                tempFormat = tempFormat.Replace("{StudentName}", prospectiveStudent.ProspectiveStudentName);
+                tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
+                tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
+                tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
+                tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
 
+                int count = 1;
+                foreach (vAdmissionFeeComp obj in sfctList)
+                {
+                    List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                    string ShortName = obj.ShortName;
+                    if (lstStudentFeeDt1.Count > 0)
+                    {
+                        tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(lstStudentFeeDt1.Sum(x => x.StudentAmount))));
+                        tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(lstStudentFeeDt1.Sum(x => x.StudentAmount) / 1000)));
+                        count++;
+                    }
+
+                }
+                for (; count < 26; count++)
+                {
+                    tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                    tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                }
+                txt += String.Format("{0}\n", tempFormat);
+                #endregion
+                #endregion
                 ctx.CommitTransaction();
 
                 #region Download the Text file.
@@ -181,6 +201,7 @@ namespace CodeX.Muses.Web.Finance.Program
             catch (Exception ex)
             {
                 String errMessage = ex.Message;
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
             }
             finally 

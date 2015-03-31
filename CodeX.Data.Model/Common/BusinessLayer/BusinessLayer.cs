@@ -1165,6 +1165,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<SiteParameter> GetSiteParameterList(string filterExpression, IDbContext ctx)
+        {
+            List<SiteParameter> result = new List<SiteParameter>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SiteParameter));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SiteParameter)helper.IDataReaderToObject(reader, new SiteParameter()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<SiteParameter> GetSiteParameterList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<SiteParameter> result = new List<SiteParameter>();

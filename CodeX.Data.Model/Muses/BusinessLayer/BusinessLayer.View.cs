@@ -7900,6 +7900,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vStudentFeeDt> GetvStudentFeeDtList(string filterExpression, IDbContext ctx)
+        {
+            List<vStudentFeeDt> result = new List<vStudentFeeDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentFeeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentFeeDt)helper.IDataReaderToObject(reader, new vStudentFeeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<vStudentFeeDt> GetvStudentFeeDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vStudentFeeDt> result = new List<vStudentFeeDt>();

@@ -20081,6 +20081,8 @@ namespace CodeX.Data.Model
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsTransferred;
+        private Int32 _ARInvoiceDtID;
+        private Boolean _IsPaid;
         private Boolean _IsDeleted;
         private String _GCTransactionStatus;
 
@@ -20221,6 +20223,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsTransferred; }
             set { _IsTransferred = value; }
+        }
+        [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
+        public Int32 ARInvoiceDtID
+        {
+            get { return _ARInvoiceDtID; }
+            set { _ARInvoiceDtID = value; }
+        }
+        [Column(Name = "IsPaid", DataType = "Boolean")]
+        public Boolean IsPaid
+        {
+            get { return _IsPaid; }
+            set { _IsPaid = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

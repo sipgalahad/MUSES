@@ -1730,6 +1730,14 @@ namespace CodeX.Data.Model
     #region vStudentFeeDt
     public partial class vStudentFeeDt
     {
+        public Boolean IsProcessed
+        {
+            get { return _ARInvoiceDtID > 0; }
+        }
+        public String DueDateInString
+        {
+            get { return _DueDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
         public String cfStudentFeeCompTypeName
         {
             get {
