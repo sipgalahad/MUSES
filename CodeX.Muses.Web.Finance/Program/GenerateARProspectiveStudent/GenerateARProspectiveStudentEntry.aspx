@@ -21,29 +21,75 @@
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            setStudentImage();
-
             $('#btnRefresh').click(function () {
                 cbpView.PerformCallback('refresh');
             });
 
             $('#<%=btnGenerate.ClientID %>').click(function () {
-                var param = "";
-                $('.chkIsSelected input:checked').each(function () {
-                    var id = $(this).closest('tr').find('.keyField').html();
-                    if (param != '')
-                        param += ',';
-                    param += id;
-                });
-                if (param == "")
+                getCheckedValue();
+                if ($('#<%=hdnSelectedValue.ClientID %>').val() == "")
                     showToast('Warning', 'Silakan Pilih Siswa Terlebih Dahulu');
-                else {
-                    $('#<%=hdnSelectedValue.ClientID %>').val(param);
+                else 
                     onCustomButtonClick('save');
-                }
-
             });
         });
+
+        //#region Paging
+        var pageCount = parseInt('<%=PageCount %>');
+        var rowCount = parseInt('<%=RowCount %>');
+        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
+        var currPage = parseInt('<%=CurrPage %>');
+        $(function () {
+            setStudentImage();
+            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
+            setPaging($("#paging"), pageCount, function (page) {
+                getCheckedValue();
+                cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+            }, null, currPage);
+        });
+
+        function onCbpViewEndCallback(s) {
+            setStudentImage();
+            hideLoadingPanel();
+
+            var param = s.cpResult.split('|');
+            if (param[0] == 'refresh') {
+                var pageCount = parseInt(param[1]);
+                var rowCount = parseInt(param[2]);
+                if (pageCount > 0)
+                    $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                else
+                    $('#<%=hdnID.ClientID %>').val('');
+
+                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
+                setPaging($("#paging"), pageCount, function (page) {
+                    getCheckedValue();
+                    cbpView.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+                });
+            }
+            else
+                $('#<%=grdView.ClientID %> tr:eq(1)').click();
+        }
+        //#endregion
+
+        function getCheckedValue() {
+            var lstID = $('#<%=hdnSelectedValue.ClientID %>').val().split(',');
+            $('.chkIsSelected input').each(function () {
+                if ($(this).is(':checked')) {
+                    var id = $(this).closest('tr').find('.keyField').html();
+                    lstID.push(id);
+                }
+                else {
+                    var id = $(this).closest('tr').find('.keyField').html();
+                    var idx = lstID.indexOf(id);
+                    if (idx > -1) 
+                        lstID.splice(idx, 1);
+                }
+            });
+            $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(','));
+        }
 
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
@@ -56,11 +102,6 @@
 
         function onGetFilterExpression() {
             return $('#<%=hdnFilterExpression.ClientID %>').val();
-        }
-
-        function onCbpViewEndCallback(s) {
-            setStudentImage();
-            hideLoadingPanel();
         }
 
         function setStudentImage() {

@@ -58,7 +58,8 @@ namespace CodeX.Muses.Web.Finance.Program
             cboYear.DataBind();
             cboYear.Value = date.Year.ToString();
 
-            BindGridView();
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         private string GetFilterExpression()
@@ -74,12 +75,18 @@ namespace CodeX.Muses.Web.Finance.Program
             return filterExpression;
         }
 
+        private string[] lstID = null;
         List<vStudentFeeDt> lstStudentFeeDt = null;
-        private void BindGridView()
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
-            List<vRegistration> lstEntity = BusinessLayer.GetvRegistrationList(filterExpression);
-
+            if (isCountPageCount)
+            {
+                rowCount = BusinessLayer.GetvRegistrationRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            }
+            lstID = hdnSelectedValue.Value.Split(',');
+            List<vRegistration> lstEntity = BusinessLayer.GetvRegistrationList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "ProspectiveStudentName ASC");
             if (lstEntity.Count > 0)
             {
                 string lstProspectiveStudentID = string.Join(",", lstEntity.Select(p => p.ProspectiveStudentID).ToList());
@@ -101,17 +108,36 @@ namespace CodeX.Muses.Web.Finance.Program
                 HtmlGenericControl lblStudentAmount = (HtmlGenericControl)e.Row.FindControl("lblStudentAmount");
                 lblStudentAmount.InnerHtml = totalAmount.ToString("N");
 
+                CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
                 if (totalAmount == 0)
-                {
-                    CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
                     chkIsSelected.Visible = false;
-                }
+                if (lstID.Contains(entity.ProspectiveStudentID.ToString()))
+                    chkIsSelected.Checked = true;
             }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            BindGridView();
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)

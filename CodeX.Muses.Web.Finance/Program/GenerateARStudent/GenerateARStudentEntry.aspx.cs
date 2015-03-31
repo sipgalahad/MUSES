@@ -76,26 +76,30 @@ namespace CodeX.Muses.Web.Finance.Program
             cboYear.DataBind();
             cboYear.Value = date.Year.ToString();
 
-            BindGridView();
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
         private string GetFilterExpression()
         {
-            if (tacSchoolClass.Value == "")
-                return "1 = 0";
-            string filterExpression = hdnFilterExpression.Value;
-            if (filterExpression != "")
-                filterExpression += " AND ";
-            filterExpression += string.Format("SchoolClassID = {0}", tacSchoolClass.Value);
+            string filterExpression = string.Format("GCStudentStatus = '{0}'", Constant.StudentStatus.ACTIVE);
+            if (tacSchoolClass.Value != "")
+                filterExpression += string.Format(" AND SchoolClassID = {0}", tacSchoolClass.Value);
             return filterExpression;
         }
 
+        private string[] lstID = null;
         List<vStudentFeeDt> lstStudentFeeDt = null;
-        private void BindGridView()
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
-            List<vClassStudent> lstEntity = BusinessLayer.GetvClassStudentList(filterExpression);
-
+            if (isCountPageCount)
+            {
+                rowCount = BusinessLayer.GetvStudentRowCount(filterExpression);
+                pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
+            }
+            lstID = hdnSelectedValue.Value.Split(',');
+            List<vStudent> lstEntity = BusinessLayer.GetvStudentList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "StudentName ASC");
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
@@ -112,22 +116,41 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vClassStudent entity = (vClassStudent)e.Row.DataItem;
+                vStudent entity = (vStudent)e.Row.DataItem;
                 decimal totalAmount = lstStudentFeeDt.Where(p => p.StudentID == entity.StudentID).Sum(p => p.StudentAmount);
                 HtmlGenericControl lblStudentAmount = (HtmlGenericControl)e.Row.FindControl("lblStudentAmount");
                 lblStudentAmount.InnerHtml = totalAmount.ToString("N");
 
+                CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
                 if (totalAmount == 0)
-                {
-                    CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
                     chkIsSelected.Visible = false;
-                }
+                if (lstID.Contains(entity.StudentID.ToString()))
+                    chkIsSelected.Checked = true;
             }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            BindGridView();
+            int pageCount = 1;
+            int rowCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
