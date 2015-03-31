@@ -10996,6 +10996,7 @@ namespace CodeX.Data.Model
         private String _PeriodAdmissionName;
         private String _Initial;
         private Int32 _SchoolPeriodID;
+        private String _SchoolPeriodName;
         private DateTime _RegistrationStartDate;
         private DateTime _RegistrationEndDate;
         private DateTime _StartDate;
@@ -11034,6 +11035,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolPeriodID; }
             set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "SchoolPeriodName", DataType = "String")]
+        public String SchoolPeriodName
+        {
+            get { return _SchoolPeriodName; }
+            set { _SchoolPeriodName = value; }
         }
         [Column(Name = "RegistrationStartDate", DataType = "DateTime")]
         public DateTime RegistrationStartDate
