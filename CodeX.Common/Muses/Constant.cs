@@ -604,6 +604,14 @@ namespace CodeX.Common
             public const string TUGAS_KELOMPOK = "MS009^006";
         }
 
+        public class AttendanceStatus 
+        { 
+            public const string HADIR = "MS005^001";
+	        public const string SAKIT = "MS005^002";
+	        public const string IZIN = "MS005^003";
+            public const string ALPA = "MS005^004";
+        }
+
         public class BankExportDataType 
         {
             public const string MANDIRI = "MS023^001";

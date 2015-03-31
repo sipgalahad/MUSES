@@ -144,17 +144,17 @@
         <tr>
             <td>1</td>
             <td>Sakit</td>
-            <td></td>
+            <td runat="server" id="tdSick" align="center"></td>
         </tr>
         <tr>
             <td>2</td>
             <td>Izin</td>
-            <td></td>
+            <td runat="server" id="tdPermit" align="center"></td>
         </tr>
         <tr>
             <td>3</td>
             <td>Tanpa Keterangan</td>
-            <td></td>
+            <td runat="server" id="tdAlpha" align="center"></td>
         </tr>
     </table>
     <h4 style=" font-weight:bold;">Keterlambatan</h4>
@@ -173,17 +173,25 @@
         .letterFooter       { width:150px; text-align:center}
     </style>
     <table width="100%">
+        <colgroup>
+            <col width="50%" />
+            <col />
+        </colgroup>
         <tr>
-            <td align="center">Orang Tua/Wali</td>
-            <td align="center">{City}, {Date.Now}</td>
-        </tr>
-        <tr>
-            <td align="center">Peserta Didik</td>
-            <td align="center">Wali Kelas</td>
-        </tr>
-        <tr style="height:70px; vertical-align:bottom;">
-            <td align="center">.....................................</td>
-            <td align="center">{Wali Kelas}</td>
+            <td>
+                <table width="50%">
+                    <tr><td align="center">Orang Tua/Wali</td></tr>
+                    <tr><td align="center">Peserta Didik</td></tr>
+                    <tr style="height:70px; vertical-align:bottom;"><td align="center">.....................................</td></tr>
+                </table>
+            </td>
+            <td align="right">
+                <table width="50%">
+                    <tr><td align="center">{City}, {Date.Now}</td></tr>
+                    <tr><td align="center">Wali Kelas</td></tr>
+                    <tr style="height:70px; vertical-align:bottom;"><td align="center">{WaliKelas}</td></tr>
+                </table>
+            </td>
         </tr>
     </table>
 </div>

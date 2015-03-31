@@ -157,6 +157,33 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.WebControls.Repeater rptSubject;
         
         /// <summary>
+        /// tdSick control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSick;
+        
+        /// <summary>
+        /// tdPermit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdPermit;
+        
+        /// <summary>
+        /// tdAlpha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAlpha;
+        
+        /// <summary>
         /// divPageFooter control.
         /// </summary>
         /// <remarks>

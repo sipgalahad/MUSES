@@ -74,7 +74,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             tdClass.InnerHtml = String.Format("{0} / {1}", student.SchoolClassName, ps.PeriodSectionName);
             tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
 
-            Site site = BusinessLayer.GetSite(AppSession.UserLogin.SiteID);
+            vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
             tdSchoolName.InnerHtml = site.SiteName;
 
             List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND PeriodSectionID = {1} AND SchoolClassID = {2} AND SubjectGCClassStudyType = '{3}' AND IsDeleted = 0", param[0], param[1], param[2], Constant.ClassStudyType.REGULAR));
@@ -136,9 +136,19 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 tdHeaderHasil.ColSpan = tdHeaderNilai.ColSpan + 1;
                 rptSubject.DataSource = lstClassSubject;
                 rptSubject.DataBind();
-            } 
+            }
 
-            //ClassStudentDailyAttendance
+            List<ClassStudentDailyAttendance> csda = BusinessLayer.GetClassStudentDailyAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}",param[2], param[1], StudentID));
+            tdSick.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Count());
+            tdPermit.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
+            tdAlpha.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
+
+            String text = divPageFooter.InnerHtml;
+            text = text.Replace("{Date.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT));
+            text = text.Replace("{City}", site.City);
+            vSchoolClass sc = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}",param[2]))[0];
+            text = text.Replace("{WaliKelas}", sc.TeacherName);
+            divPageFooter.InnerHtml = text;
             #endregion
         }
 
