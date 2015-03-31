@@ -22,51 +22,6 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportHeader;
         
         /// <summary>
-        /// tdStudentName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdStudentName;
-        
-        /// <summary>
-        /// tdNIS control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdNIS;
-        
-        /// <summary>
-        /// tdSchoolName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolName;
-        
-        /// <summary>
-        /// tdClass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdClass;
-        
-        /// <summary>
-        /// tdSchoolPeriod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSchoolPeriod;
-        
-        /// <summary>
         /// divReportBody control.
         /// </summary>
         /// <remarks>
@@ -76,112 +31,13 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
         
         /// <summary>
-        /// tdHeaderHasil control.
+        /// rptStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderHasil;
-        
-        /// <summary>
-        /// tdHeaderNilai control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHeaderNilai;
-        
-        /// <summary>
-        /// tdUlangan control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdUlangan;
-        
-        /// <summary>
-        /// tdTugas control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdTugas;
-        
-        /// <summary>
-        /// tdPsikomotorik control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdPsikomotorik;
-        
-        /// <summary>
-        /// rptUlanganHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptUlanganHeader;
-        
-        /// <summary>
-        /// rptTugasHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptTugasHeader;
-        
-        /// <summary>
-        /// rptPsikomotorikHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptPsikomotorikHeader;
-        
-        /// <summary>
-        /// rptSubject control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSubject;
-        
-        /// <summary>
-        /// tdSick control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSick;
-        
-        /// <summary>
-        /// tdPermit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdPermit;
-        
-        /// <summary>
-        /// tdAlpha control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAlpha;
+        protected global::System.Web.UI.WebControls.Repeater rptStudent;
         
         /// <summary>
         /// divPageFooter control.

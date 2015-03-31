@@ -31,7 +31,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptView.DataSource = lstSubject;
             rptView.DataBind();
         }
-        
+
+        #region HTML Getter
+        public string GetFilterExpression() 
+        {
+            PeriodSection ps = BusinessLayer.GetPeriodSection(AppSession.ClassStudent.PeriodSectionID);
+            return String.Format("{0}|{1}|{2}|{3}", ps.SchoolPeriodID, AppSession.ClassStudent.PeriodSectionID,AppSession.ClassStudent.SchoolClassID, AppSession.ClassStudent.StudentID);
+        }
+        #endregion
+
         List<ClassStudentSubjectMark> lstMark = null;
         protected void rptView_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
