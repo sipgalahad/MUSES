@@ -21908,6 +21908,8 @@ namespace CodeX.Data.Model
         private String _StudentFeeCompTypeName;
         private String _ShortName;
         private String _GCAdmissionPaymentPeriod;
+        private Int32? _PaymentDate;
+        private Int32? _PaymentMonth;
         private Int16 _PenaltyPercentage;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -21933,7 +21935,7 @@ namespace CodeX.Data.Model
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
         }
-        [Column(Name = "ShortName", DataType = "String")]
+        [Column(Name = "ShortName", DataType = "String", IsNullable = true)]
         public String ShortName
         {
             get { return _ShortName; }
@@ -21944,6 +21946,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCAdmissionPaymentPeriod; }
             set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "Int32", IsNullable = true)]
+        public Int32? PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "PaymentMonth", DataType = "Int32", IsNullable = true)]
+        public Int32? PaymentMonth
+        {
+            get { return _PaymentMonth; }
+            set { _PaymentMonth = value; }
         }
         [Column(Name = "PenaltyPercentage", DataType = "Int16")]
         public Int16 PenaltyPercentage
