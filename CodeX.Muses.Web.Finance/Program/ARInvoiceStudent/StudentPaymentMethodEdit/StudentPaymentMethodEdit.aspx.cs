@@ -27,7 +27,6 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl()
         {
-            base.InitializeDataControl();
         }
 
         #region HTML Getter
@@ -48,7 +47,7 @@ namespace CodeX.Muses.Web.Finance.Program
         }
 
         List<vStudentFeeDt> lstStudentFeeDt = null;
-        public void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        public void BindGridView()
         {
             String filterExpression = GetFilterExpression();
             List<vStudentFee> lstStudentFee = BusinessLayer.GetvStudentFeeList(filterExpression);
@@ -94,26 +93,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
+            BindGridView();
         }
 
         protected override bool  OnCustomButtonClick(string type, ref string errMessage)

@@ -22,22 +22,22 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnGenerate;
         
         /// <summary>
-        /// hdnSchoolPeriodID control.
+        /// hdnSaveValue control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSchoolPeriodID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
         
         /// <summary>
-        /// tacSchoolPeriod control.
+        /// hdnLstStudentFeeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSchoolPeriod;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstStudentFeeID;
         
         /// <summary>
         /// hdnParam control.
@@ -83,14 +83,5 @@ namespace CodeX.Muses.Web.Finance.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptStudentFeeComp;
-        
-        /// <summary>
-        /// cbpProcess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
     }
 }

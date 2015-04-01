@@ -20,11 +20,6 @@ namespace CodeX.Muses.Web.Finance.Program
 {
     public partial class ProspectiveStudentPaymentMethodEdit : BasePageTrx
     {
-        protected int PageCount = 1;
-        protected int RowCount = 1;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;
-        
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Finance.PROSPECTIVE_STUDENT_PAYMENT_METHOD_EDIT;
@@ -32,7 +27,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl()
         {
-            base.InitializeDataControl();
+            BindGridView();
         }
 
         #region HTML Getter
@@ -46,46 +41,22 @@ namespace CodeX.Muses.Web.Finance.Program
         }
         #endregion
 
-        public class TempClass
-        {
-            Int32 _StudentFeeCompID;
-            String _DueDate;
-            Decimal _PaymentAmount;
-
-            public Int32 StudentFeeCompID
-            {
-                get { return _StudentFeeCompID; }
-                set { _StudentFeeCompID = value; }
-            }
-            public String DueDate
-            {
-                get { return _DueDate; }
-                set { _DueDate = value; }
-            }
-            public Decimal PaymentAmount
-            {
-                get { return _PaymentAmount; }
-                set { _PaymentAmount = value; }
-            }
-
-        }
-
         private string GetFilterExpression()
         {
-            string filterExpression = String.Format("ProspectiveStudentID = {0} AND GCAdmissionPaymentPeriod IN ('{1}','{2}') AND IsDeleted = 0 AND SchoolPeriodID = {3}", AppSession.ProspectiveStudentID, Constant.AdmissionPaymentPeriod.TAHUNAN, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR, hdnSchoolPeriodID.Value);
+            string filterExpression = String.Format("ProspectiveStudentID = {0} AND GCAdmissionPaymentPeriod IN ('{1}','{2}') AND IsDeleted = 0", AppSession.ProspectiveStudentID, Constant.AdmissionPaymentPeriod.TAHUNAN, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR);
             return filterExpression;
         }
 
-        List<vStudentFee> lstStudentFee = null;
-        public void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
+        List<vStudentFeeDt> lstStudentFeeDt = null;
+        public void BindGridView()
         {
             String filterExpression = GetFilterExpression();
-            List<vStudentFeeComp> lstStudentFeeComp = BusinessLayer.GetvStudentFeeCompList(filterExpression);
-            String StudentFeeCompID = String.Join(",", lstStudentFeeComp.Select(x => x.StudentFeeCompID));
-            if (StudentFeeCompID != "") 
+            List<vStudentFee> lstStudentFee = BusinessLayer.GetvStudentFeeList(filterExpression);
+            String lstStudentFeeID = String.Join(",", lstStudentFee.Select(x => x.StudentFeeID));
+            if (lstStudentFeeID != "")
             {
-                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0}) AND IsTransferred = 0 AND GCTransactionStatus != '{1}' AND ProspectiveStudentID IS NOT NULL AND IsDeleted = 0", StudentFeeCompID, Constant.TransactionStatus.VOID));
-                rptStudentFeeComp.DataSource = lstStudentFeeComp;
+                lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeID IN ({0}) AND IsDeleted = 0", lstStudentFeeID));
+                rptStudentFeeComp.DataSource = lstStudentFee;
                 rptStudentFeeComp.DataBind();
             }
         }
@@ -94,232 +65,104 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vStudentFeeComp entity = e.Item.DataItem as vStudentFeeComp;
-                //List<vStudentFee> lstTemp = lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus != Constant.TransactionStatus.CLOSED).ToList(); 
-                //Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
-                //rptStudentFee.DataSource = lstTemp;
-                //rptStudentFee.DataBind();
+                vStudentFee entity = e.Item.DataItem as vStudentFee;
+                List<vStudentFeeDt> lstTemp = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus != Constant.TransactionStatus.CLOSED).ToList();
+                Repeater rptStudentFee = (Repeater)e.Item.FindControl("rptStudentFee");
+                rptStudentFee.DataSource = lstTemp;
+                rptStudentFee.DataBind();
 
-                //if (lstTemp.Count() > 0)
-                //{
-                //    HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
-                //    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0} hdnTotalAmount", entity.StudentFeeCompID));
-                //    Decimal totalAmount = entity.TotalAmount - lstStudentFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.LineAmount);
-                //    hdnTotalAmount.Value = totalAmount.ToString();
+                if (lstTemp.Count() > 0)
+                {
+                    HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
+                    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0} hdnTotalAmount", entity.StudentFeeID));
+                    Decimal totalAmount = entity.StudentAmount - lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.StudentAmount);
+                    hdnTotalAmount.Value = totalAmount.ToString();
 
-                //    HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
-                //    tdTotalAmount.InnerHtml = totalAmount.ToString("N");
-                //}
-                //else
-                //{
-                //    HtmlTableRow trDataHeader = e.Item.FindControl("trDataHeader") as HtmlTableRow;
-                //    trDataHeader.Style.Add("display", "none");
+                    HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
+                    tdTotalAmount.InnerHtml = totalAmount.ToString("N");
+                }
+                else
+                {
+                    HtmlTableRow trDataHeader = e.Item.FindControl("trDataHeader") as HtmlTableRow;
+                    trDataHeader.Style.Add("display", "none");
 
-                //    HtmlTableRow trDataDetail = e.Item.FindControl("trDataDetail") as HtmlTableRow;
-                //    trDataDetail.Style.Add("display", "none");
-                //}
+                    HtmlTableRow trDataDetail = e.Item.FindControl("trDataDetail") as HtmlTableRow;
+                    trDataDetail.Style.Add("display", "none");
+                }
             }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            int pageCount = 1;
-            int rowCount = 1;
-            string result = "";
-            if (e.Parameter != null && e.Parameter != "")
-            {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount, ref rowCount);
-                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
-                }
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
+            BindGridView();
         }
 
-
-        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
         {
-            string result = "";
-            string errMessage = "";
-            string[] param = e.Parameter.Split('|');
-            result = param[0] + "|";
-            if (OnSaveEditRecord(ref errMessage))
-                result += "success";
-            else
-                result += string.Format("fail|{0}", errMessage);
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-        }
-        
-        private Boolean OnSaveEditRecord(ref String errMessage) 
-        {
-
-            #region intialization
-            List<String> lstData = hdnParam.Value.Split('|').ToList();
-            List<TempClass> lstTempClass = new List<TempClass>();
-            foreach (String data in lstData)
-            {
-                if (data != "") 
-                {
-                    TempClass temp = new TempClass();
-                    String[] arr = data.Split(';');
-                    temp.StudentFeeCompID = Convert.ToInt32(arr[0]);
-                    temp.DueDate = arr[1];
-                    temp.PaymentAmount = Convert.ToDecimal(arr[2]);
-                    lstTempClass.Add(temp);
-                }
-            }
-
-            String filterExpression = GetFilterExpression();
-            List<vStudentFeeComp> lstStudentFeeComp = BusinessLayer.GetvStudentFeeCompList(filterExpression);
-            String StudentFeeCompID = String.Join(",", lstStudentFeeComp.Select(x => x.StudentFeeCompID));
-            lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("StudentFeeCompID IN ({0}) AND IsDeleted = 0 AND GCTransactionStatus IN ('{1}','{2}','{3}') AND SchoolPeriodID = {4}", StudentFeeCompID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.PROCESSED, hdnSchoolPeriodID.Value));
-
-            List<Int32> lstStudentFeeCompID = lstStudentFeeComp.GroupBy(x => x.StudentFeeCompID).Select(x => x.Key).ToList();
-            String studentFeeID = String.Join(",", lstStudentFee.Select(x => x.StudentFeeID));
-
-            List<ARInvoiceDt> lstARInvoiceDt = BusinessLayer.GetARInvoiceDtList(String.Format("StudentFeeID IN ({0})", studentFeeID));
-            String arInvoiceID = String.Join(",", lstARInvoiceDt.Select(x => x.ARInvoiceID));
-            List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(String.Format("ARInvoiceID IN ({0})", arInvoiceID));
-
-            List<StudentFeeCompType> lstSfct = BusinessLayer.GetStudentFeeCompTypeList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Int32 BankID = Convert.ToInt32(BusinessLayer.GetSiteParameterList(String.Format("SiteID = '{0}' AND ParameterCode = '{1}'", AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK)).FirstOrDefault().ParameterValue);
-            #endregion
-
-            Boolean status = true;
+            bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentFeeDao studentFeeDao = new StudentFeeDao(ctx);
-            ARInvoiceDtDao ardtDao = new ARInvoiceDtDao(ctx);
-            ARInvoiceHdDao arhdDao = new ARInvoiceHdDao(ctx);
-
+            ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
+            StudentFeeDtDao studentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
-                //foreach (Int32 studentFeeCompID in lstStudentFeeCompID)
-                //{
-                //    Int32 countEdit = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
-                //    Int32 countSF = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).Count();
-                //    List<vStudentFee> lstSf = lstStudentFee.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
-                //    List<TempClass> lstTc = lstTempClass.Where(x => x.StudentFeeCompID == studentFeeCompID).ToList();
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
+                foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
+                {
+                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    arInvoiceHdDao.Update(arInvoiceHD);
+                }
 
-                //    if (countEdit > countSF)
-                //    {
-                //        Int32 SchoolPeriodID = 0;
-                //        Int32? StudentFeeCompTypeID = 0;
-                //        Int32? RegistrationID = null;
-                //        //Update
-                //        Int32 count = 0;
-                //        Int32 DisplayOrder = 0;
-                //        foreach (vStudentFee obj in lstSf)
-                //        {
-                //            StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
-                //            SchoolPeriodID = sf.SchoolPeriodID;
-                //            RegistrationID = sf.RegistrationID;
-                //            sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
-                //            sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
-                //            DisplayOrder = sf.DisplayOrder;
-                //            studentFeeDao.Update(sf);
+                List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND IsDeleted = 0", hdnLstStudentFeeID.Value), ctx);
+                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    int studentFeeID = Convert.ToInt32(temp[0]);
+                    string[] lstSaveValue1 = temp[1].Split('^');
 
-                //            ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x=> x.StudentFeeID == obj.StudentFeeID);
-                //            StudentFeeCompTypeID = ardt.StudentFeeCompTypeID;
-                //            ardt.TransactionAmount = lstTc[count].PaymentAmount;
-                //            ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
-                //            ardtDao.Update(ardt);
+                    short ctr = 1;
+                    foreach (string saveValue1 in lstSaveValue1)
+                    {
+                        string[] temp1 = saveValue1.Split(',');
+                        int studentFeeDtID = Convert.ToInt32(temp1[0]);
+                        DateTime dueDate = Helper.GetDatePickerValue(temp1[1]);
+                        decimal transactionAmount = Convert.ToDecimal(temp1[2]);
 
-                //            count++;
-                //        }
+                        StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(x => x.StudentFeeDtID == studentFeeDtID);
+                        if (entityDt == null)
+                        {
+                            entityDt = new StudentFeeDt();
+                            entityDt.StudentFeeID = studentFeeID;
+                            entityDt.DisplayOrder = ctr;
+                            entityDt.DueDate = dueDate;
+                            entityDt.IsTransactionAmountInPercentage = false;
+                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalTransactionAmount = entityDt.TransactionAmount = transactionAmount;
+                            entityDt.IsPaid = false;
+                            entityDt.CreatedBy = AppSession.UserLogin.UserID;
+                            studentFeeDtDao.Insert(entityDt);
+                        }
+                        else
+                        {
+                            entityDt.DisplayOrder = ctr;
+                            entityDt.DueDate = dueDate;
+                            entityDt.IsTransactionAmountInPercentage = false;
+                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalTransactionAmount = entityDt.TransactionAmount = transactionAmount;
+                            entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            studentFeeDtDao.Update(entityDt);
 
-                //        for (int i = 0; i < countEdit - countSF; i++)
-                //        {
-                //            StudentFee sf = new StudentFee();
-                //            sf.RegistrationID = RegistrationID;
-                //            sf.SchoolPeriodID = SchoolPeriodID;
-                //            sf.StudentFeeCompID = studentFeeCompID;
-                //            sf.DisplayOrder = Convert.ToInt16(++DisplayOrder);
-                //            sf.PaymentDate = Helper.GetDatePickerValue(lstTc[count].DueDate);
-                //            sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
-                //            sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
-                //            sf.IsDeleted = false;
-                //            sf.CreatedBy = AppSession.UserLogin.UserID;
-                //            sf.CreatedDate = DateTime.Now;
-                //            studentFeeDao.Insert(sf);
-                //            Int32 StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
+                            lstStudentFeeDt.Remove(entityDt);
+                        }
+                        ctr++;
+                    }
+                }
 
-                //            ARInvoiceHd arhd = new ARInvoiceHd();
-                //            arhd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT, DateTime.Now,ctx);
-                //            ctx.CommandType = System.Data.CommandType.Text;
-                //            arhd.BankID = BankID;
-                //            arhd.ARInvoiceDate = DateTime.Now;
-                //            arhd.ProspectiveStudentID = Convert.ToInt32(AppSession.ProspectiveStudentID);
-                //            DateTime DueDate = Helper.GetDatePickerValue(lstTc[count].DueDate);
-                //            arhd.DueDate = DueDate;
-                //            arhd.Remarks = String.Format("Tagihan {0} {1} {2}",lstSfct.FirstOrDefault(x => x.StudentFeeCompTypeID == StudentFeeCompTypeID).StudentFeeCompTypeName,
-                //                            DueDate.ToString("MMMM", CultureInfo.InvariantCulture), DueDate.Year);
-                //            arhd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
-                //            arhd.CreatedBy = AppSession.UserLogin.UserID;
-                //            arhdDao.Insert(arhd);
-                //            Int32 ARInvoiceHdID = BusinessLayer.GetARInvoiceHdMaxID(ctx);
-                            
-                //            ARInvoiceDt ardt = new ARInvoiceDt();
-                //            ardt.ARInvoiceID = ARInvoiceHdID;
-                //            ardt.StudentFeeID = StudentFeeID;
-                //            ardt.StudentFeeCompTypeID = StudentFeeCompTypeID;
-                //            ardt.TransactionAmount = lstTc[count].PaymentAmount;
-                //            ardt.DiscountAmount = 0;
-                //            ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
-                //            ardt.VarianceAmount = null;
-                //            ardt.CreatedBy = AppSession.UserLogin.UserID;
-                //            ardtDao.Insert(ardt);
-
-                //            count++;
-                //        }
-                        
-                //    }
-                //    else if (countEdit < countSF)
-                //    {
-                //        //Update
-                //        Int32 count = 0;
-                //        foreach (vStudentFee obj in lstSf)
-                //        {
-                //            if (count < countEdit)
-                //            {
-                //                StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
-                //                sf.TotalPaymentAmount = lstTc[count].PaymentAmount;
-                //                sf.LineAmount = sf.TotalPaymentAmount - sf.TotalDiscountAmount;
-                //                studentFeeDao.Update(sf);
-
-                //                ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x => x.StudentFeeID == obj.StudentFeeID);
-                //                ardt.TransactionAmount = lstTc[count].PaymentAmount;
-                //                ardt.ClaimedAmount = ardt.TransactionAmount - ardt.DiscountAmount;
-                //                ardtDao.Update(ardt);
-                //            }
-                //            else 
-                //            {
-                //                StudentFee sf = studentFeeDao.Get(obj.StudentFeeID);
-                //                sf.IsDeleted = true;
-                //                studentFeeDao.Update(sf);
-
-                //                ARInvoiceDt ardt = lstARInvoiceDt.FirstOrDefault(x => x.StudentFeeID == obj.StudentFeeID);
-                //                ARInvoiceHd arhd = lstARInvoiceHd.FirstOrDefault(x => x.ARInvoiceID == ardt.ARInvoiceID);
-                //                arhd.GCTransactionStatus = Constant.TransactionStatus.VOID;
-                //                arhd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                //                arhdDao.Update(arhd);
-                //                ardtDao.Delete(ardt.ARInvoiceDtID);
-                //            }
-                //            count++;
-                //        }
-                //    }
-                //}
-                
+                foreach (StudentFeeDt entityDt in lstStudentFeeDt)
+                {
+                    entityDt.IsDeleted = true;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    studentFeeDtDao.Update(entityDt);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -327,13 +170,13 @@ namespace CodeX.Muses.Web.Finance.Program
                 Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
-                status = false;
+                result = false;
             }
             finally
             {
                 ctx.Close();
             }
-            return status;
+            return result;
         }
     }
 }

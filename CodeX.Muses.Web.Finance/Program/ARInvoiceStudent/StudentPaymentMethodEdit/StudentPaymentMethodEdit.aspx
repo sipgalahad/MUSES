@@ -280,7 +280,7 @@
                                     </tr>
                                     <tr id="trDataDetail" runat="server">
                                         <td colspan="3">
-                                            <input type="hidden" class="hdnStudentFeeCompTypeName" value='<%#:Eval("StudentFeeCompTypeName") %>' />
+                                            <input type="hidden" class="hdnStudentFeeCompTypeName" value='<%#:Eval("cfStudentFeeCompTypeName") %>' />
                                             <input type="hidden" class="hdnStudentFeeID" runat="server" value='<%#:Eval("StudentFeeID") %>' />
                                             <input type="hidden" id="hdnTotalAmount" runat="server" />
                                             <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
