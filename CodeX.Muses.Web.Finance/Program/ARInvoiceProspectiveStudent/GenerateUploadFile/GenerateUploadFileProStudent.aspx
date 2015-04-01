@@ -141,12 +141,10 @@
                                         <asp:CheckBox runat="server" ID="chkIsAccepted" CssClass="chkIsAccepted" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="ARInvoiceDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ARInvoiceNo" HeaderText="No Tagihan" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="StudentFeeCompTypeName" HeaderText="Jenis Biaya" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="StudentFeeDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Jenis Biaya" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="DueDateInString" HeaderText="Jatuh Tempo" HeaderStyle-Width="120px" />
-                                <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
-                                <asp:BoundField DataField="ClaimedAmount" HeaderText="Jumlah" HeaderStyle-Width="180px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
+                                <asp:BoundField DataField="StudentAmount" HeaderText="Jumlah" HeaderStyle-Width="180px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
                                 <asp:CheckBoxField HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" HeaderText="Generate" DataField="IsProcessed" />
                             </Columns>
                             <EmptyDataTemplate>

@@ -1727,12 +1727,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentFee
+    public partial class vStudentFee
+    {
+        public String cfStudentFeeCompTypeName
+        {
+            get
+            {
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                    return string.Format("{0} {1}", _StudentFeeCompTypeName, _TransactionYear);
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                {
+                    DateTime dt = new DateTime(_TransactionYear, _TransactionMonth, 1);
+                    return string.Format("{0} {1}", _StudentFeeCompTypeName, dt.ToString("MMM yyyy"));
+                }
+                return _StudentFeeCompTypeName;
+            }
+        }
+    }
+    #endregion
     #region vStudentFeeDt
     public partial class vStudentFeeDt
     {
         public Boolean IsProcessed
         {
             get { return _ARInvoiceDtID > 0; }
+        }
+        public Boolean IsClosed
+        {
+            get { return _GCTransactionStatus == Constant.TransactionStatus.CLOSED; }
         }
         public String DueDateInString
         {
