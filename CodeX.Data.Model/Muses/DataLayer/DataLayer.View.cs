@@ -20094,10 +20094,6 @@ namespace CodeX.Data.Model
         private DateTime _DueDate;
         private Boolean _IsTransactionAmountInPercentage;
         private Decimal _TransactionAmount;
-        private Decimal _TotalTransactionAmount;
-        private Boolean _IsDiscountAmountInPercentage;
-        private Decimal _DiscountAmount;
-        private Decimal _TotalDiscountAmount;
         private Decimal _StudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
@@ -20196,30 +20192,6 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
-        }
-        [Column(Name = "TotalTransactionAmount", DataType = "Decimal")]
-        public Decimal TotalTransactionAmount
-        {
-            get { return _TotalTransactionAmount; }
-            set { _TotalTransactionAmount = value; }
-        }
-        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsDiscountAmountInPercentage
-        {
-            get { return _IsDiscountAmountInPercentage; }
-            set { _IsDiscountAmountInPercentage = value; }
-        }
-        [Column(Name = "DiscountAmount", DataType = "Decimal")]
-        public Decimal DiscountAmount
-        {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
-        }
-        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
-        public Decimal TotalDiscountAmount
-        {
-            get { return _TotalDiscountAmount; }
-            set { _TotalDiscountAmount = value; }
         }
         [Column(Name = "StudentAmount", DataType = "Decimal")]
         public Decimal StudentAmount

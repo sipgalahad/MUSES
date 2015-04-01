@@ -65,6 +65,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<AdmissionPaymentDt> lstPaymentDt = null;
+        List<vStudentFee> lstStudentFee = null;
         List<vStudentFeeDt> lstStudentFeeDt = null;
         List<ScholarshipComp> lstScholarshipComp = null;
         List<RegistrationScholarship> lstRegistrationScholarshipFee = null;
@@ -107,6 +108,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 isLoadRegistration = temp[1] == "1";
 
                 lstPaymentDt = BusinessLayer.GetAdmissionPaymentDtList(string.Format("PaymentID = {0}", cboPaymentType.Value));
+                lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", hdnProspectiveStudentID.Value));
                 lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", hdnProspectiveStudentID.Value));
                 if (hdnLstScholarshipID.Value != "")
                     lstScholarshipComp = BusinessLayer.GetScholarshipCompList(string.Format("ScholarshipID IN ({0}) AND DiscountAmount > 0", hdnLstScholarshipID.Value));
@@ -147,6 +149,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 List<vStudentFeeDt> lstEntity = new List<vStudentFeeDt>();
                 List<AdmissionPaymentDt> lstPaymentDt1 = lstPaymentDt.Where(p => p.AdmissionFeeCompID == entity.AdmissionFeeCompID).ToList();
                 short ctr = 1;
+
+                decimal totalDiscountAmount = 0;
                 foreach (AdmissionPaymentDt paymentDt in lstPaymentDt1)
                 {
                     decimal totalPayment = 0;
@@ -165,6 +169,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     totalPaymentInPercentage = totalPaymentInPercentage / paymentDt.NoOfPayment;
                     for (int i = 0; i < paymentDt.NoOfPayment; ++i)
                     {
+                        decimal tempDiscountAmount = 0;
                         vStudentFeeDt entityDt = lstStudentFeeDt1.FirstOrDefault(p => p.DisplayOrder == ctr);
                         if (entityDt == null)
                         {
@@ -173,7 +178,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 entityDt.DueDate = DateTime.Now;
                             else
                                 entityDt.DueDate = paymentDt.PaymentDate;
-                            entityDt.TotalTransactionAmount = totalPayment;
+                            entityDt.LineAmount = totalPayment;
                             entityDt.TransactionAmount = totalPaymentInPercentage;
                             entityDt.DisplayOrder = ctr;
                         }
@@ -184,35 +189,42 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
                                 {
                                     Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
-                                    entityDt.TotalDiscountAmount = DiscountAmount * entityDt.TotalTransactionAmount / 100;
-                                    entityDt.DiscountAmount = DiscountAmount;
+                                    tempDiscountAmount = DiscountAmount * entityDt.LineAmount / 100;
                                 }
                                 else
-                                {
-                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.TotalTransactionAmount / 100;
-                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount;
-                                }
+                                    tempDiscountAmount = entityScholarshipComp.DiscountAmount * entityDt.LineAmount / 100;
                             }
                             else
                             {
                                 if (entityScholarshipComp.NoOfPeriod <= entity.NoOfRegistrationPaymentPeriod)
-                                {
-                                    entityDt.TotalDiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod;
-                                    entityDt.DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod * 100 / entityDt.TotalTransactionAmount;
-                                }
+                                    tempDiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod;
                                 else
                                 {
                                     Decimal DiscountAmount = entityScholarshipComp.DiscountAmount * entityScholarshipComp.NoOfPeriod / entity.NoOfRegistrationPaymentPeriod;
-                                    entityDt.TotalDiscountAmount = DiscountAmount;
-                                    entityDt.DiscountAmount = DiscountAmount * 100 / entityDt.TotalTransactionAmount;
+                                    tempDiscountAmount = DiscountAmount;
                                 }
                             }
                         }
-                        entityDt.LineAmount = entityDt.TotalTransactionAmount - entityDt.TotalDiscountAmount;
+                        totalDiscountAmount += tempDiscountAmount;
+                        entityDt.LineAmount -= tempDiscountAmount;
                         lstEntity.Add(entityDt);
                         ctr++;
                     }
                 }
+                if (isLoadRegistration)
+                {
+                    vStudentFee studentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
+                    if (studentFee != null)
+                        totalDiscountAmount = studentFee.TotalDiscountAmount;
+                }
+                TextBox txtTotalDiscountAmount = (TextBox)e.Item.FindControl("txtTotalDiscountAmount");
+                txtTotalDiscountAmount.Text = totalDiscountAmount.ToString();
+                TextBox txtAdmissionFeeCompTransactionAmount = (TextBox)e.Item.FindControl("txtAdmissionFeeCompTransactionAmount");
+                txtAdmissionFeeCompTransactionAmount.Text = (entity.TotalPaymentAmount - totalDiscountAmount).ToString();
+
+                TextBox txtDiscountPercentage = (TextBox)e.Item.FindControl("txtDiscountPercentage");
+                txtDiscountPercentage.Text = (totalDiscountAmount / entity.TotalPaymentAmount * 100).ToString("#,##0.00");
+
                 rptViewDt.DataSource = lstEntity;
                 rptViewDt.DataBind();
             }
@@ -249,6 +261,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         registrationScholarshipFee.ScholarshipID = scholarshipID;
                         entityScholarshipDao.Insert(registrationScholarshipFee);
                     }
+                    else
+                        lstRegistrationScholarshipFee.Remove(registrationScholarshipFee);
                 }
             }
             foreach (RegistrationScholarship entityScholarship in lstRegistrationScholarshipFee)
@@ -273,6 +287,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 short noOfPeriod = Convert.ToInt16(temp[1]);
                 decimal admissionFeeCompValue = Convert.ToDecimal(temp[2]);
                 string GCAdmissionPaymentPeriod = temp[3];
+                decimal discountPercentage = Convert.ToDecimal(temp[4]);
+                decimal discountAmount = Convert.ToDecimal(temp[5]);
+                DateTime dueDate = Helper.GetDatePickerValue(temp[6]);
                 StudentFeeComp studentFeeComp = lstStudentFeeComp.FirstOrDefault(p => p.StudentFeeCompTypeID == studentFeeCompTypeID);
                 StudentFee studentFee = null;
                 List<StudentFeeDt> lstStudentFeeDt1 = null;
@@ -288,7 +305,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     lstStudentFeeDt1 = lstStudentFeeDt.Where(p => p.StudentFeeID == studentFee.StudentFeeID).ToList();
 
                     lstStudentFee.Remove(studentFee);
-                    studentFee.TransactionAmount = studentFee.StudentAmount = studentFee.LineAmount = admissionFeeCompValue;
+                    studentFee.DueDate = dueDate;
+                    studentFee.TransactionAmount = admissionFeeCompValue * noOfPeriod;
+                    studentFee.IsDiscountAmountInPercentage = true;
+                    studentFee.DiscountAmount = discountPercentage;
+                    studentFee.TotalDiscountAmount = discountAmount;
+                    studentFee.StudentAmount = studentFee.LineAmount = studentFee.TransactionAmount - studentFee.TotalDiscountAmount;
                     studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityFeeDao.Update(studentFee);
                 }
@@ -317,7 +339,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         studentFee.TransactionYear = Convert.ToInt32(hdnYear.Value);
                     studentFee.ProspectiveStudentID = entity.ProspectiveStudentID;
                     studentFee.StudentFeeCompID = studentFeeComp.StudentFeeCompID;
-                    studentFee.TransactionAmount = studentFee.StudentAmount = studentFee.LineAmount = admissionFeeCompValue;
+                    studentFee.DueDate = dueDate;
+                    studentFee.TransactionAmount = admissionFeeCompValue * noOfPeriod;
+                    studentFee.IsDiscountAmountInPercentage = true;
+                    studentFee.DiscountAmount = discountPercentage;
+                    studentFee.TotalDiscountAmount = discountAmount;
+                    studentFee.StudentAmount = studentFee.LineAmount = studentFee.TransactionAmount - studentFee.TotalDiscountAmount;
                     studentFee.CreatedBy = AppSession.UserLogin.UserID;
                     entityFeeDao.Insert(studentFee);
                     studentFee.StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
@@ -325,7 +352,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     lstStudentFeeDt1 = new List<StudentFeeDt>();
                 }
 
-                string[] lstSaveValue1 = temp[4].Split(',');
+                string[] lstSaveValue1 = temp[7].Split(',');
                 short ctr = 1;
                 foreach (string saveValue1 in lstSaveValue1)
                 {
@@ -339,11 +366,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityFeeDt.DueDate = Helper.GetDatePickerValue(temp1[0]);
                         entityFeeDt.TransactionAmount = Convert.ToDecimal(temp1[1]);
                         entityFeeDt.IsTransactionAmountInPercentage = true;
-                        entityFeeDt.TotalTransactionAmount = Convert.ToDecimal(temp1[2]);
-                        entityFeeDt.DiscountAmount = Convert.ToDecimal(temp1[3]);
-                        entityFeeDt.IsDiscountAmountInPercentage = true;
-                        entityFeeDt.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
-                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[5]);
+                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[2]);
                         entityFeeDt.CreatedBy = AppSession.UserLogin.UserID;
 
                         entityFeeDtDao.Insert(entityFeeDt);
@@ -353,11 +376,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityFeeDt.DueDate = Helper.GetDatePickerValue(temp1[0]);
                         entityFeeDt.TransactionAmount = Convert.ToDecimal(temp1[1]);
                         entityFeeDt.IsTransactionAmountInPercentage = true;
-                        entityFeeDt.TotalTransactionAmount = Convert.ToDecimal(temp1[2]);
-                        entityFeeDt.DiscountAmount = Convert.ToDecimal(temp1[3]);
-                        entityFeeDt.IsDiscountAmountInPercentage = true;
-                        entityFeeDt.TotalDiscountAmount = Convert.ToDecimal(temp1[4]);
-                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[5]);
+                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[2]);
                         entityFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
 
                         entityFeeDtDao.Update(entityFeeDt);

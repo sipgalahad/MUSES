@@ -135,37 +135,12 @@
             $('.txtTotalTransactionAmount').each(function () {
                 $tbl = $(this).closest('.tblView');
                 var totalPayment = 0;
-                var discountPayment = 0;
-                var lineAmount = 0;
                 $tbl.find('tr.trDetail').each(function () {
                     totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
-                    discountPayment += parseFloat($(this).find('.txtDiscountAmount').attr('hiddenVal'));
-                    lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
                 });
                 $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-                $tbl.find('.txtTotalDiscountAmount').val(discountPayment).trigger('changeValue');
-                $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
             });
         }
-
-        $('.txtDiscountAmount').live('change', function () {
-            $(this).blur();
-
-            $tr = $(this).closest('tr');
-            var paymentAmount = parseFloat($tr.find('.txtTransactionAmount').attr('hiddenVal'));
-            var discountAmount = parseFloat($tr.find('.txtDiscountAmount').attr('hiddenVal'));
-            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
-
-            var discountPayment = 0;
-            var lineAmount = 0;
-            $tbl = $(this).closest('.tblView');
-            $tbl.find('tr.trDetail').each(function () {
-                discountPayment += parseFloat($(this).find('.txtDiscountAmount').attr('hiddenVal'));
-                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
-            });
-            $tbl.find('.txtTotalDiscountAmount').val(discountPayment).trigger('changeValue');
-            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
-        });
 
         function onCbpViewEndCallback(s) {
             $('.txtCurrency').each(function () {
@@ -260,28 +235,31 @@
             $('.hdnStudentFeeCompTypeID').each(function () {
                 var studentFeeCompTypeID = $(this).val();
                 var GCAdmissionPaymentPeriod = $(this).attr('gcadmissionpaymentperiod');
-                var noOfPeriod = $(this).closest('tr').prev().prev().find('.txtNoOfRegistrationPaymentPeriod').val();
-                var admissionFeeCompValue = $(this).closest('tr').prev().prev().prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal');
+                $tr = $(this).closest('tr');
+                var noOfPeriod = $tr.prev().prev().prev().prev().find('.txtNoOfRegistrationPaymentPeriod').val();
+                var admissionFeeCompValue = $tr.prev().prev().prev().prev().prev().find('.txtAdmissionFeeCompAmount').attr('hiddenVal');
+                $trDiscount = $tr.prev().prev();
+                var discountPercentage = $trDiscount.find('.txtDiscountPercentage').val();
+                var discountAmount = $trDiscount.find('.txtTotalDiscountAmount').attr('hiddenVal');
                 $tbl = $(this).next().find('.tblView');
                 var lstTemp = '';
+                var paymentDate = '';
                 $tbl.find('.trDetail').each(function () {
                     if (lstTemp != '')
                         lstTemp += ',';
-                    var paymentDate = $(this).find('.txtDueDate').val();
+                    paymentDate = $(this).find('.txtDueDate').val();
                     var paymentAmountInPercentage = $(this).find('.txtTransactionAmountInPercentage').val();
                     var paymentAmount = $(this).find('.txtTransactionAmount').attr('hiddenVal');
-                    var discountAmountInPercentage = $(this).find('.txtDiscountAmountInPercentage').val();
-                    var discountAmount = $(this).find('.txtDiscountAmount').attr('hiddenVal');
-                    var lineAmount = $(this).find('.txtLineAmount').attr('hiddenVal');
-                    lstTemp += paymentDate + '^' + paymentAmountInPercentage + '^' + paymentAmount + '^' + discountAmountInPercentage + '^' + discountAmount + '^' + lineAmount;
+                    lstTemp += paymentDate + '^' + paymentAmountInPercentage + '^' + paymentAmount;
                 });
                 if (lstSaveValue != '')
                     lstSaveValue += '|';
-                lstSaveValue += studentFeeCompTypeID + ';' + noOfPeriod + ';' + admissionFeeCompValue + ';' + GCAdmissionPaymentPeriod + ';' + lstTemp;
+                lstSaveValue += studentFeeCompTypeID + ';' + noOfPeriod + ';' + admissionFeeCompValue + ';' + GCAdmissionPaymentPeriod + ';' + discountPercentage + ';' + discountAmount + ';' + paymentDate + ';' + lstTemp;
             });
             $('#<%=hdnSaveValue.ClientID %>').val(lstSaveValue);
         }
 
+        //#region Header
         $('.txtAdmissionFeeCompAmount').live('change', function () {
             $(this).blur();
             var admissionFeeCompAmount = parseFloat($(this).attr('hiddenVal'));
@@ -289,29 +267,58 @@
             $tr = $(this).closest('tr');
             var noOfPeriod = parseInt($tr.next().find('.txtNoOfRegistrationPaymentPeriod').val());
             admissionFeeCompAmount = admissionFeeCompAmount * noOfPeriod;
-            $tr.next().next().find('.txtAdmissionFeeCompTransactionAmount').val(admissionFeeCompAmount).trigger('changeValue');
+            $tr.next().next().find('.txtAdmissionFeeCompGrossTransactionAmount').val(admissionFeeCompAmount).trigger('changeValue');
 
-            $tbl = $tr.next().next().next().find('.tblView');
+            $trDiscount = $tr.next().next().next();
+            var discountPercentage = parseFloat($trDiscount.find('.txtDiscountPercentage').val());
+            var discountAmount = admissionFeeCompAmount * discountPercentage / 100;
+            $trDiscount.find('.txtTotalDiscountAmount').val(discountAmount).trigger('changeValue');
+
+            admissionFeeCompAmount = admissionFeeCompAmount - discountAmount;
+            setAdmissionFeeCompAmount($trDiscount, admissionFeeCompAmount);
+        });
+
+        $('.txtDiscountPercentage').live('change', function () {
+            var discountPercentage = parseFloat($(this).val());
+            $trDiscount = $(this).closest('tr');
+
+            var admissionFeeCompAmount = parseFloat($trDiscount.prev().find('.txtAdmissionFeeCompGrossTransactionAmount').attr('hiddenVal'));
+            var discountAmount = admissionFeeCompAmount * discountPercentage / 100;
+            $trDiscount.find('.txtTotalDiscountAmount').val(discountAmount).trigger('changeValue');
+
+            admissionFeeCompAmount = admissionFeeCompAmount - discountAmount;
+            setAdmissionFeeCompAmount($trDiscount, admissionFeeCompAmount);
+        });
+
+        $('.txtTotalDiscountAmount').live('change', function () {
+            $(this).blur();
+            var discountAmount = parseFloat($(this).attr('hiddenVal'));
+            $trDiscount = $(this).closest('tr');
+
+            var admissionFeeCompAmount = parseFloat($trDiscount.prev().find('.txtAdmissionFeeCompGrossTransactionAmount').attr('hiddenVal'));
+            var discountPercentage = discountAmount / admissionFeeCompAmount * 100;
+            $trDiscount.find('.txtDiscountPercentage').val(discountPercentage).trigger('changeValue');
+
+            admissionFeeCompAmount = admissionFeeCompAmount - discountAmount;
+            setAdmissionFeeCompAmount($trDiscount, admissionFeeCompAmount);
+        });
+
+        function setAdmissionFeeCompAmount($trDiscount, admissionFeeCompAmount) {
+            $trDiscount.next().find('.txtAdmissionFeeCompTransactionAmount').val(admissionFeeCompAmount).trigger('changeValue');
+
+            $tbl = $trDiscount.next().next().find('.tblView');
             var totalPayment = 0;
-            var totalDiscount = 0;
-            var lineAmount = 0;
             $tbl.find('.trDetail').each(function () {
                 var paymentAmountInPercentage = parseFloat($(this).find('.txtTransactionAmountInPercentage').val());
                 var paymentAmount = admissionFeeCompAmount * paymentAmountInPercentage / 100;
-                var discountAmountInPercentage = parseFloat($(this).find('.txtDiscountAmountInPercentage').val());
-                var discountAmount = paymentAmount * discountAmountInPercentage / 100;
                 $(this).find('.txtTransactionAmount').val(paymentAmount).trigger('changeValue');
-                $(this).find('.txtDiscountAmount').val(discountAmount).trigger('changeValue');
-                $(this).find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
                 totalPayment += paymentAmount;
-                totalDiscount += discountAmount;
-                lineAmount += paymentAmount - discountAmount;
             });
             $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            $tbl.find('.txtTotalDiscountAmount').val(totalDiscount).trigger('changeValue');
-            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
-        });
+        }
+        //#endregion
 
+        //#region Detail
         $('.txtTransactionAmountInPercentage').live('change', function () {
             $(this).blur();
             $tr = $(this).closest('tr');
@@ -319,21 +326,15 @@
 
             var paymentAmountInPercentage = parseFloat($(this).val());
             var paymentAmount = admissionFeeCompAmount * paymentAmountInPercentage / 100;
-            var discountAmountInPercentage = parseFloat($tr.find('.txtDiscountAmountInPercentage').val());
-            var discountAmount = paymentAmount * discountAmountInPercentage / 100;
             $tr.find('.txtTransactionAmount').val(paymentAmount).trigger('changeValue');
-            $tr.find('.txtDiscountAmount').val(discountAmount).trigger('changeValue');
-            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
 
             var totalPayment = 0;
             var lineAmount = 0;
             $tbl = $(this).closest('.tblView');
             $tbl.find('tr.trDetail').each(function () {
                 totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
-                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
             });
             $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
         });
         $('.txtTransactionAmount').live('change', function () {
             $(this).blur();
@@ -342,62 +343,17 @@
 
             var paymentAmount = parseFloat($(this).attr('hiddenVal'));
             var paymentAmountInPercentage = paymentAmount * 100 / admissionFeeCompAmount;
-            var discountAmountInPercentage = parseFloat($tr.find('.txtDiscountAmountInPercentage').val());
-            var discountAmount = paymentAmount * discountAmountInPercentage / 100;
             $tr.find('.txtTransactionAmountInPercentage').val(paymentAmountInPercentage).trigger('changeValue');
-            $tr.find('.txtDiscountAmount').val(discountAmount).trigger('changeValue');
-            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
 
             var totalPayment = 0;
             var lineAmount = 0;
             $tbl = $(this).closest('.tblView');
             $tbl.find('tr.trDetail').each(function () {
                 totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
-                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
             });
             $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
         });
-
-        $('.txtDiscountAmountInPercentage').live('change', function () {
-            $(this).blur();
-            $tr = $(this).closest('tr');
-            var paymentAmount = parseFloat($tr.find('.txtTransactionAmount').attr('hiddenVal'));
-            var discountAmountInPercentage = parseFloat($tr.find('.txtDiscountAmountInPercentage').val());
-            var discountAmount = paymentAmount * discountAmountInPercentage / 100;
-            $tr.find('.txtDiscountAmount').val(discountAmount).trigger('changeValue');
-            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
-
-            var totalPayment = 0;
-            var lineAmount = 0;
-            $tbl = $(this).closest('.tblView');
-            $tbl.find('tr.trDetail').each(function () {
-                totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
-                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
-            });
-            $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
-        });
-
-        $('.txtDiscountAmount').live('change', function () {
-            $(this).blur();
-            $tr = $(this).closest('tr');
-            var paymentAmount = parseFloat($tr.find('.txtTransactionAmount').attr('hiddenVal'));
-            var discountAmount = parseFloat($tr.find('.txtDiscountAmount').attr('hiddenVal'));
-            var discountAmountInPercentage = discountAmount * 100 / paymentAmount;
-            $tr.find('.txtDiscountAmountInPercentage').val(discountAmountInPercentage).trigger('changeValue');
-            $tr.find('.txtLineAmount').val(paymentAmount - discountAmount).trigger('changeValue');
-
-            var totalPayment = 0;
-            var lineAmount = 0;
-            $tbl = $(this).closest('.tblView');
-            $tbl.find('tr.trDetail').each(function () {
-                totalPayment += parseFloat($(this).find('.txtTransactionAmount').attr('hiddenVal'));
-                lineAmount += parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
-            });
-            $tbl.find('.txtTotalTransactionAmount').val(totalPayment).trigger('changeValue');
-            $tbl.find('.txtTotalAmount').val(lineAmount).trigger('changeValue');
-        });
+        //#endregion
 
         //#region Dde Scholarship
         $('.chkIsSelected input').live('change', function () {
@@ -543,32 +499,50 @@
                             <HeaderTemplate>
                                 <table>
                                     <colgroup>
-                                        <col style="width:160px"/>
+                                        <col style="width:170px"/>
+                                        <col style="width:60px"/>
                                         <col style="width:20px"/>
                                         <col style="width:100px"/>
                                     </colgroup>
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td><%#Eval("StudentFeeCompTypeName") %></td>
+                                    <td class="tdLabel"><%#Eval("StudentFeeCompTypeName") %></td>
+                                    <td>&nbsp;</td>
                                     <td>:</td>
                                     <td align="right"><input type="text" value='<%#Eval("TotalAmount") %>' class="txtCurrency txtAdmissionFeeCompAmount" /></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td><%=GetLabel("Periode Dibayar") %></td>
+                                    <td class="tdLabel"><%=GetLabel("Periode Dibayar") %></td>
+                                    <td>&nbsp;</td>
                                     <td>:</td>
                                     <td align="right"><input type="text" value='<%#Eval("NoOfRegistrationPaymentPeriod") %>' readonly="readonly" class="number txtNoOfRegistrationPaymentPeriod" /></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td><%=GetLabel("Total Bayar")%></td>
+                                    <td class="tdLabel"><%=GetLabel("Total (Sebelum Diskon)")%></td>
+                                    <td>&nbsp;</td>
                                     <td>:</td>
-                                    <td align="right"><input type="text" value='<%#Eval("TotalPaymentAmount") %>' readonly="readonly" class="txtCurrency txtAdmissionFeeCompTransactionAmount" /></td>
+                                    <td align="right"><input type="text" value='<%#Eval("TotalPaymentAmount") %>' readonly="readonly" class="txtCurrency txtAdmissionFeeCompGrossTransactionAmount" /></td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4">
+                                    <td class="tdLabel"><%=GetLabel("Diskon") %></td>
+                                    <td><asp:TextBox id="txtDiscountPercentage" runat="server" CssClass="number txtDiscountPercentage" Width="30px" /> [%]</td>
+                                    <td>:</td>
+                                    <td align="right"><asp:TextBox id="txtTotalDiscountAmount" runat="server" CssClass="txtCurrency txtTotalDiscountAmount" /></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><%=GetLabel("Total (Setelah Diskon)") %></td>
+                                    <td>&nbsp;</td>
+                                    <td>:</td>
+                                    <td align="right"><asp:TextBox id="txtAdmissionFeeCompTransactionAmount" runat="server" CssClass="txtCurrency txtAdmissionFeeCompTransactionAmount" ReadOnly="true" /></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
                                         <input type="hidden" class="hdnStudentFeeCompTypeID" value='<%#Eval("StudentFeeCompTypeID") %>' gcadmissionpaymentperiod='<%#Eval("GCAdmissionPaymentPeriod") %>' />
                                         <div id="containerTableFee" runat="server">
                                             <asp:Repeater ID="rptViewDt" runat="server">
@@ -579,16 +553,12 @@
                                                             <col style="width:200px"/>
                                                             <col style="width:150px" />
                                                             <col style="width:150px" />
-                                                            <col style="width:150px" />
                                                         </colgroup>
                                                         <tr>
                                                             <th class="thCenter"><%=GetLabel("Pembayaran Ke") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jumlah Bayar [%]") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jumlah Bayar") %></th>
-                                                            <th class="thCenter"><%=GetLabel("Diskon [%]") %></th>
-                                                            <th class="thCenter"><%=GetLabel("Diskon") %></th>
-                                                            <th class="thCenter"><%=GetLabel("Total") %></th>
                                                         </tr>
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
@@ -596,10 +566,7 @@
                                                         <td align="center"><%#Eval("DisplayOrder") %></td>
                                                         <td align="center"><input type="text" class="txtDueDate datepicker required" validationgroup="mpEntry" value='<%#Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
                                                         <td align="center"><input type="text" class="txtTransactionAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TransactionAmount") %>' /></td>
-                                                        <td align="center"><input type="text" class="txtTransactionAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalTransactionAmount") %>' /></td>
-                                                        <td align="center"><input type="text" class="txtDiscountAmountInPercentage number required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("DiscountAmount") %>' /></td>
-                                                        <td align="center"><input type="text" class="txtDiscountAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("TotalDiscountAmount") %>' /></td>
-                                                        <td align="center"><input type="text" class="txtLineAmount txtCurrency required" validationgroup="mpEntry" readonly="readonly" style="width:90%" value='<%#Eval("LineAmount") %>' /></td>
+                                                        <td align="center"><input type="text" class="txtTransactionAmount txtCurrency required" validationgroup="mpEntry" style="width:90%" value='<%#Eval("LineAmount") %>' /></td>
                                                     </tr>
                                                 </ItemTemplate>
                                                 <FooterTemplate>
@@ -607,9 +574,6 @@
                                                             <td align="right" colspan="2"><%=GetLabel("Total") %></td>
                                                             <td>&nbsp;</td>
                                                             <td align="center"><input type="text" class="txtTotalTransactionAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
-                                                            <td>&nbsp;</td>
-                                                            <td align="center"><input type="text" class="txtTotalDiscountAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
-                                                            <td align="center"><input type="text" class="txtTotalAmount txtCurrency" readonly="readonly" style="width:90%" /></td>
                                                         </tr>
                                                     </table>
                                                 </FooterTemplate>

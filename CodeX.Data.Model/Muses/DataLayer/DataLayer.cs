@@ -21571,6 +21571,7 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int16 _DisplayOrder;
+        private DateTime _DueDate;
         private Int32? _TransactionMonth;
         private Int32? _TransactionYear;
         private Decimal _TransactionAmount;
@@ -21621,6 +21622,12 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
         }
         [Column(Name = "TransactionMonth", DataType = "Int32", IsNullable = true)]
         public Int32? TransactionMonth
@@ -22177,10 +22184,6 @@ namespace CodeX.Data.Model
         private DateTime _DueDate;
         private Boolean _IsTransactionAmountInPercentage;
         private Decimal _TransactionAmount;
-        private Decimal _TotalTransactionAmount;
-        private Boolean _IsDiscountAmountInPercentage;
-        private Decimal _DiscountAmount;
-        private Decimal _TotalDiscountAmount;
         private Decimal _StudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
@@ -22209,7 +22212,7 @@ namespace CodeX.Data.Model
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
         }
-        [Column(Name = "DueDate", DataType = "DateTime", IsNullable = true)]
+        [Column(Name = "DueDate", DataType = "DateTime")]
         public DateTime DueDate
         {
             get { return _DueDate; }
@@ -22226,30 +22229,6 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
-        }
-        [Column(Name = "TotalTransactionAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalTransactionAmount
-        {
-            get { return _TotalTransactionAmount; }
-            set { _TotalTransactionAmount = value; }
-        }
-        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsDiscountAmountInPercentage
-        {
-            get { return _IsDiscountAmountInPercentage; }
-            set { _IsDiscountAmountInPercentage = value; }
-        }
-        [Column(Name = "DiscountAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal DiscountAmount
-        {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
-        }
-        [Column(Name = "TotalDiscountAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalDiscountAmount
-        {
-            get { return _TotalDiscountAmount; }
-            set { _TotalDiscountAmount = value; }
         }
         [Column(Name = "StudentAmount", DataType = "Decimal")]
         public Decimal StudentAmount
