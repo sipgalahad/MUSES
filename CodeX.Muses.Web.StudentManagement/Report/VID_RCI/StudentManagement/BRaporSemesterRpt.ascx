@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BRaporSemesterRpt.ascx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Report.BRaporMidSemesterRpt" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BRaporSemesterRpt.ascx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Report.BRaporSemesterRpt" %>
 
 <div id="divReportHeader" runat="server">
     <style type="text/css">
@@ -77,37 +77,19 @@
                             <div>
                                 <table width="100%" style="border:1px solid;" class="tblRapor" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td rowspan="4" align="center" class="lblHeader">No.</td>
-                                        <td rowspan="4" align="center" class="lblHeader">Komponen</td>
-                                        <td rowspan="4" align="center" style="width:50px;" class="lblHeader">KKM</td>
-                                        <td id="tdHeaderHasil" runat="server" align="center" class="lblHeader">Hasil Belajar Siswa</td>
+                                        <td rowspan="3" align="center" class="lblHeader">No.</td>
+                                        <td rowspan="3" align="center" class="lblHeader">Komponen</td>
+                                        <td rowspan="3" align="center" style="width:50px;" class="lblHeader">KKM</td>
+                                        <td colspan="4" align="center" class="lblHeader">Hasil Belajar Siswa</td>
                                     </tr>
                                     <tr>
-                                        <td id="tdHeaderNilai" runat="server" align="center" class="lblHeader">Nilai</td>
-                                        <td rowspan="3" class="tdScore lblHeader" align="center">Sikap</td>
+                                        <td colspan="3" runat="server" align="center" class="lblHeader">Nilai</td>
+                                        <td rowspan="2" class="tdScore lblHeader" align="center">Sikap</td>
                                     </tr>
                                     <tr>
-                                        <td runat="server" id="tdUlangan" align="center" class="lblHeader">Kognitif</td>
-                                        <td rowspan="2" class="tdScore lblHeader" align="center">UTS</td>
-                                        <td runat="server" id="tdTugas" align="center" class="lblHeader">Tugas</td>
-                                        <td align="center" id="tdPsikomotorik" runat="server" class="lblHeader">Psikomotorik</td>
-                                    </tr>
-                                    <tr>
-                                        <asp:Repeater runat="server" ID="rptUlanganHeader">
-                                            <ItemTemplate>
-                                                <td class="tdScore" align="center"><%#: Container.DataItem.ToString() %></td>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
-                                        <asp:Repeater runat="server" ID="rptTugasHeader">
-                                            <ItemTemplate>
-                                                <td class="tdScore" align="center"><%#: Container.DataItem.ToString() %></td>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
-                                        <asp:Repeater runat="server" ID="rptPsikomotorikHeader">
-                                            <ItemTemplate>
-                                                <td class="tdScore" align="center"><%#: Container.DataItem.ToString() %></td>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
+                                        <td class="tdScore lblHeader" align="center">Teori</td>
+                                        <td class="tdScore lblHeader" align="center">Praktek</td>
+                                        <td class="tdScore lblHeader" align="center">Nilai Akhir</td>
                                     </tr>
                                     <asp:Repeater runat="server" ID="rptSubject" OnItemDataBound="rptSubject_ItemDataBound">
                                         <ItemTemplate>
@@ -115,23 +97,10 @@
                                                 <td align="center" style="width:50px;"><%# Container.ItemIndex + 1 %></td>
                                                 <td class="lblHeader"><%#:Eval("SubjectName") %></td>
                                                 <td align="right"><%#:Eval("PassingGrade","{0:N}") %></td>
-                                                <asp:Repeater runat="server" ID="rptUlanganDetail">
-                                                    <ItemTemplate>
-                                                        <td align="right"><%#: Container.DataItem.ToString() %></td>
-                                                    </ItemTemplate>
-                                                </asp:Repeater>
-                                                <td runat="server" id="tdDetailUTS" align="right" style="width:50px;"></td>
-                                                <asp:Repeater runat="server" ID="rptTugasDetail">
-                                                    <ItemTemplate>
-                                                        <td align="right"><%#: Container.DataItem.ToString() %></td>
-                                                    </ItemTemplate>
-                                                </asp:Repeater>
-                                                <asp:Repeater runat="server" ID="rptPsikomotorikDetail">
-                                                    <ItemTemplate>
-                                                        <td align="right"><%#: Container.DataItem.ToString() %></td>
-                                                    </ItemTemplate>
-                                                </asp:Repeater>
-                                                <td runat="server" id="tdDetailSikap" align="right" style="width:50px;"></td>
+                                                <td align="right" runat="server" id="tdTheory"></td>
+                                                <td align="right" runat="server" id="tdPractice"></td>
+                                                <td align="right" runat="server" id="tdFinalScore"></td>
+                                                <td align="right" runat="server" id="tdAffective"></td>
                                             </tr>
                                         </ItemTemplate>
                                     </asp:Repeater>

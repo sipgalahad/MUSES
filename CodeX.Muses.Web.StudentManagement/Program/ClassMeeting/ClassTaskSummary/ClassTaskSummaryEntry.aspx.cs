@@ -547,7 +547,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             if (temp[1] != "-")
                                 finalStudentMarkTheory = Convert.ToDecimal(temp[1]);
                             decimal finalStudentMarkPractice = -1;
-                            if (temp[1] != "-")
+                            if (temp[2] != "-")
                                 finalStudentMarkPractice = Convert.ToDecimal(temp[2]);
                             ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == studentID);
                             if (studentFinalMark == null)
