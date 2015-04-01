@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <!-- #Region SM040300 -->
+  <page menucode="SM040300">
+    <prints>
+      <print title="Cetak Rapor Midsemester" reportcode="SM-00002" />
+    </prints>
+  </page>
+  <!-- #EndRegion -->
+</root>

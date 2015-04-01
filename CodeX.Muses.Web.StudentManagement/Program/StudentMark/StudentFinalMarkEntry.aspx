@@ -11,7 +11,8 @@
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnPrint" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Print")%></div></li>
+    <li id="btnPrint" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Midsemester")%></div></li>
+    <li id="btnPrint1" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Semester")%></div></li>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
@@ -23,6 +24,12 @@
 
             $('#<%=btnPrint.ClientID %>').click(function () {
                 var reportCode = "SM-00002";
+                var filterExpression = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
+                openReportViewer(reportCode, filterExpression);
+            });
+
+            $('#<%=btnPrint1.ClientID %>').click(function () {
+                var reportCode = "SM-00003";
                 var filterExpression = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
                 openReportViewer(reportCode, filterExpression);
             });

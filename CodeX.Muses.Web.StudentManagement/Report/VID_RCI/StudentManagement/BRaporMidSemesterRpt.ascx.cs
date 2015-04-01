@@ -22,6 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         
         List<vClassSubjectTask> lstClassSubjectTask = null;
         List<ClassStudentSubjectTaskMark> lstNilai = null;
+        List<ClassStudentSubjectMark> lstStudentSubjectMark = null;
 
         int MaxUlangan = 0;
         int MaxTugas = 0;
@@ -92,7 +93,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 {
                     lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
                     lstNilai = BusinessLayer.GetClassStudentSubjectTaskMarkList(String.Format("StudentID = {0}", StudentID)).OrderBy(x => x.ClassSubjectTaskID).ToList();
-
+                    lstStudentSubjectMark = BusinessLayer.GetClassStudentSubjectMarkList(String.Format("StudentID = {0}", StudentID)).ToList();
                     #region header ulangan
                     var temp = lstClassSubjectTask.Where(m => m.GCTaskType == Constant.TaskType.ULANGAN && m.GCLessonType == Constant.LessonType.THEORY).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
 
@@ -129,13 +130,15 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
                     #region header Psikomotorik
                     temp = lstClassSubjectTask.Where(m => m.GCLessonType == Constant.LessonType.PRACTICE).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
-                    MaxPsikomotorik = temp.Max(x => x.Count);
+                    if(temp.Count() > 0) MaxPsikomotorik = temp.Max(x => x.Count);
                     lstDataHeader.Clear();
-                    for (int i = 0; i < MaxTugas; i++)
+                    for (int i = 0; i < MaxPsikomotorik; i++)
                     {
                         lstDataHeader.Add(String.Format("{0}", i + 1));
                     }
-                    tdPsikomotorik.ColSpan = MaxTugas;
+                    if (MaxPsikomotorik != 0)
+                        tdPsikomotorik.ColSpan = MaxPsikomotorik;
+                    else tdPsikomotorik.Style.Add("display", "none");
 
                     rptPsikomotorikHeader.DataSource = lstDataHeader;
                     rptPsikomotorikHeader.DataBind();
@@ -242,6 +245,13 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassSubjectTask entityCST = lstClassSubjectTask.FirstOrDefault(x => x.GCTaskType == Constant.TaskType.UTS);
                 if (entityCST != null) tdDetailUTS.InnerHtml =  lstNilai.FirstOrDefault(x => x.ClassSubjectTaskID == entityCST.ClassSubjectTaskID).Mark.ToString("N2");
                 else tdDetailUTS.InnerHtml = "-";
+                #endregion
+
+                #region Affective
+                HtmlTableCell tdDetailSikap = e.Item.FindControl("tdDetailSikap") as HtmlTableCell;
+                ClassStudentSubjectMark ssm = lstStudentSubjectMark.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
+                if (ssm != null) tdDetailSikap.InnerHtml = ssm.AffectiveMark;
+                else tdDetailSikap.InnerHtml = "-";
                 #endregion
             }
         }
