@@ -351,25 +351,25 @@ namespace CodeX.Common
             #region Finance
             public static class Finance
             {
-                public const string PROSPECTIVE_STUDENT_LIST = "FN040100";
-                public const string GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE = "FN040101";
-                public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN040102";
-                public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN040103";
-                public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN040104";
-                public const string PROSPECTIVE_STUDENT_PAYMENT_METHOD_EDIT = "FN040105";
+                public const string PROSPECTIVE_STUDENT_LIST = "FN040110";
+                public const string GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE = "FN040111";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN040112";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN040113";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN040114";
+                public const string PROSPECTIVE_STUDENT_PAYMENT_METHOD_EDIT = "FN040115";
+                public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN040120";
 
-                public const string STUDENT_LIST = "FN040200";
-                public const string GENERATE_STUDENT_UPLOAD_FILE = "FN040201";
-                public const string AR_INVOICE_STUDENT_PROCESS = "FN040202";
-                public const string AR_INVOICE_STUDENT_EDIT = "FN040203";
-                public const string AR_INVOICE_STUDENT_RECEIVE = "FN040204";
-                public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040205";
+                public const string STUDENT_LIST = "FN040210";
+                public const string GENERATE_STUDENT_UPLOAD_FILE = "FN040211";
+                public const string AR_INVOICE_STUDENT_PROCESS = "FN040212";
+                public const string AR_INVOICE_STUDENT_EDIT = "FN040213";
+                public const string AR_INVOICE_STUDENT_RECEIVE = "FN040214";
+                public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040215";
+                public const string GENERATE_AR_INVOICE_STUDENT = "FN040220";
 
                 public const string GENERATE_UPLOAD_FILE = "FN040300";
                 public const string BANK_UPLOADED_FILE = "FN040400";
                 public const string STUDENT_COVERAGE_TRANSACTION = "FN040500";
-                public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN040600";
-                public const string GENERATE_AR_INVOICE_STUDENT = "FN040700";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
