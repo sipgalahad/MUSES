@@ -562,11 +562,13 @@ namespace CodeX.Common
             public const string STOCK_TAKING = "4210";
             public const string PURCHASE_RETURN_REPLACEMENT = "4211";
 
-            public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5102";
-            public const string AR_INVOICE_STUDENT = "5103";
-            public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5104";
-            public const string AR_RECEIVE_STUDENT = "5105";
-            public const string STUDENT_COVERAGE = "5106";
+            public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
+            public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";
+            public const string AR_INVOICE_STUDENT = "5201";
+            public const string AR_RECEIVE_STUDENT = "5202";
+            public const string AR_INVOICE_CUSTOMER = "5301";
+            public const string AR_RECEIVE_CUSTOMER = "5302";
+            public const string STUDENT_COVERAGE = "5401";
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";

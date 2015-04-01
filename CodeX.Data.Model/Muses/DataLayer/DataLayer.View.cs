@@ -588,6 +588,9 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
         private String _VirtualAccount;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
@@ -670,6 +673,24 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
         }
         [Column(Name = "VirtualAccount", DataType = "String")]
         public String VirtualAccount
@@ -1064,6 +1085,9 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
         private Decimal _TotalReceivingAmount;
         private Decimal _TotalFeeAmount;
         private Decimal _TotalInvoiceAmount;
@@ -1127,6 +1151,24 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
         }
         [Column(Name = "TotalReceivingAmount", DataType = "Decimal")]
         public Decimal TotalReceivingAmount
@@ -19806,6 +19848,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeID;
         private Int32 _StudentID;
         private Int32 _ProspectiveStudentID;
+        private Int32 _BusinessPartnerID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int32 _StudentFeeCompTypeID;
@@ -19840,6 +19883,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID

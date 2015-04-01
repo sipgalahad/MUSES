@@ -834,6 +834,7 @@ namespace CodeX.Data.Model
         private DateTime _ARInvoiceDate;
         private Int32? _StudentID;
         private Int32? _ProspectiveStudentID;
+        private Int32? _BusinessPartnerID;
         private Int32? _TermID;
         private DateTime _DueDate;
         private Int32? _BankID;
@@ -888,6 +889,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "TermID", DataType = "Int32", IsNullable = true)]
         public Int32? TermID
@@ -1320,6 +1327,7 @@ namespace CodeX.Data.Model
         private String _ARReceivingNo;
         private Int32? _StudentID;
         private Int32? _ProspectiveStudentID;
+        private Int32? _BusinessPartnerID;
         private DateTime _ReceivingDate;
         private Decimal _TotalReceivingAmount;
         private Decimal _TotalInvoiceAmount;
@@ -1358,6 +1366,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "ReceivingDate", DataType = "DateTime")]
         public DateTime ReceivingDate
@@ -21568,6 +21582,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeID;
         private Int32? _StudentID;
         private Int32? _ProspectiveStudentID;
+        private Int32? _BusinessPartnerID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int16 _DisplayOrder;
@@ -21604,6 +21619,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
