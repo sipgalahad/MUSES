@@ -19801,7 +19801,7 @@ namespace CodeX.Data.Model
     #region vStudentFee
     [Serializable]
     [Table(Name = "vStudentFee")]
-    public class vStudentFee
+    public partial class vStudentFee
     {
         private Int32 _StudentFeeID;
         private Int32 _StudentID;
@@ -19809,6 +19809,8 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int32 _StudentFeeCompTypeID;
+        private String _StudentFeeCompTypeName;
+        private String _GCAdmissionPaymentPeriod;
         private Int16 _DisplayOrder;
         private Int32 _TransactionMonth;
         private Int32 _TransactionYear;
@@ -19816,6 +19818,8 @@ namespace CodeX.Data.Model
         private Boolean _IsDiscountAmountInPercentage;
         private Decimal _DiscountAmount;
         private Decimal _TotalDiscountAmount;
+        private Decimal _StudentAmount;
+        private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsDeleted;
 
@@ -19854,6 +19858,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeID; }
             set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
+        public String StudentFeeCompTypeName
+        {
+            get { return _StudentFeeCompTypeName; }
+            set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
         }
         [Column(Name = "DisplayOrder", DataType = "Int16")]
         public Int16 DisplayOrder
@@ -19897,6 +19913,18 @@ namespace CodeX.Data.Model
             get { return _TotalDiscountAmount; }
             set { _TotalDiscountAmount = value; }
         }
+        [Column(Name = "StudentAmount", DataType = "Decimal")]
+        public Decimal StudentAmount
+        {
+            get { return _StudentAmount; }
+            set { _StudentAmount = value; }
+        }
+        [Column(Name = "PayerAmount", DataType = "Decimal")]
+        public Decimal PayerAmount
+        {
+            get { return _PayerAmount; }
+            set { _PayerAmount = value; }
+        }
         [Column(Name = "LineAmount", DataType = "Decimal")]
         public Decimal LineAmount
         {
@@ -19918,7 +19946,6 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentFeeCompID;
         private Int32 _StudentID;
-        private Int32 _RegistrationID;
         private Int32 _ProspectiveStudentID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompTypeID;
@@ -19940,12 +19967,6 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
-        }
-        [Column(Name = "RegistrationID", DataType = "Int32")]
-        public Int32 RegistrationID
-        {
-            get { return _RegistrationID; }
-            set { _RegistrationID = value; }
         }
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID

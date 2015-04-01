@@ -106,10 +106,11 @@ namespace CodeX.Muses.Web.Finance.Program
                 Int32 BankID = Convert.ToInt32(siteParameterDao.Get(AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK).ParameterValue);
 
                 ARInvoiceHd entityARInvoiceHd = new ARInvoiceHd();
+                entityARInvoiceHd.TransactionCode = Constant.TransactionCode.AR_INVOICE_PROSPECTIVE_STUDENT;
                 entityARInvoiceHd.ARInvoiceDate = DateTime.Now;
                 entityARInvoiceHd.BankID = BankID;
-                entityARInvoiceHd.StudentID = AppSession.StudentID;
-                entityARInvoiceHd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_STUDENT, DateTime.Now, ctx);
+                entityARInvoiceHd.ProspectiveStudentID = AppSession.ProspectiveStudentID;
+                entityARInvoiceHd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(entityARInvoiceHd.TransactionCode, DateTime.Now, ctx);
                 ctx.CommandType = System.Data.CommandType.Text;
                 entityARInvoiceHd.DueDate = DueDate;
                 entityARInvoiceHd.Remarks = remarks;

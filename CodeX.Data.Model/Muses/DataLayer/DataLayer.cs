@@ -829,6 +829,7 @@ namespace CodeX.Data.Model
     public partial class ARInvoiceHd : DbDataModel
     {
         private Int32 _ARInvoiceID;
+        private String _TransactionCode;
         private String _ARInvoiceNo;
         private DateTime _ARInvoiceDate;
         private Int32? _StudentID;
@@ -837,6 +838,8 @@ namespace CodeX.Data.Model
         private DateTime _DueDate;
         private Int32? _BankID;
         private String _Remarks;
+        private Boolean _IsTransferred;
+        private DateTime _TransferDate;
         private Decimal _TotalTransactionAmount;
         private Decimal _TotalClaimedAmount;
         private Decimal _TotalVarianceAmount;
@@ -855,6 +858,12 @@ namespace CodeX.Data.Model
         {
             get { return _ARInvoiceID; }
             set { _ARInvoiceID = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
         }
         [Column(Name = "ARInvoiceNo", DataType = "String")]
         public String ARInvoiceNo
@@ -903,6 +912,18 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "IsTransferred", DataType = "Boolean")]
+        public Boolean IsTransferred
+        {
+            get { return _IsTransferred; }
+            set { _IsTransferred = value; }
+        }
+        [Column(Name = "TransferDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime TransferDate
+        {
+            get { return _TransferDate; }
+            set { _TransferDate = value; }
         }
         [Column(Name = "TotalTransactionAmount", DataType = "Decimal")]
         public Decimal TotalTransactionAmount

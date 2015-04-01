@@ -35,17 +35,31 @@
                     });
                     if (isAllowSave) {
                         var param = "";
-                        $('.hdnKeyField').each(function () {
-                            var keyField = $(this).val();
+                        var lstStudentFeeID = "";
+                        $('.hdnStudentFeeID').each(function () {
+                            var studentFeeID = $(this).val();
+                            var tempResult = '';
                             var count = 0;
-                            $('.tpd' + keyField).each(function () {
-                                var paymentAmount = parseFloat($('.pa' + keyField).eq(count).attr('hiddenVal'));
-                                param += keyField + ";" + $(this).val() + ";" + paymentAmount + "|";
+                            $('.txtDueDate' + studentFeeID).each(function () {
+                                $tr = $(this).closest('tr');
+                                var studentFeeDtID = $tr.find('.keyField').html();
+                                var paymentAmount = parseFloat($tr.find('.txtPaymentAmount').attr('hiddenVal'));
+                                if (tempResult != '')
+                                    tempResult += '^';
+                                tempResult += studentFeeDtID + ',' + $(this).val() + ',' + paymentAmount;
                                 count++;
-                            })
+                            });
+
+                            if (param != '') {
+                                param += '|';
+                                lstStudentFeeID += ',';
+                            }
+                            param += studentFeeID + ';' + tempResult;
+                            lstStudentFeeID += studentFeeID;
                         });
-                        $('#<%=hdnParam.ClientID %>').val(param);
-                        cbpProcess.PerformCallback('save');
+                        $('#<%=hdnLstStudentFeeID.ClientID %>').val(lstStudentFeeID);
+                        $('#<%=hdnSaveValue.ClientID %>').val(param);
+                        onCustomButtonClick('save');
                     }
                 }
             });
@@ -136,7 +150,7 @@
         });
 
         function addEntryDt(className) {
-            var rowCount = parseInt($tr.closest('.tblView').find('.' + className).last().find('td').first().html()) + 1;
+            var rowCount = parseInt($tr.closest('.tblView').find('.' + className).last().find('td:eq(1)').html()) + 1;
             $newTr = $($('#tmplEntityDt').html());
             $newTr.addClass(className);
             $newTr.insertAfter($('.tblView').find('.' + className).last());
@@ -149,9 +163,9 @@
             $newTr.html(text);
             
             var count = 1;
-            $('.txtPaymentDate').each(function () {
+            $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtPaymentDate' + count);
+                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
                 count++;
             });
@@ -161,9 +175,9 @@
         }
 
         function calculatePaymentAmount(keyField) {
-            var count = $('.pa' + keyField).length;
+            var count = $('.txtPaymentAmount' + keyField).length;
             var totalAmount = parseFloat($('.hdnTotalAmount' + keyField).val());
-            $('.pa' + keyField).each(function () {
+            $('.txtPaymentAmount' + keyField).each(function () {
                 $(this).val(totalAmount / count).trigger('changeValue');
             });
         }
@@ -171,10 +185,10 @@
         function calculateTotalPayment() {
             $('.txtTotalPayment').each(function () {
                 $row = $(this).closest('tr').parent().parent().parent();
-                var keyField = $row.find('.hdnKeyField').val();
+                var keyField = $row.find('.hdnStudentFeeID').val();
 
                 var totalAmount = 0;
-                $('.pa' + keyField).each(function () {
+                $('.txtPaymentAmount' + keyField).each(function () {
                     totalAmount += parseFloat($(this).attr('hiddenVal'));
                 });
 
@@ -192,16 +206,16 @@
             $row = $(this).closest('tr');
             $row.remove();
 
-            var keyField = $row1.find('.hdnKeyField').val();
+            var keyField = $row1.find('.hdnStudentFeeID').val();
             calculatePaymentAmount(keyField);
             calculateTotalPayment();
         });
 
         function onCbpViewEndCallback(s) {
             var count = 1;
-            $('.txtPaymentDate').each(function () {
+            $('.txtDueDate').each(function () {
                 $(this).attr('placeholder', 'dd-MM-yyyy');
-                $(this).attr('id', 'txtPaymentDate' + count);
+                $(this).attr('id', 'txtDueDate' + count);
                 setDatePickerElement($(this));
                 count++;
             });
@@ -212,26 +226,16 @@
             calculateTotalPayment();
             hideLoadingPanel();
         }
-
-        function onCbpProcesEndCallback(s) {
-            hideLoadingPanel();
-
-            var param = s.cpResult.split('|');
-            if (param[0] == 'save') {
-                if (param[1] == 'fail')
-                    showToast('Save Failed', 'Error Message : ' + param[2]);
-                else {
-                    cbpView.PerformCallback('refresh');
-                }
-            }
-        }
     </script>
+    <input type="hidden" id="hdnSaveValue" runat="server" />
+    <input type="hidden" id="hdnLstStudentFeeID" runat="server" />
     <div>
         <script id="tmplEntityDt" type="text/x-jquery-tmpl">
             <tr>
+                <td class="keyField">0</td>
                 <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" validationgroup="mpEntry" id="txtPaymentDate" class="txtPaymentDate datepicker required tpd{KeyField}" value='' style="width:120px" /></td>
-                <td align="center"><input type="text" validationgroup="mpEntry" class="txtPaymentAmount txtCurrency required pa{KeyField}" style="width:90%" value='0' /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" id="txtDueDate" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
+                <td align="center"><input type="text" validationgroup="mpEntry" class="txtPaymentAmount txtCurrency required txtPaymentAmount{KeyField}" style="width:90%" value='0' /></td>
                 <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
             </tr>
         </script>
@@ -253,7 +257,6 @@
         </table>
     </div>
     <div>
-        <input type="hidden" id="hdnParam" runat="server" />
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
@@ -271,14 +274,14 @@
                             <asp:Repeater runat="server" ID="rptStudentFeeComp" OnItemDataBound="rptStudentFeeComp_ItemDataBound">
                                 <ItemTemplate>                                        
                                     <tr id="trDataHeader" runat="server">
-                                        <td>Sisa <%#:Eval("StudentFeeCompTypeName") %></td>
+                                        <td>Sisa <%#:Eval("cfStudentFeeCompTypeName") %></td>
                                         <td>:</td>
                                         <td id="tdTotalAmount" class="tdTotalAmount" runat="server" style="color: Red; font-weight: bold"></td>
                                     </tr>
                                     <tr id="trDataDetail" runat="server">
                                         <td colspan="3">
                                             <input type="hidden" class="hdnStudentFeeCompTypeName" value='<%#:Eval("StudentFeeCompTypeName") %>' />
-                                            <input type="hidden" class="hdnKeyField" runat="server" value='<%#:Eval("StudentFeeCompID") %>' />
+                                            <input type="hidden" class="hdnStudentFeeID" runat="server" value='<%#:Eval("StudentFeeID") %>' />
                                             <input type="hidden" id="hdnTotalAmount" runat="server" />
                                             <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
                                                 <asp:Repeater runat="server" ID="rptStudentFee">
@@ -297,10 +300,11 @@
                                                         </tr>
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
-                                                        <tr class="trDetail<%#:Eval("StudentFeeCompID") %>">
+                                                        <tr class="trDetail<%#:Eval("StudentFeeID") %>">
+                                                            <td class="keyField"><%#:Eval("StudentFeeDtID") %></td>
                                                             <td align="center"><%#:Eval("DisplayOrder") %></td>
-                                                            <td align="center"><input type="text" id="txtPaymentDate" <%#Eval("GCTransactionStatus").ToString() == "X121^004" ? "readonly='readonly'" : "" %> class="txtPaymentDate datepicker required tpd<%#:Eval("GCTransactionStatus").ToString() == "X121^004" ?  "" : Eval("StudentFeeCompID") %>" value='<%#:Eval("PaymentDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
-                                                            <td align="center"><input type="text" <%#Eval("GCTransactionStatus").ToString() == "X121^004" ? "readonly='readonly'" : "" %>  class='txtPaymentAmount txtCurrency required pa<%#:Eval("GCTransactionStatus").ToString() == "X121^004" ?  "" : Eval("StudentFeeCompID").ToString() %>' style="width:90%" value='<%#:Eval("TotalPaymentAmount") %>' /></td>
+                                                            <td align="center"><input type="text" id="txtDueDate" <%#Eval("IsClosed").ToString() == "True" ? "readonly='readonly'" : "" %> class="txtDueDate datepicker required txtDueDate<%#:Eval("IsClosed").ToString() == "True" ?  "" : Eval("StudentFeeID") %>" value='<%#:Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" <%#Eval("IsClosed").ToString() == "True" ? "readonly='readonly'" : "" %>  class='txtPaymentAmount txtCurrency required txtPaymentAmount<%#:Eval("IsClosed").ToString() == "True" ?  "" : Eval("StudentFeeID").ToString() %>' style="width:90%" value='<%#:Eval("StudentAmount") %>' /></td>
                                                             <td><div <%#(Container.ItemIndex + 1).ToString() != "1" ? "style='float:right;'" : "style='display:none;'" %>  class="divDeleteEntryDt divDetailDelete"></div></td>
                                                         </tr>
                                                     </ItemTemplate>
@@ -323,12 +327,6 @@
                     </asp:Panel>
                 </dx:PanelContent>
             </PanelCollection>
-        </dxcp:ASPxCallbackPanel>
-    </div>
-    <div>
-        <dxcp:ASPxCallbackPanel ID="cbpProcess" runat="server" Width="100%" ClientInstanceName="cbpProcess"
-            ShowLoadingPanel="false" OnCallback="cbpProcess_Callback">
-            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e) { onCbpProcesEndCallback(s); }"/>
         </dxcp:ASPxCallbackPanel>
     </div>
 </asp:Content>
