@@ -1859,6 +1859,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private String _PreferredName;
         private String _GCGender;
         private String _PictureFileName;
         private String _GCClassStudentStatus;
@@ -1947,6 +1948,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "PreferredName", DataType = "String")]
+        public String PreferredName
+        {
+            get { return _PreferredName; }
+            set { _PreferredName = value; }
         }
         [Column(Name = "GCGender", DataType = "String")]
         public String GCGender
