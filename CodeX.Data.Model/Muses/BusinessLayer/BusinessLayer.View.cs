@@ -32,6 +32,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vAdmissionFeeComp> GetvAdmissionFeeCompList(string filterExpression, IDbContext ctx)
+        {
+            List<vAdmissionFeeComp> result = new List<vAdmissionFeeComp>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vAdmissionFeeComp));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vAdmissionFeeComp)helper.IDataReaderToObject(reader, new vAdmissionFeeComp()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region vAdmissionFeeRuleDtCustom
         public static List<vAdmissionFeeRuleDtCustom> GetvAdmissionFeeRuleDtCustomList(string filterExpression)
@@ -168,6 +185,23 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static List<vARInvoiceDt> GetvARInvoiceDtList(string filterExpression, IDbContext ctx)
+        {
+            List<vARInvoiceDt> result = new List<vARInvoiceDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vARInvoiceDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vARInvoiceDt)helper.IDataReaderToObject(reader, new vARInvoiceDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

@@ -27,6 +27,13 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void InitializeDataControl()
         {
+            ARBalance entityARBalance = BusinessLayer.GetARBalanceList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", AppSession.ProspectiveStudentID)).FirstOrDefault();
+            if (entityARBalance != null)
+            {
+                hdnDepositAmount.Value = entityARBalance.DepositAmount.ToString();
+                txtDepositAmount.Text = entityARBalance.DepositAmount.ToString();
+            }
+
             List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");
 
@@ -59,7 +66,7 @@ namespace CodeX.Muses.Web.Finance.Program
         }
         public void BindGridView() 
         {
-            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND IsPaid = 0", AppSession.ProspectiveStudentID));
+            List<vStudentFeeDt> lstEntity = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND StudentAmount > 0 AND IsPaid = 0", AppSession.ProspectiveStudentID));
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -164,15 +171,26 @@ namespace CodeX.Muses.Web.Finance.Program
                 tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
 
                 int count = 1;
+                decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
                 foreach (vAdmissionFeeComp obj in sfctList)
                 {
                     List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                     string ShortName = obj.ShortName;
                     if (lstStudentFeeDt1.Count > 0)
                     {
-                        tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(lstStudentFeeDt1.Sum(x => x.StudentAmount))));
-                        tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(lstStudentFeeDt1.Sum(x => x.StudentAmount) / 1000)));
-                        count++;
+                        decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.StudentAmount));
+
+                        if (depositAmount < amount)
+                        {
+                            amount = amount - depositAmount;
+                            depositAmount = 0;
+
+                            tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
+                            tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
+                            count++;
+                        }
+                        else
+                            depositAmount -= amount;
                     }
 
                 }
@@ -189,7 +207,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 #region Download the Text file.
                 Response.Clear();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", String.Format("attachment;filename={0}.txt", nbs));
+                Response.AddHeader("content-disposition", String.Format("attachment;filename={0}_{1}.txt", nbs, DateTime.Now.ToString("yyyyMMdd")));
                 Response.Charset = "";
                 Response.ContentType = "application/text";
                 Response.Output.Write(txt);
