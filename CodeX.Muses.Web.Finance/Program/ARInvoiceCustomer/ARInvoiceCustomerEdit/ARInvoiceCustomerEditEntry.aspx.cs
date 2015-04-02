@@ -14,7 +14,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class ARInvoiceProspectiveStudentEditEntry : BasePageTrx
+    public partial class ARInvoiceCustomerEditEntry : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.Finance.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Finance.AR_INVOICE_PROSPECTIVE_STUDENT_EDIT;
+            return Constant.MenuCode.Finance.AR_INVOICE_CUSTOMER_EDIT;
         }
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
@@ -56,7 +56,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected string OnGetARInvoiceFilterExpression()
         {
-            return string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID);
+            return string.Format("BusinessPartnerID = {0} AND GCTransactionStatus != '{1}'", AppSession.BusinessPartnerID, Constant.TransactionStatus.VOID);
         }
 
         protected string GetFilterExpression()

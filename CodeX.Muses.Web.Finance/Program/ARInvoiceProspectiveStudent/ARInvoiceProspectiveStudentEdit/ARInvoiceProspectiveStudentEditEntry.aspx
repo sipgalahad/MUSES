@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPProspectiveStudentPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="ARInvoiceProspectiveStudentEditEntry.aspx.cs" Inherits="CodeX.Web.Finance.Program.ARInvoiceProspectiveStudentEditEntry" %>
+    CodeBehind="ARInvoiceProspectiveStudentEditEntry.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.ARInvoiceProspectiveStudentEditEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -43,8 +43,8 @@
         }
         //#endregion
 
-        $('.imgDelete').live('click', function () {
-            $tr = $(this).closest('tr').parent().closest('tr');
+        $('.divDetailDelete').live('click', function () {
+            $tr = $(this).closest('tr');
             showToastConfirmation('Apakah Anda Yakin?', function (result) {
                 if (result) {
                     var entity = rowToObject($tr);
@@ -211,23 +211,25 @@
                             <PanelCollection>
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
-                                        <table class="grdARInvoiceHD grdSelected" cellspacing="0" width="100%" rules="all">
+                                        <table class="grdARInvoiceHD tblTransactionEntryResult" cellspacing="0" width="100%" rules="all">
                                             <colgroup>
-                                                <col style="width:40px" />
+                                                <col />
                                                 <col style="width:140px" />
                                                 <col style="width:100px" />
                                                 <col style="width:100px" />
                                                 <col style="width:100px" />
                                                 <col style="width:80px" />
+                                                <col style="width:40px" />
                                             </colgroup>
                                             <tr>
                                                 <th class="keyField"></th>
-                                                <th></th>
+                                                <th align="left"><%=GetLabel("Keterangan") %></th>
                                                 <th align="left"><%=GetLabel("No Referensi") %></th>
                                                 <th class="thRight"><%=GetLabel("Transaksi") %></th>
                                                 <th class="thRight"><%=GetLabel("Diskon") %></th>
                                                 <th class="thRight"><%=GetLabel("Total") %></th>
                                                 <th class="thCenter"></th>
+                                                <th></th>
                                             </tr>
                                             <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">
                                                 <EmptyDataTemplate>
@@ -237,25 +239,22 @@
                                                 </EmptyDataTemplate>
                                                 <ItemTemplate>
                                                     <tr>
-                                                        <td align="center">
-                                                            <table cellpadding="0" cellspacing="0">
-                                                                <tr>
-                                                                    <td><img class="imgDelete <%# IsEditable() == "0" ? "imgDisabled" : "imgLink"%>" title='<%=GetLabel("Delete")%>' src='<%# IsEditable() == "0" ? ResolveUrl("~/Libs/Images/Button/delete_disabled.png") : ResolveUrl("~/Libs/Images/Button/delete.png")%>' alt="" /></td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
                                                         <td class="keyField">
                                                             <input type="hidden" bindingfield="ARInvoiceDtID" value='<%#: Eval("ARInvoiceDtID")%>' />
                                                             <input type="hidden" class="hdnTransactionAmount" bindingfield="TransactionAmount" value='<%#: Eval("TransactionAmount")%>' />
                                                             <input type="hidden" bindingfield="VarianceAmount" value='<%#: Eval("VarianceAmount")%>' />
                                                             <input type="hidden" bindingfield="ClaimedAmount" value='<%#: Eval("ClaimedAmount")%>' />
                                                         </td>
+                                                        <td><%#:Eval("cfStudentFeeCompTypeName") %></td>
                                                         <td align="left"><%#:Eval("ReferenceNo") %></td>
                                                         <td align="right"><%#:Eval("TransactionAmount","{0:N}") %></td>
                                                         <td align="center"><asp:TextBox ID="txtDiscountAmount" runat="server" Width="95%" CssClass="txtCurrency txtDiscountAmount" /></td>
                                                         <td align="center"><asp:TextBox ID="txtClaimedAmount" runat="server" Width="95%" ReadOnly="true" CssClass="txtCurrency txtClaimedAmount" /></td>
                                                         <td align="center">
                                                             <input type="button" <%# IsEditable() == "0" ? "style='display:none'" : ""%> id="btnSave" class="btnSave" enabled="false" value="Simpan" />
+                                                        </td>
+                                                        <td align="center">
+                                                            <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
                                                         </td>
                                                     </tr>
                                                 </ItemTemplate>

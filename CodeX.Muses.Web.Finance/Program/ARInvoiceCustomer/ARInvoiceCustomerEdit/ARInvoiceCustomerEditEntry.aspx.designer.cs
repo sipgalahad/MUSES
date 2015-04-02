@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Finance.Program {
     
     
-    public partial class ARInvoiceProspectiveStudentEditEntry {
+    public partial class ARInvoiceCustomerEditEntry {
         
         /// <summary>
         /// hdnARInvoiceDtID control.

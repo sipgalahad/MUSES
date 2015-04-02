@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPStudentPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="ARInvoiceStudentEditEntry.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.ARInvoiceStudentEditEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPCustomerPageTrx.master" AutoEventWireup="true" 
+    CodeBehind="ARInvoiceCustomerEditEntry.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.ARInvoiceCustomerEditEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>

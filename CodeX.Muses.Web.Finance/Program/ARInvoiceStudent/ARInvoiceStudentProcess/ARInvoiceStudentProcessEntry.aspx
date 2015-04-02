@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPStudentPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="ARInvoiceStudentProcessEntry.aspx.cs" Inherits="CodeX.Web.Finance.Program.ARInvoiceStudentProcessEntry" %>
+    CodeBehind="ARInvoiceStudentProcessEntry.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.ARInvoiceStudentProcessEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -151,6 +151,7 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
                                             <asp:BoundField DataField="ARInvoiceDtID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                            <asp:BoundField DataField="cfStudentFeeCompTypeName" HeaderText="Keterangan"  />
                                             <asp:BoundField DataField="TransactionAmount" HeaderText="Total Piutang" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" HeaderStyle-Width="200px" />
                                         </Columns>
                                         <EmptyDataTemplate>

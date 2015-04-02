@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Web.Finance.Program {
+namespace CodeX.Muses.Web.Finance.Program {
     
     
     public partial class ARInvoiceStudentProcessEntry {

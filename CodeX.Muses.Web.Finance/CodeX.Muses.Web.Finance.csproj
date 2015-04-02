@@ -95,6 +95,7 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="MasterPage\CustomerBannerDtCtl.ascx" />
     <Content Include="MasterPage\ProspectiveStudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SupplierBannerDtCtl.ascx" />
@@ -108,6 +109,11 @@
     <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx" />
     <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx" />
     <Content Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx" />
+    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx" />
+    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx" />
+    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx" />
+    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx" />
@@ -308,6 +314,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPCustomerPageTrx.master.cs">
+      <DependentUpon>MPCustomerPageTrx.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPCustomerPageTrx.master.designer.cs">
+      <DependentUpon>MPCustomerPageTrx.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\CustomerBannerDtCtl.ascx.cs">
+      <DependentUpon>CustomerBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\CustomerBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>CustomerBannerDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\MPProspectiveStudentPageTrx.master.cs">
       <DependentUpon>MPProspectiveStudentPageTrx.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -419,6 +439,41 @@
     </Compile>
     <Compile Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx.designer.cs">
       <DependentUpon>SupplierPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx.cs">
+      <DependentUpon>ARInvoiceCustomerList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx.designer.cs">
+      <DependentUpon>ARInvoiceCustomerList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx.cs">
+      <DependentUpon>ARInvoiceCustomerProcessEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx.designer.cs">
+      <DependentUpon>ARInvoiceCustomerProcessEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.cs">
+      <DependentUpon>ARInvoiceCustomerEditEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.designer.cs">
+      <DependentUpon>ARInvoiceCustomerEditEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.cs">
+      <DependentUpon>ARInvoiceCustomerReceiveEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.designer.cs">
+      <DependentUpon>ARInvoiceCustomerReceiveEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx.cs">
+      <DependentUpon>CustomerPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx.designer.cs">
+      <DependentUpon>CustomerPageLauncher.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx.cs">
       <DependentUpon>ARInvoiceProspectiveStudentList.aspx</DependentUpon>
@@ -648,6 +703,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPCustomerPageTrx.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

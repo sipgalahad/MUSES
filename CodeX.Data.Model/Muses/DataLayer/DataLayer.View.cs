@@ -408,6 +408,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeDtID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private String _GCAdmissionPaymentPeriod;
         private String _SFCTShortName;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
@@ -423,6 +426,7 @@ namespace CodeX.Data.Model
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
         private Int32 _BankID;
+        private Boolean _IsTransferred;
         private String _Remarks;
 
         [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
@@ -472,6 +476,24 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
         }
         [Column(Name = "SFCTShortName", DataType = "String")]
         public String SFCTShortName
@@ -562,6 +584,12 @@ namespace CodeX.Data.Model
         {
             get { return _BankID; }
             set { _BankID = value; }
+        }
+        [Column(Name = "IsTransferred", DataType = "Boolean")]
+        public Boolean IsTransferred
+        {
+            get { return _IsTransferred; }
+            set { _IsTransferred = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

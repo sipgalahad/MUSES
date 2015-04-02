@@ -1,6 +1,6 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SupplierBannerDtCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.Finance.MasterPage.SupplierBannerDtCtl" %>
-
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CustomerBannerDtCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.Finance.MasterPage.CustomerBannerDtCtl" %>
+    
 <script type="text/javascript" id="dxss_patientbannerdtctl">
     $(function () {
         $('#divImageHeaderBanner').hide();

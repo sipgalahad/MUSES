@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Web.Finance.MasterPage {
+namespace CodeX.Muses.Web.Finance.MasterPage {
     
     
     public partial class MPProspectiveStudentPageTrx {
@@ -19,7 +19,7 @@ namespace CodeX.Web.Finance.MasterPage {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.Finance.MasterPage.ProspectiveStudentBannerDtCtl ctlBanner;
+        protected global::CodeX.Muses.Web.Finance.MasterPage.ProspectiveStudentBannerDtCtl ctlBanner;
         
         /// <summary>
         /// plhHeader control.

@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ProspectiveStudentBannerDtCtl.ascx.cs" 
-    Inherits="CodeX.Web.Finance.MasterPage.ProspectiveStudentBannerDtCtl" %>
+    Inherits="CodeX.Muses.Web.Finance.MasterPage.ProspectiveStudentBannerDtCtl" %>
 
 <script type="text/javascript" id="dxss_patientbannerdtctl">
     $(function () {

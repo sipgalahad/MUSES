@@ -14,13 +14,13 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class ARInvoiceProspectiveStudentProcessEntry : BasePageTrx
+    public partial class ARInvoiceCustomerProcessEntry : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Finance.AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS;
+            return Constant.MenuCode.Finance.AR_INVOICE_CUSTOMER_PROCESS;
         }
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
@@ -57,7 +57,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected string onGetARInvoiceFilterExpression()
         {
-            return string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID);
+            return string.Format("BusinessPartnerID = {0} AND GCTransactionStatus != '{1}'", AppSession.BusinessPartnerID, Constant.TransactionStatus.VOID);
         }
 
         protected string GetFilterExpression()

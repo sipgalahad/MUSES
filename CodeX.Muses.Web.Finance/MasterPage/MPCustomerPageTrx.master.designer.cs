@@ -10,60 +10,60 @@
 namespace CodeX.Muses.Web.Finance.MasterPage {
     
     
-    public partial class ProspectiveStudentBannerDtCtl {
+    public partial class MPCustomerPageTrx {
         
         /// <summary>
-        /// hdnTitleText control.
+        /// ctlBanner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTitleText;
+        protected global::CodeX.Muses.Web.Finance.MasterPage.CustomerBannerDtCtl ctlBanner;
         
         /// <summary>
-        /// imgPatientImage control.
+        /// plhHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgPatientImage;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhHeader;
         
         /// <summary>
-        /// divStudentCode control.
+        /// plhEntry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStudentCode;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhEntry;
         
         /// <summary>
-        /// divDateOfBirth control.
+        /// plhCustomButtonToolbar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDateOfBirth;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhCustomButtonToolbar;
         
         /// <summary>
-        /// divPhoneNo control.
+        /// plhPopupListFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPhoneNo;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhPopupListFilter;
         
         /// <summary>
-        /// divAddress control.
+        /// plhPopupListGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAddress;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhPopupListGridView;
     }
 }

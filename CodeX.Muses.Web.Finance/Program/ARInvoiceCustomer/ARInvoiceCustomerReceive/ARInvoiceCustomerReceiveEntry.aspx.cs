@@ -16,11 +16,11 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class ARInvoiceProspectiveStudentReceiveEntry : BasePageTrx
+    public partial class ARInvoiceCustomerReceiveEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Finance.AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE;
+            return Constant.MenuCode.Finance.AR_INVOICE_CUSTOMER_RECEIVE;
         }
         
         protected string OnGetCustomerFilterExpression()
@@ -79,7 +79,7 @@ namespace CodeX.Muses.Web.Finance.Program
         protected override void SetControlProperties()
         {
             ListView lvwARInvoice = (ListView) ddeInvoiceNo.FindControl("lvwInvoice");
-            string filter = string.Format("ProspectiveStudentID = {0} AND (GCTransactionStatus = '{1}' OR GCTransactionStatus = '{2}')", AppSession.ProspectiveStudentID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED);
+            string filter = string.Format("BusinessPartnerID = {0} AND (GCTransactionStatus = '{1}' OR GCTransactionStatus = '{2}')", AppSession.BusinessPartnerID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED);
             List<ARInvoiceHd> lst = BusinessLayer.GetARInvoiceHdList(filter);
             
             lvwARInvoice.DataSource = lst;
@@ -138,7 +138,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public string GetFilterExpression()
         {
-            string filterExpression = string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID);
+            string filterExpression = string.Format("BusinessPartnerID = {0}", AppSession.BusinessPartnerID);
             return filterExpression;
         }
         public override int OnGetRowCount()
@@ -193,7 +193,6 @@ namespace CodeX.Muses.Web.Finance.Program
             ARReceivingHdDao entityReceivingHdDao = new ARReceivingHdDao(ctx);
             ARReceivingDtDao entityReceivingDtDao = new ARReceivingDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
-            RegistrationDao entityRegDao = new RegistrationDao(ctx);
             StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
@@ -202,7 +201,8 @@ namespace CodeX.Muses.Web.Finance.Program
                 List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", hdnListInvoiceID.Value));
                 decimal totalInvoice = 0;
 
-                entityReceivingHd.ProspectiveStudentID = AppSession.ProspectiveStudentID;
+                entityReceivingHd.BusinessPartnerID = AppSession.BusinessPartnerID;
+                entityReceivingHd.ProspectiveStudentID = null;
                 entityReceivingHd.StudentID = null;
                 entityReceivingHd.ReceivingDate = Helper.GetDatePickerValue(txtReceivingDate);
                 entityReceivingHd.TotalReceivingAmount = Convert.ToDecimal(hdnTotalPaymentAmount.Value);
@@ -211,7 +211,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 //entityReceivingHd.TotalInvoiceAmount = Convert.ToDecimal(hdnTotalTransactionAmount.Value);
                 entityReceivingHd.Remarks = txtRemarks.Text;
                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_PROSPECTIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
+                entityReceivingHd.ARReceivingNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_RECEIVE_STUDENT, entityReceivingHd.ReceivingDate, ctx);
                 entityReceivingHd.CreatedBy = entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
 
                 foreach (ARInvoiceHd arinvoicehd in lstARInvoiceHd)
@@ -326,21 +326,6 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                 entityReceivingHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityReceivingHdDao.Update(entityReceivingHd);
-
-                //Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
-                //int rowCount = BusinessLayer.GetARInvoiceHdRowCount(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}' AND TotalClaimedAmount != TotalPaymentAmount", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
-                //if (rowCount < 1)
-                //{
-                //    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.SETTLED;
-                //    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                //    entityRegDao.Update(entityReg);
-                //}
-                //else if (entityReg.GCRegistrationStatus == Constant.RegistrationStatus.AR_PROCESSED)
-                //{
-                //    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.PAID;
-                //    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                //    entityRegDao.Update(entityReg);
-                //}
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -370,7 +355,6 @@ namespace CodeX.Muses.Web.Finance.Program
             ARInvoiceHdDao entityARIHdDao = new ARInvoiceHdDao(ctx);
             ARInvoiceDtDao entityARIDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
-            RegistrationDao entityRegDao = new RegistrationDao(ctx);
             StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
@@ -410,16 +394,6 @@ namespace CodeX.Muses.Web.Finance.Program
                     enARI.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityARIHdDao.Update(enARI);
                 }
-
-                int rowCount = BusinessLayer.GetARReceivingHdRowCount(string.Format("ProspectiveStudentID = {0} AND GCTransactionStatus != '{1}'", AppSession.ProspectiveStudentID, Constant.TransactionStatus.VOID), ctx);
-                if (rowCount < 1)
-                {
-                    Registration entityReg = BusinessLayer.GetRegistrationList(string.Format("ProspectiveStudentID = {0}", AppSession.ProspectiveStudentID)).FirstOrDefault();
-                    entityReg.GCRegistrationStatus = Constant.RegistrationStatus.AR_PROCESSED;
-                    entityReg.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    entityRegDao.Update(entityReg);
-                }
-
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Finance.MasterPage {
     
     
-    public partial class ProspectiveStudentBannerDtCtl {
+    public partial class CustomerBannerDtCtl {
         
         /// <summary>
         /// hdnTitleText control.
@@ -31,22 +31,22 @@ namespace CodeX.Muses.Web.Finance.MasterPage {
         protected global::System.Web.UI.HtmlControls.HtmlImage imgPatientImage;
         
         /// <summary>
-        /// divStudentCode control.
+        /// divBusinessPartnerCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divStudentCode;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBusinessPartnerCode;
         
         /// <summary>
-        /// divDateOfBirth control.
+        /// divContactPerson control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDateOfBirth;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContactPerson;
         
         /// <summary>
         /// divPhoneNo control.
