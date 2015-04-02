@@ -90,6 +90,9 @@
     <Content Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformation.aspx" />
     <Content Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentInformationDtCtl.ascx" />
     <Content Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentMovementInformationDtCtl.ascx" />
+    <Content Include="Program\Finance\ARCustomer\ARCustomerInformation.aspx" />
+    <Content Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx" />
+    <Content Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx" />
     <Content Include="Program\Inventory\StockDetailInfo.aspx" />
     <Content Include="Program\Inventory\StockDetailInfoDtCtl.ascx" />
     <Content Include="Program\Main.aspx" />
@@ -276,6 +279,27 @@
     </Compile>
     <Compile Include="Program\Finance\ARProspectiveStudent\ARProspectiveStudentMovementInformationDtCtl.ascx.designer.cs">
       <DependentUpon>ARProspectiveStudentMovementInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\ARCustomer\ARCustomerInformation.aspx.cs">
+      <DependentUpon>ARCustomerInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\ARCustomer\ARCustomerInformation.aspx.designer.cs">
+      <DependentUpon>ARCustomerInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx.cs">
+      <DependentUpon>ARCustomerInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>ARCustomerInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx.cs">
+      <DependentUpon>ARCustomerMovementInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>ARCustomerMovementInformationDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Inventory\StockDetailInfo.aspx.cs">
       <DependentUpon>StockDetailInfo.aspx</DependentUpon>
