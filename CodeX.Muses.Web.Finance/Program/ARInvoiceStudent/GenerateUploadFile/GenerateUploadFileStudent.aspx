@@ -61,6 +61,7 @@
         }
     </script>
     <input type="hidden" id="hdnSelectedValue" value="" runat="server" />
+    <input type="hidden" id="hdnDepositAmount" value="" runat="server" />
     <div>
         <div style="display:none;">
             <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
@@ -120,6 +121,17 @@
         </table>
     </div>
     <div class="divTransactionEntry">
+        <hr />
+        <table class="tblEntryContent" style="width: 50%">
+            <colgroup>
+                <col style="width: 30%" />
+                <col />
+            </colgroup>
+            <tr>
+                <td class="tdLabel"><label><%=GetLabel("Deposit")%></label></td>
+                <td><asp:TextBox ID="txtDepositAmount" CssClass="txtCurrency" ReadOnly="true" Width="150px" runat="server" /></td>
+            </tr>
+        </table>
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 

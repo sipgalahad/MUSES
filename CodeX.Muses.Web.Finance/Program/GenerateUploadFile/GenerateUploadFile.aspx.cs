@@ -86,36 +86,66 @@ namespace CodeX.Muses.Web.Finance.Program
                 String txt = string.Empty;
                 String format = "";
 
-                List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID IN ({0}) AND ParameterCode = '{1}'", lstSiteID, Constant.SiteParameter.SCHOOL_TYPE));
-                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE));
-                List<vARInvoiceDt> lstInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}')", Helper.GetDatePickerValue(txtEndDate.Text), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED));
+                List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID IN ({0}) AND ParameterCode = '{1}'", lstSiteID, Constant.SiteParameter.SCHOOL_TYPE), ctx);
+                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
+                List<vARInvoiceDt> lstvInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}')", Helper.GetDatePickerValue(txtEndDate.Text), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED), ctx);
 
-                String ProspectiveStudentID = String.Join(",", lstInvoiceDt.GroupBy(x => x.ProspectiveStudentID).Where(x => x.Key != 0).Select(x => x.Key));
-                List<ProspectiveStudent> lstPS = null;
-                if (ProspectiveStudentID != "") lstPS = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", ProspectiveStudentID));
+                String lstARInvoiceDtID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceDtID).ToList());
+                String lstARInvoiceID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceID).ToList());
+                List<ARInvoiceDt> lstInvoiceDt = null;
+                if (lstARInvoiceDtID != "")
+                {
+                    lstInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceDtID IN ({0})", lstARInvoiceDtID), ctx);
+                    List<ARInvoiceHd> lstInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", lstARInvoiceID), ctx);
 
-                String StudentID = String.Join(",", lstInvoiceDt.GroupBy(x => x.StudentID).Where(x => x.Key != 0).Select(x => x.Key));
+                    foreach (ARInvoiceHd entityARInvoiceHd in lstInvoiceHd)
+                    {
+                        if (entityARInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL || entityARInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.APPROVED)
+                        {
+                            entityARInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
+                            entityARInvoiceHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            arInvoiceHdDao.Update(entityARInvoiceHd);
+                        }
+                    }
+                }
+                else
+                    lstInvoiceDt = new List<ARInvoiceDt>();
+
+                string filterExpressionARBalance = "";
+                String lstProspectiveStudentID = String.Join(",", lstvInvoiceDt.Where(p => p.StudentID == 0).GroupBy(x => x.ProspectiveStudentID).Where(x => x.Key != 0).Select(x => x.Key));
+                List<ProspectiveStudent> lstProspectiveStudent = null;
+                if (lstProspectiveStudentID != "")
+                {
+                    filterExpressionARBalance = String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID);
+                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID));
+                }
+
+                String lstStudentID = String.Join(",", lstvInvoiceDt.GroupBy(x => x.StudentID).Where(x => x.Key != 0).Select(x => x.Key));
                 List<Student> lstStudent = null;
                 List<SchoolClass> lstSchoolClass = null;
-                if (StudentID != "")
+                if (lstStudentID != "")
                 {
-                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", StudentID));
+                    if (filterExpressionARBalance != "")
+                        filterExpressionARBalance += " AND ";
+                    filterExpressionARBalance = String.Format("StudentID IN ({0})", lstStudentID);
+                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", lstStudentID));
                     String lstSchooClassID = String.Join(",", lstStudent.GroupBy(x => x.SchoolClassID).Where(x => x.Key != 0).Select(x => x.Key));
                     if (lstSchooClassID != "")
                         lstSchoolClass = BusinessLayer.GetSchoolClassList(String.Format("SchoolClassID IN ({0})", lstSchooClassID));
                 }
 
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
+                List<ARBalance> lstARBalance = BusinessLayer.GetARBalanceList(filterExpressionARBalance, ctx);
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
 
-                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID));
+                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID), ctx);
 
                 if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
 
                 #region ProspectiveStudent
-                if (lstPS != null)
+                if (lstProspectiveStudent != null)
                 {
-                    foreach (ProspectiveStudent ps in lstPS)
+                    foreach (ProspectiveStudent ps in lstProspectiveStudent)
                     {
                         String tempFormat = format;
                         tempFormat = tempFormat.Replace("{NBS}", ps.ProspectiveStudentCode);
@@ -132,35 +162,42 @@ namespace CodeX.Muses.Web.Finance.Program
                         tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
                         tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
 
-                        List<vARInvoiceDt> lstObj = lstInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
+                        List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
                         int count = 1;
+                        decimal depositAmount = 0;
+                        ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == ps.ProspectiveStudentID);
+                        if (entityARBalance != null)
+                            depositAmount = entityARBalance.DepositAmount;
                         foreach (vAdmissionFeeComp obj in sfctList)
                         {
-                            List<vARInvoiceDt> entity = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                            List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;
-                            if (entity.Count > 0)
+                            if (lstvARInvoiceDt1.Count > 0)
                             {
-                                foreach (vARInvoiceDt x in entity)
+                                foreach (vARInvoiceDt x in lstvARInvoiceDt1)
                                 {
-                                    if (cboMonth.Value.ToString() != x.DueDate.Month.ToString())
+                                    if (x.DueDate < DateTime.Now)
                                     {
-                                        ARInvoiceDt arinvoicedt = arInvoiceDtDao.Get(x.ARInvoiceDtID);
+                                        ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
                                         arinvoicedt.ClaimedAmount = x.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
                                         arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
                                         arInvoiceDtDao.Update(arinvoicedt);
                                     }
-
-                                    ARInvoiceHd arInvoiceHd = arInvoiceHdDao.Get(x.ARInvoiceID);
-                                    if (arInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL || arInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.APPROVED) 
-                                    {
-                                        arInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
-                                        arInvoiceHdDao.Update(arInvoiceHd);
-                                    }
                                 }
 
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount))));
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount) / 1000)));
-                                count++;
+                                decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+
+                                if (depositAmount < amount)
+                                {
+                                    amount = amount - depositAmount;
+                                    depositAmount = 0;
+
+                                    tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
+                                    tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
+                                    count++;
+                                }
+                                else
+                                    depositAmount -= amount;
                             }
                         }
                         for (; count < 26; count++)
@@ -201,35 +238,41 @@ namespace CodeX.Muses.Web.Finance.Program
                         tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
                         tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
 
-                        List<vARInvoiceDt> lstObj = lstInvoiceDt.Where(x => x.StudentID == s.StudentID).ToList();
+                        List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.StudentID == s.StudentID).ToList();
                         int count = 1;
+                        decimal depositAmount = 0;
+                        ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == s.StudentID);
+                        if (entityARBalance != null)
+                            depositAmount = entityARBalance.DepositAmount;
                         foreach (vAdmissionFeeComp obj in sfctList)
                         {
-                            List<vARInvoiceDt> entity = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                            List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
                             string ShortName = obj.ShortName;
-                            if (entity.Count > 0)
+                            if (lstvARInvoiceDt1.Count > 0)
                             {
-                                foreach (vARInvoiceDt x in entity)
+                                foreach (vARInvoiceDt x in lstvARInvoiceDt1)
                                 {
-                                    if (cboMonth.Value.ToString() != x.DueDate.Month.ToString())
+                                    if (x.DueDate < DateTime.Now)
                                     {
-                                        ARInvoiceDt arinvoicedt = arInvoiceDtDao.Get(x.ARInvoiceDtID);
+                                        ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
                                         arinvoicedt.ClaimedAmount = x.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
                                         arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
                                         arInvoiceDtDao.Update(arinvoicedt);
                                     }
-
-                                    ARInvoiceHd arInvoiceHd = arInvoiceHdDao.Get(x.ARInvoiceID);
-                                    if (arInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL || arInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.APPROVED) 
-                                    {
-                                        arInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
-                                        arInvoiceHdDao.Update(arInvoiceHd);
-                                    }
                                 }
+                                decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
 
-                                tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount))));
-                                tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(entity.Sum(x => x.ClaimedAmount) / 1000)));
-                                count++;
+                                if (depositAmount < amount)
+                                {
+                                    amount = amount - depositAmount;
+                                    depositAmount = 0;
+
+                                    tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
+                                    tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
+                                    count++;
+                                }
+                                else
+                                    depositAmount -= amount;
                             }
                         }
                         for (; count < 26; count++)
@@ -247,7 +290,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 #region Download the Text file.
                 Response.Clear();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment;filename=InvoiceFile.txt");
+                Response.AddHeader("content-disposition", string.Format("attachment;filename=TagihanSiswa_{0}.txt", DateTime.Now.ToString("yyyyMMdd")));
                 Response.Charset = "";
                 Response.ContentType = "application/text";
                 Response.Output.Write(txt);
@@ -259,6 +302,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 String errMessage = ex.Message;
                 ctx.RollBackTransaction();
             }

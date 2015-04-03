@@ -133,7 +133,7 @@
                                                 <table id="tblView" runat="server" class="grdView notAllowSelect lvwView" cellspacing="0" rules="all" border="1" >
                                                     <tr>
                                                         <th rowspan="2" style="width:120px"><%=GetLabel("NIS")%></th>
-                                                        <th rowspan="2"><%=GetLabel("Nama Calon Siswa")%></th>
+                                                        <th rowspan="2"><%=GetLabel("Nama Siswa")%></th>
                                                         <th rowspan="2" style="width:100px"><%=GetLabel("Saldo Awal") %></th>
                                                         <th rowspan="2" style="width:100px"><%=GetLabel("Penambahan")%></th>
                                                         <th rowspan="2" style="width:100px"><%=GetLabel("Pengurangan")%></th>
@@ -157,7 +157,7 @@
                                                 <table id="tblView" runat="server" class="grdView grdBorder notAllowSelect lvwView" cellspacing="0" rules="all" border="1" >
                                                     <tr>
                                                         <th rowspan="2" style="width:120px"><%=GetLabel("NIS")%></th>
-                                                        <th rowspan="2"><%=GetLabel("Nama Calon Siswa")%></th>
+                                                        <th rowspan="2"><%=GetLabel("Nama Siswa")%></th>
                                                         <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Saldo Awal") %></th>
                                                         <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Penambahan")%></th>
                                                         <th rowspan="2" style="width:120px" class="thRight"><%=GetLabel("Pengurangan")%></th>

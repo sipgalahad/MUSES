@@ -9,7 +9,7 @@ using CodeX.Data.Model;
 using CodeX.Common;
 using CodeX.Web.Common;
 
-namespace CodeX.Web.Finance.MasterPage
+namespace CodeX.Muses.Web.Finance.MasterPage
 {
     public partial class SupplierBannerDtCtl : BaseContentPopupCtl
     {

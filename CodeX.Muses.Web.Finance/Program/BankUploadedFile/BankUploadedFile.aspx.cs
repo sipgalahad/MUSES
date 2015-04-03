@@ -103,6 +103,7 @@ namespace CodeX.Muses.Web.Finance.Program
         public void UploadFile(String data) 
         {
             IDbContext ctx = DbFactory.Configure(true);
+            ARBalanceDao arBalanceDao = new ARBalanceDao(ctx);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
             ARInvoiceDtDao entityInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARReceivingHdDao entityReceivingHdDao = new ARReceivingHdDao(ctx);
@@ -118,20 +119,30 @@ namespace CodeX.Muses.Web.Finance.Program
                 String lstStudentFeeDtID = String.Join(",", lstARInvoiceDt.Select(x => x.StudentFeeDtID).ToList());
                 List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", lstStudentFeeDtID), ctx);
 
-                String studentID = String.Join(",", lstARInvoiceHd.Where(s => s.StudentID != 0).Select(x => x.StudentID).ToList());
+                string filterExpressionARBalance = "";
+                String lstStudentID = String.Join(",", lstARInvoiceHd.Where(s => s.StudentID != 0).Select(x => x.StudentID).ToList());
                 List<Student> lstStudent = null;
-                if (studentID != "")
-                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", studentID), ctx);
+                if (lstStudentID != "")
+                {
+                    filterExpressionARBalance = String.Format("StudentID IN ({0})", lstStudentID);
+                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", lstStudentID), ctx);
+                }
                 else
                     lstStudent = new List<Student>();
 
-                String prospectiveStudentID = String.Join(",", lstARInvoiceHd.Where(s => s.ProspectiveStudentID != 0).Select(x => x.ProspectiveStudentID).ToList());
+                String lstProspectiveStudentID = String.Join(",", lstARInvoiceHd.Where(s => s.StudentID == 0 && s.ProspectiveStudentID != 0).Select(x => x.ProspectiveStudentID).ToList());
                 List<ProspectiveStudent> lstProspectiveStudent = null;
-                if (prospectiveStudentID != "")
-                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", prospectiveStudentID), ctx);
+                if (lstProspectiveStudentID != "")
+                {
+                    if (filterExpressionARBalance != "")
+                        filterExpressionARBalance += " AND ";
+                    filterExpressionARBalance = String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID);
+                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID), ctx);
+                }
                 else
                     lstProspectiveStudent = new List<ProspectiveStudent>();
 
+                List<ARBalance> lstARBalance = BusinessLayer.GetARBalanceList(filterExpressionARBalance, ctx);
                 //String data = txtUploadedData.Text;
                 data = data.Replace("\r\n", "|");
                 String[] arrData = data.Split('|').ToArray();
@@ -154,17 +165,30 @@ namespace CodeX.Muses.Web.Finance.Program
                                             "yyMMdd",
                                             CultureInfo.InvariantCulture,
                                             DateTimeStyles.None);
+                            ARBalance entityARBalance = null;
                             ARReceivingHd entityReceivingHd = new ARReceivingHd();
                             if (entityStudent != null)
+                            {
                                 entityReceivingHd.StudentID = entityStudent.StudentID;
+                                entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == entityStudent.StudentID);
+                            }
                             else
                                 entityReceivingHd.StudentID = null;
+
                             if (entityProspectiveStudent != null)
+                            {
                                 entityReceivingHd.ProspectiveStudentID = entityProspectiveStudent.ProspectiveStudentID;
+                                entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == entityProspectiveStudent.ProspectiveStudentID);
+                            }
                             else
                                 entityReceivingHd.ProspectiveStudentID = null;
                             entityReceivingHd.ReceivingDate = receivingDate;
-                            entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = entity.Amount;
+
+                            decimal totalAmount = entity.Amount;
+                            if (entityARBalance != null)
+                                totalAmount += entityARBalance.DepositAmount;
+
+                            entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = totalAmount;
                             entityReceivingHd.TotalFeeAmount = 0;
                             entityReceivingHd.CashBackAmount = 0;
                             entityReceivingHd.Remarks = "";
@@ -181,16 +205,18 @@ namespace CodeX.Muses.Web.Finance.Program
 
                             ARReceivingDt entityDt = new ARReceivingDt();
                             entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
-                            entityDt.GCARPaymentMethod = Constant.PaymentMethod.CASH;
-                            entityDt.PaymentAmount = entityReceivingHd.TotalReceivingAmount;
+                            entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
+                            entityDt.PaymentAmount = entity.Amount;
                             entityDt.CardFeeAmount = 0;
                             entityDt.CreatedBy = AppSession.UserLogin.UserID;
                             entityReceivingDtDao.Insert(entityDt);
 
+                            decimal totalInvoiceAmount = 0;
                             foreach (vARInvoiceHd obj in lstARInvoiceHd.Where(x => x.VirtualAccount == entity.NBS).ToList())
                             {
                                 ARInvoiceHd arInvoiceHD = arInvoiceHdDao.Get(obj.ARInvoiceID);
                                 arInvoiceHD.TotalPaymentAmount = arInvoiceHD.TotalClaimedAmount;
+                                totalInvoiceAmount += arInvoiceHD.TotalPaymentAmount;
                                 arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
                                 arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
                                 arInvoiceHdDao.Update(arInvoiceHD);
@@ -222,6 +248,24 @@ namespace CodeX.Muses.Web.Finance.Program
                                     entity.StudentName = entityProspectiveStudent.ProspectiveStudentName;
                                     entity.Status = "Calon Siswa";
                                 }
+                            }
+
+                            if (entityARBalance != null)
+                            {
+                                ARReceivingDt entityDt2 = new ARReceivingDt();
+                                entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
+                                entityDt2.GCARPaymentMethod = Constant.PaymentMethod.DOWN_PAYMENT_RETURN;
+                                if (totalInvoiceAmount < entityARBalance.DepositAmount)
+                                    entityDt2.PaymentAmount = totalInvoiceAmount;
+                                else
+                                    entityDt2.PaymentAmount = entityARBalance.DepositAmount;
+                                entityDt2.CardFeeAmount = 0;
+                                entityDt2.CreatedBy = AppSession.UserLogin.UserID;
+                                entityReceivingDtDao.Insert(entityDt2);
+
+                                entityARBalance.DepositAmount -= entityDt2.PaymentAmount;
+                                entityARBalance.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                arBalanceDao.Update(entityARBalance);
                             }
 
                             entityReceivingHd = entityReceivingHdDao.Get(entityReceivingHd.ARReceivingID);

@@ -128,6 +128,7 @@ namespace CodeX.Common
             public const string BANK_TRANSFER = "X035^004";
             public const string ACCOUNT_RECEIVABLES = "X035^005";
             public const string DOWN_PAYMENT = "X035^006";
+            public const string DOWN_PAYMENT_RETURN = "X035^007";
         }
 
         public static class PrefixType

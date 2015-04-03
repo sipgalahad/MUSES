@@ -1,5 +1,5 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Libs/MasterPage/MPBaseDetailPageTrx.master" AutoEventWireup="true" 
-    CodeBehind="MPProspectiveStudentPageTrx.master.cs" Inherits="CodeX.Web.Finance.MasterPage.MPProspectiveStudentPageTrx" %>
+    CodeBehind="MPProspectiveStudentPageTrx.master.cs" Inherits="CodeX.Muses.Web.Finance.MasterPage.MPProspectiveStudentPageTrx" %>
 
 <%@ Register Src="~/MasterPage/ProspectiveStudentBannerDtCtl.ascx" TagName="BannerCtl" TagPrefix="uc1" %>
 

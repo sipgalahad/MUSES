@@ -13,7 +13,7 @@ using CodeX.Common;
 using CodeX.Web.Common;
 using CodeX.Web.CommonLibs.MasterPage;
 
-namespace CodeX.Web.Finance.MasterPage
+namespace CodeX.Muses.Web.Finance.MasterPage
 {
     public partial class MPProspectiveStudentPageTrx : BaseMP
     {

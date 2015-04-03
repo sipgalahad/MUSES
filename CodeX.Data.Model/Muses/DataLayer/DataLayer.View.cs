@@ -408,6 +408,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeDtID;
         private Int32 _StudentFeeCompTypeID;
         private String _StudentFeeCompTypeName;
+        private Int32 _TransactionMonth;
+        private Int32 _TransactionYear;
+        private String _GCAdmissionPaymentPeriod;
         private String _SFCTShortName;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
@@ -423,6 +426,7 @@ namespace CodeX.Data.Model
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
         private Int32 _BankID;
+        private Boolean _IsTransferred;
         private String _Remarks;
 
         [Column(Name = "ARInvoiceDtID", DataType = "Int32")]
@@ -472,6 +476,24 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
+        }
+        [Column(Name = "TransactionMonth", DataType = "Int32")]
+        public Int32 TransactionMonth
+        {
+            get { return _TransactionMonth; }
+            set { _TransactionMonth = value; }
+        }
+        [Column(Name = "TransactionYear", DataType = "Int32")]
+        public Int32 TransactionYear
+        {
+            get { return _TransactionYear; }
+            set { _TransactionYear = value; }
+        }
+        [Column(Name = "GCAdmissionPaymentPeriod", DataType = "String")]
+        public String GCAdmissionPaymentPeriod
+        {
+            get { return _GCAdmissionPaymentPeriod; }
+            set { _GCAdmissionPaymentPeriod = value; }
         }
         [Column(Name = "SFCTShortName", DataType = "String")]
         public String SFCTShortName
@@ -563,6 +585,12 @@ namespace CodeX.Data.Model
             get { return _BankID; }
             set { _BankID = value; }
         }
+        [Column(Name = "IsTransferred", DataType = "Boolean")]
+        public Boolean IsTransferred
+        {
+            get { return _IsTransferred; }
+            set { _IsTransferred = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -588,6 +616,9 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
         private String _VirtualAccount;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
@@ -671,6 +702,24 @@ namespace CodeX.Data.Model
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
         }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
         [Column(Name = "VirtualAccount", DataType = "String")]
         public String VirtualAccount
         {
@@ -750,6 +799,9 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
         private String _TransactionDescription;
         private String _DetailDesc;
         private Decimal _BalanceBEGIN;
@@ -834,6 +886,24 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
         }
         [Column(Name = "TransactionDescription", DataType = "String")]
         public String TransactionDescription
@@ -1064,6 +1134,9 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
+        private String _BusinessPartnerName;
         private Decimal _TotalReceivingAmount;
         private Decimal _TotalFeeAmount;
         private Decimal _TotalInvoiceAmount;
@@ -1127,6 +1200,24 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
         }
         [Column(Name = "TotalReceivingAmount", DataType = "Decimal")]
         public Decimal TotalReceivingAmount
@@ -1768,6 +1859,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private String _PreferredName;
         private String _GCGender;
         private String _PictureFileName;
         private String _GCClassStudentStatus;
@@ -1856,6 +1948,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "PreferredName", DataType = "String")]
+        public String PreferredName
+        {
+            get { return _PreferredName; }
+            set { _PreferredName = value; }
         }
         [Column(Name = "GCGender", DataType = "String")]
         public String GCGender
@@ -19806,6 +19904,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeID;
         private Int32 _StudentID;
         private Int32 _ProspectiveStudentID;
+        private Int32 _BusinessPartnerID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int32 _StudentFeeCompTypeID;
@@ -19840,6 +19939,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
@@ -20094,10 +20199,6 @@ namespace CodeX.Data.Model
         private DateTime _DueDate;
         private Boolean _IsTransactionAmountInPercentage;
         private Decimal _TransactionAmount;
-        private Decimal _TotalTransactionAmount;
-        private Boolean _IsDiscountAmountInPercentage;
-        private Decimal _DiscountAmount;
-        private Decimal _TotalDiscountAmount;
         private Decimal _StudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
@@ -20196,30 +20297,6 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
-        }
-        [Column(Name = "TotalTransactionAmount", DataType = "Decimal")]
-        public Decimal TotalTransactionAmount
-        {
-            get { return _TotalTransactionAmount; }
-            set { _TotalTransactionAmount = value; }
-        }
-        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsDiscountAmountInPercentage
-        {
-            get { return _IsDiscountAmountInPercentage; }
-            set { _IsDiscountAmountInPercentage = value; }
-        }
-        [Column(Name = "DiscountAmount", DataType = "Decimal")]
-        public Decimal DiscountAmount
-        {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
-        }
-        [Column(Name = "TotalDiscountAmount", DataType = "Decimal")]
-        public Decimal TotalDiscountAmount
-        {
-            get { return _TotalDiscountAmount; }
-            set { _TotalDiscountAmount = value; }
         }
         [Column(Name = "StudentAmount", DataType = "Decimal")]
         public Decimal StudentAmount

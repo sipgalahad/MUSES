@@ -296,6 +296,69 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetARCustomerInformation
+        public static List<GetARCustomerInformation> GetARCustomerInformation(String MovementDate, Int32 PageIndex, Int32 NumRows)
+        {
+            List<GetARCustomerInformation> result = new List<GetARCustomerInformation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARCustomerInformation));
+                ctx.CommandText = "GetARCustomerInformation";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("PageIndex", PageIndex);
+                ctx.Add("NumRows", NumRows);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARCustomerInformation)helper.IDataReaderToObject(reader, new GetARCustomerInformation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GetARCustomerInformationDt
+        public static List<GetARCustomerInformationDt> GetARCustomerInformationDtList(String MovementDate, Int32 BusinessPartnerID, Int32 Start, Int32 End)
+        {
+            List<GetARCustomerInformationDt> result = new List<GetARCustomerInformationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetARCustomerInformationDt));
+                ctx.CommandText = "GetARCustomerInformationDt";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("MovementDate", MovementDate);
+                ctx.Add("BusinessPartnerID", BusinessPartnerID);
+                ctx.Add("Start", Start);
+                ctx.Add("End", End);
+
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetARCustomerInformationDt)helper.IDataReaderToObject(reader, new GetARCustomerInformationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetARProspectiveStudentInformation
         public static List<GetARProspectiveStudentInformation> GetARProspectiveStudentInformation(String MovementDate, Int32 PageIndex, Int32 NumRows)
         {

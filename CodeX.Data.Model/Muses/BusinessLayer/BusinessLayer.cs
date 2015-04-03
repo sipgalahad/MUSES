@@ -315,6 +315,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ARBalance
+        public static ARBalance GetARBalance(Int32 ID)
+        {
+            return new ARBalanceDao().Get(ID);
+        }
+        public static int InsertARBalance(ARBalance record)
+        {
+            return new ARBalanceDao().Insert(record);
+        }
+        public static int UpdateARBalance(ARBalance record)
+        {
+            return new ARBalanceDao().Update(record);
+        }
+        public static int DeleteARBalance(Int32 ID)
+        {
+            return new ARBalanceDao().Delete(ID);
+        }
+        public static List<ARBalance> GetARBalanceList(string filterExpression)
+        {
+            List<ARBalance> result = new List<ARBalance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARBalance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARBalance)helper.IDataReaderToObject(reader, new ARBalance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ARBalance> GetARBalanceList(string filterExpression, IDbContext ctx)
+        {
+            List<ARBalance> result = new List<ARBalance>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ARBalance));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ARBalance)helper.IDataReaderToObject(reader, new ARBalance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ARInvoiceDt
         public static ARInvoiceDt GetARInvoiceDt(Int32 ARInvoiceDtID)
         {

@@ -12,7 +12,7 @@ using CodeX.Data.Core.Dal;
 using System.Data;
 using CodeX.Common;
 
-namespace CodeX.Web.Finance.Program
+namespace CodeX.Muses.Web.Finance.Program
 {
     public partial class ARInvoiceProspectiveStudentProcessEntry : BasePageTrx
     {

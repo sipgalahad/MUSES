@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Web.Finance.MasterPage {
+namespace CodeX.Muses.Web.Finance.MasterPage {
     
     
     public partial class ProspectiveStudentBannerDtCtl {

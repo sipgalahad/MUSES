@@ -675,6 +675,154 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ARBalance
+    [Serializable]
+    [Table(Name = "ARBalance")]
+    public class ARBalance : DbDataModel
+    {
+        private Int32 _ID;
+        private Int32? _StudentID;
+        private Int32? _ProspectiveStudentID;
+        private Decimal _BalanceBEGIN;
+        private Decimal _BalanceIN;
+        private Decimal _BalanceOUT;
+        private Decimal _BalanceEND;
+        private Decimal _DepositAmount;
+        private Int32? _MovementID;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BalanceBEGIN", DataType = "Decimal")]
+        public Decimal BalanceBEGIN
+        {
+            get { return _BalanceBEGIN; }
+            set { _BalanceBEGIN = value; }
+        }
+        [Column(Name = "BalanceIN", DataType = "Decimal")]
+        public Decimal BalanceIN
+        {
+            get { return _BalanceIN; }
+            set { _BalanceIN = value; }
+        }
+        [Column(Name = "BalanceOUT", DataType = "Decimal")]
+        public Decimal BalanceOUT
+        {
+            get { return _BalanceOUT; }
+            set { _BalanceOUT = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal", IsNullable = true)]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "DepositAmount", DataType = "Decimal")]
+        public Decimal DepositAmount
+        {
+            get { return _DepositAmount; }
+            set { _DepositAmount = value; }
+        }
+        [Column(Name = "MovementID", DataType = "Int32", IsNullable = true)]
+        public Int32? MovementID
+        {
+            get { return _MovementID; }
+            set { _MovementID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ARBalanceDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ARBalance));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public ARBalanceDao() { }
+        public ARBalanceDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ARBalance Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ARBalance)_helper.DataRowToObject(row, new ARBalance());
+        }
+        public int Insert(ARBalance record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ARBalance record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            ARBalance record;
+            if (_ctx.Transaction == null)
+                record = new ARBalanceDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ARInvoiceDt
     [Serializable]
     [Table(Name = "ARInvoiceDt")]
@@ -834,6 +982,7 @@ namespace CodeX.Data.Model
         private DateTime _ARInvoiceDate;
         private Int32? _StudentID;
         private Int32? _ProspectiveStudentID;
+        private Int32? _BusinessPartnerID;
         private Int32? _TermID;
         private DateTime _DueDate;
         private Int32? _BankID;
@@ -888,6 +1037,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "TermID", DataType = "Int32", IsNullable = true)]
         public Int32? TermID
@@ -1320,6 +1475,7 @@ namespace CodeX.Data.Model
         private String _ARReceivingNo;
         private Int32? _StudentID;
         private Int32? _ProspectiveStudentID;
+        private Int32? _BusinessPartnerID;
         private DateTime _ReceivingDate;
         private Decimal _TotalReceivingAmount;
         private Decimal _TotalInvoiceAmount;
@@ -1358,6 +1514,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "ReceivingDate", DataType = "DateTime")]
         public DateTime ReceivingDate
@@ -21568,9 +21730,11 @@ namespace CodeX.Data.Model
         private Int32 _StudentFeeID;
         private Int32? _StudentID;
         private Int32? _ProspectiveStudentID;
+        private Int32? _BusinessPartnerID;
         private Int32 _SchoolPeriodID;
         private Int32 _StudentFeeCompID;
         private Int16 _DisplayOrder;
+        private DateTime _DueDate;
         private Int32? _TransactionMonth;
         private Int32? _TransactionYear;
         private Decimal _TransactionAmount;
@@ -21604,6 +21768,12 @@ namespace CodeX.Data.Model
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
         }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32", IsNullable = true)]
+        public Int32? BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
         [Column(Name = "SchoolPeriodID", DataType = "Int32")]
         public Int32 SchoolPeriodID
         {
@@ -21621,6 +21791,12 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "DueDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
         }
         [Column(Name = "TransactionMonth", DataType = "Int32", IsNullable = true)]
         public Int32? TransactionMonth
@@ -21908,6 +22084,8 @@ namespace CodeX.Data.Model
         private String _StudentFeeCompTypeName;
         private String _ShortName;
         private String _GCAdmissionPaymentPeriod;
+        private Int32? _PaymentDate;
+        private Int32? _PaymentMonth;
         private Int16 _PenaltyPercentage;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -21933,7 +22111,7 @@ namespace CodeX.Data.Model
             get { return _StudentFeeCompTypeName; }
             set { _StudentFeeCompTypeName = value; }
         }
-        [Column(Name = "ShortName", DataType = "String")]
+        [Column(Name = "ShortName", DataType = "String", IsNullable = true)]
         public String ShortName
         {
             get { return _ShortName; }
@@ -21944,6 +22122,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCAdmissionPaymentPeriod; }
             set { _GCAdmissionPaymentPeriod = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "Int32", IsNullable = true)]
+        public Int32? PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "PaymentMonth", DataType = "Int32", IsNullable = true)]
+        public Int32? PaymentMonth
+        {
+            get { return _PaymentMonth; }
+            set { _PaymentMonth = value; }
         }
         [Column(Name = "PenaltyPercentage", DataType = "Int16")]
         public Int16 PenaltyPercentage
@@ -22163,10 +22353,6 @@ namespace CodeX.Data.Model
         private DateTime _DueDate;
         private Boolean _IsTransactionAmountInPercentage;
         private Decimal _TransactionAmount;
-        private Decimal _TotalTransactionAmount;
-        private Boolean _IsDiscountAmountInPercentage;
-        private Decimal _DiscountAmount;
-        private Decimal _TotalDiscountAmount;
         private Decimal _StudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
@@ -22195,7 +22381,7 @@ namespace CodeX.Data.Model
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
         }
-        [Column(Name = "DueDate", DataType = "DateTime", IsNullable = true)]
+        [Column(Name = "DueDate", DataType = "DateTime")]
         public DateTime DueDate
         {
             get { return _DueDate; }
@@ -22212,30 +22398,6 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
-        }
-        [Column(Name = "TotalTransactionAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalTransactionAmount
-        {
-            get { return _TotalTransactionAmount; }
-            set { _TotalTransactionAmount = value; }
-        }
-        [Column(Name = "IsDiscountAmountInPercentage", DataType = "Boolean")]
-        public Boolean IsDiscountAmountInPercentage
-        {
-            get { return _IsDiscountAmountInPercentage; }
-            set { _IsDiscountAmountInPercentage = value; }
-        }
-        [Column(Name = "DiscountAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal DiscountAmount
-        {
-            get { return _DiscountAmount; }
-            set { _DiscountAmount = value; }
-        }
-        [Column(Name = "TotalDiscountAmount", DataType = "Decimal", IsNullable = true)]
-        public Decimal TotalDiscountAmount
-        {
-            get { return _TotalDiscountAmount; }
-            set { _TotalDiscountAmount = value; }
         }
         [Column(Name = "StudentAmount", DataType = "Decimal")]
         public Decimal StudentAmount

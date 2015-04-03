@@ -36,6 +36,20 @@ namespace CodeX.Data.Model
         {
             get { return _DueDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
+        public String cfStudentFeeCompTypeName
+        {
+            get
+            {
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.TAHUNAN)
+                    return string.Format("{0} {1}", _StudentFeeCompTypeName, _TransactionYear);
+                if (_GCAdmissionPaymentPeriod == Constant.AdmissionPaymentPeriod.BULANAN)
+                {
+                    DateTime dt = new DateTime(_TransactionYear, _TransactionMonth, 1);
+                    return string.Format("{0} {1}", _StudentFeeCompTypeName, dt.ToString("MMM yyyy"));
+                }
+                return _StudentFeeCompTypeName;
+            }
+        }
     }
     #endregion
     #region vARInvoiceHd

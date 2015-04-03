@@ -367,9 +367,14 @@ namespace CodeX.Common
                 public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040215";
                 public const string GENERATE_AR_INVOICE_STUDENT = "FN040220";
 
-                public const string GENERATE_UPLOAD_FILE = "FN040300";
-                public const string BANK_UPLOADED_FILE = "FN040400";
-                public const string STUDENT_COVERAGE_TRANSACTION = "FN040500";
+                public const string CUSTOMER_LIST = "FN040300";
+                public const string AR_INVOICE_CUSTOMER_PROCESS = "FN040301";
+                public const string AR_INVOICE_CUSTOMER_EDIT = "FN040302";
+                public const string AR_INVOICE_CUSTOMER_RECEIVE = "FN040303";
+
+                public const string GENERATE_UPLOAD_FILE = "FN040400";
+                public const string BANK_UPLOADED_FILE = "FN040500";
+                public const string STUDENT_COVERAGE_TRANSACTION = "FN040600";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
@@ -392,6 +397,7 @@ namespace CodeX.Common
                 public const string AP_SUPPLIER_INFORMATION = "IF030100";
                 public const string AR_STUDENT_INFORMATION = "IF030200";
                 public const string AR_PROSPECTIVE_STUDENT_INFORMATION = "IF030300";
+                public const string AR_CUSTOMER_INFORMATION = "IF030400";
 
                 public const string UNBALANCE_JOURNAL = "IF040100";
                 public const string BALANCE_INFORMATION = "IF040200";
@@ -562,11 +568,13 @@ namespace CodeX.Common
             public const string STOCK_TAKING = "4210";
             public const string PURCHASE_RETURN_REPLACEMENT = "4211";
 
-            public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5102";
-            public const string AR_INVOICE_STUDENT = "5103";
-            public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5104";
-            public const string AR_RECEIVE_STUDENT = "5105";
-            public const string STUDENT_COVERAGE = "5106";
+            public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
+            public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";
+            public const string AR_INVOICE_STUDENT = "5201";
+            public const string AR_RECEIVE_STUDENT = "5202";
+            public const string AR_INVOICE_CUSTOMER = "5301";
+            public const string AR_RECEIVE_CUSTOMER = "5302";
+            public const string STUDENT_COVERAGE = "5401";
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";
