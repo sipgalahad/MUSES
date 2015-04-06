@@ -88,8 +88,8 @@
             $selectedTr = $(this).closest('tr');
 
             $newTr = $('#tmplSelectedTestItem').html();
-            $newTr = $newTr.replace(/\$\{SubjectBasicCompetencyIndicatorName}/g, $selectedTr.find('.tdSubjectBasicCompetencyIndicatorName').html());
-            $newTr = $newTr.replace(/\$\{SubjectBasicCompetencyIndicatorID}/g, $selectedTr.find('.keyField').html());
+            $newTr = $newTr.replace(/\$\{SubjectIndicatorName}/g, $selectedTr.find('.tdSubjectIndicatorName').html());
+            $newTr = $newTr.replace(/\$\{SubjectIndicatorID}/g, $selectedTr.find('.keyField').html());
             $newTr = $($newTr);
             $newTr.insertBefore($('#trFooter'));
         }
@@ -137,9 +137,9 @@
         <tr class="trSelectedItem">
             <td align="center">
                 <input type="checkbox" class="chkIsSelected2" />
-                <input type="hidden" class="keyField" value='${SubjectBasicCompetencyIndicatorID}' />
+                <input type="hidden" class="keyField" value='${SubjectIndicatorID}' />
             </td>
-            <td>${SubjectBasicCompetencyIndicatorName}</td>
+            <td>${SubjectIndicatorName}</td>
         </tr>
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
@@ -175,14 +175,14 @@
                                 <asp:GridView ID="grdView" runat="server" CssClass="grdView notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
                                 OnRowDataBound="grdView_RowDataBound">
                                     <Columns>
-                                        <asp:BoundField DataField="SubjectBasicCompetencyIndicatorID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
+                                        <asp:BoundField DataField="SubjectIndicatorID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
                                         <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkIsSelected" runat="server" CssClass="chkIsSelected" />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="SubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" ItemStyle-CssClass="tdSubjectBasicCompetencyName" HeaderStyle-Width="240px" />
-                                        <asp:BoundField DataField="SubjectBasicCompetencyIndicatorName" HeaderText="Indikator" ItemStyle-CssClass="tdSubjectBasicCompetencyIndicatorName" />
+                                        <asp:BoundField DataField="SubjectIndicatorName" HeaderText="Indikator" ItemStyle-CssClass="tdSubjectIndicatorName" />
                                     </Columns>
                                     <EmptyDataTemplate>
                                         <%=GetLabel("No Data To Display")%>
@@ -213,7 +213,7 @@
                                         <input type="checkbox" class="chkIsSelected2" />
                                         <input type="hidden" class="keyField" value='<%#Eval("IndicatorID") %>' />
                                     </td>
-                                    <td><%#Eval("SubjectBasicCompetencyIndicatorName") %></td>
+                                    <td><%#Eval("SubjectIndicatorName") %></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

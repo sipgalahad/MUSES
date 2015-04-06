@@ -1171,6 +1171,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassMeetingIndicator
+        public static ClassMeetingIndicator GetClassMeetingIndicator(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        {
+            return new ClassMeetingIndicatorDao().Get(ClassMeetingID, SubjectIndicatorID);
+        }
+        public static int InsertClassMeetingIndicator(ClassMeetingIndicator record)
+        {
+            return new ClassMeetingIndicatorDao().Insert(record);
+        }
+        public static int UpdateClassMeetingIndicator(ClassMeetingIndicator record)
+        {
+            return new ClassMeetingIndicatorDao().Update(record);
+        }
+        public static int DeleteClassMeetingIndicator(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        {
+            return new ClassMeetingIndicatorDao().Delete(ClassMeetingID, SubjectIndicatorID);
+        }
+        public static List<ClassMeetingIndicator> GetClassMeetingIndicatorList(string filterExpression)
+        {
+            List<ClassMeetingIndicator> result = new List<ClassMeetingIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeetingIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassMeetingIndicator)helper.IDataReaderToObject(reader, new ClassMeetingIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassMeetingIndicator> GetClassMeetingIndicatorList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassMeetingIndicator> result = new List<ClassMeetingIndicator>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassMeetingIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassMeetingIndicator)helper.IDataReaderToObject(reader, new ClassMeetingIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassSchedule
         public static ClassSchedule GetClassSchedule(Int32 ClassScheduleID)
         {
@@ -1776,6 +1833,63 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region ClassSubjectTaskIndicator
+        public static ClassSubjectTaskIndicator GetClassSubjectTaskIndicator(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        {
+            return new ClassSubjectTaskIndicatorDao().Get(ClassSubjectTaskID, SubjectIndicatorID);
+        }
+        public static int InsertClassSubjectTaskIndicator(ClassSubjectTaskIndicator record)
+        {
+            return new ClassSubjectTaskIndicatorDao().Insert(record);
+        }
+        public static int UpdateClassSubjectTaskIndicator(ClassSubjectTaskIndicator record)
+        {
+            return new ClassSubjectTaskIndicatorDao().Update(record);
+        }
+        public static int DeleteClassSubjectTaskIndicator(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        {
+            return new ClassSubjectTaskIndicatorDao().Delete(ClassSubjectTaskID, SubjectIndicatorID);
+        }
+        public static List<ClassSubjectTaskIndicator> GetClassSubjectTaskIndicatorList(string filterExpression)
+        {
+            List<ClassSubjectTaskIndicator> result = new List<ClassSubjectTaskIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTaskIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectTaskIndicator)helper.IDataReaderToObject(reader, new ClassSubjectTaskIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassSubjectTaskIndicator> GetClassSubjectTaskIndicatorList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassSubjectTaskIndicator> result = new List<ClassSubjectTaskIndicator>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTaskIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassSubjectTaskIndicator)helper.IDataReaderToObject(reader, new ClassSubjectTaskIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }
@@ -11145,89 +11259,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region SubjectBasicCompetencyIndicator
-        public static SubjectBasicCompetencyIndicator GetSubjectBasicCompetencyIndicator(Int32 SubjectBasicCompetencyIndicatorID)
-        {
-            return new SubjectBasicCompetencyIndicatorDao().Get(SubjectBasicCompetencyIndicatorID);
-        }
-        public static int InsertSubjectBasicCompetencyIndicator(SubjectBasicCompetencyIndicator record)
-        {
-            return new SubjectBasicCompetencyIndicatorDao().Insert(record);
-        }
-        public static int UpdateSubjectBasicCompetencyIndicator(SubjectBasicCompetencyIndicator record)
-        {
-            return new SubjectBasicCompetencyIndicatorDao().Update(record);
-        }
-        public static int DeleteSubjectBasicCompetencyIndicator(Int32 SubjectBasicCompetencyIndicatorID)
-        {
-            return new SubjectBasicCompetencyIndicatorDao().Delete(SubjectBasicCompetencyIndicatorID);
-        }
-        public static List<SubjectBasicCompetencyIndicator> GetSubjectBasicCompetencyIndicatorList(string filterExpression)
-        {
-            List<SubjectBasicCompetencyIndicator> result = new List<SubjectBasicCompetencyIndicator>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((SubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new SubjectBasicCompetencyIndicator()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<SubjectBasicCompetencyIndicator> GetSubjectBasicCompetencyIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
-        {
-            List<SubjectBasicCompetencyIndicator> result = new List<SubjectBasicCompetencyIndicator>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
-                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((SubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new SubjectBasicCompetencyIndicator()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetSubjectBasicCompetencyIndicatorRowCount(string filterExpression)
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
-                ctx.CommandText = helper.GetRowCount(filterExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region SubjectClassType
         public static SubjectClassType GetSubjectClassType(Int32 SubjectID, Int32 ClassTypeID)
         {
@@ -11361,6 +11392,89 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectIndicator
+        public static SubjectIndicator GetSubjectIndicator(Int32 SubjectIndicatorID)
+        {
+            return new SubjectIndicatorDao().Get(SubjectIndicatorID);
+        }
+        public static int InsertSubjectIndicator(SubjectIndicator record)
+        {
+            return new SubjectIndicatorDao().Insert(record);
+        }
+        public static int UpdateSubjectIndicator(SubjectIndicator record)
+        {
+            return new SubjectIndicatorDao().Update(record);
+        }
+        public static int DeleteSubjectIndicator(Int32 SubjectIndicatorID)
+        {
+            return new SubjectIndicatorDao().Delete(SubjectIndicatorID);
+        }
+        public static List<SubjectIndicator> GetSubjectIndicatorList(string filterExpression)
+        {
+            List<SubjectIndicator> result = new List<SubjectIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectIndicator)helper.IDataReaderToObject(reader, new SubjectIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectIndicator> GetSubjectIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<SubjectIndicator> result = new List<SubjectIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectIndicator));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectIndicator)helper.IDataReaderToObject(reader, new SubjectIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubjectIndicatorRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectIndicator));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

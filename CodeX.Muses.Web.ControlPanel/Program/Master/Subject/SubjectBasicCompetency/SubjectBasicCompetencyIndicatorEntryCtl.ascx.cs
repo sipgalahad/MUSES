@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SubjectBasicCompetencyIndicatorEntryCtl : BaseViewPopupCtl
+    public partial class SubjectIndicatorEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
@@ -22,12 +22,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtSubjectBasicCompetencyIndicatorName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtSubjectIndicatorName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
         }
 
         private void BindGridView()
         {
-            grdView.DataSource = BusinessLayer.GetSubjectBasicCompetencyIndicatorList(string.Format("SubjectBasicCompetencyID = {0} AND IsDeleted = 0", hdnID.Value));
+            grdView.DataSource = BusinessLayer.GetSubjectIndicatorList(string.Format("SubjectBasicCompetencyID = {0} AND IsDeleted = 0", hdnID.Value));
             grdView.DataBind();
         }
 
@@ -72,20 +72,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectBasicCompetencyIndicator entity)
+        private void ControlToEntity(SubjectIndicator entity)
         {
-            entity.SubjectBasicCompetencyIndicatorName = txtSubjectBasicCompetencyIndicatorName.Text;
+            entity.SubjectIndicatorName = txtSubjectIndicatorName.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             try
             {
-                SubjectBasicCompetencyIndicator entity = new SubjectBasicCompetencyIndicator();
+                SubjectIndicator entity = new SubjectIndicator();
                 ControlToEntity(entity);
                 entity.SubjectBasicCompetencyID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectBasicCompetencyIndicator(entity);
+                BusinessLayer.InsertSubjectIndicator(entity);
                 return true;
             }
             catch (Exception ex)
@@ -100,10 +100,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectBasicCompetencyIndicator entity = BusinessLayer.GetSubjectBasicCompetencyIndicator(Convert.ToInt32(hdnID.Value));
+                SubjectIndicator entity = BusinessLayer.GetSubjectIndicator(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectBasicCompetencyIndicator(entity);
+                BusinessLayer.UpdateSubjectIndicator(entity);
                 return true;
             }
             catch (Exception ex)
@@ -118,10 +118,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectBasicCompetencyIndicator entity = BusinessLayer.GetSubjectBasicCompetencyIndicator(Convert.ToInt32(hdnID.Value));
+                SubjectIndicator entity = BusinessLayer.GetSubjectIndicator(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectBasicCompetencyIndicator(entity);
+                BusinessLayer.UpdateSubjectIndicator(entity);
                 return true;
             }
             catch (Exception ex)

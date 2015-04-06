@@ -753,6 +753,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Subject Indicator -->
+  <searchdialog type="subjectindicator" methodname="GetvSubjectIndicatorList" keyfieldname="SubjectIndicatorID" orderbyexpression="SubjectIndicatorName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SubjectBasicCompetencyName" headertext="Kompetensi Dasar" width="200px" />
+      <gridcolumn datafield="SubjectIndicatorName" headertext="Indikator" width="200px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubjectBasicCompetencyName" headertext="Kompetensi Dasar" description="" />
+      <intellisensetext datafield="SubjectIndicatorName" headertext="Indikator" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Subject Matter -->
   <searchdialog type="subjectmatter" methodname="GetSubjectMatterHdList" keyfieldname="SubjectMatterCode" orderbyexpression="SubjectMatterName ASC">
     <gridcolumns>

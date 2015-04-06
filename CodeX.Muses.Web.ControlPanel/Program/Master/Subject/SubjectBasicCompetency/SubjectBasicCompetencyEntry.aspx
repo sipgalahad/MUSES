@@ -144,7 +144,7 @@
         $('.lnkIndicator a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectBasicCompetency/SubjectBasicCompetencyIndicatorEntryCtl.ascx");
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectBasicCompetency/SubjectIndicatorEntryCtl.ascx");
             openUserControlPopup(url, entity.SubjectBasicCompetencyID, 'Indikator', 800, 550);
         });
     </script>

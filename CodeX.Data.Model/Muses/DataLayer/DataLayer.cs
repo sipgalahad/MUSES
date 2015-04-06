@@ -2578,6 +2578,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassMeetingIndicator
+    [Serializable]
+    [Table(Name = "ClassMeetingIndicator")]
+    public class ClassMeetingIndicator : DbDataModel
+    {
+        private Int32 _ClassMeetingID;
+        private Int32 _SubjectIndicatorID;
+
+        [Column(Name = "ClassMeetingID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+    }
+
+    public class ClassMeetingIndicatorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassMeetingIndicator));
+        private bool _isAuditLog = false;
+        private const string p_ClassMeetingID = "@p_ClassMeetingID";
+        private const string p_SubjectIndicatorID = "@p_SubjectIndicatorID";
+        public ClassMeetingIndicatorDao() { }
+        public ClassMeetingIndicatorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassMeetingIndicator Get(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassMeetingID, ClassMeetingID);
+            _ctx.Add(p_SubjectIndicatorID, SubjectIndicatorID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassMeetingIndicator)_helper.DataRowToObject(row, new ClassMeetingIndicator());
+        }
+        public int Insert(ClassMeetingIndicator record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassMeetingIndicator record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        {
+            ClassMeetingIndicator record;
+            if (_ctx.Transaction == null)
+                record = new ClassMeetingIndicatorDao().Get(ClassMeetingID, SubjectIndicatorID);
+            else
+                record = Get(ClassMeetingID, SubjectIndicatorID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassSchedule
     [Serializable]
     [Table(Name = "ClassSchedule")]
@@ -3758,6 +3822,70 @@ namespace CodeX.Data.Model
                 record = new ClassSubjectTaskDao().Get(ClassSubjectTaskID);
             else
                 record = Get(ClassSubjectTaskID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region ClassSubjectTaskIndicator
+    [Serializable]
+    [Table(Name = "ClassSubjectTaskIndicator")]
+    public class ClassSubjectTaskIndicator : DbDataModel
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _SubjectIndicatorID;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+    }
+
+    public class ClassSubjectTaskIndicatorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassSubjectTaskIndicator));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectTaskID = "@p_ClassSubjectTaskID";
+        private const string p_SubjectIndicatorID = "@p_SubjectIndicatorID";
+        public ClassSubjectTaskIndicatorDao() { }
+        public ClassSubjectTaskIndicatorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassSubjectTaskIndicator Get(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectTaskID, ClassSubjectTaskID);
+            _ctx.Add(p_SubjectIndicatorID, SubjectIndicatorID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassSubjectTaskIndicator)_helper.DataRowToObject(row, new ClassSubjectTaskIndicator());
+        }
+        public int Insert(ClassSubjectTaskIndicator record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassSubjectTaskIndicator record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        {
+            ClassSubjectTaskIndicator record;
+            if (_ctx.Transaction == null)
+                record = new ClassSubjectTaskIndicatorDao().Get(ClassSubjectTaskID, SubjectIndicatorID);
+            else
+                record = Get(ClassSubjectTaskID, SubjectIndicatorID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -23598,119 +23726,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region SubjectBasicCompetencyIndicator
-    [Serializable]
-    [Table(Name = "SubjectBasicCompetencyIndicator")]
-    public class SubjectBasicCompetencyIndicator : DbDataModel
-    {
-        private Int32 _SubjectBasicCompetencyIndicatorID;
-        private Int32 _SubjectBasicCompetencyID;
-        private String _SubjectBasicCompetencyIndicatorName;
-        private Int16 _DisplayOrder;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "SubjectBasicCompetencyIndicatorID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 SubjectBasicCompetencyIndicatorID
-        {
-            get { return _SubjectBasicCompetencyIndicatorID; }
-            set { _SubjectBasicCompetencyIndicatorID = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
-        public Int32 SubjectBasicCompetencyID
-        {
-            get { return _SubjectBasicCompetencyID; }
-            set { _SubjectBasicCompetencyID = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyIndicatorName", DataType = "String")]
-        public String SubjectBasicCompetencyIndicatorName
-        {
-            get { return _SubjectBasicCompetencyIndicatorName; }
-            set { _SubjectBasicCompetencyIndicatorName = value; }
-        }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
-        {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class SubjectBasicCompetencyIndicatorDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(SubjectBasicCompetencyIndicator));
-        private bool _isAuditLog = false;
-        private const string p_SubjectBasicCompetencyIndicatorID = "@p_SubjectBasicCompetencyIndicatorID";
-        public SubjectBasicCompetencyIndicatorDao() { }
-        public SubjectBasicCompetencyIndicatorDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public SubjectBasicCompetencyIndicator Get(Int32 SubjectBasicCompetencyIndicatorID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_SubjectBasicCompetencyIndicatorID, SubjectBasicCompetencyIndicatorID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (SubjectBasicCompetencyIndicator)_helper.DataRowToObject(row, new SubjectBasicCompetencyIndicator());
-        }
-        public int Insert(SubjectBasicCompetencyIndicator record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(SubjectBasicCompetencyIndicator record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 SubjectBasicCompetencyIndicatorID)
-        {
-            SubjectBasicCompetencyIndicator record;
-            if (_ctx.Transaction == null)
-                record = new SubjectBasicCompetencyIndicatorDao().Get(SubjectBasicCompetencyIndicatorID);
-            else
-                record = Get(SubjectBasicCompetencyIndicatorID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
     #region SubjectClassType
     [Serializable]
     [Table(Name = "SubjectClassType")]
@@ -24017,6 +24032,119 @@ namespace CodeX.Data.Model
                 record = new SubjectCompetencyStandardSummaryDao().Get(SubjectCompetencyStandardSummaryID);
             else
                 record = Get(SubjectCompetencyStandardSummaryID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region SubjectIndicator
+    [Serializable]
+    [Table(Name = "SubjectIndicator")]
+    public class SubjectIndicator : DbDataModel
+    {
+        private Int32 _SubjectIndicatorID;
+        private Int32 _SubjectBasicCompetencyID;
+        private String _SubjectIndicatorName;
+        private Int16 _DisplayOrder;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
+        public Int32 SubjectBasicCompetencyID
+        {
+            get { return _SubjectBasicCompetencyID; }
+            set { _SubjectBasicCompetencyID = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String")]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SubjectIndicatorDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectIndicator));
+        private bool _isAuditLog = false;
+        private const string p_SubjectIndicatorID = "@p_SubjectIndicatorID";
+        public SubjectIndicatorDao() { }
+        public SubjectIndicatorDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectIndicator Get(Int32 SubjectIndicatorID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubjectIndicatorID, SubjectIndicatorID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectIndicator)_helper.DataRowToObject(row, new SubjectIndicator());
+        }
+        public int Insert(SubjectIndicator record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectIndicator record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectIndicatorID)
+        {
+            SubjectIndicator record;
+            if (_ctx.Transaction == null)
+                record = new SubjectIndicatorDao().Get(SubjectIndicatorID);
+            else
+                record = Get(SubjectIndicatorID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -24396,7 +24524,7 @@ namespace CodeX.Data.Model
     public class SubjectMeetingPlanIndicator : DbDataModel
     {
         private Int32 _SubjectMeetingPlanID;
-        private Int32 _IndicatorID;
+        private Int32 _SubjectIndicatorID;
 
         [Column(Name = "SubjectMeetingPlanID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 SubjectMeetingPlanID
@@ -24404,11 +24532,11 @@ namespace CodeX.Data.Model
             get { return _SubjectMeetingPlanID; }
             set { _SubjectMeetingPlanID = value; }
         }
-        [Column(Name = "IndicatorID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 IndicatorID
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectIndicatorID
         {
-            get { return _IndicatorID; }
-            set { _IndicatorID = value; }
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
         }
     }
 

@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 rptSelected.DataSource = lstSelected;
                 rptSelected.DataBind();
 
-                hdnSelectedMember.Value = String.Join(",", lstSelected.Select(p => p.IndicatorID).ToList());
+                hdnSelectedMember.Value = String.Join(",", lstSelected.Select(p => p.SubjectIndicatorID).ToList());
             }
 
             BindGridView(1, true, ref PageCount);
@@ -61,7 +61,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("SubjectBasicCompetencyIndicatorName LIKE '%{0}%' AND SubjectBasicCompetencyID IN (SELECT SubjectBasicCompetencyID FROM SubjectMeetingPlanBasicCompetency WHERE SubjectMeetingPlanID = {1}) AND IsDeleted = 0", hdnFilterItemName.Value, hdnSubjectMeetingPlanHdID.Value);
+            string filterExpression = string.Format("SubjectIndicatorName LIKE '%{0}%' AND SubjectBasicCompetencyID IN (SELECT SubjectBasicCompetencyID FROM SubjectMeetingPlanBasicCompetency WHERE SubjectMeetingPlanID = {1}) AND IsDeleted = 0", hdnFilterItemName.Value, hdnSubjectMeetingPlanHdID.Value);
             return filterExpression;
         }
 
@@ -70,11 +70,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetvSubjectBasicCompetencyIndicatorRowCount(filterExpression);
+                int rowCount = BusinessLayer.GetvSubjectIndicatorRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 10);
             }
             lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            List<vSubjectBasicCompetencyIndicator> lstEntity = BusinessLayer.GetvSubjectBasicCompetencyIndicatorList(filterExpression, 10, pageIndex, "");
+            List<vSubjectIndicator> lstEntity = BusinessLayer.GetvSubjectIndicatorList(filterExpression, 10, pageIndex, "");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -83,9 +83,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                vSubjectBasicCompetencyIndicator entity = e.Row.DataItem as vSubjectBasicCompetencyIndicator;
+                vSubjectIndicator entity = e.Row.DataItem as vSubjectIndicator;
                 CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
-                if (lstSelectedMember.Contains(entity.SubjectBasicCompetencyIndicatorID.ToString()))
+                if (lstSelectedMember.Contains(entity.SubjectIndicatorID.ToString()))
                     chkIsSelected.Checked = true;
             }
         }
@@ -106,13 +106,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 {
                     foreach (String itemID in lstSelectedMember)
                     {
-                        int SubjectBasicCompetencyIndicatorID = Convert.ToInt32(lstSelectedMember[ct]);
-                        SubjectMeetingPlanIndicator entityDt = lstSubjectMeetingPlanIndicator.FirstOrDefault(p => p.IndicatorID == SubjectBasicCompetencyIndicatorID);
+                        int SubjectIndicatorID = Convert.ToInt32(lstSelectedMember[ct]);
+                        SubjectMeetingPlanIndicator entityDt = lstSubjectMeetingPlanIndicator.FirstOrDefault(p => p.SubjectIndicatorID == SubjectIndicatorID);
                         if (entityDt == null)
                         {
                             entityDt = new SubjectMeetingPlanIndicator();
                             entityDt.SubjectMeetingPlanID = SubjectMeetingPlanHdID;
-                            entityDt.IndicatorID = SubjectBasicCompetencyIndicatorID;
+                            entityDt.SubjectIndicatorID = SubjectIndicatorID;
                             entityDtDao.Insert(entityDt);
                         }
                         ct++;
@@ -120,8 +120,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 }
                 foreach (SubjectMeetingPlanIndicator entity in lstSubjectMeetingPlanIndicator)
                 {
-                    if (!lstSelectedMember.Contains(entity.IndicatorID.ToString()))
-                        entityDtDao.Delete(SubjectMeetingPlanHdID, entity.IndicatorID);
+                    if (!lstSelectedMember.Contains(entity.SubjectIndicatorID.ToString()))
+                        entityDtDao.Delete(SubjectMeetingPlanHdID, entity.SubjectIndicatorID);
                 }
                 ctx.CommitTransaction();
             }

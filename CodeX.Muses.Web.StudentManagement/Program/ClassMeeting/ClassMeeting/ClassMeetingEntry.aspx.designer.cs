@@ -22,6 +22,33 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnSave;
         
         /// <summary>
+        /// hdnClassMeetingID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassMeetingID;
+        
+        /// <summary>
+        /// hdnSubjectMatterID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMatterID;
+        
+        /// <summary>
+        /// hdnSubjectIndicatorSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectIndicatorSave;
+        
+        /// <summary>
         /// txtMeetingDate control.
         /// </summary>
         /// <remarks>
