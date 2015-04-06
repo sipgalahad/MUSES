@@ -1836,6 +1836,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetClassSubjectTaskMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassSubjectTask));
+                ctx.CommandText = helper.SelectMaxColumn("ClassSubjectTaskID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region ClassSubjectTaskIndicator
         public static ClassSubjectTaskIndicator GetClassSubjectTaskIndicator(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)

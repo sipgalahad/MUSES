@@ -1087,6 +1087,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassSubjectTaskIndicator
+        public static List<vClassSubjectTaskIndicator> GetvClassSubjectTaskIndicatorList(string filterExpression)
+        {
+            List<vClassSubjectTaskIndicator> result = new List<vClassSubjectTaskIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassSubjectTaskIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassSubjectTaskIndicator)helper.IDataReaderToObject(reader, new vClassSubjectTaskIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassType
         public static List<vClassType> GetvClassTypeList(string filterExpression)
         {

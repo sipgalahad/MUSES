@@ -60,7 +60,7 @@
 
             $('#lblAddData').click(function () {
                 var url = ResolveUrl("~/Program/ClassMeeting/ClassTask/ClassTaskEntryCtl.ascx");
-                openUserControlPopup(url, '', 'Entri Tugas', 600, 350);                
+                openUserControlPopup(url, '', 'Entri Tugas', 900, 550);                
             });
         }
 
@@ -117,7 +117,7 @@
             $li = $(this).parent();
             var id = $li.find('.hdnClassSubjectTaskID').val();
             var url = ResolveUrl("~/Program/ClassMeeting/ClassTask/ClassTaskEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Entri Tugas', 600, 350);
+            openUserControlPopup(url, id, 'Entri Tugas', 900, 550);
         });
 
         $('.divRemedial').live('click', function () {

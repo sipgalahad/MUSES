@@ -15,6 +15,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 {
     public partial class ClassTaskEntryCtl : BaseEntryPopupCtl
     {
+        protected string OnGetSubjectIndicatorFilterExpression()
+        {
+            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+        }
         public override void InitializeDataControl(string param)
         {
             if (param != "")
@@ -31,6 +35,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 SetControlProperties();
                 IsAdd = true;
             }
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString(); 
             //txtFinalMarkPercentage.Focus();       
         }
 
@@ -102,6 +108,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             ClassSubjectTaskDao entityDao = new ClassSubjectTaskDao(ctx);
+            ClassSubjectTaskIndicatorDao entityIndicatorDao = new ClassSubjectTaskIndicatorDao(ctx);
             bool result = false;
             try
             {
@@ -111,6 +118,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
+                entity.ClassSubjectTaskID = BusinessLayer.GetClassSubjectTaskMaxID(ctx);
+
+                if (hdnSubjectIndicatorSave.Value != "")
+                {
+                    string[] lstSubjectIndicatorID = hdnSubjectIndicatorSave.Value.Split(',');
+                    foreach (string subjectIndicatorID in lstSubjectIndicatorID)
+                    {
+                        ClassSubjectTaskIndicator entityIndicator = new ClassSubjectTaskIndicator();
+                        entityIndicator.ClassSubjectTaskID = entity.ClassSubjectTaskID;
+                        entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                        entityIndicatorDao.Insert(entityIndicator);
+                    }
+                }
                 ctx.CommitTransaction();
                 result = true;
             }
@@ -130,20 +150,55 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
         {
+            bool result = false;
+            IDbContext ctx = DbFactory.Configure(true);
+            ClassSubjectTaskDao entityDao = new ClassSubjectTaskDao(ctx);
+            ClassSubjectTaskIndicatorDao entityIndicatorDao = new ClassSubjectTaskIndicatorDao(ctx);
             try
             {
-                ClassSubjectTask entity = BusinessLayer.GetClassSubjectTask(Convert.ToInt32(hdnID.Value));
+                ClassSubjectTask entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateClassSubjectTask(entity);
-                return true;
+                entityDao.Update(entity);
+
+                List<ClassSubjectTaskIndicator> lstEntityIndicator = BusinessLayer.GetClassSubjectTaskIndicatorList(string.Format("ClassSubjectTaskID = {0}", entity.ClassSubjectTaskID), ctx);
+                if (hdnSubjectIndicatorSave.Value != "")
+                {
+                    string[] lstSubjectIndicatorID = hdnSubjectIndicatorSave.Value.Split(',');
+                    foreach (string subjectIndicatorID in lstSubjectIndicatorID)
+                    {
+                        ClassSubjectTaskIndicator entityIndicator = lstEntityIndicator.FirstOrDefault(p => p.SubjectIndicatorID == Convert.ToInt32(subjectIndicatorID));
+                        if (entityIndicator == null)
+                        {
+                            entityIndicator = new ClassSubjectTaskIndicator();
+                            entityIndicator.ClassSubjectTaskID = entity.ClassSubjectTaskID;
+                            entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                            entityIndicatorDao.Insert(entityIndicator);
+                        }
+                        else
+                            lstEntityIndicator.Remove(entityIndicator);
+                    }
+                }
+
+                foreach (ClassSubjectTaskIndicator entityIndicator in lstEntityIndicator)
+                {
+                    entityIndicatorDao.Delete(entityIndicator.ClassSubjectTaskID, entityIndicator.SubjectIndicatorID);
+                }
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

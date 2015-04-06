@@ -2730,6 +2730,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassSubjectTaskIndicator
+    [Serializable]
+    [Table(Name = "vClassSubjectTaskIndicator")]
+    public class vClassSubjectTaskIndicator
+    {
+        private Int32 _ClassSubjectTaskID;
+        private Int32 _SubjectIndicatorID;
+        private String _SubjectIndicatorName;
+
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskID
+        {
+            get { return _ClassSubjectTaskID; }
+            set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String")]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
+        }
+    }
+    #endregion
     #region vClassType
     [Serializable]
     [Table(Name = "vClassType")]
