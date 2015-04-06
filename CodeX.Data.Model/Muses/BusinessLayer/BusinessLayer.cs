@@ -11649,6 +11649,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectMeetingPlanDt
+        public static SubjectMeetingPlanDt GetSubjectMeetingPlanDt(Int32 SubjectMeetingPlanDtID)
+        {
+            return new SubjectMeetingPlanDtDao().Get(SubjectMeetingPlanDtID);
+        }
+        public static int InsertSubjectMeetingPlanDt(SubjectMeetingPlanDt record)
+        {
+            return new SubjectMeetingPlanDtDao().Insert(record);
+        }
+        public static int UpdateSubjectMeetingPlanDt(SubjectMeetingPlanDt record)
+        {
+            return new SubjectMeetingPlanDtDao().Update(record);
+        }
+        public static int DeleteSubjectMeetingPlanDt(Int32 SubjectMeetingPlanDtID)
+        {
+            return new SubjectMeetingPlanDtDao().Delete(SubjectMeetingPlanDtID);
+        }
+        public static List<SubjectMeetingPlanDt> GetSubjectMeetingPlanDtList(string filterExpression)
+        {
+            List<SubjectMeetingPlanDt> result = new List<SubjectMeetingPlanDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMeetingPlanDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectMeetingPlanDt)helper.IDataReaderToObject(reader, new SubjectMeetingPlanDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SubjectMeetingPlanHd
         public static SubjectMeetingPlanHd GetSubjectMeetingPlanHd(Int32 SubjectMeetingPlanHdID)
         {

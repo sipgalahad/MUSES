@@ -10,6 +10,17 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
+        $('.lnkDetail a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ClassMeeting/SubjectMatter/SubjectMeetingPlanDtInformationCtl.ascx");
+            openUserControlPopup(url, id, 'Detil', 1100, 550);
+        });
+
+        $('.lnkIndicator a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ClassMeeting/SubjectMatter/SubjectMeetingPlanIndicatorInformationCtl.ascx");
+            openUserControlPopup(url, id, 'Indikator', 1100, 550);
+        });
     </script>
     <div class="divTransactionEntry">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -23,11 +34,14 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
+                                <asp:BoundField DataField="SubjectMeetingPlanHdID" ItemStyle-CssClass="keyField" HeaderStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="MeetingNo" HeaderText="Pertemuan Ke" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                 <asp:TemplateField HeaderStyle-Width="10px" />
                                 <asp:BoundField DataField="SubjectCompetencyStandardName" HeaderText="Standar Kompetensi" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="ListSubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="100px" />
+                                <asp:HyperLinkField HeaderText="Indikator" Text="Indikator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

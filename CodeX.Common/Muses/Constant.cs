@@ -66,6 +66,7 @@ namespace CodeX.Common
             public const string SUBJECT_MARK_OPTION = "MS026";
             public const string LESSON_TYPE = "MS027";
             public const string PERIOD_SECTION = "MS028";
+            public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
         }
 
         public static class StudentStatus

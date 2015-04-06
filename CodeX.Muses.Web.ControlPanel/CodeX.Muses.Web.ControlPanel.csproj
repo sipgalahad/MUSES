@@ -200,6 +200,7 @@
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMeetingPlanEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
@@ -1086,6 +1087,13 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx.designer.cs">
       <DependentUpon>SubjectMatterClassTypeEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanDtEntryCtl.ascx.cs">
+      <DependentUpon>SubjectMeetingPlanDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectMeetingPlanDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx.cs">
       <DependentUpon>SubjectMeetingPlanEntry.aspx</DependentUpon>

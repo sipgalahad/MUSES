@@ -156,6 +156,13 @@
             cbpBasicCompetency.PerformCallback('refresh');
         }
 
+        $('.lnkDetail a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectMeetingPlan/SubjectMeetingPlanDtEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectMeetingPlanHdID, 'Detil', 1100, 550);
+        });
+
         $('.lnkIndicator a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
@@ -282,6 +289,7 @@
                                 <asp:BoundField DataField="SubjectCompetencyStandardName" HeaderText="Standar Kompetensi" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="ListSubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Indikator" Text="Indikator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
