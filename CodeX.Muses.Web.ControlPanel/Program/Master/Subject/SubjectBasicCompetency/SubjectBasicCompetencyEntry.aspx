@@ -141,6 +141,13 @@
         }
         //#endregion
 
+        $('.lnkDetail a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectBasicCompetency/SubjectBasicCompetencyDtEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectBasicCompetencyID, 'Detil', 800, 550);
+        });
+
         $('.lnkIndicator a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
@@ -230,6 +237,7 @@
                             <Columns>
                                 <asp:BoundField DataField="SubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" HeaderStyle-Width="250px" />
                                 <asp:BoundField DataField="StudySource" HeaderText="Sumber / Bahan / Alat" />
+                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Indikator" Text="Indikator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

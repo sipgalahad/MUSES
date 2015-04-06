@@ -88,7 +88,7 @@
                 });
             }
             setDdeClassTypeText();
-            
+
             $('.txtSummaryName').each(function () {
                 $(this).val('');
             });
@@ -98,7 +98,7 @@
                     $('.txtSummaryName').each(function () {
                         $tr = $(this).closest('tr');
                         var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
-                        if(GCPeriodSection == result[i].GCPeriodSection)
+                        if (GCPeriodSection == result[i].GCPeriodSection)
                             $(this).val(result[i].SummaryName);
                     });
                 }
@@ -109,7 +109,7 @@
 
         //#endregion
 
-        $('.chkClassType input').change(function () {
+        $('.chkClassType input').live('change', function () {
             setDdeClassTypeText();
         });
 
@@ -159,7 +159,7 @@
             openUserControlPopup(url, entity.SubjectMatterID, 'Standar Kompetensi', 800, 550);
         });
 
-        $('.lnkSubjectMatterDt a').live('click', function () {
+        $('.lnkSubjectMeetingPlan a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             var url = ResolveUrl("~/Program/Master/Subject/SubjectMatter/SubjectMeetingPlanEntryCtl.ascx");
@@ -253,7 +253,7 @@
                                 <asp:BoundField DataField="ListClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:HyperLinkField HeaderText="Standar Kompetensi" Text="Standar Kompetensi" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkCompetencyStandard" HeaderStyle-Width="160px" />
-                                <asp:HyperLinkField HeaderText="Detil Pertemuan" Text="Detil Pertemuan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubjectMatterDt" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Detil Pertemuan" Text="Detil Pertemuan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubjectMeetingPlan" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

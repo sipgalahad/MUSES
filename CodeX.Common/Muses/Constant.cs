@@ -67,6 +67,7 @@ namespace CodeX.Common
             public const string LESSON_TYPE = "MS027";
             public const string PERIOD_SECTION = "MS028";
             public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
+            public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
         }
 
         public static class StudentStatus

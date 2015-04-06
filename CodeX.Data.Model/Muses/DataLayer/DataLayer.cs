@@ -23733,6 +23733,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SubjectBasicCompetencyDt
+    [Serializable]
+    [Table(Name = "SubjectBasicCompetencyDt")]
+    public class SubjectBasicCompetencyDt : DbDataModel
+    {
+        private Int32 _SubjectBasicCompetencyDtID;
+        private Int32 _SubjectBasicCompetencyID;
+        private String _GCSubjectBasicCompetencyDtType;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "SubjectBasicCompetencyDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 SubjectBasicCompetencyDtID
+        {
+            get { return _SubjectBasicCompetencyDtID; }
+            set { _SubjectBasicCompetencyDtID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
+        public Int32 SubjectBasicCompetencyID
+        {
+            get { return _SubjectBasicCompetencyID; }
+            set { _SubjectBasicCompetencyID = value; }
+        }
+        [Column(Name = "GCSubjectBasicCompetencyDtType", DataType = "String")]
+        public String GCSubjectBasicCompetencyDtType
+        {
+            get { return _GCSubjectBasicCompetencyDtType; }
+            set { _GCSubjectBasicCompetencyDtType = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class SubjectBasicCompetencyDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectBasicCompetencyDt));
+        private bool _isAuditLog = false;
+        private const string p_SubjectBasicCompetencyDtID = "@p_SubjectBasicCompetencyDtID";
+        public SubjectBasicCompetencyDtDao() { }
+        public SubjectBasicCompetencyDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectBasicCompetencyDt Get(Int32 SubjectBasicCompetencyDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SubjectBasicCompetencyDtID, SubjectBasicCompetencyDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectBasicCompetencyDt)_helper.DataRowToObject(row, new SubjectBasicCompetencyDt());
+        }
+        public int Insert(SubjectBasicCompetencyDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectBasicCompetencyDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectBasicCompetencyDtID)
+        {
+            SubjectBasicCompetencyDt record;
+            if (_ctx.Transaction == null)
+                record = new SubjectBasicCompetencyDtDao().Get(SubjectBasicCompetencyDtID);
+            else
+                record = Get(SubjectBasicCompetencyDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SubjectClassType
     [Serializable]
     [Table(Name = "SubjectClassType")]

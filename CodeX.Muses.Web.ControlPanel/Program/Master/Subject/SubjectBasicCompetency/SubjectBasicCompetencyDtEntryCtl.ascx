@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectMeetingPlanDtEntryCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectMeetingPlanDtEntryCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectBasicCompetencyDtEntryCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.ControlPanel.Program.SubjectBasicCompetencyDtEntryCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -14,13 +14,13 @@
             $('#<%=hdnEntryID.ClientID %>').val('');
             $('#<%=txtRemarks.ClientID %>').val('');
 
-            cboGCSubjectMeetingPlanDtType.SetEnabled(false);
+            cboGCSubjectBasicCompetencyDtType.SetEnabled(false);
             $('#entryDetailContainerPopup').show();
             $('#<%=txtRemarks.ClientID %>').focus();
         });
 
         $('#btnCancelPopup').click(function () {
-            cboGCSubjectMeetingPlanDtType.SetEnabled(true);
+            cboGCSubjectBasicCompetencyDtType.SetEnabled(true);
             $('#entryDetailContainerPopup').hide();
         });
 
@@ -36,7 +36,7 @@
         showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMeetingPlanDtID);
+                $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectBasicCompetencyDtID);
                 cbpProcessPopup.PerformCallback('delete');
             }
         });
@@ -46,9 +46,9 @@
     $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectMeetingPlanDtID);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectBasicCompetencyDtID);
         $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
-        cboGCSubjectMeetingPlanDtType.SetEnabled(false);
+        cboGCSubjectBasicCompetencyDtType.SetEnabled(false);
 
         $('#entryDetailContainerPopup').show();
         $('#<%=txtRemarks.ClientID %>').focus();
@@ -74,7 +74,7 @@
         }
     }
 
-    function onCboGCSubjectMeetingPlanDtValueChanged() {
+    function onCboGCSubjectBasicCompetencyDtValueChanged() {
         cbpViewPopup.PerformCallback('refresh');
     }
 </script>
@@ -88,14 +88,14 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pertemuan Ke")%></label></td>
-            <td><asp:TextBox ID="txtMeetingNo" ReadOnly="true" Width="200px" runat="server" /></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+            <td><asp:TextBox ID="txtSubjectBasicCompetencyName" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr> 
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe")%></label></td>
             <td colspan="2">
-                <dxe:ASPxComboBox ID="cboGCSubjectMeetingPlanDtType" ClientInstanceName="cboGCSubjectMeetingPlanDtType" Width="300px" runat="server">
-                    <ClientSideEvents ValueChanged="function(){ onCboGCSubjectMeetingPlanDtValueChanged(); }" />
+                <dxe:ASPxComboBox ID="cboGCSubjectBasicCompetencyDtType" ClientInstanceName="cboGCSubjectBasicCompetencyDtType" Width="300px" runat="server">
+                    <ClientSideEvents ValueChanged="function(){ onCboGCSubjectBasicCompetencyDtValueChanged(); }" />
                 </dxe:ASPxComboBox>
             </td>
         </tr> 
@@ -140,7 +140,7 @@
                                 <ItemTemplate>
                                     <div style='float:right;' class="divDetailDelete"></div>
                                     <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("SubjectMeetingPlanDtID") %>" bindingfield="SubjectMeetingPlanDtID" />
+                                    <input type="hidden" value="<%#Eval("SubjectBasicCompetencyDtID") %>" bindingfield="SubjectBasicCompetencyDtID" />
                                     <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                 </ItemTemplate>
                             </asp:TemplateField>

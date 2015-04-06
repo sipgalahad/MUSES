@@ -156,6 +156,10 @@
             cbpBasicCompetency.PerformCallback('refresh');
         }
 
+        function onCboGCPeriodSectionValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+
         $('.lnkDetail a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);

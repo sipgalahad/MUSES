@@ -22,6 +22,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
+            Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
+            cboGCPeriodSection.SelectedIndex = 0;
+
             BindGridView();
         }
 
@@ -34,7 +38,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            string filterExpression = string.Format("SubjectMatterID = {0} AND IsDeleted = 0", classSubject.SubjectMatterID);
+            string filterExpression = string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}' AND IsDeleted = 0 ORDER BY MeetingNo ASC", classSubject.SubjectMatterID, cboGCPeriodSection.Value);
             grdView.DataSource = BusinessLayer.GetvSubjectMeetingPlanHdList(filterExpression);
             grdView.DataBind();
         }

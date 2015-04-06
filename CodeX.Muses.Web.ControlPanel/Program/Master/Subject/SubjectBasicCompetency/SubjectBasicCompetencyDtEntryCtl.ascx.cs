@@ -12,17 +12,17 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class SubjectMeetingPlanDtEntryCtl : BaseViewPopupCtl
+    public partial class SubjectBasicCompetencyDtEntryCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
             hdnID.Value = param;
-            SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnID.Value));
-            txtMeetingNo.Text = entity.MeetingNo.ToString();
+            SubjectBasicCompetency entity = BusinessLayer.GetSubjectBasicCompetency(Convert.ToInt32(hdnID.Value));
+            txtSubjectBasicCompetencyName.Text = entity.SubjectBasicCompetencyName;
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MEETING_PLAN_DT_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboGCSubjectMeetingPlanDtType, lstSc, "StandardCodeName", "StandardCodeID");
-            cboGCSubjectMeetingPlanDtType.SelectedIndex = 0;
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_BASIC_COMPETENCY_DT_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboGCSubjectBasicCompetencyDtType, lstSc, "StandardCodeName", "StandardCodeID");
+            cboGCSubjectBasicCompetencyDtType.SelectedIndex = 0;
 
             BindGridView();
 
@@ -31,8 +31,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void BindGridView()
         {
-            string filterExpression = string.Format("SubjectMeetingPlanHdID = {0} AND GCSubjectMeetingPlanDtType = '{1}'", hdnID.Value, cboGCSubjectMeetingPlanDtType.Value);
-            grdView.DataSource = BusinessLayer.GetSubjectMeetingPlanDtList(filterExpression);
+            string filterExpression = string.Format("SubjectBasicCompetencyID = {0} AND GCSubjectBasicCompetencyDtType = '{1}'", hdnID.Value, cboGCSubjectBasicCompetencyDtType.Value);
+            grdView.DataSource = BusinessLayer.GetSubjectBasicCompetencyDtList(filterExpression);
             grdView.DataBind();
         }
 
@@ -77,7 +77,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(SubjectMeetingPlanDt entity)
+        private void ControlToEntity(SubjectBasicCompetencyDt entity)
         {
             entity.Remarks = txtRemarks.Text;
         }
@@ -86,12 +86,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMeetingPlanDt entity = new SubjectMeetingPlanDt();
+                SubjectBasicCompetencyDt entity = new SubjectBasicCompetencyDt();
                 ControlToEntity(entity);
-                entity.GCSubjectMeetingPlanDtType = cboGCSubjectMeetingPlanDtType.Value.ToString();
-                entity.SubjectMeetingPlanHdID = Convert.ToInt32(hdnID.Value);
+                entity.GCSubjectBasicCompetencyDtType = cboGCSubjectBasicCompetencyDtType.Value.ToString();
+                entity.SubjectBasicCompetencyID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertSubjectMeetingPlanDt(entity);
+                BusinessLayer.InsertSubjectBasicCompetencyDt(entity);
                 return true;
             }
             catch (Exception ex)
@@ -106,10 +106,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMeetingPlanDt entity = BusinessLayer.GetSubjectMeetingPlanDt(Convert.ToInt32(hdnEntryID.Value));
+                SubjectBasicCompetencyDt entity = BusinessLayer.GetSubjectBasicCompetencyDt(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMeetingPlanDt(entity);
+                BusinessLayer.UpdateSubjectBasicCompetencyDt(entity);
                 return true;
             }
             catch (Exception ex)
@@ -124,10 +124,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                SubjectMeetingPlanDt entity = BusinessLayer.GetSubjectMeetingPlanDt(Convert.ToInt32(hdnEntryID.Value));
+                SubjectBasicCompetencyDt entity = BusinessLayer.GetSubjectBasicCompetencyDt(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectMeetingPlanDt(entity);
+                BusinessLayer.UpdateSubjectBasicCompetencyDt(entity);
                 return true;
             }
             catch (Exception ex)

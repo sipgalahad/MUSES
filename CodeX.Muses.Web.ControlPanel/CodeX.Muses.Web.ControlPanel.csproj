@@ -193,10 +193,11 @@
     <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\PersonalityList.aspx" />
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyIndicatorEntryCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMeetingPlanEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx" />
@@ -1039,12 +1040,12 @@
     <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx.designer.cs">
       <DependentUpon>SubjectBasicCompetencyEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyIndicatorEntryCtl.ascx.cs">
-      <DependentUpon>SubjectBasicCompetencyIndicatorEntryCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx.cs">
+      <DependentUpon>SubjectIndicatorEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyIndicatorEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectBasicCompetencyIndicatorEntryCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectIndicatorEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.cs">
       <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
@@ -1066,6 +1067,13 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx.designer.cs">
       <DependentUpon>SubjectCompetencyStandardEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx.cs">
+      <DependentUpon>SubjectBasicCompetencyDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectBasicCompetencyDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMeetingPlanEntryCtl.ascx.cs">
       <DependentUpon>SubjectMeetingPlanEntryCtl.ascx</DependentUpon>

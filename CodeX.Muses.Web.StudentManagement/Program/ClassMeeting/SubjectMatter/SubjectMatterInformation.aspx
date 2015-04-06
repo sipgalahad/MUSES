@@ -21,7 +21,25 @@
             var url = ResolveUrl("~/Program/ClassMeeting/SubjectMatter/SubjectMeetingPlanIndicatorInformationCtl.ascx");
             openUserControlPopup(url, id, 'Indikator', 1100, 550);
         });
+
+        function onCboGCPeriodSectionValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:200px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+            <td>
+                <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
+                    <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr> 
+    </table>
     <div class="divTransactionEntry">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">

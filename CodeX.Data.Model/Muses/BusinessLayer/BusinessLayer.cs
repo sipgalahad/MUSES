@@ -11275,6 +11275,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectBasicCompetencyDt
+        public static SubjectBasicCompetencyDt GetSubjectBasicCompetencyDt(Int32 SubjectBasicCompetencyDtID)
+        {
+            return new SubjectBasicCompetencyDtDao().Get(SubjectBasicCompetencyDtID);
+        }
+        public static int InsertSubjectBasicCompetencyDt(SubjectBasicCompetencyDt record)
+        {
+            return new SubjectBasicCompetencyDtDao().Insert(record);
+        }
+        public static int UpdateSubjectBasicCompetencyDt(SubjectBasicCompetencyDt record)
+        {
+            return new SubjectBasicCompetencyDtDao().Update(record);
+        }
+        public static int DeleteSubjectBasicCompetencyDt(Int32 SubjectBasicCompetencyDtID)
+        {
+            return new SubjectBasicCompetencyDtDao().Delete(SubjectBasicCompetencyDtID);
+        }
+        public static List<SubjectBasicCompetencyDt> GetSubjectBasicCompetencyDtList(string filterExpression)
+        {
+            List<SubjectBasicCompetencyDt> result = new List<SubjectBasicCompetencyDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectBasicCompetencyDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectBasicCompetencyDt)helper.IDataReaderToObject(reader, new SubjectBasicCompetencyDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SubjectClassType
         public static SubjectClassType GetSubjectClassType(Int32 SubjectID, Int32 ClassTypeID)
         {

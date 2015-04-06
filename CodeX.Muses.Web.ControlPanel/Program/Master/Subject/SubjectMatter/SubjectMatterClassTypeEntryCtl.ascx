@@ -155,7 +155,7 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("SubjectMatterHd")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
             <td><asp:TextBox ID="txtSubjectMatterName" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr> 
     </table>

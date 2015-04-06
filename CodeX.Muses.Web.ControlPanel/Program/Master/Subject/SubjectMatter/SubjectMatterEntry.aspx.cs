@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override void InitializeDataControl()
         {
             Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
-            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("ClassTypeID IN (SELECT ClassTypeID FROM SubjectMatterClassType WHERE SubjectMatterID = {0})", AppSession.SubjectID));
+            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("ClassTypeID IN (SELECT ClassTypeID FROM SubjectClassType WHERE SubjectID = {0})", AppSession.SubjectID));
             rptClassType.DataSource = lstClassType;
             rptClassType.DataBind();
 
