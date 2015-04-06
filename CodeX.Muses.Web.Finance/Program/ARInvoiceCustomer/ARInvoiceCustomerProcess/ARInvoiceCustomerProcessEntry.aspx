@@ -29,6 +29,16 @@
             });
         }
 
+        $('#divCopyPayment').die('click');
+        $('#divCopyPayment').live('click', function () {
+            if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
+                showLoadingPanel();
+                var id = $('#<%=hdnARInvoiceID.ClientID %>').val();
+                var url = ResolveUrl('~/Program/ARInvoiceCustomer/ARInvoiceCustomerProcess/ARInvoiceCustomerProcessEntryDtCtl.ascx');
+                openUserControlPopup(url, id, 'Salin Piutang', 1200, 600);
+            }
+        });
+
         function onAfterSaveAddRecordEntryPopup(param) {
             if ($('#<%=hdnARInvoiceID.ClientID %>').val() == '0') {
                 $('#<%=hdnARInvoiceID.ClientID %>').val(param);
@@ -140,6 +150,9 @@
         </tr>
         <tr>
             <td colspan="2">
+                <div class="divTransactionEntry">
+                    <span id="divCopyPayment" class="divAdd"><%=GetLabel("Salin Piutang")%></span>
+                </div>
                 <div style="position:relative;" id="divView">
                     <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView" 
                         ShowLoadingPanel="false" OnCallback="cbpView_Callback">

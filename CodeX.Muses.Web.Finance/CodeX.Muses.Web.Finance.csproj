@@ -112,6 +112,7 @@
     <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx" />
     <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx" />
+    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx" />
     <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx" />
     <Content Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx" />
     <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx" />
@@ -460,6 +461,13 @@
     </Compile>
     <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceCustomerEditEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx.cs">
+      <DependentUpon>ARInvoiceCustomerProcessEntryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx.designer.cs">
+      <DependentUpon>ARInvoiceCustomerProcessEntryDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.cs">
       <DependentUpon>ARInvoiceCustomerReceiveEntry.aspx</DependentUpon>
