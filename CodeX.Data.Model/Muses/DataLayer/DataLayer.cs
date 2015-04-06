@@ -2360,6 +2360,7 @@ namespace CodeX.Data.Model
         private Int32 _TeacherID;
         private String _Remarks;
         private String _NextMeetingRemarks;
+        private Int32? _SubjectMeetingPlanHdID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -2425,6 +2426,12 @@ namespace CodeX.Data.Model
         {
             get { return _NextMeetingRemarks; }
             set { _NextMeetingRemarks = value; }
+        }
+        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubjectMeetingPlanHdID
+        {
+            get { return _SubjectMeetingPlanHdID; }
+            set { _SubjectMeetingPlanHdID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

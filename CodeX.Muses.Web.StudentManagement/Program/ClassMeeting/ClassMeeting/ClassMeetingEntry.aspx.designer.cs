@@ -94,6 +94,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
         
         /// <summary>
+        /// tacSubjectMeetingPlanHd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectMeetingPlanHd;
+        
+        /// <summary>
         /// txtRemarks control.
         /// </summary>
         /// <remarks>

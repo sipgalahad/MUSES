@@ -777,6 +777,20 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Subject Meeting Plan Hd -->
+  <searchdialog type="subjectmeetingplanhd" methodname="GetvSubjectMeetingPlanHdList" keyfieldname="SubjectMeetingPlanHdID" orderbyexpression="MeetingNo ASC">
+    <gridcolumns>
+      <gridcolumn datafield="MeetingNo" headertext="Pertemuan Ke" width="50px" horizontalalign="right" />
+      <gridcolumn datafield="SubjectCompetencyStandardName" headertext="Standar Kompetensi" width="200px" />
+      <gridcolumn datafield="ListSubjectBasicCompetencyName" headertext="Kompetensi Dasar" width="200px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="MeetingNo" headertext="Kompetensi Dasar" description="" />
+      <intellisensetext datafield="SubjectCompetencyStandardName" headertext="Standar Kompetensi" description="" />
+      <intellisensetext datafield="ListSubjectBasicCompetencyName" headertext="Kompetensi Dasar" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Supplier Credit Note -->
   <searchdialog type="suppliercreditnote" methodname="GetvSupplierCreditNoteList" keyfieldname="CreditNoteNo" orderbyexpression="CreditNoteID DESC">
     <gridcolumns>

@@ -1588,6 +1588,8 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private String _Remarks;
         private String _NextMeetingRemarks;
+        private Int32 _SubjectMeetingPlanHdID;
+        private Int16 _MeetingNo;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassMeetingID", DataType = "Int32")]
@@ -1661,6 +1663,18 @@ namespace CodeX.Data.Model
         {
             get { return _NextMeetingRemarks; }
             set { _NextMeetingRemarks = value; }
+        }
+        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32")]
+        public Int32 SubjectMeetingPlanHdID
+        {
+            get { return _SubjectMeetingPlanHdID; }
+            set { _SubjectMeetingPlanHdID = value; }
+        }
+        [Column(Name = "MeetingNo", DataType = "Int16")]
+        public Int16 MeetingNo
+        {
+            get { return _MeetingNo; }
+            set { _MeetingNo = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

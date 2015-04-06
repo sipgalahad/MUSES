@@ -20,6 +20,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return Constant.MenuCode.StudentManagement.WS_CLASS_MEETING;
         }
+        protected string OnGetSubjectMeetingPlanHdFilterExpression()
+        {
+            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+        }
         protected string OnGetSubjectIndicatorFilterExpression()
         {
             return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
@@ -59,6 +63,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacTeacher.Text = entity.TeacherName;
                 txtRemarks.Text = entity.Remarks;
                 txtNextMeetingRemarks.Text = entity.NextMeetingRemarks;
+                if (entity.SubjectMeetingPlanHdID != 0)
+                {
+                    tacSubjectMeetingPlanHd.Value = entity.SubjectMeetingPlanHdID.ToString();
+                    tacSubjectMeetingPlanHd.Text = entity.MeetingNo.ToString();
+                }
             }
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
 
@@ -88,6 +97,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
             entity.Remarks = txtRemarks.Text;
             entity.NextMeetingRemarks = txtNextMeetingRemarks.Text;
+            if (tacSubjectMeetingPlanHd.Value != "")
+                entity.SubjectMeetingPlanHdID = Convert.ToInt32(tacSubjectMeetingPlanHd.Value);
+            else
+                entity.SubjectMeetingPlanHdID = null;
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)

@@ -211,7 +211,7 @@
                                 <tr class="trSelectedItem">
                                     <td align="center">
                                         <input type="checkbox" class="chkIsSelected2" />
-                                        <input type="hidden" class="keyField" value='<%#Eval("IndicatorID") %>' />
+                                        <input type="hidden" class="keyField" value='<%#Eval("SubjectIndicatorID") %>' />
                                     </td>
                                     <td><%#Eval("SubjectIndicatorName") %></td>
                                 </tr>
