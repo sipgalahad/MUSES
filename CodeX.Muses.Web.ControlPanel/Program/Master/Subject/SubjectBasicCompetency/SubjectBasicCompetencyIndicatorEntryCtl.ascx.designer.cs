@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class SubjectBasicCompetencyIndicatorEntryCtl {
+    public partial class SubjectIndicatorEntryCtl {
         
         /// <summary>
         /// hdnID control.
@@ -40,13 +40,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtSubjectBasicCompetencyIndicatorName control.
+        /// txtSubjectIndicatorName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubjectBasicCompetencyIndicatorName;
+        protected global::System.Web.UI.WebControls.TextBox txtSubjectIndicatorName;
         
         /// <summary>
         /// cbpViewPopup control.

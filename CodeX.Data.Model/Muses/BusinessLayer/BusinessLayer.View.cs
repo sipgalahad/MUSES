@@ -828,6 +828,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassMeetingIndicator
+        public static List<vClassMeetingIndicator> GetvClassMeetingIndicatorList(string filterExpression)
+        {
+            List<vClassMeetingIndicator> result = new List<vClassMeetingIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassMeetingIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassMeetingIndicator)helper.IDataReaderToObject(reader, new vClassMeetingIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassSchedule
         public static List<vClassSchedule> GetvClassScheduleList(string filterExpression)
         {
@@ -8084,73 +8108,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vSubjectBasicCompetencyIndicator
-        public static List<vSubjectBasicCompetencyIndicator> GetvSubjectBasicCompetencyIndicatorList(string filterExpression)
-        {
-            List<vSubjectBasicCompetencyIndicator> result = new List<vSubjectBasicCompetencyIndicator>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetencyIndicator));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vSubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new vSubjectBasicCompetencyIndicator()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static List<vSubjectBasicCompetencyIndicator> GetvSubjectBasicCompetencyIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
-        {
-            List<vSubjectBasicCompetencyIndicator> result = new List<vSubjectBasicCompetencyIndicator>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetencyIndicator));
-                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vSubjectBasicCompetencyIndicator)helper.IDataReaderToObject(reader, new vSubjectBasicCompetencyIndicator()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        public static Int32 GetvSubjectBasicCompetencyIndicatorRowCount(string filterExpression)
-        {
-            Int32 result = 0;
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vSubjectBasicCompetencyIndicator));
-                ctx.CommandText = helper.GetRowCount(filterExpression);
-                DataRow row = DaoBase.GetDataRow(ctx);
-                result = Convert.ToInt32(row.ItemArray.GetValue(0));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region vSubjectClassType
         public static List<vSubjectClassType> GetvSubjectClassTypeList(string filterExpression)
         {
@@ -8163,6 +8120,73 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vSubjectClassType)helper.IDataReaderToObject(reader, new vSubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectIndicator
+        public static List<vSubjectIndicator> GetvSubjectIndicatorList(string filterExpression)
+        {
+            List<vSubjectIndicator> result = new List<vSubjectIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectIndicator));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectIndicator)helper.IDataReaderToObject(reader, new vSubjectIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vSubjectIndicator> GetvSubjectIndicatorList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vSubjectIndicator> result = new List<vSubjectIndicator>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectIndicator));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectIndicator)helper.IDataReaderToObject(reader, new vSubjectIndicator()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvSubjectIndicatorRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectIndicator));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
             catch (Exception ex)
             {

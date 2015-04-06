@@ -20,6 +20,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return Constant.MenuCode.StudentManagement.WS_CLASS_MEETING;
         }
+        protected string OnGetSubjectMeetingPlanHdFilterExpression()
+        {
+            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+        }
+        protected string OnGetSubjectIndicatorFilterExpression()
+        {
+            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+        }
         protected string OnGetRoomFilterExpression()
         {
             return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
@@ -55,7 +63,16 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacTeacher.Text = entity.TeacherName;
                 txtRemarks.Text = entity.Remarks;
                 txtNextMeetingRemarks.Text = entity.NextMeetingRemarks;
+                if (entity.SubjectMeetingPlanHdID != 0)
+                {
+                    tacSubjectMeetingPlanHd.Value = entity.SubjectMeetingPlanHdID.ToString();
+                    tacSubjectMeetingPlanHd.Text = entity.MeetingNo.ToString();
+                }
             }
+            hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
+
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString();
         
             Helper.SetControlEntrySetting(txtMeetingDate, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, true, true), "mpEntry");
@@ -80,6 +97,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
             entity.Remarks = txtRemarks.Text;
             entity.NextMeetingRemarks = txtNextMeetingRemarks.Text;
+            if (tacSubjectMeetingPlanHd.Value != "")
+                entity.SubjectMeetingPlanHdID = Convert.ToInt32(tacSubjectMeetingPlanHd.Value);
+            else
+                entity.SubjectMeetingPlanHdID = null;
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)
@@ -89,6 +110,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 bool result = true;
                 IDbContext ctx = DbFactory.Configure(true);
                 ClassMeetingDao entityDao = new ClassMeetingDao(ctx);
+                ClassMeetingIndicatorDao entityIndicatorDao = new ClassMeetingIndicatorDao(ctx);
                 try
                 {
                     if (AppSession.ClassSubject.ClassMeetingID == 0)
@@ -99,12 +121,25 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entity.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                         entity.CreatedBy = AppSession.UserLogin.UserID;
                         entityDao.Insert(entity);
+                        entity.ClassMeetingID = BusinessLayer.GetClassMeetingMaxID(ctx);
+
+                        if (hdnSubjectIndicatorSave.Value != "")
+                        {
+                            string[] lstSubjectIndicatorID = hdnSubjectIndicatorSave.Value.Split(',');
+                            foreach (string subjectIndicatorID in lstSubjectIndicatorID)
+                            {
+                                ClassMeetingIndicator entityIndicator = new ClassMeetingIndicator();
+                                entityIndicator.ClassMeetingID = entity.ClassMeetingID;
+                                entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                entityIndicatorDao.Insert(entityIndicator);
+                            }
+                        }
 
                         ClassSubjectModel classSubject = new ClassSubjectModel();
                         classSubject.ClassScheduleID = AppSession.ClassSubject.ClassScheduleID;
                         classSubject.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                         classSubject.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
-                        classSubject.ClassMeetingID = BusinessLayer.GetClassMeetingMaxID(ctx);
+                        classSubject.ClassMeetingID = entity.ClassMeetingID;
 
                         AppSession.ClassSubject = classSubject;
                     }
@@ -114,11 +149,36 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         ControlToEntity(entity);
                         entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDao.Update(entity);
+
+                        List<ClassMeetingIndicator> lstEntityIndicator = BusinessLayer.GetClassMeetingIndicatorList(string.Format("ClassMeetingID = {0}", entity.ClassMeetingID), ctx);
+                        if (hdnSubjectIndicatorSave.Value != "")
+                        {
+                            string[] lstSubjectIndicatorID = hdnSubjectIndicatorSave.Value.Split(',');
+                            foreach (string subjectIndicatorID in lstSubjectIndicatorID)
+                            {
+                                ClassMeetingIndicator entityIndicator = lstEntityIndicator.FirstOrDefault(p => p.SubjectIndicatorID == Convert.ToInt32(subjectIndicatorID));
+                                if (entityIndicator == null)
+                                {
+                                    entityIndicator = new ClassMeetingIndicator();
+                                    entityIndicator.ClassMeetingID = entity.ClassMeetingID;
+                                    entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                    entityIndicatorDao.Insert(entityIndicator);
+                                }
+                                else
+                                    lstEntityIndicator.Remove(entityIndicator);
+                            }
+                        }
+
+                        foreach (ClassMeetingIndicator entityIndicator in lstEntityIndicator)
+                        {
+                            entityIndicatorDao.Delete(entityIndicator.ClassMeetingID, entityIndicator.SubjectIndicatorID);
+                        }
                     }
                     ctx.CommitTransaction();
                 }
                 catch (Exception ex)
                 {
+                    Helper.InsertErrorLog(ex);
                     ctx.RollBackTransaction();
                     errMessage = ex.Message;
                     result = false;

@@ -1588,6 +1588,8 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private String _Remarks;
         private String _NextMeetingRemarks;
+        private Int32 _SubjectMeetingPlanHdID;
+        private Int16 _MeetingNo;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassMeetingID", DataType = "Int32")]
@@ -1662,6 +1664,18 @@ namespace CodeX.Data.Model
             get { return _NextMeetingRemarks; }
             set { _NextMeetingRemarks = value; }
         }
+        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32")]
+        public Int32 SubjectMeetingPlanHdID
+        {
+            get { return _SubjectMeetingPlanHdID; }
+            set { _SubjectMeetingPlanHdID = value; }
+        }
+        [Column(Name = "MeetingNo", DataType = "Int16")]
+        public Int16 MeetingNo
+        {
+            get { return _MeetingNo; }
+            set { _MeetingNo = value; }
+        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
@@ -1710,6 +1724,35 @@ namespace CodeX.Data.Model
         {
             get { return _AttendanceStatus; }
             set { _AttendanceStatus = value; }
+        }
+    }
+    #endregion
+    #region vClassMeetingIndicator
+    [Serializable]
+    [Table(Name = "vClassMeetingIndicator")]
+    public class vClassMeetingIndicator
+    {
+        private Int32 _ClassMeetingID;
+        private Int32 _SubjectIndicatorID;
+        private String _SubjectIndicatorName;
+
+        [Column(Name = "ClassMeetingID", DataType = "Int32")]
+        public Int32 ClassMeetingID
+        {
+            get { return _ClassMeetingID; }
+            set { _ClassMeetingID = value; }
+        }
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String")]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
         }
     }
     #endregion
@@ -20533,56 +20576,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vSubjectBasicCompetencyIndicator
-    [Serializable]
-    [Table(Name = "vSubjectBasicCompetencyIndicator")]
-    public class vSubjectBasicCompetencyIndicator
-    {
-        private Int32 _SubjectBasicCompetencyIndicatorID;
-        private Int32 _SubjectBasicCompetencyID;
-        private String _SubjectBasicCompetencyName;
-        private String _SubjectBasicCompetencyIndicatorName;
-        private Int16 _DisplayOrder;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectBasicCompetencyIndicatorID", DataType = "Int32")]
-        public Int32 SubjectBasicCompetencyIndicatorID
-        {
-            get { return _SubjectBasicCompetencyIndicatorID; }
-            set { _SubjectBasicCompetencyIndicatorID = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
-        public Int32 SubjectBasicCompetencyID
-        {
-            get { return _SubjectBasicCompetencyID; }
-            set { _SubjectBasicCompetencyID = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyName", DataType = "String")]
-        public String SubjectBasicCompetencyName
-        {
-            get { return _SubjectBasicCompetencyName; }
-            set { _SubjectBasicCompetencyName = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyIndicatorName", DataType = "String")]
-        public String SubjectBasicCompetencyIndicatorName
-        {
-            get { return _SubjectBasicCompetencyIndicatorName; }
-            set { _SubjectBasicCompetencyIndicatorName = value; }
-        }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
-        {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
     #region vSubjectClassType
     [Serializable]
     [Table(Name = "vSubjectClassType")]
@@ -20659,6 +20652,63 @@ namespace CodeX.Data.Model
         {
             get { return _Major; }
             set { _Major = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSubjectIndicator
+    [Serializable]
+    [Table(Name = "vSubjectIndicator")]
+    public partial class vSubjectIndicator
+    {
+        private Int32 _SubjectIndicatorID;
+        private Int32 _SubjectBasicCompetencyID;
+        private Int32 _SubjectMatterID;
+        private String _SubjectBasicCompetencyName;
+        private String _SubjectIndicatorName;
+        private Int16 _DisplayOrder;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
+        public Int32 SubjectIndicatorID
+        {
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
+        public Int32 SubjectBasicCompetencyID
+        {
+            get { return _SubjectBasicCompetencyID; }
+            set { _SubjectBasicCompetencyID = value; }
+        }
+        [Column(Name = "SubjectMatterID", DataType = "Int32")]
+        public Int32 SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
+        }
+        [Column(Name = "SubjectBasicCompetencyName", DataType = "String")]
+        public String SubjectBasicCompetencyName
+        {
+            get { return _SubjectBasicCompetencyName; }
+            set { _SubjectBasicCompetencyName = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String")]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -20823,8 +20873,8 @@ namespace CodeX.Data.Model
     public class vSubjectMeetingPlanIndicator
     {
         private Int32 _SubjectMeetingPlanID;
-        private Int32 _IndicatorID;
-        private String _SubjectBasicCompetencyIndicatorName;
+        private Int32 _SubjectIndicatorID;
+        private String _SubjectIndicatorName;
 
         [Column(Name = "SubjectMeetingPlanID", DataType = "Int32")]
         public Int32 SubjectMeetingPlanID
@@ -20832,17 +20882,17 @@ namespace CodeX.Data.Model
             get { return _SubjectMeetingPlanID; }
             set { _SubjectMeetingPlanID = value; }
         }
-        [Column(Name = "IndicatorID", DataType = "Int32")]
-        public Int32 IndicatorID
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
+        public Int32 SubjectIndicatorID
         {
-            get { return _IndicatorID; }
-            set { _IndicatorID = value; }
+            get { return _SubjectIndicatorID; }
+            set { _SubjectIndicatorID = value; }
         }
-        [Column(Name = "SubjectBasicCompetencyIndicatorName", DataType = "String")]
-        public String SubjectBasicCompetencyIndicatorName
+        [Column(Name = "SubjectIndicatorName", DataType = "String")]
+        public String SubjectIndicatorName
         {
-            get { return _SubjectBasicCompetencyIndicatorName; }
-            set { _SubjectBasicCompetencyIndicatorName = value; }
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
         }
     }
     #endregion
