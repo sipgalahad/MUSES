@@ -35,8 +35,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 SetControlProperties();
                 IsAdd = true;
             }
+            vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString(); 
+            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString();
+            if (classMeeting != null)
+                hdnSubjectMeetingPlanHdID.Value = classMeeting.SubjectMeetingPlanHdID.ToString();
+            else
+                hdnSubjectMeetingPlanHdID.Value = "0";
+            hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
             //txtFinalMarkPercentage.Focus();       
         }
 

@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class ClassTaskEntryCtl {
         
         /// <summary>
+        /// hdnClassMeetingID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassMeetingID;
+        
+        /// <summary>
         /// hdnSubjectMatterID control.
         /// </summary>
         /// <remarks>
@@ -20,6 +29,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMatterID;
+        
+        /// <summary>
+        /// hdnSubjectMeetingPlanHdID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMeetingPlanHdID;
         
         /// <summary>
         /// hdnSubjectIndicatorSave control.

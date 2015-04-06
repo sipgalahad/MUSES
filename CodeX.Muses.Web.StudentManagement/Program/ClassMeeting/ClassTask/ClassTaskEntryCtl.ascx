@@ -48,7 +48,7 @@
         });
 
         var classSubjectTaskID = $('#<%=hdnID.ClientID %>').val();
-        if (classSubjectTaskID != '0') {
+        if (classSubjectTaskID != '0' && classSubjectTaskID != '') {
             var filterExpression = 'ClassSubjectTaskID = ' + classSubjectTaskID;
             Methods.getListObject('GetvClassSubjectTaskIndicatorList', filterExpression, function (result) {
                 for (var i = 0; i < result.length; ++i) {
@@ -62,6 +62,44 @@
                     $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
                 }
             });
+        }
+        else {
+            var subjectMeetingPlanHdID = $('#<%=hdnSubjectMeetingPlanHdID.ClientID %>').val();
+            if (subjectMeetingPlanHdID != '0') {
+                var filterExpression = 'SubjectMeetingPlanID = ' + subjectMeetingPlanHdID;
+                Methods.getListObject('GetvSubjectMeetingPlanIndicatorList', filterExpression, function (result) {
+                    for (var i = 0; i < result.length; ++i) {
+                        var entity = result[i];
+                        $('#divEntryDtAdd').click();
+
+                        $tr = $('.trSubjectIndicatorDt').last();
+                        $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
+                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
+                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+
+                        $tr.find('.divDetailDelete').hide();
+                    }
+                });
+            }
+            else {
+                var classMeetingID = $('#<%=hdnClassMeetingID.ClientID %>').val();
+                if (classMeetingID != '0') {
+                    var filterExpression = 'ClassMeetingID = ' + classMeetingID;
+                    Methods.getListObject('GetvClassMeetingIndicatorList', filterExpression, function (result) {
+                        for (var i = 0; i < result.length; ++i) {
+                            var entity = result[i];
+                            $('#divEntryDtAdd').click();
+
+                            $tr = $('.trSubjectIndicatorDt').last();
+                            $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+                            $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
+                            $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
+                            $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+                        }
+                    });
+                }
+            }
         }
     });
 
@@ -146,7 +184,9 @@
     </tr>
 </script>
 
+<input type="hidden" id="hdnClassMeetingID" runat="server" />
 <input type="hidden" id="hdnSubjectMatterID" runat="server" />
+<input type="hidden" id="hdnSubjectMeetingPlanHdID" runat="server" />
 <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />
 <input type="hidden" id="hdnID" runat="server" value="" />
 <div>
