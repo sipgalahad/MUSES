@@ -13,7 +13,13 @@
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/ClassMeeting/SubjectMeetingPlan/SubjectMeetingPlanDtInformationCtl.ascx");
-            openUserControlPopup(url, id, 'Detil', 1100, 550);
+            openUserControlPopup(url, id + '|1', 'Detil', 1100, 550);
+        });
+
+        $('.lnkDetail2 a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ClassMeeting/SubjectMeetingPlan/SubjectMeetingPlanDtInformationCtl.ascx");
+            openUserControlPopup(url, id + '|2', 'Detil', 1100, 550);
         });
 
         $('.lnkIndicator a').live('click', function () {
@@ -59,6 +65,7 @@
                                 <asp:BoundField DataField="ListSubjectBasicCompetencyName" HeaderText="Kompetensi Dasar" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="100px" />
+                                <asp:HyperLinkField HeaderText="Langkah Pembelajaran" Text="Langkah Pembelajaran" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail2" HeaderStyle-Width="150px" />
                                 <asp:HyperLinkField HeaderText="Indikator" Text="Indikator" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkIndicator" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>

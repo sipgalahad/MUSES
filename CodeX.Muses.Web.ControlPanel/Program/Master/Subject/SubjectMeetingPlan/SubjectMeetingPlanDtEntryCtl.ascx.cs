@@ -16,11 +16,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override void InitializeDataControl(string param)
         {
-            hdnID.Value = param;
+            string[] temp = param.Split('|');
+            hdnID.Value = temp[0];
             SubjectMeetingPlanHd entity = BusinessLayer.GetSubjectMeetingPlanHd(Convert.ToInt32(hdnID.Value));
             txtMeetingNo.Text = entity.MeetingNo.ToString();
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MEETING_PLAN_DT_TYPE));
+            string filterExpression = "";
+            if (temp[1] == "1")
+                filterExpression = String.Format("ParentID = '{0}' AND StandardCodeID < '{0}^020' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MEETING_PLAN_DT_TYPE);
+            else
+                filterExpression = String.Format("ParentID = '{0}' AND StandardCodeID > '{0}^020' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MEETING_PLAN_DT_TYPE);
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(filterExpression);
             Methods.SetComboBoxField<StandardCode>(cboGCSubjectMeetingPlanDtType, lstSc, "StandardCodeName", "StandardCodeID");
             cboGCSubjectMeetingPlanDtType.SelectedIndex = 0;
 

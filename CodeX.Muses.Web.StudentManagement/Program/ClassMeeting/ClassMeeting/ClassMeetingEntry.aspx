@@ -36,6 +36,14 @@
                     onCustomButtonClick('save');
                 }
             });
+
+            $('#btnMeetingPlanDt').click(function () {
+                var id = tacSubjectMeetingPlanHd.getValue();
+                if (id != null && id != '') {
+                    var url = ResolveUrl("~/Program/ClassMeeting/ClassMeeting/SubjectMeetingPlanDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Detil Pertemuan', 750, 570);
+                }
+            });
         });
 
         //#region Room
@@ -354,6 +362,7 @@
                     <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMeetingPlanHdButtonSearchClick(); }"
                         ValueChanged="function(){ onTacSubjectMeetingPlanHdValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>   
+                <input type="button" id="btnMeetingPlanDt" class="btnMore" value="..." />
             </td>
         </tr>
         <tr>
