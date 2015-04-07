@@ -13,24 +13,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class StudentFinalMarkEntry {
         
         /// <summary>
-        /// btnPrint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPrint;
-        
-        /// <summary>
-        /// btnPrint1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnPrint1;
-        
-        /// <summary>
         /// cboSchoolPeriod control.
         /// </summary>
         /// <remarks>

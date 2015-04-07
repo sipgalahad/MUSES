@@ -10,11 +10,6 @@
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnPrint" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Midsemester")%></div></li>
-    <li id="btnPrint1" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Semester")%></div></li>
-</asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
@@ -22,20 +17,13 @@
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            $('#<%=btnPrint.ClientID %>').click(function () {
-                var reportCode = "SM-00002";
-                var filterExpression = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
-                openReportViewer(reportCode, filterExpression);
-            });
-
-            $('#<%=btnPrint1.ClientID %>').click(function () {
-                var reportCode = "SM-00003";
-                var filterExpression = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
-                openReportViewer(reportCode, filterExpression);
-            });
-
             setStudentImage();
         });
+
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            filterExpression.text = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
+            return true;
+        }
 
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);

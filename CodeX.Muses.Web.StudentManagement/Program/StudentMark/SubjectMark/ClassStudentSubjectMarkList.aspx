@@ -8,19 +8,12 @@
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
-    <li id="btnPrint" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/print.png")%>' alt="" /><div><%=GetLabel("Print")%></div></li>
-</asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-        $(function () {
-            $('#<%=btnPrint.ClientID %>').click(function () {
-                var reportCode = "SM-00002";
-                var filterExpression = "<%=GetFilterExpression() %>";
-                openReportViewer(reportCode, filterExpression);
-            });
-        });
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            filterExpression.text = "<%=GetFilterExpression() %>";
+            return true;
+        }
     </script>
     <div style="height:440px; overflow-y:auto">
         <input type="hidden" id="hdnID" value="" runat="server" />  

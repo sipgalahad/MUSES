@@ -28,6 +28,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         List<vOrganizationDtStudent> lstOrganizationDtStudent = new List<vOrganizationDtStudent>();
         List<vClassStudent> lstClassStudent = new List<vClassStudent>();
         List<ClassStudentMark> lstClassStudentMark = null;
+        List<vClassSubject> lstClassSubject = null;
+        String lstClassSubjectID = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -59,6 +61,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 lstOrganizationDtStudent.AddRange(BusinessLayer.GetvOrganizationDtStudentList(String.Format("SchoolPeriodID = {0} AND StudentID IN ({1})", SchoolPeriodID, lst)));
                 lstClassStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", SchoolClassID, PeriodSectionID));
             }
+            String lstSchoolClassID = String.Join(",", lstClassStudent.GroupBy(s => s.SchoolClassID).Select(x => x.Key));
+            lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND SchoolClassID IN ({1}) AND IsDeleted = 0", SchoolPeriodID, lstSchoolClassID));
+            lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
             lstOrganizationHd = BusinessLayer.GetOrganizationHdList(string.Format("SchoolPeriodID = {0} AND IsAllStudentAsMember = 1 AND IsDeleted = 0", SchoolPeriodID));
 
             HeadMaster = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.HEADMASTER).ParameterValue;
@@ -122,9 +127,6 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
                 tdSchoolName2.InnerHtml = tdSchoolName1.InnerHtml = tdSchoolName.InnerHtml = site.SiteName;
 
-                String lstSchoolClassID = String.Join(",", lstClassStudent.Where(a => a.StudentID == StudentID).GroupBy(s => s.SchoolClassID).Select(x => x.Key));
-                List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND SchoolClassID IN ({1}) AND IsDeleted = 0", SchoolPeriodID, lstSchoolClassID));
-                String lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
                 if (lstClassSubjectID != "")
                 {
                     lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
