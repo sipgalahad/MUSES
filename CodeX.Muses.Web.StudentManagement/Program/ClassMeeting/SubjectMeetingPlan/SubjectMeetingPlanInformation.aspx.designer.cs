@@ -10,16 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class SubjectMatterInformation {
-        
-        /// <summary>
-        /// hdnSubjectMatterID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMatterID;
+    public partial class SubjectMeetingPlanInformation {
         
         /// <summary>
         /// cboGCPeriodSection control.
@@ -29,15 +20,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCPeriodSection;
-        
-        /// <summary>
-        /// tacSubjectCompetencyStandard control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCompetencyStandard;
         
         /// <summary>
         /// cbpView control.

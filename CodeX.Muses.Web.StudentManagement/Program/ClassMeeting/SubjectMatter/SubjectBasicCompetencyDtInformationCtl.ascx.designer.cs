@@ -10,43 +10,43 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class SubjectMatterInformation {
+    public partial class SubjectBasicCompetencyDtInformationCtl {
         
         /// <summary>
-        /// hdnSubjectMatterID control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMatterID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// cboGCPeriodSection control.
+        /// txtSubjectBasicCompetencyName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCPeriodSection;
+        protected global::System.Web.UI.WebControls.TextBox txtSubjectBasicCompetencyName;
         
         /// <summary>
-        /// tacSubjectCompetencyStandard control.
+        /// cboGCSubjectBasicCompetencyDtType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCompetencyStandard;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCSubjectBasicCompetencyDtType;
         
         /// <summary>
-        /// cbpView control.
+        /// cbpViewPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
         
         /// <summary>
         /// PanelContent1 control.
@@ -58,13 +58,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// pnlView control.
+        /// pnlPatientVisitTransHdGrdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.WebControls.Panel pnlPatientVisitTransHdGrdView;
         
         /// <summary>
         /// grdView control.

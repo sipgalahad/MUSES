@@ -111,8 +111,11 @@
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
-    <Content Include="Program\ClassMeeting\SubjectMatter\SubjectMeetingPlanIndicatorInformationCtl.ascx" />
-    <Content Include="Program\ClassMeeting\SubjectMatter\SubjectMeetingPlanDtInformationCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectMatter\SubjectIndicatorInformationCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectMatter\SubjectBasicCompetencyDtInformationCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx" />
+    <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanIndicatorInformationCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx" />
     <Content Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteEntry.aspx" />
@@ -535,18 +538,39 @@
     <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectMeetingPlanIndicatorInformationCtl.ascx.cs">
+    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectIndicatorInformationCtl.ascx.cs">
+      <DependentUpon>SubjectIndicatorInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectIndicatorInformationCtl.ascx.designer.cs">
+      <DependentUpon>SubjectIndicatorInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectBasicCompetencyDtInformationCtl.ascx.cs">
+      <DependentUpon>SubjectBasicCompetencyDtInformationCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectBasicCompetencyDtInformationCtl.ascx.designer.cs">
+      <DependentUpon>SubjectBasicCompetencyDtInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx.cs">
+      <DependentUpon>SubjectMeetingPlanInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx.designer.cs">
+      <DependentUpon>SubjectMeetingPlanInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanIndicatorInformationCtl.ascx.cs">
       <DependentUpon>SubjectMeetingPlanIndicatorInformationCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectMeetingPlanIndicatorInformationCtl.ascx.designer.cs">
+    <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanIndicatorInformationCtl.ascx.designer.cs">
       <DependentUpon>SubjectMeetingPlanIndicatorInformationCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectMeetingPlanDtInformationCtl.ascx.cs">
+    <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx.cs">
       <DependentUpon>SubjectMeetingPlanDtInformationCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectMeetingPlanDtInformationCtl.ascx.designer.cs">
+    <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx.designer.cs">
       <DependentUpon>SubjectMeetingPlanDtInformationCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx.cs">
