@@ -320,7 +320,8 @@
             for (var i = 0; i < lstProgress.length; ++i) {
                 var temp = lstProgress[i].split(';');
                 if (value >= parseFloat(temp[1]) && value <= parseFloat(temp[2])) {
-                    $tr.find('.txtProgressDescription').val(temp[3]);
+                    var studentName = $tr.find('.hdnPreferredName').val();
+                    $tr.find('.txtProgressDescription').val(temp[3].replace('{NamaSiswa}', studentName));
                     cboStudentProgressRule.SetValue(temp[0]);
                 }
             }
@@ -502,12 +503,11 @@
                         
                         <td align="center" id="tdStudentAffectiveMark" runat="server"><asp:TextBox ID="txtAffectiveMark" CssClass="txtAffectiveMark" runat="server" Width="90%" /></td>
                         <td align="center" id="tdStudentAffectiveDescription" runat="server"><asp:TextBox ID="txtAffectiveDescription" CssClass="txtAffectiveDescription" runat="server" Width="90%" /></td>
+                        <td align="center"><dxe:ASPxComboBox ID="cboStudentProgressRule" runat="server" Width="90%" /></td>
                         <td align="center">
-                            <dxe:ASPxComboBox ID="cboStudentProgressRule" runat="server" Width="90%">                        
-                                <ClientSideEvents ValueChanged="function(s,e){ onCboStudentProgressRuleValueChanged(s, '<%# Container.ItemIndex %>', '<%#Eval("PreferredName") %>'); }" />
-                            </dxe:ASPxComboBox>
+                            <input type="hidden" class="hdnPreferredName" value='<%#Eval("PreferredName") %>' />
+                            <asp:TextBox ID="txtProgressDescription" CssClass="txtProgressDescription" runat="server" Width="90%" />
                         </td>
-                        <td align="center"><asp:TextBox ID="txtProgressDescription" CssClass="txtProgressDescription" runat="server" Width="90%" /></td>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>

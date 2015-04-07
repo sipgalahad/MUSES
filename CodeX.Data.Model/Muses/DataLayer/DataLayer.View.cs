@@ -11036,6 +11036,7 @@ namespace CodeX.Data.Model
         private Int32 _OrganizationDtID;
         private Int32 _OrganizationID;
         private String _OrganizationName;
+        private Int32 _SchoolPeriodID;
         private String _Position;
         private Int16 _DisplayOrder;
         private Int32 _StudentCoordinatorID;
@@ -11062,6 +11063,12 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationName; }
             set { _OrganizationName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
         }
         [Column(Name = "Position", DataType = "String")]
         public String Position
@@ -11121,6 +11128,7 @@ namespace CodeX.Data.Model
         private Int32 _OrganizationDtID;
         private Int32 _OrganizationID;
         private String _OrganizationName;
+        private Int32 _SchoolPeriodID;
         private String _Position;
         private Int32 _StudentID;
 
@@ -11141,6 +11149,12 @@ namespace CodeX.Data.Model
         {
             get { return _OrganizationName; }
             set { _OrganizationName = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
         }
         [Column(Name = "Position", DataType = "String")]
         public String Position

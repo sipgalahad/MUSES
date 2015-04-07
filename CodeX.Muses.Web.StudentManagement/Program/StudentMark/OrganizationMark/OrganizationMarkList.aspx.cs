@@ -24,10 +24,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
+            int SchoolPeriodID = BusinessLayer.GetPeriodSection(AppSession.ClassStudent.PeriodSectionID).SchoolPeriodID;
+
             List<Variable> lstEntity = new List<Variable>();
             string lstOrganizationID = "";
 
-            List<vOrganizationDt> lstOrganization = BusinessLayer.GetvOrganizationDtList(string.Format("StudentCoordinatorID = {0}", AppSession.ClassStudent.StudentID));
+            List<vOrganizationDt> lstOrganization = BusinessLayer.GetvOrganizationDtList(string.Format("SchoolPeriodID = {0} AND StudentCoordinatorID = {1}", SchoolPeriodID, AppSession.ClassStudent.StudentID));
             foreach (vOrganizationDt entity in lstOrganization)
             {
                 if (lstOrganizationID != "")
@@ -40,7 +42,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstEntity.Add(newEntity);
             }
 
-            List<vOrganizationDtStudent> lstOrganizationStudent = BusinessLayer.GetvOrganizationDtStudentList(string.Format("StudentID = {0}", AppSession.ClassStudent.StudentID));
+            List<vOrganizationDtStudent> lstOrganizationStudent = BusinessLayer.GetvOrganizationDtStudentList(string.Format("SchoolPeriodID = {0} AND StudentID = {1}", SchoolPeriodID, AppSession.ClassStudent.StudentID));
             foreach (vOrganizationDtStudent entity in lstOrganizationStudent)
             {
                 if (lstOrganizationID != "")
@@ -55,7 +57,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             string filterExpression = "IsAllStudentAsMember = 1 AND IsDeleted = 0";
             if (lstOrganizationID != "")
-                filterExpression = string.Format("OrganizationID NOT IN ({0}) AND IsAllStudentAsMember = 1 AND IsDeleted = 0", lstOrganizationID);
+                filterExpression = string.Format("SchoolPeriodID = {0} AND OrganizationID NOT IN ({1}) AND IsAllStudentAsMember = 1 AND IsDeleted = 0", SchoolPeriodID, lstOrganizationID);
             List<OrganizationHd> lstOrganizationHd = BusinessLayer.GetOrganizationHdList(filterExpression);
             foreach (OrganizationHd entity in lstOrganizationHd)
             {

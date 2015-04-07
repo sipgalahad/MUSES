@@ -79,6 +79,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
     </Content>
@@ -141,9 +144,11 @@
     <Content Include="Program\SchoolPeriodClosing\SchoolPeriodClosingEntry.aspx" />
     <Content Include="Program\StudentMark\ClassStudentPageLauncher.aspx" />
     <Content Include="Program\StudentMark\ClassStudentNote\ClassStudentNoteEntry.aspx" />
+    <Content Include="Program\StudentMark\StudentAttendance\StudentAttendanceList.aspx" />
     <Content Include="Program\StudentMark\OrganizationMark\OrganizationMarkList.aspx" />
     <Content Include="Program\StudentMark\ExtracurricularMark\ClassStudentExtracurricularMarkList.aspx" />
     <Content Include="Program\StudentMark\PersonalityMark\ClassStudentPersonalityMarkList.aspx" />
+    <Content Include="Program\StudentMark\StudentAttendance\StudentAttendanceDtCtl.ascx" />
     <Content Include="Program\StudentMark\SubjectMark\ClassStudentSubjectMarkList.aspx" />
     <Content Include="Program\StudentMark\TeacherStudentFinalMarkEntry.aspx" />
     <Content Include="Program\StudentMark\StudentFinalMarkDtCtl.ascx" />
@@ -278,6 +283,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
       <DependentUpon>MPListPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.designer.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.cs</Link>
@@ -749,6 +763,13 @@
     <Compile Include="Program\StudentMark\ClassStudentNote\ClassStudentNoteEntry.aspx.designer.cs">
       <DependentUpon>ClassStudentNoteEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\StudentMark\StudentAttendance\StudentAttendanceList.aspx.cs">
+      <DependentUpon>StudentAttendanceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentAttendance\StudentAttendanceList.aspx.designer.cs">
+      <DependentUpon>StudentAttendanceList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\StudentMark\OrganizationMark\OrganizationMarkList.aspx.cs">
       <DependentUpon>OrganizationMarkList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -769,6 +790,13 @@
     </Compile>
     <Compile Include="Program\StudentMark\PersonalityMark\ClassStudentPersonalityMarkList.aspx.designer.cs">
       <DependentUpon>ClassStudentPersonalityMarkList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentAttendance\StudentAttendanceDtCtl.ascx.cs">
+      <DependentUpon>StudentAttendanceDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMark\StudentAttendance\StudentAttendanceDtCtl.ascx.designer.cs">
+      <DependentUpon>StudentAttendanceDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentMark\SubjectMark\ClassStudentSubjectMarkList.aspx.cs">
       <DependentUpon>ClassStudentSubjectMarkList.aspx</DependentUpon>

@@ -14,16 +14,20 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 {
     public partial class BRaporSemesterRpt : BaseCustomReportCtl
     {
-        
         private Int32 SchoolPeriodID = 0;
         private Int32 PeriodSectionID = 0;
         private Int32 SchoolClassID = 0;
         private Int32 StudentID = 0;
+
+        private string HeadMaster = "";
         
         List<vClassSubjectTask> lstClassSubjectTask = null;
         List<ClassStudentSubjectMark> lstNilai = null;
-        List<vOrganizationDt> lstOrganization = new List<vOrganizationDt>();
+        List<OrganizationHd> lstOrganizationHd = new List<OrganizationHd>();
+        List<vOrganizationDt> lstOrganizationDt = new List<vOrganizationDt>();
+        List<vOrganizationDtStudent> lstOrganizationDtStudent = new List<vOrganizationDtStudent>();
         List<vClassStudent> lstClassStudent = new List<vClassStudent>();
+        List<ClassStudentMark> lstClassStudentMark = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -41,16 +45,23 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             if (param.Count() > 3)
             {
                 lstStudentID.Add(Convert.ToInt32(param[3]));
-                lstOrganization.AddRange(BusinessLayer.GetvOrganizationDtList(String.Format("StudentCoordinatorID = {0}",param[3])));
+                lstOrganizationDt.AddRange(BusinessLayer.GetvOrganizationDtList(String.Format("SchoolPeriodID = {0} AND StudentCoordinatorID = {1}", SchoolPeriodID, param[3])));
+                lstOrganizationDtStudent.AddRange(BusinessLayer.GetvOrganizationDtStudentList(String.Format("SchoolPeriodID = {0} AND StudentID = {1}", SchoolPeriodID, param[3])));
                 lstClassStudent = BusinessLayer.GetvClassStudentList(String.Format("StudentID = {0} OR (GCClassStudyType = '{1}' AND StudentID = {0})", param[3], Constant.ClassStudyType.EXTRACURRICULAR));
+                lstClassStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, param[3]));
             } 
             else 
             {
                 lstClassStudent = BusinessLayer.GetvClassStudentList(String.Format("SchoolClassID = {0} OR GCClassStudyType = '{1}'", SchoolClassID, Constant.ClassStudyType.EXTRACURRICULAR));
                 lstStudentID.AddRange(lstClassStudent.GroupBy(s => s.StudentID).Select(x => x.Key));
                 String lst = String.Join(",", lstStudentID);
-                lstOrganization.AddRange(BusinessLayer.GetvOrganizationDtList(String.Format("StudentCoordinatorID IN ({0})", lst)));
-            } 
+                lstOrganizationDt.AddRange(BusinessLayer.GetvOrganizationDtList(String.Format("SchoolPeriodID = {0} AND StudentCoordinatorID IN ({1})", SchoolPeriodID, lst)));
+                lstOrganizationDtStudent.AddRange(BusinessLayer.GetvOrganizationDtStudentList(String.Format("SchoolPeriodID = {0} AND StudentID IN ({1})", SchoolPeriodID, lst)));
+                lstClassStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", SchoolClassID, PeriodSectionID));
+            }
+            lstOrganizationHd = BusinessLayer.GetOrganizationHdList(string.Format("SchoolPeriodID = {0} AND IsAllStudentAsMember = 1 AND IsDeleted = 0", SchoolPeriodID));
+
+            HeadMaster = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.HEADMASTER).ParameterValue;
 
             rptStudent.DataSource = lstStudentID;
             rptStudent.DataBind();
@@ -92,7 +103,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 Repeater rptPersonality = e.Item.FindControl("rptPersonality") as Repeater;
                 Repeater rptOrganization = e.Item.FindControl("rptOrganization") as Repeater;
                 Repeater rptEskul = e.Item.FindControl("rptEskul") as Repeater;
+                
+                HtmlTableCell tdStudentRemarks = e.Item.FindControl("tdStudentRemarks") as HtmlTableCell;
                 #endregion
+
+                ClassStudentMark entityMark = lstClassStudentMark.FirstOrDefault(p => p.StudentID == StudentID);
+                if (entityMark != null)
+                    tdStudentRemarks.InnerHtml = entityMark.Remarks;
+
 
                 vClassStudent student = lstClassStudent.FirstOrDefault(x => x.StudentID == StudentID && x.GCClassStudyType == Constant.ClassStudyType.REGULAR);
                 tdStudentName2.InnerHtml = tdStudentName1.InnerHtml = tdStudentName.InnerHtml = student.StudentName;
@@ -105,7 +123,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 tdSchoolName2.InnerHtml = tdSchoolName1.InnerHtml = tdSchoolName.InnerHtml = site.SiteName;
 
                 String lstSchoolClassID = String.Join(",", lstClassStudent.Where(a => a.StudentID == StudentID).GroupBy(s => s.SchoolClassID).Select(x => x.Key));
-                List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND PeriodSectionID = {1} AND SchoolClassID IN ({2}) AND IsDeleted = 0", SchoolPeriodID, PeriodSectionID, lstSchoolClassID));
+                List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND SchoolClassID IN ({1}) AND IsDeleted = 0", SchoolPeriodID, lstSchoolClassID));
                 String lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
                 if (lstClassSubjectID != "")
                 {
@@ -125,7 +143,19 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 rptEskul.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.EXTRACURRICULAR);
                 rptEskul.DataBind();
 
-                rptOrganization.DataSource = lstOrganization.Where(x => x.StudentCoordinatorID == StudentID);
+                List<Variable> lstOrganization = new List<Variable>();
+                foreach (vOrganizationDt organizationDt in lstOrganizationDt.Where(x => x.StudentCoordinatorID == StudentID))
+                    lstOrganization.Add(new Variable { Code = organizationDt.OrganizationName, Value = organizationDt.Position });
+                foreach (vOrganizationDtStudent organizationDt in lstOrganizationDtStudent.Where(x => x.StudentID == StudentID))
+                    lstOrganization.Add(new Variable { Code = organizationDt.OrganizationName, Value = organizationDt.Position });
+                foreach (OrganizationHd organizationHd in lstOrganizationHd)
+                {
+                    if (lstOrganization.Where(p => p.Code == organizationHd.OrganizationName).Count() < 1)
+                    {
+                        lstOrganization.Add(new Variable { Code = organizationHd.OrganizationName, Value = "Anggota" });
+                    }
+                }
+                rptOrganization.DataSource = lstOrganization;
                 rptOrganization.DataBind();
 
                 List<ClassStudentDailyAttendance> csda = BusinessLayer.GetClassStudentDailyAttendanceList(String.Format("SchoolClassID = {0} AND PeriodSectionID = {1} AND StudentID = {2}", SchoolClassID, PeriodSectionID, StudentID));
@@ -138,6 +168,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{City}", site.City);
                 vSchoolClass sc = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}", SchoolClassID))[0];
                 text = text.Replace("{WaliKelas}", sc.TeacherName);
+                text = text.Replace("{Headmaster}", HeadMaster);
                 divPageFooter.InnerHtml = text;
             }
         }

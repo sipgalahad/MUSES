@@ -35,6 +35,7 @@ namespace CodeX.Common
             public const string DEFAULT_BANK = "FN0003";
             public const string IS_ITEM_DISTRIBUTION_AUTO_RECEIVED = "IM0002";
             public const string MAX_STUDENT = "SM0001";
+            public const string HEADMASTER = "SM0004";
         }
         #endregion
 
@@ -546,6 +547,7 @@ namespace CodeX.Common
                 public const string CS_PERSONALITY_MARK = "SM99060103";
                 public const string CS_CLASS_STUDENT_NOTE = "SM99060104";
                 public const string CS_ORGANIZATION_MARK = "SM99060105";
+                public const string CS_STUDENT_ATTENDANCE = "SM99060106";
             }
             #endregion
             #endregion
