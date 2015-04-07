@@ -20,6 +20,11 @@
             setStudentImage();
         });
 
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            filterExpression.text = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
+            return true;
+        }
+
         function onRefreshControl(filterExpression) {
             $('#<%=hdnFilterExpression.ClientID %>').val(filterExpression);
             cbpView.PerformCallback('refresh');

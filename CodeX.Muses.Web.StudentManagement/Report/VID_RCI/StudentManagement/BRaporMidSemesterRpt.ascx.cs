@@ -23,6 +23,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         List<vClassSubjectTask> lstClassSubjectTask = null;
         List<ClassStudentSubjectTaskMark> lstNilai = null;
         List<ClassStudentSubjectMark> lstStudentSubjectMark = null;
+        List<vClassSubject> lstClassSubject = null;
+        String lstClassSubjectID = "";
 
         int MaxUlangan = 0;
         int MaxTugas = 0;
@@ -46,7 +48,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 List<vClassStudent> lstSchoolClass = BusinessLayer.GetvClassStudentList(String.Format("SchoolClassID = {0} AND GCClassStudyType = '{1}'", SchoolClassID, Constant.ClassStudyType.REGULAR));
                 lstStudentID.AddRange(lstSchoolClass.Select(x => x.StudentID));
-            } 
+            }
+            lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND SchoolClassID = {1} AND SubjectGCClassStudyType = '{2}' AND IsDeleted = 0", SchoolPeriodID, SchoolClassID, Constant.ClassStudyType.REGULAR));
+            lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
 
             rptStudent.DataSource = lstStudentID;
             rptStudent.DataBind();
@@ -87,8 +91,6 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
                 tdSchoolName.InnerHtml = site.SiteName;
 
-                List<vClassSubject> lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND PeriodSectionID = {1} AND SchoolClassID = {2} AND SubjectGCClassStudyType = '{3}' AND IsDeleted = 0", SchoolPeriodID, PeriodSectionID, SchoolClassID, Constant.ClassStudyType.REGULAR));
-                String lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
                 if (lstClassSubjectID != "")
                 {
                     lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
@@ -114,7 +116,10 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     #region header Tugas
                     temp = lstClassSubjectTask.Where(m => (m.GCTaskType == Constant.TaskType.TUGAS_KELAS || m.GCTaskType == Constant.TaskType.TUGAS_KELOMPOK || m.GCTaskType == Constant.TaskType.PEKERJAAN_RUMAH) && m.GCLessonType == Constant.LessonType.THEORY).GroupBy(x => x.ClassSubjectID).Select(s => new { ClassSubjectID = s.Key, Count = s.Count() });
 
-                    MaxTugas = temp.Max(x => x.Count);
+                    if (temp.Count() > 0)
+                        MaxTugas = temp.Max(x => x.Count);
+                    else
+                        MaxTugas = 1;
                     lstDataHeader.Clear();
                     for (int i = 0; i < MaxTugas; i++)
                     {

@@ -14,7 +14,9 @@
 
 <div id="divReportBody" runat="server">
     <style type="text/css">
-        .tblRapor tr td { border:1px solid; padding:3px;}
+        .tblRapor tr td { padding:3px;}
+        .tblRapor tr td { border-top: 1px solid; border-left:1px solid; }   
+        .tblRapor        { border-right:1px solid; border-bottom: 1px solid;}        
         .tdScore { width:50px; }
     </style>
     <table class='tblReport' style='width:100%;margin-top: 15px' cellpadding='0' cellspacing='0'>
@@ -37,19 +39,19 @@
                                                 <col />
                                             </colgroup>
                                             <tr>
-                                                <td class="lblHeader">Nama Peserta Didik</td>
-                                                <td class="lblHeader">:</td>
-                                                <td  class="lblHeader" id="tdStudentName" runat="server"></td>
+                                                <td>Nama Peserta Didik</td>
+                                                <td>:</td>
+                                                <td class="lblHeader" id="tdStudentName" runat="server"></td>
                                             </tr>
                                             <tr>
-                                                <td class="lblHeader">Nomor Induk</td>
-                                                <td class="lblHeader">:</td>
-                                                <td  class="lblHeader" id="tdNIS" runat="server"></td>
+                                                <td>Nomor Induk</td>
+                                                <td>:</td>
+                                                <td class="lblHeader" id="tdNIS" runat="server"></td>
                                             </tr>
                                             <tr>
-                                                <td class="lblHeader">Nama Sekolah</td>
-                                                <td class="lblHeader">:</td>
-                                                <td  class="lblHeader" id="tdSchoolName" runat="server"></td>
+                                                <td>Nama Sekolah</td>
+                                                <td>:</td>
+                                                <td class="lblHeader" id="tdSchoolName" runat="server"></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -61,21 +63,21 @@
                                                 <col />
                                             </colgroup>
                                             <tr>
-                                                <td class="lblHeader">Kelas / Semester</td>
-                                                <td class="lblHeader">:</td>
-                                                <td  class="lblHeader" id="tdClass" runat="server"></td>
+                                                <td>Kelas / Semester</td>
+                                                <td>:</td>
+                                                <td class="lblHeader" id="tdClass" runat="server"></td>
                                             </tr>
                                             <tr>
-                                                <td class="lblHeader">Tahun Pelajaran</td>
-                                                <td class="lblHeader">:</td>
-                                                <td  class="lblHeader" id="tdSchoolPeriod" runat="server"></td>
+                                                <td>Tahun Pelajaran</td>
+                                                <td>:</td>
+                                                <td class="lblHeader" id="tdSchoolPeriod" runat="server"></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
                             <div>
-                                <table width="100%" style="border:1px solid;" class="tblRapor" cellpadding="0" cellspacing="0">
+                                <table width="100%" class="tblRapor" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td rowspan="4" align="center" class="lblHeader">No.</td>
                                         <td rowspan="4" align="center" class="lblHeader">Komponen</td>
@@ -113,7 +115,7 @@
                                         <ItemTemplate>
                                             <tr>
                                                 <td align="center" style="width:50px;"><%# Container.ItemIndex + 1 %></td>
-                                                <td class="lblHeader"><%#:Eval("SubjectName") %></td>
+                                                <td><%#:Eval("SubjectName") %></td>
                                                 <td align="right"><%#:Eval("PassingGrade","{0:N}") %></td>
                                                 <asp:Repeater runat="server" ID="rptUlanganDetail">
                                                     <ItemTemplate>
@@ -137,10 +139,10 @@
                                     </asp:Repeater>
                                 </table>
                                 <h4 style="font-weight:bold;">Ketidakhadiran</h4>
-                                <table class="tblRapor" border="1" width="50%" cellpadding="0" cellspacing="0">
+                                <table class="tblRapor" width="100%" cellpadding="0" cellspacing="0">
                                     <colgroup>
-                                        <col width="3px" />
-                                        <col width="150px" />
+                                        <col width="50px;" />
+                                        <col width="300px" />
                                         <col />
                                     </colgroup>
                                     <tr>
@@ -149,23 +151,26 @@
                                         <td style="text-align:center; font-weight:bold;">Keterangan</td>
                                     </tr>
                                     <tr>
-                                        <td>1</td>
+                                        <td align="center">1</td>
                                         <td>Sakit</td>
                                         <td runat="server" id="tdSick" align="center"></td>
                                     </tr>
                                     <tr>
-                                        <td>2</td>
+                                        <td align="center">2</td>
                                         <td>Izin</td>
                                         <td runat="server" id="tdPermit" align="center"></td>
                                     </tr>
                                     <tr>
-                                        <td>3</td>
+                                        <td align="center">3</td>
                                         <td>Tanpa Keterangan</td>
                                         <td runat="server" id="tdAlpha" align="center"></td>
                                     </tr>
                                 </table>
                                 <h4 style=" font-weight:bold;">Keterlambatan</h4>
-                                <table class="tblRapor" width="50%" border="1" cellpadding="0" cellspacing="0">
+                                <table class="tblRapor" width="100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col width="50px;" />
+                                    </colgroup>
                                     <tr>
                                         <td></td>
                                         <td>0 Kali</td>
@@ -182,7 +187,7 @@
 
 <div id="divPageFooter" runat="server">
     <style type="text/css">
-        .pageFooter         { border-top: 0px solid; font-size: 8pt !important; }
+        .pageFooter         { border-top: 0px solid; font-size: 8pt !important; margin-bottom: 50px; }
         .pageFooter *       { font-size: 8pt !important; }
         .letterFooter       { width:150px; text-align:center}
     </style>
@@ -196,14 +201,14 @@
                 <table width="50%">
                     <tr><td align="center">Orang Tua/Wali</td></tr>
                     <tr><td align="center">Peserta Didik</td></tr>
-                    <tr style="height:70px; vertical-align:bottom;"><td align="center">.....................................</td></tr>
+                    <tr style="height:100px; vertical-align:bottom;"><td align="center">.....................................</td></tr>
                 </table>
             </td>
             <td align="right">
                 <table width="50%">
                     <tr><td align="center">{City}, {Date.Now}</td></tr>
                     <tr><td align="center">Wali Kelas</td></tr>
-                    <tr style="height:70px; vertical-align:bottom;"><td align="center">{WaliKelas}</td></tr>
+                    <tr style="height:100px; vertical-align:bottom;"><td align="center">{WaliKelas}</td></tr>
                 </table>
             </td>
         </tr>
