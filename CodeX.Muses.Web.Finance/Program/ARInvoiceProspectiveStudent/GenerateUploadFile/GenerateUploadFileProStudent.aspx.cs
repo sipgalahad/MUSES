@@ -33,6 +33,8 @@ namespace CodeX.Muses.Web.Finance.Program
                 hdnDepositAmount.Value = entityARBalance.DepositAmount.ToString();
                 txtDepositAmount.Text = entityARBalance.DepositAmount.ToString();
             }
+            else
+                hdnDepositAmount.Value = "0";
 
             List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");

@@ -129,7 +129,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         filterExpressionARBalance += " AND ";
                     filterExpressionARBalance = String.Format("StudentID IN ({0})", lstStudentID);
                     lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", lstStudentID));
-                    String lstSchooClassID = String.Join(",", lstStudent.GroupBy(x => x.SchoolClassID).Where(x => x.Key != 0).Select(x => x.Key));
+                    String lstSchooClassID = String.Join(",", lstStudent.Where(p => p.SchoolClassID != null).GroupBy(x => x.SchoolClassID).Where(x => x.Key != 0).Select(x => x.Key));
                     if (lstSchooClassID != "")
                         lstSchoolClass = BusinessLayer.GetSchoolClassList(String.Format("SchoolClassID IN ({0})", lstSchooClassID));
                 }
@@ -205,7 +205,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
                             tempFormat = tempFormat.Replace("{NA" + count + "}", "");
                         }
-                        txt += String.Format("{0}\n", tempFormat);
+                        txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
                     }
                 }
                 #endregion
@@ -280,7 +280,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
                             tempFormat = tempFormat.Replace("{NA" + count + "}", "");
                         }
-                        txt += String.Format("{0}\n", tempFormat);
+                        txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
                     }
                 }
                 #endregion

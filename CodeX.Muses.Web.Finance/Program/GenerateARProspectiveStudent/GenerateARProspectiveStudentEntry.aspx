@@ -84,11 +84,14 @@
                 else {
                     var id = $(this).closest('tr').find('.keyField').html();
                     var idx = lstID.indexOf(id);
-                    if (idx > -1) 
+                    if (idx > -1)
                         lstID.splice(idx, 1);
                 }
             });
-            $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(','));
+            if (lstID.length == 1)
+                $('#<%=hdnSelectedValue.ClientID %>').val('');
+            else
+                $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(',').substring(1));
         }
 
         function onRefreshControl(filterExpression) {

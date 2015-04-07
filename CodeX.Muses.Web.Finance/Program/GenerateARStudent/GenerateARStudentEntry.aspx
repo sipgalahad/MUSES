@@ -88,7 +88,10 @@
                         lstID.splice(idx, 1);
                 }
             });
-            $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(','));
+            if (lstID.length == 1)
+                $('#<%=hdnSelectedValue.ClientID %>').val('');
+            else
+                $('#<%=hdnSelectedValue.ClientID %>').val(lstID.join(',').substring(1));
         }
 
         function onRefreshControl(filterExpression) {
