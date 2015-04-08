@@ -425,6 +425,9 @@ namespace CodeX.Data.Model
         private Int32 _ProspectiveStudentID;
         private String _ProspectiveStudentCode;
         private String _ProspectiveStudentName;
+        private Int32 _PayedStudentID;
+        private String _PayedStudentCode;
+        private String _PayedStudentName;
         private Int32 _BankID;
         private Boolean _IsTransferred;
         private String _Remarks;
@@ -578,6 +581,24 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentName; }
             set { _ProspectiveStudentName = value; }
+        }
+        [Column(Name = "PayedStudentID", DataType = "Int32")]
+        public Int32 PayedStudentID
+        {
+            get { return _PayedStudentID; }
+            set { _PayedStudentID = value; }
+        }
+        [Column(Name = "PayedStudentCode", DataType = "String")]
+        public String PayedStudentCode
+        {
+            get { return _PayedStudentCode; }
+            set { _PayedStudentCode = value; }
+        }
+        [Column(Name = "PayedStudentName", DataType = "String")]
+        public String PayedStudentName
+        {
+            get { return _PayedStudentName; }
+            set { _PayedStudentName = value; }
         }
         [Column(Name = "BankID", DataType = "Int32")]
         public Int32 BankID
