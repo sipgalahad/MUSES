@@ -214,6 +214,7 @@
                                         <table class="grdARInvoiceHD tblTransactionEntryResult" cellspacing="0" width="100%" rules="all">
                                             <colgroup>
                                                 <col />
+                                                <col />
                                                 <col style="width:140px" />
                                                 <col style="width:100px" />
                                                 <col style="width:100px" />
@@ -223,6 +224,7 @@
                                             </colgroup>
                                             <tr>
                                                 <th class="keyField"></th>
+                                                <th align="left"><%=GetLabel("Siswa") %></th>
                                                 <th align="left"><%=GetLabel("Keterangan") %></th>
                                                 <th align="left"><%=GetLabel("No Referensi") %></th>
                                                 <th class="thRight"><%=GetLabel("Transaksi") %></th>
@@ -245,6 +247,7 @@
                                                             <input type="hidden" bindingfield="VarianceAmount" value='<%#: Eval("VarianceAmount")%>' />
                                                             <input type="hidden" bindingfield="ClaimedAmount" value='<%#: Eval("ClaimedAmount")%>' />
                                                         </td>
+                                                        <td><%#:Eval("PayedStudentName") %></td>
                                                         <td><%#:Eval("cfStudentFeeCompTypeName") %></td>
                                                         <td align="left"><%#:Eval("ReferenceNo") %></td>
                                                         <td align="right"><%#:Eval("TransactionAmount","{0:N}") %></td>
