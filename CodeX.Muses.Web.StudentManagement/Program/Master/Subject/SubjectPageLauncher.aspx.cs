@@ -14,10 +14,21 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AppSession.SubjectID = Convert.ToInt32(Request.QueryString["id"]);
-
-            string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_PAGE);
-            List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.CONTROL_PANEL, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
+            string[] temp = Request.QueryString["id"].Split('|');
+            AppSession.SubjectID = Convert.ToInt32(temp[0]);
+            string filterExpression = "";
+            if (temp.Count() > 1)
+            {
+                AppSession.SubjectMatterID = Convert.ToInt32(temp[1]);
+                filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_MATTER_PAGE);
+            }
+            else
+            {
+                AppSession.SubjectMatterID = 0;
+                filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_PAGE);
+            }
+            
+            List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.STUDENT_MANAGEMENT, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
             GetUserMenuAccess menu = lstMenu.OrderBy(p => p.MenuIndex).FirstOrDefault();
             Response.Redirect(Page.ResolveUrl(menu.MenuUrl));
         }

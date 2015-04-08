@@ -354,6 +354,39 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region SubjectMatterID
+        public static Int32 SubjectMatterID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SubjectMatterID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SubjectMatterID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SubjectMatterID"]);
+                            HttpContext.Current.Session["_SubjectMatterID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_SubjectMatterID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SubjectMatterID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_SubjectMatterID"] = value;
+            }
+        }
+        #endregion
+
         #region ListModuleID
         public static String ListModuleID
         {

@@ -18,6 +18,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
+            if (AppSession.SubjectMatterID > 0)
+                return Constant.MenuCode.StudentManagement.SBM_SUBJECT_MEETING_PLAN;
             return Constant.MenuCode.StudentManagement.SB_SUBJECT_MEETING_PLAN;
         }
 
@@ -31,6 +33,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
             Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
             cboGCPeriodSection.SelectedIndex = 0;
+
+            if (AppSession.SubjectMatterID > 0)
+            {
+                SubjectMatterHd entityHd = BusinessLayer.GetSubjectMatterHd(AppSession.SubjectMatterID);
+                tacSubjectMatterHd.Value = entityHd.SubjectMatterID.ToString();
+                tacSubjectMatterHd.Text = entityHd.SubjectMatterName;
+                tacSubjectMatterHd.Readonly = true;
+            }
 
             BindGridView();
 

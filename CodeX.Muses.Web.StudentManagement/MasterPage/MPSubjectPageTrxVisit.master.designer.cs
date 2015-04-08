@@ -7,72 +7,63 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ClassTypeManagement.Program {
+namespace CodeX.Muses.Web.StudentManagement.MasterPage {
     
     
-    public partial class SubjectClassTypeQuickPicksEntryCtl {
+    public partial class MPSubjectPageTrxVisit {
         
         /// <summary>
-        /// hdnSelectedMember control.
+        /// ctlBanner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
+        protected global::CodeX.Muses.Web.StudentManagement.MasterPage.SubjectBannerDtCtl ctlBanner;
         
         /// <summary>
-        /// hdnGCClassStudyType control.
+        /// plhHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCClassStudyType;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhHeader;
         
         /// <summary>
-        /// hdnFilterItem control.
+        /// plhEntry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterItem;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhEntry;
         
         /// <summary>
-        /// cbpViewPopup control.
+        /// plhCustomButtonToolbar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpViewPopup;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhCustomButtonToolbar;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// plhPopupListFilter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhPopupListFilter;
         
         /// <summary>
-        /// pnlView control.
+        /// plhPopupListGridView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
-        /// grdView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder plhPopupListGridView;
     }
 }
