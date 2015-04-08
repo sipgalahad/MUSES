@@ -22357,6 +22357,126 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentFeeCompTypeDueDate
+    [Serializable]
+    [Table(Name = "StudentFeeCompTypeDueDate")]
+    public class StudentFeeCompTypeDueDate : DbDataModel
+    {
+        private Int32 _StudentFeeCompTypeDueDateID;
+        private Int32 _StudentFeeCompTypeID;
+        private Int16 _DisplayOrder;
+        private Int32 _PaymentDate;
+        private Int32 _PaymentMonth;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentFeeCompTypeDueDateID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentFeeCompTypeDueDateID
+        {
+            get { return _StudentFeeCompTypeDueDateID; }
+            set { _StudentFeeCompTypeDueDateID = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "Int32")]
+        public Int32 PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
+        }
+        [Column(Name = "PaymentMonth", DataType = "Int32")]
+        public Int32 PaymentMonth
+        {
+            get { return _PaymentMonth; }
+            set { _PaymentMonth = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentFeeCompTypeDueDateDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentFeeCompTypeDueDate));
+        private bool _isAuditLog = false;
+        private const string p_StudentFeeCompTypeDueDateID = "@p_StudentFeeCompTypeDueDateID";
+        public StudentFeeCompTypeDueDateDao() { }
+        public StudentFeeCompTypeDueDateDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentFeeCompTypeDueDate Get(Int32 StudentFeeCompTypeDueDateID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentFeeCompTypeDueDateID, StudentFeeCompTypeDueDateID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentFeeCompTypeDueDate)_helper.DataRowToObject(row, new StudentFeeCompTypeDueDate());
+        }
+        public int Insert(StudentFeeCompTypeDueDate record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentFeeCompTypeDueDate record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentFeeCompTypeDueDateID)
+        {
+            StudentFeeCompTypeDueDate record;
+            if (_ctx.Transaction == null)
+                record = new StudentFeeCompTypeDueDateDao().Get(StudentFeeCompTypeDueDateID);
+            else
+                record = Get(StudentFeeCompTypeDueDateID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StudentFeeCompTypePayment
     [Serializable]
     [Table(Name = "StudentFeeCompTypePayment")]

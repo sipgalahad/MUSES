@@ -66,6 +66,12 @@
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Master/StudentFeeComp/StudentFeeCompTypePaymentEntryCtl.ascx");
             openUserControlPopup(url, id, 'Detil Pembayaran', 800, 550);
+        });
+
+        $('.lnkDueDate a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/StudentFeeComp/StudentFeeCompTypeDueDateEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Pembayaran', 800, 550);
         }); 
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -83,7 +89,8 @@
                                 <asp:BoundField DataField="StudentFeeCompTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="StudentFeeCompTypeName" HeaderText="Name" />
                                 <asp:BoundField DataField="AdmissionPaymentPeriod" HeaderText="Payment Period" HeaderStyle-Width="250px" />
-                                <asp:HyperLinkField HeaderText="Detil Pembayaran" Text="Detil Pembayaran" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkPaymentDt" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Cicilan Pembayaran" Text="Cicilan Pembayaran" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkPaymentDt" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Jatuh Tempo" Text="Jatuh Tempo" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDueDate" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

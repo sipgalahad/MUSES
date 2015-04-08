@@ -10485,6 +10485,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentFeeCompTypeDueDate
+        public static StudentFeeCompTypeDueDate GetStudentFeeCompTypeDueDate(Int32 StudentFeeCompTypeDueDateID)
+        {
+            return new StudentFeeCompTypeDueDateDao().Get(StudentFeeCompTypeDueDateID);
+        }
+        public static int InsertStudentFeeCompTypeDueDate(StudentFeeCompTypeDueDate record)
+        {
+            return new StudentFeeCompTypeDueDateDao().Insert(record);
+        }
+        public static int UpdateStudentFeeCompTypeDueDate(StudentFeeCompTypeDueDate record)
+        {
+            return new StudentFeeCompTypeDueDateDao().Update(record);
+        }
+        public static int DeleteStudentFeeCompTypeDueDate(Int32 StudentFeeCompTypeDueDateID)
+        {
+            return new StudentFeeCompTypeDueDateDao().Delete(StudentFeeCompTypeDueDateID);
+        }
+        public static List<StudentFeeCompTypeDueDate> GetStudentFeeCompTypeDueDateList(string filterExpression)
+        {
+            List<StudentFeeCompTypeDueDate> result = new List<StudentFeeCompTypeDueDate>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentFeeCompTypeDueDate));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentFeeCompTypeDueDate)helper.IDataReaderToObject(reader, new StudentFeeCompTypeDueDate()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region StudentFeeCompTypePayment
         public static StudentFeeCompTypePayment GetStudentFeeCompTypePayment(Int32 StudentFeeCompTypePaymentID)
         {
