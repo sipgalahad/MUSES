@@ -480,6 +480,7 @@ namespace CodeX.Common
                 public const string STUDENT_DAILY_ATTENDANCE = "SM030900";
 
                 public const string SUBJECT = "SM110100";
+                public const string TEACHER_PERIOD_CLASS_TYPE_SUBJECT = "SM110200";
 
                 public const string TEACHER_WEEKLY_SCHEDULE = "SM120100";
                 public const string TEACHER_CLASS = "SM120200";
@@ -559,10 +560,14 @@ namespace CodeX.Common
                 public const string CS_STUDENT_ATTENDANCE = "SM99060106";
 
                 public const string SUBJECT_PAGE = "SM99070000";
-                public const string SB_SUBJECT_CLASS_TYPE = "CP99070100";
-                public const string SB_SUBJECT_MATTER = "CP99070200";
-                public const string SB_SUBJECT_BASIC_COMPETENCY = "CP99070300";
-                public const string SB_SUBJECT_MEETING_PLAN = "CP99070400";
+                public const string SB_SUBJECT_MATTER = "SM99070200";
+                public const string SB_SUBJECT_BASIC_COMPETENCY = "SM99070300";
+                public const string SB_SUBJECT_MEETING_PLAN = "SM99070400";
+
+                public const string SUBJECT_MATTER_PAGE = "SM99080000";
+                public const string SBM_SUBJECT_MATTER = "SM99080100";
+                public const string SBM_SUBJECT_BASIC_COMPETENCY = "SM99080200";
+                public const string SBM_SUBJECT_MEETING_PLAN = "SM99080300";
             }
             #endregion
             #endregion

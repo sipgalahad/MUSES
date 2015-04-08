@@ -51,12 +51,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            string GCClassStudyType = "";
-            if (Page.Request.QueryString["id"] == "ex")
-                GCClassStudyType = Constant.ClassStudyType.EXTRACURRICULAR;
-            else
-                GCClassStudyType = Constant.ClassStudyType.REGULAR;
-            filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
+            filterExpression += string.Format("SiteID = '{0}' AND SubjectID IN (SELECT SubjectID FROM TeacherSubject WHERE TeacherID = {1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, AppSession.UserLogin.EmployeeID);
             return filterExpression;
         }
 

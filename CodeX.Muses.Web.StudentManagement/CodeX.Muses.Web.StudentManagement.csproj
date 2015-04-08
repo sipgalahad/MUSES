@@ -106,6 +106,7 @@
     <Content Include="MasterPage\PeriodAdmissionBannerDtCtl.ascx" />
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SchoolPeriodBannerDtCtl.ascx" />
+    <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentAchievementDtEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudent\ProspectiveStudentPastStudyDtEntry.aspx" />
@@ -123,9 +124,8 @@
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
+    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterList.aspx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
@@ -229,6 +229,7 @@
     <Content Include="Program\Master\Student\StudentList.aspx" />
     <Content Include="Program\StudentSchoolFee\StudentSchoolFeeEntry.aspx" />
     <Content Include="Program\TeacherMarkGroup\TeacherMarkGroupEntry.aspx" />
+    <Content Include="Program\TeacherPage\TeacherPeriodClassTypeSubjectEntry.aspx" />
     <Content Include="Program\TeacherPage\TeacherClassList.aspx" />
     <Content Include="Program\TeacherPage\TeacherWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassList\ClassWeeklyScheduleList.aspx" />
@@ -476,6 +477,13 @@
     <Compile Include="MasterPage\MPPeriodAdmissionPageTrx.master.designer.cs">
       <DependentUpon>MPPeriodAdmissionPageTrx.master</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPSubjectPageTrxVisit.master.cs">
+      <DependentUpon>MPSubjectPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPSubjectPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSubjectPageTrxVisit.master</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\PeriodAdmissionBannerDtCtl.ascx.cs">
       <DependentUpon>PeriodAdmissionBannerDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -510,6 +518,13 @@
     </Compile>
     <Compile Include="MasterPage\SchoolPeriodBannerDtCtl.ascx.designer.cs">
       <DependentUpon>SchoolPeriodBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\SubjectBannerDtCtl.ascx.cs">
+      <DependentUpon>SubjectBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\SubjectBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SubjectBannerDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Admission\AdmissionFee\AdmissionFeeEntry.aspx.cs">
       <DependentUpon>AdmissionFeeEntry.aspx</DependentUpon>
@@ -630,26 +645,19 @@
     <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx.designer.cs">
       <DependentUpon>SubjectIndicatorEntryCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.cs">
-      <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.designer.cs">
-      <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.cs">
-      <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Program\Master\Subject\SubjectList.aspx.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectList.aspx.designer.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterList.aspx.cs">
+      <DependentUpon>SubjectMatterList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterList.aspx.designer.cs">
+      <DependentUpon>SubjectMatterList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx.cs">
       <DependentUpon>SubjectCompetencyStandardEntryCtl.ascx</DependentUpon>
@@ -1372,6 +1380,13 @@
     <Compile Include="Program\TeacherMarkGroup\TeacherMarkGroupEntry.aspx.designer.cs">
       <DependentUpon>TeacherMarkGroupEntry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\TeacherPage\TeacherPeriodClassTypeSubjectEntry.aspx.cs">
+      <DependentUpon>TeacherPeriodClassTypeSubjectEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\TeacherPage\TeacherPeriodClassTypeSubjectEntry.aspx.designer.cs">
+      <DependentUpon>TeacherPeriodClassTypeSubjectEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\TeacherPage\TeacherClassList.aspx.cs">
       <DependentUpon>TeacherClassList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1506,6 +1521,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPClassStudentPageTrx.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPSubjectPageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
