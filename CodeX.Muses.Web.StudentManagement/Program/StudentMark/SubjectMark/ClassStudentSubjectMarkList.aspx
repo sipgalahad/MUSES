@@ -11,8 +11,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
-            filterExpression.text = "<%=GetFilterExpression() %>";
-            return true;
+            if (reportCode == "SM-00002" || reportCode == "SM-00003") {
+                filterExpression.text = "<%=GetFilterExpression() %>";
+                return true;
+            }
         }
     </script>
     <div style="height:440px; overflow-y:auto">

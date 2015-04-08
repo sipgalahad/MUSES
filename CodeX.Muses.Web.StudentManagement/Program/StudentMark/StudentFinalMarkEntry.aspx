@@ -136,6 +136,13 @@
             cbpView.PerformCallback('refresh');
         }
         //#endregion
+
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            if (reportCode == "SM-00002" || reportCode == "SM-00003") {
+                filterExpression.text = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
+                return true;
+            }
+        }
     </script>
     <style type="text/css">
         .gridCircle                         { display: block; width: 22px; height: 22px; margin: 0 auto; background-size: cover; background-repeat: no-repeat;
