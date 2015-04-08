@@ -469,19 +469,21 @@ namespace CodeX.Common
 
                 public const string PERIOD_ADMISSION = "SM020100";
 
-                public const string TEACHER_WEEKLY_SCHEDULE = "SM030100";
-                public const string TEACHER_CLASS = "SM030200";
-                public const string TEACHER_STUDENT_FINAL_MARK = "SM030300"; 
+                public const string CLASS_WEEKLY_SCHEDULE = "SM030100";
+                public const string SUBJECT_PER_CLASS = "SM030200";
+                public const string STUDENT_FINAL_MARK = "SM030300";
+                public const string GRADE_PROMOTION = "SM030400";
+                public const string STUDENT_SCHOOL_FEE = "SM030500";
+                public const string SCHOOL_PERIOD_CLOSING = "SM030600";
+                public const string TEACHER_MARK_GROUP = "SM030700";
+                public const string EXTRACURRICULAR_WEEKLY_SCHEDULE = "SM030800";
+                public const string STUDENT_DAILY_ATTENDANCE = "SM030900";
 
-                public const string CLASS_WEEKLY_SCHEDULE = "SM040100";
-                public const string SUBJECT_PER_CLASS = "SM040200";
-                public const string STUDENT_FINAL_MARK = "SM040300";
-                public const string GRADE_PROMOTION = "SM040400";
-                public const string STUDENT_SCHOOL_FEE = "SM040500";
-                public const string SCHOOL_PERIOD_CLOSING = "SM040600";
-                public const string TEACHER_MARK_GROUP = "SM040700";
-                public const string EXTRACURRICULAR_WEEKLY_SCHEDULE = "SM040800";
-                public const string STUDENT_DAILY_ATTENDANCE = "SM040900";
+                public const string SUBJECT = "SM110100";
+
+                public const string TEACHER_WEEKLY_SCHEDULE = "SM120100";
+                public const string TEACHER_CLASS = "SM120200";
+                public const string TEACHER_STUDENT_FINAL_MARK = "SM120300"; 
 
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
@@ -555,6 +557,12 @@ namespace CodeX.Common
                 public const string CS_CLASS_STUDENT_NOTE = "SM99060104";
                 public const string CS_ORGANIZATION_MARK = "SM99060105";
                 public const string CS_STUDENT_ATTENDANCE = "SM99060106";
+
+                public const string SUBJECT_PAGE = "SM99070000";
+                public const string SB_SUBJECT_CLASS_TYPE = "CP99070100";
+                public const string SB_SUBJECT_MATTER = "CP99070200";
+                public const string SB_SUBJECT_BASIC_COMPETENCY = "CP99070300";
+                public const string SB_SUBJECT_MEETING_PLAN = "CP99070400";
             }
             #endregion
             #endregion

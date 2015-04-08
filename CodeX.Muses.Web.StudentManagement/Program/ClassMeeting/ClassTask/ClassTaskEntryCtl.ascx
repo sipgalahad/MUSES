@@ -77,8 +77,6 @@
                         $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
                         $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
                         $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
-
-                        $tr.find('.divDetailDelete').hide();
                     }
                 });
             }
