@@ -11444,6 +11444,8 @@ namespace CodeX.Data.Model
         private Int32 _SubjectMatterID;
         private String _SubjectMatterCode;
         private String _SubjectMatterName;
+        private String _GCSubjectType;
+        private String _SubjectType;
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _TeacherName;
@@ -11543,6 +11545,18 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectMatterName; }
             set { _SubjectMatterName = value; }
+        }
+        [Column(Name = "GCSubjectType", DataType = "String")]
+        public String GCSubjectType
+        {
+            get { return _GCSubjectType; }
+            set { _GCSubjectType = value; }
+        }
+        [Column(Name = "SubjectType", DataType = "String")]
+        public String SubjectType
+        {
+            get { return _SubjectType; }
+            set { _SubjectType = value; }
         }
         [Column(Name = "TeacherID", DataType = "Int32")]
         public Int32 TeacherID

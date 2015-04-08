@@ -134,6 +134,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.SubjectID = AppSession.SubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
+                entity.SubjectMatterID = BusinessLayer.GetSubjectMatterHdMaxID(ctx);
 
                 string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
                 foreach (string classTypeID in lstClassTypeID)

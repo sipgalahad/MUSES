@@ -212,7 +212,7 @@
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><h4><%=GetLabel("Pokok Standar Kompetensi") %></h4></td>
+                                    <td colspan="2"><h4><%=GetLabel("Deskripsi Rapor") %></h4></td>
                                 </tr>
                                 <asp:Repeater ID="rptPeriodSection" runat="server" OnItemDataBound="rptPeriodSection_ItemDataBound">
                                     <ItemTemplate>
@@ -253,7 +253,6 @@
                                 <asp:BoundField DataField="ListClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
                                 <asp:HyperLinkField HeaderText="Standar Kompetensi" Text="Standar Kompetensi" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkCompetencyStandard" HeaderStyle-Width="160px" />
-                                <asp:HyperLinkField HeaderText="Detil Pertemuan" Text="Detil Pertemuan" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubjectMeetingPlan" HeaderStyle-Width="120px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>

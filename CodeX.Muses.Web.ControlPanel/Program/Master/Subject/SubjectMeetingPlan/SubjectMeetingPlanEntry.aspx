@@ -189,7 +189,7 @@
                 <col/>
             </colgroup>
             <tr>
-                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
                 <td>            
                     <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatterHd" ClientInstanceName="tacSubjectMatterHd" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
                         SearchFields="SubjectMatterName,SubjectMatterID" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">

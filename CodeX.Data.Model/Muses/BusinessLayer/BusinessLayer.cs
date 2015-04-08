@@ -11631,6 +11631,22 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetSubjectMatterHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectMatterHd));
+                ctx.CommandText = helper.SelectMaxColumn("SubjectMatterID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region SubjectMeetingPlanBasicCompetency
         public static SubjectMeetingPlanBasicCompetency GetSubjectMeetingPlanBasicCompetency(Int32 SubjectMeetingPlanID, Int32 BasicCompetencyID)

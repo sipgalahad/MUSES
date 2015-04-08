@@ -14,11 +14,13 @@
     <script type="text/javascript">
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
-                $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtSubjectBasicCompetencyName.ClientID %>').val('');
-                $('#<%=txtStudySource.ClientID %>').val('');
+                if (IsValid(evt, 'fsFilter', 'mpFilter')) {
+                    $('#<%=hdnEntryID.ClientID %>').val('');
+                    $('#<%=txtSubjectBasicCompetencyName.ClientID %>').val('');
+                    $('#<%=txtStudySource.ClientID %>').val('');
 
-                $('#entryDetailContainer').show();
+                    $('#entryDetailContainer').show();
+                }
             });
 
             $('#btnCancel').click(function () {
@@ -26,7 +28,7 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
+                if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
             });
         });
@@ -155,40 +157,42 @@
             openUserControlPopup(url, entity.SubjectBasicCompetencyID, 'Indikator', 800, 550);
         });
     </script>
-    <table class="tblEntryContent" style="width:70%">
-        <colgroup>
-            <col style="width:200px"/>
-            <col/>
-        </colgroup>
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
-            <td>            
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatterHd" ClientInstanceName="tacSubjectMatterHd" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
-                    SearchFields="SubjectMatterName,SubjectMatterID" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterHdButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacSubjectMatterHdValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
-            </td>
-        </tr> 
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
-            <td>
-                <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
-                    <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
-                </dxe:ASPxComboBox>
-            </td>
-        </tr> 
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Standar Kompetensi")%></label></td>
-            <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectCompetencyStandard" ClientInstanceName="tacSubjectCompetencyStandard" MethodName="GetSubjectCompetencyStandardList" GetFilterExpressionFunction="onGetSubjectCompetencyStandardFilterExpression"
-                    SearchFields="SubjectCompetencyStandardName" TextField="SubjectCompetencyStandardName" ValueField="SubjectCompetencyStandardID" SearchText="${SubjectCompetencyStandardName}" OrderByExpression="SubjectCompetencyStandardName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectCompetencyStandardButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacSubjectCompetencyStandardValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
-            </td>
-        </tr>
-    </table>
+    <fieldset id="fsFilter">
+        <table class="tblEntryContent" style="width:70%">
+            <colgroup>
+                <col style="width:200px"/>
+                <col/>
+            </colgroup>
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
+                <td>            
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatterHd" ClientInstanceName="tacSubjectMatterHd" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
+                        SearchFields="SubjectMatterName,SubjectMatterID" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterHdButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacSubjectMatterHdValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr> 
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+                <td>
+                    <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
+                        <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr> 
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Standar Kompetensi")%></label></td>
+                <td>
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectCompetencyStandard" ClientInstanceName="tacSubjectCompetencyStandard" MethodName="GetSubjectCompetencyStandardList" GetFilterExpressionFunction="onGetSubjectCompetencyStandardFilterExpression"
+                        SearchFields="SubjectCompetencyStandardName" TextField="SubjectCompetencyStandardName" ValueField="SubjectCompetencyStandardID" SearchText="${SubjectCompetencyStandardName}" OrderByExpression="SubjectCompetencyStandardName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectCompetencyStandardButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacSubjectCompetencyStandardValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr>
+        </table>
+    </fieldset>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -205,7 +209,7 @@
                                     <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kompetensi Dasar")%></label></td>
                                     <td><asp:TextBox ID="txtSubjectBasicCompetencyName" runat="server" Width="500px" /></td>
                                 </tr>
                                 <tr>

@@ -69,11 +69,18 @@ namespace CodeX.Common
             public const string PERIOD_SECTION = "MS028";
             public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
             public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
+            public const string SUBJECT_TYPE = "MS031";
         }
 
         public static class StudentStatus
         {
             public const string ACTIVE = "MS006^001";
+        }
+
+        public static class SubjectType
+        {
+            public const string UMUM = "MS031^001";
+            public const string PENJURUSAN = "MS031^002";
         }
 
         public static class SchoolPeriodStatus

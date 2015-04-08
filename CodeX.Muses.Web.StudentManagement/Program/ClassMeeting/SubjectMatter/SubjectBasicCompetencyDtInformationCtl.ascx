@@ -23,7 +23,7 @@
             <col/>
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
             <td><asp:TextBox ID="txtSubjectBasicCompetencyName" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr> 
         <tr>

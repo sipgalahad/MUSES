@@ -224,7 +224,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Materi")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
                                     <td>
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatter" ClientInstanceName="tacSubjectMatter" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
                                             SearchFields="SubjectMatterName,SubjectMatterCode" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
@@ -261,7 +261,7 @@
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Ekskul"/>
                                 <asp:BoundField DataField="TeacherName" HeaderText="Pembina" HeaderStyle-Width="280px" />
-                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Materi" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>

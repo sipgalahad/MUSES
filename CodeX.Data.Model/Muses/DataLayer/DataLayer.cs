@@ -13912,6 +13912,7 @@ namespace CodeX.Data.Model
         private Int32? _TheoryFinalMarkFormulaID;
         private Int32? _PracticeFinalMarkFormulaID;
         private Int32? _SubjectMatterID;
+        private String _GCSubjectType;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -13971,6 +13972,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectMatterID; }
             set { _SubjectMatterID = value; }
+        }
+        [Column(Name = "GCSubjectType", DataType = "String")]
+        public String GCSubjectType
+        {
+            get { return _GCSubjectType; }
+            set { _GCSubjectType = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

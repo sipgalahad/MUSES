@@ -34,6 +34,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
+            Helper.SetControlEntrySetting(tacSubjectMatterHd, new ControlEntrySetting(true, true, true), "mpFilter");
+            Helper.SetControlEntrySetting(cboGCPeriodSection, new ControlEntrySetting(true, true, true), "mpFilter");
+            Helper.SetControlEntrySetting(tacSubjectCompetencyStandard, new ControlEntrySetting(true, true, true), "mpFilter");
+
             Helper.SetControlEntrySetting(txtSubjectBasicCompetencyName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtStudySource, new ControlEntrySetting(true, true, false), "mpTrx");
         }
