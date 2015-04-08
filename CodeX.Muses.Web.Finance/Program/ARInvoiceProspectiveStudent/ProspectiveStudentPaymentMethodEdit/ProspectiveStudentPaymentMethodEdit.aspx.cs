@@ -73,18 +73,25 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 if (lstTemp.Count() > 0)
                 {
-                    HtmlInputHidden hdnTotalAmount = e.Item.FindControl("hdnTotalAmount") as HtmlInputHidden;
-                    hdnTotalAmount.Attributes.Add("class", String.Format("hdnTotalAmount{0} hdnTotalAmount", entity.StudentFeeID));
-                    Decimal totalAmount = entity.StudentAmount - lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.StudentAmount);
-                    hdnTotalAmount.Value = totalAmount.ToString();
+                    decimal paymentAmount = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID && x.GCTransactionStatus == Constant.TransactionStatus.CLOSED).Sum(x => x.StudentAmount);
+                    Decimal totalAmount = entity.StudentAmount - paymentAmount;
 
-                    HtmlTableCell tdTotalAmount = e.Item.FindControl("tdTotalAmount") as HtmlTableCell;
-                    tdTotalAmount.InnerHtml = totalAmount.ToString("N");
+                    TextBox txtTotalAmount = e.Item.FindControl("txtTotalAmount") as TextBox;
+                    TextBox txtTotalPaymentAmount = e.Item.FindControl("txtTotalPaymentAmount") as TextBox;
+                    TextBox txtRemainingAmount = e.Item.FindControl("txtRemainingAmount") as TextBox;
+                    txtRemainingAmount.Attributes.Add("class", String.Format("txtRemainingAmount{0} txtRemainingAmount txtCurrency", entity.StudentFeeID));
+                    txtTotalAmount.Text = entity.StudentAmount.ToString();
+                    txtTotalPaymentAmount.Text = paymentAmount.ToString();
+                    txtRemainingAmount.Text = totalAmount.ToString();
                 }
                 else
                 {
                     HtmlTableRow trDataHeader = e.Item.FindControl("trDataHeader") as HtmlTableRow;
+                    HtmlTableRow trDataHeader1 = e.Item.FindControl("trDataHeader1") as HtmlTableRow;
+                    HtmlTableRow trDataHeader2 = e.Item.FindControl("trDataHeader2") as HtmlTableRow;
                     trDataHeader.Style.Add("display", "none");
+                    trDataHeader1.Style.Add("display", "none");
+                    trDataHeader2.Style.Add("display", "none");
 
                     HtmlTableRow trDataDetail = e.Item.FindControl("trDataDetail") as HtmlTableRow;
                     trDataDetail.Style.Add("display", "none");
@@ -102,6 +109,7 @@ namespace CodeX.Muses.Web.Finance.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
+            StudentFeeDao studentFeeDao = new StudentFeeDao(ctx);
             StudentFeeDtDao studentFeeDtDao = new StudentFeeDtDao(ctx);
             try
             {
@@ -113,13 +121,21 @@ namespace CodeX.Muses.Web.Finance.Program
                     arInvoiceHdDao.Update(arInvoiceHD);
                 }
 
+                List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnLstStudentFeeID.Value), ctx);
                 List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND IsDeleted = 0", hdnLstStudentFeeID.Value), ctx);
                 string[] lstSaveValue = hdnSaveValue.Value.Split('|');
                 foreach (string saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(';');
                     int studentFeeID = Convert.ToInt32(temp[0]);
-                    string[] lstSaveValue1 = temp[1].Split('^');
+                    decimal totalAmount = Convert.ToDecimal(temp[1]);
+                    string[] lstSaveValue1 = temp[2].Split('^');
+
+                    StudentFee entityStudentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == studentFeeID);
+                    entityStudentFee.StudentAmount = totalAmount;
+                    entityStudentFee.LineAmount = entityStudentFee.StudentAmount + entityStudentFee.PayerAmount;
+                    entityStudentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    studentFeeDao.Update(entityStudentFee);
 
                     short ctr = 1;
                     foreach (string saveValue1 in lstSaveValue1)
