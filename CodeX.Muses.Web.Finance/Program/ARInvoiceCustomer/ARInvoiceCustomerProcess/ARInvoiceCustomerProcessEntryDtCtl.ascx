@@ -123,7 +123,7 @@
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <asp:Panel runat="server" ID="pnlEntryPopupGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                                <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
+                                <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                     <Columns>
                                         <asp:BoundField DataField="StudentID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:TemplateField ItemStyle-HorizontalAlign="center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="50px">

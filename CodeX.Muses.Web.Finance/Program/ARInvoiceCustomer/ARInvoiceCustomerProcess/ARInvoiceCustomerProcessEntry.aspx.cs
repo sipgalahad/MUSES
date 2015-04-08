@@ -22,6 +22,7 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             return Constant.MenuCode.Finance.AR_INVOICE_CUSTOMER_PROCESS;
         }
+
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
         {
             IsAllowAdd = false;
@@ -113,6 +114,7 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnPageCount.Value = PageCount.ToString();
             hdnRowCount.Value = RowCount.ToString();
         }
+
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = "1 = 0";
@@ -151,6 +153,27 @@ namespace CodeX.Muses.Web.Finance.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
+        }
+
+        public void SaveARInvoiceHd(IDbContext ctx, ref int ARInvoiceID)
+        {
+            ARInvoiceHdDao arinvoiceHdDao = new ARInvoiceHdDao(ctx);
+
+            ARInvoiceHd arinvoiceHd = new ARInvoiceHd();
+            arinvoiceHd.TransactionCode = Constant.TransactionCode.AR_INVOICE_CUSTOMER;
+            arinvoiceHd.ARInvoiceNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.AR_INVOICE_CUSTOMER, DateTime.Now, ctx);
+            arinvoiceHd.ARInvoiceDate = Helper.GetDatePickerValue(txtInvoiceDate.Text);
+            arinvoiceHd.BusinessPartnerID = AppSession.BusinessPartnerID;
+            arinvoiceHd.DueDate = Helper.GetDatePickerValue(txtDueDate.Text);
+            arinvoiceHd.BankID = Convert.ToInt32(cboBank.Value);
+            arinvoiceHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+            arinvoiceHd.CreatedBy = AppSession.UserLogin.UserID;
+            arinvoiceHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+            arinvoiceHd.LastUpdatedDate = DateTime.Now;
+
+            ctx.CommandType = CommandType.Text;
+            arinvoiceHdDao.Insert(arinvoiceHd);
+            ARInvoiceID = BusinessLayer.GetARInvoiceHdMaxID(ctx);
         }
     }
 }
