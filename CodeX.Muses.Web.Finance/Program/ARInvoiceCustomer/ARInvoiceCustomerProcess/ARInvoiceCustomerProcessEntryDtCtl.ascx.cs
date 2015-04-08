@@ -57,7 +57,11 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 int count = 1;
                 List<Student> lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", lstStudentID));
-                var temp = lstStudentFeeDt.GroupBy(x => x.StudentID).Select(m => new { RowID = count++, StudentID = m.Key, StudentName = lstStudent.FirstOrDefault(x => x.StudentID == m.Key).StudentName, PayerAmount = m.Sum(x => x.PayerAmount) });
+                var temp = lstStudentFeeDt.GroupBy(x => x.StudentID).Select(m => new { RowID = count++, 
+                    StudentID = m.Key, 
+                    StudentName = lstStudent.FirstOrDefault(x => x.StudentID == m.Key).StudentName,
+                    Remarks = String.Join(", ", lstStudentFeeDt.Where(x => x.StudentID == m.Key).Select(s => s.cfStudentFeeCompTypeName)),
+                    PayerAmount = m.Sum(x => x.PayerAmount) });
 
                 if (isCountPageCount)
                 {
@@ -117,11 +121,11 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 if(ARInvoiceID == 0) DetailPage.SaveARInvoiceHd(ctx, ref ARInvoiceID);
 
-                String[] lstStudentID = hdnSelectedMember.Value.Split(',');
-                if (lstStudentID.Count() == 2) hdnSelectedMember.Value = lstStudentID[1];
-                String filterExpression = string.Format("DueDate BETWEEN '{0}' AND '{1}' AND PayerAmount != 0 AND StudentID IN ({2})", Helper.GetDatePickerValue(txtPeriodFrom.Text), Helper.GetDatePickerValue(txtPeriodTo.Text), hdnSelectedMember.Value);
+                List<String> lstStudentID = hdnSelectedMember.Value.Split(',').ToList();
+                lstStudentID.Remove("");
+                String filterExpression = string.Format("DueDate BETWEEN '{0}' AND '{1}' AND PayerAmount != 0 AND StudentID IN ({2}) AND StudentFeeDtID NOT IN (SELECT StudentFeeDtID FROM vARInvoiceDt WHERE GCTransactionStatus != '{3}')", Helper.GetDatePickerValue(txtPeriodFrom.Text), Helper.GetDatePickerValue(txtPeriodTo.Text), String.Join(",", lstStudentID), Constant.TransactionStatus.VOID);
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(filterExpression, ctx);
-                foreach(vStudentFeeDt obj in lstStudentFeeDt)
+                foreach(vStudentFeeDt obj in lstStudentFeeDt.OrderBy(x => x.StudentID))
                 {
                     ARInvoiceDt arInvoiceDt = new ARInvoiceDt();
 

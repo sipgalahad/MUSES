@@ -155,6 +155,72 @@ namespace CodeX.Muses.Web.Finance.Program
             panel.JSProperties["cpResult"] = result;
         }
 
+        protected override bool OnVoidRecord(ref string errMessage)
+        {
+            bool Status = true;
+            try
+            {
+                ARInvoiceHd entity = BusinessLayer.GetARInvoiceHd(Convert.ToInt32(hdnARInvoiceID.Value));
+                entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateARInvoiceHd(entity);
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                Status = false;
+            }
+
+            return Status;
+        }
+
+        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        {
+            bool Status = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            try
+            {
+                Int32 ARInvoiceID = 0;
+                SaveARInvoiceHd(ctx, ref ARInvoiceID);
+                ctx.CommitTransaction();
+                retval = ARInvoiceID.ToString();
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                Status = false;
+            }
+            finally 
+            {
+                ctx.Close();
+            }
+
+            return Status;
+        }
+
+        protected override bool OnSaveEditRecord(ref string errMessage, ref string retval)
+        {
+            bool Status = true;
+            try
+            {
+                ARInvoiceHd entity = BusinessLayer.GetARInvoiceHd(Convert.ToInt32(hdnARInvoiceID.Value));
+                entity.ARInvoiceDate = Helper.GetDatePickerValue(txtInvoiceDate.Text);
+                entity.DueDate = Helper.GetDatePickerValue(txtDueDate.Text);
+                entity.BankID = Convert.ToInt32(cboBank.Value);
+                entity.Remarks = txtRemarks.Text;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateARInvoiceHd(entity);
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                Status = false;
+            }
+
+            return Status;
+        }
+
         public void SaveARInvoiceHd(IDbContext ctx, ref int ARInvoiceID)
         {
             ARInvoiceHdDao arinvoiceHdDao = new ARInvoiceHdDao(ctx);
@@ -166,6 +232,7 @@ namespace CodeX.Muses.Web.Finance.Program
             arinvoiceHd.BusinessPartnerID = AppSession.BusinessPartnerID;
             arinvoiceHd.DueDate = Helper.GetDatePickerValue(txtDueDate.Text);
             arinvoiceHd.BankID = Convert.ToInt32(cboBank.Value);
+            arinvoiceHd.Remarks = txtRemarks.Text;
             arinvoiceHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             arinvoiceHd.CreatedBy = AppSession.UserLogin.UserID;
             arinvoiceHd.LastUpdatedBy = AppSession.UserLogin.UserID;
