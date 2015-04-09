@@ -375,6 +375,7 @@ namespace CodeX.Common
                 public const string AR_INVOICE_STUDENT_EDIT = "FN040213";
                 public const string AR_INVOICE_STUDENT_RECEIVE = "FN040214";
                 public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040215";
+                public const string STUDENT_MONTHLY_FEE_EDIT = "FN040216";
                 public const string GENERATE_AR_INVOICE_STUDENT = "FN040220";
 
                 public const string CUSTOMER_LIST = "FN040300";
