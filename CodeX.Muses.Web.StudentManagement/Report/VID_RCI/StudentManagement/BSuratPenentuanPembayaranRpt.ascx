@@ -6,9 +6,13 @@
         *   { font-weight: 100; }
          @media print { }
     </style>
-    <center>
-        <div style="text-decoration: underline; margin-top:10px; font-weight:bold">PENERIMAAN SISWA BARU {Periode}</div>
-        <div style="margin-top:10px; font-weight:bold">Formulir Penentuan Pembayaran</div>
+    <div style="border:1px solid; float: right; height: 60px; width: 100px; vertical-align: middle; line-height: 20px; font-weight: bold; text-align: center;">
+        NBS
+        <div style="font-size: 20px">{ProspectiveStudentCode}</div>
+    </div>
+    <center style="margin-left: 100px;">
+        <h1>PENERIMAAN SISWA BARU {Periode}</h1>
+        <h2>Formulir Penentuan Pembayaran</h2>
     </center>
 </div>
 
@@ -18,24 +22,18 @@
         #divReportBody div { margin-bottom:10px; }
         .lblDataHeader { font-weight:bold; }
         .lblDataSiswa { padding-left:10px !important; }
-        .PaymentDt tr td { border:1px solid; }
-        .PaymentDt td { padding:3px !important; }
+        .tblPaymentDt tr td { border-top: 1px solid; border-left:1px solid; }
+        .tblPaymentDt td { padding:3px !important; }
+        .tblPaymentDt        { border-right:1px solid; border-bottom: 1px solid;}    
+        
     </style>
     <div id="divDataSiswa" runat="server">
         <table cellpadding="0" cellspacing="0">
             <colgroup>
                 <col width="120px;" />
-                <col width="3px;" />
+                <col width="10px;" />
                 <col />
             </colgroup>
-            <tr>
-                <td colspan="3" class="lblDataHeader">Data Siswa Baru</td>
-            </tr>
-            <tr>
-                <td class="lblDataSiswa">No. Bank Siswa</td>
-                <td align="center">:</td>
-                <td>{ProspectiveStudentCode}</td>
-            </tr>
             <tr>
                 <td class="lblDataSiswa">Nama Lengkap</td>
                 <td align="center">:</td>
@@ -53,41 +51,62 @@
             </tr>
             <tr>
                 <td class="lblDataSiswa">Kelas</td>
-                <td>:</td>
+                <td align="center">:</td>
                 <td>{Class}</td>
             </tr>
         </table>
     </div> 
     <div>
-        <table cellpadding="0" cellspacing="0">
+        <table width="100%" cellpadding="0" cellspacing="0">
             <colgroup>
                 <col width="120px;" />
                 <col width="3px;" />
                 <col width="120px;" />
+                <col />
             </colgroup>
             <tr>
-                <td colspan="3" class="lblDataHeader">Biaya Sekolah</td>
+                <td colspan="3" class="lblDataHeader" style="font-size: 1.1em">Biaya Sekolah</td>
             </tr>
-            <asp:Repeater runat="server" ID="rptStudentFeeComp">
-                <ItemTemplate>
-                    <tr>
-                        <td class="lblDataSiswa"><%#:Eval("StudentFeeCompTypeName") %></td>
-                        <td align="center">:</td>
-                        <td align="right">Rp. <%#:Eval("TotalAmount","{0:N}") %></td>
-                    </tr>
-                </ItemTemplate>
-            </asp:Repeater>
             <tr>
-                <td class="lblDataSiswa">Jumlah</td>
-                <td align="center">:</td>
-                <td id="tdTotalLineAmount" runat="server" align="right" style="border-top:1px solid;">Rp. {TotalLineAmount}</td>
+                <td colspan="4" class="lblDataSiswa">
+                    <table width="100%" class="tblPaymentDt" cellpadding="0" cellspacing="0">
+                        <colgroup>
+                            <col width="300px" />
+                            <col width="300px" />
+                            <col width="300px" />
+                            <col width="300px" />
+                        </colgroup>
+                        <tr>
+                            <td style="font-weight:bold">Tipe Pembayaran</td>
+                            <td align="right" style="font-weight:bold">Jumlah Bayar</td>
+                            <td align="right" style="font-weight:bold">Diskon</td>
+                            <td align="right" style="font-weight:bold">Total</td>
+                        </tr>
+                        <asp:Repeater runat="server" ID="rptStudentFeeComp">
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%#:Eval("StudentFeeCompTypeName") %></td>
+                                    <td align="right">Rp. <%#:Eval("TransactionAmount","{0:N}") %></td>
+                                    <td align="right">Rp. <%#:Eval("TotalDiscountAmount","{0:N}") %></td>
+                                    <td align="right">Rp. <%#:Eval("LineAmount","{0:N}") %></td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <tr>
+                            <td style="font-weight:bold">Jumlah</td>
+                            <td></td>
+                            <td></td>
+                            <td id="tdTotalLineAmount" runat="server" align="right" style="font-weight:bold">Rp. {TotalLineAmount}</td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
         </table>
     </div>
     <div>
-        <table cellpadding="0" cellspacing="0">
+        <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-                <td colspan="3" class="lblDataHeader">Pembayaran</td>
+                <td colspan="3" class="lblDataHeader" style="font-size: 1.1em">Pembayaran</td>
             </tr>
             <asp:Repeater runat="server" ID="rptPayment" OnItemDataBound="rptPayment_ItemDataBound">
                 <ItemTemplate>
@@ -96,28 +115,22 @@
                     </tr>
                     <tr>
                         <td class="lblDataSiswa">
-                            <table width="100%" class="PaymentDt" style="border:1px solid;" cellpadding="0" cellspacing="0">
+                            <table width="100%" class="tblPaymentDt" cellpadding="0" cellspacing="0">
                                 <colgroup>
                                     <col width="30px;" />
-                                    <col width="120px" />
-                                    <col width="120px" />
-                                    <col width="120px" />
-                                    <col width="120px" />
+                                    <col width="300px" />
+                                    <col width="300px" />
                                 </colgroup>
                                 <tr>
-                                    <td>No.</td>
+                                    <td align="center" style="font-weight:bold">No.</td>
                                     <td align="center" style="font-weight:bold">Jatuh Tempo</td>
                                     <td align="right" style="font-weight:bold">Jumlah Bayar</td>
-                                    <td align="right" style="font-weight:bold">Diskon</td>
-                                    <td align="right" style="font-weight:bold">Total</td>
                                 </tr>
                                 <asp:Repeater runat="server" ID="rptPaymentDt">
                                     <ItemTemplate>
                                         <tr>
-                                            <td><%#:Eval("DisplayOrder") %></td>
-                                            <td align="center"><%#:Eval("PaymentDateInString") %></td>
-                                            <td align="right">Rp. <%#:Eval("TotalPaymentAmount","{0:N}") %></td>
-                                            <td align="right">Rp. <%#:Eval("TotalDiscountAmount","{0:N}") %></td>
+                                            <td align="center"><%#:Eval("DisplayOrder") %></td>
+                                            <td align="center"><%#:Eval("DueDateInString") %></td>
                                             <td align="right">Rp. <%#:Eval("LineAmount","{0:N}") %></td>
                                         </tr>
                                     </ItemTemplate>
@@ -130,13 +143,22 @@
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>
+            <tr>
+                <td colspan="3" class="lblDataHeader" style="font-size: 1.1em">Catatan: </td>
+            </tr>
+            <tr>
+                <td colspan="3">- Uang Pembangunan sudah lunas tgl 10 Juni 2014</td>
+            </tr>
+            <tr>
+                <td colspan="3">- Pembayaran melalui Bank Mandiri paling lambat tgl 10 setiap bulannya</td>
+            </tr>
         </table>
     </div>
 </div>
 
 <div id="divPageFooter" runat="server">
     <style type="text/css">
-        .pageFooter         { border-top: 0px solid; font-size: 8pt !important; }
+        .pageFooter         { border-top: 0px solid; font-size: 8pt !important; margin-bottom: 50px; }
         .pageFooter *       { font-size: 8pt !important; }
         .letterFooter       { width:150px; text-align:center}
     </style>

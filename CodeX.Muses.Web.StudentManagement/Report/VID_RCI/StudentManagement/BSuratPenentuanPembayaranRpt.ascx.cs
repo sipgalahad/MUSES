@@ -19,7 +19,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
         }
         
-        List<StudentFee> lstRegFee = null;
+        List<vStudentFeeDt> lstStudentFeeDt = null;
 
         public override void Bind(string filterExpression, string[] param)
         {
@@ -28,30 +28,30 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             vRegistration entity = BusinessLayer.GetvRegistrationList(filterExpression)[0];
             String text = divReportHeader.InnerHtml;
             text = text.Replace("{Periode}", pa.SchoolPeriodName);
+            text = text.Replace("{ProspectiveStudentCode}", entity.ProspectiveStudentCode);
             divReportHeader.InnerHtml = text;
-                
+
             text = divDataSiswa.InnerHtml;
-            text = text.Replace("{ProspectiveStudentName}",entity.ProspectiveStudentName);
+            text = text.Replace("{ProspectiveStudentName}", entity.ProspectiveStudentName);
             text = text.Replace("{Address}",entity.HomeAddress);
             text = text.Replace("{PhoneNo}",entity.PhoneNo1);
             text = text.Replace("{Class}",entity.Grade);
-            text = text.Replace("{ProspectiveStudentCode}", entity.ProspectiveStudentCode);
             divDataSiswa.InnerHtml = text;
-            List<vStudentFeeComp> lstStudentFee = BusinessLayer.GetvStudentFeeCompList(String.Format("{0} AND IsDeleted = 0",filterExpression));
+            List<vStudentFee> lstStudentFee = BusinessLayer.GetvStudentFeeList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", entity.ProspectiveStudentID));
             rptStudentFeeComp.DataSource = lstStudentFee;
             rptStudentFeeComp.DataBind();
 
-            lstRegFee = BusinessLayer.GetStudentFeeList(String.Format("RegistrationID = {0} AND IsDeleted = 0", entity.RegistrationID));
+            lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("ProspectiveStudentID = {0} AND IsDeleted = 0", entity.ProspectiveStudentID));
 
             text = tdTotalLineAmount.InnerHtml;
-            text = text.Replace("{TotalLineAmount}", lstStudentFee.Sum(x => x.TotalAmount).ToString("N2"));
+            text = text.Replace("{TotalLineAmount}", lstStudentFee.Sum(x => x.LineAmount).ToString("N2"));
             tdTotalLineAmount.InnerHtml = text;
 
             rptPayment.DataSource = lstStudentFee;
             rptPayment.DataBind();
 
             text = divPageFooter.InnerHtml;
-            vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'",AppSession.UserLogin.SiteID))[0];
+            vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
             text = text.Replace("{City}", site.City);
             text = text.Replace("{DateNow}", DateTime.Now.ToString(Constant.FormatString.DATE_FORMAT));
             divPageFooter.InnerHtml = text;
@@ -61,9 +61,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
             {
-                vStudentFeeComp entity = (vStudentFeeComp)e.Item.DataItem;
+                vStudentFee entity = (vStudentFee)e.Item.DataItem;
                 Repeater rptPaymentDt = (Repeater)e.Item.FindControl("rptPaymentDt");
-                rptPaymentDt.DataSource = lstRegFee.Where(x => x.StudentFeeCompID == entity.StudentFeeCompID);
+                rptPaymentDt.DataSource = lstStudentFeeDt.Where(x => x.StudentFeeID == entity.StudentFeeID);
                 rptPaymentDt.DataBind();
             }
         }
