@@ -114,15 +114,6 @@
     <input type="hidden" id="hdnLstStudentFeeCompID" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeID" runat="server" />
     <div>
-        <script id="tmplEntityDt" type="text/x-jquery-tmpl">
-            <tr>
-                <td class="keyField">0</td>
-                <td align="center">{DisplayOrder}</td>
-                <td align="center"><input type="text" validationgroup="mpEntry" id="txtDueDate" class="txtDueDate datepicker required txtDueDate{KeyField}" value='' style="width:120px" /></td>
-                <td align="center"><input type="text" validationgroup="mpEntry" class="txtPaymentAmount txtCurrency required txtPaymentAmount{KeyField}" style="width:90%" value='0' /></td>
-                <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
-            </tr>
-        </script>
         <table width="100%">
             <colgroup>
                     <col style="width:150px"/>
