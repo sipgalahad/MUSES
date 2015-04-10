@@ -12,6 +12,7 @@ using CodeX.Common;
 using DevExpress.Web.ASPxEditors;
 using System.Globalization;
 using CodeX.Data.Core.Dal;
+using System.Web.UI.HtmlControls;
 namespace CodeX.Muses.Web.Finance.Program
 {
     public partial class StudentFeePenaltyEntry : BasePageList
@@ -36,9 +37,6 @@ namespace CodeX.Muses.Web.Finance.Program
                 lstSiteID += String.Format("'{0}'", obj.SiteID);
             }
 
-            List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");
-
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
                 MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(a),
@@ -50,266 +48,149 @@ namespace CodeX.Muses.Web.Finance.Program
             cboMonth.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboMonth.DropDownStyle = DropDownStyle.DropDownList;
             cboMonth.DataBind();
-            //cboMonth.Value = DateTime.Now.Month.ToString();
+            cboMonth.Value = DateTime.Now.Month.ToString();
 
             cboYear.DataSource = Enumerable.Range(DateTime.Now.Year - 99, 100).Reverse();
             cboYear.EnableCallbackMode = false;
             cboYear.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
             cboYear.DropDownStyle = DropDownStyle.DropDownList;
             cboYear.DataBind();
-            //cboYear.SelectedIndex = 0;
+            cboYear.SelectedIndex = 0;
 
-            //txtStartDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            //txtEndDate.Text = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            BindGridView(1, true, ref PageCount);
         }
 
-        public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
+        #region Callback
+        List<StudentFeeCompType> lstStudentFeeCompType = null;
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            //fieldListText = new string[] { "Business Partner Code", "Business Partner Name" };
-            //fieldListValue = new string[] { "BusinessPartnerCode", "BusinessPartnerName" };
+            string filterExpression = string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND GCAdmissionPaymentPeriod = '{2}' AND IsPaid = 0 AND IsDeleted = 0", cboMonth.Value, cboYear.Value, Constant.AdmissionPaymentPeriod.BULANAN);
+            List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(filterExpression);
+            lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.BULANAN));
+            grdView.DataSource = lstEntity;
+            grdView.DataBind();
         }
 
-        private string GetFilterExpression()
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            string filterExpression = "";
-            return filterExpression;
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vStudentFee entity = (vStudentFee)e.Row.DataItem;
+                HtmlInputHidden hdnPenaltyPercentage = (HtmlInputHidden)e.Row.FindControl("hdnPenaltyPercentage");
+                StudentFeeCompType entityFeeCompType = lstStudentFeeCompType.FirstOrDefault(p => p.GCAdmissionPaymentPeriod == entity.GCAdmissionPaymentPeriod);
+                hdnPenaltyPercentage.Value = entityFeeCompType.PenaltyPercentage.ToString();
+
+                if (entity.StudentPenaltyAmount > 0)
+                {
+                    CheckBox chkIsSelected = (CheckBox)e.Row.FindControl("chkIsSelected");
+                    chkIsSelected.Checked = true;
+                }
+            }
         }
 
-        protected void btnExport_Click(object sender, EventArgs e)
+        protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
+            int pageCount = 1;
+            string result = "";
+            if (e.Parameter != null && e.Parameter != "")
+            {
+                string[] param = e.Parameter.Split('|');
+                if (param[0] == "changepage")
+                {
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
+                    result = "changepage";
+                }
+                else // refresh
+                {
+                    BindGridView(1, true, ref pageCount);
+                    result = "refresh|" + pageCount;
+                }
+            }
+
+            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
+            panel.JSProperties["cpResult"] = result;
+        }
+        #endregion
+
+        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        {
+            bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            ARInvoiceDtDao arInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
+            StudentFeeDao entityDao = new StudentFeeDao(ctx);
+            StudentFeeDtDao entityDtDao = new StudentFeeDtDao(ctx);
             try
             {
-                //Build the Text file data.
-                String txt = string.Empty;
-                String format = "";
-
-                List<SiteParameter> lstSiteParameter = BusinessLayer.GetSiteParameterList(String.Format("SiteID IN ({0}) AND ParameterCode = '{1}'", lstSiteID, Constant.SiteParameter.SCHOOL_TYPE), ctx);
-                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
-                List<vARInvoiceDt> lstvInvoiceDt = BusinessLayer.GetvARInvoiceDtList(String.Format("DueDate <= '{0}' AND GCTransactionStatus IN ('{1}','{2}','{3}')", Helper.GetDatePickerValue(txtEndDate.Text), Constant.TransactionStatus.WAIT_FOR_APPROVAL, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED), ctx);
-
-                String lstARInvoiceDtID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceDtID).ToList());
-                String lstARInvoiceID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceID).ToList());
-                List<ARInvoiceDt> lstInvoiceDt = null;
-                if (lstARInvoiceDtID != "")
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID IN ({0}) AND GCTransactionStatus != '{1}'", hdnListStudentID.Value, Constant.TransactionStatus.VOID), ctx);
+                foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
-                    lstInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceDtID IN ({0})", lstARInvoiceDtID), ctx);
-                    List<ARInvoiceHd> lstInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", lstARInvoiceID), ctx);
+                    arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
+                    arInvoiceHD.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    arInvoiceHdDao.Update(arInvoiceHD);
+                }
 
-                    foreach (ARInvoiceHd entityARInvoiceHd in lstInvoiceHd)
+                string[] lstSaveValue = hdnListSaveValue.Value.Split('|');
+                List<StudentFee> lstStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnListStudentFeeID.Value), ctx);
+                List<StudentFee> lstOldStudentFee = null;
+                if(hdnOldListStudentFeeID.Value != "")
+                    lstOldStudentFee = BusinessLayer.GetStudentFeeList(string.Format("StudentFeeID IN ({0})", hdnOldListStudentFeeID.Value), ctx);
+                List<StudentFeeDt> lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND StudentAmount > 0", hdnListStudentFeeID.Value), ctx);
+                for (int i = 0; i < lstSaveValue.Length; ++i)
+                {
+                    string[] temp = lstSaveValue[i].Split(';');
+                    StudentFee entity = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
+                    entity.IsStudentPenaltyAmountInPercentage = true;
+                    entity.StudentPenaltyAmount = Convert.ToDecimal(temp[1]);
+                    entity.TotalStudentPenaltyAmount = entity.StudentAmount * entity.StudentPenaltyAmount / 100;
+                    entity.TotalStudentAmount = entity.StudentAmount + entity.TotalStudentPenaltyAmount;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDao.Update(entity);
+
+                    StudentFee oldEntity = lstOldStudentFee.FirstOrDefault(p => p.StudentFeeID == entity.StudentFeeID);
+                    if (oldEntity != null)
+                        lstOldStudentFee.Remove(oldEntity);
+
+                    StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
+                    entityDt.StudentAmount = entity.TotalStudentAmount;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
+
+                string lstOldStudentFeeID = string.Join(",", lstOldStudentFee.Select(p => p.StudentFeeID).ToList());
+                if (lstOldStudentFeeID != "")
+                {
+                    lstStudentFeeDt = BusinessLayer.GetStudentFeeDtList(string.Format("StudentFeeID IN ({0}) AND StudentAmount > 0", lstOldStudentFeeID), ctx);
+                    foreach (StudentFee entity in lstOldStudentFee)
                     {
-                        if (entityARInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.WAIT_FOR_APPROVAL || entityARInvoiceHd.GCTransactionStatus == Constant.TransactionStatus.APPROVED)
-                        {
-                            entityARInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
-                            entityARInvoiceHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                            arInvoiceHdDao.Update(entityARInvoiceHd);
-                        }
+                        entity.IsStudentPenaltyAmountInPercentage = false;
+                        entity.StudentPenaltyAmount = 0;
+                        entity.TotalStudentPenaltyAmount = 0;
+                        entity.TotalStudentAmount = entity.StudentAmount;
+                        entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDao.Update(entity);
+
+                        StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeID == entity.StudentFeeID);
+                        entityDt.StudentAmount = entity.TotalStudentAmount;
+                        entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        entityDtDao.Update(entityDt);
                     }
                 }
-                else
-                    lstInvoiceDt = new List<ARInvoiceDt>();
-
-                string filterExpressionARBalance = "";
-                String lstProspectiveStudentID = String.Join(",", lstvInvoiceDt.Where(p => p.StudentID == 0).GroupBy(x => x.ProspectiveStudentID).Where(x => x.Key != 0).Select(x => x.Key));
-                List<ProspectiveStudent> lstProspectiveStudent = null;
-                if (lstProspectiveStudentID != "")
-                {
-                    filterExpressionARBalance = String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID);
-                    lstProspectiveStudent = BusinessLayer.GetProspectiveStudentList(String.Format("ProspectiveStudentID IN ({0})", lstProspectiveStudentID));
-                }
-
-                String lstStudentID = String.Join(",", lstvInvoiceDt.GroupBy(x => x.StudentID).Where(x => x.Key != 0).Select(x => x.Key));
-                List<Student> lstStudent = null;
-                List<SchoolClass> lstSchoolClass = null;
-                if (lstStudentID != "")
-                {
-                    if (filterExpressionARBalance != "")
-                        filterExpressionARBalance += " AND ";
-                    filterExpressionARBalance = String.Format("StudentID IN ({0})", lstStudentID);
-                    lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", lstStudentID));
-                    String lstSchooClassID = String.Join(",", lstStudent.Where(p => p.SchoolClassID != null).GroupBy(x => x.SchoolClassID).Where(x => x.Key != 0).Select(x => x.Key));
-                    if (lstSchooClassID != "")
-                        lstSchoolClass = BusinessLayer.GetSchoolClassList(String.Format("SchoolClassID IN ({0})", lstSchooClassID));
-                }
-
-                List<ARBalance> lstARBalance = BusinessLayer.GetARBalanceList(filterExpressionARBalance, ctx);
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
-
-                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID), ctx);
-
-                if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
-                    format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
-
-                #region ProspectiveStudent
-                if (lstProspectiveStudent != null)
-                {
-                    foreach (ProspectiveStudent ps in lstProspectiveStudent)
-                    {
-                        String tempFormat = format;
-                        tempFormat = tempFormat.Replace("{NBS}", ps.ProspectiveStudentCode);
-                        tempFormat = tempFormat.Replace("{Class}", "Baru");
-                        SiteParameter sp = lstSiteParameter.FirstOrDefault(x => x.SiteID == ps.SiteID);
-                        if (sp != null)
-                        {
-                            StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == sp.ParameterValue);
-                            tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
-                        }
-                        tempFormat = tempFormat.Replace("{StudentName}", ps.ProspectiveStudentName);
-                        tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                        tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                        tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
-                        tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
-
-                        List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
-                        int count = 1;
-                        decimal depositAmount = 0;
-                        ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == ps.ProspectiveStudentID);
-                        if (entityARBalance != null)
-                            depositAmount = entityARBalance.DepositAmount;
-                        foreach (vAdmissionFeeComp obj in sfctList)
-                        {
-                            List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                            string ShortName = obj.ShortName;
-                            if (lstvARInvoiceDt1.Count > 0)
-                            {
-                                foreach (vARInvoiceDt x in lstvARInvoiceDt1)
-                                {
-                                    if (x.DueDate < DateTime.Now)
-                                    {
-                                        ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                        arinvoicedt.ClaimedAmount = x.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                        arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                        arInvoiceDtDao.Update(arinvoicedt);
-                                    }
-                                }
-
-                                decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
-
-                                if (depositAmount < amount)
-                                {
-                                    amount = amount - depositAmount;
-                                    depositAmount = 0;
-
-                                    tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
-                                    tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
-                                    count++;
-                                }
-                                else
-                                    depositAmount -= amount;
-                            }
-                        }
-                        for (; count < 26; count++)
-                        {
-                            tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                            tempFormat = tempFormat.Replace("{NA" + count + "}", "");
-                        }
-                        txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
-                    }
-                }
-                #endregion
-
-                #region Student
-                if (lstStudent != null)
-                {
-                    foreach (Student s in lstStudent)
-                    {
-                        String tempFormat = format;
-                        tempFormat = tempFormat.Replace("{NBS}", s.VirtualAccountNo);
-                        if (s.SchoolClassID != null)
-                        {
-                            SchoolClass schoolClass = lstSchoolClass.FirstOrDefault(x => x.SchoolClassID == s.SchoolClassID);
-                            tempFormat = tempFormat.Replace("{Class}", schoolClass.SchoolClassName);
-                        }
-                        else 
-                        {
-                            tempFormat = tempFormat.Replace("{Class}", "Siswa");
-                        }
-                        SiteParameter sp = lstSiteParameter.FirstOrDefault(x => x.SiteID == s.SiteID);
-                        if (sp != null)
-                        {
-                            StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == sp.ParameterValue);
-                            tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
-                        }
-                        tempFormat = tempFormat.Replace("{StudentName}", s.StudentName);
-                        tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                        tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                        tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
-                        tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
-
-                        List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.StudentID == s.StudentID).ToList();
-                        int count = 1;
-                        decimal depositAmount = 0;
-                        ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == s.StudentID);
-                        if (entityARBalance != null)
-                            depositAmount = entityARBalance.DepositAmount;
-                        foreach (vAdmissionFeeComp obj in sfctList)
-                        {
-                            List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                            string ShortName = obj.ShortName;
-                            if (lstvARInvoiceDt1.Count > 0)
-                            {
-                                foreach (vARInvoiceDt x in lstvARInvoiceDt1)
-                                {
-                                    if (x.DueDate < DateTime.Now)
-                                    {
-                                        ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                        arinvoicedt.ClaimedAmount = x.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                        arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                        arInvoiceDtDao.Update(arinvoicedt);
-                                    }
-                                }
-                                decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
-
-                                if (depositAmount < amount)
-                                {
-                                    amount = amount - depositAmount;
-                                    depositAmount = 0;
-
-                                    tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
-                                    tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
-                                    count++;
-                                }
-                                else
-                                    depositAmount -= amount;
-                            }
-                        }
-                        for (; count < 26; count++)
-                        {
-                            tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                            tempFormat = tempFormat.Replace("{NA" + count + "}", "");
-                        }
-                        txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
-                    }
-                }
-                #endregion
 
                 ctx.CommitTransaction();
-
-                #region Download the Text file.
-                Response.Clear();
-                Response.Buffer = true;
-                Response.AddHeader("content-disposition", string.Format("attachment;filename=TagihanSiswa_{0}.txt", DateTime.Now.ToString("yyyyMMdd")));
-                Response.Charset = "";
-                Response.ContentType = "application/text";
-                Response.Output.Write(txt);
-                Response.Flush();
-                HttpContext.Current.ApplicationInstance.CompleteRequest();
-                HttpContext.Current.Response.Flush();
-                HttpContext.Current.Response.End();
-                #endregion
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
-                String errMessage = ex.Message;
+                errMessage = ex.Message;
+                result = false;
                 ctx.RollBackTransaction();
             }
-            finally 
+            finally
             {
                 ctx.Close();
             }
+            return result;            
         }
     }
 }

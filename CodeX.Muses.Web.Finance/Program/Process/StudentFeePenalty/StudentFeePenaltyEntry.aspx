@@ -8,45 +8,119 @@
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Simpan")%></div></li>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
         $(function () {
-            setDatePicker('<%=txtStartDate.ClientID %>');
-            setDatePicker('<%=txtEndDate.ClientID %>');
-
-            $('#btnGenerate').click(function () {
-                $('#<%=btnExport.ClientID%>').click();
+            $('#btnRefresh').click(function () {
+                cbpView.PerformCallback('refresh');
             });
-        })
 
-        function setStartEndPeriod() {
-            var pad = "00";
-            var date = new Date();
-            var firstDay = new Date(cboYear.GetValue(), cboMonth.GetValue() - 1, 1);
-            var lastDay = new Date(cboYear.GetValue(), cboMonth.GetValue(), 0);
-            var fpMonth = pad.substring(0, pad.length - (firstDay.getMonth() + 1).toString().length) + (firstDay.getMonth() + 1).toString();
-            var epMonth = pad.substring(0, pad.length - (lastDay.getMonth() + 1).toString().length) + (lastDay.getMonth() + 1).toString();
-            var endDate = lastDay.getDate() + '-' + epMonth + '-' + lastDay.getFullYear();
-            var firstDate = '0' + firstDay.getDate() + '-' + fpMonth + '-' + firstDay.getFullYear();
-            $('#<%=txtStartDate.ClientID %>').val(firstDate);
-            $('#<%=txtEndDate.ClientID %>').val(endDate);
+            $('#<%=btnSave.ClientID %>').click(function () {
+                getCheckedMember();
+                onCustomButtonClick('save');
+            });
+
+            getInitCheckedData();
+        });
+
+        function getCheckedMember() {
+            var param = "";
+            var lstStudentFeeID = '';
+            var lstStudentID = '';
+            $('.chkIsSelected input:checked').each(function () {
+                $tr = $(this).closest('tr');
+                var id = $tr.find('.keyField').html();
+                var penaltyPercentage = $tr.find('.hdnPenaltyPercentage').val();
+                var studentID = $tr.find('.hdnStudentID').val();
+                if (param != '') {
+                    param += ',';
+                    lstStudentFeeID += '|';
+                    lstStudentID += ',';
+                }
+                param += id + ';' + penaltyPercentage;
+                lstStudentFeeID += id;
+                lstStudentID += studentID;
+            });
+            $('#<%=hdnListStudentFeeID.ClientID %>').val(lstStudentFeeID);
+            $('#<%=hdnListSaveValue.ClientID %>').val(param);
+            $('#<%=hdnListStudentID.ClientID %>').val(lstStudentID);
         }
+
+        function getInitCheckedData() {
+            var lstStudentFeeID = '';
+            $('.chkIsSelected input:checked').each(function () {
+                $tr = $(this).closest('tr');
+                var id = $tr.find('.keyField').html();
+                if (lstStudentFeeID != '')
+                    lstStudentFeeID += ',';
+                lstStudentFeeID += id;
+            });
+            $('#<%=hdnOldListStudentFeeID.ClientID %>').val(lstStudentFeeID);
+        }
+
+        //#region Paging
+        function onCbpViewEndCallback(s) {
+            hideLoadingPanel();
+
+            var param = s.cpResult.split('|');
+            if (param[0] == 'refresh') {
+                var pageCount = parseInt(param[1]);
+                if (pageCount > 0)
+                    $('#<%=grdView.ClientID %> tr:eq(1)').click();
+
+                setPaging($("#paging"), pageCount, function (page) {
+                    cbpView.PerformCallback('changepage|' + page);
+                });
+            }
+            else
+                $('#<%=grdView.ClientID %> tr:eq(1)').click();
+
+            $('.txtCurrency').each(function () {
+                $(this).trigger('changeValue');
+            });
+            getInitCheckedData();
+        }
+        //#endregion
+
+        $('.chkSelectAll input').live('click', function () {
+            var value = $(this).is(':checked');
+            $('#<%=grdView.ClientID %> .chkIsSelected input').each(function () {
+                $(this).prop("checked", value);
+                $(this).change();
+            });
+        });
+
+        $('.chkIsSelected input').live('change', function () {
+            var isChecked = $(this).is(':checked');
+            $tr = $(this).closest('tr');
+            var studentAmount = parseFloat($tr.find('.hdnStudentAmount').val());
+            var penaltyPercentage = parseFloat($tr.find('.hdnPenaltyPercentage').val());
+            var totalPenaltyAmount = 0;
+            if (isChecked)
+                totalPenaltyAmount = studentAmount * penaltyPercentage / 100;
+            var totalStudentAmount = studentAmount + totalPenaltyAmount;
+
+            $tr.find('.hdnTotalStudentPenaltyAmount').val(totalPenaltyAmount);
+            $tr.find('.tdTotalStudentPenaltyAmount').html(totalPenaltyAmount.formatMoney(2, '.', ','));
+            $tr.find('.divTotalStudentAmount').html(totalStudentAmount.formatMoney(2, '.', ','));
+            $tr.find('.hdnTotalStudentAmount').val(totalStudentAmount);
+        });
     </script>
     <div>
-        <div style="display:none;">
-            <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
-            <asp:Button ID="btnExport" Visible="true" runat="server" OnClick="btnExport_Click" Text="Export" />
-        </div>
+        <input type="hidden" id="hdnOldListStudentFeeID" runat="server" />
+        <input type="hidden" id="hdnListStudentFeeID" runat="server" />
+        <input type="hidden" id="hdnListSaveValue" runat="server" />
+        <input type="hidden" id="hdnListStudentID" runat="server" />
         <table class="tblEntryContent" style="width: 50%">
             <colgroup>
-                <col style="width: 30%" />
+                <col style="width: 100px" />
                 <col />
             </colgroup>
-            <tr>
-                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank")%></label></td>
-                <td><dxe:ASPxComboBox ID="cboBank" ClientInstanceName="cboBank" Width="120px" runat="server" /></td>
-            </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Bulan") %></td>
                 <td style="padding-right: 1px; width: 140px">
@@ -57,42 +131,68 @@
                             <col width="120px" />
                         </colgroup>
                         <tr>
-                            <td class="tdMonth">
-                                <dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" Width="120px">
-                                    <ClientSideEvents ValueChanged="function(s,e){setStartEndPeriod()}" />
-                                </dxe:ASPxComboBox>
-                            </td>
+                            <td class="tdMonth"><dxe:ASPxComboBox ID="cboMonth" runat="server" ClientInstanceName="cboMonth" Width="120px" /></td>
                             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tahun")%></label></td>
-                            <td>
-                                <dxe:ASPxComboBox ID="cboYear" runat="server" ClientInstanceName="cboYear" Width="120px" >
-                                    <ClientSideEvents ValueChanged="function(s,e){setStartEndPeriod()}" />
-                                </dxe:ASPxComboBox>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td class="tdLabel"><%=GetLabel("Periode") %></td>
-                <td>
-                    <table cellpadding="0" cellspacing="0" >
-                        <colgroup>
-                            <col width="100px" />
-                            <col width="30px" />
-                            <col width="100px" />
-                        </colgroup>
-                        <tr>
-                            <td style="padding-right: 1px; width: 140px"><asp:TextBox ID="txtStartDate" Width="100px" CssClass="datepicker" runat="server" /></td>
-                            <td>s/d</td>
-                            <td style="padding-right: 1px; width: 140px"><asp:TextBox ID="txtEndDate" Width="100px" CssClass="datepicker" runat="server" /></td>
+                            <td><dxe:ASPxComboBox ID="cboYear" runat="server" ClientInstanceName="cboYear" Width="120px" /></td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
                 <td></td>
-                <td><input type="button" id="btnGenerate" value="Generate" /></td>
+                <td><input type="button" id="btnRefresh" value="Refresh" /></td>
             </tr>
         </table>
     </div>
+    <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+        ShowLoadingPanel="false" OnCallback="cbpView_Callback">
+        <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+            EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
+        <PanelCollection>
+            <dx:PanelContent ID="PanelContent1" runat="server">
+                <asp:Panel runat="server" ID="pnlGridView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;height:380px;overflow-y:scroll;">
+                    <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
+                        <Columns>
+                            <asp:BoundField DataField="StudentFeeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />                              
+                            <asp:TemplateField HeaderStyle-Width="50px" ItemStyle-HorizontalAlign="Center">
+                                <HeaderTemplate>
+                                    <div style="text-align:center">
+                                        <asp:CheckBox runat="server" ID="chkSelectAll" CssClass="chkSelectAll" />
+                                    </div>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <asp:CheckBox runat="server" ID="chkIsSelected" CssClass="chkIsSelected" />
+                                </ItemTemplate>
+                            </asp:TemplateField>                                          
+                            <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="150px" />
+                            <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
+                            <asp:BoundField DataField="StudentAmount" DataFormatString="{0:N}" HeaderText="Uang Sekolah" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                            <asp:BoundField DataField="TotalStudentPenaltyAmount" DataFormatString="{0:N}" HeaderText="Denda" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" ItemStyle-CssClass="tdTotalStudentPenaltyAmount" />
+                            <asp:TemplateField HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight">
+                                <HeaderTemplate>
+                                    <%=GetLabel("Total")%>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <input type="hidden" class="hdnStudentID" value='<%#Eval("StudentID") %>' />
+                                    <input type="hidden" id="hdnPenaltyPercentage" class="hdnPenaltyPercentage" runat="server" />
+                                    <input type="hidden" class="hdnTotalStudentPenaltyAmount" value='<%#Eval("TotalStudentPenaltyAmount") %>' />
+                                    <input type="hidden" class="hdnStudentAmount" value='<%#Eval("StudentAmount") %>' />
+                                    <input type="hidden" class="hdnTotalStudentAmount" value='<%#Eval("TotalStudentAmount") %>' />
+                                    <div class="divTotalStudentAmount"><%#Eval("TotalStudentAmount", "{0:N}") %></div>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <EmptyDataTemplate>
+                            <%=GetLabel("No Data To Display")%>
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                </asp:Panel>
+            </dx:PanelContent>
+        </PanelCollection>
+    </dxcp:ASPxCallbackPanel>
+    <div class="containerPaging">
+        <div class="wrapperPaging">
+            <div id="paging"></div>
+        </div>
+    </div> 
 </asp:Content>
