@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Simpan")%></div></li>
@@ -110,6 +112,41 @@
             $tr.find('.divTotalStudentAmount').html(totalStudentAmount.formatMoney(2, '.', ','));
             $tr.find('.hdnTotalStudentAmount').val(totalStudentAmount);
         });
+
+        function onCboSchoolPeriodValueChanged(s) {
+            tacSchoolClass.setValue('');
+            tacSchoolClass.setText('');
+            cbpView.PerformCallback('refresh');
+        }
+
+        //#region Class
+        function onGetClassFilterExpression() {
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
+            return filterExpression;
+        }
+
+        function onTacClassButtonSearchClick() {
+            openSearchDialog('schoolclass', onGetClassFilterExpression(), function (value) {
+                var filterExpression = onGetClassFilterExpression() + " AND SchoolClassCode = '" + value + "'";
+                Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacSchoolClass.setValue(result.SchoolClassID);
+                        tacSchoolClass.setText(result.SchoolClassName);
+                    }
+                    else {
+                        tacSchoolClass.setValue('');
+                        tacSchoolClass.setText('');
+                    }
+                    onTacClassValueChanged();
+                });
+            });
+
+        }
+
+        function onTacClassValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
+        //#endregion
     </script>
     <div>
         <input type="hidden" id="hdnOldListStudentFeeID" runat="server" />
@@ -118,9 +155,27 @@
         <input type="hidden" id="hdnListStudentID" runat="server" />
         <table class="tblEntryContent" style="width: 50%">
             <colgroup>
-                <col style="width: 100px" />
+                <col style="width: 120px" />
                 <col />
             </colgroup>
+            <tr>
+                <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
+                <td>
+                    <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
+                        <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kelas")%></label></td>
+                <td>
+                    <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolClass" ClientInstanceName="tacSchoolClass" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetClassFilterExpression"
+                        SearchFields="SchoolClassName,SchoolClassCode" TextField="SchoolClassName" ValueField="SchoolClassID" SearchText="${SchoolClassName} (<b>${SchoolClassCode}</b>)" OrderByExpression="SchoolClassName">
+                        <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
+                            ValueChanged="function(){ onTacClassValueChanged(); }" />
+                    </cdx:CodeXAutoCompleteTextBox>   
+                </td>
+            </tr>
             <tr>
                 <td class="tdLabel"><%=GetLabel("Bulan") %></td>
                 <td style="padding-right: 1px; width: 140px">

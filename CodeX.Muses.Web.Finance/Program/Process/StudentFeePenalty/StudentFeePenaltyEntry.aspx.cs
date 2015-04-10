@@ -25,17 +25,21 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             return Constant.MenuCode.Finance.STUDENT_FEE_PENALTY;
         }
+
+        protected string OnGetClassStudyTypeRegular()
+        {
+            return Constant.ClassStudyType.REGULAR;
+        }
         
-        String lstSiteID = "";
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            
-            foreach(Site obj in lstSite)
-            {
-                if(lstSiteID != "") lstSiteID += ',';
-                lstSiteID += String.Format("'{0}'", obj.SiteID);
-            }
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
+            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+                cboSchoolPeriod.SelectedIndex = 0;
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -65,7 +69,9 @@ namespace CodeX.Muses.Web.Finance.Program
         List<StudentFeeCompType> lstStudentFeeCompType = null;
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = string.Format("TransactionMonth = {0} AND TransactionYear = {1} AND GCAdmissionPaymentPeriod = '{2}' AND IsPaid = 0 AND IsDeleted = 0", cboMonth.Value, cboYear.Value, Constant.AdmissionPaymentPeriod.BULANAN);
+            string filterExpression = "1 = 0";
+            if (tacSchoolClass.Value != "")
+                filterExpression = string.Format("StudentID IN (SELECT StudentID FROM Student WHERE SchoolClassID = {0} AND GCStudentStatus = '{1}' AND IsDeleted = 0) AND TransactionMonth = {2} AND TransactionYear = {3} AND GCAdmissionPaymentPeriod = '{4}' AND IsPaid = 0 AND IsDeleted = 0", tacSchoolClass.Value, Constant.StudentStatus.ACTIVE, cboMonth.Value, cboYear.Value, Constant.AdmissionPaymentPeriod.BULANAN);
             List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(filterExpression);
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.BULANAN));
             grdView.DataSource = lstEntity;
