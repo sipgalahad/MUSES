@@ -131,7 +131,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     string[] lstSaveValue1 = temp[2].Split('^');
 
                     StudentFee entityStudentFee = lstStudentFee.FirstOrDefault(p => p.StudentFeeID == studentFeeID);
-                    entityStudentFee.StudentAmount = totalAmount;
+                    entityStudentFee.TotalStudentAmount = entityStudentFee.StudentAmount = totalAmount;
                     entityStudentFee.LineAmount = entityStudentFee.StudentAmount + entityStudentFee.PayerAmount;
                     entityStudentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                     studentFeeDao.Update(entityStudentFee);

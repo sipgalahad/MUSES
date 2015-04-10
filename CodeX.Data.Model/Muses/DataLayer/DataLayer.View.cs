@@ -20877,6 +20877,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentFeeID;
         private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
         private Int32 _ProspectiveStudentID;
         private Int32 _BusinessPartnerID;
         private Int32 _SchoolPeriodID;
@@ -20893,6 +20895,10 @@ namespace CodeX.Data.Model
         private Decimal _DiscountAmount;
         private Decimal _TotalDiscountAmount;
         private Decimal _StudentAmount;
+        private Decimal _StudentPenaltyAmount;
+        private Boolean _IsStudentPenaltyAmountInPercentage;
+        private Decimal _TotalStudentPenaltyAmount;
+        private Decimal _TotalStudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsPaid;
@@ -20909,6 +20915,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
         }
         [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
         public Int32 ProspectiveStudentID
@@ -21005,6 +21023,30 @@ namespace CodeX.Data.Model
         {
             get { return _StudentAmount; }
             set { _StudentAmount = value; }
+        }
+        [Column(Name = "StudentPenaltyAmount", DataType = "Decimal")]
+        public Decimal StudentPenaltyAmount
+        {
+            get { return _StudentPenaltyAmount; }
+            set { _StudentPenaltyAmount = value; }
+        }
+        [Column(Name = "IsStudentPenaltyAmountInPercentage", DataType = "Boolean")]
+        public Boolean IsStudentPenaltyAmountInPercentage
+        {
+            get { return _IsStudentPenaltyAmountInPercentage; }
+            set { _IsStudentPenaltyAmountInPercentage = value; }
+        }
+        [Column(Name = "TotalStudentPenaltyAmount", DataType = "Decimal")]
+        public Decimal TotalStudentPenaltyAmount
+        {
+            get { return _TotalStudentPenaltyAmount; }
+            set { _TotalStudentPenaltyAmount = value; }
+        }
+        [Column(Name = "TotalStudentAmount", DataType = "Decimal")]
+        public Decimal TotalStudentAmount
+        {
+            get { return _TotalStudentAmount; }
+            set { _TotalStudentAmount = value; }
         }
         [Column(Name = "PayerAmount", DataType = "Decimal")]
         public Decimal PayerAmount

@@ -310,7 +310,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     studentFee.IsDiscountAmountInPercentage = true;
                     studentFee.DiscountAmount = discountPercentage;
                     studentFee.TotalDiscountAmount = discountAmount;
-                    studentFee.StudentAmount = studentFee.LineAmount = studentFee.TransactionAmount - studentFee.TotalDiscountAmount;
+                    studentFee.TotalStudentAmount = studentFee.StudentAmount = studentFee.LineAmount = studentFee.TransactionAmount - studentFee.TotalDiscountAmount;
                     studentFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityFeeDao.Update(studentFee);
                 }
@@ -344,7 +344,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     studentFee.IsDiscountAmountInPercentage = true;
                     studentFee.DiscountAmount = discountPercentage;
                     studentFee.TotalDiscountAmount = discountAmount;
-                    studentFee.StudentAmount = studentFee.LineAmount = studentFee.TransactionAmount - studentFee.TotalDiscountAmount;
+                    studentFee.TotalStudentAmount = studentFee.StudentAmount = studentFee.LineAmount = studentFee.TransactionAmount - studentFee.TotalDiscountAmount;
                     studentFee.CreatedBy = AppSession.UserLogin.UserID;
                     entityFeeDao.Insert(studentFee);
                     studentFee.StudentFeeID = BusinessLayer.GetStudentFeeMaxID(ctx);
