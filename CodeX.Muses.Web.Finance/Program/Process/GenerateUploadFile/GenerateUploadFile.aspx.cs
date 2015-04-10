@@ -300,169 +300,214 @@ namespace CodeX.Muses.Web.Finance.Program
                     HttpContext.Current.Response.End();
                     #endregion
                 }
-                else if (cboBank.Value.ToString() == Constant.BankExportDataType.BCA) 
+                else if (cboBank.Value.ToString() == Constant.BankExportDataType.BCA)
                 {
-                    format = @"<tr><td>{NBS}</td><td>{StudentName}</td><td>{Class}</td><td class='txtCurrency'>{Usek}</td><td class='txtCurrency'>{Pemb}</td><td class='txtCurrency'>{Keg}</td><td class='txtCurrency'>{Penalty}</td><td class='txtCurrency'>{Admin}</td><td class='txtCurrency'>{Total}</td></tr>";
+                    #region Download BCA File
+                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID IN ({0})", lstSiteID));
 
-                    #region ProspectiveStudent
-                    if (lstProspectiveStudent != null)
+                    foreach (Site site in lstSite) 
                     {
-                        foreach (ProspectiveStudent ps in lstProspectiveStudent)
+                        String unit = "";
+                        SiteParameter sp = lstSiteParameter.FirstOrDefault(x => x.SiteID == site.SiteID);
+                        if (sp != null)
                         {
-                            String tempFormat = format;
-                            Decimal totalAmount = 0;
+                            StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == sp.ParameterValue);
+                            unit = sc.StandardCodeName;
+                        }
 
-                            tempFormat = tempFormat.Replace("{NBS}", ps.ProspectiveStudentCode);
-                            tempFormat = tempFormat.Replace("{Class}", "Baru");
-                            
-                            tempFormat = tempFormat.Replace("{StudentName}", ps.ProspectiveStudentName);
-                            
-                            List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
-                            
-                            decimal depositAmount = 0;
-                            ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == ps.ProspectiveStudentID);
-                            if (entityARBalance != null)
-                                depositAmount = entityARBalance.DepositAmount;
-                            decimal TotalPenalty = 0;
-                            foreach (vAdmissionFeeComp obj in sfctList)
+                        // Initialize StringWriter instance.
+                        StringWriter stringWriter = new StringWriter();
+                        // Put HtmlTextWriter in using block because it needs to call Dispose.
+                        using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+                        {
+                            writer.RenderBeginTag(HtmlTextWriterTag.Html);
+                            writer.RenderBeginTag(HtmlTextWriterTag.Body);
+                            writer.AddAttribute(HtmlTextWriterAttribute.Border, "1");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Table);
+
+                            #region Table Header
+                            writer.RenderBeginTag(HtmlTextWriterTag.Thead);
+                            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("No Pelanggan"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("NAMA SISWA"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("KELAS"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("SPP"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Pembangunan"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Kegiatan"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Denda"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Admin"); writer.RenderEndTag();
+                            writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Total"); writer.RenderEndTag();
+                            writer.RenderEndTag();//Tr
+                            writer.RenderEndTag();//Thead
+                            #endregion
+
+                            #region ProspectiveStudent PerUnit
+                            if (lstProspectiveStudent != null)
                             {
-                                List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                                string ShortName = obj.ShortName;
-                                if (lstvARInvoiceDt1.Count > 0)
+                                foreach (ProspectiveStudent ps in lstProspectiveStudent.Where(x => x.SiteID == site.SiteID))
                                 {
-                                    foreach (vARInvoiceDt x in lstvARInvoiceDt1)
+                                    String NBS = "";
+                                    String StudentName = "";
+                                    String Class = "";
+                                    String Usek = "-";
+                                    String Pemb = "-";
+                                    String Keg = "-";
+                                    String Penalty = "-";
+                                    String Admin = "-";
+                                    Decimal totalAmount = 0;
+
+                                    NBS = ps.ProspectiveStudentCode;
+                                    Class = "Baru";
+                                    StudentName = ps.ProspectiveStudentName;
+
+                                    List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.ProspectiveStudentID == ps.ProspectiveStudentID).ToList();
+
+                                    decimal depositAmount = 0;
+                                    ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.ProspectiveStudentID == ps.ProspectiveStudentID);
+                                    if (entityARBalance != null)
+                                        depositAmount = entityARBalance.DepositAmount;
+                                    decimal TotalPenalty = 0;
+                                    foreach (vAdmissionFeeComp obj in sfctList)
                                     {
-                                        if (x.DueDate < DateTime.Now)
+                                        List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                                        string ShortName = obj.ShortName;
+                                        if (lstvARInvoiceDt1.Count > 0)
                                         {
-                                            ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                            arinvoicedt.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                            arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                            TotalPenalty += (x.TransactionAmount - x.DiscountAmount) * obj.PenaltyPercentage / 100;
-                                            arInvoiceDtDao.Update(arinvoicedt);
+                                            foreach (vARInvoiceDt x in lstvARInvoiceDt1)
+                                            {
+                                                if (x.DueDate < DateTime.Now)
+                                                {
+                                                    ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
+                                                    arinvoicedt.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
+                                                    arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                                    TotalPenalty += (x.TransactionAmount - x.DiscountAmount) * obj.PenaltyPercentage / 100;
+                                                    arInvoiceDtDao.Update(arinvoicedt);
+                                                }
+                                            }
+
+                                            decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+
+                                            if (depositAmount < amount)
+                                            {
+                                                amount = amount - depositAmount;
+                                                depositAmount = 0;
+                                                switch (ShortName)
+                                                {
+                                                    case "Usek": Usek = amount.ToString("N"); break;
+                                                    case "Pemb": Pemb = amount.ToString("N"); break;
+                                                    case "Keg": Keg = amount.ToString("N"); break;
+                                                }
+                                                totalAmount += amount;
+                                            }
+                                            else
+                                                depositAmount -= amount;
+                                        }
+                                    }
+                                    if (TotalPenalty > 0) Penalty = TotalPenalty.ToString("N");
+                                    SetHtmlRow(writer, NBS, StudentName, Class, Usek, Pemb, Keg, Penalty, Admin, totalAmount);
+                                }
+                            }
+                            #endregion
+
+                            #region Student PerUnit
+                            if (lstStudent != null)
+                            {
+                                foreach (Student s in lstStudent.Where(x => x.SiteID == site.SiteID))
+                                {
+                                    String NBS = "";
+                                    String StudentName = "";
+                                    String Class = "";
+                                    String Usek = "-";
+                                    String Pemb = "-";
+                                    String Keg = "-";
+                                    String Penalty = "-";
+                                    String Admin = "-";
+                                    Decimal totalAmount = 0;
+
+                                    NBS = s.VirtualAccountNo;
+                                    if (s.SchoolClassID != null)
+                                    {
+                                        SchoolClass schoolClass = lstSchoolClass.FirstOrDefault(x => x.SchoolClassID == s.SchoolClassID);
+                                        Class = schoolClass.SchoolClassName;
+                                    }
+                                    else Class = "Siswa";
+                                    StudentName = s.StudentName;
+
+                                    List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.StudentID == s.StudentID).ToList();
+
+                                    decimal depositAmount = 0;
+                                    ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == s.StudentID);
+                                    if (entityARBalance != null) depositAmount = entityARBalance.DepositAmount;
+                                    Decimal TotalPenalty = 0;
+                                    foreach (vAdmissionFeeComp obj in sfctList)
+                                    {
+                                        List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                                        string ShortName = obj.ShortName;
+
+                                        if (lstvARInvoiceDt1.Count > 0)
+                                        {
+
+                                            foreach (vARInvoiceDt x in lstvARInvoiceDt1)
+                                            {
+                                                if (x.DueDate < DateTime.Now)
+                                                {
+                                                    ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
+                                                    arinvoicedt.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
+                                                    arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                                    TotalPenalty += (x.TransactionAmount - x.DiscountAmount) * obj.PenaltyPercentage / 100;
+                                                    arInvoiceDtDao.Update(arinvoicedt);
+                                                }
+                                            }
+                                            decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
+
+                                            if (depositAmount < amount)
+                                            {
+                                                amount = amount - depositAmount;
+                                                depositAmount = 0;
+                                                switch (ShortName)
+                                                {
+                                                    case "Usek": Usek = amount.ToString("N"); break;
+                                                    case "Pemb": Pemb = amount.ToString("N"); break;
+                                                    case "Keg": Keg = amount.ToString("N"); break;
+                                                }
+
+                                                totalAmount += amount;
+                                            }
+                                            else
+                                                depositAmount -= amount;
                                         }
                                     }
 
-                                    decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
-                                    
-                                    if (depositAmount < amount)
-                                    {
-                                        amount = amount - depositAmount;
-                                        depositAmount = 0;
-                                        tempFormat = tempFormat.Replace("{" + ShortName + "}", amount.ToString("N"));
-                                        totalAmount += amount;
-                                    }
-                                    else
-                                        depositAmount -= amount;
+                                    if (TotalPenalty > 0) Penalty = TotalPenalty.ToString("N");
+                                    SetHtmlRow(writer, NBS, StudentName, Class, Usek, Pemb, Keg, Penalty, Admin, totalAmount);
                                 }
                             }
-                            if (TotalPenalty > 0) tempFormat = tempFormat.Replace("{Penalty}", TotalPenalty.ToString("N"));
-                            else tempFormat = tempFormat.Replace("{Penalty}", "-");
 
-                            tempFormat = tempFormat.Replace("{Usek}", "-");
-                            tempFormat = tempFormat.Replace("{Pemb}", "-");
-                            tempFormat = tempFormat.Replace("{Keg}", "-");
-                            tempFormat = tempFormat.Replace("{Admin}", "-");
-                            tempFormat = tempFormat.Replace("{Total}", totalAmount.ToString("N"));
+                            #endregion
 
-                            txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
+                            writer.RenderEndTag();//Table
+                            writer.RenderEndTag();//Body
+                            writer.RenderEndTag();//HTML
+
+                            string attachment = string.Format("attachment;filename=\"TagihanSiswa_{0}_{1}.xls\"", unit, DateTime.Now.ToString("yyyyMMdd"));
+                            HttpContext.Current.Response.ClearContent();
+                            HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                            HttpContext.Current.Response.ContentType = "application/ms-excel";
+                            HttpContext.Current.Response.Write(stringWriter.ToString());
+                            HttpContext.Current.Response.Flush();
+                            HttpContext.Current.Response.End();
                         }
                     }
                     #endregion
-
-                    #region Student
-                    if (lstStudent != null)
-                    {
-                        foreach (Student s in lstStudent)
-                        {
-                            String tempFormat = format;
-                            Decimal totalAmount = 0;
-                            tempFormat = tempFormat.Replace("{NBS}", s.VirtualAccountNo);
-                            if (s.SchoolClassID != null)
-                            {
-                                SchoolClass schoolClass = lstSchoolClass.FirstOrDefault(x => x.SchoolClassID == s.SchoolClassID);
-                                tempFormat = tempFormat.Replace("{Class}", schoolClass.SchoolClassName);
-                            }
-                            else
-                            {
-                                tempFormat = tempFormat.Replace("{Class}", "Siswa");
-                            }
-                            tempFormat = tempFormat.Replace("{StudentName}", s.StudentName);
-                            
-                            List<vARInvoiceDt> lstObj = lstvInvoiceDt.Where(x => x.StudentID == s.StudentID).ToList();
-                            
-                            decimal depositAmount = 0;
-                            ARBalance entityARBalance = lstARBalance.FirstOrDefault(p => p.StudentID == s.StudentID);
-                            if (entityARBalance != null) depositAmount = entityARBalance.DepositAmount;
-                            Decimal TotalPenalty = 0;
-                            foreach (vAdmissionFeeComp obj in sfctList)
-                            {
-                                List<vARInvoiceDt> lstvARInvoiceDt1 = lstObj.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                                string ShortName = obj.ShortName;
-                                
-                                if (lstvARInvoiceDt1.Count > 0)
-                                {
-                                    
-                                    foreach (vARInvoiceDt x in lstvARInvoiceDt1)
-                                    {
-                                        if (x.DueDate < DateTime.Now)
-                                        {
-                                            ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                            arinvoicedt.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                            arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                            TotalPenalty += (x.TransactionAmount - x.DiscountAmount) * obj.PenaltyPercentage / 100;
-                                            arInvoiceDtDao.Update(arinvoicedt);
-                                        }
-                                    }
-                                    decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
-                                    
-                                    if (depositAmount < amount)
-                                    {
-                                        amount = amount - depositAmount;
-                                        depositAmount = 0;
-                                        tempFormat = tempFormat.Replace("{" + ShortName + "}", amount.ToString("N"));
-                                        totalAmount += amount;
-                                    }
-                                    else
-                                        depositAmount -= amount;
-                                }
-                            }
-                            if (TotalPenalty > 0) tempFormat = tempFormat.Replace("{Penalty}", TotalPenalty.ToString("N"));
-                            else tempFormat = tempFormat.Replace("{Penalty}", "-");
-
-                            tempFormat = tempFormat.Replace("{Usek}", "-");
-                            tempFormat = tempFormat.Replace("{Pemb}", "-");
-                            tempFormat = tempFormat.Replace("{Keg}", "-");
-                            tempFormat = tempFormat.Replace("{Admin}", "-");
-                            tempFormat = tempFormat.Replace("{Total}", totalAmount.ToString("N"));
-
-                            txt += String.Format("{0}{1}", tempFormat, Environment.NewLine);
-                        }
-                    }
-                    #endregion
-
-                    string attachment = string.Format("attachment;filename=\"TagihanSiswa_{0}.xls\"", DateTime.Now.ToString("yyyyMMdd"));
-                    HttpContext.Current.Response.ClearContent();
-                    HttpContext.Current.Response.AddHeader("content-disposition", attachment);
-                    HttpContext.Current.Response.ContentType = "application/ms-excel";
-                    //StringWriter stw = new StringWriter();
-                    //HtmlTextWriter htextw = new HtmlTextWriter(stw);
-                    //div.RenderControl(htextw);
-                    //HttpContext.Current.Response.Write(stw.ToString());
-                    //FileInfo fi = new FileInfo(HttpContext.Current.Request.MapPath(page.ResolveUrl("~/Libs/Styles/excel.css")));
-                    
-                    //System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                    //StreamReader sr = fi.OpenText();
-                    //while (sr.Peek() >= 0)
-                    //{
-                    //    sb.Append(sr.ReadLine());
-                    //}
-                    //sr.Close();
-                    String header = "<thead><tr><td>No Pelanggan</td><td>NAMA SISWA</td><td>KELAS</td><td>SPP</td><td>Pembangunan</td><td>Kegiatan</td><td>Denda</td><td>Admin</td><td>Total</td></tr></thead>";
-                    HttpContext.Current.Response.Write("<html><head><style type='text/css'>table thead tr td { text-align:center; } .txtCurrency {text-align:right;}</style></head><body><table border='1'>" + header + txt + "</table></body></html>");
-                    //stw = null;
-                    //htextw = null;
-                    HttpContext.Current.Response.Flush();
-                    HttpContext.Current.Response.End();
                 }
 
                 ctx.CommitTransaction();
@@ -477,6 +522,27 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 ctx.Close();
             }
+        }
+
+        private void SetHtmlRow(HtmlTextWriter writer, String NBS, String StudentName, String Class, String Usek, String Pemb, String Keg, String Penalty, String Admin, Decimal Total) 
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(NBS); writer.RenderEndTag();
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(StudentName); writer.RenderEndTag();
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Class); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Usek); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Pemb); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Keg); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Penalty); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Admin); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Total.ToString("N")); writer.RenderEndTag();
+            writer.RenderEndTag();
         }
     }
 }
