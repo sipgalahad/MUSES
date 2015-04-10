@@ -419,6 +419,7 @@ namespace CodeX.Common
                 public const string AR_PROSPECTIVE_STUDENT_INFORMATION = "IF030300";
                 public const string AR_CUSTOMER_INFORMATION = "IF030400";
                 public const string STUDENT_FEE = "IF030500";
+                public const string TARIFF_INFORMATION = "IF030600";
 
                 public const string UNBALANCE_JOURNAL = "IF040100";
                 public const string BALANCE_INFORMATION = "IF040200";

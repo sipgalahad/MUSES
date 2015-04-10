@@ -71,6 +71,7 @@ namespace CodeX.Common
             public const string ITEM_TYPE = "X001";
             public const string ITEM_UNIT = "X003";
             public const string CUSTOMER_TYPE = "X004";
+            public const string TARIFF_SCHEME = "X005";
             public const string BLOOD_TYPE = "X009";
             public const string OCCUPATION = "X012";
             public const string EDUCATION = "X013";

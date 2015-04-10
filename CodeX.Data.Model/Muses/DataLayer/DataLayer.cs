@@ -12182,6 +12182,125 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ItemTariff
+    [Serializable]
+    [Table(Name = "ItemTariff")]
+    public class ItemTariff : DbDataModel
+    {
+        private Int32 _ID;
+        private String _SiteID;
+        private String _GCTariffScheme;
+        private String _GCItemType;
+        private Int32 _BookID;
+        private Int32 _ItemID;
+        private DateTime _StartingDate;
+        private Decimal _Tariff;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GCTariffScheme", DataType = "String")]
+        public String GCTariffScheme
+        {
+            get { return _GCTariffScheme; }
+            set { _GCTariffScheme = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "BookID", DataType = "Int32")]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "Tariff", DataType = "Decimal")]
+        public Decimal Tariff
+        {
+            get { return _Tariff; }
+            set { _Tariff = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+    }
+
+    public class ItemTariffDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ItemTariff));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public ItemTariffDao() { }
+        public ItemTariffDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ItemTariff Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ItemTariff)_helper.DataRowToObject(row, new ItemTariff());
+        }
+        public int Insert(ItemTariff record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ItemTariff record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            ItemTariff record;
+            if (_ctx.Transaction == null)
+                record = new ItemTariffDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ItemTransactionDt
     [Serializable]
     [Table(Name = "ItemTransactionDt")]
@@ -26378,6 +26497,333 @@ namespace CodeX.Data.Model
                 record = new SupplierPaymentHdDao().Get(SupplierPaymentID);
             else
                 record = Get(SupplierPaymentID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TariffBookDt
+    [Serializable]
+    [Table(Name = "TariffBookDt")]
+    public class TariffBookDt : DbDataModel
+    {
+        private Int32 _BookID;
+        private Int32 _ItemID;
+        private Decimal _MarginPercentage;
+        private Decimal _SuggestedTariff;
+        private Decimal _BaseTariff;
+        private Decimal _ApprovedBaseTariff;
+        private Decimal _ProposedTariff;
+        private Decimal _ApprovedTariff;
+        private Boolean _IsApproved;
+        private String _Notes;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BookID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "MarginPercentage", DataType = "Decimal")]
+        public Decimal MarginPercentage
+        {
+            get { return _MarginPercentage; }
+            set { _MarginPercentage = value; }
+        }
+        [Column(Name = "SuggestedTariff", DataType = "Decimal")]
+        public Decimal SuggestedTariff
+        {
+            get { return _SuggestedTariff; }
+            set { _SuggestedTariff = value; }
+        }
+        [Column(Name = "BaseTariff", DataType = "Decimal")]
+        public Decimal BaseTariff
+        {
+            get { return _BaseTariff; }
+            set { _BaseTariff = value; }
+        }
+        [Column(Name = "ApprovedBaseTariff", DataType = "Decimal", IsNullable = true)]
+        public Decimal ApprovedBaseTariff
+        {
+            get { return _ApprovedBaseTariff; }
+            set { _ApprovedBaseTariff = value; }
+        }
+        [Column(Name = "ProposedTariff", DataType = "Decimal")]
+        public Decimal ProposedTariff
+        {
+            get { return _ProposedTariff; }
+            set { _ProposedTariff = value; }
+        }
+        [Column(Name = "ApprovedTariff", DataType = "Decimal", IsNullable = true)]
+        public Decimal ApprovedTariff
+        {
+            get { return _ApprovedTariff; }
+            set { _ApprovedTariff = value; }
+        }
+        [Column(Name = "IsApproved", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsApproved
+        {
+            get { return _IsApproved; }
+            set { _IsApproved = value; }
+        }
+        [Column(Name = "Notes", DataType = "String", IsNullable = true)]
+        public String Notes
+        {
+            get { return _Notes; }
+            set { _Notes = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TariffBookDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TariffBookDt));
+        private bool _isAuditLog = false;
+        private const string p_BookID = "@p_BookID";
+        private const string p_ClassID = "@p_ClassID";
+        private const string p_ItemID = "@p_ItemID";
+        public TariffBookDtDao() { }
+        public TariffBookDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TariffBookDt Get(Int32 BookID, Int32 ItemID, Int32 ClassID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BookID, BookID);
+            _ctx.Add(p_ClassID, ClassID);
+            _ctx.Add(p_ItemID, ItemID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TariffBookDt)_helper.DataRowToObject(row, new TariffBookDt());
+        }
+        public int Insert(TariffBookDt record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TariffBookDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BookID, Int32 ItemID, Int32 ClassID)
+        {
+            TariffBookDt record;
+            if (_ctx.Transaction == null)
+                record = new TariffBookDtDao().Get(BookID, ItemID, ClassID);
+            else
+                record = Get(BookID, ItemID, ClassID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TariffBookHd
+    [Serializable]
+    [Table(Name = "TariffBookHd")]
+    public class TariffBookHd : DbDataModel
+    {
+        private Int32 _BookID;
+        private String _SiteID;
+        private String _DocumentNo;
+        private Int16 _RevisionNo;
+        private DateTime _DocumentDate;
+        private String _GCTariffScheme;
+        private String _GCTransactionStatus;
+        private String _GCItemType;
+        private Int32 _PreparedBy;
+        private DateTime _ApprovedDate;
+        private Int32? _ApprovedBy;
+        private DateTime _StartingDate;
+        private Boolean _IsIncludeVAT;
+        private String _DocumentSummary;
+        private String _Notes;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BookID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "DocumentNo", DataType = "String")]
+        public String DocumentNo
+        {
+            get { return _DocumentNo; }
+            set { _DocumentNo = value; }
+        }
+        [Column(Name = "RevisionNo", DataType = "Int16")]
+        public Int16 RevisionNo
+        {
+            get { return _RevisionNo; }
+            set { _RevisionNo = value; }
+        }
+        [Column(Name = "DocumentDate", DataType = "DateTime")]
+        public DateTime DocumentDate
+        {
+            get { return _DocumentDate; }
+            set { _DocumentDate = value; }
+        }
+        [Column(Name = "GCTariffScheme", DataType = "String")]
+        public String GCTariffScheme
+        {
+            get { return _GCTariffScheme; }
+            set { _GCTariffScheme = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "PreparedBy", DataType = "Int32")]
+        public Int32 PreparedBy
+        {
+            get { return _PreparedBy; }
+            set { _PreparedBy = value; }
+        }
+        [Column(Name = "ApprovedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime ApprovedDate
+        {
+            get { return _ApprovedDate; }
+            set { _ApprovedDate = value; }
+        }
+        [Column(Name = "ApprovedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? ApprovedBy
+        {
+            get { return _ApprovedBy; }
+            set { _ApprovedBy = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "IsIncludeVAT", DataType = "Boolean")]
+        public Boolean IsIncludeVAT
+        {
+            get { return _IsIncludeVAT; }
+            set { _IsIncludeVAT = value; }
+        }
+        [Column(Name = "DocumentSummary", DataType = "String", IsNullable = true)]
+        public String DocumentSummary
+        {
+            get { return _DocumentSummary; }
+            set { _DocumentSummary = value; }
+        }
+        [Column(Name = "Notes", DataType = "String", IsNullable = true)]
+        public String Notes
+        {
+            get { return _Notes; }
+            set { _Notes = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TariffBookHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TariffBookHd));
+        private bool _isAuditLog = false;
+        private const string p_BookID = "@p_BookID";
+        public TariffBookHdDao() { }
+        public TariffBookHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TariffBookHd Get(Int32 BookID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_BookID, BookID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TariffBookHd)_helper.DataRowToObject(row, new TariffBookHd());
+        }
+        public int Insert(TariffBookHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TariffBookHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 BookID)
+        {
+            TariffBookHd record;
+            if (_ctx.Transaction == null)
+                record = new TariffBookHdDao().Get(BookID);
+            else
+                record = Get(BookID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

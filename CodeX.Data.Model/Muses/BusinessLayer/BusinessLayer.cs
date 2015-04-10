@@ -5817,6 +5817,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ItemTariff
+        public static ItemTariff GetItemTariff(Int32 ID)
+        {
+            return new ItemTariffDao().Get(ID);
+        }
+        public static int InsertItemTariff(ItemTariff record)
+        {
+            return new ItemTariffDao().Insert(record);
+        }
+        public static int UpdateItemTariff(ItemTariff record)
+        {
+            return new ItemTariffDao().Update(record);
+        }
+        public static int DeleteItemTariff(Int32 ID)
+        {
+            return new ItemTariffDao().Delete(ID);
+        }
+        public static List<ItemTariff> GetItemTariffList(string filterExpression)
+        {
+            List<ItemTariff> result = new List<ItemTariff>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemTariff));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ItemTariff)helper.IDataReaderToObject(reader, new ItemTariff()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetItemTariffMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ItemTariff));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ItemTransactionDt
         public static ItemTransactionDt GetItemTransactionDt(Int32 ID)
         {
@@ -12589,6 +12645,110 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TariffBookDt
+        public static TariffBookDt GetTariffBookDt(Int32 BookID, Int32 ItemID, Int32 ClassID)
+        {
+            return new TariffBookDtDao().Get(BookID, ItemID, ClassID);
+        }
+        public static int InsertTariffBookDt(TariffBookDt record)
+        {
+            return new TariffBookDtDao().Insert(record);
+        }
+        public static int UpdateTariffBookDt(TariffBookDt record)
+        {
+            return new TariffBookDtDao().Update(record);
+        }
+        public static int DeleteTariffBookDt(Int32 BookID, Int32 ItemID, Int32 ClassID)
+        {
+            return new TariffBookDtDao().Delete(BookID, ItemID, ClassID);
+        }
+        public static List<TariffBookDt> GetTariffBookDtList(string filterExpression)
+        {
+            IDbContext ctx = DbFactory.Configure();
+            return GetTariffBookDtList(filterExpression, ctx);
+        }
+        public static List<TariffBookDt> GetTariffBookDtList(string filterExpression, IDbContext ctx)
+        {
+            List<TariffBookDt> result = new List<TariffBookDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TariffBookDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TariffBookDt)helper.IDataReaderToObject(reader, new TariffBookDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region TariffBookHd
+        public static TariffBookHd GetTariffBookHd(Int32 BookID)
+        {
+            return new TariffBookHdDao().Get(BookID);
+        }
+        public static int InsertTariffBookHd(TariffBookHd record)
+        {
+            return new TariffBookHdDao().Insert(record);
+        }
+        public static int UpdateTariffBookHd(TariffBookHd record)
+        {
+            return new TariffBookHdDao().Update(record);
+        }
+        public static int DeleteTariffBookHd(Int32 BookID)
+        {
+            return new TariffBookHdDao().Delete(BookID);
+        }
+        public static List<TariffBookHd> GetTariffBookHdList(string filterExpression)
+        {
+            IDbContext ctx = DbFactory.Configure();
+            return GetTariffBookHdList(filterExpression, ctx);
+        }
+        public static List<TariffBookHd> GetTariffBookHdList(string filterExpression, IDbContext ctx)
+        {
+            List<TariffBookHd> result = new List<TariffBookHd>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TariffBookHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TariffBookHd)helper.IDataReaderToObject(reader, new TariffBookHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTariffBookHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TariffBookHd));
+                ctx.CommandText = helper.SelectMaxColumn("BookID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

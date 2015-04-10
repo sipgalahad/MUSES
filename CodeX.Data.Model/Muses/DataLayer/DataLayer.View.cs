@@ -10358,6 +10358,141 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vItemTariff
+    [Serializable]
+    [Table(Name = "vItemTariff")]
+    public class vItemTariff
+    {
+        private Int32 _ItemID;
+        private DateTime _StartingDate;
+        private String _ItemName1;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private String _GCTariffScheme;
+        private String _GCItemType;
+        private Decimal _Tariff;
+
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "GCTariffScheme", DataType = "String")]
+        public String GCTariffScheme
+        {
+            get { return _GCTariffScheme; }
+            set { _GCTariffScheme = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "Tariff", DataType = "Decimal")]
+        public Decimal Tariff
+        {
+            get { return _Tariff; }
+            set { _Tariff = value; }
+        }
+    }
+    #endregion
+    #region vItemTariffCustom
+    [Serializable]
+    [Table(Name = "vItemTariffCustom")]
+    public class vItemTariffCustom
+    {
+        private Int32 _ItemID;
+        private String _ItemName1;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private String _GCTariffScheme;
+        private String _GCItemType;
+        private Decimal _Tariff;
+
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "GCTariffScheme", DataType = "String")]
+        public String GCTariffScheme
+        {
+            get { return _GCTariffScheme; }
+            set { _GCTariffScheme = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "Tariff", DataType = "Decimal")]
+        public Decimal Tariff
+        {
+            get { return _Tariff; }
+            set { _Tariff = value; }
+        }
+    }
+    #endregion
     #region vItemTransactionDt
     [Serializable]
     [Table(Name = "vItemTransactionDt")]
@@ -22730,6 +22865,260 @@ namespace CodeX.Data.Model
         {
             get { return _LastUpdatedDate; }
             set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
+    #region vTariffBookDt
+    [Serializable]
+    [Table(Name = "vTariffBookDt")]
+    public class vTariffBookDt
+    {
+        private Int32 _BookID;
+        private String _GCTariffScheme;
+        private String _GCItemType;
+        private Int32 _ItemID;
+        private Int32 _ItemGroupID;
+        private Decimal _SuggestedTariff;
+        private Decimal _BaseTariff;
+        private Decimal _ApprovedBaseTariff;
+        private Decimal _ProposedTariff;
+        private Decimal _ApprovedTariff;
+        private Boolean _IsApproved;
+        private String _Notes;
+
+        [Column(Name = "BookID", DataType = "Int32")]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "GCTariffScheme", DataType = "String")]
+        public String GCTariffScheme
+        {
+            get { return _GCTariffScheme; }
+            set { _GCTariffScheme = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "SuggestedTariff", DataType = "Decimal")]
+        public Decimal SuggestedTariff
+        {
+            get { return _SuggestedTariff; }
+            set { _SuggestedTariff = value; }
+        }
+        [Column(Name = "BaseTariff", DataType = "Decimal")]
+        public Decimal BaseTariff
+        {
+            get { return _BaseTariff; }
+            set { _BaseTariff = value; }
+        }
+        [Column(Name = "ApprovedBaseTariff", DataType = "Decimal")]
+        public Decimal ApprovedBaseTariff
+        {
+            get { return _ApprovedBaseTariff; }
+            set { _ApprovedBaseTariff = value; }
+        }
+        [Column(Name = "ProposedTariff", DataType = "Decimal")]
+        public Decimal ProposedTariff
+        {
+            get { return _ProposedTariff; }
+            set { _ProposedTariff = value; }
+        }
+        [Column(Name = "ApprovedTariff", DataType = "Decimal")]
+        public Decimal ApprovedTariff
+        {
+            get { return _ApprovedTariff; }
+            set { _ApprovedTariff = value; }
+        }
+        [Column(Name = "IsApproved", DataType = "Boolean")]
+        public Boolean IsApproved
+        {
+            get { return _IsApproved; }
+            set { _IsApproved = value; }
+        }
+        [Column(Name = "Notes", DataType = "String")]
+        public String Notes
+        {
+            get { return _Notes; }
+            set { _Notes = value; }
+        }
+    }
+    #endregion
+    #region vTariffBookHd
+    [Serializable]
+    [Table(Name = "vTariffBookHd")]
+    public partial class vTariffBookHd
+    {
+        private Int32 _BookID;
+        private String _SiteID;
+        private String _SiteName;
+        private String _DocumentNo;
+        private Int16 _RevisionNo;
+        private DateTime _DocumentDate;
+        private String _GCTariffScheme;
+        private String _TariffScheme;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _GCItemType;
+        private String _ItemType;
+        private Int32 _PreparedBy;
+        private DateTime _ApprovedDate;
+        private Int32 _ApprovedBy;
+        private DateTime _StartingDate;
+        private Boolean _IsIncludeVAT;
+        private String _DocumentSummary;
+        private String _Notes;
+        private Int32 _NumberOfItems;
+        private Int32 _NumberOfApprovedItems;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "BookID", DataType = "Int32")]
+        public Int32 BookID
+        {
+            get { return _BookID; }
+            set { _BookID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+        [Column(Name = "DocumentNo", DataType = "String")]
+        public String DocumentNo
+        {
+            get { return _DocumentNo; }
+            set { _DocumentNo = value; }
+        }
+        [Column(Name = "RevisionNo", DataType = "Int16")]
+        public Int16 RevisionNo
+        {
+            get { return _RevisionNo; }
+            set { _RevisionNo = value; }
+        }
+        [Column(Name = "DocumentDate", DataType = "DateTime")]
+        public DateTime DocumentDate
+        {
+            get { return _DocumentDate; }
+            set { _DocumentDate = value; }
+        }
+        [Column(Name = "GCTariffScheme", DataType = "String")]
+        public String GCTariffScheme
+        {
+            get { return _GCTariffScheme; }
+            set { _GCTariffScheme = value; }
+        }
+        [Column(Name = "TariffScheme", DataType = "String")]
+        public String TariffScheme
+        {
+            get { return _TariffScheme; }
+            set { _TariffScheme = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "ItemType", DataType = "String")]
+        public String ItemType
+        {
+            get { return _ItemType; }
+            set { _ItemType = value; }
+        }
+        [Column(Name = "PreparedBy", DataType = "Int32")]
+        public Int32 PreparedBy
+        {
+            get { return _PreparedBy; }
+            set { _PreparedBy = value; }
+        }
+        [Column(Name = "ApprovedDate", DataType = "DateTime")]
+        public DateTime ApprovedDate
+        {
+            get { return _ApprovedDate; }
+            set { _ApprovedDate = value; }
+        }
+        [Column(Name = "ApprovedBy", DataType = "Int32")]
+        public Int32 ApprovedBy
+        {
+            get { return _ApprovedBy; }
+            set { _ApprovedBy = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "IsIncludeVAT", DataType = "Boolean")]
+        public Boolean IsIncludeVAT
+        {
+            get { return _IsIncludeVAT; }
+            set { _IsIncludeVAT = value; }
+        }
+        [Column(Name = "DocumentSummary", DataType = "String")]
+        public String DocumentSummary
+        {
+            get { return _DocumentSummary; }
+            set { _DocumentSummary = value; }
+        }
+        [Column(Name = "Notes", DataType = "String")]
+        public String Notes
+        {
+            get { return _Notes; }
+            set { _Notes = value; }
+        }
+        [Column(Name = "NumberOfItems", DataType = "Int32")]
+        public Int32 NumberOfItems
+        {
+            get { return _NumberOfItems; }
+            set { _NumberOfItems = value; }
+        }
+        [Column(Name = "NumberOfApprovedItems", DataType = "Int32")]
+        public Int32 NumberOfApprovedItems
+        {
+            get { return _NumberOfApprovedItems; }
+            set { _NumberOfApprovedItems = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

@@ -133,6 +133,7 @@
     <Content Include="Program\ARInvoice\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentPageLauncher.aspx" />
     <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
+    <Content Include="Program\Configuration\CreateTariff\CreateTariffEntry.aspx" />
     <Content Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx" />
     <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx" />
     <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx" />
@@ -602,6 +603,13 @@
     <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.designer.cs">
       <DependentUpon>StudentPaymentMethodEdit.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Configuration\CreateTariff\CreateTariffEntry.aspx.cs">
+      <DependentUpon>CreateTariffEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Configuration\CreateTariff\CreateTariffEntry.aspx.designer.cs">
+      <DependentUpon>CreateTariffEntry.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx.cs">
       <DependentUpon>BankUploadedFile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -662,7 +670,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Program\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">
