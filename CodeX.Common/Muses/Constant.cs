@@ -661,6 +661,7 @@ namespace CodeX.Common
         public class BankExportDataType 
         {
             public const string MANDIRI = "MS023^001";
+            public const string BCA = "MS023^002";
         }
     }
 }
