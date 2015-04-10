@@ -79,6 +79,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
     </Content>
@@ -198,6 +201,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\MPListPopupCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\MPListPopupCtl.ascx.designer.cs</Link>
       <DependentUpon>MPListPopupCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\PopupPrintCtl.ascx.designer.cs</Link>
+      <DependentUpon>PopupPrintCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.cs</Link>
