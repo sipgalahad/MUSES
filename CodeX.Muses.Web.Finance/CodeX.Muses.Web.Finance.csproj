@@ -129,6 +129,7 @@
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
     <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx" />
     <Content Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
     <Content Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx" />
     <Content Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
@@ -571,6 +572,13 @@
     </Compile>
     <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentReceiveEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.cs">
+      <DependentUpon>StudentMonthlyFeeEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.designer.cs">
+      <DependentUpon>StudentMonthlyFeeEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.cs">
       <DependentUpon>GenerateUploadFileStudent.aspx</DependentUpon>

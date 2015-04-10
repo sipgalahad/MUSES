@@ -22,11 +22,12 @@
             $('#<%=btnGenerate.ClientID %>').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     var isAllowSave = true;
-                    $('.hdnTotalAmount').each(function () {
+                    $('.txtRemainingAmount').each(function () {
                         if (isAllowSave) {
-                            var total = parseFloat($(this).val());
-                            var studentFeeCompType = $(this).closest('td').find('.hdnStudentFeeCompTypeName').val();
-                            var totalPayment = parseFloat($(this).closest('td').find('.txtTotalPayment').attr('hiddenVal'));
+                            var total = parseFloat($(this).attr('hiddenVal'));
+                            $tr = $(this).closest('tr').next();
+                            var studentFeeCompType = $tr.find('.hdnStudentFeeCompTypeName').val();
+                            var totalPayment = parseFloat($tr.find('.txtTotalPayment').attr('hiddenVal'));
                             if (total != totalPayment) {
                                 isAllowSave = false;
                                 showToast('Warning', 'Total ' + studentFeeCompType + ' Tidak Sama');
@@ -38,6 +39,7 @@
                         var lstStudentFeeID = "";
                         $('.hdnStudentFeeID').each(function () {
                             var studentFeeID = $(this).val();
+                            var totalAmount = $(this).closest('tr').prev().prev().prev().find('.txtTotalAmount').attr('hiddenVal');
                             var tempResult = '';
                             var count = 0;
                             $('.txtDueDate' + studentFeeID).each(function () {
@@ -54,7 +56,7 @@
                                 param += '|';
                                 lstStudentFeeID += ',';
                             }
-                            param += studentFeeID + ';' + tempResult;
+                            param += studentFeeID + ';' + totalAmount + ';' + tempResult;
                             lstStudentFeeID += studentFeeID;
                         });
                         $('#<%=hdnLstStudentFeeID.ClientID %>').val(lstStudentFeeID);
@@ -176,7 +178,7 @@
 
         function calculatePaymentAmount(keyField) {
             var count = $('.txtPaymentAmount' + keyField).length;
-            var totalAmount = parseFloat($('.hdnTotalAmount' + keyField).val());
+            var totalAmount = parseFloat($('.txtRemainingAmount' + keyField).attr('hiddenVal'));
             $('.txtPaymentAmount' + keyField).each(function () {
                 $(this).val(totalAmount / count).trigger('changeValue');
             });
@@ -219,13 +221,25 @@
                 setDatePickerElement($(this));
                 count++;
             });
-            $('.txtPaymentAmount').each(function () {
+            $('.txtCurrency').each(function () {
                 $(this).trigger('changeValue');
             });
 
             calculateTotalPayment();
             hideLoadingPanel();
         }
+
+        $('.txtTotalAmount').live('change', function () {
+            $(this).blur();
+            var totalAmount = parseFloat($(this).attr('hiddenVal'));
+            var totalPaymentAmount = parseFloat($(this).closest('tr').next().find('.txtTotalPaymentAmount').attr('hiddenVal'));
+            $(this).closest('tr').next().next().find('.txtRemainingAmount').val(totalAmount - totalPaymentAmount).trigger('changeValue');
+
+            var studentFeeID = $(this).closest('tr').next().next().next().find('.hdnStudentFeeID').val();
+
+            calculatePaymentAmount(studentFeeID);
+            calculateTotalPayment();
+        });
     </script>
     <input type="hidden" id="hdnSaveValue" runat="server" />
     <input type="hidden" id="hdnLstStudentFeeID" runat="server" />
@@ -274,15 +288,24 @@
                             <asp:Repeater runat="server" ID="rptStudentFeeComp" OnItemDataBound="rptStudentFeeComp_ItemDataBound">
                                 <ItemTemplate>                                        
                                     <tr id="trDataHeader" runat="server">
-                                        <td>Sisa <%#:Eval("cfStudentFeeCompTypeName") %></td>
+                                        <td><%#:Eval("cfStudentFeeCompTypeName") %></td>
                                         <td>:</td>
-                                        <td id="tdTotalAmount" class="tdTotalAmount" runat="server" style="color: Red; font-weight: bold"></td>
+                                        <td><asp:TextBox ID="txtTotalAmount" runat="server" CssClass="txtTotalAmount txtCurrency" Width="120px" /></td>
+                                    </tr>                                     
+                                    <tr id="trDataHeader1" runat="server">
+                                        <td><%=GetLabel("Sudah Dibayar") %></td>
+                                        <td>:</td>
+                                        <td><asp:TextBox ID="txtTotalPaymentAmount" runat="server" ReadOnly="true" CssClass="txtTotalPaymentAmount txtCurrency" Width="120px" /></td>
+                                    </tr>                                   
+                                    <tr id="trDataHeader2" runat="server">
+                                        <td><%=GetLabel("Sisa") %></td>
+                                        <td>:</td>
+                                        <td><asp:TextBox ID="txtRemainingAmount" runat="server" ReadOnly="true" Width="120px" /></td>
                                     </tr>
                                     <tr id="trDataDetail" runat="server">
                                         <td colspan="3">
                                             <input type="hidden" class="hdnStudentFeeCompTypeName" value='<%#:Eval("cfStudentFeeCompTypeName") %>' />
                                             <input type="hidden" class="hdnStudentFeeID" runat="server" value='<%#:Eval("StudentFeeID") %>' />
-                                            <input type="hidden" id="hdnTotalAmount" runat="server" />
                                             <table rules="all" class="grdNormal grdBorder notAllowSelect tblView">
                                                 <asp:Repeater runat="server" ID="rptStudentFee">
                                                     <HeaderTemplate>

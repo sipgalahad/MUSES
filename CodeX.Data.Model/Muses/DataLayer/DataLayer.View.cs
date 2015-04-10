@@ -20032,6 +20032,7 @@ namespace CodeX.Data.Model
         private String _StudentFeeCompTypeName;
         private String _GCAdmissionPaymentPeriod;
         private Int16 _DisplayOrder;
+        private DateTime _DueDate;
         private Int32 _TransactionMonth;
         private Int32 _TransactionYear;
         private Decimal _TransactionAmount;
@@ -20041,6 +20042,7 @@ namespace CodeX.Data.Model
         private Decimal _StudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
+        private Boolean _IsPaid;
         private Boolean _IsDeleted;
 
         [Column(Name = "StudentFeeID", DataType = "Int32")]
@@ -20103,6 +20105,12 @@ namespace CodeX.Data.Model
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
         }
+        [Column(Name = "DueDate", DataType = "DateTime")]
+        public DateTime DueDate
+        {
+            get { return _DueDate; }
+            set { _DueDate = value; }
+        }
         [Column(Name = "TransactionMonth", DataType = "Int32")]
         public Int32 TransactionMonth
         {
@@ -20156,6 +20164,12 @@ namespace CodeX.Data.Model
         {
             get { return _LineAmount; }
             set { _LineAmount = value; }
+        }
+        [Column(Name = "IsPaid", DataType = "Boolean")]
+        public Boolean IsPaid
+        {
+            get { return _IsPaid; }
+            set { _IsPaid = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

@@ -375,6 +375,7 @@ namespace CodeX.Common
                 public const string AR_INVOICE_STUDENT_EDIT = "FN040213";
                 public const string AR_INVOICE_STUDENT_RECEIVE = "FN040214";
                 public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040215";
+                public const string STUDENT_MONTHLY_FEE_EDIT = "FN040216";
                 public const string GENERATE_AR_INVOICE_STUDENT = "FN040220";
 
                 public const string CUSTOMER_LIST = "FN040300";
@@ -408,6 +409,7 @@ namespace CodeX.Common
                 public const string AR_STUDENT_INFORMATION = "IF030200";
                 public const string AR_PROSPECTIVE_STUDENT_INFORMATION = "IF030300";
                 public const string AR_CUSTOMER_INFORMATION = "IF030400";
+                public const string STUDENT_FEE = "IF030500";
 
                 public const string UNBALANCE_JOURNAL = "IF040100";
                 public const string BALANCE_INFORMATION = "IF040200";

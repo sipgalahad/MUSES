@@ -193,6 +193,7 @@
     <Content Include="Images\FileManager\pdf_icon.png" />
     <Content Include="Images\FileManager\txt_icon.png" />
     <Content Include="Images\FileManager\upload-icon.gif" />
+    <Content Include="Images\help.png" />
     <Content Include="Images\home.png" />
     <Content Include="Images\homephone.png" />
     <Content Include="Images\icon.ico" />
@@ -226,6 +227,7 @@
     <Content Include="Images\Icon\sync_cloud.png" />
     <Content Include="Images\Icon\tbinfo.png" />
     <Content Include="Images\info.png" />
+    <Content Include="Images\information.png" />
     <Content Include="Images\Loading.gif" />
     <Content Include="Images\loading_small.gif" />
     <Content Include="Images\logo.png" />
@@ -257,7 +259,6 @@
     <Content Include="Images\Module\student_management.png" />
     <Content Include="Images\patient_female.png" />
     <Content Include="Images\patient_male.png" />
-    <Content Include="Images\physician.png" />
     <Content Include="Images\QuickSearchIcon.PNG" />
     <Content Include="Images\Report\export.png" />
     <Content Include="Images\Report\movefirst.png" />
@@ -273,6 +274,8 @@
     <Content Include="Images\Scroll\ad_scroll_forward.png" />
     <Content Include="Images\Scroll\opa75.png" />
     <Content Include="Images\Scroll\trans.gif" />
+    <Content Include="Images\teacher_female.png" />
+    <Content Include="Images\teacher_male.png" />
     <Content Include="Images\Toolbar\browseFile.png" />
     <Content Include="Images\Toolbar\camera.png" />
     <Content Include="Images\Toolbar\cameraCapture.png" />
