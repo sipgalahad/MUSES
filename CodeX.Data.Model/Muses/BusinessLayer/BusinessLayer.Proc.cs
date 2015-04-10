@@ -893,6 +893,66 @@ namespace CodeX.Data.Model
             return GetGLBalanceProfitLossPerPeriodPerLevelList(SiteID, JournalYear, JournalMonth, AccountLevel, PageIndex, NumRows, ctx);
         }
         #endregion
+        #region GetItemMasterSales
+        public static List<GetItemMasterSales> GetItemMasterSalesList(string siteID, int itemID, int studentID, int locationID, int type, DateTime transactionDate, IDbContext ctx)
+        {
+            List<GetItemMasterSales> result = new List<GetItemMasterSales>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetItemMasterSales));
+                ctx.CommandText = "GetItemMasterSales";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_ItemID", itemID);
+                ctx.Add("p_StudentID", studentID);
+                ctx.Add("p_LocationID", locationID);
+                ctx.Add("p_Type", type);
+                ctx.Add("p_TransactionDate", transactionDate);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetItemMasterSales)helper.IDataReaderToObject(reader, new GetItemMasterSales()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public static List<GetItemMasterSales> GetItemMasterSalesList(string siteID, int itemID, int studentID, int locationID, int type, DateTime transactionDate)
+        {
+            List<GetItemMasterSales> result = new List<GetItemMasterSales>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetItemMasterSales));
+                ctx.CommandText = "GetItemMasterSales";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("p_SiteID", siteID);
+                ctx.Add("p_ItemID", itemID);
+                ctx.Add("p_StudentID", studentID);
+                ctx.Add("p_LocationID", locationID);
+                ctx.Add("p_Type", type);
+                ctx.Add("p_TransactionDate", transactionDate);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetItemMasterSales)helper.IDataReaderToObject(reader, new GetItemMasterSales()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetItemMovementPerPeriodeDetail
         public static List<GetItemMovementPerPeriodeDetail> GetItemMovementPerPeriodeDetail(string movementDate, int locationID, string itemName, Int32 PageIndex, Int32 NumRows)
         {

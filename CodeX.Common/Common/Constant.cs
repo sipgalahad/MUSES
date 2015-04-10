@@ -132,6 +132,12 @@ namespace CodeX.Common
             public const string DOWN_PAYMENT_RETURN = "X035^007";
         }
 
+        public static class PaymentType
+        {
+            public const string DOWN_PAYMENT = "X034^001";
+            public const string SETTLEMENT = "X034^002";
+        }
+
         public static class PrefixType
         {
             public const string FIXED_TYPE = "X302^001";

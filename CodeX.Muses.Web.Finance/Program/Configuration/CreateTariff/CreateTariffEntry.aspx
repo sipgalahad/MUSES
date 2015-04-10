@@ -147,7 +147,7 @@
                     <colgroup>
                         <col style="width:30%"/>
                     </colgroup>
-                    <tr style="display:none">
+                    <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Site")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboSite" Width="150px" runat="server" /></td>
                     </tr>

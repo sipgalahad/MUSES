@@ -44,6 +44,20 @@ namespace CodeX.Web.CommonLibs.Service
         }
         #endregion
 
+        #region GetItemMasterSales
+        [WebMethod(EnableSession = true)]
+        public object GetItemMasterSales(string itemCode, int studentID, int locationID, int type, DateTime transactionDate, string additionalFilterExpression)
+        {
+            string filterExpression = string.Format("ItemCode = '{0}'", itemCode);
+            if (additionalFilterExpression != "")
+                filterExpression += string.Format(" AND {0}", additionalFilterExpression);
+            ItemMaster item = BusinessLayer.GetItemMasterList(filterExpression).FirstOrDefault();
+            if (item == null)
+                return null;
+            return BusinessLayer.GetItemMasterSalesList(AppSession.UserLogin.SiteID, item.ItemID, studentID, locationID, type, transactionDate).FirstOrDefault();
+        }
+        #endregion
+
         #region GetItemQtyOnOrder
         [WebMethod(EnableSession = true)]
         public object GetItemQtyOnOrder(int itemID, int locationID, int type)

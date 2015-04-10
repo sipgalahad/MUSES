@@ -137,6 +137,25 @@ namespace CodeX.Data.Model
         public Boolean IsMainTeacher { get { return _ParentID == 0; } }
     }
     #endregion
+    #region vDirectPaymentDt
+    public partial class vDirectPaymentDt
+    {
+        public String CardNumber4
+        {
+            get
+            {
+                string[] temp = _CardNumber.Split('-');
+                if (temp.Count() > 3)
+                    return temp[3];
+                return "";
+            }
+        }
+        public Decimal LineTotal
+        {
+            get { return _PaymentAmount + _CardFeeAmount; }
+        }
+    }
+    #endregion
     #region vDirectPurchaseDt
     public partial class vDirectPurchaseDt
     {
@@ -1612,6 +1631,83 @@ namespace CodeX.Data.Model
             get
             {
                 return Function.GetPatientAgeInDay(_DateOfBirth, DateTime.Now);
+            }
+        }
+    }
+    #endregion
+    #region vSalesInvoiceDt
+    public partial class vSalesInvoiceDt
+    {
+        public Decimal CustomSubTotal
+        {
+            get
+            {
+                return Math.Round(_LineAmount * (100 + _VATPercentage) / 100);
+            }
+        }
+
+        public Decimal UnitPriceAfterVAT
+        {
+            get
+            {
+                return Math.Round(_UnitPrice * (100 + _VATPercentage) / 100);
+            }
+        }
+
+        public Decimal CustomTotalDiscount
+        {
+            get
+            {
+                return (Quantity * UnitPriceAfterVAT * ConversionFactor) - CustomSubTotal;
+            }
+        }
+        public Boolean IsAllowEditItem
+        {
+            get
+            {
+                return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
+            }
+        }
+
+        public String CustomUnitPrice
+        {
+            get
+            {
+                return UnitPrice.ToString("N2") + " / " + _BaseUnit;
+            }
+        }
+
+        public String CustomConversion
+        {
+            get
+            {
+                return "1.00 " + _ItemUnit + " = " + ConversionFactor + " " + _BaseUnit;
+            }
+        }
+    }
+    #endregion
+    #region vSalesInvoiceHd
+    public partial class vSalesInvoiceHd
+    {
+        public string SalesInvoiceDateInString
+        {
+            get
+            {
+                return _SalesInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+        public decimal FinalDiscountAmount
+        {
+            get
+            {
+                return (_TransactionAmount + VATAmount) * _FinalDiscountPercentage / 100;
+            }
+        }
+        public decimal VATAmount
+        {
+            get
+            {
+                return _TransactionAmount * _VATPercentage / 100;
             }
         }
     }

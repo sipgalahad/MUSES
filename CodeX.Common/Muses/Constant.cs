@@ -372,14 +372,15 @@ namespace CodeX.Common
                 public const string AP_INVOICE_SUPPLIER_VERIFICATION = "FN050202";
                 public const string AP_INVOICE_SUPPLIER_PAYMENT = "FN050203";
 
-                public const string STUDENT_FEE_PENALTY = "FN060100";
+                public const string DIRECT_SALES = "FN060100";
                 public const string STUDENT_COVERAGE_TRANSACTION = "FN060200";
-                public const string DIRECT_SALES = "FN060300";
 
                 public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN070100";
                 public const string GENERATE_AR_INVOICE_STUDENT = "FN070200";
                 public const string GENERATE_UPLOAD_FILE = "FN070300";
                 public const string BANK_UPLOADED_FILE = "FN070400";
+                public const string STUDENT_FEE_PENALTY = "FN070500";
+                public const string DIRECT_SALES_VOID = "FN070600";
 
                 public const string PROSPECTIVE_STUDENT_PAGE = "FN99010000";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN99010101";
@@ -612,6 +613,8 @@ namespace CodeX.Common
             public const string AR_INVOICE_CUSTOMER = "5301";
             public const string AR_RECEIVE_CUSTOMER = "5302";
             public const string STUDENT_COVERAGE = "5401";
+            public const string DIRECT_SALES = "5501";
+            public const string DIRECT_PAYMENT = "5502";
 
             public const string PURCHASE_INVOICE = "6101";
             public const string SUPPLIER_PAYMENT_VERIFICATION = "6102";

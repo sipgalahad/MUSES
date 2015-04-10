@@ -187,6 +187,26 @@
     };
     //#endregion
 
+    //#region Get Item Master Sales
+    this.getItemMasterSales = function (itemCode, studentID, locationID, type, transactionDate, additionalFilterExpression, functionHandler) {
+        $.ajax({
+            // have to use synchronous here, else returns before data is fetched
+            async: false,
+            type: 'POST',
+            url: ResolveUrl('~/Libs/Service/MethodService.asmx/GetItemMasterSales'),
+            contentType: 'application/json; charset=utf-8',
+            data: '{ "itemCode" : "' + itemCode + '", "studentID" : "' + studentID + '", "locationID" : "' + locationID + '", "type" : "' + type + '", "transactionDate" : "' + transactionDate + '", "additionalFilterExpression" : "' + additionalFilterExpression + '"}',
+            dataType: 'json',
+            error: function (msg) {
+                alert(msg.responseText);
+            },
+            success: function (msg) {
+                functionHandler(msg.d);
+            }
+        });     //end ajax
+    };
+    //#endregion
+
     this.getCustomObject = function (listParentValue, selectedColumnID, selectedColumnName, valueColumn, valueColumnType, filterExpression, orderByExpression, objectTypeName, functionHandler) {
         showLoadingPanel();
         $.ajax({

@@ -140,8 +140,13 @@
     <Content Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx" />
     <Content Include="Program\Process\GenerateARStudent\GenerateARStudentDtCtl.ascx" />
     <Content Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx" />
+    <Content Include="Program\Transaction\DirectSales\DirectPaymentEntryCtl.ascx" />
+    <Content Include="Program\Transaction\DirectSales\DirectPaymentViewCtl.ascx" />
+    <Content Include="Program\Transaction\DirectSales\DirectSalesEntry.aspx" />
+    <Content Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesEntryDtCtl.ascx" />
+    <Content Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesVoidList.aspx" />
     <Content Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
-    <Content Include="Program\Transaction\StudentFeePenalty\StudentFeePenaltyEntry.aspx" />
+    <Content Include="Program\Process\StudentFeePenalty\StudentFeePenaltyEntry.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -652,6 +657,41 @@
     <Compile Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectPaymentEntryCtl.ascx.cs">
+      <DependentUpon>DirectPaymentEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectPaymentEntryCtl.ascx.designer.cs">
+      <DependentUpon>DirectPaymentEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectPaymentViewCtl.ascx.cs">
+      <DependentUpon>DirectPaymentViewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectPaymentViewCtl.ascx.designer.cs">
+      <DependentUpon>DirectPaymentViewCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectSalesEntry.aspx.cs">
+      <DependentUpon>DirectSalesEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectSalesEntry.aspx.designer.cs">
+      <DependentUpon>DirectSalesEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesEntryDtCtl.ascx.cs">
+      <DependentUpon>DirectSalesEntryDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesEntryDtCtl.ascx.designer.cs">
+      <DependentUpon>DirectSalesEntryDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesVoidList.aspx.cs">
+      <DependentUpon>DirectSalesVoidList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesVoidList.aspx.designer.cs">
+      <DependentUpon>DirectSalesVoidList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.cs">
       <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -659,11 +699,11 @@
     <Compile Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.designer.cs">
       <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Transaction\StudentFeePenalty\StudentFeePenaltyEntry.aspx.cs">
+    <Compile Include="Program\Process\StudentFeePenalty\StudentFeePenaltyEntry.aspx.cs">
       <DependentUpon>StudentFeePenaltyEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Transaction\StudentFeePenalty\StudentFeePenaltyEntry.aspx.designer.cs">
+    <Compile Include="Program\Process\StudentFeePenalty\StudentFeePenaltyEntry.aspx.designer.cs">
       <DependentUpon>StudentFeePenaltyEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

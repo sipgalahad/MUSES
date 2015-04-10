@@ -1016,6 +1016,119 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetItemMasterSales
+    [Serializable]
+    [Table(Name = "GetItemMasterSales")]
+    public class GetItemMasterSales
+    {
+        private Int32 _ItemID;
+        private String _ItemCode;
+        private String _ItemName1;
+        private String _GCItemType;
+        private String _GCItemUnit;
+        private String _GCPurchaseUnit;
+        private Int32 _ItemGroupID;
+        private String _ItemGroupCode;
+        private String _ItemGroupName1;
+        private Decimal _Discount;
+        private Decimal _Price;
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+        private Int32 _QtyOnOrder;
+
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "ItemCode", DataType = "String")]
+        public String ItemCode
+        {
+            get { return _ItemCode; }
+            set { _ItemCode = value; }
+        }
+        [Column(Name = "ItemName1", DataType = "String")]
+        public String ItemName1
+        {
+            get { return _ItemName1; }
+            set { _ItemName1 = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
+        [Column(Name = "GCItemUnit", DataType = "String")]
+        public String GCItemUnit
+        {
+            get { return _GCItemUnit; }
+            set { _GCItemUnit = value; }
+        }
+        [Column(Name = "GCPurchaseUnit", DataType = "String")]
+        public String GCPurchaseUnit
+        {
+            get { return _GCPurchaseUnit; }
+            set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "ItemGroupID", DataType = "Int32")]
+        public Int32 ItemGroupID
+        {
+            get { return _ItemGroupID; }
+            set { _ItemGroupID = value; }
+        }
+        [Column(Name = "ItemGroupCode", DataType = "String")]
+        public String ItemGroupCode
+        {
+            get { return _ItemGroupCode; }
+            set { _ItemGroupCode = value; }
+        }
+        [Column(Name = "ItemGroupName1", DataType = "String")]
+        public String ItemGroupName1
+        {
+            get { return _ItemGroupName1; }
+            set { _ItemGroupName1 = value; }
+        }
+        [Column(Name = "Discount", DataType = "Decimal")]
+        public Decimal Discount
+        {
+            get { return _Discount; }
+            set { _Discount = value; }
+        }
+        [Column(Name = "Price", DataType = "Decimal")]
+        public Decimal Price
+        {
+            get { return _Price; }
+            set { _Price = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "QtyOnOrder", DataType = "Int32")]
+        public Int32 QtyOnOrder
+        {
+            get { return _QtyOnOrder; }
+            set { _QtyOnOrder = value; }
+        }
+    }
+    #endregion
     #region GetItemMovementPerPeriodeDetail
     [Serializable]
     [Table(Name = "GetItemMovementPerPeriodeDetail")]

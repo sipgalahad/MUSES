@@ -33,6 +33,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
             List<Site> lstSite = BusinessLayer.GetSiteList("");
             Methods.SetComboBoxField<Site>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.Value = AppSession.UserLogin.SiteID;
 
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}', '{1}') AND IsDeleted = 0", Constant.StandardCode.TARIFF_SCHEME, Constant.StandardCode.ITEM_TYPE));
 
@@ -46,7 +47,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, false, true, AppSession.UserLogin.SiteID));
             SetControlEntrySetting(cboTariffScheme, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboItemType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtEffectiveDate, new ControlEntrySetting(true, true, true, DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
