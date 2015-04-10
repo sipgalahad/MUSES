@@ -130,7 +130,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             entityFee.TotalDiscountAmount = entityFee.TransactionAmount * entityFee.DiscountAmount / 100;
                         entityFee.LineAmount = entityFee.TransactionAmount - entityFee.TotalDiscountAmount;
 
-                        entityFee.StudentAmount = entityFee.LineAmount - entityFee.PayerAmount;
+                        entityFee.TotalStudentAmount = entityFee.StudentAmount = entityFee.LineAmount - entityFee.PayerAmount;
                         entityFee.LastUpdatedBy = AppSession.UserLogin.UserID;
                         studentFeeDao.Update(entityFee);
 
@@ -138,7 +138,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityDt.DueDate = dueDate;
                         entityDt.IsTransactionAmountInPercentage = false;
                         entityDt.LineAmount = entityFee.LineAmount;
-                        entityDt.StudentAmount = entityFee.StudentAmount;
+                        entityDt.StudentAmount = entityFee.TotalStudentAmount;
                         entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         studentFeeDtDao.Update(entityDt);
 
