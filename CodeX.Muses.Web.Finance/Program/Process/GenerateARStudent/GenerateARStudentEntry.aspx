@@ -137,7 +137,7 @@
 
         $('.lblDetail').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html() + '|' + cboMonth.GetValue() + '|' + cboYear.GetValue();
-            var url = ResolveUrl("~/Program/GenerateARStudent/GenerateARStudentDtCtl.ascx");
+            var url = ResolveUrl("~/Program/Process/GenerateARStudent/GenerateARStudentDtCtl.ascx");
             openUserControlPopup(url, id, 'Detil Transaksi', 800, 550);
         });
 

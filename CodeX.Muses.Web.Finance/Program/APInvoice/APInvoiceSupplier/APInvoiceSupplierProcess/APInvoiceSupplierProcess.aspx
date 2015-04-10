@@ -72,7 +72,7 @@
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     showLoadingPanel();
                     var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val();
-                    var url = ResolveUrl('~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
+                    var url = ResolveUrl('~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
                     openUserControlPopup(url, id, 'Pilih Penerimaan Pembelian', 1000, 600);
                 }
             });
@@ -174,7 +174,7 @@
             var entity = rowToObject($row);
             if (entity.PurchaseReceiveNo != "") {
                 var id = entity.ID + '|' + entity.PurchaseReceiveID;
-                var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
+                var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
                 openUserControlPopup(url, id, 'Detail Information', 1200, 600);
             }
             else {
@@ -319,7 +319,7 @@
             var entity = rowToObject($tr);
             var id = entity.ID + '|' + entity.PurchaseReceiveID;
 
-            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Information', 1200, 600);
         });
 
@@ -329,7 +329,7 @@
             var entity = rowToObject($tr);
             var id = entity.ID;
 
-            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCreditNoteCtl.ascx");
             openUserControlPopup(url, id, 'Nota Kredit', 700, 500);
         });
 

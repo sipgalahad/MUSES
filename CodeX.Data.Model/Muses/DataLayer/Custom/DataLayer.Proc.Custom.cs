@@ -30,6 +30,34 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetARCustomerInformationDt
+    public partial class GetARCustomerInformationDt
+    {
+        public String ARInvoiceDateInString
+        {
+            get
+            {
+                if (_ARInvoiceDate.ToString("dd-MM-yyyy") == Constant.ConstantDate.DEFAULT_NULL)
+                    return "-";
+                return _ARInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
+    #region GetARProspectiveStudentInformationDt
+    public partial class GetARProspectiveStudentInformationDt
+    {
+        public String ARInvoiceDateInString
+        {
+            get
+            {
+                if (_ARInvoiceDate.ToString("dd-MM-yyyy") == Constant.ConstantDate.DEFAULT_NULL)
+                    return "-";
+                return _ARInvoiceDate.ToString(Constant.FormatString.DATE_FORMAT);
+            }
+        }
+    }
+    #endregion
     #region GetARStudentInformationDt
     public partial class GetARStudentInformationDt
     {

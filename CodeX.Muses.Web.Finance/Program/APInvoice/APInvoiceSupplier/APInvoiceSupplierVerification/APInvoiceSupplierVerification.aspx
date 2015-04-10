@@ -137,7 +137,7 @@
         $('.lblPurchaseInvoiceNo').live('click', function () {
             $tr = $(this).closest('tr');
             var id = $tr.find('.keyField').val();
-            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Information', 1100, 400);
         });
             

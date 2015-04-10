@@ -65,7 +65,7 @@
 
         $('.lnkProcess a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/APInvoiceSupplier/SupplierPageLauncher.aspx?id=' + id);
+            var url = ResolveUrl('~/Program/APInvoice/APInvoiceSupplier/SupplierPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Supplier' + id, '1300', '650');
         });
     </script>

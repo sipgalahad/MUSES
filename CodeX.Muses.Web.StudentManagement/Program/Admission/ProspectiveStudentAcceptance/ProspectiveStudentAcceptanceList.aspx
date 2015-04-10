@@ -32,17 +32,17 @@
                 }
             })
 
-            $('.chkAcceptAll input').click(function () {
-                var value = $(this).is(':checked');
-                $('#<%=grdView.ClientID %> .chkIsAccepted input').each(function () {
-                    if ($(this).is(':enabled')) $(this).prop("checked", value);
-                });
-            });
-
             $('#<%=chkFilterIsPaid.ClientID %>').change(function () {
                 cbpView.PerformCallback('refresh');                
             });
         })
+
+        $('.chkAcceptAll input').live('click', function () {
+            var value = $(this).is(':checked');
+            $('#<%=grdView.ClientID %> .chkIsAccepted input').each(function () {
+                if ($(this).is(':enabled')) $(this).prop("checked", value);
+            });
+        });
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();

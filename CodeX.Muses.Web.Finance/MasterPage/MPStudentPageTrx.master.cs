@@ -23,8 +23,8 @@ namespace CodeX.Muses.Web.Finance.MasterPage
             base.OnInit(e);
             if (!Page.IsPostBack)
             {
-                string parentCode = Constant.MenuCode.Finance.STUDENT_LIST;
-                string filterExpression = string.Format("ParentCode = '{0}'", parentCode);
+                string parentCode = Constant.MenuCode.Finance.STUDENT_PAGE;
+                string filterExpression = string.Format("(ParentCode = '{0}' OR ParentID IN (SELECT MenuID FROM Menu WHERE ParentID = (SELECT MenuID FROM Menu WHERE MenuCode = '{0}')))", parentCode);
                 ListMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.FINANCE, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);
                 ((MPBaseDetailPageTrx)Master).SetParentCode(parentCode);
                 ((MPBaseDetailPageTrx)Master).SetListMenu(ListMenu);

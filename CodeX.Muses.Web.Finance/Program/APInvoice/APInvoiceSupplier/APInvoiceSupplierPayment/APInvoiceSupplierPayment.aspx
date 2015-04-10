@@ -122,7 +122,7 @@
             $tr = $(this).closest('tr');
             var id = $tr.find('.keyField').val();
 
-            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
             openUserControlPopup(url, id, 'Detail Information', 1100, 400);
         });
 
@@ -130,7 +130,7 @@
         $('.lblgrdPurchaseInvoiceNo').live('click', function () {
             $row = $(this).closest('tr');
             var id = $row.find('.keyField').html();
-            var url = ResolveUrl("~/Program/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
+            var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
             openUserControlPopup(url, id, 'Detil No Tukar Faktur', 1100, 400);
         });
     </script> 

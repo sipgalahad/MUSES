@@ -67,7 +67,7 @@
 
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/ARInvoiceCustomer/CustomerPageLauncher.aspx?id=' + id);
+            var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceCustomer/CustomerPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Customer', '1300', '650');
         });
     </script>

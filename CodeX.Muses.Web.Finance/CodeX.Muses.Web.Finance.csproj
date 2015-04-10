@@ -99,44 +99,45 @@
     <Content Include="MasterPage\ProspectiveStudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\StudentBannerDtCtl.ascx" />
     <Content Include="MasterPage\SupplierBannerDtCtl.ascx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierList.aspx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx" />
-    <Content Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx" />
-    <Content Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx" />
-    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx" />
-    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx" />
-    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx" />
-    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx" />
-    <Content Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx" />
-    <Content Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx" />
-    <Content Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx" />
-    <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx" />
-    <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
-    <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
-    <Content Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
-    <Content Include="Program\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx" />
-    <Content Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
-    <Content Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx" />
-    <Content Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
-    <Content Include="Program\BankUploadedFile\BankUploadedFile.aspx" />
-    <Content Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx" />
-    <Content Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx" />
-    <Content Include="Program\GenerateARStudent\GenerateARStudentEntry.aspx" />
-    <Content Include="Program\GenerateARStudent\GenerateARStudentDtCtl.ascx" />
-    <Content Include="Program\GenerateUploadFile\GenerateUploadFile.aspx" />
-    <Content Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierList.aspx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx" />
+    <Content Include="Program\APInvoice\APInvoiceSupplier\SupplierPageLauncher.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerList.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx" />
+    <Content Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceCustomer\CustomerPageLauncher.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentList.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentPageLauncher.aspx" />
+    <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
+    <Content Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx" />
+    <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx" />
+    <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx" />
+    <Content Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx" />
+    <Content Include="Program\Process\GenerateARStudent\GenerateARStudentDtCtl.ascx" />
+    <Content Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx" />
+    <Content Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
+    <Content Include="Program\Transaction\StudentFeePenalty\StudentFeePenaltyEntry.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -372,276 +373,284 @@
     <Compile Include="MasterPage\SupplierBannerDtCtl.ascx.designer.cs">
       <DependentUpon>SupplierBannerDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierList.aspx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierList.aspx.cs">
       <DependentUpon>APInvoiceSupplierList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierList.aspx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierList.aspx.designer.cs">
       <DependentUpon>APInvoiceSupplierList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx.cs">
       <DependentUpon>APInvoiceSupplierPayment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierPayment\APInvoiceSupplierPayment.aspx.designer.cs">
       <DependentUpon>APInvoiceSupplierPayment.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx.cs">
       <DependentUpon>APInvoiceSupplierProcess.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcess.aspx.designer.cs">
       <DependentUpon>APInvoiceSupplierProcess.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx.cs">
       <DependentUpon>APInvoiceSupplierProcessCreditNoteCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCreditNoteCtl.ascx.designer.cs">
       <DependentUpon>APInvoiceSupplierProcessCreditNoteCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx.cs">
       <DependentUpon>APInvoiceSupplierProcessCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessCtl.ascx.designer.cs">
       <DependentUpon>APInvoiceSupplierProcessCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx.cs">
       <DependentUpon>APInvoiceSupplierProcessDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessDtCtl.ascx.designer.cs">
       <DependentUpon>APInvoiceSupplierProcessDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx.cs">
       <DependentUpon>APInvoiceSupplierProcessEditCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierProcess\APInvoiceSupplierProcessEditCtl.ascx.designer.cs">
       <DependentUpon>APInvoiceSupplierProcessEditCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx.cs">
       <DependentUpon>APInvoiceSupplierVerification.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerification.aspx.designer.cs">
       <DependentUpon>APInvoiceSupplierVerification.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx.cs">
       <DependentUpon>APInvoiceSupplierVerificationDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\APInvoiceSupplierVerification\APInvoiceSupplierVerificationDtCtl.ascx.designer.cs">
       <DependentUpon>APInvoiceSupplierVerificationDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\SupplierPageLauncher.aspx.cs">
       <DependentUpon>SupplierPageLauncher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\APInvoiceSupplier\SupplierPageLauncher.aspx.designer.cs">
+    <Compile Include="Program\APInvoice\APInvoiceSupplier\SupplierPageLauncher.aspx.designer.cs">
       <DependentUpon>SupplierPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerList.aspx.cs">
       <DependentUpon>ARInvoiceCustomerList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerList.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerList.aspx.designer.cs">
       <DependentUpon>ARInvoiceCustomerList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx.cs">
       <DependentUpon>ARInvoiceCustomerProcessEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceCustomerProcessEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.cs">
       <DependentUpon>ARInvoiceCustomerEditEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerEdit\ARInvoiceCustomerEditEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceCustomerEditEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx.cs">
       <DependentUpon>ARInvoiceCustomerProcessEntryDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerProcess\ARInvoiceCustomerProcessEntryDtCtl.ascx.designer.cs">
       <DependentUpon>ARInvoiceCustomerProcessEntryDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.cs">
       <DependentUpon>ARInvoiceCustomerReceiveEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\ARInvoiceCustomerReceive\ARInvoiceCustomerReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceCustomerReceiveEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\CustomerPageLauncher.aspx.cs">
       <DependentUpon>CustomerPageLauncher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceCustomer\CustomerPageLauncher.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceCustomer\CustomerPageLauncher.aspx.designer.cs">
       <DependentUpon>CustomerPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx.cs">
       <DependentUpon>ARInvoiceProspectiveStudentList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentList.aspx.designer.cs">
       <DependentUpon>ARInvoiceProspectiveStudentList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx.cs">
       <DependentUpon>ARInvoiceProspectiveStudentEditEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentEdit\ARInvoiceProspectiveStudentEditEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceProspectiveStudentEditEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx.cs">
       <DependentUpon>ARInvoiceProspectiveStudentProcessEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentProcess\ARInvoiceProspectiveStudentProcessEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceProspectiveStudentProcessEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx.cs">
       <DependentUpon>ARInvoiceProspectiveStudentReceiveEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ARInvoiceProspectiveStudentReceive\ARInvoiceProspectiveStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceProspectiveStudentReceiveEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx.cs">
       <DependentUpon>GenerateUploadFileProStudent.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\GenerateUploadFile\GenerateUploadFileProStudent.aspx.designer.cs">
       <DependentUpon>GenerateUploadFileProStudent.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.cs">
       <DependentUpon>ProspectiveStudentPageLauncher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ProspectiveStudentPageLauncher.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx.cs">
       <DependentUpon>ProspectiveStudentPaymentMethodEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceProspectiveStudent\ProspectiveStudentPaymentMethodEdit\ProspectiveStudentPaymentMethodEdit.aspx.designer.cs">
       <DependentUpon>ProspectiveStudentPaymentMethodEdit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx.cs">
       <DependentUpon>ARInvoiceStudentEditEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentEdit\ARInvoiceStudentEditEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentEditEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentList.aspx.cs">
       <DependentUpon>ARInvoiceStudentList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentList.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentList.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx.cs">
       <DependentUpon>ARInvoiceStudentProcessEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentProcess\ARInvoiceStudentProcessEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentProcessEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.cs">
       <DependentUpon>ARInvoiceStudentReceiveEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\ARInvoiceStudentReceive\ARInvoiceStudentReceiveEntry.aspx.designer.cs">
       <DependentUpon>ARInvoiceStudentReceiveEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.cs">
       <DependentUpon>StudentMonthlyFeeEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentMonthlyFeeEdit\StudentMonthlyFeeEdit.aspx.designer.cs">
       <DependentUpon>StudentMonthlyFeeEdit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.cs">
       <DependentUpon>GenerateUploadFileStudent.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\GenerateUploadFile\GenerateUploadFileStudent.aspx.designer.cs">
       <DependentUpon>GenerateUploadFileStudent.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentPageLauncher.aspx.cs">
       <DependentUpon>StudentPageLauncher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\StudentPageLauncher.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentPageLauncher.aspx.designer.cs">
       <DependentUpon>StudentPageLauncher.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.cs">
       <DependentUpon>StudentPaymentMethodEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.designer.cs">
+    <Compile Include="Program\ARInvoice\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx.designer.cs">
       <DependentUpon>StudentPaymentMethodEdit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\BankUploadedFile\BankUploadedFile.aspx.cs">
+    <Compile Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx.cs">
       <DependentUpon>BankUploadedFile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\BankUploadedFile\BankUploadedFile.aspx.designer.cs">
+    <Compile Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx.designer.cs">
       <DependentUpon>BankUploadedFile.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.cs">
+    <Compile Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.cs">
       <DependentUpon>GenerateARProspectiveStudentDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.designer.cs">
+    <Compile Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.designer.cs">
       <DependentUpon>GenerateARProspectiveStudentDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx.cs">
+    <Compile Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx.cs">
       <DependentUpon>GenerateARProspectiveStudentEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx.designer.cs">
+    <Compile Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx.designer.cs">
       <DependentUpon>GenerateARProspectiveStudentEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\GenerateARStudent\GenerateARStudentEntry.aspx.cs">
+    <Compile Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx.cs">
       <DependentUpon>GenerateARStudentEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\GenerateARStudent\GenerateARStudentEntry.aspx.designer.cs">
+    <Compile Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx.designer.cs">
       <DependentUpon>GenerateARStudentEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\GenerateARStudent\GenerateARStudentDtCtl.ascx.cs">
+    <Compile Include="Program\Process\GenerateARStudent\GenerateARStudentDtCtl.ascx.cs">
       <DependentUpon>GenerateARStudentDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\GenerateARStudent\GenerateARStudentDtCtl.ascx.designer.cs">
+    <Compile Include="Program\Process\GenerateARStudent\GenerateARStudentDtCtl.ascx.designer.cs">
       <DependentUpon>GenerateARStudentDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.cs">
+    <Compile Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
+    <Compile Include="Program\Process\GenerateUploadFile\GenerateUploadFile.aspx.designer.cs">
       <DependentUpon>GenerateUploadFile.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.cs">
+    <Compile Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.cs">
       <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.designer.cs">
+    <Compile Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.designer.cs">
       <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\StudentFeePenalty\StudentFeePenaltyEntry.aspx.cs">
+      <DependentUpon>StudentFeePenaltyEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\StudentFeePenalty\StudentFeePenaltyEntry.aspx.designer.cs">
+      <DependentUpon>StudentFeePenaltyEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Program\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeX.Common\CodeX.Common.csproj">

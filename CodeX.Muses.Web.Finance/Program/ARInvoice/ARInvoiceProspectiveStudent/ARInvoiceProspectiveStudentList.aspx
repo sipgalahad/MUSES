@@ -71,7 +71,7 @@
 
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/ARInvoiceProspectiveStudent/ProspectiveStudentPageLauncher.aspx?id=' + id);
+            var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceProspectiveStudent/ProspectiveStudentPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'ProspectiveStudent', '1300', '650');
         });
 

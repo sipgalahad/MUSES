@@ -361,36 +361,45 @@ namespace CodeX.Common
             #region Finance
             public static class Finance
             {
-                public const string PROSPECTIVE_STUDENT_LIST = "FN040110";
-                public const string GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE = "FN040111";
-                public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN040112";
-                public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN040113";
-                public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN040114";
-                public const string PROSPECTIVE_STUDENT_PAYMENT_METHOD_EDIT = "FN040115";
-                public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN040120";
+                public const string CREATE_TARIFF = "FN030100";
 
-                public const string STUDENT_LIST = "FN040210";
-                public const string GENERATE_STUDENT_UPLOAD_FILE = "FN040211";
-                public const string AR_INVOICE_STUDENT_PROCESS = "FN040212";
-                public const string AR_INVOICE_STUDENT_EDIT = "FN040213";
-                public const string AR_INVOICE_STUDENT_RECEIVE = "FN040214";
-                public const string STUDENT_PAYMENT_METHOD_EDIT = "FN040215";
-                public const string STUDENT_MONTHLY_FEE_EDIT = "FN040216";
-                public const string GENERATE_AR_INVOICE_STUDENT = "FN040220";
-
+                public const string PROSPECTIVE_STUDENT_LIST = "FN040100";
+                public const string STUDENT_LIST = "FN040200";
                 public const string CUSTOMER_LIST = "FN040300";
-                public const string AR_INVOICE_CUSTOMER_PROCESS = "FN040301";
-                public const string AR_INVOICE_CUSTOMER_EDIT = "FN040302";
-                public const string AR_INVOICE_CUSTOMER_RECEIVE = "FN040303";
-
-                public const string GENERATE_UPLOAD_FILE = "FN040400";
-                public const string BANK_UPLOADED_FILE = "FN040500";
-                public const string STUDENT_COVERAGE_TRANSACTION = "FN040600";
 
                 public const string SUPPLIER_LIST = "FN050200";
                 public const string AP_INVOICE_SUPPLIER_PROCESS = "FN050201";
                 public const string AP_INVOICE_SUPPLIER_VERIFICATION = "FN050202";
                 public const string AP_INVOICE_SUPPLIER_PAYMENT = "FN050203";
+
+                public const string STUDENT_FEE_PENALTY = "FN060100";
+                public const string STUDENT_COVERAGE_TRANSACTION = "FN060200";
+                public const string DIRECT_SALES = "FN060300";
+
+                public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN070100";
+                public const string GENERATE_AR_INVOICE_STUDENT = "FN070200";
+                public const string GENERATE_UPLOAD_FILE = "FN070300";
+                public const string BANK_UPLOADED_FILE = "FN070400";
+
+                public const string PROSPECTIVE_STUDENT_PAGE = "FN99010000";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN99010101";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_EDIT = "FN99010102";
+                public const string AR_INVOICE_PROSPECTIVE_STUDENT_RECEIVE = "FN99010103";
+                public const string GENERATE_PROSPECTIVE_STUDENT_UPLOAD_FILE = "FN99010201";
+                public const string PROSPECTIVE_STUDENT_PAYMENT_METHOD_EDIT = "FN99010202";
+
+                public const string STUDENT_PAGE = "FN99020000";
+                public const string AR_INVOICE_STUDENT_PROCESS = "FN99020101";
+                public const string AR_INVOICE_STUDENT_EDIT = "FN99020102";
+                public const string AR_INVOICE_STUDENT_RECEIVE = "FN99020103";
+                public const string GENERATE_STUDENT_UPLOAD_FILE = "FN99020201";
+                public const string STUDENT_PAYMENT_METHOD_EDIT = "FN99020202";
+                public const string STUDENT_MONTHLY_FEE_EDIT = "FN99020203";
+
+                public const string CUSTOMER_PAGE = "FN99030000";
+                public const string AR_INVOICE_CUSTOMER_PROCESS = "FN99030101";
+                public const string AR_INVOICE_CUSTOMER_EDIT = "FN99030102";
+                public const string AR_INVOICE_CUSTOMER_RECEIVE = "FN99030103";
 
             }
             #endregion

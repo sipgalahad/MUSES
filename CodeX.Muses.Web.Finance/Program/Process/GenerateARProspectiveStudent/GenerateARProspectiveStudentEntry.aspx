@@ -132,7 +132,7 @@
 
         $('.lblDetail').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html() + '|' + cboMonth.GetValue() + '|' + cboYear.GetValue();
-            var url = ResolveUrl("~/Program/GenerateARProspectiveStudent/GenerateARProspectiveStudentDtCtl.ascx");
+            var url = ResolveUrl("~/Program/Process/GenerateARProspectiveStudent/GenerateARProspectiveStudentDtCtl.ascx");
             openUserControlPopup(url, id, 'Detil Transaksi', 800, 550);
         });
 

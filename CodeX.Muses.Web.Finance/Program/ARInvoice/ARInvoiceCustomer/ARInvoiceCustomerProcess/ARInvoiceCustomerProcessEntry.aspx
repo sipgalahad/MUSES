@@ -34,7 +34,7 @@
             if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                 showLoadingPanel();
                 var id = $('#<%=hdnARInvoiceID.ClientID %>').val();
-                var url = ResolveUrl('~/Program/ARInvoiceCustomer/ARInvoiceCustomerProcess/ARInvoiceCustomerProcessEntryDtCtl.ascx');
+                var url = ResolveUrl('~/Program/ARInvoice/ARInvoiceCustomer/ARInvoiceCustomerProcess/ARInvoiceCustomerProcessEntryDtCtl.ascx');
                 openUserControlPopup(url, id, 'Salin Piutang', 1200, 600);
             }
         });
