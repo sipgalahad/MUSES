@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>VIDA</title>
-    <link href="../Images/icon.ico" rel="icon" type="image/gif" />
+    <link href="../Images/icon.ico?v=1" rel="icon" type="image/gif" />
     <link href='../Styles/common.css' rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href='../Styles/jquery/jquery.ui.core.css' type="text/css" />
     <link rel="stylesheet" href='../Styles/jquery/jquery.ui.datepicker.css' type="text/css" />
