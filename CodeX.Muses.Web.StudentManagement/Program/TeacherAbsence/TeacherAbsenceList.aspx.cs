@@ -10,9 +10,9 @@ using CodeX.Web.Common.UI;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
-namespace CodeX.Muses.Web.ControlPanel.Program
+namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class SubjectList : BasePageList
+    public partial class TeacherAbsenceList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,23 +20,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            if (Page.Request.QueryString["id"] == "ex")
-                return Constant.MenuCode.ControlPanel.EXTRACURRICULAR_SUBJECT;
-            return Constant.MenuCode.ControlPanel.SUBJECT;
+            return Constant.MenuCode.StudentManagement.TEACHER_ABSENCE;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
+            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
+            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
+            if (selectedSchoolPeriod == null)
+                cboSchoolPeriod.SelectedIndex = 0;
+            else
+                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
-            filterExpression = GetFilterExpression();
-            if (keyValue != "")
-            {
-                int row = BusinessLayer.GetSubjectRowIndex(filterExpression, keyValue, "SubjectCode") + 1;
-                CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
-            }
-            else
-                CurrPage = 1;
+            CurrPage = 1;
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
@@ -44,8 +43,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Kode", "Nama" };
-            fieldListValue = new string[] { "SubjectCode", "SubjectName" };
+            fieldListText = new string[] { "Guru" };
+            fieldListValue = new string[] { "TeacherName" };
         }
 
         private string GetFilterExpression()
@@ -53,12 +52,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            string GCClassStudyType = "";
-            if (Page.Request.QueryString["id"] == "ex")
-                GCClassStudyType = Constant.ClassStudyType.EXTRACURRICULAR;
-            else
-                GCClassStudyType = Constant.ClassStudyType.REGULAR;
-            filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
+            filterExpression += string.Format("SchoolPeriodID = {0} AND IsDeleted = 0", cboSchoolPeriod.Value);
             return filterExpression;
         }
 
@@ -68,11 +62,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetSubjectRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvTeacherAbsenceRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Subject> lstEntity = BusinessLayer.GetSubjectList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SubjectCode");
+            List<vTeacherAbsence> lstEntity = BusinessLayer.GetvTeacherAbsenceList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -103,10 +97,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            if (Page.Request.QueryString["id"] == "ex")
-                url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx?id=ex");
-            else
-                url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx");
+            url = ResolveUrl(string.Format("~/Program/TeacherAbsence/TeacherAbsenceEntry.aspx?id=add|{0}", cboSchoolPeriod.Value.ToString()));
             return true;
         }
 
@@ -114,7 +105,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/Subject/SubjectEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/TeacherAbsence/TeacherAbsenceEntry.aspx?id=edit|{0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -124,10 +115,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(hdnID.Value));
+                TeacherAbsence entity = BusinessLayer.GetTeacherAbsence(Convert.ToInt32(hdnID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubject(entity);
+                BusinessLayer.UpdateTeacherAbsence(entity);
                 return true;
             }
             return false;

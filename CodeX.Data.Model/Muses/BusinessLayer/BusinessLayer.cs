@@ -13057,6 +13057,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TeacherAbsence
+        public static TeacherAbsence GetTeacherAbsence(Int32 TeacherAbsenceID)
+        {
+            return new TeacherAbsenceDao().Get(TeacherAbsenceID);
+        }
+        public static int InsertTeacherAbsence(TeacherAbsence record)
+        {
+            return new TeacherAbsenceDao().Insert(record);
+        }
+        public static int UpdateTeacherAbsence(TeacherAbsence record)
+        {
+            return new TeacherAbsenceDao().Update(record);
+        }
+        public static int DeleteTeacherAbsence(Int32 TeacherAbsenceID)
+        {
+            return new TeacherAbsenceDao().Delete(TeacherAbsenceID);
+        }
+        public static List<TeacherAbsence> GetTeacherAbsenceList(string filterExpression)
+        {
+            List<TeacherAbsence> result = new List<TeacherAbsence>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherAbsence));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherAbsence)helper.IDataReaderToObject(reader, new TeacherAbsence()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeacherAbsenceMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherAbsence));
+                ctx.CommandText = helper.SelectMaxColumn("TeacherAbsenceID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region TeacherMark
         public static TeacherMark GetTeacherMark(Int32 TeacherMarkID)
         {
@@ -13497,6 +13553,63 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((TeacherSubject)helper.IDataReaderToObject(reader, new TeacherSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region TeacherSubstitution
+        public static TeacherSubstitution GetTeacherSubstitution(Int32 TeacherSubstitutionID)
+        {
+            return new TeacherSubstitutionDao().Get(TeacherSubstitutionID);
+        }
+        public static int InsertTeacherSubstitution(TeacherSubstitution record)
+        {
+            return new TeacherSubstitutionDao().Insert(record);
+        }
+        public static int UpdateTeacherSubstitution(TeacherSubstitution record)
+        {
+            return new TeacherSubstitutionDao().Update(record);
+        }
+        public static int DeleteTeacherSubstitution(Int32 TeacherSubstitutionID)
+        {
+            return new TeacherSubstitutionDao().Delete(TeacherSubstitutionID);
+        }
+        public static List<TeacherSubstitution> GetTeacherSubstitutionList(string filterExpression)
+        {
+            List<TeacherSubstitution> result = new List<TeacherSubstitution>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherSubstitution));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherSubstitution)helper.IDataReaderToObject(reader, new TeacherSubstitution()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<TeacherSubstitution> GetTeacherSubstitutionList(string filterExpression, IDbContext ctx)
+        {
+            List<TeacherSubstitution> result = new List<TeacherSubstitution>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherSubstitution));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherSubstitution)helper.IDataReaderToObject(reader, new TeacherSubstitution()));
             }
             catch (Exception ex)
             {

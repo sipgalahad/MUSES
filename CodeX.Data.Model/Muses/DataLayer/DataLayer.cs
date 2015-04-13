@@ -27693,6 +27693,168 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region TeacherAbsence
+    [Serializable]
+    [Table(Name = "TeacherAbsence")]
+    public class TeacherAbsence : DbDataModel
+    {
+        private Int32 _TeacherAbsenceID;
+        private Int32 _TeacherID;
+        private Int32 _SchoolPeriodID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private String _StartTime;
+        private String _EndTime;
+        private Boolean _IsFullDay;
+        private String _GCAbsenceReason;
+        private String _OtherAbsenceReason;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherAbsenceID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherAbsenceID
+        {
+            get { return _TeacherAbsenceID; }
+            set { _TeacherAbsenceID = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String", IsNullable = true)]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String", IsNullable = true)]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "IsFullDay", DataType = "Boolean")]
+        public Boolean IsFullDay
+        {
+            get { return _IsFullDay; }
+            set { _IsFullDay = value; }
+        }
+        [Column(Name = "GCAbsenceReason", DataType = "String")]
+        public String GCAbsenceReason
+        {
+            get { return _GCAbsenceReason; }
+            set { _GCAbsenceReason = value; }
+        }
+        [Column(Name = "OtherAbsenceReason", DataType = "String")]
+        public String OtherAbsenceReason
+        {
+            get { return _OtherAbsenceReason; }
+            set { _OtherAbsenceReason = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherAbsenceDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherAbsence));
+        private bool _isAuditLog = false;
+        private const string p_TeacherAbsenceID = "@p_TeacherAbsenceID";
+        public TeacherAbsenceDao() { }
+        public TeacherAbsenceDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherAbsence Get(Int32 TeacherAbsenceID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherAbsenceID, TeacherAbsenceID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherAbsence)_helper.DataRowToObject(row, new TeacherAbsence());
+        }
+        public int Insert(TeacherAbsence record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherAbsence record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherAbsenceID)
+        {
+            TeacherAbsence record;
+            if (_ctx.Transaction == null)
+                record = new TeacherAbsenceDao().Get(TeacherAbsenceID);
+            else
+                record = Get(TeacherAbsenceID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region TeacherMark
     [Serializable]
     [Table(Name = "TeacherMark")]
@@ -28479,6 +28641,133 @@ namespace CodeX.Data.Model
                 record = new TeacherSubjectDao().Get(TeacherID, SubjectID);
             else
                 record = Get(TeacherID, SubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region TeacherSubstitution
+    [Serializable]
+    [Table(Name = "TeacherSubstitution")]
+    public class TeacherSubstitution : DbDataModel
+    {
+        private Int32 _TeacherSubstitutionID;
+        private Int32 _TeacherAbsenceID;
+        private Int32 _ClassScheduleID;
+        private DateTime _SchoolDate;
+        private Int32 _TeacherID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "TeacherSubstitutionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 TeacherSubstitutionID
+        {
+            get { return _TeacherSubstitutionID; }
+            set { _TeacherSubstitutionID = value; }
+        }
+        [Column(Name = "TeacherAbsenceID", DataType = "Int32")]
+        public Int32 TeacherAbsenceID
+        {
+            get { return _TeacherAbsenceID; }
+            set { _TeacherAbsenceID = value; }
+        }
+        [Column(Name = "ClassScheduleID", DataType = "Int32")]
+        public Int32 ClassScheduleID
+        {
+            get { return _ClassScheduleID; }
+            set { _ClassScheduleID = value; }
+        }
+        [Column(Name = "SchoolDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
+        }
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class TeacherSubstitutionDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(TeacherSubstitution));
+        private bool _isAuditLog = false;
+        private const string p_TeacherSubstitutionID = "@p_TeacherSubstitutionID";
+        public TeacherSubstitutionDao() { }
+        public TeacherSubstitutionDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public TeacherSubstitution Get(Int32 TeacherSubstitutionID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_TeacherSubstitutionID, TeacherSubstitutionID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (TeacherSubstitution)_helper.DataRowToObject(row, new TeacherSubstitution());
+        }
+        public int Insert(TeacherSubstitution record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(TeacherSubstitution record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 TeacherSubstitutionID)
+        {
+            TeacherSubstitution record;
+            if (_ctx.Transaction == null)
+                record = new TeacherSubstitutionDao().Get(TeacherSubstitutionID);
+            else
+                record = Get(TeacherSubstitutionID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
