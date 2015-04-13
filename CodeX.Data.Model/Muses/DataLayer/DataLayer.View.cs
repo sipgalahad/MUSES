@@ -24823,7 +24823,20 @@ namespace CodeX.Data.Model
     {
         private Int32 _TeacherSubstitutionID;
         private Int32 _TeacherAbsenceID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
         private Int32 _ClassScheduleID;
+        private Int32 _RoomID;
+        private String _RoomCode;
+        private String _RoomName;
+        private Int32 _SchoolClassID;
+        private String _SchoolClassCode;
+        private String _SchoolClassName;
+        private Int32 _ClassSubjectID;
+        private Int32 _SubjectID;
+        private String _SubjectName;
+        private Int16 _DayNumber;
+        private Int16 _HoursIndex;
         private DateTime _SchoolDate;
         private Int32 _TeacherID;
         private String _TeacherCode;
@@ -24843,11 +24856,89 @@ namespace CodeX.Data.Model
             get { return _TeacherAbsenceID; }
             set { _TeacherAbsenceID = value; }
         }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
         [Column(Name = "ClassScheduleID", DataType = "Int32")]
         public Int32 ClassScheduleID
         {
             get { return _ClassScheduleID; }
             set { _ClassScheduleID = value; }
+        }
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomCode", DataType = "String")]
+        public String RoomCode
+        {
+            get { return _RoomCode; }
+            set { _RoomCode = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "SchoolClassCode", DataType = "String")]
+        public String SchoolClassCode
+        {
+            get { return _SchoolClassCode; }
+            set { _SchoolClassCode = value; }
+        }
+        [Column(Name = "SchoolClassName", DataType = "String")]
+        public String SchoolClassName
+        {
+            get { return _SchoolClassName; }
+            set { _SchoolClassName = value; }
+        }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "DayNumber", DataType = "Int16")]
+        public Int16 DayNumber
+        {
+            get { return _DayNumber; }
+            set { _DayNumber = value; }
+        }
+        [Column(Name = "HoursIndex", DataType = "Int16")]
+        public Int16 HoursIndex
+        {
+            get { return _HoursIndex; }
+            set { _HoursIndex = value; }
         }
         [Column(Name = "SchoolDate", DataType = "DateTime")]
         public DateTime SchoolDate

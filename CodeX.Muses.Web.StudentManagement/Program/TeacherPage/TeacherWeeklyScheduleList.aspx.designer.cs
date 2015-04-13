@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacPeriodSection;
         
         /// <summary>
+        /// ctlWeekPicker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CommonLibs.Controls.WeekPickerCtl ctlWeekPicker;
+        
+        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>

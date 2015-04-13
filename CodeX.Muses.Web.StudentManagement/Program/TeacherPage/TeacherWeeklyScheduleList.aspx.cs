@@ -27,6 +27,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            ctlWeekPicker.InitializeDataControl("");
+
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE, Constant.StandardCode.SCHOOL_DAY));
             rptRemarks.DataSource = lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE).ToList();
             rptRemarks.DataBind();
@@ -105,6 +107,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                 ));
 
+                lstTeacherSubstitution = BusinessLayer.GetvTeacherSubstitutionList(string.Format("TeacherID = {0} AND (StartDate BETWEEN '{1}' AND '{2}' OR EndDate BETWEEN '{1}' AND '{2}') AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, ctlWeekPicker.GetStartDate().ToString("yyyyMMdd"), ctlWeekPicker.GetEndDate().ToString("yyyyMMdd")));
                 List<vClassSchedule> lstTempClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
                 lstTeacherSchedule = BusinessLayer.GetTeacherScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
                 lstClassSchedule = lstTempClassSchedule.Where(p => p.GCClassStudyType == Constant.ClassStudyType.REGULAR).ToList();
@@ -171,13 +174,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
+                DateTime dt = ctlWeekPicker.GetStartDate().AddDays(DayNumber);
+
                 DailyScheduleTypeDt entityTypeDt = e.Item.DataItem as DailyScheduleTypeDt;
                 vClassSchedule entity = lstClassSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
                 TeacherSchedule entityTeacherSchedule = lstTeacherSchedule.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
+                vTeacherSubstitution entityTeacherSubstitution = lstTeacherSubstitution.FirstOrDefault(p => p.DayNumber == DayNumber && p.HoursIndex == entityTypeDt.HoursIndex);
                 HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
                 HtmlTableCell tdClassSubjectID = (HtmlTableCell)e.Item.FindControl("tdClassSubjectID");
                 HtmlTableCell tdClassScheduleID = (HtmlTableCell)e.Item.FindControl("tdClassScheduleID");
-                if (entity != null)
+                if (entityTeacherSubstitution != null && dt >= entityTeacherSubstitution.StartDate && dt <= entityTeacherSubstitution.EndDate)
+                {
+                    tdClassSubjectID.InnerHtml = entityTeacherSubstitution.ClassSubjectID.ToString();
+                    tdClassScheduleID.InnerHtml = entityTeacherSubstitution.ClassScheduleID.ToString();
+                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/><b class='bTeacherSubs'>*</b>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entityTeacherSubstitution.SchoolClassName, entityTeacherSubstitution.SubjectName, entityTeacherSubstitution.RoomName);
+                }
+                else if (entity != null)
                 {
                     tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
                     tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
@@ -189,6 +201,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
             }
         }
+        List<vTeacherSubstitution> lstTeacherSubstitution = null;
         List<vClassSchedule> lstClassSchedule = null;
         List<TeacherSchedule> lstTeacherSchedule = null;
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

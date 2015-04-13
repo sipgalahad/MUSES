@@ -69,6 +69,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tacSubjectMeetingPlanHd.Text = entity.MeetingNo.ToString();
                 }
             }
+            if (AppSession.UserLogin.EmployeeID != null)
+            {
+                tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
+                tacTeacher.Text = AppSession.UserLogin.UserFullName;
+            }
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
 
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();

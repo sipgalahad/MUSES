@@ -85,6 +85,9 @@
     <Content Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx</Link>
     </Content>
+    <Content Include="..\CodeX.Web.CommonLibs\Controls\WeekPickerCtl.ascx">
+      <Link>SharedLibs\Controls\WeekPickerCtl.ascx</Link>
+    </Content>
     <Content Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx">
       <Link>SharedLibs\ErrorPage.aspx</Link>
     </Content>
@@ -321,6 +324,15 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\SetLoginAttributeCtl.ascx.designer.cs</Link>
       <DependentUpon>SetLoginAttributeCtl.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\WeekPickerCtl.ascx.cs">
+      <Link>SharedLibs\Controls\WeekPickerCtl.ascx.cs</Link>
+      <DependentUpon>WeekPickerCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CodeX.Web.CommonLibs\Controls\WeekPickerCtl.ascx.designer.cs">
+      <Link>SharedLibs\Controls\WeekPickerCtl.ascx.designer.cs</Link>
+      <DependentUpon>WeekPickerCtl.ascx.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\ErrorPage.aspx.cs">
       <Link>SharedLibs\ErrorPage.aspx.cs</Link>

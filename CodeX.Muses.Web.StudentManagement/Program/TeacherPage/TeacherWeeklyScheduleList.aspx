@@ -9,10 +9,12 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
+<%@ Register Src="~/Libs/Controls/WeekPickerCtl.ascx" TagName="WeekPickerCtl" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
+
         function onCboSchoolPeriodValueChanged(s) {
             tacPeriodSection.setValue('');
             tacPeriodSection.setText('');
@@ -79,7 +81,13 @@
                 </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
+        <tr>
+            <td class="tdLabel" style="width:100px;"><%=GetLabel("Tanggal") %></td>
+            <td><uc1:WeekPickerCtl ID="ctlWeekPicker" runat="server" /> </td>
+        </tr>
     </table>
+    
+    
     <style type="text/css">
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
@@ -90,6 +98,7 @@
         .tblSchedule tr.T001 b.bPicket      { color: Blue; }
         .tblSchedule tr.T001 td, .nts001    { background-color: #2FD933; }
         .tblSchedule tr.T999 td, .nts999    { background-color: #A32FD9; }
+        .bTeacherSubs                       { color: Blue !important; font-weight: bold; }
     </style>
 
     <div class="divTransactionEntry">
@@ -363,16 +372,21 @@
         </HeaderTemplate>
         <ItemTemplate>
             <tr>
-                <td><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
+                <td class="tdLabel"><div class='nts<%#Eval("cfStandardCodeID") %>' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
                 <td><%#Eval("StandardCodeName") %></td>
             </tr>
         </ItemTemplate>
         <FooterTemplate>
                 <tr>
-                    <td><div class='nts999' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
+                    <td class="tdLabel"><div class='nts999' style="width: 20px; height: 20px; border: 1px solid black;"></div></td>
                     <td><%=GetLabel("Ekskul") %></td>
                 </tr>
-            </table>
+            
         </FooterTemplate>
     </asp:Repeater>
+        <tr>
+            <td class="tdLabel"><b class="bTeacherSubs">*</b></td>
+            <td><%=GetLabel("Guru Pengganti") %></td>
+        </tr>   
+    </table>
 </asp:Content>
