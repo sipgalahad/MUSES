@@ -9,6 +9,7 @@ using CodeX.Web.Common;
 using CodeX.Common;
 using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
+using System.Data;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
@@ -81,7 +82,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string defaultGCState = site.GCState == "" ? "" : site.GCState.Split('^')[1];
 
             #region Personal Data
-            SetControlEntrySetting(txtTeacherCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtTeacherCode, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtInitial, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGCSalutation, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGCTitle, new ControlEntrySetting(true, true, false));
@@ -97,7 +98,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboGCDepartment, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupation, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupationLevel, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtHiredDate, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtHiredDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtTerminatedDate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtVATRegistrationNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboGCEmployeeStatus, new ControlEntrySetting(true, true, true));
@@ -185,7 +186,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void ControlToEntity(Employee entity, Teacher entityTeacher, Address entityAddress)
         {
             #region Personal Data
-            entity.EmployeeCode = txtTeacherCode.Text;
             if (cboGCSalutation.Value != null)
                 entity.GCSalutation = cboGCSalutation.Value.ToString();
             else
@@ -253,32 +253,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
         }
 
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            string FilterExpression = string.Format("EmployeeCode = '{0}'", txtTeacherCode.Text);
-            List<Employee> lst = BusinessLayer.GetEmployeeList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Teacher with Code " + txtTeacherCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            Int32 ID = Convert.ToInt32(hdnID.Value);
-            string FilterExpression = string.Format("EmployeeCode = '{0}' AND EmployeeID != {1}", txtTeacherCode.Text, ID);
-            List<Employee> lst = BusinessLayer.GetEmployeeList(FilterExpression);
-
-            if (lst.Count > 0)
-                errMessage = " Teacher with Code " + txtTeacherCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             IDbContext ctx = DbFactory.Configure(true);
@@ -293,6 +267,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 Address address = new Address();
                 ControlToEntity(entity, entityTeacher, address);
                 entity.GCEmployeeType = Constant.EmployeeType.TEACHER;
+                entity.EmployeeCode = BusinessLayer.GenerateEmployeeCode(entity.GCDepartment, entity.HiredDate, ctx);
+                ctx.CommandType = CommandType.Text;
+                ctx.Command.Parameters.Clear();
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.AddressID = null;
                 entity.CreatedBy = AppSession.UserLogin.UserID;

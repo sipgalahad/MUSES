@@ -165,6 +165,45 @@ namespace CodeX.Data.Model
             }
         }
         #endregion
+        #region GenerateEmployeeCode
+        public static string GenerateEmployeeCode(String GCDepartment, DateTime HiredDate, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateEmployeeCode";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@GCDepartment", GCDepartment));
+            ctx.Command.Parameters.Add(new SqlParameter("@HiredDate", HiredDate));
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.VarChar;
+            param.Size = 20;
+            param.Direction = ParameterDirection.Output;
+
+            ctx.Command.Parameters.Add(param);
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+
+            return (string)param.Value;
+        }
+        #endregion
         #region GenerateFADepreciation
         public static void GenerateFADepreciation(int FixedAssetID, int CreatedBy, IDbContext ctx = null)
         {
@@ -195,7 +234,7 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region GenerateProspectiveStudentCode
-        public static string GenerateProspectiveStudentCode(String SiteID, int Year, IDbContext ctx = null)
+        public static string GenerateProspectiveStudentCode(String SiteID, int Year, String RegistrationNo, IDbContext ctx = null)
         {
             bool IsCtxNull = false;
             if (ctx == null)
@@ -207,6 +246,45 @@ namespace CodeX.Data.Model
             ctx.CommandType = CommandType.StoredProcedure;
             ctx.Command.Parameters.Add(new SqlParameter("@SiteID", SiteID));
             ctx.Command.Parameters.Add(new SqlParameter("@Year", Year));
+            ctx.Command.Parameters.Add(new SqlParameter("@RegistrationNo", RegistrationNo));
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@Result";
+            param.SqlDbType = SqlDbType.VarChar;
+            param.Size = 20;
+            param.Direction = ParameterDirection.Output;
+
+            ctx.Command.Parameters.Add(param);
+
+            try
+            {
+                DaoBase.ExecuteNonQuery(ctx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                if (IsCtxNull)
+                    ctx.Close();
+            }
+
+            return (string)param.Value;
+        }
+        #endregion
+        #region GenerateRegistrationNo
+        public static string GenerateRegistrationNo(Int32 SchoolPeriodID, IDbContext ctx = null)
+        {
+            bool IsCtxNull = false;
+            if (ctx == null)
+            {
+                IsCtxNull = true;
+                ctx = DbFactory.Configure();
+            }
+            ctx.CommandText = "GenerateRegistrationNo";
+            ctx.CommandType = CommandType.StoredProcedure;
+            ctx.Command.Parameters.Add(new SqlParameter("@SchoolPeriodID", SchoolPeriodID));
 
             SqlParameter param = new SqlParameter();
             param.ParameterName = "@Result";

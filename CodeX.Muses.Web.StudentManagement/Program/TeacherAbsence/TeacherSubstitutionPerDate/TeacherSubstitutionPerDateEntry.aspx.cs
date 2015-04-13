@@ -32,6 +32,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnTeacherName.Value = teacherAbsence.TeacherName;
             hdnSchoolPeriodID.Value = teacherAbsence.SchoolPeriodID.ToString();
             txtSchoolDate.Text = teacherAbsence.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtSchoolDate.Attributes.Add("mindate", teacherAbsence.StartDate.ToString("yyyy-MM-dd"));
+            txtSchoolDate.Attributes.Add("maxdate", teacherAbsence.EndDate.ToString("yyyy-MM-dd"));
 
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE, Constant.StandardCode.SCHOOL_DAY));
             rptRemarks.DataSource = lstSc.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_DAILY_SCHEDULE_TYPE).ToList();

@@ -12,7 +12,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-
+        $(function () {
+            setDatePicker('<%=txtHiredDate.ClientID %>');
+            setDatePicker('<%=txtTerminatedDate.ClientID %>');            
+        });
         //#region Province
         function onGetProvinceFilterExpression() {
             var filterExpression = "<%=OnGetProvinceFilterExpression() %>";
@@ -150,7 +153,7 @@
                             <td><dxe:ASPxComboBox ID="cboGCTitle" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nama Guru")%></label></td>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nama Depan")%></label></td>
                             <td>
                                 <table cellpadding="0" cellspacing="0">
                                     <tr>
@@ -282,7 +285,7 @@
                             <td><dxe:ASPxComboBox ID="cboGCOccupationLevel" ClientInstanceName="cboGCOccupationLevel" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Diterima")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Diterima")%></label></td>
                             <td><asp:TextBox ID="txtHiredDate" Width="120px" runat="server" CssClass="datepicker" /></td>
                         </tr>
                         <tr>

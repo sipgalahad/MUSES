@@ -230,6 +230,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
+        private string RegistrationNo = "";
         private void OnSaveRecord(IDbContext ctx, int registrationID, bool isApproved)
         {
             RegistrationDao entityDao = new RegistrationDao(ctx);
@@ -239,6 +240,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             RegistrationScholarshipDao entityScholarshipDao = new RegistrationScholarshipDao(ctx);
             
             Registration entity = entityDao.Get(registrationID);
+            RegistrationNo = entity.RegistrationNo;
             entity.AdmissionFeeRuleID = Convert.ToInt32(tacAdmissionFeeRule.Value);
             entity.PaymentID = Convert.ToInt32(cboPaymentType.Value);
             if (isApproved)
@@ -430,7 +432,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     ProspectiveStudent entityProspectiveStudent = entityProspectiveStudentDao.Get(prospectiveStudentID);
                     if (entityProspectiveStudent.ProspectiveStudentCode == "")
                     {
-                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), ctx);
+                        entityProspectiveStudent.ProspectiveStudentCode = BusinessLayer.GenerateProspectiveStudentCode(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnYear.Value), RegistrationNo, ctx);
                         ctx.CommandType = CommandType.Text;
                         ctx.Command.Parameters.Clear();
                         entityProspectiveStudent.LastUpdatedBy = AppSession.UserLogin.UserID;

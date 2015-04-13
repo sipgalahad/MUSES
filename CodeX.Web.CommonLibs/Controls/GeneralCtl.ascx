@@ -577,17 +577,7 @@
 
     //#region Datepicker
     function setDatePicker(id) {
-        $('#' + id).datepicker({
-            defaultDate: "w",
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "dd-mm-yy",
-            showOn: "button", 
-            //showOn: "both",
-            buttonImage: ResolveUrl("~/Libs/Images/calendar.gif"),
-            buttonImageOnly: true,
-            yearRange: "-100:+10"
-        });
+        setDatePickerElement($('#' + id));
     }
 
     function setDatePickerElement($elm) {
@@ -602,6 +592,22 @@
             buttonImageOnly: true,
             yearRange: "-100:+10"
         });
+
+        if ($elm.attr('mindate') != null) {
+            var temp = $elm.attr('mindate').split('-');
+            var year = parseInt(temp[0]);
+            var month = parseInt(temp[1]) - 1;
+            var day = parseInt(temp[2]);
+            $elm.datepicker("option", "minDate", new Date(year, month, day));
+        }
+
+        if ($elm.attr('maxdate') != null) {
+            var temp = $elm.attr('maxdate').split('-');
+            var year = parseInt(temp[0]);
+            var month = parseInt(temp[1]) - 1;
+            var day = parseInt(temp[2]);
+            $elm.datepicker("option", "maxDate", new Date(year, month, day));
+        }
     }
 
     $(function () {

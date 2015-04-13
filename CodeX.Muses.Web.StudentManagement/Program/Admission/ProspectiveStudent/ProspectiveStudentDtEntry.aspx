@@ -157,6 +157,7 @@
         }
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnSchoolPeriodID" runat="server" value="" />
     <input type="hidden" id="hdnInitial" runat="server" value="" />
     <input type="hidden" id="hdnSchoolType" runat="server" value="" />
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
