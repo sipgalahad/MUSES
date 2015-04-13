@@ -70,11 +70,17 @@ namespace CodeX.Common
             public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
             public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
             public const string SUBJECT_TYPE = "MS031";
+            public const string ABSENCE_REASON = "MS032";
         }
 
         public static class StudentStatus
         {
             public const string ACTIVE = "MS006^001";
+        }
+
+        public static class AbsenceReason
+        {
+            public const string OTHER = "MS032^999";
         }
 
         public static class SubjectType
@@ -491,6 +497,9 @@ namespace CodeX.Common
                 public const string TEACHER_MARK_GROUP = "SM030700";
                 public const string EXTRACURRICULAR_WEEKLY_SCHEDULE = "SM030800";
                 public const string STUDENT_DAILY_ATTENDANCE = "SM030900";
+                public const string TEACHER_ABSENCE = "SM031000";
+                public const string TSB_TEACHER_SUBSTITUTION = "SM031001";
+                public const string TSB_TEACHER_SUBSTITUTION_PER_DATE = "SM031002";
 
                 public const string SUBJECT = "SM110100";
                 public const string TEACHER_PERIOD_CLASS_TYPE_SUBJECT = "SM110200";

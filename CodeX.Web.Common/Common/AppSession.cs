@@ -354,6 +354,39 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region TeacherAbsenceID
+        public static Int32 TeacherAbsenceID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_TeacherAbsenceID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_TeacherAbsenceID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_TeacherAbsenceID"]);
+                            HttpContext.Current.Session["_TeacherAbsenceID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_TeacherAbsenceID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_TeacherAbsenceID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_TeacherAbsenceID"] = value;
+            }
+        }
+        #endregion
+
         #region SubjectMatterID
         public static Int32 SubjectMatterID
         {

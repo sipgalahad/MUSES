@@ -2001,6 +2001,36 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacherAbsence
+    public partial class vTeacherAbsence
+    {
+        public string cfDate
+        {
+            get
+            {
+                return string.Format("{0} - {1}", _StartDate.ToString(Constant.FormatString.DATE_FORMAT), _EndDate.ToString(Constant.FormatString.DATE_FORMAT));
+            }
+        }
+        public string cfTime
+        {
+            get
+            {
+                if (_IsFullDay)
+                    return "Full Day";
+                return string.Format("{0} - {1}", _StartTime, _EndTime);
+            }
+        }
+        public string cfAbsenceReason
+        {
+            get
+            {
+                if (_GCAbsenceReason == Constant.AbsenceReason.OTHER)
+                    return _OtherAbsenceReason;
+                return _AbsenceReason;
+            }
+        }
+    }
+    #endregion
     #region vTeacherMark
     public partial class vTeacherMark 
     {

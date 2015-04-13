@@ -9454,6 +9454,95 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vTeacherAbsence
+        public static List<vTeacherAbsence> GetvTeacherAbsenceList(string filterExpression)
+        {
+            List<vTeacherAbsence> result = new List<vTeacherAbsence>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherAbsence));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherAbsence)helper.IDataReaderToObject(reader, new vTeacherAbsence()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vTeacherAbsence> GetvTeacherAbsenceList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vTeacherAbsence> result = new List<vTeacherAbsence>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherAbsence));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherAbsence)helper.IDataReaderToObject(reader, new vTeacherAbsence()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetvTeacherAbsenceRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherAbsence));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvTeacherAbsenceRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherAbsence));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TeacherMarkID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vTeacherClassSubject
         public static List<vTeacherClassSubject> GetvTeacherClassSubjectList(string filterExpression)
         {
@@ -9872,6 +9961,30 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowCount(filterExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vTeacherSubstitution
+        public static List<vTeacherSubstitution> GetvTeacherSubstitutionList(string filterExpression)
+        {
+            List<vTeacherSubstitution> result = new List<vTeacherSubstitution>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vTeacherSubstitution));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vTeacherSubstitution)helper.IDataReaderToObject(reader, new vTeacherSubstitution()));
             }
             catch (Exception ex)
             {
