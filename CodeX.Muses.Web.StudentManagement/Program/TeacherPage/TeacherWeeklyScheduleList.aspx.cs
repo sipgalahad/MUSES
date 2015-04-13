@@ -107,7 +107,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.DailyScheduleTypeID6 == null ? "0" : entity.DailyScheduleTypeID6.ToString()
                 ));
 
-                lstTeacherSubstitution = BusinessLayer.GetvTeacherSubstitutionList(string.Format("TeacherID = {0} AND (StartDate BETWEEN '{1}' AND '{2}' OR EndDate BETWEEN '{1}' AND '{2}') AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, ctlWeekPicker.GetStartDate().ToString("yyyyMMdd"), ctlWeekPicker.GetEndDate().ToString("yyyyMMdd")));
+                lstTeacherSubstitution = BusinessLayer.GetvTeacherSubstitutionList(string.Format("TeacherID = {0} AND (StartDate BETWEEN '{1}' AND '{2}' OR EndDate BETWEEN '{1}' AND '{2}') AND (SchoolDate IS NULL OR SchoolDate BETWEEN '{1}' AND '{2}') AND IsDeleted = 0", AppSession.UserLogin.EmployeeID, ctlWeekPicker.GetStartDate().ToString("yyyyMMdd"), ctlWeekPicker.GetEndDate().ToString("yyyyMMdd")));
+                if (lstTeacherSubstitution.Count > 0)
+                {
+                    string lstTeacherAbsenceID = string.Join(",", lstTeacherSubstitution.Select(p => p.TeacherAbsenceID).ToList());
+                    lstOtherTeacherSubstitution = BusinessLayer.GetvTeacherSubstitutionList(string.Format("TeacherAbsenceID IN ({0}) AND TeacherID != {1} AND (SchoolDate BETWEEN '{2}' AND '{3}') AND IsDeleted = 0", lstTeacherAbsenceID, AppSession.UserLogin.EmployeeID, ctlWeekPicker.GetStartDate().ToString("yyyyMMdd"), ctlWeekPicker.GetEndDate().ToString("yyyyMMdd")));
+                }
+                else
+                    lstOtherTeacherSubstitution = new List<vTeacherSubstitution>();
                 List<vClassSchedule> lstTempClassSchedule = BusinessLayer.GetvClassScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
                 lstTeacherSchedule = BusinessLayer.GetTeacherScheduleList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
                 lstClassSchedule = lstTempClassSchedule.Where(p => p.GCClassStudyType == Constant.ClassStudyType.REGULAR).ToList();
@@ -183,25 +190,35 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 HtmlTableCell tdHtmlText = (HtmlTableCell)e.Item.FindControl("tdHtmlText");
                 HtmlTableCell tdClassSubjectID = (HtmlTableCell)e.Item.FindControl("tdClassSubjectID");
                 HtmlTableCell tdClassScheduleID = (HtmlTableCell)e.Item.FindControl("tdClassScheduleID");
+                bool isFinish = false;
                 if (entityTeacherSubstitution != null && dt >= entityTeacherSubstitution.StartDate && dt <= entityTeacherSubstitution.EndDate)
                 {
-                    tdClassSubjectID.InnerHtml = entityTeacherSubstitution.ClassSubjectID.ToString();
-                    tdClassScheduleID.InnerHtml = entityTeacherSubstitution.ClassScheduleID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/><b class='bTeacherSubs'>*</b>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entityTeacherSubstitution.SchoolClassName, entityTeacherSubstitution.SubjectName, entityTeacherSubstitution.RoomName);
+                    vTeacherSubstitution otherSubs = lstOtherTeacherSubstitution.FirstOrDefault(p => p.SchoolDate == dt && p.HoursIndex == entityTypeDt.HoursIndex);
+                    if (otherSubs == null)
+                    {
+                        isFinish = true;
+                        tdClassSubjectID.InnerHtml = entityTeacherSubstitution.ClassSubjectID.ToString();
+                        tdClassScheduleID.InnerHtml = entityTeacherSubstitution.ClassScheduleID.ToString();
+                        tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/><b class='bTeacherSubs'>*</b>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entityTeacherSubstitution.SchoolClassName, entityTeacherSubstitution.SubjectName, entityTeacherSubstitution.RoomName);
+                    }
                 }
-                else if (entity != null)
+                if (!isFinish)
                 {
-                    tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
-                    tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
+                    if (entity != null)
+                    {
+                        tdClassSubjectID.InnerHtml = entity.ClassSubjectID.ToString();
+                        tdClassScheduleID.InnerHtml = entity.ClassScheduleID.ToString();
+                        tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/>{2}<br/>(<b>{3}</b>)<br/>{4}", entityTypeDt.StartTime, entityTypeDt.EndTime, entity.SchoolClassName, entity.SubjectName, entity.RoomName);
+                    }
+                    else if (entityTeacherSchedule != null)
+                        tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/><b class='bPicket'>{2}</b>", entityTypeDt.StartTime, entityTypeDt.EndTime, GetLabel("PIKET"));
+                    else
+                        tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
                 }
-                else if (entityTeacherSchedule != null)
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}<br/><b class='bPicket'>{2}</b>", entityTypeDt.StartTime, entityTypeDt.EndTime, GetLabel("PIKET"));
-                else
-                    tdHtmlText.InnerHtml = string.Format("{0} - {1}", entityTypeDt.StartTime, entityTypeDt.EndTime);
             }
         }
         List<vTeacherSubstitution> lstTeacherSubstitution = null;
+        List<vTeacherSubstitution> lstOtherTeacherSubstitution = null;
         List<vClassSchedule> lstClassSchedule = null;
         List<TeacherSchedule> lstTeacherSchedule = null;
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

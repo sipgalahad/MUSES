@@ -232,6 +232,7 @@
     <Content Include="Program\Master\Student\StudentEntry.aspx" />
     <Content Include="Program\Master\Student\StudentList.aspx" />
     <Content Include="Program\StudentSchoolFee\StudentSchoolFeeEntry.aspx" />
+    <Content Include="Program\TeacherAbsence\TeacherSubstitutionPerDate\TeacherSubstitutionPerDateEntry.aspx" />
     <Content Include="Program\TeacherAbsence\TeacherSubstitution\TeacherSubstitutionEntry.aspx" />
     <Content Include="Program\TeacherAbsence\TeacherAbsencePageLauncher.aspx" />
     <Content Include="Program\TeacherAbsence\TeacherAbsenceEntry.aspx" />
@@ -1403,6 +1404,13 @@
     </Compile>
     <Compile Include="Program\StudentSchoolFee\StudentSchoolFeeEntry.aspx.designer.cs">
       <DependentUpon>StudentSchoolFeeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\TeacherAbsence\TeacherSubstitutionPerDate\TeacherSubstitutionPerDateEntry.aspx.cs">
+      <DependentUpon>TeacherSubstitutionPerDateEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\TeacherAbsence\TeacherSubstitutionPerDate\TeacherSubstitutionPerDateEntry.aspx.designer.cs">
+      <DependentUpon>TeacherSubstitutionPerDateEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\TeacherAbsence\TeacherSubstitution\TeacherSubstitutionEntry.aspx.cs">
       <DependentUpon>TeacherSubstitutionEntry.aspx</DependentUpon>

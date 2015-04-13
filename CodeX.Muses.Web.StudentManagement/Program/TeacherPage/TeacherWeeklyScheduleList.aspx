@@ -14,7 +14,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
     <script type="text/javascript">
-
         function onCboSchoolPeriodValueChanged(s) {
             tacPeriodSection.setValue('');
             tacPeriodSection.setText('');

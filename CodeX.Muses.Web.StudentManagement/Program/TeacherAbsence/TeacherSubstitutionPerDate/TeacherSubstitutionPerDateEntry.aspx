@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPTeacherAbsencePageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="TeacherSubstitutionEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.TeacherSubstitutionEntry" %>
+    CodeBehind="TeacherSubstitutionPerDateEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.TeacherSubstitutionPerDateEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -80,6 +80,11 @@
         }
 
         $(function () {
+            setDatePicker('<%=txtSchoolDate.ClientID %>');
+            $('#<%=txtSchoolDate.ClientID %>').change(function () {
+                cbpView.PerformCallback('refresh');
+            });
+
             $('#<%=btnSave.ClientID %>').click(function () {
                 var lstClassScheduleID = [];
                 var lstTeacherID = [];
@@ -98,7 +103,7 @@
                 });
                 $('#<%=hdnLstClassScheduleID.ClientID %>').val(lstClassScheduleID.join(','));
                 $('#<%=hdnLstTeacherID.ClientID %>').val(lstTeacherID.join(','));
-                $('#<%=hdnLstTeacherSubstitutionID.ClientID %>').val(lstTeacherSubstitutionID.join(','));                
+                $('#<%=hdnLstTeacherSubstitutionID.ClientID %>').val(lstTeacherSubstitutionID.join(','));
 
                 onCustomButtonClick('save');
             });
@@ -125,6 +130,15 @@
 
     <input type="hidden" id="hdnSelectedTrTeacherID" value="" />
     <input type="hidden" id="hdnSelectedTrTeacherName" value="" />
+    <table>
+        <colgroup>
+            <col style="width:120px"/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><%=GetLabel("Tanggal") %></td>
+            <td><asp:TextBox ID="txtSchoolDate" CssClass="datepicker" Width="120px" runat="server" /></td>
+        </tr>
+    </table>
     <style type="text/css">
         .tblSchedule                        { width: 100%; }
         .tblSchedule td                     { text-align: center; }
