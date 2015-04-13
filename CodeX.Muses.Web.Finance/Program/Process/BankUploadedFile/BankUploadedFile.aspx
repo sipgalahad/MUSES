@@ -84,14 +84,16 @@
                 <col />
             </colgroup>
             <tr>
+                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bank")%></label></td>
+                <td><dxe:ASPxComboBox ID="cboBank" ClientInstanceName="cboBank" Width="120px" runat="server" /></td>
+            </tr>
+            <tr>
                 <td></td>
                 <td>
                     <input type="hidden" id="hdnFileName" runat="server" value="" />
                     <input type="hidden" id="hdnUploadedFile1" runat="server" value="" />
                     <asp:FileUpload ID="FileUpload1" runat="server" />
                     <input type="button" id="btnUploadFile" value="Upload" />
-
-
                     <dxcp:ASPxCallbackPanel ID="cbpPopupProcess" runat="server" Width="100%" ClientInstanceName="cbpPopupProcess"
                         ShowLoadingPanel="false" OnCallback="cbpPopupProcess_Callback">
                         <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" EndCallback="function(s,e){ onCbpPopupProcess(); }" />
