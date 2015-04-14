@@ -10386,6 +10386,267 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GradePromotionFormulaDt
+    [Serializable]
+    [Table(Name = "GradePromotionFormulaDt")]
+    public class GradePromotionFormulaDt : DbDataModel
+    {
+        private Int32 _GradePromotionFormulaDtID;
+        private Int32 _GradePromotionFormulaID;
+        private String _GradePromotionFormulaDtName;
+        private Boolean _IsCurrentGrade;
+        private String _GCGrade;
+        private String _GCPeriodSection;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "GradePromotionFormulaDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 GradePromotionFormulaDtID
+        {
+            get { return _GradePromotionFormulaDtID; }
+            set { _GradePromotionFormulaDtID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaID", DataType = "Int32")]
+        public Int32 GradePromotionFormulaID
+        {
+            get { return _GradePromotionFormulaID; }
+            set { _GradePromotionFormulaID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaDtName", DataType = "String")]
+        public String GradePromotionFormulaDtName
+        {
+            get { return _GradePromotionFormulaDtName; }
+            set { _GradePromotionFormulaDtName = value; }
+        }
+        [Column(Name = "IsCurrentGrade", DataType = "Boolean")]
+        public Boolean IsCurrentGrade
+        {
+            get { return _IsCurrentGrade; }
+            set { _IsCurrentGrade = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String", IsNullable = true)]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class GradePromotionFormulaDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(GradePromotionFormulaDt));
+        private bool _isAuditLog = false;
+        private const string p_GradePromotionFormulaDtID = "@p_GradePromotionFormulaDtID";
+        public GradePromotionFormulaDtDao() { }
+        public GradePromotionFormulaDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public GradePromotionFormulaDt Get(Int32 GradePromotionFormulaDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GradePromotionFormulaDtID, GradePromotionFormulaDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (GradePromotionFormulaDt)_helper.DataRowToObject(row, new GradePromotionFormulaDt());
+        }
+        public int Insert(GradePromotionFormulaDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(GradePromotionFormulaDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 GradePromotionFormulaDtID)
+        {
+            GradePromotionFormulaDt record;
+            if (_ctx.Transaction == null)
+                record = new GradePromotionFormulaDtDao().Get(GradePromotionFormulaDtID);
+            else
+                record = Get(GradePromotionFormulaDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region GradePromotionFormulaHd
+    [Serializable]
+    [Table(Name = "GradePromotionFormulaHd")]
+    public class GradePromotionFormulaHd : DbDataModel
+    {
+        private Int32 _GradePromotionFormulaID;
+        private String _SiteID;
+        private String _GradePromotionFormulaCode;
+        private String _GradePromotionFormulaName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "GradePromotionFormulaID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 GradePromotionFormulaID
+        {
+            get { return _GradePromotionFormulaID; }
+            set { _GradePromotionFormulaID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaCode", DataType = "String")]
+        public String GradePromotionFormulaCode
+        {
+            get { return _GradePromotionFormulaCode; }
+            set { _GradePromotionFormulaCode = value; }
+        }
+        [Column(Name = "GradePromotionFormulaName", DataType = "String")]
+        public String GradePromotionFormulaName
+        {
+            get { return _GradePromotionFormulaName; }
+            set { _GradePromotionFormulaName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class GradePromotionFormulaHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(GradePromotionFormulaHd));
+        private bool _isAuditLog = false;
+        private const string p_GradePromotionFormulaID = "@p_GradePromotionFormulaID";
+        public GradePromotionFormulaHdDao() { }
+        public GradePromotionFormulaHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public GradePromotionFormulaHd Get(Int32 GradePromotionFormulaID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GradePromotionFormulaID, GradePromotionFormulaID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (GradePromotionFormulaHd)_helper.DataRowToObject(row, new GradePromotionFormulaHd());
+        }
+        public int Insert(GradePromotionFormulaHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(GradePromotionFormulaHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 GradePromotionFormulaID)
+        {
+            GradePromotionFormulaHd record;
+            if (_ctx.Transaction == null)
+                record = new GradePromotionFormulaHdDao().Get(GradePromotionFormulaID);
+            else
+                record = Get(GradePromotionFormulaID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region Holiday
     [Serializable]
     [Table(Name = "Holiday")]

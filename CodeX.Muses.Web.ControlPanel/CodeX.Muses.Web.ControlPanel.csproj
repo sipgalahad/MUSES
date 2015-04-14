@@ -132,6 +132,9 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx" />
+    <Content Include="Program\Master\GradePromotionFormula\GradePromotionFormulaEntry.aspx" />
+    <Content Include="Program\Master\GradePromotionFormula\GradePromotionFormulaList.aspx" />
     <Content Include="Program\Master\CoverageType\CoverageTypeEntry.aspx" />
     <Content Include="Program\Master\CoverageType\CoverageTypeList.aspx" />
     <Content Include="Program\Master\CoverageType\CoverageTypeDtEntryCtl.ascx" />
@@ -613,6 +616,27 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx.cs">
+      <DependentUpon>GradePromotionFormulaDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>GradePromotionFormulaDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\GradePromotionFormula\GradePromotionFormulaEntry.aspx.cs">
+      <DependentUpon>GradePromotionFormulaEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\GradePromotionFormula\GradePromotionFormulaEntry.aspx.designer.cs">
+      <DependentUpon>GradePromotionFormulaEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\GradePromotionFormula\GradePromotionFormulaList.aspx.cs">
+      <DependentUpon>GradePromotionFormulaList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\GradePromotionFormula\GradePromotionFormulaList.aspx.designer.cs">
+      <DependentUpon>GradePromotionFormulaList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\CoverageType\CoverageTypeEntry.aspx.cs">
       <DependentUpon>CoverageTypeEntry.aspx</DependentUpon>

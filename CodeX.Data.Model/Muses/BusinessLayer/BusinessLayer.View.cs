@@ -3098,6 +3098,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vGradePromotionFormulaDt
+        public static List<vGradePromotionFormulaDt> GetvGradePromotionFormulaDtList(string filterExpression)
+        {
+            List<vGradePromotionFormulaDt> result = new List<vGradePromotionFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vGradePromotionFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vGradePromotionFormulaDt)helper.IDataReaderToObject(reader, new vGradePromotionFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vInterfaceJournalSettingDtCustom
         public static List<vInterfaceJournalSettingDtCustom> GetvInterfaceJournalSettingDtCustomList(string filterExpression)
         {
