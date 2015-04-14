@@ -177,8 +177,10 @@
             });
 
             $('#<%=btnGenerateAR.ClientID %>').click(function () {
-                if (onBeforeSaveValue())
-                    onCustomButtonClick('generateAR');
+                if (IsValid(null, 'fsFilterGenerate', 'mpFilterGenerate')) {
+                    if (onBeforeSaveValue())
+                        onCustomButtonClick('generateAR');
+                }
             });
 
             $('#<%=btnPrint.ClientID %>').click(function () {
@@ -195,8 +197,10 @@
                 });
             });
             $('#<%=btnSave.ClientID %>').click(function () {
-                if (onBeforeSaveValue())
-                    onCustomButtonClick('save');
+                if (IsValid(null, 'fsFilterGenerate', 'mpFilterGenerate')) {
+                    if (onBeforeSaveValue())
+                        onCustomButtonClick('save');
+                }
             });
         });
 
@@ -390,8 +394,10 @@
                 setDdeScholarshipText();
                 cbpView.PerformCallback('refresh|1');
             }
-            else
+            else {
+                $('#tblAdmissionFee').remove();
                 hideLoadingPanel();
+            }
         }
         //#endregion
     </script>
@@ -497,7 +503,7 @@
                     <asp:Panel runat="server" ID="pnlView">
                         <asp:Repeater ID="rptAdmissionComp" runat="server" OnItemDataBound="rptAdmissionComp_ItemDataBound">
                             <HeaderTemplate>
-                                <table>
+                                <table id="tblAdmissionFee">
                                     <colgroup>
                                         <col style="width:170px"/>
                                         <col style="width:60px"/>
