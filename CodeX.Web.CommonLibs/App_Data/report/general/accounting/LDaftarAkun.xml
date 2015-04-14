@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvChartOfAccountList" headertext="Laporan Daftar Perkiraan" filterexpression="IsDeleted = 0" papertype="A4_landscape" fontsize="8pt"/>
+  <fields>
+    <field headertext="Kode" width="12" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountNo}</div>
+      ]]>
+    </field>
+    <field headertext="Nama Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountName}</div>
+      ]]>
+    </field>
+    <field headertext="I/A" fieldtype="customfield" width="8" align="center">
+      <![CDATA[ 
+        {cfIsHeader}
+      ]]>
+    </field>
+    <field headertext="Level" fieldtype="customfield" width="8" align="center">
+      <![CDATA[ 
+        {AccountLevel}
+      ]]>
+    </field>
+    <field fieldname="ParentGLAccountNo" headertext="Induk" width="8"/>
+    <field headertext="D/K" fieldtype="customfield" width="8" align="center">
+      <![CDATA[ 
+        {Position}
+      ]]>
+    </field>
+    <field fieldname="COAGroupName" headertext="Kelompok" width="8" />
+    <field fieldname="SubLedgerCode" headertext="Kd Sub" width="8" />
+  </fields>
+</root>
