@@ -185,19 +185,28 @@
                 $('#<%=hdnGCMajor.ClientID %>').val(entity.GCMajor);
                 $('#<%=hdnGCGrade.ClientID %>').val(entity.GCGrade);
                 $('#<%=hdnNextGCGrade.ClientID %>').val(entity.NextGCGrade);
-                $('#<%=hdnNextGrade.ClientID %>').val(entity.NextGrade); 
+                $('#<%=hdnNextGrade.ClientID %>').val(entity.NextGrade);
+                $('#<%=hdnGradePromotionFormulaID.ClientID %>').val(entity.GradePromotionFormulaID); 
             }
             else {
                 $('#<%=hdnGCMajor.ClientID %>').val('');
                 $('#<%=hdnGCGrade.ClientID %>').val('');
                 $('#<%=hdnNextGCGrade.ClientID %>').val('');
                 $('#<%=hdnNextGrade.ClientID %>').val('');
+                $('#<%=hdnGradePromotionFormulaID.ClientID %>').val(''); 
             }
             setTimeout(function () {
                 cbpSubject.PerformCallback('refresh');
             }, 100);
         }
         //#endregion
+
+        $('.chkSelectAll input').live('change', function () {
+            var isChecked = $(this).is(':checked');
+            $('.chkIsSelected input').each(function () {
+                $(this).prop('checked', isChecked);
+            });
+        });
 
         $('.chkSelectAllSubject input').live('change', function () {
             var isChecked = $(this).is(':checked');
@@ -272,6 +281,7 @@
                 <input type="hidden" id="hdnNextGCGrade" runat="server" />
                 <input type="hidden" id="hdnNextGrade" runat="server" />
                 <input type="hidden" id="hdnGCMajor" runat="server" />
+                <input type="hidden" id="hdnGradePromotionFormulaID" runat="server" />
                 <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSchoolClass" ClientInstanceName="tacSchoolClass" MethodName="GetvSchoolClassList" GetFilterExpressionFunction="onGetClassFilterExpression"
                     SearchFields="SchoolClassName,SchoolClassCode" TextField="SchoolClassName" ValueField="SchoolClassID" SearchText="${SchoolClassName} (<b>${SchoolClassCode}</b>)" OrderByExpression="SchoolClassName">
                     <ClientSideEvents ButtonSearchClick="function(){ onTacClassButtonSearchClick(); }"
@@ -341,7 +351,9 @@
                         <div style="width:1320px; overflow-x: auto;" id="divContainerTable" runat="server">
                             <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
                                 <tr>
-                                    <th rowspan="3" style="width:40px"></th>
+                                    <th rowspan="3" style="width:40px" class="thCenter">
+                                        <asp:CheckBox ID="chkSelectAll" CssClass="chkSelectAll" runat="server"  />
+                                    </th>
                                     <th rowspan="3" colspan="2"><%=GetLabel("Siswa") %></th>
                                     <asp:Repeater ID="rptColHeaderLevel1" runat="server" OnItemDataBound="rptColHeaderLevel1_ItemDataBound">
                                         <ItemTemplate>

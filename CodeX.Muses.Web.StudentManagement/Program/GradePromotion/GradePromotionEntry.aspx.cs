@@ -129,7 +129,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 lstStudentSubjectMark = new List<ClassStudentSubjectMark>();
 
-            lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaDtList(string.Format("IsDeleted = 0"));
+            if (hdnGradePromotionFormulaID.Value != "")
+                lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaDtList(string.Format("GradePromotionFormulaID = {0} AND IsDeleted = 0", hdnGradePromotionFormulaID.Value));
+            else
+                lstGradePromotionFormula = new List<GradePromotionFormulaDt>();
             rptStudent.DataSource = lstEntity;
             rptStudent.DataBind();
 

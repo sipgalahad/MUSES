@@ -121,6 +121,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCMajor;
         
         /// <summary>
+        /// hdnGradePromotionFormulaID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGradePromotionFormulaID;
+        
+        /// <summary>
         /// tacSchoolClass control.
         /// </summary>
         /// <remarks>
@@ -200,6 +209,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divContainerTable;
+        
+        /// <summary>
+        /// chkSelectAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkSelectAll;
         
         /// <summary>
         /// rptColHeaderLevel1 control.

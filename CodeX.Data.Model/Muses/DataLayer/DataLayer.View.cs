@@ -11842,6 +11842,7 @@ namespace CodeX.Data.Model
         private String _DailySchedulePackageName;
         private Int32 _TheoryFinalMarkFormulaID;
         private Int32 _PracticeFinalMarkFormulaID;
+        private Int32 _GradePromotionFormulaID;
         private Int16 _NoOfClass;
         private Int32 _CreatedClass;
         private Boolean _IsDeleted;
@@ -11947,6 +11948,12 @@ namespace CodeX.Data.Model
         {
             get { return _PracticeFinalMarkFormulaID; }
             set { _PracticeFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaID", DataType = "Int32")]
+        public Int32 GradePromotionFormulaID
+        {
+            get { return _GradePromotionFormulaID; }
+            set { _GradePromotionFormulaID = value; }
         }
         [Column(Name = "NoOfClass", DataType = "Int16")]
         public Int16 NoOfClass
@@ -19456,6 +19463,7 @@ namespace CodeX.Data.Model
         private Int16 _MaxStudent;
         private String _NextGCGrade;
         private String _NextGrade;
+        private Int32 _GradePromotionFormulaID;
         private Boolean _IsDeleted;
 
         [Column(Name = "SchoolClassID", DataType = "Int32")]
@@ -19584,6 +19592,12 @@ namespace CodeX.Data.Model
             get { return _NextGrade; }
             set { _NextGrade = value; }
         }
+        [Column(Name = "GradePromotionFormulaID", DataType = "Int32")]
+        public Int32 GradePromotionFormulaID
+        {
+            get { return _GradePromotionFormulaID; }
+            set { _GradePromotionFormulaID = value; }
+        }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
         {
@@ -19684,6 +19698,7 @@ namespace CodeX.Data.Model
         private DateTime _EndDate;
         private Int32 _DailySchedulePackageID;
         private Int32 _ExamSchedulePackageID;
+        private Int32 _GradePromotionFormulaID;
         private String _GCSchoolPeriodStatus;
         private String _SchoolPeriodStatus;
         private String _Remarks;
@@ -19735,6 +19750,12 @@ namespace CodeX.Data.Model
         {
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaID", DataType = "Int32")]
+        public Int32 GradePromotionFormulaID
+        {
+            get { return _GradePromotionFormulaID; }
+            set { _GradePromotionFormulaID = value; }
         }
         [Column(Name = "GCSchoolPeriodStatus", DataType = "String")]
         public String GCSchoolPeriodStatus

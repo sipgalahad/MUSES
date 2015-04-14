@@ -20,8 +20,13 @@
                 $('#<%=txtNoOfClass.ClientID %>').val('');
                 $('#<%=chkIsTheoryFormulaDefault.ClientID %>').prop('checked', true);
                 $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', true);
+                $('#<%=chkIsGradePromotionFormulaDefault.ClientID %>').prop('checked', true);
+                $('#<%=chkIsTheoryFormulaDefault.ClientID %>').change();
+                $('#<%=chkIsPracticeFormulaDefault.ClientID %>').change();
+                $('#<%=chkIsGradePromotionFormulaDefault.ClientID %>').change();
                 cboTheoryFinalMarkFormula.SetEnabled(false);
                 cboPracticeFinalMarkFormula.SetEnabled(false);
+                cboGradePromotionFormula.SetEnabled(false);
                 cboClassType.SetEnabled(true);
                 cboDailySchedulePackage.SetEnabled(true);
                 $('#<%=txtNoOfClass.ClientID %>').removeAttr('readonly');
@@ -35,8 +40,8 @@
                 }
                 else
                     cboTheoryFinalMarkFormula.SetEnabled(true);
-            }); 
-            
+            });
+
             $('#<%=chkIsPracticeFormulaDefault.ClientID %>').change(function () {
                 if ($(this).is(':checked')) {
                     cboPracticeFinalMarkFormula.SetEnabled(false);
@@ -44,6 +49,15 @@
                 }
                 else
                     cboPracticeFinalMarkFormula.SetEnabled(true);
+            });
+
+            $('#<%=chkIsGradePromotionFormulaDefault.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    cboGradePromotionFormula.SetEnabled(false);
+                    cboGradePromotionFormula.SetValue('');
+                }
+                else
+                    cboGradePromotionFormula.SetEnabled(true);
             });
 
             $('#btnCancel').click(function () {
@@ -75,6 +89,14 @@
                 var id = cboPracticeFinalMarkFormula.GetValue();
                 if (id != null && id != '') {
                     var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
+                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
+                }
+            });
+
+            $('#btnGradePromotionFormula').click(function () {
+                var id = cboGradePromotionFormula.GetValue();
+                if (id != null && id != '') {
+                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/GradePromotionFormulaDtCtl.ascx");
                     openUserControlPopup(url, id, 'Detil Formula', 900, 400);
                 }
             });
@@ -131,6 +153,17 @@
                 cboPracticeFinalMarkFormula.SetValue(entity.PracticeFinalMarkFormulaID);
                 cboPracticeFinalMarkFormula.SetEnabled(true);
                 $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', false);
+            }
+
+            if (entity.GradePromotionFormulaID == 0) {
+                $('#<%=chkIsGradePromotionFormulaDefault.ClientID %>').prop('checked', true);
+                cboGradePromotionFormula.SetValue('');
+                cboGradePromotionFormula.SetEnabled(false);
+            }
+            else {
+                cboGradePromotionFormula.SetValue(entity.GradePromotionFormulaID);
+                cboGradePromotionFormula.SetEnabled(true);
+                $('#<%=chkIsGradePromotionFormulaDefault.ClientID %>').prop('checked', false);
             }
 
             $('#<%=txtNoOfClass.ClientID %>').val(entity.NoOfClass);
@@ -209,6 +242,12 @@
                                     <td><asp:CheckBox ID="chkIsPracticeFormulaDefault" runat="server" /><%=GetLabel("Default") %></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Formula Kenaikan Kelas")%></label></td>
+                                    <td><dxe:ASPxComboBox runat="server" ID="cboGradePromotionFormula" ClientInstanceName="cboGradePromotionFormula" Width="300px" /></td>
+                                    <td><input type="button" id="btnGradePromotionFormula" class="btnMore" value="..." /></td>
+                                    <td><asp:CheckBox ID="chkIsGradePromotionFormulaDefault" runat="server" /><%=GetLabel("Default") %></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah Kelas")%></label></td>
                                     <td><asp:TextBox ID="txtNoOfClass" CssClass="number" Width="120px" runat="server" /></td>
                                 </tr>
@@ -254,6 +293,7 @@
                                         <input type="hidden" value="<%#Eval("DailySchedulePackageID") %>" bindingfield="DailySchedulePackageID" />
                                         <input type="hidden" value="<%#Eval("TheoryFinalMarkFormulaID") %>" bindingfield="TheoryFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("PracticeFinalMarkFormulaID") %>" bindingfield="PracticeFinalMarkFormulaID" />
+                                        <input type="hidden" value="<%#Eval("GradePromotionFormulaID") %>" bindingfield="GradePromotionFormulaID" />
                                         <input type="hidden" value="<%#Eval("NoOfClass") %>" bindingfield="NoOfClass" />
                                         <input type="hidden" value="<%#Eval("IsAllowEditItem") %>" bindingfield="IsAllowEditItem" />
                                     </ItemTemplate>

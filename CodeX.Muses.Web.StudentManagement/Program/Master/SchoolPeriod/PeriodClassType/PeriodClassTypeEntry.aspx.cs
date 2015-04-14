@@ -38,6 +38,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboPracticeFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
             cboPracticeFinalMarkFormula.SelectedIndex = 0;
 
+            List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            lstGradePromotionFormula.Insert(0, new GradePromotionFormulaHd { GradePromotionFormulaID = 0, GradePromotionFormulaName = "" });
+            Methods.SetComboBoxField<GradePromotionFormulaHd>(cboGradePromotionFormula, lstGradePromotionFormula, "GradePromotionFormulaName", "GradePromotionFormulaID");
+            cboGradePromotionFormula.SelectedIndex = 0;
+
             BindGridView();
 
             Helper.SetControlEntrySetting(cboClassType, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -114,6 +119,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.PracticeFinalMarkFormulaID = null;
             else
                 entity.PracticeFinalMarkFormulaID = Convert.ToInt32(cboPracticeFinalMarkFormula.Value);
+
+            if (cboGradePromotionFormula.Value == null || cboGradePromotionFormula.Value.ToString() == "0")
+                entity.GradePromotionFormulaID = null;
+            else
+                entity.GradePromotionFormulaID = Convert.ToInt32(cboGradePromotionFormula.Value);
+
             entity.NoOfClass = Convert.ToInt16(Request.Form[txtNoOfClass.UniqueID]);
         }
 

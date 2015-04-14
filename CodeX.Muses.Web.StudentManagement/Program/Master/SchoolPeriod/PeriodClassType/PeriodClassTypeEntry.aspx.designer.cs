@@ -76,6 +76,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsPracticeFormulaDefault;
         
         /// <summary>
+        /// cboGradePromotionFormula control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGradePromotionFormula;
+        
+        /// <summary>
+        /// chkIsGradePromotionFormulaDefault control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsGradePromotionFormulaDefault;
+        
+        /// <summary>
         /// txtNoOfClass control.
         /// </summary>
         /// <remarks>

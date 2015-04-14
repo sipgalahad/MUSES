@@ -160,6 +160,9 @@
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
                             <asp:BoundField DataField="GradePromotionFormulaDtName" HeaderText="Nama" />
+                            <asp:CheckBoxField DataField="IsCurrentGrade" HeaderText="Kelas Sekarang" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
+                            <asp:BoundField DataField="Grade" HeaderText="Kelas / Tingkat" HeaderStyle-Width="150px" />
+                            <asp:BoundField DataField="PeriodSection" HeaderText="Semester"  HeaderStyle-Width="150px" />
                             <asp:BoundField DataField="FinalMarkPercentage" HeaderText="[%] Bobot Nilai Akhir" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
