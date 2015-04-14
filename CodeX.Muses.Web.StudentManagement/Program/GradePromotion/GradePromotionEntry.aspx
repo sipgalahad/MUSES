@@ -57,8 +57,8 @@
                 cbpProcess.PerformCallback('reject');
             })
 
-            $('#<%=chkIsOnlyFinalMark.ClientID %>').click(function () {
-                cbpView.PerformCallback('reject');
+            $('#btnRefresh').click(function () {
+                cbpView.PerformCallback('refresh');
             })
 
             setStudentImage();
@@ -113,7 +113,7 @@
             tacPeriodSection.setText('');
             tacSchoolClass.setValue('');
             tacSchoolClass.setText('');
-            cbpView.PerformCallback('refresh');
+            cbpSubject.PerformCallback('refresh');
         }
 
         //#region Period Section
@@ -193,9 +193,38 @@
                 $('#<%=hdnNextGCGrade.ClientID %>').val('');
                 $('#<%=hdnNextGrade.ClientID %>').val('');
             }
-            cbpView.PerformCallback('refresh');
+            setTimeout(function () {
+                cbpSubject.PerformCallback('refresh');
+            }, 100);
         }
         //#endregion
+
+        $('.chkSelectAllSubject input').live('change', function () {
+            var isChecked = $(this).is(':checked');
+            $('.chkSubject input').each(function () {
+                $(this).prop('checked', isChecked);
+            });
+            setDdeSubjectText();
+        });
+
+        $('.chkSubject input').live('change', function () {
+            setDdeSubjectText();
+        });
+
+        function setDdeSubjectText() {
+            var lstID = '';
+            var lstName = '';
+            $('.chkSubject input:checked').each(function () {
+                if (lstName != '') {
+                    lstName += ', ';
+                    lstID += ',';
+                }
+                lstID += $(this).parent().attr('id');
+                lstName += $(this).parent().attr('name');
+            });
+            $('#<%=hdnLstSubjectID.ClientID %>').val(lstID);
+            ddeSubject.SetText(lstName);
+        }
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
@@ -215,6 +244,7 @@
     </style>
     <input type="hidden" runat="server" id="hdnSelectedValue" />
     <input type="hidden" runat="server" id="hdnLstStudentID" />
+    <input type="hidden" runat="server" id="hdnLstSubjectID" />
     <input type="hidden" runat="server" id="hdnNextSchoolPeriod" />
     <table>
         <tr>
@@ -250,8 +280,52 @@
             </td>
         </tr>
         <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Mata Pelajaran")%></label></td>
+            <td>
+                <dxe:ASPxDropDownEdit ClientInstanceName="ddeSubject" ID="ddeSubject"
+                    Width="300px" runat="server" EnableAnimation="False">
+                    <DropDownWindowStyle BackColor="#EDEDED" />
+                    <DropDownWindowTemplate>
+                        <dxcp:ASPxCallbackPanel ID="cbpSubject" runat="server" Width="100%" ClientInstanceName="cbpSubject"
+                            ShowLoadingPanel="false" OnCallback="cbpSubject_Callback">
+                            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                            <PanelCollection>
+                                <dx:PanelContent ID="PanelContent1" runat="server">
+                                    <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid" Style="max-height:200px">
+                                        <asp:GridView ID="grdSubject" runat="server" CssClass="grdBorder grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdSubject_RowDataBound">
+                                            <Columns>
+                                                <asp:TemplateField HeaderStyle-Width="30px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center">
+                                                    <HeaderTemplate>
+                                                        <asp:CheckBox ID="chkSelectAllSubject" CssClass="chkSelectAllSubject" runat="server"  />
+                                                    </HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkSubject" CssClass="chkSubject" runat="server"  /> 
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" />
+                                                <asp:BoundField DataField="SubjectType" HeaderText="Tipe Pelajaran" HeaderStyle-Width="120px" />
+                                            </Columns>
+                                            <EmptyDataTemplate>
+                                                <%=GetLabel("No Data To Display")%>
+                                            </EmptyDataTemplate>
+                                        </asp:GridView>
+                                    </asp:Panel>
+                                </dx:PanelContent>
+                            </PanelCollection>
+                        </dxcp:ASPxCallbackPanel>
+                    </DropDownWindowTemplate>
+                </dxe:ASPxDropDownEdit>
+            </td>
+        </tr>
+        <tr>
             <td class="tdLabel"></td>
             <td><asp:CheckBox ID="chkIsOnlyFinalMark" runat="server" /> <%=GetLabel("Tampilkan Hanya NPK") %></td>
+        </tr>
+        <tr>
+            <td class="tdLabel"></td>
+            <td><input type="button" id="btnRefresh" value="Refresh" /></td>
         </tr>
     </table>
     <input type="hidden" value="" id="hdnID" runat="server" />

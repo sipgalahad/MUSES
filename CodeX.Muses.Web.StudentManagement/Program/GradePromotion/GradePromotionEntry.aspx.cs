@@ -86,7 +86,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (tacSchoolClass.Value != "")
             {
-                lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR));
+                if (hdnLstSubjectID.Value != "")
+                    lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID IN ({0})", hdnLstSubjectID.Value));
+                else
+                    lstSubject = new List<vClassSubject>();
                 lstPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("SchoolPeriodID = {0} AND GCPeriodSectionStatus != '{1}'", cboSchoolPeriod.Value, Constant.SchoolPeriodStatus.VOID));
                 rptColHeaderLevel1.DataSource = lstSubject;
                 rptColHeaderLevel1.DataBind();
@@ -131,9 +134,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptStudent.DataBind();
 
             if (chkIsOnlyFinalMark.Checked)
-                TableWidth = (150 * lstSubject.Count) + 700;
+                TableWidth = (160 * lstSubject.Count) + 650;
             else
-                TableWidth = (((60 * 3 * lstPeriodSection.Count) + 60) * lstSubject.Count) + 1700;
+                TableWidth = (((60 * 3 * lstPeriodSection.Count) + 135) * lstSubject.Count) + 650;
         }
 
         protected void rptColHeaderLevel1_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -284,6 +287,27 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tdPracticeMark.Style.Remove("display");
                     tdAffectiveMark.Style.Remove("display");
                 }
+            }
+        }
+
+        protected void cbpSubject_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR));
+            
+            ASPxCallbackPanel cbpSubject = (ASPxCallbackPanel)ddeSubject.FindControl("cbpSubject");
+            GridView grdSubject = (GridView)cbpSubject.FindControl("grdSubject");
+            grdSubject.DataSource = lstSubject;
+            grdSubject.DataBind();
+        }
+
+        protected void grdSubject_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vClassSubject entity = (vClassSubject)e.Row.DataItem;
+                CheckBox chkSubject = (CheckBox)e.Row.FindControl("chkSubject");
+                chkSubject.Attributes.Add("id", entity.ClassSubjectID.ToString());
+                chkSubject.Attributes.Add("name", entity.SubjectName);
             }
         }
 
