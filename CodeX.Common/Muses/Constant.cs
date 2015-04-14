@@ -270,7 +270,9 @@ namespace CodeX.Common
 
                 public const string JOURNAL_POSTING = "AC060100";
 
-                public const string PROFIT_LOSS_INFORMATION = "AC080500";
+                //public const string PROFIT_LOSS_INFORMATION = "AC080500";
+
+                public const string REPORT = "AC090000";
             }
             #endregion
 
