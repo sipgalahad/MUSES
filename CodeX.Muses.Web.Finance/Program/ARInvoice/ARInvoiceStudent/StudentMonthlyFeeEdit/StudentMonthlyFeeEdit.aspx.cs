@@ -138,7 +138,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityDt.DueDate = dueDate;
                         entityDt.IsTransactionAmountInPercentage = false;
                         entityDt.LineAmount = entityFee.LineAmount;
-                        entityDt.StudentAmount = entityFee.TotalStudentAmount;
+                        entityDt.TotalStudentAmount = entityDt.StudentAmount = entityFee.TotalStudentAmount;
                         entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         studentFeeDtDao.Update(entityDt);
 

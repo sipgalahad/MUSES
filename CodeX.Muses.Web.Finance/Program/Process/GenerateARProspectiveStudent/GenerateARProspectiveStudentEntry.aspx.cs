@@ -104,7 +104,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 vRegistration entity = (vRegistration)e.Row.DataItem;
-                decimal totalAmount = lstStudentFeeDt.Where(p => p.ProspectiveStudentID == entity.ProspectiveStudentID).Sum(p => p.StudentAmount);
+                decimal totalAmount = lstStudentFeeDt.Where(p => p.ProspectiveStudentID == entity.ProspectiveStudentID).Sum(p => p.TotalStudentAmount);
                 HtmlGenericControl lblStudentAmount = (HtmlGenericControl)e.Row.FindControl("lblStudentAmount");
                 lblStudentAmount.InnerHtml = totalAmount.ToString("N");
 

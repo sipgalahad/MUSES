@@ -21230,6 +21230,8 @@ namespace CodeX.Data.Model
         private Boolean _IsTransactionAmountInPercentage;
         private Decimal _TransactionAmount;
         private Decimal _StudentAmount;
+        private Decimal _TotalStudentPenaltyAmount;
+        private Decimal _TotalStudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsTransferred;
@@ -21333,6 +21335,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentAmount; }
             set { _StudentAmount = value; }
+        }
+        [Column(Name = "TotalStudentPenaltyAmount", DataType = "Decimal")]
+        public Decimal TotalStudentPenaltyAmount
+        {
+            get { return _TotalStudentPenaltyAmount; }
+            set { _TotalStudentPenaltyAmount = value; }
+        }
+        [Column(Name = "TotalStudentAmount", DataType = "Decimal")]
+        public Decimal TotalStudentAmount
+        {
+            get { return _TotalStudentAmount; }
+            set { _TotalStudentAmount = value; }
         }
         [Column(Name = "PayerAmount", DataType = "Decimal")]
         public Decimal PayerAmount
