@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
 
             List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");
+            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -81,8 +81,10 @@ namespace CodeX.Muses.Web.Finance.Program
             IDbContext ctx = DbFactory.Configure(true);
             ARInvoiceDtDao arInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
+            BankDao bankDao = new BankDao(ctx);
             try
             {
+                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
                 //Build the Text file data.
                 String txt = string.Empty;
                 String format = "";
@@ -93,11 +95,12 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 String lstARInvoiceDtID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceDtID).ToList());
                 String lstARInvoiceID = String.Join(",", lstvInvoiceDt.Select(p => p.ARInvoiceID).ToList());
+                List<ARInvoiceHd> lstInvoiceHd = null;
                 List<ARInvoiceDt> lstInvoiceDt = null;
                 if (lstARInvoiceDtID != "")
                 {
                     lstInvoiceDt = BusinessLayer.GetARInvoiceDtList(string.Format("ARInvoiceDtID IN ({0})", lstARInvoiceDtID), ctx);
-                    List<ARInvoiceHd> lstInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", lstARInvoiceID), ctx);
+                    lstInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("ARInvoiceID IN ({0})", lstARInvoiceID), ctx);
 
                     foreach (ARInvoiceHd entityARInvoiceHd in lstInvoiceHd)
                     {
@@ -140,7 +143,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID), ctx);
 
-                if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
+                if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI)
                 {
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
 
@@ -280,10 +283,10 @@ namespace CodeX.Muses.Web.Finance.Program
                     HttpContext.Current.Response.End();
                     #endregion
                 }
-                else if (cboBank.Value.ToString() == Constant.BankExportDataType.BCA)
+                else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Download BCA File
-                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID IN ({0})", lstSiteID));
+                    List<Site> lstSite = BusinessLayer.GetSiteList(String.Format("SiteID IN ({0})", lstSiteID), ctx);
 
                     foreach (Site site in lstSite) 
                     {
@@ -342,7 +345,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                     String Pemb = "-";
                                     String Keg = "-";
                                     String Penalty = "-";
-                                    String Admin = "-";
+                                    String Admin = bank.AdministrationAmount.ToString();
                                     Decimal totalAmount = 0;
 
                                     NBS = ps.ProspectiveStudentCode;
@@ -385,6 +388,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                         }
                                     }
                                     if (TotalPenalty > 0) Penalty = TotalPenalty.ToString("N");
+                                    totalAmount += bank.AdministrationAmount;
                                     SetHtmlRow(writer, NBS, StudentName, Class, Usek, Pemb, Keg, Penalty, Admin, totalAmount);
                                 }
                             }
@@ -395,6 +399,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             {
                                 foreach (Student s in lstStudent.Where(x => x.SiteID == site.SiteID))
                                 {
+
                                     String NBS = "";
                                     String StudentName = "";
                                     String Class = "";
@@ -402,7 +407,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                     String Pemb = "-";
                                     String Keg = "-";
                                     String Penalty = "-";
-                                    String Admin = "-";
+                                    String Admin = bank.AdministrationAmount.ToString();
                                     Decimal totalAmount = 0;
 
                                     NBS = s.VirtualAccountNo;
@@ -452,6 +457,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                     }
 
                                     if (TotalPenalty > 0) Penalty = TotalPenalty.ToString("N");
+                                    totalAmount += bank.AdministrationAmount;
                                     SetHtmlRow(writer, NBS, StudentName, Class, Usek, Pemb, Keg, Penalty, Admin, totalAmount);
                                 }
                             }

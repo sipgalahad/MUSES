@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
 
             List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID IN ({0}) AND IsDeleted = 0", lstSiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");
+            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
         }
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
@@ -119,8 +119,10 @@ namespace CodeX.Muses.Web.Finance.Program
             ARReceivingDtDao entityReceivingDtDao = new ARReceivingDtDao(ctx);
             ARInvoiceReceivingDao entityIRDao = new ARInvoiceReceivingDao(ctx);
             StudentFeeDtDao entityStudentFeeDtDao = new StudentFeeDtDao(ctx);
+            BankDao bankDao = new BankDao(ctx);
             try
             {
+                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
                 List<vARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetvARInvoiceHdList(String.Format("GCTransactionStatus = '{0}'", Constant.TransactionStatus.PROCESSED), ctx);
                 String lstARInvoiceID = String.Join(",", lstARInvoiceHd.Select(x => x.ARInvoiceID).ToList());
                 List<ARInvoiceDt> lstARInvoiceDt = null;
@@ -157,7 +159,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
                 List<ARBalance> lstARBalance = BusinessLayer.GetARBalanceList(filterExpressionARBalance, ctx);
                 //String data = txtUploadedData.Text;
-                if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI) 
+                if (bank.GCBankExportDataType == Constant.BankExportDataType.MANDIRI) 
                 {
                     #region Upload Mandiri
                     data = data.Replace("\r\n", "|");
@@ -202,12 +204,12 @@ namespace CodeX.Muses.Web.Finance.Program
                                     entityReceivingHd.ProspectiveStudentID = null;
                                 entityReceivingHd.ReceivingDate = receivingDate;
 
-                                decimal totalAmount = entity.Amount;
+                                decimal totalAmount = entity.Amount - bank.AdministrationAmount;
                                 if (entityARBalance != null)
                                     totalAmount += entityARBalance.DepositAmount;
 
                                 entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = totalAmount;
-                                entityReceivingHd.TotalFeeAmount = 0;
+                                entityReceivingHd.TotalFeeAmount = bank.AdministrationAmount;
                                 entityReceivingHd.CashBackAmount = 0;
                                 entityReceivingHd.Remarks = "";
                                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -224,8 +226,8 @@ namespace CodeX.Muses.Web.Finance.Program
                                 ARReceivingDt entityDt = new ARReceivingDt();
                                 entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
                                 entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
-                                entityDt.PaymentAmount = entity.Amount;
-                                entityDt.CardFeeAmount = 0;
+                                entityDt.PaymentAmount = totalAmount;
+                                entityDt.CardFeeAmount = bank.AdministrationAmount;
                                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
                                 entityReceivingDtDao.Insert(entityDt);
                                 #endregion
@@ -255,6 +257,10 @@ namespace CodeX.Muses.Web.Finance.Program
                                         ARInvoiceReceivingObj.ReceivingAmount = aRInvoiceDt.ClaimedAmount;
                                         ARInvoiceReceivingObj.ARInvoiceDtID = aRInvoiceDt.ARInvoiceDtID;
                                         entityIRDao.Insert(ARInvoiceReceivingObj);
+
+                                        aRInvoiceDt.PaymentAmount = aRInvoiceDt.ClaimedAmount;
+                                        aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                        entityInvoiceDtDao.Update(aRInvoiceDt);
                                     }
 
 
@@ -272,7 +278,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 #endregion
 
                                 #region ARBalance
-                                if (entityARBalance != null)
+                                if (entityARBalance != null && entityARBalance.DepositAmount > 0)
                                 {
                                     ARReceivingDt entityDt2 = new ARReceivingDt();
                                     entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;
@@ -304,7 +310,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     }
                     #endregion
                 }
-                else if (cboBank.Value.ToString() == Constant.BankExportDataType.BCA)
+                else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Upload BCA
                     data = ChangeSpace(data);
@@ -348,12 +354,12 @@ namespace CodeX.Muses.Web.Finance.Program
                                     entityReceivingHd.ProspectiveStudentID = null;
 
                                 entityReceivingHd.ReceivingDate = receivingDate;
-                                decimal totalAmount = entity.Amount;
+                                decimal totalAmount = entity.Amount - bank.AdministrationAmount;
                                 if (entityARBalance != null)
                                     totalAmount += entityARBalance.DepositAmount;
 
                                 entityReceivingHd.TotalInvoiceAmount = entityReceivingHd.TotalReceivingAmount = totalAmount;
-                                entityReceivingHd.TotalFeeAmount = 0;
+                                entityReceivingHd.TotalFeeAmount = bank.AdministrationAmount;
                                 entityReceivingHd.CashBackAmount = 0;
                                 entityReceivingHd.Remarks = "";
                                 entityReceivingHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
@@ -370,8 +376,8 @@ namespace CodeX.Muses.Web.Finance.Program
                                 ARReceivingDt entityDt = new ARReceivingDt();
                                 entityDt.ARReceivingID = entityReceivingHd.ARReceivingID;
                                 entityDt.GCARPaymentMethod = Constant.PaymentMethod.BANK_TRANSFER;
-                                entityDt.PaymentAmount = entity.Amount;
-                                entityDt.CardFeeAmount = 0;
+                                entityDt.PaymentAmount = totalAmount;
+                                entityDt.CardFeeAmount = bank.AdministrationAmount;
                                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
                                 entityReceivingDtDao.Insert(entityDt);
                                 #endregion
@@ -401,6 +407,10 @@ namespace CodeX.Muses.Web.Finance.Program
                                         ARInvoiceReceivingObj.ReceivingAmount = aRInvoiceDt.ClaimedAmount;
                                         ARInvoiceReceivingObj.ARInvoiceDtID = aRInvoiceDt.ARInvoiceDtID;
                                         entityIRDao.Insert(ARInvoiceReceivingObj);
+
+                                        aRInvoiceDt.PaymentAmount = aRInvoiceDt.ClaimedAmount;
+                                        aRInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                                        entityInvoiceDtDao.Update(aRInvoiceDt);
                                     }
 
                                     if (arInvoiceHD.StudentID != null && arInvoiceHD.StudentID != 0)
@@ -417,7 +427,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 #endregion
 
                                 #region ARBalance
-                                if (entityARBalance != null)
+                                if (entityARBalance != null && entityARBalance.DepositAmount > 0)
                                 {
                                     ARReceivingDt entityDt2 = new ARReceivingDt();
                                     entityDt2.ARReceivingID = entityReceivingHd.ARReceivingID;

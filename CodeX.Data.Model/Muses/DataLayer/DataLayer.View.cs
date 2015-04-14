@@ -415,6 +415,8 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private Decimal _TransactionAmount;
+        private Decimal _PenaltyAmount;
+        private Decimal _LineAmount;
         private Decimal _ClaimedAmount;
         private Decimal _DiscountAmount;
         private Decimal _VarianceAmount;
@@ -521,6 +523,18 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
+        }
+        [Column(Name = "PenaltyAmount", DataType = "Decimal")]
+        public Decimal PenaltyAmount
+        {
+            get { return _PenaltyAmount; }
+            set { _PenaltyAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal")]
+        public Decimal LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
         }
         [Column(Name = "ClaimedAmount", DataType = "Decimal")]
         public Decimal ClaimedAmount
@@ -1308,6 +1322,7 @@ namespace CodeX.Data.Model
         private String _BankAccountName;
         private String _SiteID;
         private String _SiteName;
+        private Decimal _AdministrationAmount;
         private Boolean _IsDeleted;
 
         [Column(Name = "BankID", DataType = "Int32")]
@@ -1351,6 +1366,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteName; }
             set { _SiteName = value; }
+        }
+        [Column(Name = "AdministrationAmount", DataType = "Decimal")]
+        public Decimal AdministrationAmount
+        {
+            get { return _AdministrationAmount; }
+            set { _AdministrationAmount = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

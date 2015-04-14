@@ -44,6 +44,10 @@ CodeBehind="BankEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.Ba
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Site")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboSite" Width="300px" runat="server" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Biaya Admin")%></label></td>
+                        <td><asp:TextBox ID="txtAdministrationAmount" Width="150px" CssClass="txtCurrency" runat="server" /></td>
+                    </tr>
                 </table>
             </td>
         </tr>

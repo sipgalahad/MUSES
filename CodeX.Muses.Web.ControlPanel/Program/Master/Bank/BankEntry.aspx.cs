@@ -58,6 +58,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboBankTransactionType, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboBankExportDataType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtAdministrationAmount, new ControlEntrySetting(true, true, true, "0"));
         }
 
         private void EntityToControl(Bank entity)
@@ -69,6 +70,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             cboSite.Value = entity.SiteID;
             cboBankTransactionType.Value = entity.GCBankTransactionType;
             cboBankExportDataType.Value = entity.GCBankExportDataType;
+            txtAdministrationAmount.Text = entity.AdministrationAmount.ToString();
         }
 
         private void ControlToEntity(Bank entity)
@@ -83,6 +85,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entity.GCBankTransactionType = cboBankTransactionType.Value.ToString();
             entity.GCBankExportDataType = cboBankExportDataType.Value.ToString();
+            entity.AdministrationAmount = Convert.ToDecimal(txtAdministrationAmount.Text);
 
         }
 

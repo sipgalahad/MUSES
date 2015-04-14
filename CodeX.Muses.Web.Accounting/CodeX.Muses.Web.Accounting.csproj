@@ -314,6 +314,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.cs</Link>
       <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Program\ReportViewer.aspx.designer.cs">
       <Link>SharedLibs\Program\ReportViewer.aspx.designer.cs</Link>

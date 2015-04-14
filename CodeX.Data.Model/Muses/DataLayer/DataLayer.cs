@@ -833,6 +833,8 @@ namespace CodeX.Data.Model
         private Int32? _StudentFeeDtID;
         private Int32? _StudentFeeCompTypeID;
         private Decimal _TransactionAmount;
+        private Decimal _PenaltyAmount;
+        private Decimal? _LineAmount;
         private Decimal _ClaimedAmount;
         private Decimal _DiscountAmount;
         private Decimal? _VarianceAmount;
@@ -872,6 +874,18 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionAmount; }
             set { _TransactionAmount = value; }
+        }
+        [Column(Name = "PenaltyAmount", DataType = "Decimal")]
+        public Decimal PenaltyAmount
+        {
+            get { return _PenaltyAmount; }
+            set { _PenaltyAmount = value; }
+        }
+        [Column(Name = "LineAmount", DataType = "Decimal", IsNullable = true, IsComputed = true)]
+        public Decimal? LineAmount
+        {
+            get { return _LineAmount; }
+            set { _LineAmount = value; }
         }
         [Column(Name = "ClaimedAmount", DataType = "Decimal")]
         public Decimal ClaimedAmount
@@ -990,6 +1004,8 @@ namespace CodeX.Data.Model
         private Boolean _IsTransferred;
         private DateTime _TransferDate;
         private Decimal _TotalTransactionAmount;
+        private Decimal _TotalPenaltyAmount;
+        private Decimal _TotalLineAmount;
         private Decimal _TotalClaimedAmount;
         private Decimal _TotalVarianceAmount;
         private Decimal _TotalDiscountAmount;
@@ -1085,6 +1101,18 @@ namespace CodeX.Data.Model
         {
             get { return _TotalTransactionAmount; }
             set { _TotalTransactionAmount = value; }
+        }
+        [Column(Name = "TotalPenaltyAmount", DataType = "Decimal")]
+        public Decimal TotalPenaltyAmount
+        {
+            get { return _TotalPenaltyAmount; }
+            set { _TotalPenaltyAmount = value; }
+        }
+        [Column(Name = "TotalLineAmount", DataType = "Decimal")]
+        public Decimal TotalLineAmount
+        {
+            get { return _TotalLineAmount; }
+            set { _TotalLineAmount = value; }
         }
         [Column(Name = "TotalClaimedAmount", DataType = "Decimal")]
         public Decimal TotalClaimedAmount
@@ -1662,6 +1690,7 @@ namespace CodeX.Data.Model
         private String _GCBankTransactionType;
         private String _GCBankExportDataType;
         private String _SiteID;
+        private Decimal _AdministrationAmount;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -1715,6 +1744,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "AdministrationAmount", DataType = "Decimal")]
+        public Decimal AdministrationAmount
+        {
+            get { return _AdministrationAmount; }
+            set { _AdministrationAmount = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

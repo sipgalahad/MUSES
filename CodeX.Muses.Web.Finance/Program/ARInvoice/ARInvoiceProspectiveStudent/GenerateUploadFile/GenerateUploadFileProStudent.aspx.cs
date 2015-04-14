@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 hdnDepositAmount.Value = "0";
 
             List<Bank> lstBank = BusinessLayer.GetBankList(String.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "GCBankExportDataType");
+            Methods.SetComboBoxField(cboBank, lstBank, "BankName", "BankID");
 
             cboMonth.DataSource = Enumerable.Range(1, 12).Select(a => new
             {
@@ -87,8 +87,10 @@ namespace CodeX.Muses.Web.Finance.Program
             ARInvoiceDtDao arInvoiceDtDao = new ARInvoiceDtDao(ctx);
             ARInvoiceHdDao arInvoiceHdDao = new ARInvoiceHdDao(ctx);
             SiteParameterDao siteParameterDao = new SiteParameterDao(ctx);
+            BankDao bankDao = new BankDao(ctx);
             try
             {
+                Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
                 ProspectiveStudent prospectiveStudent = prospectiveStudentDao.Get(AppSession.ProspectiveStudentID);
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
@@ -154,7 +156,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
                 List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID));
 
-                if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
+                if (bank.GCBankExportDataType.ToString() == Constant.BankExportDataType.MANDIRI)
                 {
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
                     String nbs = "";
@@ -222,7 +224,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     HttpContext.Current.Response.End();
                     #endregion
                 }
-                else if (cboBank.Value.ToString() == Constant.BankExportDataType.BCA)
+                else if (bank.GCBankExportDataType == Constant.BankExportDataType.BCA)
                 {
                     #region Download BCA File
                     String NBS = "";
@@ -232,7 +234,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     String Pemb = "-";
                     String Keg = "-";
                     String Penalty = "-";
-                    String Admin = "-";
+                    String Admin = bank.AdministrationAmount.ToString();
                     Decimal totalAmount = 0;
 
                     // Initialize StringWriter instance.
@@ -302,6 +304,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             }
                         }
                         Penalty = "-";
+                        totalAmount += bank.AdministrationAmount;
                         SetHtmlRow(writer, NBS, StudentName, Class, Usek, Pemb, Keg, Penalty, Admin, totalAmount);
                         #endregion
 
