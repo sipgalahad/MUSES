@@ -265,6 +265,7 @@ namespace CodeX.Muses.Web.Finance.Program
                         }
                     }
                     #endregion
+                    ctx.CommitTransaction();
 
                     #region Download the Text file.
                     Response.Clear();
@@ -460,7 +461,9 @@ namespace CodeX.Muses.Web.Finance.Program
                             writer.RenderEndTag();//Table
                             writer.RenderEndTag();//Body
                             writer.RenderEndTag();//HTML
-
+                            
+                            ctx.CommitTransaction();
+                            
                             string attachment = string.Format("attachment;filename=\"TagihanSiswa_{0}_{1}.xls\"", unit, DateTime.Now.ToString("yyyyMMdd"));
                             HttpContext.Current.Response.ClearContent();
                             HttpContext.Current.Response.AddHeader("content-disposition", attachment);
@@ -472,8 +475,6 @@ namespace CodeX.Muses.Web.Finance.Program
                     }
                     #endregion
                 }
-
-                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
