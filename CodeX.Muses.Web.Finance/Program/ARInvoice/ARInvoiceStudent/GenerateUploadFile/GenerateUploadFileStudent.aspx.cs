@@ -12,6 +12,7 @@ using CodeX.Common;
 using DevExpress.Web.ASPxEditors;
 using System.Globalization;
 using CodeX.Data.Core.Dal;
+using System.IO;
 namespace CodeX.Muses.Web.Finance.Program
 {
     public partial class GenerateUploadFileStudent : BasePageTrx
@@ -92,7 +93,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 List<vStudentFeeDt> lstStudentFeeDt = BusinessLayer.GetvStudentFeeDtList(String.Format("StudentFeeDtID IN ({0})", hdnSelectedValue.Value), ctx);
                 List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.SCHOOL_TYPE), ctx);
 
-                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus != '{1}'", student.StudentID, Constant.TransactionStatus.VOID), ctx);
+                List<ARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetARInvoiceHdList(string.Format("StudentID = {0} AND GCTransactionStatus NOT IN ('{1}','{2}')", student.StudentID, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.VOID), ctx);
                 foreach (ARInvoiceHd arInvoiceHD in lstARInvoiceHd)
                 {
                     arInvoiceHD.GCTransactionStatus = Constant.TransactionStatus.VOID;
@@ -103,14 +104,8 @@ namespace CodeX.Muses.Web.Finance.Program
                 String schoolType = siteParameterDao.Get(student.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
 
                 #region Insert AR Invoice
-                string remarks = "";
-                foreach (vStudentFeeDt studentFeeDt in lstStudentFeeDt)
-                {
-                    if (remarks != "")
-                        remarks += ", ";
-                    remarks += studentFeeDt.cfStudentFeeCompTypeName;
-                }
-
+                string remarks = String.Join(", ",lstStudentFeeDt.Select(x => x.cfStudentFeeCompTypeName));
+                
                 DateTime DueDate = new DateTime(Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value), 1).AddMonths(1).AddDays(-1);
                 Int32 BankID = Convert.ToInt32(siteParameterDao.Get(AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_BANK).ParameterValue);
 
@@ -145,87 +140,197 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityARInvoiceHd.GCTransactionStatus = Constant.TransactionStatus.PROCESSED;
                 entityARInvoiceHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 arInvoiceHdDao.Update(entityARInvoiceHd);
-
+                
                 #endregion
 
                 #region Build Text File
                 String txt = string.Empty;
                 String format = "";
-                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)))[0];
-                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID));
-
+                SchoolPeriod Period = BusinessLayer.GetSchoolPeriodList(String.Format("(StartDate <= '{0}' AND EndDate >= '{0}') AND (StartDate <= '{1}' AND EndDate >= '{1}')", Helper.GetDatePickerValue(txtStartDate.Text), Helper.GetDatePickerValue(txtEndDate.Text)), ctx)[0];
+                List<vAdmissionFeeComp> sfctList = BusinessLayer.GetvAdmissionFeeCompList(String.Format("SchoolPeriodID = {0} AND IsDeleted = 0", Period.SchoolPeriodID), ctx);
                 if (cboBank.Value.ToString() == Constant.BankExportDataType.MANDIRI)
+                {
                     format = @"{NBS}|||IDR|{StudentName}|{Class}|{Unit}|{NA1}{NA2}{NA3}{NA4}{NA5}{NA6}{NA7}{NA8}{NA9}{NA10}{NA11}{NA12}{NA13}{NA14}{NA15}{NA16}{NA17}{NA18}{NA19}{NA20}{NA21}{NA22}{NA23}{NA24}{NA25}|{SchoolPeriod}|{Month}||||||||||||||||||||{StartPeriod}|{EndPeriod}|{Notes1}|{Notes2}|{Notes3}|{Notes4}|{Notes5}|{Notes6}|{Notes7}|{Notes8}|{Notes9}|{Notes10}|{Notes11}|{Notes12}|{Notes13}|{Notes14}|{Notes15}|{Notes16}|{Notes17}|{Notes18}|{Notes19}|{Notes20}|{Notes21}|{Notes22}|{Notes23}|{Notes24}|{Notes25}|~";
-                String nbs = "";
-                #region Student
-                String tempFormat = format;
-                tempFormat = tempFormat.Replace("{NBS}", student.VirtualAccountNo);
-                nbs = student.VirtualAccountNo;
-                if (student.SchoolClassID != null)
-                {
-                    SchoolClass schoolClass = schoolClassDao.Get((int)student.SchoolClassID);
-                    tempFormat = tempFormat.Replace("{Class}", schoolClass.SchoolClassName);
-                }
-                else
-                {
-                    tempFormat = tempFormat.Replace("{Class}", "Siswa");
-                }
-                if (schoolType != "")
-                {
-                    StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == schoolType);
-                    tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
-                }
-                tempFormat = tempFormat.Replace("{StudentName}", student.StudentName);
-                tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
-                tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
-                tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
-                tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
+                    String nbs = "";
 
-                int count = 1;
-                decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
-                foreach (vAdmissionFeeComp obj in sfctList)
-                {
-                    List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
-                    string ShortName = obj.ShortName;
-                    if (lstStudentFeeDt1.Count > 0)
+                    #region Student
+                    String tempFormat = format;
+                    tempFormat = tempFormat.Replace("{NBS}", student.VirtualAccountNo);
+                    nbs = student.VirtualAccountNo;
+                    if (student.SchoolClassID != null)
                     {
-                        decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.StudentAmount));
-
-                        if (depositAmount < amount)
+                        SchoolClass schoolClass = schoolClassDao.Get((int)student.SchoolClassID);
+                        tempFormat = tempFormat.Replace("{Class}", schoolClass.SchoolClassName);
+                    }
+                    else
+                    {
+                        tempFormat = tempFormat.Replace("{Class}", "Siswa");
+                    }
+                    if (schoolType != "")
+                    {
+                        StandardCode sc = lstStandardCode.FirstOrDefault(x => x.StandardCodeID == schoolType);
+                        tempFormat = tempFormat.Replace("{Unit}", sc.StandardCodeName);
+                    }
+                    tempFormat = tempFormat.Replace("{StudentName}", student.StudentName);
+                    tempFormat = tempFormat.Replace("{Month}", cboMonth.Text);
+                    tempFormat = tempFormat.Replace("{StartPeriod}", Helper.GetDatePickerValue(txtStartDate.Text).ToString("yyyyMMdd"));
+                    tempFormat = tempFormat.Replace("{EndPeriod}", Helper.GetDatePickerValue(txtEndDate.Text).ToString("yyyyMMdd"));
+                    tempFormat = tempFormat.Replace("{SchoolPeriod}", String.Format("{0}-{1}", Period.StartDate.Year, Period.EndDate.Year));
+                    
+                    int count = 1;
+                    decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
+                    foreach (vAdmissionFeeComp obj in sfctList)
+                    {
+                        List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                        string ShortName = obj.ShortName;
+                        if (lstStudentFeeDt1.Count > 0)
                         {
-                            amount = amount - depositAmount;
-                            depositAmount = 0;
+                            decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.StudentAmount));
 
-                            tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
-                            tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
-                            count++;
+                            if (depositAmount < amount)
+                            {
+                                amount = amount - depositAmount;
+                                depositAmount = 0;
+
+                                tempFormat = tempFormat.Replace("{Notes" + count + "}", String.Format(@"{0}\{1}\{1}\{2}", count.ToString("00"), ShortName, (int)amount));
+                                tempFormat = tempFormat.Replace("{NA" + count + "}", String.Format("{0}{1}", ShortName, Convert.ToInt32(amount / 1000)));
+                                count++;
+                            }
+                            else
+                                depositAmount -= amount;
+                        }
+                    }
+                    for (; count < 26; count++)
+                    {
+                        tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
+                        tempFormat = tempFormat.Replace("{NA" + count + "}", "");
+                    }
+                    txt += String.Format("{0}\n", tempFormat);
+                    #endregion
+                    
+                    ctx.CommitTransaction();
+
+                    #region Download the Text file.
+                    Response.Clear();
+                    Response.Buffer = true;
+                    Response.AddHeader("content-disposition", String.Format("attachment;filename={0}_{1}.txt", nbs, DateTime.Now.ToString("yyyyMMdd")));
+                    Response.Charset = "";
+                    Response.ContentType = "application/text";
+                    Response.Output.Write(txt);
+                    Response.Flush();
+                    HttpContext.Current.ApplicationInstance.CompleteRequest();
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.End();
+                    #endregion
+                }
+                else if (cboBank.Value.ToString() == Constant.BankExportDataType.BCA)
+                {
+                    #region Download BCA File
+                    String NBS = "";
+                    String StudentName = "";
+                    String Class = "";
+                    String Usek = "-";
+                    String Pemb = "-";
+                    String Keg = "-";
+                    String Penalty = "-";
+                    String Admin = "-";
+                    Decimal totalAmount = 0;
+                    
+                    // Initialize StringWriter instance.
+                    StringWriter stringWriter = new StringWriter();
+                    // Put HtmlTextWriter in using block because it needs to call Dispose.
+                    using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+                    {
+                        writer.RenderBeginTag(HtmlTextWriterTag.Html);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Body);
+                        writer.AddAttribute(HtmlTextWriterAttribute.Border, "1");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Table);
+
+                        #region Table Header
+                        writer.RenderBeginTag(HtmlTextWriterTag.Thead);
+                        writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("No Pelanggan"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("NAMA SISWA"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("KELAS"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("SPP"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Pembangunan"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Kegiatan"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Denda"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Admin"); writer.RenderEndTag();
+                        writer.AddAttribute(HtmlTextWriterAttribute.Align, "center");
+                        writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write("Total"); writer.RenderEndTag();
+                        writer.RenderEndTag();//Tr
+                        writer.RenderEndTag();//Thead
+                        #endregion
+
+                        #region Student
+                        NBS = student.VirtualAccountNo;
+                        if (student.SchoolClassID != null)
+                        {
+                            SchoolClass schoolClass = schoolClassDao.Get((int)student.SchoolClassID);
+                            Class = schoolClass.SchoolClassName;
                         }
                         else
-                            depositAmount -= amount;
+                        {
+                            Class = "Siswa";
+                        }
+                        StudentName = student.StudentName;
+                        
+                        decimal depositAmount = Convert.ToDecimal(hdnDepositAmount.Value);
+                        foreach (vAdmissionFeeComp obj in sfctList)
+                        {
+                            List<vStudentFeeDt> lstStudentFeeDt1 = lstStudentFeeDt.Where(x => x.StudentFeeCompTypeID == obj.StudentFeeCompTypeID).ToList();
+                            string ShortName = obj.ShortName;
+                            if (lstStudentFeeDt1.Count > 0)
+                            {
+                                decimal amount = Convert.ToDecimal(lstStudentFeeDt1.Sum(x => x.StudentAmount));
+
+                                if (depositAmount < amount)
+                                {
+                                    amount = amount - depositAmount;
+                                    depositAmount = 0;
+                                    
+                                    switch (ShortName)
+                                    {
+                                        case "Usek": Usek = amount.ToString("N"); break;
+                                        case "Pemb": Pemb = amount.ToString("N"); break;
+                                        case "Keg": Keg = amount.ToString("N"); break;
+                                    }
+                                    totalAmount += amount;
+                                }
+                                else
+                                    depositAmount -= amount;
+                            }
+                        }
+                        Penalty = "-";
+                        SetHtmlRow(writer, NBS, StudentName, Class, Usek, Pemb, Keg, Penalty, Admin, totalAmount);
+                        #endregion
+
+                        writer.RenderEndTag();//Table
+                        writer.RenderEndTag();//Body
+                        writer.RenderEndTag();//HTML
+
+                        ctx.CommitTransaction();
+
+                        string attachment = string.Format("attachment;filename=\"{0}_{1}.xls\"", NBS, DateTime.Now.ToString("yyyyMMdd"));
+                        HttpContext.Current.Response.ClearContent();
+                        HttpContext.Current.Response.AddHeader("content-disposition", attachment);
+                        HttpContext.Current.Response.ContentType = "application/ms-excel";
+                        HttpContext.Current.Response.Write(stringWriter.ToString());
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
                     }
+                    #endregion
                 }
-                for (; count < 26; count++)
-                {
-                    tempFormat = tempFormat.Replace("{Notes" + count + "}", @"\\\");
-                    tempFormat = tempFormat.Replace("{NA" + count + "}", "");
-                }
-                txt += String.Format("{0}\n", tempFormat);
-                #endregion
-                #endregion
-
-                ctx.CommitTransaction();
-
-                #region Download the Text file.
-                Response.Clear();
-                Response.Buffer = true;
-                Response.AddHeader("content-disposition", String.Format("attachment;filename={0}_{1}.txt", nbs, DateTime.Now.ToString("yyyyMMdd")));
-                Response.Charset = "";
-                Response.ContentType = "application/text";
-                Response.Output.Write(txt);
-                Response.Flush();
-                HttpContext.Current.ApplicationInstance.CompleteRequest();
-                HttpContext.Current.Response.Flush();
-                HttpContext.Current.Response.End();
+                
                 #endregion
             }
             catch (Exception ex)
@@ -238,6 +343,27 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 ctx.Close();
             }
+        }
+
+        private void SetHtmlRow(HtmlTextWriter writer, String NBS, String StudentName, String Class, String Usek, String Pemb, String Keg, String Penalty, String Admin, Decimal Total)
+        {
+            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(NBS); writer.RenderEndTag();
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(StudentName); writer.RenderEndTag();
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Class); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Usek); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Pemb); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Keg); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Penalty); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Admin); writer.RenderEndTag();
+            writer.AddAttribute(HtmlTextWriterAttribute.Align, "Right");
+            writer.RenderBeginTag(HtmlTextWriterTag.Td); writer.Write(Total.ToString("N")); writer.RenderEndTag();
+            writer.RenderEndTag();
         }
     }
 }
