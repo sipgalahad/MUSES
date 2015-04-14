@@ -2072,6 +2072,8 @@ namespace CodeX.Data.Model
         private Int16 _PassingGrade;
         private Int32 _SubjectMatterID;
         private String _GCClassStudyType;
+        private String _GCSubjectType;
+        private String _SubjectType;
         private Int32 _StudentProgressRuleID;
         private Boolean _IsDeleted;
 
@@ -2206,6 +2208,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "GCSubjectType", DataType = "String")]
+        public String GCSubjectType
+        {
+            get { return _GCSubjectType; }
+            set { _GCSubjectType = value; }
+        }
+        [Column(Name = "SubjectType", DataType = "String")]
+        public String SubjectType
+        {
+            get { return _SubjectType; }
+            set { _SubjectType = value; }
         }
         [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
         public Int32 StudentProgressRuleID
