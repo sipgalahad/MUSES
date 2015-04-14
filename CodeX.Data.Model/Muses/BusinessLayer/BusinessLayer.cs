@@ -4979,6 +4979,166 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GradePromotionFormulaDt
+        public static GradePromotionFormulaDt GetGradePromotionFormulaDt(Int32 GradePromotionFormulaDtID)
+        {
+            return new GradePromotionFormulaDtDao().Get(GradePromotionFormulaDtID);
+        }
+        public static int InsertGradePromotionFormulaDt(GradePromotionFormulaDt record)
+        {
+            return new GradePromotionFormulaDtDao().Insert(record);
+        }
+        public static int UpdateGradePromotionFormulaDt(GradePromotionFormulaDt record)
+        {
+            return new GradePromotionFormulaDtDao().Update(record);
+        }
+        public static int DeleteGradePromotionFormulaDt(Int32 GradePromotionFormulaDtID)
+        {
+            return new GradePromotionFormulaDtDao().Delete(GradePromotionFormulaDtID);
+        }
+        public static List<GradePromotionFormulaDt> GetGradePromotionFormulaDtList(string filterExpression)
+        {
+            List<GradePromotionFormulaDt> result = new List<GradePromotionFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GradePromotionFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GradePromotionFormulaDt)helper.IDataReaderToObject(reader, new GradePromotionFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region GradePromotionFormulaHd
+        public static GradePromotionFormulaHd GetGradePromotionFormulaHd(Int32 GradePromotionFormulaID)
+        {
+            return new GradePromotionFormulaHdDao().Get(GradePromotionFormulaID);
+        }
+        public static int InsertGradePromotionFormulaHd(GradePromotionFormulaHd record)
+        {
+            return new GradePromotionFormulaHdDao().Insert(record);
+        }
+        public static int UpdateGradePromotionFormulaHd(GradePromotionFormulaHd record)
+        {
+            return new GradePromotionFormulaHdDao().Update(record);
+        }
+        public static int DeleteGradePromotionFormulaHd(Int32 GradePromotionFormulaID)
+        {
+            return new GradePromotionFormulaHdDao().Delete(GradePromotionFormulaID);
+        }
+        public static List<GradePromotionFormulaHd> GetGradePromotionFormulaHdList(string filterExpression)
+        {
+            List<GradePromotionFormulaHd> result = new List<GradePromotionFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GradePromotionFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GradePromotionFormulaHd)helper.IDataReaderToObject(reader, new GradePromotionFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<GradePromotionFormulaHd> GetGradePromotionFormulaHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<GradePromotionFormulaHd> result = new List<GradePromotionFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GradePromotionFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GradePromotionFormulaHd)helper.IDataReaderToObject(reader, new GradePromotionFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGradePromotionFormulaHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GradePromotionFormulaHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGradePromotionFormulaHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GradePromotionFormulaHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "GradePromotionFormulaID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGradePromotionFormulaHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GradePromotionFormulaHd));
+                ctx.CommandText = helper.SelectMaxColumn("GradePromotionFormulaID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Holiday
         public static Holiday GetHoliday(Int32 ID)
         {

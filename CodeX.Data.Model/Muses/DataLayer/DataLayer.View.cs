@@ -8409,6 +8409,91 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGradePromotionFormulaDt
+    [Serializable]
+    [Table(Name = "vGradePromotionFormulaDt")]
+    public class vGradePromotionFormulaDt
+    {
+        private Int32 _GradePromotionFormulaDtID;
+        private Int32 _GradePromotionFormulaID;
+        private String _GradePromotionFormulaDtName;
+        private Boolean _IsCurrentGrade;
+        private String _GCGrade;
+        private String _Grade;
+        private String _GCPeriodSection;
+        private String _PeriodSection;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "GradePromotionFormulaDtID", DataType = "Int32")]
+        public Int32 GradePromotionFormulaDtID
+        {
+            get { return _GradePromotionFormulaDtID; }
+            set { _GradePromotionFormulaDtID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaID", DataType = "Int32")]
+        public Int32 GradePromotionFormulaID
+        {
+            get { return _GradePromotionFormulaID; }
+            set { _GradePromotionFormulaID = value; }
+        }
+        [Column(Name = "GradePromotionFormulaDtName", DataType = "String")]
+        public String GradePromotionFormulaDtName
+        {
+            get { return _GradePromotionFormulaDtName; }
+            set { _GradePromotionFormulaDtName = value; }
+        }
+        [Column(Name = "IsCurrentGrade", DataType = "Boolean")]
+        public Boolean IsCurrentGrade
+        {
+            get { return _IsCurrentGrade; }
+            set { _IsCurrentGrade = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "GCPeriodSection", DataType = "String")]
+        public String GCPeriodSection
+        {
+            get { return _GCPeriodSection; }
+            set { _GCPeriodSection = value; }
+        }
+        [Column(Name = "PeriodSection", DataType = "String")]
+        public String PeriodSection
+        {
+            get { return _PeriodSection; }
+            set { _PeriodSection = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vInterfaceJournalSettingDtCustom
     [Serializable]
     [Table(Name = "vInterfaceJournalSettingDtCustom")]
@@ -21230,6 +21315,8 @@ namespace CodeX.Data.Model
         private Boolean _IsTransactionAmountInPercentage;
         private Decimal _TransactionAmount;
         private Decimal _StudentAmount;
+        private Decimal _TotalStudentPenaltyAmount;
+        private Decimal _TotalStudentAmount;
         private Decimal _PayerAmount;
         private Decimal _LineAmount;
         private Boolean _IsTransferred;
@@ -21333,6 +21420,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentAmount; }
             set { _StudentAmount = value; }
+        }
+        [Column(Name = "TotalStudentPenaltyAmount", DataType = "Decimal")]
+        public Decimal TotalStudentPenaltyAmount
+        {
+            get { return _TotalStudentPenaltyAmount; }
+            set { _TotalStudentPenaltyAmount = value; }
+        }
+        [Column(Name = "TotalStudentAmount", DataType = "Decimal")]
+        public Decimal TotalStudentAmount
+        {
+            get { return _TotalStudentAmount; }
+            set { _TotalStudentAmount = value; }
         }
         [Column(Name = "PayerAmount", DataType = "Decimal")]
         public Decimal PayerAmount

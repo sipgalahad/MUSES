@@ -158,7 +158,9 @@ namespace CodeX.Muses.Web.Finance.Program
                         lstOldStudentFee.Remove(oldEntity);
 
                     StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeID == Convert.ToInt32(temp[0]));
-                    entityDt.StudentAmount = entity.TotalStudentAmount;
+                    entityDt.StudentAmount = entity.StudentAmount;
+                    entityDt.TotalStudentPenaltyAmount = entity.TotalStudentPenaltyAmount;
+                    entityDt.TotalStudentAmount = entity.TotalStudentAmount;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityDtDao.Update(entityDt);
                 }
@@ -177,7 +179,8 @@ namespace CodeX.Muses.Web.Finance.Program
                         entityDao.Update(entity);
 
                         StudentFeeDt entityDt = lstStudentFeeDt.FirstOrDefault(p => p.StudentFeeID == entity.StudentFeeID);
-                        entityDt.StudentAmount = entity.TotalStudentAmount;
+                        entityDt.TotalStudentPenaltyAmount = 0;
+                        entityDt.TotalStudentAmount = entityDt.StudentAmount;
                         entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDtDao.Update(entityDt);
                     }

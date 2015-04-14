@@ -152,7 +152,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             entityDt.DisplayOrder = ctr;
                             entityDt.DueDate = dueDate;
                             entityDt.IsTransactionAmountInPercentage = false;
-                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TransactionAmount = transactionAmount;
+                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalStudentAmount = entityDt.TransactionAmount = transactionAmount;
                             entityDt.IsPaid = false;
                             entityDt.CreatedBy = AppSession.UserLogin.UserID;
                             studentFeeDtDao.Insert(entityDt);
@@ -162,7 +162,7 @@ namespace CodeX.Muses.Web.Finance.Program
                             entityDt.DisplayOrder = ctr;
                             entityDt.DueDate = dueDate;
                             entityDt.IsTransactionAmountInPercentage = false;
-                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TransactionAmount = transactionAmount;
+                            entityDt.LineAmount = entityDt.StudentAmount = entityDt.TotalStudentAmount = entityDt.TransactionAmount = transactionAmount;
                             entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                             studentFeeDtDao.Update(entityDt);
 

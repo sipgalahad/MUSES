@@ -176,17 +176,6 @@ namespace CodeX.Muses.Web.Finance.Program
                                 string ShortName = obj.ShortName;
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
-                                    foreach (vARInvoiceDt x in lstvARInvoiceDt1)
-                                    {
-                                        if (x.DueDate < DateTime.Now)
-                                        {
-                                            ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                            arinvoicedt.ClaimedAmount = x.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                            arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                            arInvoiceDtDao.Update(arinvoicedt);
-                                        }
-                                    }
-
                                     decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
 
                                     if (depositAmount < amount)
@@ -252,16 +241,6 @@ namespace CodeX.Muses.Web.Finance.Program
                                 string ShortName = obj.ShortName;
                                 if (lstvARInvoiceDt1.Count > 0)
                                 {
-                                    foreach (vARInvoiceDt x in lstvARInvoiceDt1)
-                                    {
-                                        if (x.DueDate < DateTime.Now)
-                                        {
-                                            ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                            arinvoicedt.ClaimedAmount = x.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                            arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                            arInvoiceDtDao.Update(arinvoicedt);
-                                        }
-                                    }
                                     decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
 
                                     if (depositAmount < amount)
@@ -385,16 +364,8 @@ namespace CodeX.Muses.Web.Finance.Program
                                         {
                                             foreach (vARInvoiceDt x in lstvARInvoiceDt1)
                                             {
-                                                if (x.DueDate < DateTime.Now)
-                                                {
-                                                    ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                                    arinvoicedt.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                                    arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                                    TotalPenalty += (x.TransactionAmount - x.DiscountAmount) * obj.PenaltyPercentage / 100;
-                                                    arInvoiceDtDao.Update(arinvoicedt);
-                                                }
+                                                TotalPenalty += x.VarianceAmount;
                                             }
-
                                             decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
 
                                             if (depositAmount < amount)
@@ -456,17 +427,9 @@ namespace CodeX.Muses.Web.Finance.Program
 
                                         if (lstvARInvoiceDt1.Count > 0)
                                         {
-
                                             foreach (vARInvoiceDt x in lstvARInvoiceDt1)
                                             {
-                                                if (x.DueDate < DateTime.Now)
-                                                {
-                                                    ARInvoiceDt arinvoicedt = lstInvoiceDt.FirstOrDefault(p => p.ARInvoiceDtID == x.ARInvoiceDtID);
-                                                    arinvoicedt.ClaimedAmount = (x.TransactionAmount - x.DiscountAmount) * (100 + obj.PenaltyPercentage) / 100;
-                                                    arinvoicedt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                                                    TotalPenalty += (x.TransactionAmount - x.DiscountAmount) * obj.PenaltyPercentage / 100;
-                                                    arInvoiceDtDao.Update(arinvoicedt);
-                                                }
+                                                TotalPenalty += x.VarianceAmount;
                                             }
                                             decimal amount = Convert.ToDecimal(lstvARInvoiceDt1.Sum(x => x.ClaimedAmount));
 

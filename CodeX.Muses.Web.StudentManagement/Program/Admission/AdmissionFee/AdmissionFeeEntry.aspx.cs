@@ -368,7 +368,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityFeeDt.DueDate = Helper.GetDatePickerValue(temp1[0]);
                         entityFeeDt.TransactionAmount = Convert.ToDecimal(temp1[1]);
                         entityFeeDt.IsTransactionAmountInPercentage = true;
-                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[2]);
+                        entityFeeDt.TotalStudentAmount = entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[2]);
                         entityFeeDt.CreatedBy = AppSession.UserLogin.UserID;
 
                         entityFeeDtDao.Insert(entityFeeDt);
@@ -378,7 +378,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityFeeDt.DueDate = Helper.GetDatePickerValue(temp1[0]);
                         entityFeeDt.TransactionAmount = Convert.ToDecimal(temp1[1]);
                         entityFeeDt.IsTransactionAmountInPercentage = true;
-                        entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[2]);
+                        entityFeeDt.TotalStudentAmount = entityFeeDt.StudentAmount = entityFeeDt.LineAmount = Convert.ToDecimal(temp1[2]);
                         entityFeeDt.LastUpdatedBy = AppSession.UserLogin.UserID;
 
                         entityFeeDtDao.Update(entityFeeDt);
