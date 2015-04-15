@@ -5,9 +5,9 @@
     <parameter code="DT002"/>
   </parameters>
   <groups>
-    <group fieldname="JournalDateInMonth" orderby="JournalDateInMonth" orderbytype="ASC" headertext="Bulan : [JournalDateInMonth]" isshowsubtotal="1" subtotaltext="Total Bulan : [JournalDateInMonth]" tdlocation="1"/>
-    <group fieldname="TransactionName" orderby="TransactionName" orderbytype="ASC" headertext="Tipe Jurnal : [TransactionName]" tdlocation="1"/>
-    <group fieldname="JournalNo" orderby="JournalNo" orderbytype="ASC" headertext="[LastUpdatedByUserName] [JournalDate] [LastUpdatedDate] [JournalNo]" tdlocation="1"/>
+    <group fieldname="JournalDateInMonth" orderby="JournalDateInMonth" orderbytype="ASC" headertext="Bulan : [GroupName]" isshowsubtotal="1" subtotaltext="Total Bulan : [GroupName]" />
+    <group fieldname="TransactionName" orderby="TransactionName" orderbytype="ASC" headertext="Tipe Jurnal : [GroupName]" />
+    <group fieldname="JournalNo" orderby="JournalNo" orderbytype="ASC" headertext="No Jurnal : [GroupName]" />
   </groups>
   <fields>
     <field fieldname="GLAccountNo" headertext="Kd. Akun" width="8" />
