@@ -313,12 +313,36 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLTransactionDtCustom
+    public partial class vGLTransactionDtCustom
+    {
+        public string JournalDateInString
+        {
+            get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public String AccountForJournalVoucher
+        {
+            get
+            {
+                string text = _GLAccountName;
+                if (_SubLedgerName != null && _SubLedgerName != "") text += "-" + _SubLedgerName;
+                text += " " + _Remarks;
+                return text;
+            }
+        }
+    }
+    #endregion
     #region vGLTransactionHd
     public partial class vGLTransactionHd
     {
         public string JournalDateInString
         {
             get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public string LastUpdatedDateInString
+        {
+            get { return _LastUpdatedDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
 
         public string JournalDateInMonth

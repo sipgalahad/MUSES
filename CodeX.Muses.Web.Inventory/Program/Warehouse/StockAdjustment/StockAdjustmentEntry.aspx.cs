@@ -138,6 +138,10 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             else
                 hdnIsEditable.Value = "1";
+            if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN || entity.GCTransactionStatus != Constant.TransactionStatus.VOID)
+                hdnPrintStatus.Value = "true";
+            else
+                hdnPrintStatus.Value = "false";
             hdnAdjustmentID.Value = entity.TransactionID.ToString();
             txtAdjustmentNo.Text = entity.TransactionNo;
             txtAdjustmentDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);

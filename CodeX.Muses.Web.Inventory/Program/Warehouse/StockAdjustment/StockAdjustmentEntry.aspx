@@ -353,9 +353,27 @@
                 $('#<%=txtQuantity.ClientID %>').attr('max', '0');
                 $('#<%=txtQuantity.ClientID %>').removeClass('min');
             }
-            
+        }
+
+        function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
+            var transactionID = $('#<%=hdnAdjustmentID.ClientID %>').val();
+            var printStatus = $('#<%=hdnPrintStatus.ClientID %>').val();
+            if (printStatus == 'true') {
+                if (transactionID == '' || transactionID == '0') {
+                    errMessage.text = 'Please Set Transaction First!';
+                    return false;
+                }
+                else {
+                    filterExpression.text = "TransactionID = " + transactionID;
+                    return true;
+                }
+            } else {
+                errMessage.text = "Data Doesn't Approved or Closed";
+                return false;
+            }
         }
     </script>    
+    <input type="hidden" value="" id="hdnPrintStatus" runat="server" />
     <input type="hidden" value="" id="hdnAdjustmentID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
     <input type="hidden" value="" id="hdnRowCount" runat="server" />

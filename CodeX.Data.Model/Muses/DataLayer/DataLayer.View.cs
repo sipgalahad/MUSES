@@ -11166,6 +11166,7 @@ namespace CodeX.Data.Model
         private String _TransactionStatusWatermark;
         private Int32 _NumberOfItems;
         private Int32 _NumberOfApprovedItems;
+        private String _CreatedByName;
 
         [Column(Name = "TransactionID", DataType = "Int32")]
         public Int32 TransactionID
@@ -11286,6 +11287,12 @@ namespace CodeX.Data.Model
         {
             get { return _NumberOfApprovedItems; }
             set { _NumberOfApprovedItems = value; }
+        }
+        [Column(Name = "CreatedByName", DataType = "String")]
+        public String CreatedByName
+        {
+            get { return _CreatedByName; }
+            set { _CreatedByName = value; }
         }
     }
     #endregion
