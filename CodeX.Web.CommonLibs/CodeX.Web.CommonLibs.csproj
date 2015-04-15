@@ -80,8 +80,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\report\general\accounting\LGeneralLedger.xml" />
-    <Content Include="App_Data\report\general\accounting\LDaftarAktivaTetap.xml" />
+    <Content Include="App_Data\report\general\accounting\LDaftarAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\general\accounting\LJournal.xml">
       <SubType>Designer</SubType>
     </Content>

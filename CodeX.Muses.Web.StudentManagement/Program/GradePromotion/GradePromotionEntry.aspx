@@ -128,7 +128,6 @@
                         tacSchoolClass.setText('');
                         entityToControlClass(null);
                     }
-                    onTacClassValueChanged();
                 });
             });
 
