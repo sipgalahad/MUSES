@@ -15,7 +15,7 @@ using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class GradePromotionEntry : BasePageList
+    public partial class StudentMarkLedgerEntry : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.GRADE_PROMOTION;
+            return Constant.MenuCode.StudentManagement.STUDENT_MARK_LEDGER;
         }
 
         protected string OnGetClassStudyTypeRegular()
@@ -67,7 +67,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         List<vPeriodClassType> lstPeriodClassType = null;
-        List<GradePromotionFormulaDt> lstGradePromotionFormula = null;
         List<ClassStudentSubjectMark> lstStudentSubjectMark = null;
         List<vPeriodSection> lstPeriodSection = null;
         List<vClassSubject> lstSubject = null;
@@ -100,7 +99,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             else
                 divContainerTable.Style.Add("display", "none");
-            
+
 
             string filterExpression = GetFilterExpression();
             lstPeriodClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCGrade = '{1}' AND IsDeleted = 0", hdnNextSchoolPeriod.Value, hdnNextGCGrade.Value));
@@ -116,29 +115,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 lstStudentSubjectMark = new List<ClassStudentSubjectMark>();
 
-            if (hdnGradePromotionFormulaID.Value != "")
-                lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaDtList(string.Format("GradePromotionFormulaID = {0} AND IsDeleted = 0", hdnGradePromotionFormulaID.Value));
-            else
-                lstGradePromotionFormula = new List<GradePromotionFormulaDt>();
             rptStudent.DataSource = lstEntity;
             rptStudent.DataBind();
 
-            if (chkIsOnlyFinalMark.Checked)
-                TableWidth = (160 * lstSubject.Count) + 650;
-            else
-                TableWidth = (((60 * 3 * lstPeriodSection.Count) + 135) * lstSubject.Count) + 650;
-        }
-
-        protected void rptColHeaderLevel1_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                HtmlTableCell tdSubjectName = (HtmlTableCell)e.Item.FindControl("tdSubjectName");
-                if (chkIsOnlyFinalMark.Checked)
-                    tdSubjectName.ColSpan = 1;
-                else
-                    tdSubjectName.ColSpan = 7;
-            }
+            TableWidth = (((60 * 3 * lstPeriodSection.Count) + 45) * lstSubject.Count) + 650;
         }
 
         protected void rptColHeaderLevel2_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -148,46 +128,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Repeater rptColHeaderLevel2Dt = (Repeater)e.Item.FindControl("rptColHeaderLevel2Dt");
                 rptColHeaderLevel2Dt.DataSource = lstPeriodSection;
                 rptColHeaderLevel2Dt.DataBind();
-
-                HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
-                if (chkIsOnlyFinalMark.Checked)
-                    tdFinalMark.Style.Add("display", "none");
-                else
-                    tdFinalMark.Style.Remove("display");
-            }
-        }
-
-        protected void rptColHeaderLevel3_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                HtmlTableCell tdTheory = (HtmlTableCell)e.Item.FindControl("tdTheory");
-                HtmlTableCell tdPractice = (HtmlTableCell)e.Item.FindControl("tdPractice");
-                HtmlTableCell tdAffective = (HtmlTableCell)e.Item.FindControl("tdAffective");
-                if (chkIsOnlyFinalMark.Checked)
-                {
-                    tdTheory.Style.Add("display", "none");
-                    tdPractice.Style.Add("display", "none");
-                    tdAffective.Style.Add("display", "none");
-                }
-                else
-                {
-                    tdTheory.Style.Remove("display");
-                    tdPractice.Style.Remove("display");
-                    tdAffective.Style.Remove("display");
-                }
-            }
-        }
-
-        protected void rptColHeaderLevel2Dt_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                HtmlTableCell tdPeriodSection = (HtmlTableCell)e.Item.FindControl("tdPeriodSection");
-                if (chkIsOnlyFinalMark.Checked)
-                    tdPeriodSection.Style.Add("display", "none");
-                else
-                    tdPeriodSection.Style.Remove("display");
             }
         }
 
@@ -198,19 +138,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Repeater rptStudentSubject = (Repeater)e.Item.FindControl("rptStudentSubject");
                 rptStudentSubject.DataSource = lstSubject;
                 rptStudentSubject.DataBind();
-
-                HtmlGenericControl divNextGrade = (HtmlGenericControl)e.Item.FindControl("divNextGrade");
-                divNextGrade.InnerHtml = hdnNextGrade.Value;
-
-                ASPxComboBox cboGCMajor = (ASPxComboBox)e.Item.FindControl("cboGCMajor");
-                cboGCMajor.ClientInstanceName = string.Format("cboGCMajor{0}", e.Item.ItemIndex);
-                Methods.SetComboBoxField<vPeriodClassType>(cboGCMajor, lstPeriodClassType, "Major", "GCMajor");
-
-                if (hdnGCMajor.Value != "")
-                {
-                    cboGCMajor.Value = hdnGCMajor.Value;
-                    cboGCMajor.ClientEnabled = false;
-                }
             }
         }
 
@@ -218,31 +145,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubject entitySubject = (vClassSubject)e.Item.DataItem;
-                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
-
                 Repeater rptStudentSubjectPeriodSection = (Repeater)e.Item.FindControl("rptStudentSubjectPeriodSection");
                 rptStudentSubjectPeriodSection.DataSource = lstPeriodSection;
                 rptStudentSubjectPeriodSection.DataBind();
-
-                decimal finalMark = 0;
-                foreach (vPeriodSection periodSection in lstPeriodSection)
-                {
-                    decimal mark = 0;
-                    ClassStudentSubjectMark classStudentSubjectMark = lstStudentSubjectMark.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectID == entitySubject.ClassSubjectID && p.PeriodSectionID == periodSection.PeriodSectionID);
-                    if (classStudentSubjectMark != null)
-                        mark = classStudentSubjectMark.TheoryMark;
-
-                    finalMark = mark * lstGradePromotionFormula.FirstOrDefault(p => p.GCPeriodSection == periodSection.GCPeriodSection).FinalMarkPercentage / 100;
-                }
-                HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
-                if (finalMark < entitySubject.PassingGrade)
-                    tdFinalMark.Attributes.Add("class", "belowpassinggrade");                
-                tdFinalMark.InnerHtml = finalMark.ToString("N");
-                if (chkIsOnlyFinalMark.Checked)
-                    tdFinalMark.Style.Add("width", "150px");
-                else
-                    tdFinalMark.Style.Remove("width");
             }
         }
 
@@ -263,19 +168,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tdTheoryMark.InnerHtml = mark.TheoryMark.ToString();
                     tdPracticeMark.InnerHtml = mark.PracticeMark.ToString();
                     tdAffectiveMark.InnerHtml = mark.AffectiveMark.ToString();
-                }
 
-                if (chkIsOnlyFinalMark.Checked)
-                {
-                    tdTheoryMark.Style.Add("display", "none");
-                    tdPracticeMark.Style.Add("display", "none");
-                    tdAffectiveMark.Style.Add("display", "none");
-                }
-                else
-                {
-                    tdTheoryMark.Style.Remove("display");
-                    tdPracticeMark.Style.Remove("display");
-                    tdAffectiveMark.Style.Remove("display");
+                    if (mark.TheoryMark < entitySubject.PassingGrade)
+                        tdTheoryMark.Attributes.Add("class", "belowpassinggrade");
                 }
             }
         }
@@ -310,100 +205,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             panel.JSProperties["cpTableWidth"] = TableWidth;
         }
 
-        protected void cbpProcess_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        public override Control OnGetExportControl()
         {
-            string result = "";
-            string errMessage = "";
-            string[] param = e.Parameter.Split('|');
-            result = param[0] + "|";
-            if (param[0] == "promote")
-            {
-                if (OnPromoteEntity(ref errMessage))
-                    result += "success";
-                else
-                    result += string.Format("fail|{0}", errMessage);
-            }
-            else 
-            {
-                if (OnRejectEntity(ref errMessage))
-                    result += "success";
-                else
-                    result += string.Format("fail|{0}", errMessage);
-            }
-
-            ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
-            panel.JSProperties["cpResult"] = result;
-        }
-
-        private bool OnPromoteEntity(ref string errMessage) 
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            StudentDao studentDao = new StudentDao(ctx);
-            ClassStudentDao classStudentDao = new ClassStudentDao(ctx);
-            try
-            {
-                List<Student> lstStudent = BusinessLayer.GetStudentList(String.Format("StudentID IN ({0})", hdnLstStudentID.Value), ctx);
-                List<ClassStudent> lstClassStudent = BusinessLayer.GetClassStudentList(String.Format("SchoolClassID = {0} AND StudentID IN ({1})", tacSchoolClass.Value, hdnLstStudentID.Value), ctx);
-                
-                string[] lstSaveValue = hdnSelectedValue.Value.Split('|');
-                foreach (string saveValue in lstSaveValue) 
-                {
-                    string[] temp = saveValue.Split(';');
-
-                    Student entity = lstStudent.FirstOrDefault(p => p.StudentID == Convert.ToInt32(temp[0]));
-                    entity.GCGrade = hdnNextGCGrade.Value;
-                    entity.GCMajor = temp[1];
-
-                    ClassStudent csEntity = lstClassStudent.FirstOrDefault(p => p.StudentID == entity.StudentID);
-                    csEntity.GCClassStudentStatus = Constant.ClassStudentStatus.NAIK_KELAS;
-                    classStudentDao.Update(csEntity);
-                    studentDao.Update(entity);
-                }
-                ctx.CommitTransaction();
-            }
-            catch(Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-                result = false;
-            }
-            finally 
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
-        private bool OnRejectEntity(ref string errMessage)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            ClassStudentDao classStudentDao = new ClassStudentDao(ctx);
-            try
-            {
-                List<ClassStudent> lstClassStudent = BusinessLayer.GetClassStudentList(String.Format("SchoolClassID = {0} AND StudentID IN ({1})", tacSchoolClass.Value, hdnLstStudentID.Value), ctx);
-
-                foreach (ClassStudent entity in lstClassStudent)
-                {
-                    entity.GCClassStudentStatus = Constant.ClassStudentStatus.TIDAK_NAIK_KELAS;
-                    classStudentDao.Update(entity);
-                }
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-                result = false;
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
+            HtmlGenericControl div = new HtmlGenericControl("DIV");
+            HtmlGenericControl h4 = new HtmlGenericControl("h4");
+            h4.InnerHtml = String.Format("Tahun Ajaran : {0}<br/>Kelas : {1}", cboSchoolPeriod.Text, hdnClassName.Value);
+            div.InnerHtml = hdnExportData.Value;
+            div.Controls.AddAt(0, h4);
+            return div;
         }
     }
 }

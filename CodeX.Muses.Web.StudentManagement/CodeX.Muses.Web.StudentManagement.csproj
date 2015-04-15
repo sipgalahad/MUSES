@@ -125,6 +125,7 @@
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanIndicatorInformationCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx" />
+    <Content Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GradePromotionFormulaDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx" />
@@ -656,6 +657,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx.designer.cs">
       <DependentUpon>SubjectMeetingPlanDtInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx.cs">
+      <DependentUpon>StudentMarkLedgerEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx.designer.cs">
+      <DependentUpon>StudentMarkLedgerEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\GradePromotionFormulaDtCtl.ascx.cs">
       <DependentUpon>GradePromotionFormulaDtCtl.ascx</DependentUpon>

@@ -503,6 +503,7 @@ namespace CodeX.Common
                 public const string TEACHER_ABSENCE = "SM031000";
                 public const string TSB_TEACHER_SUBSTITUTION = "SM031001";
                 public const string TSB_TEACHER_SUBSTITUTION_PER_DATE = "SM031002";
+                public const string STUDENT_MARK_LEDGER = "SM031100";
 
                 public const string SUBJECT = "SM110100";
                 public const string TEACHER_PERIOD_CLASS_TYPE_SUBJECT = "SM110200";
