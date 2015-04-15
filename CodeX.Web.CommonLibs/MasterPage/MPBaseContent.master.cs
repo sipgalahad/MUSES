@@ -33,14 +33,10 @@ namespace CodeX.Web.CommonLibs.MasterPage
             {
                 string moduleName = Helper.GetModuleName();
                 string ModuleID = Helper.GetModuleID(moduleName);
-                XDocument xdoc = Helper.LoadXMLFile(this, string.Format("right_panel/{0}.xml", ModuleID));
-                if (xdoc != null)
-                {
-                    string menuCode = BasePageContent.OnGetMenuCode();
-                    List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.ReportType.FORM, ModuleID, menuCode, "");
-                    if (lstReport.Count > 0)
-                        btnMPEntryPrint.Style.Remove("display");
-                }
+                string menuCode = BasePageContent.OnGetMenuCode();
+                List<GetReportUserList> lstReport = BusinessLayer.GetReportUserList(AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.ReportType.FORM, ModuleID, menuCode, "");
+                if (lstReport.Count > 0)
+                    btnMPEntryPrint.Style.Remove("display");
             }
         }
 

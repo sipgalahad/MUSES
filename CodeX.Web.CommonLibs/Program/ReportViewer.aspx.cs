@@ -41,7 +41,7 @@ namespace CodeX.Web.CommonLibs.Program
 
                 hdnFilterExpression.Value = "";
 
-                divReportProperties.InnerHtml = string.Format("OTTIMO - {0}, Print Date/Time:{1}, User ID:{2}", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
+                divReportProperties.InnerHtml = string.Format("VIDA - {0}, Print Date/Time:{1}, User ID:{2}", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
 
                 oSite = BusinessLayer.GetvSiteList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
                 if (oSite != null)
