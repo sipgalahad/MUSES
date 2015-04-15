@@ -143,6 +143,7 @@
     <Content Include="Program\Master\SubLedger\SubLedgerDtViewCtl.ascx" />
     <Content Include="Program\Master\SubLedger\SubLedgerEntry.aspx" />
     <Content Include="Program\Master\SubLedger\SubLedgerList.aspx" />
+    <Content Include="Report\VID_RCI\accounting\LGeneralLedgerRpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -635,6 +636,13 @@
       <DependentUpon>SubLedgerList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\VID_RCI\accounting\LGeneralLedgerRpt.ascx.cs">
+      <DependentUpon>LGeneralLedgerRpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\accounting\LGeneralLedgerRpt.ascx.designer.cs">
+      <DependentUpon>LGeneralLedgerRpt.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
