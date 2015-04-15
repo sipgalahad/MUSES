@@ -108,7 +108,7 @@ namespace CodeX.Web.CommonLibs.Program
                 string[] paramSplit = param[i].Split(';');
                 string value = paramSplit[0];
                 string paramText = paramSplit[1];
-                lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = value });
+                lstVariable.Add(new Variable { Code = reportParameter.FieldName, Value = GetFilterExpression(value) });
 
                 if (paramText != "")
                 {
@@ -133,6 +133,7 @@ namespace CodeX.Web.CommonLibs.Program
                         }
                         ctrParameter++;
                     }
+                    SubHeaderText1 = SubHeaderText1.Replace("{" + reportParameter.Code + "}", paramText);
                 }
             }
             if (isShowParameter)
@@ -257,6 +258,7 @@ namespace CodeX.Web.CommonLibs.Program
                         }
                         ctrParameter++;
                     }
+                    SubHeaderText1 = SubHeaderText1.Replace("{" + reportParameter.Code + "}", paramText);
                 }
             }
             if (isShowParameter)
@@ -319,6 +321,7 @@ namespace CodeX.Web.CommonLibs.Program
         }
         #endregion
 
+        string SubHeaderText1 = "";
         private void BindGridView()
         {
             #region Load Report File
@@ -361,6 +364,7 @@ namespace CodeX.Web.CommonLibs.Program
             fontSize = tempReportSetting.FontSize;
             fontFamily = tempReportSetting.FontFamily;
 
+            SubHeaderText1 = tempReportSetting.SubHeaderText;
             if (!tempReportSetting.IsShowHeaderFooter)
             {
                 divPageHeader.Style.Add("display", "none");
@@ -371,11 +375,6 @@ namespace CodeX.Web.CommonLibs.Program
             {
                 headerText.Style.Remove("display");
                 headerText.InnerHtml = tempReportSetting.HeaderText;
-            }
-            if (tempReportSetting.SubHeaderText != "")
-            {
-                subHeaderText.Style.Remove("display");
-                subHeaderText.InnerHtml = tempReportSetting.SubHeaderText;
             }
             //SubHeaderText
             #endregion
@@ -574,6 +573,12 @@ namespace CodeX.Web.CommonLibs.Program
 
             if (tempReportSetting.IsUsingDotMatrix)
                 tdImageLogo.Style.Add("display", "none");
+
+            if (tempReportSetting.SubHeaderText != "")
+            {
+                subHeaderText.Style.Remove("display");
+                subHeaderText.InnerHtml = SubHeaderText1;
+            }
         }
         #region ReportParameter
         class ReportParameter

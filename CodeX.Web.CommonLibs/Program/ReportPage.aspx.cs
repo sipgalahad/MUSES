@@ -145,8 +145,8 @@ namespace CodeX.Web.CommonLibs.Program
                                            ListText = sd.Attribute("listtext") != null ? sd.Attribute("listtext").Value : "",
                                            ListValue = sd.Attribute("listvalue") != null ? sd.Attribute("listvalue").Value : "",
 
-                                           YearMinusNYear = sd.Attribute("listvalue") != null ? Convert.ToInt32(sd.Attribute("yearminusnyear").Value) : 0,
-                                           YearPlusNYear = sd.Attribute("listvalue") != null ? Convert.ToInt32(sd.Attribute("yearplusnyear").Value) : 0,
+                                           YearMinusNYear = sd.Attribute("yearminusnyear") != null ? Convert.ToInt32(sd.Attribute("yearminusnyear").Value) : 0,
+                                           YearPlusNYear = sd.Attribute("yearplusnyear") != null ? Convert.ToInt32(sd.Attribute("yearplusnyear").Value) : 0,
                                        }).FirstOrDefault();
                 reportParameter.FilterParameterCaption = temp.FilterParameterCaption;
                 reportParameter.GCFilterParameterType = temp.GCFilterParameterType;

@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
+  <!-- #Region Constant -->
+  <type type="X108^012">
+    <!-- #Region CT001 - Site-->
+    <filterparameter code="CT001" caption="" name="Constant Site" fieldname="SiteID" defaultvalue="@SiteID" />
+    <!-- #Endregion -->
+    <!-- #Region CT002 - Detail Only -->
+    <filterparameter code="CT002" caption="" name="Constant Detail Only" fieldname="IsDetailOnly" defaultvalue="1" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
+
   <!-- #Region Free Text -->
   <type type="X108^006">
     <!-- #Region FP001 - Free Text -->
@@ -23,6 +34,22 @@
   <type type="X108^001">
     <!-- #Region CB001 - Location User -->
     <filterparameter code="CB001" name="Cbo Location User" caption="Lokasi" fieldname="LocationID" methodname="GetLocationUserAccessList" filterexpression="@SiteID;@UserID;;" valuefieldname="LocationID" textfieldname="LocationName" clientinstancename="cboLocation" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
+
+  <!-- #Region Custom ComboBox -->
+  <type type="X108^008">
+    <!-- #Region CS001 - Journal Month -->
+    <filterparameter code="CS001" name="Cbo Journal Month" caption="Bulan" fieldname="JournalMonth" listtext="Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember" listvalue="1|2|3|4|5|6|7|8|9|10|11|12" />
+    <!-- #Endregion -->
+  </type>
+  <!-- #Endregion -->
+
+  <!-- #Region Year ComboBox -->
+  <type type="X108^009">
+    <!-- #Region YR001 - Journal Year-->
+    <filterparameter code="YR001" name="Cbo Journal Year" caption="Tahun" fieldname="JournalYear" yearminusnyear="10" yearplusnyear="0" />
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
