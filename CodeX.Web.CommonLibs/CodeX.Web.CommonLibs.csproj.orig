@@ -76,16 +76,20 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\report\general\accounting\BJournalVoucher.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\report\general\accounting\LDaftarAktivaTetap.xml" />
+<<<<<<< HEAD
     <Content Include="App_Data\report\general\accounting\LJournal.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LDaftarAktivaTetap.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\report\general\accounting\LDaftarSubAkun.xml">
       <SubType>Designer</SubType>
+=======
+    <Content Include="App_Data\report\general\accounting\BJournalVoucher.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+>>>>>>> 507f71cc1af88e2fb3ef816e1f918afcdc42b908
     </Content>
     <Content Include="App_Data\report\general\inventory\BPemesananBarangTanpaNilai.xml">
       <SubType>Designer</SubType>

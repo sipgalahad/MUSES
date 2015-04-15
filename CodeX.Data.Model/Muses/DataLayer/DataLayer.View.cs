@@ -7320,6 +7320,11 @@ namespace CodeX.Data.Model
     {
         private Int32 _TransactionDtID;
         private Int32 _GLTransactionID;
+        private String _GCJournalGroup;
+        private String _TransactionCode;
+        private String _TransactionName;
+        private String _JournalNo;
+        private DateTime _JournalDate;
         private Int32 _GLAccount;
         private String _GLAccountNo;
         private String _GLAccountName;
@@ -7342,6 +7347,9 @@ namespace CodeX.Data.Model
         private String _Remarks;
         private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
+        private Int32 _LastUpdatedBy;
+        private String _LastUpdatedByUserName;
+        private DateTime _LastUpdatedDate;
 
         [Column(Name = "TransactionDtID", DataType = "Int32")]
         public Int32 TransactionDtID
@@ -7354,6 +7362,36 @@ namespace CodeX.Data.Model
         {
             get { return _GLTransactionID; }
             set { _GLTransactionID = value; }
+        }
+        [Column(Name = "GCJournalGroup", DataType = "String")]
+        public String GCJournalGroup
+        {
+            get { return _GCJournalGroup; }
+            set { _GCJournalGroup = value; }
+        }
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionName", DataType = "String")]
+        public String TransactionName
+        {
+            get { return _TransactionName; }
+            set { _TransactionName = value; }
+        }
+        [Column(Name = "JournalNo", DataType = "String")]
+        public String JournalNo
+        {
+            get { return _JournalNo; }
+            set { _JournalNo = value; }
+        }
+        [Column(Name = "JournalDate", DataType = "DateTime")]
+        public DateTime JournalDate
+        {
+            get { return _JournalDate; }
+            set { _JournalDate = value; }
         }
         [Column(Name = "GLAccount", DataType = "Int32")]
         public Int32 GLAccount
@@ -7486,6 +7524,24 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedByUserName", DataType = "String")]
+        public String LastUpdatedByUserName
+        {
+            get { return _LastUpdatedByUserName; }
+            set { _LastUpdatedByUserName = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
         }
     }
     #endregion
@@ -7688,6 +7744,7 @@ namespace CodeX.Data.Model
         private String _GCJournalGroup;
         private String _JournalGroup;
         private String _TransactionCode;
+        private String _TransactionName;
         private String _JournalNo;
         private DateTime _JournalDate;
         private Decimal _DebitAmount;
@@ -7729,6 +7786,12 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionCode; }
             set { _TransactionCode = value; }
+        }
+        [Column(Name = "TransactionName", DataType = "String")]
+        public String TransactionName
+        {
+            get { return _TransactionName; }
+            set { _TransactionName = value; }
         }
         [Column(Name = "JournalNo", DataType = "String")]
         public String JournalNo
@@ -22042,6 +22105,70 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectIndicatorName; }
             set { _SubjectIndicatorName = value; }
+        }
+    }
+    #endregion
+    #region vSubLedgerDt
+    [Serializable]
+    [Table(Name = "vSubLedgerDt")]
+    public class vSubLedgerDt
+    {
+        private Int32 _SubLedgerDtID;
+        private Int32 _SubLedgerID;
+        private String _SubLedgerDtCode;
+        private String _SubLedgerDtName;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubLedgerDtID", DataType = "Int32")]
+        public Int32 SubLedgerDtID
+        {
+            get { return _SubLedgerDtID; }
+            set { _SubLedgerDtID = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SubLedgerDtCode", DataType = "String")]
+        public String SubLedgerDtCode
+        {
+            get { return _SubLedgerDtCode; }
+            set { _SubLedgerDtCode = value; }
+        }
+        [Column(Name = "SubLedgerDtName", DataType = "String")]
+        public String SubLedgerDtName
+        {
+            get { return _SubLedgerDtName; }
+            set { _SubLedgerDtName = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

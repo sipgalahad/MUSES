@@ -340,16 +340,19 @@ namespace CodeX.Data.Model
         {
             get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
-        public string LastUpdatedDateInString
-        {
-            get { return _LastUpdatedDate.ToString(Constant.FormatString.DATE_FORMAT); }
-        }
+<<<<<<< HEAD
 
         public string JournalDateInMonth
         {
             get { return _JournalDate.ToString("MMMM yyyy"); }
         }
 
+=======
+        public string LastUpdatedDateInString
+        {
+            get { return _LastUpdatedDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+>>>>>>> 507f71cc1af88e2fb3ef816e1f918afcdc42b908
         public Decimal Selisih
         {
             get { return _DebitAmount - _CreditAmount; }

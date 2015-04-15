@@ -8664,6 +8664,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSubLedgerDt
+        public static List<vSubLedgerDt> GetvSubLedgerDtList(string filterExpression)
+        {
+            List<vSubLedgerDt> result = new List<vSubLedgerDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubLedgerDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubLedgerDt)helper.IDataReaderToObject(reader, new vSubLedgerDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSubLedgerHd
         public static List<vSubLedgerHd> GetvSubLedgerHdList(string filterExpression)
         {
