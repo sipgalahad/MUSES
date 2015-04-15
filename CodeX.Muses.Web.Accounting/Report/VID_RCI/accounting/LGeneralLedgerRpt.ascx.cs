@@ -83,7 +83,7 @@ namespace CodeX.Muses.Web.Accounting.Report
                 HtmlTableCell tdTotalBalanceEND = e.Item.FindControl("tdTotalBalanceEND") as HtmlTableCell;
 
                 lstEntity = BusinessLayer.GetGLBalancePerPeriodList(AppSession.UserLogin.SiteID, period.Year, period.Month, true, 1, 5000);
-                foreach (GetGLBalancePerPeriod obj in lstEntity) obj.BalanceEND = obj.BalanceBEGIN + obj.BalanceDEBIT - obj.BalanceCREDIT;
+                
                 rptGLBalance.DataSource = lstEntity;
                 rptGLBalance.DataBind();
 
