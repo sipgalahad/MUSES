@@ -267,6 +267,10 @@ namespace CodeX.Data.Model
         {
             get { return _ProcurementDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
+        public String DepreciationStartDateInString 
+        {
+            get { return _DepreciationStartDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
     }
     #endregion
     #region vFAItemMovement
@@ -299,6 +303,14 @@ namespace CodeX.Data.Model
                 return (_GCItemDetailStatus == Constant.TransactionStatus.OPEN);
             }
         }
+
+        public String JournalDateInMonth
+        {
+            get 
+            {
+                return _JournalDate.ToString("MMMM yyyy");
+            }
+        }
     }
     #endregion
     #region vGLTransactionHd
@@ -308,6 +320,12 @@ namespace CodeX.Data.Model
         {
             get { return _JournalDate.ToString(Constant.FormatString.DATE_FORMAT); }
         }
+
+        public string JournalDateInMonth
+        {
+            get { return _JournalDate.ToString("MMMM yyyy"); }
+        }
+
         public Decimal Selisih
         {
             get { return _DebitAmount - _CreditAmount; }

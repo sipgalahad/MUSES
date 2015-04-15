@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvSubLedgerDtList" headertext="Laporan Master Subledger" filterexpression="IsDeleted = 0" papertype="A4_landscape" fontsize="8pt"/>
+  <fields>
+    <field fieldname="SubLedgerCode" headertext="Kode Group" width="8" />
+    <field fieldname="SubLedgerName" headertext="Nama Group" width="8" />
+    <field fieldname="SubLedgerDtCode" headertext="Kode Subledger" width="8" />
+    <field fieldname="SubLedgerDtName" headertext="Nama Subledger" width="8" />
+  </fields>
+</root>

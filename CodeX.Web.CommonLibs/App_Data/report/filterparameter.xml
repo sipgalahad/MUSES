@@ -13,6 +13,9 @@
     <!-- #Region DT001 - Movement Date Past Period -->
     <filterparameter code="DT001" name="Movement Date Past Period" caption="Tanggal" fieldname="MovementDate" />
     <!-- #Endregion -->
+    <!-- #Region DT002 - Journal Date Past Period -->
+    <filterparameter code="DT002" name="Journal Date Past Period" caption="Tanggal" fieldname="JournalDate" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 

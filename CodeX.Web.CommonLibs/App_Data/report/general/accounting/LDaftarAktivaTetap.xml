@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvFAItemList" headertext="Laporan Aktiva" filterexpression="IsDeleted = 0" papertype="A4_landscape" fontsize="8pt"/>
+  <fields>
+    <field fieldname="FixedAssetCode" headertext="Kode Aktiva" width="8" />
+    <field fieldname="FixedAssetName" headertext="Nama Aktiva" />
+    <field fieldname="FAGroupCode" headertext="Kode Buku" width="8" />
+    <field fieldname="MethodCode" headertext="Kode Metode" width="8" />
+    <field fieldname="ProcurementDateInString" headertext="Tgl. Beli" width="8" />
+    <field fieldname="DepreciationStartDateInString" headertext="Tgl. Hitung" width="8" />s
+    <field fieldname="ProcurementAmount" headertext="Jumlah Beli" width="8" fieldtype="currency" />
+    <field fieldname="DepreciationLength" headertext="Umur(thn)" width="8" />
+  </fields>
+</root>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvGLTransactionDtList" headertext="Laporan Journal" filterexpression="IsDeleted = 0" papertype="A4_landscape" fontsize="8pt"/>
+  <parameters>
+    <parameter code="DT002"/>
+  </parameters>
+  <groups>
+    <group fieldname="JournalDateInMonth" orderby="JournalDateInMonth" orderbytype="ASC" headertext="Bulan : [JournalDateInMonth]" isshowsubtotal="1" subtotaltext="Total Bulan : [JournalDateInMonth]" tdlocation="1"/>
+    <group fieldname="TransactionName" orderby="TransactionName" orderbytype="ASC" headertext="Tipe Jurnal : [TransactionName]" tdlocation="1"/>
+    <group fieldname="JournalNo" orderby="JournalNo" orderbytype="ASC" headertext="[LastUpdatedByUserName] [JournalDate] [LastUpdatedDate] [JournalNo]" tdlocation="1"/>
+  </groups>
+  <fields>
+    <field fieldname="GLAccountNo" headertext="Kd. Akun" width="8" />
+    <field fieldname="GLAccountName" headertext="Nama Akun" />
+    <field fieldname="DebitAmount" headertext="Debet" width="8" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="CreditAmount" headertext="Kredit" width="8" fieldtype="currency" isshowsubtotal="1" />
+  </fields>
+</root>

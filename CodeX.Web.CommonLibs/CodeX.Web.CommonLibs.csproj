@@ -76,6 +76,15 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\report\general\accounting\LJournal.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LDaftarAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LDaftarSubAkun.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\general\inventory\BPemesananBarangTanpaNilai.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -128,7 +137,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\report\general\accounting\LDaftarAkun.xml" />
+    <Content Include="App_Data\report\general\accounting\LDaftarAkun.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BSuratPenentuanPembayaran.xml" />
     <Content Include="App_Data\report\VID_RCI\studentmanagement\BRaporMidSemester.xml">
       <SubType>Designer</SubType>
