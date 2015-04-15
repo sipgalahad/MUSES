@@ -200,6 +200,7 @@
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.cs">
       <Link>SharedLibs\Controls\PopupPrintCtl.ascx.cs</Link>
       <DependentUpon>PopupPrintCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="..\CodeX.Web.CommonLibs\Controls\PopupPrintCtl.ascx.designer.cs">
       <Link>SharedLibs\Controls\PopupPrintCtl.ascx.designer.cs</Link>

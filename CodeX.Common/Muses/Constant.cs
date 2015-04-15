@@ -319,6 +319,7 @@ namespace CodeX.Common
                 public const string PRODUCT_BRAND = "CP010204";
                 public const string LOCATION = "CP010205";
                 public const string LOCATION_PERMISSION = "CP010206";
+                public const string LOCATION_ITEM = "CP010207";
 
                 public const string COVERAGE_TYPE = "CP010301";
                 public const string CUSTOMER = "CP010302";

@@ -338,7 +338,4 @@
             </td>
         </tr>
     </table>
-    <div style="width:100%;text-align:right">
-        <input type="button" value='<%= GetLabel("Close")%>' onclick="pcRightPanelContent.Hide();" />
-    </div>
 </div>
