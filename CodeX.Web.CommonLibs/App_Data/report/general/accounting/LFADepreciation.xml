@@ -7,7 +7,6 @@
   <fields>
     <field fieldname="FixedAssetCode" headertext="Kd. Aktiva" width="8" />
     <field fieldname="FixedAssetName" headertext="Nama Aktiva" />
-    <field fieldname="DepreciationDateInString" headertext="Tanggal" width="8" />
     <field fieldname="DepreciationAmount" headertext="Nilai Susut" width="8" fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="TotalDepreciationAmount" headertext="Akumulasi" width="8"  fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="AssetValue" headertext="Nilai Buku" width="8" fieldtype="currency" isshowsubtotal="1" />
