@@ -8,6 +8,9 @@
     <!-- #Region CT002 - Detail Only -->
     <filterparameter code="CT002" caption="" name="Constant Detail Only" fieldname="IsDetailOnly" defaultvalue="1" />
     <!-- #Endregion -->
+    <!-- #Region CT003 - Sub Ledger -->
+    <filterparameter code="CT003" caption="SubLedger" name="CT Sub Ledger" fieldname="SubLedger" defaultvalue="1" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -27,6 +30,9 @@
     <!-- #Region DT002 - Journal Date Past Period -->
     <filterparameter code="DT002" name="Journal Date Past Period" caption="Tanggal" fieldname="JournalDate" />
     <!-- #Endregion -->
+    <!-- #Region DT003 - Procurement Date Past Period -->
+    <filterparameter code="DT003" name="Procurement Date Past Period" caption="Tanggal" fieldname="ProcurementDate" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -43,6 +49,12 @@
     <!-- #Region CS001 - Journal Month -->
     <filterparameter code="CS001" name="Cbo Journal Month" caption="Bulan" fieldname="JournalMonth" listtext="Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember" listvalue="1|2|3|4|5|6|7|8|9|10|11|12" />
     <!-- #Endregion -->
+    <!-- #Region CS002 - Account Level -->
+    <filterparameter code="CS002" name="Cbo Account Level" caption="Level" fieldname="AccountLevel" listtext="1|2|3|4|5|6|7" listvalue="1|2|3|4|5|6|7" />
+    <!-- #Endregion -->
+    <!-- #Region CS003 - Journal Month 2-->
+    <filterparameter code="CS003" name="Cbo Journal Month 2" caption="Bulan Kedua" fieldname="JournalMonth2" listtext="Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember" listvalue="1|2|3|4|5|6|7|8|9|10|11|12" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -51,6 +63,9 @@
     <!-- #Region YR001 - Journal Year-->
     <filterparameter code="YR001" name="Cbo Journal Year" caption="Tahun" fieldname="JournalYear" yearminusnyear="10" yearplusnyear="0" />
     <!-- #Endregion -->
+    <!-- #Region YR002 - Journal Year 2-->
+    <filterparameter code="YR002" name="Cbo Journal Year 2" caption="Tahun Kedua" fieldname="JournalYear2" yearminusnyear="10" yearplusnyear="0" />
+    <!-- #Endregion -->
   </type>
   <!-- #Endregion -->
 
@@ -58,6 +73,9 @@
   <type type="X108^007">
     <!-- #Region SD001 - Item Balance -->
     <filterparameter code="SD001" name="SD Item Balance" caption="Item" fieldname="ItemID" sdtype="itembalance" sdmethodname="GetvItemBalanceList" sdfilterexpression="LocationID = [cboLocation] AND IsDeleted = 0" sdidfield="ItemID" sdcodefield="ItemCode" sdnamefield="ItemName1" />
+    <!-- #Endregion -->
+    <!-- #Region SD002 - Chart Of Account -->
+    <filterparameter code="SD002" name="SD Chart Of Account" caption="Account" fieldname="GLAccountID" sdtype="chartofaccount" sdmethodname="GetChartOfAccountList" sdfilterexpression="IsHeader = 0 AND IsDeleted = 0" sdidfield="GLAccountID" sdcodefield="GLAccountNo" sdnamefield="GLAccountName" />
     <!-- #Endregion -->
   </type>
   <!-- #Endregion -->

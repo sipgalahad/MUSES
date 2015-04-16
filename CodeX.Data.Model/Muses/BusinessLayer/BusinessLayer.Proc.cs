@@ -859,6 +859,38 @@ namespace CodeX.Data.Model
             return GetGLBalancePerGLAccountRowCount(GLAccountID, year, month, ctx);
         }
         #endregion
+        #region GetGLBalancePerLevelCompare
+        public static List<GetGLBalancePerLevelCompare> GetGLBalancePerLevelCompareList(string siteID, Int32 year, Int32 month, Int32 year2, Int32 month2, Boolean AccountLevel, IDbContext ctx)
+        {
+            List<GetGLBalancePerLevelCompare> result = new List<GetGLBalancePerLevelCompare>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetGLBalancePerLevelCompare));
+                ctx.CommandText = "GetGLBalancePerLevelCompare";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("SiteID", siteID);
+                ctx.Add("JournalYear", year);
+                ctx.Add("JournalMonth", month);
+                ctx.Add("JournalYear2", year2);
+                ctx.Add("JournalMonth2", month2);
+                ctx.Add("AccountLevel", AccountLevel);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetGLBalancePerLevelCompare)helper.IDataReaderToObject(reader, new GetGLBalancePerLevelCompare()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetGLBalancePerPeriod
         public static Int32 GetGLBalancePerPeriodRowCount(string siteID, Int32 year, Int32 month, Boolean IsDetailOnly, IDbContext ctx)
         {

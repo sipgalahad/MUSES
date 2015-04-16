@@ -822,6 +822,89 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalancePerLevelCompare
+    public class GetGLBalancePerLevelCompare
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _Position;
+        private Boolean _IsHeader;
+        private Int32 _Level;
+        private String _GLAccountType;
+        private Decimal _BalanceEND;
+        private Decimal _BalanceEND2;
+        private Decimal _cfBalanceEND;
+        private Decimal _cfBalanceEND2;
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "GLAccountType", DataType = "String")]
+        public String GLAccountType
+        {
+            get { return _GLAccountType; }
+            set { _GLAccountType = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "BalanceEND2", DataType = "Decimal")]
+        public Decimal BalanceEND2
+        {
+            get { return _BalanceEND2; }
+            set { _BalanceEND2 = value; }
+        }
+        [Column(Name = "cfBalanceEND", DataType = "Decimal")]
+        public Decimal cfBalanceEND
+        {
+            get { return _cfBalanceEND; }
+            set { _cfBalanceEND = value; }
+        }
+        [Column(Name = "cfBalanceEND2", DataType = "Decimal")]
+        public Decimal cfBalanceEND2
+        {
+            get { return _cfBalanceEND2; }
+            set { _cfBalanceEND2 = value; }
+        }
+    }
+    #endregion
     #region GetGLBalancePerPeriod
     public class GetGLBalancePerPeriod
     {

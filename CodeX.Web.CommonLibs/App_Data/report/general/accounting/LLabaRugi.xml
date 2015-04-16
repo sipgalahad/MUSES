@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetGLBalanceProfitLossPerPeriodPerLevel" headertext="Laporan  Laba / (Rugi)" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}" />
+  <parameters>
+    <parameter code="CT001" isrequired="1"/>
+    <parameter code="YR001" isrequired="1"/>
+    <parameter code="CS001" isrequired="1"/>
+    <parameter code="CS002" isrequired="1"/>
+  </parameters>
+  <fields>
+    <field fieldname="GLAccountNo" headertext="Kd. Akun" width="8" />
+    <field fieldname="GLAccountName" headertext="Nama Akun" />
+    <field fieldname="BalanceENDLastMonth" headertext="Bulan Lalu" width="8" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="ProfitLoss" headertext="Bulan ini" width="8" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="BalanceEND" headertext="s/d Bulan ini" width="8" fieldtype="currency" isshowsubtotal="1" />
+  </fields>
+</root>

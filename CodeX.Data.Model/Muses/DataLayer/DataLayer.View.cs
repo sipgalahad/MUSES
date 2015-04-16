@@ -4765,6 +4765,91 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vFADepreciation
+    [Serializable]
+    [Table(Name = "vFADepreciation")]
+    public partial class vFADepreciation
+    {
+        private Int32 _FADepreciationID;
+        private Int32 _FixedAssetID;
+        private String _FixedAssetCode;
+        private String _FixedAssetName;
+        private String _PeriodNo;
+        private DateTime _DepreciationDate;
+        private Decimal _ProcurementAmount;
+        private Decimal _AssetValue;
+        private Decimal _DepreciationAmount;
+        private Decimal _TotalDepreciationAmount;
+        private Int32 _GLJournalID;
+
+        [Column(Name = "FADepreciationID", DataType = "Int32")]
+        public Int32 FADepreciationID
+        {
+            get { return _FADepreciationID; }
+            set { _FADepreciationID = value; }
+        }
+        [Column(Name = "FixedAssetID", DataType = "Int32")]
+        public Int32 FixedAssetID
+        {
+            get { return _FixedAssetID; }
+            set { _FixedAssetID = value; }
+        }
+        [Column(Name = "FixedAssetCode", DataType = "String")]
+        public String FixedAssetCode
+        {
+            get { return _FixedAssetCode; }
+            set { _FixedAssetCode = value; }
+        }
+        [Column(Name = "FixedAssetName", DataType = "String")]
+        public String FixedAssetName
+        {
+            get { return _FixedAssetName; }
+            set { _FixedAssetName = value; }
+        }
+        [Column(Name = "PeriodNo", DataType = "String")]
+        public String PeriodNo
+        {
+            get { return _PeriodNo; }
+            set { _PeriodNo = value; }
+        }
+        [Column(Name = "DepreciationDate", DataType = "DateTime")]
+        public DateTime DepreciationDate
+        {
+            get { return _DepreciationDate; }
+            set { _DepreciationDate = value; }
+        }
+        [Column(Name = "ProcurementAmount", DataType = "Decimal")]
+        public Decimal ProcurementAmount
+        {
+            get { return _ProcurementAmount; }
+            set { _ProcurementAmount = value; }
+        }
+        [Column(Name = "AssetValue", DataType = "Decimal")]
+        public Decimal AssetValue
+        {
+            get { return _AssetValue; }
+            set { _AssetValue = value; }
+        }
+        [Column(Name = "DepreciationAmount", DataType = "Decimal")]
+        public Decimal DepreciationAmount
+        {
+            get { return _DepreciationAmount; }
+            set { _DepreciationAmount = value; }
+        }
+        [Column(Name = "TotalDepreciationAmount", DataType = "Decimal")]
+        public Decimal TotalDepreciationAmount
+        {
+            get { return _TotalDepreciationAmount; }
+            set { _TotalDepreciationAmount = value; }
+        }
+        [Column(Name = "GLJournalID", DataType = "Int32")]
+        public Int32 GLJournalID
+        {
+            get { return _GLJournalID; }
+            set { _GLJournalID = value; }
+        }
+    }
+    #endregion
     #region vFAGroup
     [Serializable]
     [Table(Name = "vFAGroup")]

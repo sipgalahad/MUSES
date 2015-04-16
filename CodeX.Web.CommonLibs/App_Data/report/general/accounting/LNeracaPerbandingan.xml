@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetGLBalancePerLevelCompare" headertext="Neraca" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total"/>
+  <parameters>
+    <parameter code="CT001" isrequired="1"/>
+    <parameter code="YR001" isrequired="1"/>
+    <parameter code="CS001" isrequired="1"/>
+    <parameter code="CS002" isrequired="1"/>
+    <parameter code="YR002" isrequired="1"/>
+    <parameter code="CS003" isrequired="1"/>
+  </parameters>
+  <groups>
+    <group fieldname="GLAccountType" orderby="GLAccountType" orderbytype="ASC" headertext="[GLAccountType]" isshowsubtotal="1" subtotaltext="Total : [GLAccountType]" />
+  </groups>
+  <fields>
+    <field headertext="Nama Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountName}</div>
+      ]]>
+    </field>
+    <field fieldname="BalanceEND" headertext="{CS001} {YR001}" width="13" fieldtype="currency" isshowsubtotal="1"/>
+    <field fieldname="BalanceEND2" headertext="{CS003} {YR002}" width="13" fieldtype="currency" isshowsubtotal="1"/>
+  </fields>
+</root>

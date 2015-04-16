@@ -137,6 +137,15 @@ namespace CodeX.Data.Model
         public Boolean IsMainTeacher { get { return _ParentID == 0; } }
     }
     #endregion
+    #region vFADepreciation
+    public partial class vFADepreciation
+    {
+        public String DepreciationDateInString
+        {
+            get { return _DepreciationDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vDirectPaymentDt
     public partial class vDirectPaymentDt
     {
