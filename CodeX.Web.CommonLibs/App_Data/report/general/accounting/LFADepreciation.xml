@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvFADepreciationList" headertext="Laporan Penyusutan Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Total" />
+  <table datasource="GetvFADepreciationList" headertext="Laporan Penyusutan Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Grand Total" />
   <groups>
     <group fieldname="DepreciationDateInString" orderby="DepreciationDate" orderbytype="ASC" headertext="Tanggal : [GroupName]" isshowsubtotal="1" subtotaltext="Total : [GroupName]" />
   </groups>

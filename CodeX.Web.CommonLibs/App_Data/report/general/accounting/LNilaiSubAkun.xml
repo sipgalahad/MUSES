@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetGLBalanceDtPerPeriod" headertext="Laporan Nilai Sub Akun - Rekap" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" subheadertext="Periode : {CS001} {YR001}"/>
+  <table datasource="GetGLBalanceDtPerPeriod" headertext="Laporan Nilai Sub Akun - Rekap" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total" subheadertext="Periode : {CS001} {YR001}"/>
   <parameters>
     <parameter code="SD002" isrequired="1"/>
     <parameter code="YR001" isrequired="1"/>
