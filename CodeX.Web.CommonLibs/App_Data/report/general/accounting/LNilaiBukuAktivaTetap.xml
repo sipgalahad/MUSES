@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetFixedAssetValue" headertext="Laporan Nilai Buku Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total" />
+  <table datasource="GetFixedAssetValue" headertext="Laporan Nilai Buku Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Total"  subheadertext="{DT004}" />
   <parameters>
     <parameter code="DT004" isrequired="1"/>
   </parameters>
@@ -10,10 +10,10 @@
   <fields>
     <field fieldname="FixedAssetCode" headertext="Kode Aktiva" width="8" />
     <field fieldname="FixedAssetName" headertext="Nama Aktiva" />
-    <field fieldname="DepreciationStartDateInString" headertext="Tgl Susut Awal" width="8" />
-    <field fieldname="DepreciationDateInString" headertext="Tgl Susut Akhir" width="8" />
-    <field fieldname="ProcurementDateInString" headertext="Tgl Perolehan" width="8" />
-    <field fieldname="umur" headertext="Umur (Bln)" width="8" />
+    <field fieldname="DepreciationStartDateInString" headertext="Tgl Susut Awal" width="8" fieldtype="date" />
+    <field fieldname="DepreciationDateInString" headertext="Tgl Susut Akhir" width="8" fieldtype="date"/>
+    <field fieldname="ProcurementDateInString" headertext="Tgl Perolehan" width="8" fieldtype="date" />
+    <field fieldname="umur" headertext="Umur (Bln)" width="8" fieldtype="number" />
     <field fieldname="TotalDepreciationAmount" headertext="Akumulasi" width="8" fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="WriteOffAmount" headertext="Nilai Hapus" width="8" fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="AssetValue" headertext="Nilai Buku(Rp)" width="8" fieldtype="currency" isshowsubtotal="1" />

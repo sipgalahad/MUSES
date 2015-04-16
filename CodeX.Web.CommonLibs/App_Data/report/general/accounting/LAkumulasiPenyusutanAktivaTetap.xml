@@ -8,8 +8,8 @@
     <group fieldname="FixedAssetCode" orderby="FixedAssetCode" orderbytype="ASC" headertext="Kode Aktiva : [GroupName]" isshowsubtotal="1" subtotaltext="Total : [GroupName]" />
   </groups>
   <fields>
-    <field fieldname="DepreciationDateInString" headertext="Tanggal" width="8" />
-    <field fieldname="AssetValue" headertext="Nilai Buku" />
+    <field fieldname="DepreciationDateInString" headertext="Tanggal" />
+    <field fieldname="AssetValue" headertext="Nilai Buku" fieldtype="currency" isshowsubtotal="1" width="8" />
     <field fieldname="DepreciationAmount" headertext="Nilai Susut" width="8" fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="TotalDepreciationAmount" headertext="Akumulasi" width="8"  fieldtype="currency" isshowsubtotal="1" />
   </fields>
