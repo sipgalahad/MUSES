@@ -1086,6 +1086,69 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalancePerPeriodPerLevel
+    public partial class GetGLBalancePerPeriodPerLevel
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _GLAccountType;
+        private String _Position;
+        private Decimal _BalanceEND;
+        private Int32 _Level;
+        private Boolean _IsHeader;
+
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "GLAccountType", DataType = "String")]
+        public String GLAccountType
+        {
+            get { return _GLAccountType; }
+            set { _GLAccountType = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+    }
+    #endregion
     #region GetGLBalanceProfitLossPerPeriodPerLevel
     public partial class GetGLBalanceProfitLossPerPeriodPerLevel
     {
