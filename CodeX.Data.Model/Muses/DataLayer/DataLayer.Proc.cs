@@ -11,6 +11,7 @@ using CodeX.Data.Core.Dal;
  ***************************************************************************/
 namespace CodeX.Data.Model
 {
+    
     #region GetAPSupplierInformation
     [Serializable]
     [Table(Name = "GetAPSupplierInformation")]
@@ -597,6 +598,110 @@ namespace CodeX.Data.Model
         {
             get { return _PaymentAmount; }
             set { _PaymentAmount = value; }
+        }
+    }
+    #endregion
+    #region GetFixedAssetValue
+    public partial class GetFixedAssetValue
+    {
+        private String _FixedAssetCode;
+        private String _FixedAssetName;
+        private String _FAGroupName;
+        private DateTime _ProcurementDate;
+        private DateTime _DepreciationStartDate;
+        private DateTime _DepreciationDate;
+        private Int32 _DepreciationLength;
+        private Decimal _WriteOffAmount;
+        private String _BusinessPartnerName;
+        private String _ContractNumber;
+        private Decimal _ProcurementAmount;
+        private Decimal _DepreciationAmount;
+        private Decimal _TotalDepreciationAmount;
+        private Decimal _AssetValue;
+
+        [Column(Name = "FixedAssetCode", DataType = "String")]
+        public String FixedAssetCode
+        {
+            get { return _FixedAssetCode; }
+            set { _FixedAssetCode = value; }
+        }
+        [Column(Name = "FixedAssetName", DataType = "String")]
+        public String FixedAssetName
+        {
+            get { return _FixedAssetName; }
+            set { _FixedAssetName = value; }
+        }
+        [Column(Name = "FAGroupName", DataType = "String")]
+        public String FAGroupName
+        {
+            get { return _FAGroupName; }
+            set { _FAGroupName = value; }
+        }
+        [Column(Name = "ProcurementDate", DataType = "DateTime")]
+        public DateTime ProcurementDate
+        {
+            get { return _ProcurementDate; }
+            set { _ProcurementDate = value; }
+        }
+        [Column(Name = "DepreciationStartDate", DataType = "DateTime")]
+        public DateTime DepreciationStartDate
+        {
+            get { return _DepreciationStartDate; }
+            set { _DepreciationStartDate = value; }
+        }
+        [Column(Name = "DepreciationDate", DataType = "DateTime")]
+        public DateTime DepreciationDate
+        {
+            get { return _DepreciationDate; }
+            set { _DepreciationDate = value; }
+        }
+        [Column(Name = "DepreciationLength", DataType = "Int32")]
+        public Int32 DepreciationLength
+        {
+            get { return _DepreciationLength; }
+            set { _DepreciationLength = value; }
+        }
+        [Column(Name = "WriteOffAmount", DataType = "Decimal")]
+        public Decimal WriteOffAmount
+        {
+            get { return _WriteOffAmount; }
+            set { _WriteOffAmount = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "ContractNumber", DataType = "String")]
+        public String ContractNumber
+        {
+            get { return _ContractNumber; }
+            set { _ContractNumber = value; }
+        }
+        [Column(Name = "ProcurementAmount", DataType = "Decimal")]
+        public Decimal ProcurementAmount
+        {
+            get { return _ProcurementAmount; }
+            set { _ProcurementAmount = value; }
+        }
+        [Column(Name = "DepreciationAmount", DataType = "Decimal")]
+        public Decimal DepreciationAmount
+        {
+            get { return _DepreciationAmount; }
+            set { _DepreciationAmount = value; }
+        }
+        [Column(Name = "TotalDepreciationAmount", DataType = "Decimal")]
+        public Decimal TotalDepreciationAmount
+        {
+            get { return _TotalDepreciationAmount; }
+            set { _TotalDepreciationAmount = value; }
+        }
+        [Column(Name = "AssetValue", DataType = "Decimal")]
+        public Decimal AssetValue
+        {
+            get { return _AssetValue; }
+            set { _AssetValue = value; }
         }
     }
     #endregion

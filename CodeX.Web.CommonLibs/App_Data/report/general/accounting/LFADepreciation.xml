@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvFADepreciationList" headertext="Laporan Perolehan Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Total" />
+  <table datasource="GetvFADepreciationList" headertext="Laporan Penyusutan Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Total" />
   <groups>
-    <group fieldname="DepreciationDateInString" orderby="DepreciationDateInString" orderbytype="ASC" headertext="Bulan : [DepreciationDateInString]" isshowsubtotal="1" subtotaltext="Total Bulan : [DepreciationDateInString]" />
+    <group fieldname="DepreciationDateInString" orderby="DepreciationDateInString" orderbytype="ASC" headertext="Bulan : [GroupName]" isshowsubtotal="1" subtotaltext="Total Bulan : [GroupName]" />
   </groups>
   <fields>
     <field fieldname="FixedAssetCode" headertext="Kd. Aktiva" width="8" />

@@ -80,6 +80,12 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\report\general\accounting\LNilaiBukuAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LAkumulasiPenyusutanAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\general\accounting\LFADepreciation.xml">
       <SubType>Designer</SubType>
     </Content>
