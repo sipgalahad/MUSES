@@ -1086,6 +1086,89 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalancePerPeriodForTBalance
+    public class GetGLBalancePerPeriodForTBalance 
+    {
+        private Int32 _RowID;
+        private Int32 _AktivaGLAccountID;
+        private String _AktivaGLAccountNo;
+        private String _AktivaGLAccountName;
+        private Int32 _AktivaAccountLevel;
+        private Decimal? _AktivaBalanceEND;
+        private Int32 _PasivaGLAccountID;
+        private String _PasivaGLAccountNo;
+        private String _PasivaGLAccountName;
+        private Int32 _PasivaAccountLevel;
+        private Decimal? _PasivaBalanceEND;
+
+        [Column(Name = "RowID", DataType = "Int32")]
+        public Int32 RowID
+        {
+            get { return _RowID; }
+            set { _RowID = value; }
+        }
+        [Column(Name = "AktivaGLAccountID", DataType = "Int32")]
+        public Int32 AktivaGLAccountID
+        {
+            get { return _AktivaGLAccountID; }
+            set { _AktivaGLAccountID = value; }
+        }
+        [Column(Name = "AktivaGLAccountNo", DataType = "String")]
+        public String AktivaGLAccountNo
+        {
+            get { return _AktivaGLAccountNo; }
+            set { _AktivaGLAccountNo = value; }
+        }
+        [Column(Name = "AktivaGLAccountName", DataType = "String")]
+        public String AktivaGLAccountName
+        {
+            get { return _AktivaGLAccountName; }
+            set { _AktivaGLAccountName = value; }
+        }
+        [Column(Name = "AktivaAccountLevel", DataType = "Int32")]
+        public Int32 AktivaAccountLevel
+        {
+            get { return _AktivaAccountLevel; }
+            set { _AktivaAccountLevel = value; }
+        }
+        [Column(Name = "AktivaBalanceEND", DataType = "Decimal", IsNullable = true)]
+        public Decimal? AktivaBalanceEND
+        {
+            get { return _AktivaBalanceEND; }
+            set { _AktivaBalanceEND = value; }
+        }
+        [Column(Name = "PasivaGLAccountID", DataType = "Int32")]
+        public Int32 PasivaGLAccountID
+        {
+            get { return _PasivaGLAccountID; }
+            set { _PasivaGLAccountID = value; }
+        }
+        [Column(Name = "PasivaGLAccountNo", DataType = "String")]
+        public String PasivaGLAccountNo
+        {
+            get { return _PasivaGLAccountNo; }
+            set { _PasivaGLAccountNo = value; }
+        }
+        [Column(Name = "PasivaGLAccountName", DataType = "String")]
+        public String PasivaGLAccountName
+        {
+            get { return _PasivaGLAccountName; }
+            set { _PasivaGLAccountName = value; }
+        }
+        [Column(Name = "PasivaAccountLevel", DataType = "Int32", IsNullable = true)]
+        public Int32 PasivaAccountLevel
+        {
+            get { return _PasivaAccountLevel; }
+            set { _PasivaAccountLevel = value; }
+        }
+        [Column(Name = "PasivaBalanceEND", DataType = "Decimal", IsNullable = true)]
+        public Decimal? PasivaBalanceEND
+        {
+            get { return _PasivaBalanceEND; }
+            set { _PasivaBalanceEND = value; }
+        }
+    }
+    #endregion
     #region GetGLBalancePerPeriodPerLevel
     public partial class GetGLBalancePerPeriodPerLevel
     {

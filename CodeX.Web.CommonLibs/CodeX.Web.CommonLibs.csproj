@@ -80,6 +80,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\report\general\accounting\LNeracaT.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\general\accounting\LNeraca.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -95,7 +98,9 @@
     <Content Include="App_Data\report\general\accounting\LPerolehanAktivaTetap.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\report\general\accounting\LNeracaPerbandingan.xml" />
+    <Content Include="App_Data\report\general\accounting\LNeracaPerbandingan.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\report\general\accounting\LLabaRugi.xml">
       <SubType>Designer</SubType>
     </Content>

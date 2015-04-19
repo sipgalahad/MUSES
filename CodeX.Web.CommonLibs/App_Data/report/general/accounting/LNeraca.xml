@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetGLBalancePerPeriodPerLevel" headertext="Laporan Neraca" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total" subheadertext="Periode : {CS001} {YR001}" />
+  <table datasource="GetGLBalancePerPeriodPerLevel" headertext="Laporan Neraca" papertype="A4_portrait" fontsize="8pt" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total" subheadertext="Periode : {CS001} {YR001}" />
   <parameters>
     <parameter code="CT001" isrequired="1"/>
     <parameter code="YR001" isrequired="1"/>
@@ -11,7 +11,16 @@
     <group fieldname="GLAccountType" orderby="GLAccountType" orderbytype="ASC" headertext="Tipe Akun : [GroupName]" isshowsubtotal="1" subtotaltext="Total : [GroupName]" />
   </groups>
   <fields>
-    <field fieldname="GLAccountName" headertext="Nama Akun" />
+    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px;">{GLAccountNo}</div>
+      ]]>
+    </field>
+    <field headertext="Nama Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountName}</div>
+      ]]>
+    </field>
     <field fieldname="BalanceEND" headertext="Jumlah" width="8" fieldtype="currency" isshowsubtotal="1" />
   </fields>
 </root>
