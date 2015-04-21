@@ -72,6 +72,9 @@ namespace CodeX.Web.CommonLibs.Program
         protected string fontFamily = "";
         protected string paperPortraitLandscape = "";
         protected string letterSpacingPrint = "";
+        protected string fontWeight = "";
+        protected string h1FontSize = "";
+        protected string pageMarginLeft = "";
 
         #region Generate Filter Expression
         string[] param = null;
@@ -358,9 +361,26 @@ namespace CodeX.Web.CommonLibs.Program
                                          IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false
                                      }).FirstOrDefault();
             if (tempReportSetting.IsUsingDotMatrix)
-                letterSpacingPrint = "4px";
+            {
+                if (AppConfigManager.CDXDotMatrixDPI == "120x144")
+                {
+                    letterSpacingPrint = "0px";
+                    pageMarginLeft = "5px";
+                }
+                else
+                {
+                    letterSpacingPrint = "4px";
+                    pageMarginLeft = "0px";
+                }
+                fontWeight = "normal";
+                h1FontSize = "14pt";
+            }
             else
+            {
                 letterSpacingPrint = "0";
+                fontWeight = "bold;";
+                h1FontSize = "12pt";
+            }
             fontSize = tempReportSetting.FontSize;
             fontFamily = tempReportSetting.FontFamily;
 

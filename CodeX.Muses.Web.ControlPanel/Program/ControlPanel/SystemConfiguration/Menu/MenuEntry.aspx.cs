@@ -73,6 +73,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(chkIsShowInPullDownMenu, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsVisible, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkIsBeginGroup, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(chkIsActive, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkRead, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkCreate, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(chkUpdate, new ControlEntrySetting(true, true, false));
@@ -104,6 +105,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             chkIsShowInPullDownMenu.Checked = entity.IsShowInPullDownMenu;
             chkIsVisible.Checked = entity.IsVisible;
             chkIsBeginGroup.Checked = entity.IsBeginGroup;
+            chkIsActive.Checked = entity.IsActive;
 
             CRUDMode = entity.CRUDMode;
             chkCreate.Checked = IsCanCreate;
@@ -138,6 +140,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.IsShowInPullDownMenu = chkIsShowInPullDownMenu.Checked;
             entity.IsVisible = chkIsVisible.Checked;
             entity.IsBeginGroup = chkIsBeginGroup.Checked;
+            entity.IsActive = chkIsActive.Checked;
 
             entity.CRUDMode = GetCRUDModeControl;
         }

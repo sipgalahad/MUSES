@@ -724,6 +724,7 @@ namespace CodeX.Data.Model
         private String _HelpLinkIDForList;
         private String _HelpLinkIDForEntry;
         private String _Remarks;
+        private Boolean _IsActive;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -836,6 +837,12 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "IsActive", DataType = "Boolean")]
+        public Boolean IsActive
+        {
+            get { return _IsActive; }
+            set { _IsActive = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
         public Int32? CreatedBy

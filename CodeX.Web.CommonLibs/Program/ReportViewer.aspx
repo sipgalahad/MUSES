@@ -44,6 +44,7 @@
                 var height = $(window).height() - $('#toolbarArea').height() - 20;
                 $('#pageArea').height(height);
 
+
                 $.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
                 $div = $('<div></div>');
                 var html = '<style type="text/css">' + $('#divStyleExcel').html() + '</style>';
@@ -218,17 +219,17 @@
             @media screen 
             {
                 #pageArea { width: 100%; overflow-y: scroll; }
-            }
-            .page {
-                width: <%=paperWidth %>mm;
-                height: <%=paperHeight%>mm;
-                padding: 0.2cm 0.7cm;
-                margin: 0 auto 0.5cm auto;
-                border: 1px #D3D3D3 solid;
-                border-radius: 5px;
-                background: white;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                position: relative;
+                .page {
+                    width: <%=paperWidth %>mm;
+                    height: <%=paperHeight%>mm;
+                    padding: 0.2cm 0.7cm;
+                    margin: 0 auto 0.5cm auto;
+                    border: 1px #D3D3D3 solid;
+                    border-radius: 5px;
+                    background: white;
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                }
             }
             #toolbarArea { background-color: #E0E0E0;  border: 1px #ADADAD solid; border-radius: 3px; width: 400px; position: relative; padding: 5px 5px; }
             #toolbarArea, #toolbarArea *  { font-family: Segoe UI; font-size: 9pt; }
@@ -252,43 +253,44 @@
                     background: initial;
                     page-break-after: always;
                     page-break-inside:avoid; 
-                    width: <%=paperPrintWidth %>mm;
-                    height: <%=paperPrintHeight %>mm;
+                    margin-left: <%=pageMarginLeft%>;
+                    width: auto;
+                    height: auto;
                 }
                 #toolbarArea        { display: none; }
-                .pageContent        { min-height:<%=paperPrintPageContent %> !important; margin: 0; }
                 *   { letter-spacing: <%=letterSpacingPrint %>; }
+                .pageContent        { height:<%=paperPrintPageContent %> !important; margin: 0; }
+                #pageArea           { max-height: <%=paperPrintPageContent %>; }
             }
             .tblReport .tdDetail, .tblHeader th { padding-right:0.1cm; padding-left:0.1cm;  }
             .tdDetail           { vertical-align: top; }
-            thead th            { font-weight: bold; }
+            thead th            { font-weight: <%=fontWeight%> }
             .tblHeader th            { border-bottom: 1px solid; }
             .tblHeader:nth-child(1) th            { border-top: 1px solid; }
             .tblBorder th:last-child            { border-right: 1px solid; }
             .tblBorder th            { border-left: 1px solid; border-collapse:collapse; }
             thead { display:table-row-group; }
-            .tdGroupName, .tdSubTotal, .tdGrandTotal        { font-weight: bold; }
+            .tdGroupName, .tdSubTotal, .tdGrandTotal        { font-weight: <%=fontWeight%>; }
             .tdGrandTotal, .tdSubTotal                 { text-align: right; }
             .tdSubTotalDetail           { border-top: 1px dotted; padding: 0.5mm 0; }
             .reportBody tr.trGroup0:not(:first-child) > td { padding-top: 20px; }
             .reportBody tr.trGroup0:not(:first-child) > td > tr.trGroup1:not(:first-child) > td { padding-top: 20px; }
             .pageFooter         { border-top: 1px solid; position: absolute; bottom: 0.5cm; left: 0.7cm; right: 0.7cm; font-size: 8pt; }
-            .pageContent        { height:<%=paperPageContent %>; overflow-y: hidden; white-space: nowrap; }
             .tdAutoNumber       { padding-right:4px !important; }
             .borderTop          { border-top: 1px dotted; }
             .tdSignature        { padding-top:1.7cm; }
     /*border-collapse: separate;    margin-top: 0.1em;    border-spacing: 0;*/
             .divContainerReportHeader *     { font-weight: normal; }
-            .divContainerReportHeader b     { font-weight: bold !important; }
+            .divContainerReportHeader b     { font-weight: <%=fontWeight%> !important; }
             .divContainerReportHeader       { margin-bottom: 0.5cm; }
             .divContainerReportFooter       { margin-top: 0.1cm; }
             
-            .tdReportTotal *                { font-weight: bold; font-size: 8pt; }
+            .tdReportTotal *                { font-weight: <%=fontWeight%>; font-size: 8pt; }
             
             .separator                      { color :#ADADAD; margin: 0 10px; }
-            h1 { font-weight: bold; font-size: 12pt; margin-bottom: 0.5cm }
-            h2 { font-weight: bold; font-size: 10pt; margin-bottom: 0.5cm; margin-top: -0.5cm; }
-            .tblReportParameterDt td:nth-child(1)          { width: 70px; font-weight: bold; }
+            h1 { font-weight: <%=fontWeight%>; font-size: <%=h1FontSize%>; margin-bottom: 0.5cm }
+            h2 { font-weight: <%=fontWeight%>; font-size: 10pt; margin-bottom: 0.5cm; margin-top: -0.5cm; }
+            .tblReportParameterDt td:nth-child(1)          { width: 70px; font-weight: <%=fontWeight%>; }
             .tblReportParameterDt td:nth-child(2)          { width: 10px; }
             
             .divCircle          { border-radius: 50%;width: 22px; height: 22px;background: #0099CC; padding: 3px 0 0 0px; }

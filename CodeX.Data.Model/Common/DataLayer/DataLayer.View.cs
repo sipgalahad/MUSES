@@ -392,8 +392,11 @@ namespace CodeX.Data.Model
         private String _CRUDMode;
         private String _ImageUrl;
         private Boolean _IsHeader;
+        private Boolean _IsVisible;
+        private Boolean _IsActive;
         private String _Remarks;
         private Int32 _Level;
+        private String _Path;
 
         [Column(Name = "MenuID", DataType = "Int32")]
         public Int32 MenuID
@@ -467,6 +470,18 @@ namespace CodeX.Data.Model
             get { return _IsHeader; }
             set { _IsHeader = value; }
         }
+        [Column(Name = "IsVisible", DataType = "Boolean")]
+        public Boolean IsVisible
+        {
+            get { return _IsVisible; }
+            set { _IsVisible = value; }
+        }
+        [Column(Name = "IsActive", DataType = "Boolean")]
+        public Boolean IsActive
+        {
+            get { return _IsActive; }
+            set { _IsActive = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -478,6 +493,12 @@ namespace CodeX.Data.Model
         {
             get { return _Level; }
             set { _Level = value; }
+        }
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
         }
     }
     #endregion

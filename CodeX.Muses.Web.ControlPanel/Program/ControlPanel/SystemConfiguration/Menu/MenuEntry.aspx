@@ -169,6 +169,7 @@
                     <tr><td><asp:CheckBox ID="chkIsShowInPullDownMenu" runat="server" /> <%=GetLabel("Show In Pull Down Menu")%></td></tr>
                     <tr><td><asp:CheckBox ID="chkIsVisible" runat="server" /> <%=GetLabel("Visible")%></td></tr>
                     <tr><td><asp:CheckBox ID="chkIsBeginGroup" runat="server" /> <%=GetLabel("Is Begin Group")%></td></tr>
+                    <tr><td><asp:CheckBox ID="chkIsActive" runat="server" /> <%=GetLabel("Active")%></td></tr>
                 </table>
             </td>
         </tr>
