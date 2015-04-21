@@ -220,17 +220,19 @@
             {
                 #pageArea { width: 100%; overflow-y: scroll; }
                 .page {
-                    width: <%=paperWidth %>mm;
-                    height: <%=paperHeight%>mm;
-                    padding: 0.2cm 0.7cm;
-                    margin: 0 auto 0.5cm auto;
                     border: 1px #D3D3D3 solid;
                     border-radius: 5px;
                     background: white;
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                    position: relative;
+                    padding: 0.2cm 0.7cm;
+                    margin: 0 auto 0.5cm auto;
+                    width: <%=paperWidth %>mm;
+                    height: <%=paperHeight%>mm;
                 }
+                .pageFooter         { border-top: 1px solid; position: absolute; bottom: 0.5cm; left: 0.7cm; right: 0.7cm; font-size: 8pt; }
             }
+            .page   { position: relative; }
+            .pageContent        { height:<%=paperPageContent %>; overflow-y: hidden; white-space: nowrap; }
             #toolbarArea { background-color: #E0E0E0;  border: 1px #ADADAD solid; border-radius: 3px; width: 400px; position: relative; padding: 5px 5px; }
             #toolbarArea, #toolbarArea *  { font-family: Segoe UI; font-size: 9pt; }
             p
@@ -248,15 +250,17 @@
                     border: initial;
                     border-radius: initial;
                     width: initial;
+                    padding: <%=pagePaperPadding %>;
                     min-height: initial;
                     box-shadow: initial;
+                    box-sizing: border-box;
                     background: initial;
                     page-break-after: always;
                     page-break-inside:avoid; 
-                    margin-left: <%=pageMarginLeft%>;
                     width: auto;
                     height: auto;
                 }
+                .pageFooter         { border-top: 1px solid; position: fixed; bottom: 0.5cm; left: 0.7cm; right: 0.7cm; font-size: 8pt; }
                 #toolbarArea        { display: none; }
                 *   { letter-spacing: <%=letterSpacingPrint %>; }
                 .pageContent        { height:<%=paperPrintPageContent %> !important; margin: 0; }
@@ -275,7 +279,6 @@
             .tdSubTotalDetail           { border-top: 1px dotted; padding: 0.5mm 0; }
             .reportBody tr.trGroup0:not(:first-child) > td { padding-top: 20px; }
             .reportBody tr.trGroup0:not(:first-child) > td > tr.trGroup1:not(:first-child) > td { padding-top: 20px; }
-            .pageFooter         { border-top: 1px solid; position: absolute; bottom: 0.5cm; left: 0.7cm; right: 0.7cm; font-size: 8pt; }
             .tdAutoNumber       { padding-right:4px !important; }
             .borderTop          { border-top: 1px dotted; }
             .tdSignature        { padding-top:1.7cm; }

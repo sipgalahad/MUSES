@@ -2,7 +2,7 @@
 <root>
   <papersize type="A4_landscape" size="A4" landscape="1" printwidth="297" printheight="209" width="297" height="219" pagecontent="202mm" printpagecontent="202mm"/>
   <!--<papersize type="A4_landscape" size="A4" landscape="1" printwidth="280" printheight="195" width="297" height="201" pagecontent="705px" printpagecontent="740px"/>-->
-  <papersize type="A4_portrait" size="A4" landscape="0" printwidth="210" printheight="297" width="210" height="280" pagecontent="260mm" printpagecontent="283mm"/>
+  <papersize type="A4_portrait" size="A4" landscape="0" printwidth="210" printheight="280" width="210" height="297" pagecontent="260mm" printpagecontent="260mm"/>
   <papersize type="A5_portrait" size="A5" landscape="0" printwidth="210" printheight="148" width="210" height="136" pagecontent="130mm" printpagecontent="141mm"/>
   <papersize type="card_landscape" size="A4" landscape="1" printwidth="83" printheight="53" width="83" height="53" pagecontent="45mm" printpagecontent="50mm"/>
 </root>

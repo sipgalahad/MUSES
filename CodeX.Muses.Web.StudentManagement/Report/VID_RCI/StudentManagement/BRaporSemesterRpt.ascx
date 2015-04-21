@@ -2,9 +2,6 @@
 
 <div id="divReportHeader" runat="server">
     <style type="text/css">
-        .page { padding: 0.2cm 0.7cm; }
-        *   { font-weight: 100; }
-         @media print { }
          .lblHeader {font-weight:bold;}
          h4         { margin-bottom: 0px; font-size: 1.1em }
     </style>

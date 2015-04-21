@@ -74,7 +74,7 @@ namespace CodeX.Web.CommonLibs.Program
         protected string letterSpacingPrint = "";
         protected string fontWeight = "";
         protected string h1FontSize = "";
-        protected string pageMarginLeft = "";
+        protected string pagePaperPadding = "";
 
         #region Generate Filter Expression
         string[] param = null;
@@ -365,13 +365,12 @@ namespace CodeX.Web.CommonLibs.Program
                 if (AppConfigManager.CDXDotMatrixDPI == "120x144")
                 {
                     letterSpacingPrint = "0px";
-                    pageMarginLeft = "5px";
                 }
                 else
                 {
                     letterSpacingPrint = "4px";
-                    pageMarginLeft = "0px";
                 }
+                pagePaperPadding = "0";
                 fontWeight = "normal";
                 h1FontSize = "14pt";
             }
@@ -380,6 +379,7 @@ namespace CodeX.Web.CommonLibs.Program
                 letterSpacingPrint = "0";
                 fontWeight = "bold;";
                 h1FontSize = "12pt";
+                pagePaperPadding = "0.2cm 0.7cm";
             }
             fontSize = tempReportSetting.FontSize;
             fontFamily = tempReportSetting.FontFamily;
