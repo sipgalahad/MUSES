@@ -72,6 +72,28 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetFixedAssetValue
+    public partial class GetFixedAssetValue
+    {
+        public String ProcurementDateInString
+        {
+            get { return _ProcurementDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public String DepreciationStartDateInString 
+        {
+            get { return _DepreciationStartDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public String DepreciationDateInString
+        {
+            get { return _DepreciationDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+        public Int32 Umur 
+        {
+            get { return _DepreciationLength * 12; }
+        }
+    }
+    #endregion
     #region GetGLBalanceDtPerSubLedger
     public partial class GetGLBalanceDtPerSubLedger
     {

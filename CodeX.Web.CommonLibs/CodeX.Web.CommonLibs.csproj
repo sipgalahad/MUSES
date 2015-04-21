@@ -80,6 +80,33 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\report\general\accounting\LNeracaT.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LNeraca.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LNilaiBukuAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LAkumulasiPenyusutanAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LFADepreciation.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LPerolehanAktivaTetap.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LNeracaPerbandingan.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LLabaRugi.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\report\general\accounting\LNilaiSubAkunDetil.xml" />
+    <Content Include="App_Data\report\general\accounting\LNilaiSubAkun.xml" />
+    <Content Include="App_Data\report\general\accounting\LNeracaPercobaanDetail.xml" />
     <Content Include="App_Data\report\general\accounting\LDaftarAktivaTetap.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetGLBalancePerPeriod" headertext="Laporan Neraca Percobaan - Rekap" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total" subheadertext="Periode : {CS001} {YR001}"/>
+  <table datasource="GetGLBalanceDtPerPeriod" headertext="Laporan Nilai Sub Akun - Rekap" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total" subheadertext="Periode : {CS001} {YR001}"/>
   <parameters>
-    <parameter code="CT001" isrequired="1"/>
+    <parameter code="SD002" isrequired="1"/>
     <parameter code="YR001" isrequired="1"/>
     <parameter code="CS001" isrequired="1"/>
-    <parameter code="CT002" isrequired="1"/>
   </parameters>
   <fields>
-    <field fieldname="GLAccountNo" headertext="No Perkiraan" width="8" />
-    <field fieldname="GLAccountName" headertext="Nama Perkiraan" />
+    <field fieldname="SubLedgerDtCode" headertext="No SubLedger" width="8" />
+    <field fieldname="SubLedgerDtName" headertext="Nama SubLedger" />
     <field fieldname="BalanceBEGIN" headertext="Saldo Awal" width="13" fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="BalanceDEBIT" headertext="Mutasi Kredit" width="13" fieldtype="currency" isshowsubtotal="1"/>
     <field fieldname="BalanceCREDIT" headertext="Mutasi Debit" width="13" fieldtype="currency" isshowsubtotal="1"/>

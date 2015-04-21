@@ -11,6 +11,7 @@ using CodeX.Data.Core.Dal;
  ***************************************************************************/
 namespace CodeX.Data.Model
 {
+    
     #region GetAPSupplierInformation
     [Serializable]
     [Table(Name = "GetAPSupplierInformation")]
@@ -600,6 +601,110 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetFixedAssetValue
+    public partial class GetFixedAssetValue
+    {
+        private String _FixedAssetCode;
+        private String _FixedAssetName;
+        private String _FAGroupName;
+        private DateTime _ProcurementDate;
+        private DateTime _DepreciationStartDate;
+        private DateTime _DepreciationDate;
+        private Int32 _DepreciationLength;
+        private Decimal _WriteOffAmount;
+        private String _BusinessPartnerName;
+        private String _ContractNumber;
+        private Decimal _ProcurementAmount;
+        private Decimal _DepreciationAmount;
+        private Decimal _TotalDepreciationAmount;
+        private Decimal _AssetValue;
+
+        [Column(Name = "FixedAssetCode", DataType = "String")]
+        public String FixedAssetCode
+        {
+            get { return _FixedAssetCode; }
+            set { _FixedAssetCode = value; }
+        }
+        [Column(Name = "FixedAssetName", DataType = "String")]
+        public String FixedAssetName
+        {
+            get { return _FixedAssetName; }
+            set { _FixedAssetName = value; }
+        }
+        [Column(Name = "FAGroupName", DataType = "String")]
+        public String FAGroupName
+        {
+            get { return _FAGroupName; }
+            set { _FAGroupName = value; }
+        }
+        [Column(Name = "ProcurementDate", DataType = "DateTime")]
+        public DateTime ProcurementDate
+        {
+            get { return _ProcurementDate; }
+            set { _ProcurementDate = value; }
+        }
+        [Column(Name = "DepreciationStartDate", DataType = "DateTime")]
+        public DateTime DepreciationStartDate
+        {
+            get { return _DepreciationStartDate; }
+            set { _DepreciationStartDate = value; }
+        }
+        [Column(Name = "DepreciationDate", DataType = "DateTime")]
+        public DateTime DepreciationDate
+        {
+            get { return _DepreciationDate; }
+            set { _DepreciationDate = value; }
+        }
+        [Column(Name = "DepreciationLength", DataType = "Int32")]
+        public Int32 DepreciationLength
+        {
+            get { return _DepreciationLength; }
+            set { _DepreciationLength = value; }
+        }
+        [Column(Name = "WriteOffAmount", DataType = "Decimal")]
+        public Decimal WriteOffAmount
+        {
+            get { return _WriteOffAmount; }
+            set { _WriteOffAmount = value; }
+        }
+        [Column(Name = "BusinessPartnerName", DataType = "String")]
+        public String BusinessPartnerName
+        {
+            get { return _BusinessPartnerName; }
+            set { _BusinessPartnerName = value; }
+        }
+        [Column(Name = "ContractNumber", DataType = "String")]
+        public String ContractNumber
+        {
+            get { return _ContractNumber; }
+            set { _ContractNumber = value; }
+        }
+        [Column(Name = "ProcurementAmount", DataType = "Decimal")]
+        public Decimal ProcurementAmount
+        {
+            get { return _ProcurementAmount; }
+            set { _ProcurementAmount = value; }
+        }
+        [Column(Name = "DepreciationAmount", DataType = "Decimal")]
+        public Decimal DepreciationAmount
+        {
+            get { return _DepreciationAmount; }
+            set { _DepreciationAmount = value; }
+        }
+        [Column(Name = "TotalDepreciationAmount", DataType = "Decimal")]
+        public Decimal TotalDepreciationAmount
+        {
+            get { return _TotalDepreciationAmount; }
+            set { _TotalDepreciationAmount = value; }
+        }
+        [Column(Name = "AssetValue", DataType = "Decimal")]
+        public Decimal AssetValue
+        {
+            get { return _AssetValue; }
+            set { _AssetValue = value; }
+        }
+    }
+    #endregion
     #region GetGLBalanceDtInformation
     public partial class GetGLBalanceDtInformation
     {
@@ -822,6 +927,89 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalancePerLevelCompare
+    public class GetGLBalancePerLevelCompare
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _Position;
+        private Boolean _IsHeader;
+        private Int32 _Level;
+        private String _GLAccountType;
+        private Decimal _BalanceEND;
+        private Decimal _BalanceEND2;
+        private Decimal _cfBalanceEND;
+        private Decimal _cfBalanceEND2;
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "GLAccountType", DataType = "String")]
+        public String GLAccountType
+        {
+            get { return _GLAccountType; }
+            set { _GLAccountType = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "BalanceEND2", DataType = "Decimal")]
+        public Decimal BalanceEND2
+        {
+            get { return _BalanceEND2; }
+            set { _BalanceEND2 = value; }
+        }
+        [Column(Name = "cfBalanceEND", DataType = "Decimal")]
+        public Decimal cfBalanceEND
+        {
+            get { return _cfBalanceEND; }
+            set { _cfBalanceEND = value; }
+        }
+        [Column(Name = "cfBalanceEND2", DataType = "Decimal")]
+        public Decimal cfBalanceEND2
+        {
+            get { return _cfBalanceEND2; }
+            set { _cfBalanceEND2 = value; }
+        }
+    }
+    #endregion
     #region GetGLBalancePerPeriod
     public class GetGLBalancePerPeriod
     {
@@ -877,6 +1065,152 @@ namespace CodeX.Data.Model
         {
             get { return _BalanceCREDIT; }
             set { _BalanceCREDIT = value; }
+        }
+        [Column(Name = "BalanceEND", DataType = "Decimal")]
+        public Decimal BalanceEND
+        {
+            get { return _BalanceEND; }
+            set { _BalanceEND = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+    }
+    #endregion
+    #region GetGLBalancePerPeriodForTBalance
+    public class GetGLBalancePerPeriodForTBalance 
+    {
+        private Int32 _RowID;
+        private Int32 _AktivaGLAccountID;
+        private String _AktivaGLAccountNo;
+        private String _AktivaGLAccountName;
+        private Int32 _AktivaAccountLevel;
+        private Decimal? _AktivaBalanceEND;
+        private Int32 _PasivaGLAccountID;
+        private String _PasivaGLAccountNo;
+        private String _PasivaGLAccountName;
+        private Int32 _PasivaAccountLevel;
+        private Decimal? _PasivaBalanceEND;
+
+        [Column(Name = "RowID", DataType = "Int32")]
+        public Int32 RowID
+        {
+            get { return _RowID; }
+            set { _RowID = value; }
+        }
+        [Column(Name = "AktivaGLAccountID", DataType = "Int32")]
+        public Int32 AktivaGLAccountID
+        {
+            get { return _AktivaGLAccountID; }
+            set { _AktivaGLAccountID = value; }
+        }
+        [Column(Name = "AktivaGLAccountNo", DataType = "String")]
+        public String AktivaGLAccountNo
+        {
+            get { return _AktivaGLAccountNo; }
+            set { _AktivaGLAccountNo = value; }
+        }
+        [Column(Name = "AktivaGLAccountName", DataType = "String")]
+        public String AktivaGLAccountName
+        {
+            get { return _AktivaGLAccountName; }
+            set { _AktivaGLAccountName = value; }
+        }
+        [Column(Name = "AktivaAccountLevel", DataType = "Int32")]
+        public Int32 AktivaAccountLevel
+        {
+            get { return _AktivaAccountLevel; }
+            set { _AktivaAccountLevel = value; }
+        }
+        [Column(Name = "AktivaBalanceEND", DataType = "Decimal", IsNullable = true)]
+        public Decimal? AktivaBalanceEND
+        {
+            get { return _AktivaBalanceEND; }
+            set { _AktivaBalanceEND = value; }
+        }
+        [Column(Name = "PasivaGLAccountID", DataType = "Int32")]
+        public Int32 PasivaGLAccountID
+        {
+            get { return _PasivaGLAccountID; }
+            set { _PasivaGLAccountID = value; }
+        }
+        [Column(Name = "PasivaGLAccountNo", DataType = "String")]
+        public String PasivaGLAccountNo
+        {
+            get { return _PasivaGLAccountNo; }
+            set { _PasivaGLAccountNo = value; }
+        }
+        [Column(Name = "PasivaGLAccountName", DataType = "String")]
+        public String PasivaGLAccountName
+        {
+            get { return _PasivaGLAccountName; }
+            set { _PasivaGLAccountName = value; }
+        }
+        [Column(Name = "PasivaAccountLevel", DataType = "Int32", IsNullable = true)]
+        public Int32 PasivaAccountLevel
+        {
+            get { return _PasivaAccountLevel; }
+            set { _PasivaAccountLevel = value; }
+        }
+        [Column(Name = "PasivaBalanceEND", DataType = "Decimal", IsNullable = true)]
+        public Decimal? PasivaBalanceEND
+        {
+            get { return _PasivaBalanceEND; }
+            set { _PasivaBalanceEND = value; }
+        }
+    }
+    #endregion
+    #region GetGLBalancePerPeriodPerLevel
+    public partial class GetGLBalancePerPeriodPerLevel
+    {
+        private Int32 _GLAccountID;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private String _GLAccountType;
+        private String _Position;
+        private Decimal _BalanceEND;
+        private Int32 _Level;
+        private Boolean _IsHeader;
+
+
+        [Column(Name = "GLAccountID", DataType = "Int32")]
+        public Int32 GLAccountID
+        {
+            get { return _GLAccountID; }
+            set { _GLAccountID = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "GLAccountType", DataType = "String")]
+        public String GLAccountType
+        {
+            get { return _GLAccountType; }
+            set { _GLAccountType = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
         }
         [Column(Name = "BalanceEND", DataType = "Decimal")]
         public Decimal BalanceEND

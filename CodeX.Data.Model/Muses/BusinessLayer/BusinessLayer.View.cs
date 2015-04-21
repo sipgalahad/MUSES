@@ -2049,6 +2049,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vFADepreciation
+        public static List<vFADepreciation> GetvFADepreciationList(string filterExpression)
+        {
+            List<vFADepreciation> result = new List<vFADepreciation>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vFADepreciation));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vFADepreciation)helper.IDataReaderToObject(reader, new vFADepreciation()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vFAGroup
         public static List<vFAGroup> GetvFAGroupList(string filterExpression)
         {

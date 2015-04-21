@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetGLBalancePerPeriodForTBalance" headertext="Laporan Neraca (bentuk T)" papertype="A4_landscape" fontsize="8pt" isdatasourcefromsp="1" totaltext="Grand Total" subheadertext="Periode : {CS001} {YR001}" />
+  <parameters>
+    <parameter code="CT001" isrequired="1"/>
+    <parameter code="YR001" isrequired="1"/>
+    <parameter code="CS001" isrequired="1"/>
+  </parameters>
+  <fields>
+    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{AktivaAccountLevel}0px;">{AktivaGLAccountNo}</div>
+      ]]>
+    </field>
+    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{AktivaAccountLevel}0px;">{AktivaGLAccountName}</div>
+      ]]>
+    </field>
+    <field fieldname="AktivaBalanceEND" headertext="Jumlah" width="8" fieldtype="currency" />
+    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{PasivaAccountLevel}0px;">{PasivaGLAccountNo}</div>
+      ]]>
+    </field>
+    <field headertext="Kode Perkiraan" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{PasivaAccountLevel}0px;">{PasivaGLAccountName}</div>
+      ]]>
+    </field>
+    <field fieldname="PasivaBalanceEND" headertext="Jumlah" width="8" fieldtype="currency" />
+  </fields>
+</root>

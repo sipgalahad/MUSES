@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvFAItemList" headertext="Laporan Perolehan Aktiva Tetap" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Grand Total" subheadertext="{DT003}" />
+  <parameters>
+    <parameter code="DT003" isrequired="1"/>
+  </parameters>
+  <fields>
+    <field fieldname="FixedAssetCode" headertext="Kd. Aktiva" width="8" />
+    <field fieldname="FixedAssetName" headertext="Nama Aktiva" />
+    <field fieldname="ProcurementDateInString" headertext="Tanggal. Beli" width="8" fieldtype="date" />
+    <field fieldname="ProcurementQuantity" headertext="Jumlah" width="8" fieldtype="number" />
+    <field fieldname="ProcurementUnit" headertext="Unit" width="8" fieldtype="number" />
+    <field fieldname="ProcurementAmount" headertext="Nilai" width="8" fieldtype="currency" isshowsubtotal="1" />
+  </fields>
+</root>
