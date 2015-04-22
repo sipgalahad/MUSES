@@ -416,5 +416,39 @@ namespace CodeX.Muses.Web.Accounting.Program
 
             return result;
         }
+
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            GLTransactionHdDao GLTransactionHdDao = new GLTransactionHdDao(ctx);
+            GLTransactionDtDao GlTransactionDtDao = new GLTransactionDtDao(ctx);
+
+            try
+            {
+                GLTransactionHd itemTransactionHd = GLTransactionHdDao.Get(Convert.ToInt32(hdnID.Value));
+                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                GLTransactionHdDao.Update(itemTransactionHd);
+
+                string filterExpression = String.Format("GLTransactionID = {0} AND GCItemDetailStatus != '{1}' ORDER BY DisplayOrder", hdnID.Value, Constant.TransactionStatus.VOID);
+                List<GLTransactionDt> lstGLTransactionDt = BusinessLayer.GetGLTransactionDtList(filterExpression, ctx);
+                foreach (GLTransactionDt GlTransactionDt in lstGLTransactionDt)
+                {
+                    GlTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
+                    GlTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    GlTransactionDtDao.Update(GlTransactionDt);
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                ctx.RollBackTransaction();
+                errMessage = ex.Message;
+                result = false;
+            }
+            return result;
+        }
     }
 }
