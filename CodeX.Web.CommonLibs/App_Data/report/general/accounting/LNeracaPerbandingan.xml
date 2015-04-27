@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetGLBalancePerLevelCompare" headertext="Neraca" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total"/>
+  <table datasource="GetGLBalancePerLevelCompare" headertext="Laporan Neraca Perbandingan" papertype="A4_landscape" isdatasourcefromsp="1" isshowtotal="1" totaltext="Grand Total"/>
   <parameters>
     <parameter code="CT001" isrequired="1"/>
     <parameter code="YR001" isrequired="1"/>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <table datasource="GetvGLTransactionDtList" headertext="Laporan Journal" filterexpression="IsDeleted = 0" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Grand Total" subheadertext="{DT002}"/>
+  <table datasource="GetvGLTransactionDtList" headertext="Laporan Journal" filterexpression="IsDeleted = 0 AND GCItemDetailStatus NOT IN ('X121^999','X121^001')" papertype="A4_landscape" fontsize="8pt" isshowtotal="1" totaltext="Grand Total" subheadertext="{DT002}"/>
   <parameters>
     <parameter code="DT002"/>
   </parameters>
