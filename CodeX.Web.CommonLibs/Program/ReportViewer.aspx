@@ -230,6 +230,7 @@
                     height: <%=paperHeight%>mm;
                 }
                 .pageFooter         { border-top: 1px solid; position: absolute; bottom: 0.5cm; left: 0.7cm; right: 0.7cm; font-size: 8pt; }
+                .divCustomFooter    { position: absolute; left: 0.7cm; right: 0.7cm; }
             }
             .page   { position: relative; }
             .pageContent        { height:<%=paperPageContent %>; overflow-y: hidden; white-space: nowrap; }
@@ -260,11 +261,12 @@
                     width: auto;
                     height: auto;
                 }
-                .pageFooter         { border-top: 1px solid; position: fixed; bottom: 0.5cm; left: 0.7cm; right: 0.7cm; font-size: 8pt; }
+                .pageFooter         { border-top: 1px solid; position: fixed; bottom: 0.5cm; left: <%=leftRightPosition%>; right: <%=leftRightPosition%>; font-size: 8pt; }
                 #toolbarArea        { display: none; }
                 *   { letter-spacing: <%=letterSpacingPrint %>; }
                 .pageContent        { height:<%=paperPrintPageContent %> !important; margin: 0; }
                 #pageArea           { max-height: <%=paperPrintPageContent %>; }
+                .divCustomFooter    { position: fixed; left: <%=leftRightPosition%>; right: <%=leftRightPosition%>; }
             }
             .tblReport .tdDetail, .tblHeader th { padding-right:0.1cm; padding-left:0.1cm;  }
             .tdDetail           { vertical-align: top; }
@@ -274,7 +276,7 @@
             .tblBorder th:last-child            { border-right: 1px solid; }
             .tblBorder th            { border-left: 1px solid; border-collapse:collapse; }
             thead { display:table-row-group; }
-            .tdGroupName, .tdSubTotal, .tdGrandTotal        { font-weight: <%=fontWeight%>; }
+            .tdGroupName, .tdSubTotal, .tdGrandTotal        { font-weight: bold; }
             .tdGrandTotal, .tdSubTotal                 { text-align: right; }
             .tdSubTotalDetail           { border-top: 1px dotted; padding: 0.5mm 0; }
             .reportBody tr.trGroup0:not(:first-child) > td { padding-top: 20px; }
