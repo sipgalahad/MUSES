@@ -11384,10 +11384,12 @@ namespace CodeX.Data.Model
     #region vJournalTemplateDt
     [Serializable]
     [Table(Name = "vJournalTemplateDt")]
-    public class vJournalTemplateDt
+    public partial class vJournalTemplateDt
     {
         private Int32 _ID;
         private Int32 _TemplateID;
+        private String _TemplateCode;
+        private String _TemplateName;
         private Int32 _GLAccountID;
         private String _GLAccountNo;
         private String _GLAccountName;
@@ -11417,6 +11419,18 @@ namespace CodeX.Data.Model
         {
             get { return _TemplateID; }
             set { _TemplateID = value; }
+        }
+        [Column(Name = "TemplateCode", DataType = "String")]
+        public String TemplateCode
+        {
+            get { return _TemplateCode; }
+            set { _TemplateCode = value; }
+        }
+        [Column(Name = "TemplateName", DataType = "String")]
+        public String TemplateName
+        {
+            get { return _TemplateName; }
+            set { _TemplateName = value; }
         }
         [Column(Name = "GLAccountID", DataType = "Int32")]
         public Int32 GLAccountID
