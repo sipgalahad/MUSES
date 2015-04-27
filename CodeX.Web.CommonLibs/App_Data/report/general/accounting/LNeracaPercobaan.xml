@@ -13,6 +13,6 @@
     <field fieldname="BalanceBEGIN" headertext="Saldo Awal" width="13" fieldtype="currency" isshowsubtotal="1" />
     <field fieldname="BalanceDEBIT" headertext="Mutasi Kredit" width="13" fieldtype="currency" isshowsubtotal="1"/>
     <field fieldname="BalanceCREDIT" headertext="Mutasi Debit" width="13" fieldtype="currency" isshowsubtotal="1"/>
-    <field fieldname="BalanceEND" headertext="Saldo Akhir" width="13" fieldtype="currency" isshowsubtotal="1"/>
+    <field fieldname="BalanceEND" headertext="Saldo Akhir" width="13" fieldtype="currency"/>
   </fields>
 </root>

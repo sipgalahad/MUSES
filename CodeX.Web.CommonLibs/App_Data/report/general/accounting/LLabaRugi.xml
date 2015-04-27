@@ -8,10 +8,18 @@
     <parameter code="CS002" isrequired="1"/>
   </parameters>
   <fields>
-    <field fieldname="GLAccountNo" headertext="Kd. Akun" width="8" />
-    <field fieldname="GLAccountName" headertext="Nama Akun" />
-    <field fieldname="BalanceENDLastMonth" headertext="Bulan Lalu" width="8" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="ProfitLoss" headertext="Bulan ini" width="8" fieldtype="currency" isshowsubtotal="1" />
-    <field fieldname="BalanceEND" headertext="s/d Bulan ini" width="8" fieldtype="currency" isshowsubtotal="1" />
+    <field headertext="Kd. Akun" width="12" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountNo}</div>
+      ]]>
+    </field>
+    <field headertext="Nama Akun" fieldtype="customfield" align="left">
+      <![CDATA[ 
+        <div style="margin-left:{Level}0px">{GLAccountName}</div>
+      ]]>
+    </field>
+    <field fieldname="BalanceENDLastMonth" headertext="Bulan Lalu" width="12" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="ProfitLoss" headertext="Bulan ini" width="12" fieldtype="currency" isshowsubtotal="1" />
+    <field fieldname="BalanceEND" headertext="s/d Bulan ini" width="12" fieldtype="currency" isshowsubtotal="1" />
   </fields>
 </root>

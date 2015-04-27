@@ -121,6 +121,12 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetGLBalancePerPeriodForTBalance
+    public partial class GetGLBalancePerPeriodForTBalance
+    {
+        public String AdditionalClassName { get; set; }
+    }
+    #endregion
     #region GetGLBalanceProfitLossPerPeriodPerLevel
     public partial class GetGLBalanceProfitLossPerPeriodPerLevel
     {

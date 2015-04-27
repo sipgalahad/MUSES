@@ -636,6 +636,36 @@ namespace CodeX.Data.Model
             return GetGLBalanceDtPerPeriodRowCount(GLAccountID, year, month, ctx);
         }
         #endregion
+        #region GetGLBalancePerPeriodForTBalance
+        public static List<GetGLBalancePerPeriodForTBalance> GetGLBalancePerPeriodForTBalance(String SiteID, Int32 year, Int32 month)
+        {
+            List<GetGLBalancePerPeriodForTBalance> result = new List<GetGLBalancePerPeriodForTBalance>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetGLBalancePerPeriodForTBalance));
+                ctx.CommandText = "GetGLBalancePerPeriodForTBalance";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("SiteID", SiteID);
+                ctx.Add("JournalYear", year);
+                ctx.Add("JournalMonth", month);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetGLBalancePerPeriodForTBalance)helper.IDataReaderToObject(reader, new GetGLBalancePerPeriodForTBalance()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetGLBalanceDtPerSubLedger
         public static List<GetGLBalanceDtPerSubLedger> GetGLBalanceDtPerSubLedgerList(Int32 GLAccountID, Int32 SubLedger, Int32 year, Int32 month, Int32 PageIndex, Int32 NumRows)
         {
