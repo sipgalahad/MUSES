@@ -3191,6 +3191,98 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumClassType
+    [Serializable]
+    [Table(Name = "vCurriculumClassType")]
+    public class vCurriculumClassType
+    {
+        private Int32 _CurriculumClassTypeID;
+        private String _CurriculumClassTypeCode;
+        private String _CurriculumClassTypeName;
+        private Int32 _CurriculumID;
+        private String _GCClassStudyType;
+        private String _GCGrade;
+        private String _Grade;
+        private Int32 _CurriculumMajorID;
+        private String _CurriculumMajorName;
+        private String _GCMajor;
+        private String _Major;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CurriculumClassTypeID", DataType = "Int32")]
+        public Int32 CurriculumClassTypeID
+        {
+            get { return _CurriculumClassTypeID; }
+            set { _CurriculumClassTypeID = value; }
+        }
+        [Column(Name = "CurriculumClassTypeCode", DataType = "String")]
+        public String CurriculumClassTypeCode
+        {
+            get { return _CurriculumClassTypeCode; }
+            set { _CurriculumClassTypeCode = value; }
+        }
+        [Column(Name = "CurriculumClassTypeName", DataType = "String")]
+        public String CurriculumClassTypeName
+        {
+            get { return _CurriculumClassTypeName; }
+            set { _CurriculumClassTypeName = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "Grade", DataType = "String")]
+        public String Grade
+        {
+            get { return _Grade; }
+            set { _Grade = value; }
+        }
+        [Column(Name = "CurriculumMajorID", DataType = "Int32")]
+        public Int32 CurriculumMajorID
+        {
+            get { return _CurriculumMajorID; }
+            set { _CurriculumMajorID = value; }
+        }
+        [Column(Name = "CurriculumMajorName", DataType = "String")]
+        public String CurriculumMajorName
+        {
+            get { return _CurriculumMajorName; }
+            set { _CurriculumMajorName = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "Major", DataType = "String")]
+        public String Major
+        {
+            get { return _Major; }
+            set { _Major = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vCurriculumMajor
     [Serializable]
     [Table(Name = "vCurriculumMajor")]
@@ -3232,6 +3324,70 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMajorName; }
             set { _CurriculumMajorName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vCurriculumMarkType
+    [Serializable]
+    [Table(Name = "vCurriculumMarkType")]
+    public class vCurriculumMarkType
+    {
+        private Int32 _CurriculumMarkTypeID;
+        private Int32 _CurriculumID;
+        private String _CurriculumMarkTypeName;
+        private String _GCTaskMarkType;
+        private String _TaskMarkType;
+        private String _GCFinalMarkType;
+        private String _FinalMarkType;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
+        public String CurriculumMarkTypeName
+        {
+            get { return _CurriculumMarkTypeName; }
+            set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "GCTaskMarkType", DataType = "String")]
+        public String GCTaskMarkType
+        {
+            get { return _GCTaskMarkType; }
+            set { _GCTaskMarkType = value; }
+        }
+        [Column(Name = "TaskMarkType", DataType = "String")]
+        public String TaskMarkType
+        {
+            get { return _TaskMarkType; }
+            set { _TaskMarkType = value; }
+        }
+        [Column(Name = "GCFinalMarkType", DataType = "String")]
+        public String GCFinalMarkType
+        {
+            get { return _GCFinalMarkType; }
+            set { _GCFinalMarkType = value; }
+        }
+        [Column(Name = "FinalMarkType", DataType = "String")]
+        public String FinalMarkType
+        {
+            get { return _FinalMarkType; }
+            set { _FinalMarkType = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

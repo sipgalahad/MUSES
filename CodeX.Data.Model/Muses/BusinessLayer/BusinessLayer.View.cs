@@ -1424,6 +1424,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumClassType
+        public static List<vCurriculumClassType> GetvCurriculumClassTypeList(string filterExpression)
+        {
+            List<vCurriculumClassType> result = new List<vCurriculumClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumClassType)helper.IDataReaderToObject(reader, new vCurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCurriculumMajor
         public static List<vCurriculumMajor> GetvCurriculumMajorList(string filterExpression)
         {
@@ -1436,6 +1460,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vCurriculumMajor)helper.IDataReaderToObject(reader, new vCurriculumMajor()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumMarkType
+        public static List<vCurriculumMarkType> GetvCurriculumMarkTypeList(string filterExpression)
+        {
+            List<vCurriculumMarkType> result = new List<vCurriculumMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumMarkType)helper.IDataReaderToObject(reader, new vCurriculumMarkType()));
             }
             catch (Exception ex)
             {
