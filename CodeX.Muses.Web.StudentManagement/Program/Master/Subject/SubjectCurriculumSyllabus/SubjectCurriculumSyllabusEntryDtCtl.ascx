@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectCurriculumEntryDtCtl.ascx.cs" 
-    Inherits="CodeX.Muses.Web.StudentManagement.Program.SubjectCurriculumEntryDtCtl" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SubjectCurriculumSyllabusEntryDtCtl.ascx.cs" 
+    Inherits="CodeX.Muses.Web.StudentManagement.Program.SubjectCurriculumSyllabusEntryDtCtl" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -30,7 +30,7 @@
             if (param[1] == 'fail')
                 showToast('Save Failed', 'Error Message : ' + param[2]);
             else {
-                onAfterSaveRecordSubjectCurriculumDt();
+                onAfterSaveRecordSubjectCurriculumSyllabus();
                 pcRightPanelContent.Hide();
             }
         }
@@ -38,8 +38,8 @@
             if (param[1] == 'fail')
                 showToast('Save Failed', 'Error Message : ' + param[2]);
             else {
-                onAfterSaveRecordSubjectCurriculumDt();
-                $('#<%=txtSubjectCurriculumDtName.ClientID %>').val('');
+                onAfterSaveRecordSubjectCurriculumSyllabus();
+                $('#<%=txtSubjectCurriculumSyllabusName.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
                 $('#<%=hdnIsAdd.ClientID %>').val('1');
                 $('#containerPopupEntryData').show();
@@ -50,8 +50,8 @@
 </script>
 <div>
     <input type="hidden" id="hdnSubjectCurriculumID" value="" runat="server" />
-    <input type="hidden" id="hdnCurriculumDtID" value="" runat="server" />
-    <input type="hidden" id="hdnSubjectCurriculumDtID" value="" runat="server" />
+    <input type="hidden" id="hdnCurriculumSyllabusID" value="" runat="server" />
+    <input type="hidden" id="hdnSubjectCurriculumSyllabusID" value="" runat="server" />
     <input type="hidden" id="hdnIsAdd" value="" runat="server" />
     <table class="tblContentArea">
         <colgroup>
@@ -72,7 +72,7 @@
                             </tr>
                             <tr>
                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                                <td><asp:TextBox ID="txtSubjectCurriculumDtName" runat="server" Width="300px" /></td>
+                                <td><asp:TextBox ID="txtSubjectCurriculumSyllabusName" runat="server" Width="300px" /></td>
                             </tr>
                             <tr>
                                 <td style="padding-top:5px; vertical-align: top" class="tdLabel"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>

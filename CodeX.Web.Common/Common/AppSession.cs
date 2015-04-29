@@ -129,6 +129,39 @@ namespace CodeX.Web.Common
             }
         }
         #endregion
+
+        #region CurriculumID
+        public static Int32 CurriculumID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_CurriculumID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_CurriculumID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_CurriculumID"]);
+                            HttpContext.Current.Session["_CurriculumID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_CurriculumID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_CurriculumID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_CurriculumID"] = value;
+            }
+        }
+        #endregion
         
         #region UserLogin
         public static UserLogin UserLogin

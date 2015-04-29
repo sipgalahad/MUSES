@@ -125,8 +125,8 @@
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanIndicatorInformationCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntryDtCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx" />
+    <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntryDtCtl.ascx" />
     <Content Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GradePromotionFormulaDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx" />
@@ -660,19 +660,19 @@
     <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx.designer.cs">
       <DependentUpon>SubjectMeetingPlanDtInformationCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx.cs">
-      <DependentUpon>SubjectCurriculumEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx.cs">
+      <DependentUpon>SubjectCurriculumSyllabusEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx.designer.cs">
-      <DependentUpon>SubjectCurriculumEntry.aspx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx.designer.cs">
+      <DependentUpon>SubjectCurriculumSyllabusEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntryDtCtl.ascx.cs">
-      <DependentUpon>SubjectCurriculumEntryDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntryDtCtl.ascx.cs">
+      <DependentUpon>SubjectCurriculumSyllabusEntryDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntryDtCtl.ascx.designer.cs">
-      <DependentUpon>SubjectCurriculumEntryDtCtl.ascx</DependentUpon>
+    <Compile Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntryDtCtl.ascx.designer.cs">
+      <DependentUpon>SubjectCurriculumSyllabusEntryDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx.cs">
       <DependentUpon>StudentMarkLedgerEntry.aspx</DependentUpon>

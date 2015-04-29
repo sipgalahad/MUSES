@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class SubjectCurriculumEntry {
+    public partial class SubjectCurriculumSyllabusEntry {
         
         /// <summary>
         /// hdnSubjectID control.
@@ -40,13 +40,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
         
         /// <summary>
-        /// tacSubjectCurriculumHd control.
+        /// tacSubjectCurriculum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculumHd;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculum;
         
         /// <summary>
         /// cboGCPeriodSection control.

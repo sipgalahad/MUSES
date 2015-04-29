@@ -754,7 +754,7 @@
   </searchdialog>
   <!-- #EndRegion -->
   <!-- #Region Subject Curriculum -->
-  <searchdialog type="subjectcurriculum" methodname="GetSubjectCurriculumHdList" keyfieldname="SubjectCurriculumID" orderbyexpression="SubjectCurriculumName ASC">
+  <searchdialog type="subjectcurriculum" methodname="GetSubjectCurriculumList" keyfieldname="SubjectCurriculumID" orderbyexpression="SubjectCurriculumName ASC">
     <gridcolumns>
       <gridcolumn datafield="SubjectCurriculumName" headertext="Nama" width="300px" />
     </gridcolumns>

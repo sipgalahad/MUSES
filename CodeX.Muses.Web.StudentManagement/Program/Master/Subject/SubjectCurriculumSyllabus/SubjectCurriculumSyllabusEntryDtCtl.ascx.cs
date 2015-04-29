@@ -13,32 +13,32 @@ using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class SubjectCurriculumEntryDtCtl : BaseViewPopupCtl
+    public partial class SubjectCurriculumSyllabusEntryDtCtl : BaseViewPopupCtl
     {
         public override void InitializeDataControl(string param)
         {
             string[] temp = param.Split('|');
 
             hdnSubjectCurriculumID.Value = temp[1];
-            hdnCurriculumDtID.Value = temp[2];
+            hdnCurriculumSyllabusID.Value = temp[2];
             if (temp[0] == "edit")
             {
-                hdnSubjectCurriculumDtID.Value = temp[3];
+                hdnSubjectCurriculumSyllabusID.Value = temp[3];
                 hdnIsAdd.Value = "0";
 
-                SubjectCurriculumDt entity = BusinessLayer.GetSubjectCurriculumDt(Convert.ToInt32(hdnSubjectCurriculumDtID.Value));
-                txtSubjectCurriculumDtName.Text = entity.SubjectCurriculumDtName;
+                SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnSubjectCurriculumSyllabusID.Value));
+                txtSubjectCurriculumSyllabusName.Text = entity.SubjectCurriculumSyllabusName;
                 txtRemarks.Text = entity.Remarks;
             }
             else
             {
-                hdnSubjectCurriculumDtID.Value = "0";
+                hdnSubjectCurriculumSyllabusID.Value = "0";
             }
 
-            CurriculumDt entityDt = BusinessLayer.GetCurriculumDt(Convert.ToInt32(hdnCurriculumDtID.Value));
-            txtType.Text = entityDt.CurriculumDtName;
+            CurriculumSyllabus entityDt = BusinessLayer.GetCurriculumSyllabus(Convert.ToInt32(hdnCurriculumSyllabusID.Value));
+            txtType.Text = entityDt.CurriculumSyllabusName;
 
-            Helper.SetControlEntrySetting(txtSubjectCurriculumDtName, new ControlEntrySetting(true, true, true), "mpEntryPopup");
+            Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusName, new ControlEntrySetting(true, true, true), "mpEntryPopup");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntryPopup");
         }
 
@@ -72,9 +72,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
 
         #region CRUD Process Method
-        private void ControlToEntity(SubjectCurriculumDt entity)
+        private void ControlToEntity(SubjectCurriculumSyllabus entity)
         {
-            entity.SubjectCurriculumDtName = txtSubjectCurriculumDtName.Text;
+            entity.SubjectCurriculumSyllabusName = txtSubjectCurriculumSyllabusName.Text;
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -82,13 +82,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            SubjectCurriculumDtDao entityDao = new SubjectCurriculumDtDao(ctx);
+            SubjectCurriculumSyllabusDao entityDao = new SubjectCurriculumSyllabusDao(ctx);
             try
             {
-                SubjectCurriculumDt entity = new SubjectCurriculumDt();
+                SubjectCurriculumSyllabus entity = new SubjectCurriculumSyllabus();
                 ControlToEntity(entity);
                 entity.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
-                entity.CurriculumDtID = Convert.ToInt32(hdnCurriculumDtID.Value);
+                entity.CurriculumSyllabusID = Convert.ToInt32(hdnCurriculumSyllabusID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 ctx.CommitTransaction();
@@ -111,10 +111,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                SubjectCurriculumDt entity = BusinessLayer.GetSubjectCurriculumDt(Convert.ToInt32(hdnSubjectCurriculumDtID.Value));
+                SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnSubjectCurriculumSyllabusID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectCurriculumDt(entity);
+                BusinessLayer.UpdateSubjectCurriculumSyllabus(entity);
                 return true;
             }
             catch (Exception ex)

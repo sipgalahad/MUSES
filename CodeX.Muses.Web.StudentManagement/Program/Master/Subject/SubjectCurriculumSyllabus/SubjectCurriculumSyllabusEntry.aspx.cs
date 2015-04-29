@@ -14,7 +14,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class SubjectCurriculumEntry : BasePageTrx
+    public partial class SubjectCurriculumSyllabusEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.MenuCode.StudentManagement.SB_SUBJECT_BASIC_COMPETENCY;
         }
 
-        protected string OnGetSubjectCurriculumHdFilterExpression()
+        protected string OnGetSubjectCurriculumFilterExpression()
         {
             return string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.SubjectID);
         }
@@ -38,13 +38,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             //if (AppSession.SubjectMatterID > 0)
             //{
-            //    SubjectCurriculumHd entityHd = BusinessLayer.GetSubjectCurriculumHd(AppSession.SubjectMatterID);
-            //    tacSubjectCurriculumHd.Value = entityHd.SubjectCurriculumID.ToString();
-            //    tacSubjectCurriculumHd.Text = entityHd.SubjectCurriculumName;
-            //    tacSubjectCurriculumHd.Readonly = true;
+            //    SubjectCurriculum entityHd = BusinessLayer.GetSubjectCurriculum(AppSession.SubjectMatterID);
+            //    tacSubjectCurriculum.Value = entityHd.SubjectCurriculumID.ToString();
+            //    tacSubjectCurriculum.Text = entityHd.SubjectCurriculumName;
+            //    tacSubjectCurriculum.Readonly = true;
             //}
 
-            Helper.SetControlEntrySetting(tacSubjectCurriculumHd, new ControlEntrySetting(true, true, true), "mpFilter");
+            Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, true), "mpFilter");
             Helper.SetControlEntrySetting(cboGCPeriodSection, new ControlEntrySetting(true, true, true), "mpFilter");
         }
 
@@ -76,10 +76,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                SubjectCurriculumDt entity = BusinessLayer.GetSubjectCurriculumDt(Convert.ToInt32(hdnEntryID.Value));
+                SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectCurriculumDt(entity);
+                BusinessLayer.UpdateSubjectCurriculumSyllabus(entity);
                 return true;
             }
             catch (Exception ex)
