@@ -133,6 +133,8 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeEntry.aspx" />
@@ -640,6 +642,20 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx.cs">
       <DependentUpon>CurriculumSubjectEntry.aspx</DependentUpon>

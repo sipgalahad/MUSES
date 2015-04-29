@@ -3283,6 +3283,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumFinalMarkFormulaDt
+    [Serializable]
+    [Table(Name = "vCurriculumFinalMarkFormulaDt")]
+    public class vCurriculumFinalMarkFormulaDt
+    {
+        private Int32 _CurriculumFinalMarkFormulaDtID;
+        private Int32 _CurriculumFinalMarkFormulaID;
+        private String _CurriculumFinalMarkFormulaDtName;
+        private Int16 _DisplayOrder;
+        private Decimal _FinalMarkPercentage;
+        private String _ListMarkTypeID;
+        private String _ListMarkTypeName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CurriculumFinalMarkFormulaDtID", DataType = "Int32")]
+        public Int32 CurriculumFinalMarkFormulaDtID
+        {
+            get { return _CurriculumFinalMarkFormulaDtID; }
+            set { _CurriculumFinalMarkFormulaDtID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 CurriculumFinalMarkFormulaID
+        {
+            get { return _CurriculumFinalMarkFormulaID; }
+            set { _CurriculumFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaDtName", DataType = "String")]
+        public String CurriculumFinalMarkFormulaDtName
+        {
+            get { return _CurriculumFinalMarkFormulaDtName; }
+            set { _CurriculumFinalMarkFormulaDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
+        public Decimal FinalMarkPercentage
+        {
+            get { return _FinalMarkPercentage; }
+            set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "ListMarkTypeID", DataType = "String")]
+        public String ListMarkTypeID
+        {
+            get { return _ListMarkTypeID; }
+            set { _ListMarkTypeID = value; }
+        }
+        [Column(Name = "ListMarkTypeName", DataType = "String")]
+        public String ListMarkTypeName
+        {
+            get { return _ListMarkTypeName; }
+            set { _ListMarkTypeName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vCurriculumMajor
     [Serializable]
     [Table(Name = "vCurriculumMajor")]

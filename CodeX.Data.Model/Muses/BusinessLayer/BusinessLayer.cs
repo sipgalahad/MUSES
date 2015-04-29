@@ -2746,6 +2746,159 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CurriculumFinalMarkFormulaDt
+        public static CurriculumFinalMarkFormulaDt GetCurriculumFinalMarkFormulaDt(Int32 CurriculumFinalMarkFormulaDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Get(CurriculumFinalMarkFormulaDtID);
+        }
+        public static int InsertCurriculumFinalMarkFormulaDt(CurriculumFinalMarkFormulaDt record)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Insert(record);
+        }
+        public static int UpdateCurriculumFinalMarkFormulaDt(CurriculumFinalMarkFormulaDt record)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Update(record);
+        }
+        public static int DeleteCurriculumFinalMarkFormulaDt(Int32 CurriculumFinalMarkFormulaDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Delete(CurriculumFinalMarkFormulaDtID);
+        }
+        public static List<CurriculumFinalMarkFormulaDt> GetCurriculumFinalMarkFormulaDtList(string filterExpression)
+        {
+            List<CurriculumFinalMarkFormulaDt> result = new List<CurriculumFinalMarkFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaDt)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCurriculumFinalMarkFormulaDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDt));
+                ctx.CommandText = helper.SelectMaxColumn("CurriculumFinalMarkFormulaDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumFinalMarkFormulaDtMarkType
+        public static CurriculumFinalMarkFormulaDtMarkType GetCurriculumFinalMarkFormulaDtMarkType(Int32 CurriculumFinalMarkFormulaDtID, Int32 CurriculumMarkTypeDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Get(CurriculumFinalMarkFormulaDtID, CurriculumMarkTypeDtID);
+        }
+        public static int InsertCurriculumFinalMarkFormulaDtMarkType(CurriculumFinalMarkFormulaDtMarkType record)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Insert(record);
+        }
+        public static int UpdateCurriculumFinalMarkFormulaDtMarkType(CurriculumFinalMarkFormulaDtMarkType record)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Update(record);
+        }
+        public static int DeleteCurriculumFinalMarkFormulaDtMarkType(Int32 CurriculumFinalMarkFormulaDtID, Int32 CurriculumMarkTypeDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Delete(CurriculumFinalMarkFormulaDtID, CurriculumMarkTypeDtID);
+        }
+        public static List<CurriculumFinalMarkFormulaDtMarkType> GetCurriculumFinalMarkFormulaDtMarkTypeList(string filterExpression)
+        {
+            List<CurriculumFinalMarkFormulaDtMarkType> result = new List<CurriculumFinalMarkFormulaDtMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDtMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaDtMarkType)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaDtMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CurriculumFinalMarkFormulaDtMarkType> GetCurriculumFinalMarkFormulaDtMarkTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<CurriculumFinalMarkFormulaDtMarkType> result = new List<CurriculumFinalMarkFormulaDtMarkType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDtMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaDtMarkType)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaDtMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumFinalMarkFormulaHd
+        public static CurriculumFinalMarkFormulaHd GetCurriculumFinalMarkFormulaHd(Int32 CurriculumFinalMarkFormulaID)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Get(CurriculumFinalMarkFormulaID);
+        }
+        public static int InsertCurriculumFinalMarkFormulaHd(CurriculumFinalMarkFormulaHd record)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Insert(record);
+        }
+        public static int UpdateCurriculumFinalMarkFormulaHd(CurriculumFinalMarkFormulaHd record)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Update(record);
+        }
+        public static int DeleteCurriculumFinalMarkFormulaHd(Int32 CurriculumFinalMarkFormulaID)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Delete(CurriculumFinalMarkFormulaID);
+        }
+        public static List<CurriculumFinalMarkFormulaHd> GetCurriculumFinalMarkFormulaHdList(string filterExpression)
+        {
+            List<CurriculumFinalMarkFormulaHd> result = new List<CurriculumFinalMarkFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaHd)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region CurriculumMajor
         public static CurriculumMajor GetCurriculumMajor(Int32 CurriculumMajorID)
         {
