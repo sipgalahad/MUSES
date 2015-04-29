@@ -1496,6 +1496,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumSubject
+        public static List<vCurriculumSubject> GetvCurriculumSubjectList(string filterExpression)
+        {
+            List<vCurriculumSubject> result = new List<vCurriculumSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSubject)helper.IDataReaderToObject(reader, new vCurriculumSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCustomer
         public static List<vCustomer> GetvCustomerList(string filterExpression)
         {

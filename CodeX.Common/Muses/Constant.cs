@@ -374,6 +374,7 @@ namespace CodeX.Common
                 public const string CR_CURRICULUM_FINAL_MARK_FORMULA = "CP99020202";
                 public const string CR_CURRICULUM_SYLLABUS = "CP99020301";
                 public const string CR_CURRICULUM_MEETING_PLAN = "CP99020302";
+                public const string CR_CURRICULUM_SUBJECT = "CP99020401";
             }
             #endregion
 

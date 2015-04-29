@@ -3397,6 +3397,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumSubject
+    [Serializable]
+    [Table(Name = "vCurriculumSubject")]
+    public class vCurriculumSubject
+    {
+        private Int32 _CurriculumSubjectID;
+        private Int32 _CurriculumID;
+        private Int32 _SubjectID;
+        private String _SubjectName;
+        private String _ListCurriculumClassTypeID;
+        private String _ListCurriculumClassTypeName;
+        private String _ListCurriculumMarkTypeID;
+        private String _ListCurriculumMarkTypeName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CurriculumSubjectID", DataType = "Int32")]
+        public Int32 CurriculumSubjectID
+        {
+            get { return _CurriculumSubjectID; }
+            set { _CurriculumSubjectID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "ListCurriculumClassTypeID", DataType = "String")]
+        public String ListCurriculumClassTypeID
+        {
+            get { return _ListCurriculumClassTypeID; }
+            set { _ListCurriculumClassTypeID = value; }
+        }
+        [Column(Name = "ListCurriculumClassTypeName", DataType = "String")]
+        public String ListCurriculumClassTypeName
+        {
+            get { return _ListCurriculumClassTypeName; }
+            set { _ListCurriculumClassTypeName = value; }
+        }
+        [Column(Name = "ListCurriculumMarkTypeID", DataType = "String")]
+        public String ListCurriculumMarkTypeID
+        {
+            get { return _ListCurriculumMarkTypeID; }
+            set { _ListCurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "ListCurriculumMarkTypeName", DataType = "String")]
+        public String ListCurriculumMarkTypeName
+        {
+            get { return _ListCurriculumMarkTypeName; }
+            set { _ListCurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vCustomer
     [Serializable]
     [Table(Name = "vCustomer")]
