@@ -12,6 +12,7 @@
     this.getFilterExpressionFunction = '';
     this.orderByExpression = '';
     this.isHover = false;
+    this.isChanged = false;
 
     this.onValueChanged = '';
     this.onBtnSearchClick = '';
@@ -44,6 +45,7 @@
                 else if (code == 37 || code == 39) { // left right
                 }
                 else {
+                    _self.isChanged = true;
                     if (_self.xhr && _self.xhr.readystate != 4) {
                         _self.xhr.abort();
                     }
@@ -96,7 +98,7 @@
                         $("#" + _self.clientID + " .divListAutoCompleteResultBox").hide();
                     }, 100);
                 }
-                else if (!_self.isHover) {
+                else if (!_self.isHover && _self.isChanged) {
                     if (_self.xhr && _self.xhr.readystate != 4) {
                         _self.xhr.abort();
                     }
@@ -107,6 +109,7 @@
                     $("#" + _self.clientID + " .divListAutoCompleteResultBox").hide();
                     $("#" + _self.clientID + " .txtAutoComplete").val($("#" + _self.clientID + " .hdnAutoCompleteText").val());
                 }
+                _self.isChanged = false;
                 //else {
                 //    $("#" + _self.clientID + " .divListAutoCompleteResult").empty();
                 //    $("#" + _self.clientID + " .divListAutoCompleteResultBox").hide();

@@ -2586,6 +2586,86 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CurriculumDt
+        public static CurriculumDt GetCurriculumDt(Int32 CurriculumDtID)
+        {
+            return new CurriculumDtDao().Get(CurriculumDtID);
+        }
+        public static int InsertCurriculumDt(CurriculumDt record)
+        {
+            return new CurriculumDtDao().Insert(record);
+        }
+        public static int UpdateCurriculumDt(CurriculumDt record)
+        {
+            return new CurriculumDtDao().Update(record);
+        }
+        public static int DeleteCurriculumDt(Int32 CurriculumDtID)
+        {
+            return new CurriculumDtDao().Delete(CurriculumDtID);
+        }
+        public static List<CurriculumDt> GetCurriculumDtList(string filterExpression)
+        {
+            List<CurriculumDt> result = new List<CurriculumDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumDt)helper.IDataReaderToObject(reader, new CurriculumDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumHd
+        public static CurriculumHd GetCurriculumHd(Int32 CurriculumID)
+        {
+            return new CurriculumHdDao().Get(CurriculumID);
+        }
+        public static int InsertCurriculumHd(CurriculumHd record)
+        {
+            return new CurriculumHdDao().Insert(record);
+        }
+        public static int UpdateCurriculumHd(CurriculumHd record)
+        {
+            return new CurriculumHdDao().Update(record);
+        }
+        public static int DeleteCurriculumHd(Int32 CurriculumID)
+        {
+            return new CurriculumHdDao().Delete(CurriculumID);
+        }
+        public static List<CurriculumHd> GetCurriculumHdList(string filterExpression)
+        {
+            List<CurriculumHd> result = new List<CurriculumHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumHd)helper.IDataReaderToObject(reader, new CurriculumHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Customer
         public static Customer GetCustomer(Int32 BusinessPartnerID)
         {
@@ -11968,6 +12048,86 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculumDt
+        public static SubjectCurriculumDt GetSubjectCurriculumDt(Int32 SubjectCurriculumDtID)
+        {
+            return new SubjectCurriculumDtDao().Get(SubjectCurriculumDtID);
+        }
+        public static int InsertSubjectCurriculumDt(SubjectCurriculumDt record)
+        {
+            return new SubjectCurriculumDtDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumDt(SubjectCurriculumDt record)
+        {
+            return new SubjectCurriculumDtDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumDt(Int32 SubjectCurriculumDtID)
+        {
+            return new SubjectCurriculumDtDao().Delete(SubjectCurriculumDtID);
+        }
+        public static List<SubjectCurriculumDt> GetSubjectCurriculumDtList(string filterExpression)
+        {
+            List<SubjectCurriculumDt> result = new List<SubjectCurriculumDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumDt)helper.IDataReaderToObject(reader, new SubjectCurriculumDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculumHd
+        public static SubjectCurriculumHd GetSubjectCurriculumHd(Int32 SubjectCurriculumID)
+        {
+            return new SubjectCurriculumHdDao().Get(SubjectCurriculumID);
+        }
+        public static int InsertSubjectCurriculumHd(SubjectCurriculumHd record)
+        {
+            return new SubjectCurriculumHdDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumHd(SubjectCurriculumHd record)
+        {
+            return new SubjectCurriculumHdDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumHd(Int32 SubjectCurriculumID)
+        {
+            return new SubjectCurriculumHdDao().Delete(SubjectCurriculumID);
+        }
+        public static List<SubjectCurriculumHd> GetSubjectCurriculumHdList(string filterExpression)
+        {
+            List<SubjectCurriculumHd> result = new List<SubjectCurriculumHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumHd)helper.IDataReaderToObject(reader, new SubjectCurriculumHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

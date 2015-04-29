@@ -21972,6 +21972,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSubjectCurriculumDt
+    [Serializable]
+    [Table(Name = "vSubjectCurriculumDt")]
+    public class vSubjectCurriculumDt
+    {
+        private Int32 _SubjectCurriculumDtID;
+        private Int32 _SubjectCurriculumID;
+        private Int32 _SubjectID;
+        private Int32 _CurriculumDtID;
+        private Boolean _IsHeader;
+        private String _SubjectCurriculumDtName;
+        private Int32 _ReferenceID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectCurriculumDtID", DataType = "Int32")]
+        public Int32 SubjectCurriculumDtID
+        {
+            get { return _SubjectCurriculumDtID; }
+            set { _SubjectCurriculumDtID = value; }
+        }
+        [Column(Name = "SubjectCurriculumID", DataType = "Int32")]
+        public Int32 SubjectCurriculumID
+        {
+            get { return _SubjectCurriculumID; }
+            set { _SubjectCurriculumID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "CurriculumDtID", DataType = "Int32")]
+        public Int32 CurriculumDtID
+        {
+            get { return _CurriculumDtID; }
+            set { _CurriculumDtID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "SubjectCurriculumDtName", DataType = "String")]
+        public String SubjectCurriculumDtName
+        {
+            get { return _SubjectCurriculumDtName; }
+            set { _SubjectCurriculumDtName = value; }
+        }
+        [Column(Name = "ReferenceID", DataType = "Int32")]
+        public Int32 ReferenceID
+        {
+            get { return _ReferenceID; }
+            set { _ReferenceID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vSubjectIndicator
     [Serializable]
     [Table(Name = "vSubjectIndicator")]

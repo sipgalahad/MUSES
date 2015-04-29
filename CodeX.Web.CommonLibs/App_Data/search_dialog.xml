@@ -753,6 +753,16 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Subject Curriculum -->
+  <searchdialog type="subjectcurriculum" methodname="GetSubjectCurriculumHdList" keyfieldname="SubjectCurriculumID" orderbyexpression="SubjectCurriculumName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SubjectCurriculumName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubjectCurriculumName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Subject Indicator -->
   <searchdialog type="subjectindicator" methodname="GetvSubjectIndicatorList" keyfieldname="SubjectIndicatorID" orderbyexpression="SubjectIndicatorName ASC">
     <gridcolumns>
