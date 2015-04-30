@@ -183,6 +183,7 @@
             }
         }
     </script>
+    <input type="hidden" id="hdnGCClassStudyType" value="" runat="server" />
     <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
     <input type="hidden" id="hdnLstMarkTypeID" value="" runat="server" />
     <div class="divTransactionEntry">
@@ -266,7 +267,7 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" />
-                                <asp:BoundField DataField="ListCurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="420px" />
+                                <asp:BoundField DataField="ListCurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="460px" />
                                 <asp:BoundField DataField="ListCurriculumMarkTypeName" HeaderText="Tipe Nilai" HeaderStyle-Width="250px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

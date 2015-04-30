@@ -18,18 +18,29 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override string OnGetMenuCode()
         {
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                return Constant.MenuCode.ControlPanel.CR_CURRICULUM_EXTRACURRICULAR;
             return Constant.MenuCode.ControlPanel.CR_CURRICULUM_SUBJECT;
         }
 
         protected string OnGetSubjectFilterExpression()
         {
-            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0)", Constant.ClassStudyType.REGULAR, AppSession.CurriculumID);
+            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0)", hdnGCClassStudyType.Value, AppSession.CurriculumID);
         }
 
         protected override void InitializeDataControl()
         {
+            if (Request.QueryString.Count > 0)
+            {
+                if (Page.Request.QueryString["id"] == "ex")
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+                else
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
+            }
+            else
+                hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
             Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
-            List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
+            List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value));
             rptClassType.DataSource = lstClassType;
             rptClassType.DataBind();
 
@@ -73,7 +84,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
+            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
             grdView.DataSource = BusinessLayer.GetvCurriculumSubjectList(filterExpression);
             grdView.DataBind();
         }

@@ -15797,7 +15797,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeID;
         private Int32 _SchoolPeriodID;
         private Int32? _PeriodSectionID;
-        private Int32 _ClassTypeID;
+        private Int32 _CurriculumClassTypeID;
         private Int32? _DailySchedulePackageID;
         private Int32? _TheoryFinalMarkFormulaID;
         private Int32? _PracticeFinalMarkFormulaID;
@@ -15827,11 +15827,11 @@ namespace CodeX.Data.Model
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
         }
-        [Column(Name = "ClassTypeID", DataType = "Int32")]
-        public Int32 ClassTypeID
+        [Column(Name = "CurriculumClassTypeID", DataType = "Int32")]
+        public Int32 CurriculumClassTypeID
         {
-            get { return _ClassTypeID; }
-            set { _ClassTypeID = value; }
+            get { return _CurriculumClassTypeID; }
+            set { _CurriculumClassTypeID = value; }
         }
         [Column(Name = "DailySchedulePackageID", DataType = "Int32", IsNullable = true)]
         public Int32? DailySchedulePackageID
@@ -22537,6 +22537,7 @@ namespace CodeX.Data.Model
         private String _SiteID;
         private DateTime _StartDate;
         private DateTime _EndDate;
+        private Int32 _CurriculumID;
         private Int32 _DailySchedulePackageID;
         private Int32 _ExamSchedulePackageID;
         private Int32 _TheoryFinalMarkFormulaID;
@@ -22586,6 +22587,12 @@ namespace CodeX.Data.Model
         {
             get { return _EndDate; }
             set { _EndDate = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
         }
         [Column(Name = "DailySchedulePackageID", DataType = "Int32")]
         public Int32 DailySchedulePackageID

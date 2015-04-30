@@ -18,10 +18,26 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override string OnGetMenuCode()
         {
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                return Constant.MenuCode.ControlPanel.CR_CURRICULUM_EXTRACURRICULAR_CLASS_TYPE;
             return Constant.MenuCode.ControlPanel.CR_CURRICULUM_CLASS_TYPE;
         }
         protected override void InitializeDataControl()
         {
+            if (Request.QueryString.Count > 0)
+            {
+                if (Page.Request.QueryString["id"] == "ex")
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+                else
+                    hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
+            }
+            else
+                hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            {
+                trGrade.Style.Add("display", "none");
+                trMajor.Style.Add("display", "none");
+            }
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
             List<CurriculumMajor> lstMajor = BusinessLayer.GetCurriculumMajorList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
             lstMajor.Insert(0, new CurriculumMajor { CurriculumMajorID = 0, CurriculumMajorName = "" });
@@ -43,7 +59,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
+            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
             grdView.DataSource = BusinessLayer.GetvCurriculumClassTypeList(filterExpression);
             grdView.DataBind();
         }
@@ -94,11 +110,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumClassTypeCode = txtCurriculumClassTypeCode.Text;
             entity.CurriculumClassTypeName = txtCurriculumClassTypeName.Text;
-            entity.GCGrade = cboGrade.Value.ToString();
-            if (cboMajor.Value == null || cboMajor.Value.ToString() == "0")
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            {
+                entity.GCGrade = null;
                 entity.CurriculumMajorID = null;
+            }
             else
-                entity.CurriculumMajorID = Convert.ToInt32(cboMajor.Value);
+            {
+                entity.GCGrade = cboGrade.Value.ToString();
+                if (cboMajor.Value == null || cboMajor.Value.ToString() == "0")
+                    entity.CurriculumMajorID = null;
+                else
+                    entity.CurriculumMajorID = Convert.ToInt32(cboMajor.Value);
+            }
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
@@ -110,7 +134,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 CurriculumClassType entity = new CurriculumClassType();
                 ControlToEntity(entity);
-                entity.GCClassStudyType = Constant.ClassStudyType.REGULAR;
+                entity.GCClassStudyType = hdnGCClassStudyType.Value;
                 entity.CurriculumID = AppSession.CurriculumID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);

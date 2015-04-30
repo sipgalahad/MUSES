@@ -40,6 +40,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void SetControlProperties()
         {
+            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
+            Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
+            cboCurriculum.SelectedIndex = 0;
+
             List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<DailySchedulePackage>(cboDailySchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboDailySchedulePackage.SelectedIndex = 0;
@@ -73,6 +77,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboCurriculum, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboDailySchedulePackage, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboExamSchedulePackage, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboTheoryFinalMarkFormula, new ControlEntrySetting(true, true, true));
@@ -89,6 +94,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             txtStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtEndDate.Text = entity.EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
+            cboCurriculum.Value = entity.CurriculumID.ToString();
             cboDailySchedulePackage.Value = entity.DailySchedulePackageID.ToString();
             cboExamSchedulePackage.Value = entity.ExamSchedulePackageID.ToString();
             cboTheoryFinalMarkFormula.Value = entity.TheoryFinalMarkFormulaID.ToString();
@@ -104,6 +110,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.SchoolPeriodName = txtSchoolPeriodName.Text;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
+            entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
             entity.DailySchedulePackageID = Convert.ToInt32(cboDailySchedulePackage.Value);
             entity.ExamSchedulePackageID = Convert.ToInt32(cboExamSchedulePackage.Value);
             entity.TheoryFinalMarkFormulaID = Convert.ToInt32(cboTheoryFinalMarkFormula.Value);

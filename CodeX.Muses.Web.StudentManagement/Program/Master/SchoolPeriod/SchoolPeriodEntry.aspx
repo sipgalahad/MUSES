@@ -100,6 +100,10 @@
                         <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kurikulum")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboCurriculum" ClientInstanceName="cboCurriculum" Width="300px" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jadwal")%></label></td>
                         <td><dxe:ASPxComboBox runat="server" ID="cboDailySchedulePackage" ClientInstanceName="cboDailySchedulePackage" Width="300px" /></td>
                         <td><input type="button" id="btnDailySchedulePackageDt" class="btnMore" value="..." /></td>

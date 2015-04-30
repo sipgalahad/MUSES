@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_MAJOR;
+            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_FINAL_MARK_FORMULA;
         }
         protected override void InitializeDataControl()
         {

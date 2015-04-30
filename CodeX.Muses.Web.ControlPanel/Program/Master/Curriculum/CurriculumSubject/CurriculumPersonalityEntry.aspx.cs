@@ -12,25 +12,27 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 
-namespace CodeX.Muses.Web.StudentManagement.Program
+namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class PeriodClassTypeExtracurricularEntry : BasePageTrx
+    public partial class CurriculumPersonalityEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.SP_SCHOOL_PERIOD_CLASS_TYPE_EXTRACURRICULAR;
+            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_PERSONALITY;
         }
+
+        protected string OnGetSubjectFilterExpression()
+        {
+            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0)", hdnGCClassStudyType.Value, AppSession.CurriculumID);
+        }
+
         protected override void InitializeDataControl()
         {
-            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
-            List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", entitySchoolPeriod.CurriculumID, Constant.ClassStudyType.EXTRACURRICULAR));
-            Methods.SetComboBoxField<CurriculumClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "CurriculumClassTypeID");
-            cboClassType.SelectedIndex = 0;
+            hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(cboClassType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(txtNoOfClass, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -41,9 +43,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.EXTRACURRICULAR);
-            List<vPeriodClassType> lstEntity = BusinessLayer.GetvPeriodClassTypeList(filterExpression);
-            grdView.DataSource = lstEntity;
+            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
+            grdView.DataSource = BusinessLayer.GetvCurriculumSubjectList(filterExpression);
             grdView.DataBind();
         }
 
@@ -89,58 +90,75 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(PeriodClassType entity)
+        private void ControlToEntity(CurriculumSubject entity)
         {
-            entity.CurriculumClassTypeID = Convert.ToInt32(cboClassType.Value);
-            entity.DailySchedulePackageID = null;
-            entity.NoOfClass = Convert.ToInt16(txtNoOfClass.Text);
+            entity.SubjectID = Convert.ToInt32(tacSubject.Value);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
             try
             {
-                PeriodClassType entity = new PeriodClassType();
+                CurriculumSubject entity = new CurriculumSubject();
                 ControlToEntity(entity);
-                entity.SchoolPeriodID = AppSession.SchoolPeriodID;
+                entity.CurriculumID = AppSession.CurriculumID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertPeriodClassType(entity);
-                return true;
+                entityDao.Insert(entity);
+                entity.CurriculumSubjectID = BusinessLayer.GetCurriculumSubjectMaxID(ctx);
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
             try
             {
-                PeriodClassType entity = BusinessLayer.GetPeriodClassType(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumSubject entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePeriodClassType(entity);
-                return true;
+                entityDao.Update(entity);
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnDeleteEntityDt(ref string errMessage)
         {
             try
             {
-                PeriodClassType entity = BusinessLayer.GetPeriodClassType(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumSubject entity = BusinessLayer.GetCurriculumSubject(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
-                entity.LastUpdatedDate = DateTime.Now;
-                BusinessLayer.UpdatePeriodClassType(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateCurriculumSubject(entity);
                 return true;
             }
             catch (Exception ex)

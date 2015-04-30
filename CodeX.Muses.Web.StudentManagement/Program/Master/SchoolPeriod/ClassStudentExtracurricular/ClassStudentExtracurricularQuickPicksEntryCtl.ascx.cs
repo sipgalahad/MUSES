@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSchoolClassID.Value = param;
 
             vSchoolClass entity = BusinessLayer.GetvSchoolClassList(string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value)).FirstOrDefault();
-            hdnClassTypeID.Value = entity.ClassTypeID.ToString();
+            hdnClassTypeID.Value = entity.CurriculumClassTypeID.ToString();
             BindGridView(1, true, ref PageCount);
         }
 

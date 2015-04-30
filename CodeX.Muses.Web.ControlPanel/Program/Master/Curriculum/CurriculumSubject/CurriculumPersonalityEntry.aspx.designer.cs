@@ -7,28 +7,37 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class PeriodClassTypePersonalityEntry {
+    public partial class CurriculumPersonalityEntry {
         
         /// <summary>
-        /// hdnCurriculumID control.
+        /// hdnGCClassStudyType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCClassStudyType;
         
         /// <summary>
-        /// cboClassType control.
+        /// hdnLstClassTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboClassType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstClassTypeID;
+        
+        /// <summary>
+        /// hdnLstMarkTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstMarkTypeID;
         
         /// <summary>
         /// hdnEntryID control.
@@ -74,24 +83,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
-        /// hdnClassTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassTypeID;
-        
-        /// <summary>
-        /// hdnClassRowCount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassRowCount;
         
         /// <summary>
         /// grdView control.

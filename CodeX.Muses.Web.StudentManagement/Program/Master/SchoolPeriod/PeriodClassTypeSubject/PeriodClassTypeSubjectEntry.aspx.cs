@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
-            Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "ClassTypeName", "PeriodClassTypeID");
+            Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
 
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_TYPE));
@@ -66,7 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 filterExpression = string.Format("SchoolPeriodID = {0} AND PeriodClassTypeID = {1} AND GCClassStudyType = '{2}' AND IsDeleted = 0", AppSession.SchoolPeriodID, cboClassType.Value, Constant.ClassStudyType.REGULAR);
                 vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", cboClassType.Value)).FirstOrDefault();
-                hdnClassTypeID.Value = entity.ClassTypeID.ToString();
+                hdnClassTypeID.Value = entity.CurriculumClassTypeID.ToString();
 
                 hdnClassRowCount.Value = BusinessLayer.GetSchoolClassRowCount(string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", cboClassType.Value)).ToString();
             }

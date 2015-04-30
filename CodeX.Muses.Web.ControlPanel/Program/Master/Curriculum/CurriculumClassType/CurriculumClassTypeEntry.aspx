@@ -78,6 +78,7 @@
             }
         }
     </script>
+    <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">

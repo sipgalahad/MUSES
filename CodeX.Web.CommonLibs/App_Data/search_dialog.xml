@@ -101,6 +101,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Curriculum Subject Class Type -->
+  <searchdialog type="curriculumsubjectclasstype" methodname="GetvCurriculumSubjectClassTypeList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SubjectCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="SubjectName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubjectName" headertext="Nama" description="" />
+      <intellisensetext datafield="SubjectCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Direct Purchase-->
   <searchdialog type="directpurchase" methodname="GetvDirectPurchaseHdList" keyfieldname="DirectPurchaseNo" orderbyexpression="DirectPurchaseID DESC">
     <gridcolumns>
@@ -720,18 +732,6 @@
   <!-- #EndRegion -->
   <!-- #Region Subject -->
   <searchdialog type="subject" methodname="GetSubjectList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
-    <gridcolumns>
-      <gridcolumn datafield="SubjectCode" headertext="Kode" width="50px" />
-      <gridcolumn datafield="SubjectName" headertext="Nama" width="300px" />
-    </gridcolumns>
-    <intellisensetexts>
-      <intellisensetext datafield="SubjectName" headertext="Nama" description="" />
-      <intellisensetext datafield="SubjectCode" headertext="Kode" description="" />
-    </intellisensetexts>
-  </searchdialog>
-  <!-- #EndRegion -->
-  <!-- #Region Subject Class Type -->
-  <searchdialog type="subjectclasstype" methodname="GetvSubjectClassTypeList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
     <gridcolumns>
       <gridcolumn datafield="SubjectCode" headertext="Kode" width="50px" />
       <gridcolumn datafield="SubjectName" headertext="Nama" width="300px" />

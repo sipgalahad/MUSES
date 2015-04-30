@@ -119,7 +119,7 @@
             var entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeID);
-            cboClassType.SetValue(entity.ClassTypeID);
+            cboClassType.SetValue(entity.CurriculumClassTypeID);
             cboDailySchedulePackage.SetValue(entity.DailySchedulePackageID);
 
             if (entity.IsAllowEditItem == 'True') {
@@ -275,9 +275,9 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ClassTypeName" HeaderText="Tipe Kelas"/>
+                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas"/>
                                 <asp:BoundField DataField="Grade" HeaderText="Tingkat" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="Major" HeaderText="Jurusan" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="CurriculumMajorName" HeaderText="Jurusan" HeaderStyle-Width="150px" />
                                 <asp:TemplateField HeaderText="Tipe Jadwal" HeaderStyle-Width="300px">
                                     <ItemTemplate>
                                         <a class="lnkSchedule"><%#Eval("DailySchedulePackageName")%></a>
@@ -289,7 +289,7 @@
                                         <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeID") %>" bindingfield="PeriodClassTypeID" />
-                                        <input type="hidden" value="<%#Eval("ClassTypeID") %>" bindingfield="ClassTypeID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumClassTypeID") %>" bindingfield="CurriculumClassTypeID" />
                                         <input type="hidden" value="<%#Eval("DailySchedulePackageID") %>" bindingfield="DailySchedulePackageID" />
                                         <input type="hidden" value="<%#Eval("TheoryFinalMarkFormulaID") %>" bindingfield="TheoryFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("PracticeFinalMarkFormulaID") %>" bindingfield="PracticeFinalMarkFormulaID" />

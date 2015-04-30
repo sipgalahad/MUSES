@@ -135,6 +135,7 @@
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeEntry.aspx" />
@@ -656,6 +657,13 @@
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx.designer.cs">
       <DependentUpon>CurriculumFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx.cs">
+      <DependentUpon>CurriculumPersonalityEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumPersonalityEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx.cs">
       <DependentUpon>CurriculumSubjectEntry.aspx</DependentUpon>
