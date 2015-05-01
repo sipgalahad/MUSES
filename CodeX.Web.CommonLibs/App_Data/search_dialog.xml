@@ -101,6 +101,16 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Curriculum Mark Type Dt -->
+  <searchdialog type="curriculummarktypedt" methodname="GetCurriculumMarkTypeDtList" keyfieldname="CurriculumMarkTypeDtID" orderbyexpression="CurriculumMarkTypeDtName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="CurriculumMarkTypeDtName" headertext="Tipe Nilai" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="CurriculumMarkTypeDtName" headertext="Tipe Nilai" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Curriculum Subject Class Type -->
   <searchdialog type="curriculumsubjectclasstype" methodname="GetvCurriculumSubjectClassTypeList" keyfieldname="SubjectCode" orderbyexpression="SubjectName ASC">
     <gridcolumns>
@@ -110,6 +120,16 @@
     <intellisensetexts>
       <intellisensetext datafield="SubjectName" headertext="Nama" description="" />
       <intellisensetext datafield="SubjectCode" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Curriculum Syllabus -->
+  <searchdialog type="curriculumsyllabus" methodname="GetCurriculumSyllabusList" keyfieldname="CurriculumSyllabusID" orderbyexpression="CurriculumSyllabusName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="CurriculumSyllabusName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="CurriculumSyllabusName" headertext="Nama" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

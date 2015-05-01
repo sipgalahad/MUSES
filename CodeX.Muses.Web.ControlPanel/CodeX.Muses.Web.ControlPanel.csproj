@@ -133,6 +133,8 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSubjectGroup\CurriculumSubjectGroupEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx" />
@@ -643,6 +645,20 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx.cs">
+      <DependentUpon>CurriculumSyllabusEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumSyllabusEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubjectGroup\CurriculumSubjectGroupEntry.aspx.cs">
+      <DependentUpon>CurriculumSubjectGroupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubjectGroup\CurriculumSubjectGroupEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumSubjectGroupEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx.cs">
       <DependentUpon>CurriculumFinalMarkFormulaEntry.aspx</DependentUpon>

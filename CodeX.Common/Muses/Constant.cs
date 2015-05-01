@@ -71,6 +71,7 @@ namespace CodeX.Common
             public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
             public const string SUBJECT_TYPE = "MS031";
             public const string ABSENCE_REASON = "MS032";
+            public const string CURRICULUM_SYLLABUS_TYPE = "MS033";
         }
 
         public static class StudentStatus
@@ -375,9 +376,10 @@ namespace CodeX.Common
                 public const string CR_CURRICULUM_FINAL_MARK_FORMULA = "CP99020202";
                 public const string CR_CURRICULUM_SYLLABUS = "CP99020301";
                 public const string CR_CURRICULUM_MEETING_PLAN = "CP99020302";
-                public const string CR_CURRICULUM_SUBJECT = "CP99020401";
-                public const string CR_CURRICULUM_EXTRACURRICULAR = "CP99020402";
-                public const string CR_CURRICULUM_PERSONALITY = "CP99020403";
+                public const string CR_CURRICULUM_SUBJECT_GROUP = "CP99020401";
+                public const string CR_CURRICULUM_SUBJECT = "CP99020402";
+                public const string CR_CURRICULUM_EXTRACURRICULAR = "CP99020403";
+                public const string CR_CURRICULUM_PERSONALITY = "CP99020404";
             }
             #endregion
 

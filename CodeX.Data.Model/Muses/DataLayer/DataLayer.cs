@@ -3697,6 +3697,8 @@ namespace CodeX.Data.Model
         private String _ClassTaskCode;
         private String _GCTaskType;
         private String _GCLessonType;
+        private Int32 _CurriculumMarkTypeID;
+        private Int32 _CurriculumMarkTypeDtID;
         private Int16 _FinalMarkPercentage;
         private DateTime _TaskDate;
         private DateTime _StartDate;
@@ -3746,6 +3748,18 @@ namespace CodeX.Data.Model
         {
             get { return _GCLessonType; }
             set { _GCLessonType = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeDtID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeDtID
+        {
+            get { return _CurriculumMarkTypeDtID; }
+            set { _CurriculumMarkTypeDtID = value; }
         }
         [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
         public Int16 FinalMarkPercentage
@@ -6104,6 +6118,126 @@ namespace CodeX.Data.Model
                 record = new CurriculumSubjectClassTypeDao().Get(CurriculumSubjectID, CurriculumClassTypeID);
             else
                 record = Get(CurriculumSubjectID, CurriculumClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region CurriculumSubjectGroup
+    [Serializable]
+    [Table(Name = "CurriculumSubjectGroup")]
+    public class CurriculumSubjectGroup : DbDataModel
+    {
+        private Int32 _CurriculumSubjectGroupID;
+        private Int32 _CurriculumID;
+        private String _CurriculumSubjectGroupCode;
+        private String _CurriculumSubjectGroupName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupCode", DataType = "String")]
+        public String CurriculumSubjectGroupCode
+        {
+            get { return _CurriculumSubjectGroupCode; }
+            set { _CurriculumSubjectGroupCode = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
+        {
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class CurriculumSubjectGroupDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CurriculumSubjectGroup));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumSubjectGroupID = "@p_CurriculumSubjectGroupID";
+        public CurriculumSubjectGroupDao() { }
+        public CurriculumSubjectGroupDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CurriculumSubjectGroup Get(Int32 CurriculumSubjectGroupID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumSubjectGroupID, CurriculumSubjectGroupID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CurriculumSubjectGroup)_helper.DataRowToObject(row, new CurriculumSubjectGroup());
+        }
+        public int Insert(CurriculumSubjectGroup record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CurriculumSubjectGroup record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CurriculumSubjectGroupID)
+        {
+            CurriculumSubjectGroup record;
+            if (_ctx.Transaction == null)
+                record = new CurriculumSubjectGroupDao().Get(CurriculumSubjectGroupID);
+            else
+                record = Get(CurriculumSubjectGroupID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

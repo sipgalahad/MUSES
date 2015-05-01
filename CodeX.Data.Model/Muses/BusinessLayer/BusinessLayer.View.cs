@@ -1568,6 +1568,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumSyllabus
+        public static List<vCurriculumSyllabus> GetvCurriculumSyllabusList(string filterExpression)
+        {
+            List<vCurriculumSyllabus> result = new List<vCurriculumSyllabus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSyllabus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSyllabus)helper.IDataReaderToObject(reader, new vCurriculumSyllabus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCustomer
         public static List<vCustomer> GetvCustomerList(string filterExpression)
         {

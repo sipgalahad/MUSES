@@ -94,13 +94,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboLessonType;
         
         /// <summary>
-        /// cboTaskType control.
+        /// hdnTaskTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTaskType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTaskTypeID;
+        
+        /// <summary>
+        /// tacTaskType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTaskType;
         
         /// <summary>
         /// txtFinalMarkPercentage control.

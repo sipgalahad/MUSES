@@ -3132,6 +3132,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CurriculumSubjectGroup
+        public static CurriculumSubjectGroup GetCurriculumSubjectGroup(Int32 CurriculumSubjectGroupID)
+        {
+            return new CurriculumSubjectGroupDao().Get(CurriculumSubjectGroupID);
+        }
+        public static int InsertCurriculumSubjectGroup(CurriculumSubjectGroup record)
+        {
+            return new CurriculumSubjectGroupDao().Insert(record);
+        }
+        public static int UpdateCurriculumSubjectGroup(CurriculumSubjectGroup record)
+        {
+            return new CurriculumSubjectGroupDao().Update(record);
+        }
+        public static int DeleteCurriculumSubjectGroup(Int32 CurriculumSubjectGroupID)
+        {
+            return new CurriculumSubjectGroupDao().Delete(CurriculumSubjectGroupID);
+        }
+        public static List<CurriculumSubjectGroup> GetCurriculumSubjectGroupList(string filterExpression)
+        {
+            List<CurriculumSubjectGroup> result = new List<CurriculumSubjectGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubjectGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubjectGroup)helper.IDataReaderToObject(reader, new CurriculumSubjectGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region CurriculumSubjectMarkType
         public static CurriculumSubjectMarkType GetCurriculumSubjectMarkType(Int32 CurriculumSubjectID, Int32 CurriculumMarkTypeID)
         {

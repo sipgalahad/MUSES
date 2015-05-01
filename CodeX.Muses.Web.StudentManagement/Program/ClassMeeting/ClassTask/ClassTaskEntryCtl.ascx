@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
     $(function () {
@@ -14,6 +16,33 @@
         setDatePicker('<%=txtStartDate.ClientID %>');
         setDatePicker('<%=txtEndDate.ClientID %>');
     });
+
+    //#region Task Type
+    function onGetCurriculumMarkTypeDtFilterExpression() {
+        var filterExpression = "CurriculumMarkTypeID = " + cboLessonType.GetValue() + " AND IsExam = 0 AND IsDeleted = 0";
+        return filterExpression;
+    }
+
+    function onTacTaskTypeButtonSearchClick() {
+        openSearchDialog('curriculummarktypedt', onGetCurriculumMarkTypeDtFilterExpression(), function (value) {
+            var filterExpression = onGetCurriculumMarkTypeDtFilterExpression() + " AND CurriculumMarkTypeDtID = '" + value + "'";
+            Methods.getObject('GetCurriculumMarkTypeDtList', filterExpression, function (result) {
+                if (result != null) {
+                    tacTaskType.setValue(result.CurriculumMarkTypeDtID);
+                    tacTaskType.setText(result.CurriculumMarkTypeDtName);
+                }
+                else {
+                    tacTaskType.setValue('');
+                    tacTaskType.setText('');
+                }
+            });
+        });
+
+    }
+
+    function onTacTaskTypeValueChanged() {
+    }
+    //#endregion
 
     function onBeforeSaveRecord() {
         var result = '';
@@ -23,6 +52,7 @@
             result += $(this).find('.hdnAutoCompleteValue').val();
         });
         $('#<%=hdnSubjectIndicatorSave.ClientID %>').val(result);
+        $('#<%=hdnTaskTypeID.ClientID %>').val(tacTaskType.getValue()); 
         return true;
     }
 
@@ -202,11 +232,18 @@
         </tr>
         <tr id="trLessonType" runat="server">
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Pelajaran")%></label></td>
-            <td><dxe:ASPxComboBox runat="server" ID="cboLessonType" Width="200px" /></td>
+            <td><dxe:ASPxComboBox runat="server" ID="cboLessonType" ClientInstanceName="cboLessonType" Width="200px" /></td>
         </tr>
         <tr>
             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Tugas")%></label></td>
-            <td><dxe:ASPxComboBox runat="server" ID="cboTaskType" Width="200px" /></td>
+            <td>
+                <input type="hidden" id="hdnTaskTypeID" runat="server" />
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTaskType" ClientInstanceName="tacTaskType" MethodName="GetCurriculumMarkTypeDtList" GetFilterExpressionFunction="onGetCurriculumMarkTypeDtFilterExpression"
+                    SearchFields="CurriculumMarkTypeDtName" TextField="CurriculumMarkTypeDtName" ValueField="CurriculumMarkTypeDtID" SearchText="${CurriculumMarkTypeDtName}" OrderByExpression="CurriculumMarkTypeDtName">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacTaskTypeButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacTaskTypeValueChanged(); }" />
+                </cdx:CodeXAutoCompleteTextBox> 
+            </td>
         </tr>
         <tr>
             <td class="tdLabel"><label><%=GetLabel("% Bobot Nilai")%></label></td>
