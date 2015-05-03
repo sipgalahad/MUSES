@@ -3019,6 +3019,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CurriculumMeetingPlan
+        public static CurriculumMeetingPlan GetCurriculumMeetingPlan(Int32 CurriculumMeetingPlanID)
+        {
+            return new CurriculumMeetingPlanDao().Get(CurriculumMeetingPlanID);
+        }
+        public static int InsertCurriculumMeetingPlan(CurriculumMeetingPlan record)
+        {
+            return new CurriculumMeetingPlanDao().Insert(record);
+        }
+        public static int UpdateCurriculumMeetingPlan(CurriculumMeetingPlan record)
+        {
+            return new CurriculumMeetingPlanDao().Update(record);
+        }
+        public static int DeleteCurriculumMeetingPlan(Int32 CurriculumMeetingPlanID)
+        {
+            return new CurriculumMeetingPlanDao().Delete(CurriculumMeetingPlanID);
+        }
+        public static List<CurriculumMeetingPlan> GetCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<CurriculumMeetingPlan> result = new List<CurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumMeetingPlan)helper.IDataReaderToObject(reader, new CurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region CurriculumSubject
         public static CurriculumSubject GetCurriculumSubject(Int32 CurriculumSubjectID)
         {

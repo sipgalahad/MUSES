@@ -72,6 +72,7 @@ namespace CodeX.Common
             public const string SUBJECT_TYPE = "MS031";
             public const string ABSENCE_REASON = "MS032";
             public const string CURRICULUM_SYLLABUS_TYPE = "MS033";
+            public const string CURRICULUM_MEETING_PLAN_TYPE = "MS034";
         }
 
         public static class StudentStatus

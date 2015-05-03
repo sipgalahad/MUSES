@@ -3489,6 +3489,112 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumMeetingPlan
+    [Serializable]
+    [Table(Name = "vCurriculumMeetingPlan")]
+    public class vCurriculumMeetingPlan
+    {
+        private Int32 _CurriculumMeetingPlanID;
+        private Int32 _CurriculumID;
+        private String _CurriculumMeetingPlanName;
+        private Int16 _DisplayOrder;
+        private Int32 _ParentID;
+        private String _ParentName;
+        private Boolean _IsHeader;
+        private String _GCCurriculumMeetingPlanType;
+        private String _CurriculumMeetingPlanType;
+        private Int32 _CurriculumSyllabusReferenceID;
+        private String _CurriculumSyllabusReferenceName;
+        private Boolean _IsDeleted;
+        private Int32 _Level;
+        private String _Path;
+
+        [Column(Name = "CurriculumMeetingPlanID", DataType = "Int32")]
+        public Int32 CurriculumMeetingPlanID
+        {
+            get { return _CurriculumMeetingPlanID; }
+            set { _CurriculumMeetingPlanID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumMeetingPlanName", DataType = "String")]
+        public String CurriculumMeetingPlanName
+        {
+            get { return _CurriculumMeetingPlanName; }
+            set { _CurriculumMeetingPlanName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentName", DataType = "String")]
+        public String ParentName
+        {
+            get { return _ParentName; }
+            set { _ParentName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "GCCurriculumMeetingPlanType", DataType = "String")]
+        public String GCCurriculumMeetingPlanType
+        {
+            get { return _GCCurriculumMeetingPlanType; }
+            set { _GCCurriculumMeetingPlanType = value; }
+        }
+        [Column(Name = "CurriculumMeetingPlanType", DataType = "String")]
+        public String CurriculumMeetingPlanType
+        {
+            get { return _CurriculumMeetingPlanType; }
+            set { _CurriculumMeetingPlanType = value; }
+        }
+        [Column(Name = "CurriculumSyllabusReferenceID", DataType = "Int32")]
+        public Int32 CurriculumSyllabusReferenceID
+        {
+            get { return _CurriculumSyllabusReferenceID; }
+            set { _CurriculumSyllabusReferenceID = value; }
+        }
+        [Column(Name = "CurriculumSyllabusReferenceName", DataType = "String")]
+        public String CurriculumSyllabusReferenceName
+        {
+            get { return _CurriculumSyllabusReferenceName; }
+            set { _CurriculumSyllabusReferenceName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "Path", DataType = "String")]
+        public String Path
+        {
+            get { return _Path; }
+            set { _Path = value; }
+        }
+    }
+    #endregion
     #region vCurriculumSubject
     [Serializable]
     [Table(Name = "vCurriculumSubject")]
