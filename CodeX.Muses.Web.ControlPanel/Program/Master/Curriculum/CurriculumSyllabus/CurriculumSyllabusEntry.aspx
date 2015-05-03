@@ -23,6 +23,7 @@
                 tacReference.setValue('');
                 tacReference.setText('');
                 $('#<%=chkIsHeader.ClientID %>').prop('checked', false);
+                $('#<%=chkIsUsingCode.ClientID %>').prop('checked', false); 
                 $('#entryDetailContainer').show();
             });
 
@@ -115,6 +116,7 @@
             tacReference.setValue(entity.ReferenceID);
             tacReference.setText(entity.ReferenceName);
             $('#<%=chkIsHeader.ClientID %>').prop('checked', entity.IsHeader == 'True');
+            $('#<%=chkIsUsingCode.ClientID %>').prop('checked', entity.IsIsUsingCode == 'True'); 
 
             $('#entryDetailContainer').show();
         });
@@ -192,6 +194,10 @@
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Induk")%></label></td>
                                     <td><asp:CheckBox ID="chkIsHeader" runat="server" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Menggunakan Kode")%></label></td>
+                                    <td><asp:CheckBox ID="chkIsUsingCode" runat="server" /></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -239,6 +245,7 @@
                                         <input type="hidden" value="<%#Eval("GCCurriculumSyllabusType") %>" bindingfield="GCCurriculumSyllabusType" />
                                         <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                         <input type="hidden" value="<%#Eval("IsHeader") %>" bindingfield="IsHeader" />
+                                        <input type="hidden" value="<%#Eval("IsUsingCode") %>" bindingfield="IsUsingCode" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

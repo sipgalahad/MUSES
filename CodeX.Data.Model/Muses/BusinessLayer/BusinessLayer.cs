@@ -12734,6 +12734,79 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetSubjectCurriculumMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculum));
+                ctx.CommandText = helper.SelectMaxColumn("SubjectCurriculumID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculumClassType
+        public static SubjectCurriculumClassType GetSubjectCurriculumClassType(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        {
+            return new SubjectCurriculumClassTypeDao().Get(SubjectCurriculumID, ClassTypeID);
+        }
+        public static int InsertSubjectCurriculumClassType(SubjectCurriculumClassType record)
+        {
+            return new SubjectCurriculumClassTypeDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumClassType(SubjectCurriculumClassType record)
+        {
+            return new SubjectCurriculumClassTypeDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumClassType(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        {
+            return new SubjectCurriculumClassTypeDao().Delete(SubjectCurriculumID, ClassTypeID);
+        }
+        public static List<SubjectCurriculumClassType> GetSubjectCurriculumClassTypeList(string filterExpression)
+        {
+            List<SubjectCurriculumClassType> result = new List<SubjectCurriculumClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumClassType)helper.IDataReaderToObject(reader, new SubjectCurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectCurriculumClassType> GetSubjectCurriculumClassTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectCurriculumClassType> result = new List<SubjectCurriculumClassType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumClassType)helper.IDataReaderToObject(reader, new SubjectCurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region SubjectCurriculumSyllabus
         public static SubjectCurriculumSyllabus GetSubjectCurriculumSyllabus(Int32 SubjectCurriculumSyllabusID)

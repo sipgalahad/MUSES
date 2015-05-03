@@ -7,10 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanel.Program {
+namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class CurriculumSyllabusEntry {
+    public partial class SubjectCurriculumEntry {
+        
+        /// <summary>
+        /// hdnLstClassTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstClassTypeID;
+        
+        /// <summary>
+        /// hdnLstPeriodSectionSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstPeriodSectionSummary;
         
         /// <summary>
         /// hdnEntryID control.
@@ -22,67 +40,49 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtCurriculumSyllabusName control.
+        /// txtSubjectCurriculumName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCurriculumSyllabusName;
+        protected global::System.Web.UI.WebControls.TextBox txtSubjectCurriculumName;
         
         /// <summary>
-        /// cboCurriculumSyllabusType control.
+        /// cboCurriculum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumSyllabusType;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculum;
         
         /// <summary>
-        /// tacParent control.
+        /// ddeClassType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacParent;
+        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeClassType;
         
         /// <summary>
-        /// tacReference control.
+        /// txtRemarks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacReference;
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
         
         /// <summary>
-        /// txtDisplayOrder control.
+        /// rptPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDisplayOrder;
-        
-        /// <summary>
-        /// chkIsHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
-        
-        /// <summary>
-        /// chkIsUsingCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsUsingCode;
+        protected global::System.Web.UI.WebControls.Repeater rptPeriodSection;
         
         /// <summary>
         /// cbpView control.

@@ -18,10 +18,11 @@
         $('.divTransactionAdd').live('click', function () {
             $li = $(this).closest('li');
 
+            var parentID = $li.find('.hdnParentID').val();
             var curriculumDtID = $li.find('.cboCurriculumSyllabusID option:selected').val();
             var subjectCurriculumID = tacSubjectCurriculum.getValue();
 
-            var id = 'add|' + subjectCurriculumID + '|' + curriculumDtID;
+            var id = 'add|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID;
             var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumSyllabus/SubjectCurriculumSyllabusEntryDtCtl.ascx");
             openUserControlPopup(url, id, 'Entry Data', 700, 400);
         });
@@ -30,11 +31,12 @@
         $('.divDetailEdit').live('click', function () {
             $li = $(this).closest('li');
 
+            var parentID = $li.find('.hdnParentID').val();
             var curriculumDtID = $li.find('.cboCurriculumSyllabusID option:selected').val();
             var subjectCurriculumID = tacSubjectCurriculum.getValue();
 
             $row = $(this).closest('tr');
-            var id = 'edit|' + subjectCurriculumID + '|' + curriculumDtID + '|' + $row.find('.hdnSubjectCurriculumSyllabusID').val();
+            var id = 'edit|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $row.find('.hdnSubjectCurriculumSyllabusID').val();
             var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumSyllabus/SubjectCurriculumSyllabusEntryDtCtl.ascx");
             openUserControlPopup(url, id, 'Entry Data', 700, 400);
         });
@@ -112,14 +114,17 @@
         function fillSubjectCurriculumSyllabusList(idx) {
             $li = $('#ulContainerSubjectCurriculum li:eq(' + idx + ')');
             var filterExpression = "";
-            var parentID = $li.find('.hdnParentID').val();
+            var parentID = $li.find('.hdnCurriculumSyllabusID').val();
             if (parentID == "")
                 filterExpression = 'CurriculumID = ' + $('#<%=hdnCurriculumID.ClientID %>').val() + ' AND ParentID IS NULL AND IsDeleted = 0';
             else
                 filterExpression = 'CurriculumID = ' + $('#<%=hdnCurriculumID.ClientID %>').val() + ' AND ParentID = ' + parentID + ' AND IsDeleted = 0';
             Methods.getListObject('GetCurriculumSyllabusList', filterExpression, function (result) {
                 for (var i = 0; i < result.length; ++i) {
-                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "'>" + result[i].CurriculumSyllabusName + "</option>");
+                    var isUsingCode = '1';
+                    if (!result[i].IsUsingCode)
+                        isUsingCode = '0';
+                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "' isusingcode='" + isUsingCode + "'>" + result[i].CurriculumSyllabusName + "</option>");
                     $panel.find('.cboCurriculumSyllabusID').append($option);
                 }
                 $panel.find('.cboCurriculumSyllabusID').change(function () {
@@ -135,15 +140,34 @@
         }
 
         function refreshGridCurriculumSyllabus($li) {
-            var id = $li.find('.cboCurriculumSyllabusID option:selected').val();
+            $opt = $li.find('.cboCurriculumSyllabusID option:selected');
+            var id = $opt.val();
+            var isUsingCode = $opt.attr('isusingcode');
+            
             $tbl = $li.find('.tblSubjectCurriculumSyllabus');
             $tbl.find('tr:gt(0)').each(function () {
                 $(this).remove();
             });
-            var filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND IsDeleted = 0";
+
+            if (isUsingCode == '1')
+                $tbl.find('.thCode').attr('style', 'width: 80px');
+            else
+                $tbl.find('.thCode').attr('style', 'display:none');
+
+            var parentID = $li.find('.hdnParentID').val();
+            var filterExpression = "";
+            if (parentID == "")
+                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
+            else
+                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
             Methods.getListObject('GetvSubjectCurriculumSyllabusList', filterExpression, function (result) {
                 $("#tmplListSubjectCurriculumSyllabus").tmpl(result).appendTo($tbl);
 
+                if (isUsingCode == '0') {
+                    $tbl.find('tr:gt(0)').each(function () {
+                        $(this).find('.tdCode').attr('style', 'display:none');
+                    });
+                }
                 $tbl.find('tr:gt(0)').click(function (e) {
                     var className = $(e.target).attr('class');
                     if (className == 'divDetailDelete' || className == 'divDetailEdit')
@@ -166,6 +190,8 @@
                             $li.html('');
                             $panel = $($('#tmplSubjectCurriculum').html());
                             $li.append($panel);
+
+                            $li.find('.hdnCurriculumSyllabusID').val(id);
 
                             $li.find('.hdnParentID').val($(this).find('.hdnSubjectCurriculumSyllabusID').val());
 
@@ -203,11 +229,11 @@
     </script>
     <style type="text/css">
         #ulContainerSubjectCurriculum                           { position: absolute; left: 10px; right: 10px; margin: 0; padding: 0; height: 450px;white-space: nowrap; overflow-x: scroll; }
-        #ulContainerSubjectCurriculum li                        { padding: 5px; width: 400px; height: 400px; border-right: 1px solid #EAEAEA; display: inline-table; list-style-type: none; }
+        #ulContainerSubjectCurriculum li                        { padding: 5px; width: 450px; height: 400px; border-right: 1px solid #EAEAEA; display: inline-table; list-style-type: none; }
         #ulContainerSubjectCurriculum li:first-child            { border-left: 1px solid #EAEAEA; }
         
-        .tblSubjectCurriculumSyllabus             { border-collapse:collapse; table-layout:fixed; width: 390px; }
-        .tblSubjectCurriculumSyllabus td:first-child div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 300px; white-space: nowrap }
+        .tblSubjectCurriculumSyllabus             { border-collapse:collapse; table-layout:fixed; width: 440px; }
+        .tblSubjectCurriculumSyllabus td:nth-child(2) div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 340px; white-space: nowrap }
     </style>
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server" />
@@ -240,6 +266,7 @@
     </fieldset>
     <script id="tmplListSubjectCurriculumSyllabus" type="text/x-jquery-tmpl">
         <tr class="trSubjectCurriculumSyllabus">
+            <td class="tdCode"><div>${SubjectCurriculumSyllabusCode}</div></td>
             <td><div>${SubjectCurriculumSyllabusName}</div></td>
             <td>
                 <div style='float:right;' class="divDetailDelete"></div>
@@ -261,18 +288,16 @@
             </tr>
         </table>
         <input type="hidden" class="hdnParentID" value=""/>
+        <input type="hidden" class="hdnCurriculumSyllabusID" value=""/>
         <div class="divTransactionEntry" style="margin-top: 5px;">
             <span class="divTransactionAdd divAdd"><%=GetLabel("Tambah Data")%></span>&nbsp;
             <br />
         </div>
         <table class="tblSubjectCurriculumSyllabus grdSelected" rules="all">
-            <colgroup>
-                <col />
-                <col style="width: 80px" />
-            </colgroup>
             <tr>
-                <th>Keterangan</th>
-                <th></th>
+                <th class="thCode" style="width: 80px">Kode</th>
+                <th>Teks</th>
+                <th style="width: 80px"></th>
             </tr>
         </table>
         <br style="clear: both" />

@@ -3788,6 +3788,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumSyllabusName;
         private Int16 _DisplayOrder;
+        private Boolean _IsUsingCode;
         private Int32 _ParentID;
         private String _ParentName;
         private Boolean _IsHeader;
@@ -3822,6 +3823,12 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsUsingCode", DataType = "Boolean")]
+        public Boolean IsUsingCode
+        {
+            get { return _IsUsingCode; }
+            set { _IsUsingCode = value; }
         }
         [Column(Name = "ParentID", DataType = "Int32")]
         public Int32 ParentID
@@ -22687,6 +22694,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSubjectCurriculum
+    [Serializable]
+    [Table(Name = "vSubjectCurriculum")]
+    public class vSubjectCurriculum
+    {
+        private Int32 _SubjectCurriculumID;
+        private String _SubjectCurriculumName;
+        private Int32 _SubjectID;
+        private Int32 _CurriculumID;
+        private String _CurriculumName;
+        private String _ListClassTypeID;
+        private String _ListClassTypeName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectCurriculumID", DataType = "Int32")]
+        public Int32 SubjectCurriculumID
+        {
+            get { return _SubjectCurriculumID; }
+            set { _SubjectCurriculumID = value; }
+        }
+        [Column(Name = "SubjectCurriculumName", DataType = "String")]
+        public String SubjectCurriculumName
+        {
+            get { return _SubjectCurriculumName; }
+            set { _SubjectCurriculumName = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumName", DataType = "String")]
+        public String CurriculumName
+        {
+            get { return _CurriculumName; }
+            set { _CurriculumName = value; }
+        }
+        [Column(Name = "ListClassTypeID", DataType = "String")]
+        public String ListClassTypeID
+        {
+            get { return _ListClassTypeID; }
+            set { _ListClassTypeID = value; }
+        }
+        [Column(Name = "ListClassTypeName", DataType = "String")]
+        public String ListClassTypeName
+        {
+            get { return _ListClassTypeName; }
+            set { _ListClassTypeName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vSubjectCurriculumSyllabus
     [Serializable]
     [Table(Name = "vSubjectCurriculumSyllabus")]
@@ -22697,7 +22775,9 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private Int32 _CurriculumSyllabusID;
         private Boolean _IsHeader;
+        private String _SubjectCurriculumSyllabusCode;
         private String _SubjectCurriculumSyllabusName;
+        private Int32 _ParentID;
         private Int32 _ReferenceID;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -22732,11 +22812,23 @@ namespace CodeX.Data.Model
             get { return _IsHeader; }
             set { _IsHeader = value; }
         }
+        [Column(Name = "SubjectCurriculumSyllabusCode", DataType = "String")]
+        public String SubjectCurriculumSyllabusCode
+        {
+            get { return _SubjectCurriculumSyllabusCode; }
+            set { _SubjectCurriculumSyllabusCode = value; }
+        }
         [Column(Name = "SubjectCurriculumSyllabusName", DataType = "String")]
         public String SubjectCurriculumSyllabusName
         {
             get { return _SubjectCurriculumSyllabusName; }
             set { _SubjectCurriculumSyllabusName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32")]
         public Int32 ReferenceID

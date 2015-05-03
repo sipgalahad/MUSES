@@ -21,23 +21,39 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             hdnSubjectCurriculumID.Value = temp[1];
             hdnCurriculumSyllabusID.Value = temp[2];
+            hdnParentID.Value = temp[3];
+
+            vCurriculumSyllabus entityDt = BusinessLayer.GetvCurriculumSyllabusList(String.Format("CurriculumSyllabusID = {0}", hdnCurriculumSyllabusID.Value)).FirstOrDefault();
+            txtType.Text = entityDt.CurriculumSyllabusName;
+            if (!entityDt.IsUsingCode)
+                trCode.Style.Add("display", "none");
+            if (entityDt.ReferenceID == 0)
+                trReferenceID.Style.Add("display", "none");
+            else
+            {
+                lblReference.InnerHtml = entityDt.ReferenceName;
+                List<vSubjectCurriculumSyllabus> lstReference = BusinessLayer.GetvSubjectCurriculumSyllabusList(string.Format("SubjectID = {0} AND CurriculumSyllabusID = {1} AND IsDeleted = 0", AppSession.SubjectID, entityDt.ReferenceID));
+                Methods.SetComboBoxField<vSubjectCurriculumSyllabus>(cboReferenceID, lstReference, "SubjectCurriculumSyllabusCode", "SubjectCurriculumSyllabusID");
+            }
+            hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";
+
             if (temp[0] == "edit")
             {
-                hdnSubjectCurriculumSyllabusID.Value = temp[3];
+                hdnSubjectCurriculumSyllabusID.Value = temp[4];
                 hdnIsAdd.Value = "0";
 
                 SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnSubjectCurriculumSyllabusID.Value));
+                txtSubjectCurriculumSyllabusCode.Text = entity.SubjectCurriculumSyllabusCode;
                 txtSubjectCurriculumSyllabusName.Text = entity.SubjectCurriculumSyllabusName;
                 txtRemarks.Text = entity.Remarks;
+                cboReferenceID.Value = entity.ReferenceID.ToString();
             }
             else
             {
                 hdnSubjectCurriculumSyllabusID.Value = "0";
             }
 
-            CurriculumSyllabus entityDt = BusinessLayer.GetCurriculumSyllabus(Convert.ToInt32(hdnCurriculumSyllabusID.Value));
-            txtType.Text = entityDt.CurriculumSyllabusName;
-
+            Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusCode, new ControlEntrySetting(true, true, true), "mpEntryPopup");
             Helper.SetControlEntrySetting(txtSubjectCurriculumSyllabusName, new ControlEntrySetting(true, true, true), "mpEntryPopup");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpEntryPopup");
         }
@@ -74,7 +90,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region CRUD Process Method
         private void ControlToEntity(SubjectCurriculumSyllabus entity)
         {
+            entity.SubjectCurriculumSyllabusCode = txtSubjectCurriculumSyllabusCode.Text;
             entity.SubjectCurriculumSyllabusName = txtSubjectCurriculumSyllabusName.Text;
+            if (cboReferenceID.Value != null && cboReferenceID.Value.ToString() != "")
+                entity.ReferenceID = Convert.ToInt32(cboReferenceID.Value);
+            else
+                entity.ReferenceID = null;
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -87,6 +108,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 SubjectCurriculumSyllabus entity = new SubjectCurriculumSyllabus();
                 ControlToEntity(entity);
+                if (hdnParentID.Value != "")
+                    entity.ParentID = Convert.ToInt32(hdnParentID.Value);
+                else
+                    entity.ParentID = null;
                 entity.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
                 entity.CurriculumSyllabusID = Convert.ToInt32(hdnCurriculumSyllabusID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;

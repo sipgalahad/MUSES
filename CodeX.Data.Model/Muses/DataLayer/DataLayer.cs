@@ -6457,6 +6457,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumSyllabusName;
         private Int16 _DisplayOrder;
+        private Boolean _IsUsingCode;
         private Int32? _ParentID;
         private Boolean _IsHeader;
         private String _GCCurriculumSyllabusType;
@@ -6490,6 +6491,12 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsUsingCode", DataType = "Boolean")]
+        public Boolean IsUsingCode
+        {
+            get { return _IsUsingCode; }
+            set { _IsUsingCode = value; }
         }
         [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
         public Int32? ParentID
@@ -27203,6 +27210,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SubjectCurriculumClassType
+    [Serializable]
+    [Table(Name = "SubjectCurriculumClassType")]
+    public class SubjectCurriculumClassType : DbDataModel
+    {
+        private Int32 _SubjectCurriculumID;
+        private Int32 _ClassTypeID;
+
+        [Column(Name = "SubjectCurriculumID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectCurriculumID
+        {
+            get { return _SubjectCurriculumID; }
+            set { _SubjectCurriculumID = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+    }
+
+    public class SubjectCurriculumClassTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SubjectCurriculumClassType));
+        private bool _isAuditLog = false;
+        private const string p_ClassTypeID = "@p_ClassTypeID";
+        private const string p_SubjectCurriculumID = "@p_SubjectCurriculumID";
+        public SubjectCurriculumClassTypeDao() { }
+        public SubjectCurriculumClassTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SubjectCurriculumClassType Get(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassTypeID, ClassTypeID);
+            _ctx.Add(p_SubjectCurriculumID, SubjectCurriculumID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SubjectCurriculumClassType)_helper.DataRowToObject(row, new SubjectCurriculumClassType());
+        }
+        public int Insert(SubjectCurriculumClassType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SubjectCurriculumClassType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        {
+            SubjectCurriculumClassType record;
+            if (_ctx.Transaction == null)
+                record = new SubjectCurriculumClassTypeDao().Get(SubjectCurriculumID, ClassTypeID);
+            else
+                record = Get(SubjectCurriculumID, ClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SubjectCurriculumSyllabus
     [Serializable]
     [Table(Name = "SubjectCurriculumSyllabus")]
@@ -27211,7 +27282,9 @@ namespace CodeX.Data.Model
         private Int32 _SubjectCurriculumSyllabusID;
         private Int32 _SubjectCurriculumID;
         private Int32 _CurriculumSyllabusID;
+        private String _SubjectCurriculumSyllabusCode;
         private String _SubjectCurriculumSyllabusName;
+        private Int32? _ParentID;
         private Int32? _ReferenceID;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -27238,11 +27311,23 @@ namespace CodeX.Data.Model
             get { return _CurriculumSyllabusID; }
             set { _CurriculumSyllabusID = value; }
         }
+        [Column(Name = "SubjectCurriculumSyllabusCode", DataType = "String", IsNullable = true)]
+        public String SubjectCurriculumSyllabusCode
+        {
+            get { return _SubjectCurriculumSyllabusCode; }
+            set { _SubjectCurriculumSyllabusCode = value; }
+        }
         [Column(Name = "SubjectCurriculumSyllabusName", DataType = "String")]
         public String SubjectCurriculumSyllabusName
         {
             get { return _SubjectCurriculumSyllabusName; }
             set { _SubjectCurriculumSyllabusName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32", IsNullable = true)]
+        public Int32? ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
         }
         [Column(Name = "ReferenceID", DataType = "Int32", IsNullable = true)]
         public Int32? ReferenceID

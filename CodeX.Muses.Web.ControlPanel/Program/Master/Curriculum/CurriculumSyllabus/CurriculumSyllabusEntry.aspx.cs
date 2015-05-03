@@ -112,6 +112,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.ReferenceID = null;
             entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
             entity.IsHeader = chkIsHeader.Checked;
+            entity.IsUsingCode = chkIsUsingCode.Checked;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

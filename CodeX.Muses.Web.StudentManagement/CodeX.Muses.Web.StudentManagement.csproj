@@ -125,6 +125,7 @@
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanIndicatorInformationCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntryDtCtl.ascx" />
     <Content Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx" />
@@ -659,6 +660,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx.designer.cs">
       <DependentUpon>SubjectMeetingPlanDtInformationCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx.cs">
+      <DependentUpon>SubjectCurriculumEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx.designer.cs">
+      <DependentUpon>SubjectCurriculumEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx.cs">
       <DependentUpon>SubjectCurriculumSyllabusEntry.aspx</DependentUpon>
