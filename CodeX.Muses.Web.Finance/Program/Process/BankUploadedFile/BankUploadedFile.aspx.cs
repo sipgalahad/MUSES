@@ -123,7 +123,7 @@ namespace CodeX.Muses.Web.Finance.Program
             try
             {
                 Bank bank = bankDao.Get(Convert.ToInt32(cboBank.Value));
-                List<vARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetvARInvoiceHdList(String.Format("GCTransactionStatus = '{0}'", Constant.TransactionStatus.PROCESSED), ctx);
+                List<vARInvoiceHd> lstARInvoiceHd = BusinessLayer.GetvARInvoiceHdList(String.Format("GCTransactionStatus IN ('{0}','{1}')", Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED), ctx);
                 String lstARInvoiceID = String.Join(",", lstARInvoiceHd.Select(x => x.ARInvoiceID).ToList());
                 List<ARInvoiceDt> lstARInvoiceDt = null;
                 List<StudentFeeDt> lstStudentFeeDt = null;
