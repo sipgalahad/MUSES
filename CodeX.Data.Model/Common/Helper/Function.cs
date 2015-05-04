@@ -286,26 +286,26 @@ namespace CodeX.Data.Model
         }
         public static int GetPatientAge(DateTime dateOfBirth, DateTime nowDate, int type)
         {
-            int day = nowDate.Day - dateOfBirth.Day;
-            int month = nowDate.Month - dateOfBirth.Month;
-            int year = nowDate.Year - dateOfBirth.Year;
+            var days = nowDate.Day - dateOfBirth.Day;
+            if (days < 0)
+            {
+                var newNow = nowDate.AddMonths(-1);
+                days += (int)(nowDate - newNow).TotalDays;
+                nowDate = newNow;
+            }
+            var months = nowDate.Month - dateOfBirth.Month;
+            if (months < 0)
+            {
+                months += 12;
+                nowDate = nowDate.AddYears(-1);
+            }
+            var years = nowDate.Year - dateOfBirth.Year;
             int typo = 0;
-
-            if (day < 0)
-            {
-                day = day + System.DateTime.FromOADate(nowDate.Day - System.DateTime.Now.Day).Day;
-                month = month - 1;
-            }
-            if (month < 0)
-            {
-                month = month + 12;
-                year = year - 1;
-            }
             switch (type)
             {
-                case 1: typo = day; break;
-                case 2: typo = month; break;
-                case 3: typo = year; break;
+                case 1: typo = days; break;
+                case 2: typo = months; break;
+                case 3: typo = years; break;
             }
             return typo;
         }

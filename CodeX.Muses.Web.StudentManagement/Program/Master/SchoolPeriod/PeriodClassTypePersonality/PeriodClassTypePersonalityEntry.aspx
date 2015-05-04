@@ -65,7 +65,7 @@
 
         //#region Subject
         function onGetSubjectFilterExpression() {
-            var filterExpression = "GCClassStudyType = '<%=OnGetClassStudyTypePersonality() %>' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
+            var filterExpression = "GCClassStudyType = '<%=OnGetClassStudyTypePersonality() %>' AND IsDeleted = 0 AND SubjectID IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = " + $('#<%=hdnCurriculumID.ClientID %>').val() + " AND IsDeleted = 0) AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
             return filterExpression;
         }
 
@@ -119,6 +119,7 @@
             hideLoadingPanel();
         }
     </script>
+    <input type="hidden" id="hdnCurriculumID" runat="server" />
     <table>
         <tr>
             <td><%=GetLabel("Tipe Kelas") %></td>

@@ -22,8 +22,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.ClassStudyType.EXTRACURRICULAR));
-            Methods.SetComboBoxField<ClassType>(cboClassType, lstClassType, "ClassTypeName", "ClassTypeID");
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
+            List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", entitySchoolPeriod.CurriculumID, Constant.ClassStudyType.EXTRACURRICULAR));
+            Methods.SetComboBoxField<CurriculumClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "CurriculumClassTypeID");
             cboClassType.SelectedIndex = 0;
 
             BindGridView();
@@ -90,7 +91,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void ControlToEntity(PeriodClassType entity)
         {
-            entity.ClassTypeID = Convert.ToInt32(cboClassType.Value);
+            entity.CurriculumClassTypeID = Convert.ToInt32(cboClassType.Value);
             entity.DailySchedulePackageID = null;
             entity.NoOfClass = Convert.ToInt16(txtNoOfClass.Text);
         }

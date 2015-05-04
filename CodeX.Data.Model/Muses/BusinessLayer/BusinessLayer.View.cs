@@ -1424,6 +1424,198 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumClassType
+        public static List<vCurriculumClassType> GetvCurriculumClassTypeList(string filterExpression)
+        {
+            List<vCurriculumClassType> result = new List<vCurriculumClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumClassType)helper.IDataReaderToObject(reader, new vCurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumFinalMarkFormulaDt
+        public static List<vCurriculumFinalMarkFormulaDt> GetvCurriculumFinalMarkFormulaDtList(string filterExpression)
+        {
+            List<vCurriculumFinalMarkFormulaDt> result = new List<vCurriculumFinalMarkFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumFinalMarkFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumFinalMarkFormulaDt)helper.IDataReaderToObject(reader, new vCurriculumFinalMarkFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumMajor
+        public static List<vCurriculumMajor> GetvCurriculumMajorList(string filterExpression)
+        {
+            List<vCurriculumMajor> result = new List<vCurriculumMajor>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumMajor));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumMajor)helper.IDataReaderToObject(reader, new vCurriculumMajor()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumMarkType
+        public static List<vCurriculumMarkType> GetvCurriculumMarkTypeList(string filterExpression)
+        {
+            List<vCurriculumMarkType> result = new List<vCurriculumMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumMarkType)helper.IDataReaderToObject(reader, new vCurriculumMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumMeetingPlan
+        public static List<vCurriculumMeetingPlan> GetvCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<vCurriculumMeetingPlan> result = new List<vCurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumMeetingPlan)helper.IDataReaderToObject(reader, new vCurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumSubject
+        public static List<vCurriculumSubject> GetvCurriculumSubjectList(string filterExpression)
+        {
+            List<vCurriculumSubject> result = new List<vCurriculumSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSubject)helper.IDataReaderToObject(reader, new vCurriculumSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumSubjectClassType
+        public static List<vCurriculumSubjectClassType> GetvCurriculumSubjectClassTypeList(string filterExpression)
+        {
+            List<vCurriculumSubjectClassType> result = new List<vCurriculumSubjectClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSubjectClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSubjectClassType)helper.IDataReaderToObject(reader, new vCurriculumSubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vCurriculumSyllabus
+        public static List<vCurriculumSyllabus> GetvCurriculumSyllabusList(string filterExpression)
+        {
+            List<vCurriculumSyllabus> result = new List<vCurriculumSyllabus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSyllabus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSyllabus)helper.IDataReaderToObject(reader, new vCurriculumSyllabus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCustomer
         public static List<vCustomer> GetvCustomerList(string filterExpression)
         {
@@ -8537,6 +8729,78 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vSubjectClassType)helper.IDataReaderToObject(reader, new vSubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectCurriculum
+        public static List<vSubjectCurriculum> GetvSubjectCurriculumList(string filterExpression)
+        {
+            List<vSubjectCurriculum> result = new List<vSubjectCurriculum>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectCurriculum));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectCurriculum)helper.IDataReaderToObject(reader, new vSubjectCurriculum()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectCurriculumMeetingPlan
+        public static List<vSubjectCurriculumMeetingPlan> GetvSubjectCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<vSubjectCurriculumMeetingPlan> result = new List<vSubjectCurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectCurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectCurriculumMeetingPlan)helper.IDataReaderToObject(reader, new vSubjectCurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vSubjectCurriculumSyllabus
+        public static List<vSubjectCurriculumSyllabus> GetvSubjectCurriculumSyllabusList(string filterExpression)
+        {
+            List<vSubjectCurriculumSyllabus> result = new List<vSubjectCurriculumSyllabus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectCurriculumSyllabus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectCurriculumSyllabus)helper.IDataReaderToObject(reader, new vSubjectCurriculumSyllabus()));
             }
             catch (Exception ex)
             {

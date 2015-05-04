@@ -1087,7 +1087,7 @@ namespace CodeX.Data.Model
     }
     #endregion
     #region GetGLBalancePerPeriodForTBalance
-    public class GetGLBalancePerPeriodForTBalance 
+    public partial class GetGLBalancePerPeriodForTBalance 
     {
         private Int32 _RowID;
         private Int32 _AktivaGLAccountID;

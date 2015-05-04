@@ -30,10 +30,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             hdnID.Value = param;
             vPeriodClassType entity = BusinessLayer.GetvPeriodClassTypeList(string.Format("PeriodClassTypeID = {0}", hdnID.Value)).FirstOrDefault();
-            txtHeaderText.Text = entity.ClassTypeName;
+            txtHeaderText.Text = entity.CurriculumClassTypeName;
             hdnNoOfClass.Value = entity.NoOfClass.ToString();
-            hdnClassTypeCode.Value = entity.ClassTypeCode;
-            hdnClassTypeName.Value = entity.ClassTypeName;
+            hdnClassTypeCode.Value = entity.CurriculumClassTypeCode;
+            hdnClassTypeName.Value = entity.CurriculumClassTypeName;
 
             hdnMaxStudent.Value = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.MAX_STUDENT).ParameterValue;
 

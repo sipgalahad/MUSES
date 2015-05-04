@@ -110,6 +110,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="MasterPage\CurriculumBannerDtCtl.ascx" />
     <Content Include="MasterPage\MPSubjectPageTrxVisit.master" />
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx" />
@@ -132,6 +133,20 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumMeetingPlan\CurriculumMeetingPlanEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSubjectGroup\CurriculumSubjectGroupEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumList.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumPageLauncher.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumMajor\CurriculumMajorEntry.aspx" />
     <Content Include="Program\Master\LocationItem\LocationItemEntry.aspx" />
     <Content Include="Program\Master\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\GradePromotionFormula\GradePromotionFormulaEntry.aspx" />
@@ -464,6 +479,20 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\MPCurriculumPageTrxVisit.master.cs">
+      <DependentUpon>MPCurriculumPageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPCurriculumPageTrxVisit.master.designer.cs">
+      <DependentUpon>MPCurriculumPageTrxVisit.master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\CurriculumBannerDtCtl.ascx.cs">
+      <DependentUpon>CurriculumBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\CurriculumBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>CurriculumBannerDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\MPSubjectPageTrxVisit.master.cs">
       <DependentUpon>MPSubjectPageTrxVisit.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -617,6 +646,104 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMeetingPlan\CurriculumMeetingPlanEntry.aspx.cs">
+      <DependentUpon>CurriculumMeetingPlanEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMeetingPlan\CurriculumMeetingPlanEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumMeetingPlanEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx.cs">
+      <DependentUpon>CurriculumSyllabusEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumSyllabusEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubjectGroup\CurriculumSubjectGroupEntry.aspx.cs">
+      <DependentUpon>CurriculumSubjectGroupEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubjectGroup\CurriculumSubjectGroupEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumSubjectGroupEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumFinalMarkFormula\CurriculumFinalMarkFormulaDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx.cs">
+      <DependentUpon>CurriculumPersonalityEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumPersonalityEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumPersonalityEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx.cs">
+      <DependentUpon>CurriculumSubjectEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumSubject\CurriculumSubjectEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumSubjectEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeEntry.aspx.cs">
+      <DependentUpon>CurriculumMarkTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumMarkTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeEntry.aspx.cs">
+      <DependentUpon>CurriculumClassTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumClassTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumEntry.aspx.cs">
+      <DependentUpon>CurriculumEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumList.aspx.cs">
+      <DependentUpon>CurriculumList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumList.aspx.designer.cs">
+      <DependentUpon>CurriculumList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeDtEntryCtl.ascx.cs">
+      <DependentUpon>CurriculumMarkTypeDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMarkType\CurriculumMarkTypeDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>CurriculumMarkTypeDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumPageLauncher.aspx.cs">
+      <DependentUpon>CurriculumPageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumPageLauncher.aspx.designer.cs">
+      <DependentUpon>CurriculumPageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMajor\CurriculumMajorEntry.aspx.cs">
+      <DependentUpon>CurriculumMajorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumMajor\CurriculumMajorEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumMajorEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\LocationItem\LocationItemEntry.aspx.cs">
       <DependentUpon>LocationItemEntry.aspx</DependentUpon>
@@ -1592,6 +1719,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPCurriculumPageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

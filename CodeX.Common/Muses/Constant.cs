@@ -71,6 +71,8 @@ namespace CodeX.Common
             public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
             public const string SUBJECT_TYPE = "MS031";
             public const string ABSENCE_REASON = "MS032";
+            public const string CURRICULUM_SYLLABUS_TYPE = "MS033";
+            public const string CURRICULUM_MEETING_PLAN_TYPE = "MS034";
         }
 
         public static class StudentStatus
@@ -312,6 +314,7 @@ namespace CodeX.Common
                 public const string STUDENT_FINAL_MARK_FORMULA = "CP010115";
                 public const string STUDENT_PROGRESS_RULE = "CP010116";
                 public const string GRADE_PROMOTION_FORMULA = "CP010117";
+                public const string CURRICULUM = "CP010118";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
@@ -365,6 +368,19 @@ namespace CodeX.Common
                 public const string SB_SUBJECT_MATTER = "CP99010200";
                 public const string SB_SUBJECT_BASIC_COMPETENCY = "CP99010300";
                 public const string SB_SUBJECT_MEETING_PLAN = "CP99010400";
+
+                public const string CURRICULUM_PAGE = "CP99020000";
+                public const string CR_CURRICULUM_MAJOR = "CP99020101";
+                public const string CR_CURRICULUM_CLASS_TYPE = "CP99020102";
+                public const string CR_CURRICULUM_EXTRACURRICULAR_CLASS_TYPE = "CP99020103";                
+                public const string CR_CURRICULUM_MARK_TYPE = "CP99020201";
+                public const string CR_CURRICULUM_FINAL_MARK_FORMULA = "CP99020202";
+                public const string CR_CURRICULUM_SYLLABUS = "CP99020301";
+                public const string CR_CURRICULUM_MEETING_PLAN = "CP99020302";
+                public const string CR_CURRICULUM_SUBJECT_GROUP = "CP99020401";
+                public const string CR_CURRICULUM_SUBJECT = "CP99020402";
+                public const string CR_CURRICULUM_EXTRACURRICULAR = "CP99020403";
+                public const string CR_CURRICULUM_PERSONALITY = "CP99020404";
             }
             #endregion
 

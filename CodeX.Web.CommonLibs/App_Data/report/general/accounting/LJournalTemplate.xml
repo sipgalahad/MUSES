@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <table datasource="GetvJournalTemplateDtList" headertext="Laporan Template Jurnal" filterexpression="IsDeleted = 0" papertype="A4_portrait"/>
+  <groups>
+    <group fieldname="TemplateName" orderby="TemplateCode" orderbytype="ASC" headertext="Template : [GroupName]" />
+    <group fieldname="cfPosition" orderby="Position" orderbytype="ASC" headertext="[GroupName]" />
+  </groups>
+  <fields>
+    <field fieldname="GLAccountNo" headertext="Kode Perkiraan" width="12" />
+    <field fieldname="GLAccountName" headertext="Nama Perkiraan" />
+    <field fieldname="SubLedgerDtCode" headertext="Kode Subledger" width="12" />
+    <field fieldname="SubLedgerDtName" headertext="Nama Subledger" width="20" />
+    <field fieldname="AmountPercentage" headertext="Alokasi (%)" width="8" fieldtype="number" />
+  </fields>
+</root>

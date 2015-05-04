@@ -2586,6 +2586,729 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region Curriculum
+        public static Curriculum GetCurriculum(Int32 CurriculumID)
+        {
+            return new CurriculumDao().Get(CurriculumID);
+        }
+        public static int InsertCurriculum(Curriculum record)
+        {
+            return new CurriculumDao().Insert(record);
+        }
+        public static int UpdateCurriculum(Curriculum record)
+        {
+            return new CurriculumDao().Update(record);
+        }
+        public static int DeleteCurriculum(Int32 CurriculumID)
+        {
+            return new CurriculumDao().Delete(CurriculumID);
+        }
+        public static List<Curriculum> GetCurriculumList(string filterExpression)
+        {
+            List<Curriculum> result = new List<Curriculum>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Curriculum));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Curriculum)helper.IDataReaderToObject(reader, new Curriculum()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<Curriculum> GetCurriculumList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<Curriculum> result = new List<Curriculum>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Curriculum));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((Curriculum)helper.IDataReaderToObject(reader, new Curriculum()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCurriculumRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Curriculum));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCurriculumRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Curriculum));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "CurriculumID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCurriculumMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(Curriculum));
+                ctx.CommandText = helper.SelectMaxColumn("CurriculumID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumClassType
+        public static CurriculumClassType GetCurriculumClassType(Int32 CurriculumClassTypeID)
+        {
+            return new CurriculumClassTypeDao().Get(CurriculumClassTypeID);
+        }
+        public static int InsertCurriculumClassType(CurriculumClassType record)
+        {
+            return new CurriculumClassTypeDao().Insert(record);
+        }
+        public static int UpdateCurriculumClassType(CurriculumClassType record)
+        {
+            return new CurriculumClassTypeDao().Update(record);
+        }
+        public static int DeleteCurriculumClassType(Int32 CurriculumClassTypeID)
+        {
+            return new CurriculumClassTypeDao().Delete(CurriculumClassTypeID);
+        }
+        public static List<CurriculumClassType> GetCurriculumClassTypeList(string filterExpression)
+        {
+            List<CurriculumClassType> result = new List<CurriculumClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumClassType)helper.IDataReaderToObject(reader, new CurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumFinalMarkFormulaDt
+        public static CurriculumFinalMarkFormulaDt GetCurriculumFinalMarkFormulaDt(Int32 CurriculumFinalMarkFormulaDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Get(CurriculumFinalMarkFormulaDtID);
+        }
+        public static int InsertCurriculumFinalMarkFormulaDt(CurriculumFinalMarkFormulaDt record)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Insert(record);
+        }
+        public static int UpdateCurriculumFinalMarkFormulaDt(CurriculumFinalMarkFormulaDt record)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Update(record);
+        }
+        public static int DeleteCurriculumFinalMarkFormulaDt(Int32 CurriculumFinalMarkFormulaDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtDao().Delete(CurriculumFinalMarkFormulaDtID);
+        }
+        public static List<CurriculumFinalMarkFormulaDt> GetCurriculumFinalMarkFormulaDtList(string filterExpression)
+        {
+            List<CurriculumFinalMarkFormulaDt> result = new List<CurriculumFinalMarkFormulaDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaDt)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCurriculumFinalMarkFormulaDtMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDt));
+                ctx.CommandText = helper.SelectMaxColumn("CurriculumFinalMarkFormulaDtID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumFinalMarkFormulaDtMarkType
+        public static CurriculumFinalMarkFormulaDtMarkType GetCurriculumFinalMarkFormulaDtMarkType(Int32 CurriculumFinalMarkFormulaDtID, Int32 CurriculumMarkTypeDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Get(CurriculumFinalMarkFormulaDtID, CurriculumMarkTypeDtID);
+        }
+        public static int InsertCurriculumFinalMarkFormulaDtMarkType(CurriculumFinalMarkFormulaDtMarkType record)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Insert(record);
+        }
+        public static int UpdateCurriculumFinalMarkFormulaDtMarkType(CurriculumFinalMarkFormulaDtMarkType record)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Update(record);
+        }
+        public static int DeleteCurriculumFinalMarkFormulaDtMarkType(Int32 CurriculumFinalMarkFormulaDtID, Int32 CurriculumMarkTypeDtID)
+        {
+            return new CurriculumFinalMarkFormulaDtMarkTypeDao().Delete(CurriculumFinalMarkFormulaDtID, CurriculumMarkTypeDtID);
+        }
+        public static List<CurriculumFinalMarkFormulaDtMarkType> GetCurriculumFinalMarkFormulaDtMarkTypeList(string filterExpression)
+        {
+            List<CurriculumFinalMarkFormulaDtMarkType> result = new List<CurriculumFinalMarkFormulaDtMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDtMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaDtMarkType)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaDtMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CurriculumFinalMarkFormulaDtMarkType> GetCurriculumFinalMarkFormulaDtMarkTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<CurriculumFinalMarkFormulaDtMarkType> result = new List<CurriculumFinalMarkFormulaDtMarkType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaDtMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaDtMarkType)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaDtMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumFinalMarkFormulaHd
+        public static CurriculumFinalMarkFormulaHd GetCurriculumFinalMarkFormulaHd(Int32 CurriculumFinalMarkFormulaID)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Get(CurriculumFinalMarkFormulaID);
+        }
+        public static int InsertCurriculumFinalMarkFormulaHd(CurriculumFinalMarkFormulaHd record)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Insert(record);
+        }
+        public static int UpdateCurriculumFinalMarkFormulaHd(CurriculumFinalMarkFormulaHd record)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Update(record);
+        }
+        public static int DeleteCurriculumFinalMarkFormulaHd(Int32 CurriculumFinalMarkFormulaID)
+        {
+            return new CurriculumFinalMarkFormulaHdDao().Delete(CurriculumFinalMarkFormulaID);
+        }
+        public static List<CurriculumFinalMarkFormulaHd> GetCurriculumFinalMarkFormulaHdList(string filterExpression)
+        {
+            List<CurriculumFinalMarkFormulaHd> result = new List<CurriculumFinalMarkFormulaHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumFinalMarkFormulaHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumFinalMarkFormulaHd)helper.IDataReaderToObject(reader, new CurriculumFinalMarkFormulaHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumMajor
+        public static CurriculumMajor GetCurriculumMajor(Int32 CurriculumMajorID)
+        {
+            return new CurriculumMajorDao().Get(CurriculumMajorID);
+        }
+        public static int InsertCurriculumMajor(CurriculumMajor record)
+        {
+            return new CurriculumMajorDao().Insert(record);
+        }
+        public static int UpdateCurriculumMajor(CurriculumMajor record)
+        {
+            return new CurriculumMajorDao().Update(record);
+        }
+        public static int DeleteCurriculumMajor(Int32 CurriculumMajorID)
+        {
+            return new CurriculumMajorDao().Delete(CurriculumMajorID);
+        }
+        public static List<CurriculumMajor> GetCurriculumMajorList(string filterExpression)
+        {
+            List<CurriculumMajor> result = new List<CurriculumMajor>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumMajor));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumMajor)helper.IDataReaderToObject(reader, new CurriculumMajor()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumMarkType
+        public static CurriculumMarkType GetCurriculumMarkType(Int32 CurriculumMarkTypeID)
+        {
+            return new CurriculumMarkTypeDao().Get(CurriculumMarkTypeID);
+        }
+        public static int InsertCurriculumMarkType(CurriculumMarkType record)
+        {
+            return new CurriculumMarkTypeDao().Insert(record);
+        }
+        public static int UpdateCurriculumMarkType(CurriculumMarkType record)
+        {
+            return new CurriculumMarkTypeDao().Update(record);
+        }
+        public static int DeleteCurriculumMarkType(Int32 CurriculumMarkTypeID)
+        {
+            return new CurriculumMarkTypeDao().Delete(CurriculumMarkTypeID);
+        }
+        public static List<CurriculumMarkType> GetCurriculumMarkTypeList(string filterExpression)
+        {
+            List<CurriculumMarkType> result = new List<CurriculumMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumMarkType)helper.IDataReaderToObject(reader, new CurriculumMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumMarkTypeDt
+        public static CurriculumMarkTypeDt GetCurriculumMarkTypeDt(Int32 CurriculumMarkTypeDtID)
+        {
+            return new CurriculumMarkTypeDtDao().Get(CurriculumMarkTypeDtID);
+        }
+        public static int InsertCurriculumMarkTypeDt(CurriculumMarkTypeDt record)
+        {
+            return new CurriculumMarkTypeDtDao().Insert(record);
+        }
+        public static int UpdateCurriculumMarkTypeDt(CurriculumMarkTypeDt record)
+        {
+            return new CurriculumMarkTypeDtDao().Update(record);
+        }
+        public static int DeleteCurriculumMarkTypeDt(Int32 CurriculumMarkTypeDtID)
+        {
+            return new CurriculumMarkTypeDtDao().Delete(CurriculumMarkTypeDtID);
+        }
+        public static List<CurriculumMarkTypeDt> GetCurriculumMarkTypeDtList(string filterExpression)
+        {
+            List<CurriculumMarkTypeDt> result = new List<CurriculumMarkTypeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumMarkTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumMarkTypeDt)helper.IDataReaderToObject(reader, new CurriculumMarkTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumMeetingPlan
+        public static CurriculumMeetingPlan GetCurriculumMeetingPlan(Int32 CurriculumMeetingPlanID)
+        {
+            return new CurriculumMeetingPlanDao().Get(CurriculumMeetingPlanID);
+        }
+        public static int InsertCurriculumMeetingPlan(CurriculumMeetingPlan record)
+        {
+            return new CurriculumMeetingPlanDao().Insert(record);
+        }
+        public static int UpdateCurriculumMeetingPlan(CurriculumMeetingPlan record)
+        {
+            return new CurriculumMeetingPlanDao().Update(record);
+        }
+        public static int DeleteCurriculumMeetingPlan(Int32 CurriculumMeetingPlanID)
+        {
+            return new CurriculumMeetingPlanDao().Delete(CurriculumMeetingPlanID);
+        }
+        public static List<CurriculumMeetingPlan> GetCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<CurriculumMeetingPlan> result = new List<CurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumMeetingPlan)helper.IDataReaderToObject(reader, new CurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumSubject
+        public static CurriculumSubject GetCurriculumSubject(Int32 CurriculumSubjectID)
+        {
+            return new CurriculumSubjectDao().Get(CurriculumSubjectID);
+        }
+        public static int InsertCurriculumSubject(CurriculumSubject record)
+        {
+            return new CurriculumSubjectDao().Insert(record);
+        }
+        public static int UpdateCurriculumSubject(CurriculumSubject record)
+        {
+            return new CurriculumSubjectDao().Update(record);
+        }
+        public static int DeleteCurriculumSubject(Int32 CurriculumSubjectID)
+        {
+            return new CurriculumSubjectDao().Delete(CurriculumSubjectID);
+        }
+        public static List<CurriculumSubject> GetCurriculumSubjectList(string filterExpression)
+        {
+            List<CurriculumSubject> result = new List<CurriculumSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubject)helper.IDataReaderToObject(reader, new CurriculumSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetCurriculumSubjectMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubject));
+                ctx.CommandText = helper.SelectMaxColumn("CurriculumSubjectID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumSubjectClassType
+        public static CurriculumSubjectClassType GetCurriculumSubjectClassType(Int32 CurriculumSubjectID, Int32 CurriculumClassTypeID)
+        {
+            return new CurriculumSubjectClassTypeDao().Get(CurriculumSubjectID, CurriculumClassTypeID);
+        }
+        public static int InsertCurriculumSubjectClassType(CurriculumSubjectClassType record)
+        {
+            return new CurriculumSubjectClassTypeDao().Insert(record);
+        }
+        public static int UpdateCurriculumSubjectClassType(CurriculumSubjectClassType record)
+        {
+            return new CurriculumSubjectClassTypeDao().Update(record);
+        }
+        public static int DeleteCurriculumSubjectClassType(Int32 CurriculumSubjectID, Int32 CurriculumClassTypeID)
+        {
+            return new CurriculumSubjectClassTypeDao().Delete(CurriculumSubjectID, CurriculumClassTypeID);
+        }
+        public static List<CurriculumSubjectClassType> GetCurriculumSubjectClassTypeList(string filterExpression)
+        {
+            List<CurriculumSubjectClassType> result = new List<CurriculumSubjectClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubjectClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubjectClassType)helper.IDataReaderToObject(reader, new CurriculumSubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CurriculumSubjectClassType> GetCurriculumSubjectClassTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<CurriculumSubjectClassType> result = new List<CurriculumSubjectClassType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubjectClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubjectClassType)helper.IDataReaderToObject(reader, new CurriculumSubjectClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumSubjectGroup
+        public static CurriculumSubjectGroup GetCurriculumSubjectGroup(Int32 CurriculumSubjectGroupID)
+        {
+            return new CurriculumSubjectGroupDao().Get(CurriculumSubjectGroupID);
+        }
+        public static int InsertCurriculumSubjectGroup(CurriculumSubjectGroup record)
+        {
+            return new CurriculumSubjectGroupDao().Insert(record);
+        }
+        public static int UpdateCurriculumSubjectGroup(CurriculumSubjectGroup record)
+        {
+            return new CurriculumSubjectGroupDao().Update(record);
+        }
+        public static int DeleteCurriculumSubjectGroup(Int32 CurriculumSubjectGroupID)
+        {
+            return new CurriculumSubjectGroupDao().Delete(CurriculumSubjectGroupID);
+        }
+        public static List<CurriculumSubjectGroup> GetCurriculumSubjectGroupList(string filterExpression)
+        {
+            List<CurriculumSubjectGroup> result = new List<CurriculumSubjectGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubjectGroup));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubjectGroup)helper.IDataReaderToObject(reader, new CurriculumSubjectGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumSubjectMarkType
+        public static CurriculumSubjectMarkType GetCurriculumSubjectMarkType(Int32 CurriculumSubjectID, Int32 CurriculumMarkTypeID)
+        {
+            return new CurriculumSubjectMarkTypeDao().Get(CurriculumSubjectID, CurriculumMarkTypeID);
+        }
+        public static int InsertCurriculumSubjectMarkType(CurriculumSubjectMarkType record)
+        {
+            return new CurriculumSubjectMarkTypeDao().Insert(record);
+        }
+        public static int UpdateCurriculumSubjectMarkType(CurriculumSubjectMarkType record)
+        {
+            return new CurriculumSubjectMarkTypeDao().Update(record);
+        }
+        public static int DeleteCurriculumSubjectMarkType(Int32 CurriculumSubjectID, Int32 CurriculumMarkTypeID)
+        {
+            return new CurriculumSubjectMarkTypeDao().Delete(CurriculumSubjectID, CurriculumMarkTypeID);
+        }
+        public static List<CurriculumSubjectMarkType> GetCurriculumSubjectMarkTypeList(string filterExpression)
+        {
+            List<CurriculumSubjectMarkType> result = new List<CurriculumSubjectMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubjectMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubjectMarkType)helper.IDataReaderToObject(reader, new CurriculumSubjectMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<CurriculumSubjectMarkType> GetCurriculumSubjectMarkTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<CurriculumSubjectMarkType> result = new List<CurriculumSubjectMarkType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSubjectMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSubjectMarkType)helper.IDataReaderToObject(reader, new CurriculumSubjectMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region CurriculumSyllabus
+        public static CurriculumSyllabus GetCurriculumSyllabus(Int32 CurriculumSyllabusID)
+        {
+            return new CurriculumSyllabusDao().Get(CurriculumSyllabusID);
+        }
+        public static int InsertCurriculumSyllabus(CurriculumSyllabus record)
+        {
+            return new CurriculumSyllabusDao().Insert(record);
+        }
+        public static int UpdateCurriculumSyllabus(CurriculumSyllabus record)
+        {
+            return new CurriculumSyllabusDao().Update(record);
+        }
+        public static int DeleteCurriculumSyllabus(Int32 CurriculumSyllabusID)
+        {
+            return new CurriculumSyllabusDao().Delete(CurriculumSyllabusID);
+        }
+        public static List<CurriculumSyllabus> GetCurriculumSyllabusList(string filterExpression)
+        {
+            List<CurriculumSyllabus> result = new List<CurriculumSyllabus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumSyllabus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumSyllabus)helper.IDataReaderToObject(reader, new CurriculumSyllabus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region Customer
         public static Customer GetCustomer(Int32 BusinessPartnerID)
         {
@@ -11968,6 +12691,199 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculum
+        public static SubjectCurriculum GetSubjectCurriculum(Int32 SubjectCurriculumID)
+        {
+            return new SubjectCurriculumDao().Get(SubjectCurriculumID);
+        }
+        public static int InsertSubjectCurriculum(SubjectCurriculum record)
+        {
+            return new SubjectCurriculumDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculum(SubjectCurriculum record)
+        {
+            return new SubjectCurriculumDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculum(Int32 SubjectCurriculumID)
+        {
+            return new SubjectCurriculumDao().Delete(SubjectCurriculumID);
+        }
+        public static List<SubjectCurriculum> GetSubjectCurriculumList(string filterExpression)
+        {
+            List<SubjectCurriculum> result = new List<SubjectCurriculum>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculum));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculum)helper.IDataReaderToObject(reader, new SubjectCurriculum()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetSubjectCurriculumMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculum));
+                ctx.CommandText = helper.SelectMaxColumn("SubjectCurriculumID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculumClassType
+        public static SubjectCurriculumClassType GetSubjectCurriculumClassType(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        {
+            return new SubjectCurriculumClassTypeDao().Get(SubjectCurriculumID, ClassTypeID);
+        }
+        public static int InsertSubjectCurriculumClassType(SubjectCurriculumClassType record)
+        {
+            return new SubjectCurriculumClassTypeDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumClassType(SubjectCurriculumClassType record)
+        {
+            return new SubjectCurriculumClassTypeDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumClassType(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        {
+            return new SubjectCurriculumClassTypeDao().Delete(SubjectCurriculumID, ClassTypeID);
+        }
+        public static List<SubjectCurriculumClassType> GetSubjectCurriculumClassTypeList(string filterExpression)
+        {
+            List<SubjectCurriculumClassType> result = new List<SubjectCurriculumClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumClassType)helper.IDataReaderToObject(reader, new SubjectCurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectCurriculumClassType> GetSubjectCurriculumClassTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectCurriculumClassType> result = new List<SubjectCurriculumClassType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumClassType)helper.IDataReaderToObject(reader, new SubjectCurriculumClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculumMeetingPlan
+        public static SubjectCurriculumMeetingPlan GetSubjectCurriculumMeetingPlan(Int32 SubjectCurriculumMeetingPlanID)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Get(SubjectCurriculumMeetingPlanID);
+        }
+        public static int InsertSubjectCurriculumMeetingPlan(SubjectCurriculumMeetingPlan record)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumMeetingPlan(SubjectCurriculumMeetingPlan record)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumMeetingPlan(Int32 SubjectCurriculumMeetingPlanID)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Delete(SubjectCurriculumMeetingPlanID);
+        }
+        public static List<SubjectCurriculumMeetingPlan> GetSubjectCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<SubjectCurriculumMeetingPlan> result = new List<SubjectCurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumMeetingPlan)helper.IDataReaderToObject(reader, new SubjectCurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region SubjectCurriculumSyllabus
+        public static SubjectCurriculumSyllabus GetSubjectCurriculumSyllabus(Int32 SubjectCurriculumSyllabusID)
+        {
+            return new SubjectCurriculumSyllabusDao().Get(SubjectCurriculumSyllabusID);
+        }
+        public static int InsertSubjectCurriculumSyllabus(SubjectCurriculumSyllabus record)
+        {
+            return new SubjectCurriculumSyllabusDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumSyllabus(SubjectCurriculumSyllabus record)
+        {
+            return new SubjectCurriculumSyllabusDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumSyllabus(Int32 SubjectCurriculumSyllabusID)
+        {
+            return new SubjectCurriculumSyllabusDao().Delete(SubjectCurriculumSyllabusID);
+        }
+        public static List<SubjectCurriculumSyllabus> GetSubjectCurriculumSyllabusList(string filterExpression)
+        {
+            List<SubjectCurriculumSyllabus> result = new List<SubjectCurriculumSyllabus>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumSyllabus));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumSyllabus)helper.IDataReaderToObject(reader, new SubjectCurriculumSyllabus()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

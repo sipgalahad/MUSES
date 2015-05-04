@@ -646,6 +646,19 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vJournalTemplateDt
+    public partial class vJournalTemplateDt
+    {
+        public string cfPosition
+        {
+            get
+            {
+                if (_Position == "D") return "Debit";
+                return "Kredit";
+            }
+        }
+    }
+    #endregion
     #region vPeriodAdmission
     public partial class vPeriodAdmission
     {

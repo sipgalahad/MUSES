@@ -10,6 +10,7 @@ namespace CodeX.Data.Model
     {
         public Int32 PeriodSectionID { get; set; }
         public Int32 ClassSubjectID { get; set; }
+        public Int32 CurriculumID { get; set; }
         public Int32 ClassScheduleID { get; set; }
         public Int32 ClassMeetingID { get; set; }
     }

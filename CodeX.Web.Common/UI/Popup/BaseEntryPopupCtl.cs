@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using DevExpress.Web.ASPxEditors;
 using CodeX.Common;
+using CodeX.Web.CustomControl;
 
 namespace CodeX.Web.Common.UI
 {
@@ -126,11 +127,37 @@ namespace CodeX.Web.Common.UI
                 //if (setting.IsRequired)
                 ctl.ValidationSettings.ValidationGroup = "mpEntryPopup";
             }
+            else if (ctrl is CodeXAutoCompleteTextBox)
+            {
+                CodeXAutoCompleteTextBox tac = (CodeXAutoCompleteTextBox)ctrl;
+                tac.ValidationGroup = "mpEntryPopup";
+                tac.IsRequired = setting.IsRequired;
+            }
             else if (ctrl is WebControl)
             {
                 if (setting.IsRequired)
-                    Helper.AddCssClass(((WebControl)ctrl), "required");
+                {
+                    if (ctrl is RadioButtonList)
+                    {
+                        RadioButtonList rbl = ctrl as RadioButtonList;
+                        if (rbl.Items.Count > 0)
+                            rbl.Items[0].Attributes.Add("class", "required");
+                    }
+                    else
+                        Helper.AddCssClass(((WebControl)ctrl), "required");
+                }
                 ((WebControl)ctrl).Attributes.Add("validationgroup", "mpEntryPopup");
+                if (setting.IsEditAbleInEditMode)
+                    ((WebControl)ctrl).Attributes.Add("IsEditAbleInEditMode", "1");
+                else
+                    ((WebControl)ctrl).Attributes.Add("IsEditAbleInEditMode", "0");
+            }
+            else if (ctrl is HtmlGenericControl)
+            {
+                if (setting.IsEditAbleInEditMode)
+                    ((HtmlGenericControl)ctrl).Attributes.Add("IsEditAbleInEditMode", "1");
+                else
+                    ((HtmlGenericControl)ctrl).Attributes.Add("IsEditAbleInEditMode", "0");
             }
         }
 
@@ -146,6 +173,13 @@ namespace CodeX.Web.Common.UI
                     ((TextBox)ctrl).ReadOnly = false;
                 else
                     ((TextBox)ctrl).ReadOnly = true;
+            }
+            else if (ctrl is CodeXAutoCompleteTextBox)
+            {
+                if (isEnabled)
+                    ((CodeXAutoCompleteTextBox)ctrl).Readonly = false;
+                else
+                    ((CodeXAutoCompleteTextBox)ctrl).Readonly = true;
             }
             else if (ctrl is DropDownList)
             {
@@ -169,6 +203,16 @@ namespace CodeX.Web.Common.UI
                 ((ASPxEdit)ctrl).Value = value;
             else if (ctrl is TextBox)
                 ((TextBox)ctrl).Text = value.ToString();
+            else if (ctrl is CodeXAutoCompleteTextBox)
+            {
+                if (value is Variable)
+                {
+                    CodeXAutoCompleteTextBox tac = ctrl as CodeXAutoCompleteTextBox;
+                    Variable varValue = value as Variable;
+                    tac.Value = varValue.Code;
+                    tac.Text = varValue.Value;
+                }
+            }
             else if (ctrl is DropDownList)
                 Helper.SetDropDownListValue((DropDownList)ctrl, value.ToString());
             else if (ctrl is CheckBox)

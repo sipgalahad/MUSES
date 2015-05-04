@@ -75,6 +75,7 @@ namespace CodeX.Web.CommonLibs.Program
         protected string fontWeight = "";
         protected string h1FontSize = "";
         protected string pagePaperPadding = "";
+        protected string leftRightPosition = "";
 
         #region Generate Filter Expression
         string[] param = null;
@@ -86,6 +87,7 @@ namespace CodeX.Web.CommonLibs.Program
             return sbResult.ToString();
         }
 
+        List<Variable> lstParameterCodeValue = new List<Variable>();
         private List<Variable> GenerateFilterExpressionSP(List<ReportParameter> lstReportParameter, bool isShowParameter)
         {
             string reportXML = this.ResolveUrl(string.Format("~/Libs/App_Data/report/filterparameter.xml", reportMaster.ReportUrl));
@@ -136,6 +138,7 @@ namespace CodeX.Web.CommonLibs.Program
                         }
                         ctrParameter++;
                     }
+                    lstParameterCodeValue.Add(new Variable { Code = reportParameter.Code, Value = paramText });
                     SubHeaderText1 = SubHeaderText1.Replace("{" + reportParameter.Code + "}", paramText);
                 }
             }
@@ -261,6 +264,7 @@ namespace CodeX.Web.CommonLibs.Program
                         }
                         ctrParameter++;
                     }
+                    lstParameterCodeValue.Add(new Variable { Code = reportParameter.Code, Value = paramText });
                     SubHeaderText1 = SubHeaderText1.Replace("{" + reportParameter.Code + "}", paramText);
                 }
             }
@@ -363,16 +367,13 @@ namespace CodeX.Web.CommonLibs.Program
             if (tempReportSetting.IsUsingDotMatrix)
             {
                 if (AppConfigManager.CDXDotMatrixDPI == "120x144")
-                {
                     letterSpacingPrint = "0px";
-                }
                 else
-                {
                     letterSpacingPrint = "4px";
-                }
                 pagePaperPadding = "0";
                 fontWeight = "normal";
                 h1FontSize = "14pt";
+                leftRightPosition = "0cm";
             }
             else
             {
@@ -380,6 +381,7 @@ namespace CodeX.Web.CommonLibs.Program
                 fontWeight = "bold;";
                 h1FontSize = "12pt";
                 pagePaperPadding = "0.2cm 0.7cm";
+                leftRightPosition = "0.7cm";
             }
             fontSize = tempReportSetting.FontSize;
             fontFamily = tempReportSetting.FontFamily;
@@ -504,7 +506,7 @@ namespace CodeX.Web.CommonLibs.Program
                 #endregion
 
                 #region Repeater Builder
-                rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder);
+                rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder, lstParameterCodeValue);
                 if (lstTemplateField.Count > 0)
                 {
                     rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0);
@@ -648,6 +650,7 @@ namespace CodeX.Web.CommonLibs.Program
             IEnumerable<object> _lstEntity;
             string _totalText;
             IEnumerable<XElement> _lstField;
+            List<Variable> _lstParameterCodeValue;
             public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level)
             {
                 _type = type;
@@ -655,7 +658,7 @@ namespace CodeX.Web.CommonLibs.Program
                 _level = level;
                 _lstGroupField = lstGroupField;
             }
-            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, IEnumerable<XElement> lstField, bool isShowHeaderBorder)
+            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, IEnumerable<XElement> lstField, bool isShowHeaderBorder, List<Variable> lstParameterCodeValue)
             {
                 _type = type;
                 _lstTemplateField = lstTemplateField;
@@ -663,6 +666,7 @@ namespace CodeX.Web.CommonLibs.Program
                 _lstGroupField = lstGroupField;
                 _lstField = lstField;
                 _isShowHeaderBorder = isShowHeaderBorder;
+                _lstParameterCodeValue = lstParameterCodeValue;
             }
             public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, IEnumerable<object> lstEntity, bool isShowTotal, string totalText)
             {
@@ -684,6 +688,11 @@ namespace CodeX.Web.CommonLibs.Program
                     string FieldName = field.Attribute("fieldname") != null ? field.Attribute("fieldname").Value : "";
                     string FieldType = field.Attribute("fieldtype") != null ? field.Attribute("fieldtype").Value : "";
                     string HeaderText = field.Attribute("headertext").Value;
+                    foreach (Variable parameterCodeText in _lstParameterCodeValue)
+                    {
+                        HeaderText = HeaderText.Replace("{" + parameterCodeText.Code + "}", parameterCodeText.Value);
+                    }
+
                     int Width = field.Attribute("width") != null ? Convert.ToInt32(field.Attribute("width").Value) : 0;
                     bool IsShowSubTotal = field.Attribute("isshowsubtotal") != null ? field.Attribute("isshowsubtotal").Value == "1" : false;
                     string InnerHtml = field.Attribute("innerhtml") != null ? field.Attribute("innerhtml").Value : "";
@@ -703,8 +712,12 @@ namespace CodeX.Web.CommonLibs.Program
                     if (Colspan > 0)
                         colSpanText = string.Format(" colspan='{0}'", Colspan);
 
+                    string widthText = "";
+                    if (Colspan < 1)
+                        widthText = string.Format(" style='width:{0}%;'", Width);
+
                     if (FieldType == "customfield")
-                        result += string.Format("<th{0}{1} align='{3}'>{2}</th>", rowSpanText, colSpanText, HeaderText, DefaultAlign);
+                        result += string.Format("<th{0}{1}{4} align='{3}'>{2}</th>", rowSpanText, colSpanText, HeaderText, DefaultAlign, widthText);
                     else if (FieldType == "autonumber")
                         result += string.Format("<th{0}{1}{4} class='tdAutoNumber' style='width:{3}%;'>{2}</th>", rowSpanText, colSpanText, HeaderText, Width, align);
                     else if (Width > 0)

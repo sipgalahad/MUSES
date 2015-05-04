@@ -45,7 +45,7 @@
             var entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodClassTypeID);
-            cboClassType.SetValue(entity.ClassTypeID);
+            cboClassType.SetValue(entity.CurriculumClassTypeID);
             $('#<%=txtNoOfClass.ClientID %>').val(entity.NoOfClass);
             $('#entryDetailContainer').show();
         });
@@ -124,14 +124,14 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ClassTypeName" HeaderText="Tipe Kelas"/>
+                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas"/>
                                 <asp:BoundField DataField="NoOfClass" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeID") %>" bindingfield="PeriodClassTypeID" />
-                                        <input type="hidden" value="<%#Eval("ClassTypeID") %>" bindingfield="ClassTypeID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumClassTypeID") %>" bindingfield="CurriculumClassTypeID" />
                                         <input type="hidden" value="<%#Eval("NoOfClass") %>" bindingfield="NoOfClass" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

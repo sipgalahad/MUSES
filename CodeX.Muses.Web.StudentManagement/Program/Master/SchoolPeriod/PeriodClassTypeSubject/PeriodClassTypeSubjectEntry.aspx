@@ -147,14 +147,14 @@
 
         //#region Subject
         function onGetSubjectFilterExpression() {
-            var filterExpression = "ClassTypeID = " + $('#<%=hdnClassTypeID.ClientID %>').val() + " AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
+            var filterExpression = "CurriculumClassTypeID = " + $('#<%=hdnClassTypeID.ClientID %>').val() + " AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM vPeriodClassTypeSubject WHERE PeriodClassTypeID = " + cboClassType.GetValue() + " AND IsDeleted = 0)";
             return filterExpression;
         }
 
         function onTacSubjectButtonSearchClick() {
-            openSearchDialog('subjectclasstype', onGetSubjectFilterExpression(), function (value) {
+            openSearchDialog('curriculumsubjectclasstype', onGetSubjectFilterExpression(), function (value) {
                 var filterExpression = onGetSubjectFilterExpression() + " AND SubjectCode = '" + value + "'";
-                Methods.getObject('GetvSubjectClassTypeList', filterExpression, function (result) {
+                Methods.getObject('GetvCurriculumSubjectClassTypeList', filterExpression, function (result) {
                     if (result != null) {
                         tacSubject.setValue(result.SubjectID);
                         tacSubject.setText(result.SubjectName);

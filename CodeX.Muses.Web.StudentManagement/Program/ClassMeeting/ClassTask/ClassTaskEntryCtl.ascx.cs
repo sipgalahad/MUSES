@@ -27,7 +27,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 String ID = param;
                 hdnID.Value = ID;
                 SetControlProperties();
-                ClassSubjectTask entity = BusinessLayer.GetClassSubjectTask(Convert.ToInt32(ID));
+                vClassSubjectTask entity = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectTaskID = {0}", ID)).FirstOrDefault();
                 EntityToControl(entity);
             }
             else
@@ -48,19 +48,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void SetControlProperties()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("((ParentID = '{0}' AND TagProperty = '0') OR ParentID = '{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.TASK_TYPE, Constant.StandardCode.LESSON_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboTaskType, lstSc.Where(p => p.ParentID == Constant.StandardCode.TASK_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
-            cboTaskType.SelectedIndex = 0;
-
-            List<StandardCode> lstLessonType = new List<StandardCode>();
-            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            if (entityClassSubject.GCLessonType == Constant.LessonType.THEORY_PRACTICE)
-                Methods.SetComboBoxField<StandardCode>(cboLessonType, lstSc.Where(p => p.StandardCodeID == Constant.LessonType.THEORY || p.StandardCodeID == Constant.LessonType.PRACTICE).ToList(), "StandardCodeName", "StandardCodeID");
-            else
-            {
-                trLessonType.Style.Add("display", "none");
-                Methods.SetComboBoxField<StandardCode>(cboLessonType, lstSc.Where(p => p.StandardCodeID == entityClassSubject.GCLessonType).ToList(), "StandardCodeName", "StandardCodeID");
-            }
+            List<CurriculumMarkType> lstCurriculumMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID));
+            Methods.SetComboBoxField<CurriculumMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboLessonType.SelectedIndex = 0;
         }
 
@@ -69,7 +58,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtClassTaskCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtTopic, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboLessonType, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboTaskType, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(tacTaskType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtFinalMarkPercentage, new ControlEntrySetting(true, true, true, "0"));
             SetControlEntrySetting(txtTaskDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false, Constant.DefaultValueEntry.DATE_NOW));
@@ -79,13 +68,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
 
-        private void EntityToControl(ClassSubjectTask entity)
+        private void EntityToControl(vClassSubjectTask entity)
         {
             hdnID.Value = entity.ClassSubjectTaskID.ToString();
             txtClassTaskCode.Text = entity.ClassTaskCode;
             txtTopic.Text = entity.Topic;
-            cboLessonType.Value = entity.GCLessonType;
-            cboTaskType.Value = entity.GCTaskType;
+            cboLessonType.Value = entity.CurriculumMarkTypeID.ToString();
+            tacTaskType.Value = entity.CurriculumMarkTypeDtID.ToString();
+            tacTaskType.Text = entity.CurriculumMarkTypeDtName;
             txtFinalMarkPercentage.Text = entity.FinalMarkPercentage.ToString();
             txtTaskDate.Text = entity.TaskDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -99,8 +89,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.ClassTaskCode = txtClassTaskCode.Text;
             entity.Topic = txtTopic.Text;
-            entity.GCLessonType = cboLessonType.Value.ToString();
-            entity.GCTaskType = cboTaskType.Value.ToString();
+            entity.CurriculumMarkTypeID = Convert.ToInt32(cboLessonType.Value);
+            entity.CurriculumMarkTypeDtID = Convert.ToInt32(hdnTaskTypeID.Value);
             entity.FinalMarkPercentage = Convert.ToInt16(txtFinalMarkPercentage.Text);
             entity.TaskDate = Helper.GetDatePickerValue(txtTaskDate.Text);
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
