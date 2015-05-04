@@ -8765,6 +8765,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSubjectCurriculumMeetingPlan
+        public static List<vSubjectCurriculumMeetingPlan> GetvSubjectCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<vSubjectCurriculumMeetingPlan> result = new List<vSubjectCurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSubjectCurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSubjectCurriculumMeetingPlan)helper.IDataReaderToObject(reader, new vSubjectCurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSubjectCurriculumSyllabus
         public static List<vSubjectCurriculumSyllabus> GetvSubjectCurriculumSyllabusList(string filterExpression)
         {

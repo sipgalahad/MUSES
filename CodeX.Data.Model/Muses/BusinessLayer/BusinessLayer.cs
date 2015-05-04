@@ -12808,6 +12808,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectCurriculumMeetingPlan
+        public static SubjectCurriculumMeetingPlan GetSubjectCurriculumMeetingPlan(Int32 SubjectCurriculumMeetingPlanID)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Get(SubjectCurriculumMeetingPlanID);
+        }
+        public static int InsertSubjectCurriculumMeetingPlan(SubjectCurriculumMeetingPlan record)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumMeetingPlan(SubjectCurriculumMeetingPlan record)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumMeetingPlan(Int32 SubjectCurriculumMeetingPlanID)
+        {
+            return new SubjectCurriculumMeetingPlanDao().Delete(SubjectCurriculumMeetingPlanID);
+        }
+        public static List<SubjectCurriculumMeetingPlan> GetSubjectCurriculumMeetingPlanList(string filterExpression)
+        {
+            List<SubjectCurriculumMeetingPlan> result = new List<SubjectCurriculumMeetingPlan>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumMeetingPlan));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumMeetingPlan)helper.IDataReaderToObject(reader, new SubjectCurriculumMeetingPlan()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SubjectCurriculumSyllabus
         public static SubjectCurriculumSyllabus GetSubjectCurriculumSyllabus(Int32 SubjectCurriculumSyllabusID)
         {

@@ -7,126 +7,153 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.ControlPanel.Program {
+namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class CurriculumMeetingPlanEntry {
+    public partial class SubjectCurriculumMeetingPlanEntryDtCtl {
         
         /// <summary>
-        /// hdnEntryID control.
+        /// hdnSubjectCurriculumID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectCurriculumID;
         
         /// <summary>
-        /// txtCurriculumMeetingPlanName control.
+        /// hdnCurriculumMeetingPlanID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCurriculumMeetingPlanName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumMeetingPlanID;
         
         /// <summary>
-        /// cboCurriculumMeetingPlanType control.
+        /// hdnSubjectCurriculumMeetingPlanID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumMeetingPlanType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectCurriculumMeetingPlanID;
         
         /// <summary>
-        /// tacParent control.
+        /// hdnParentID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacParent;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentID;
         
         /// <summary>
-        /// tacReference control.
+        /// hdnIsUsingCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacReference;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsUsingCode;
         
         /// <summary>
-        /// txtDisplayOrder control.
+        /// hdnIsAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDisplayOrder;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAdd;
         
         /// <summary>
-        /// chkIsHeader control.
+        /// txtType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsHeader;
+        protected global::System.Web.UI.WebControls.TextBox txtType;
         
         /// <summary>
-        /// chkIsUsingCode control.
+        /// trCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsUsingCode;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trCode;
         
         /// <summary>
-        /// cbpView control.
+        /// txtSubjectCurriculumMeetingPlanCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.TextBox txtSubjectCurriculumMeetingPlanCode;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// trName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trName;
         
         /// <summary>
-        /// pnlView control.
+        /// txtSubjectCurriculumMeetingPlanName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
+        protected global::System.Web.UI.WebControls.TextBox txtSubjectCurriculumMeetingPlanName;
         
         /// <summary>
-        /// grdView control.
+        /// trReferenceID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trReferenceID;
         
         /// <summary>
-        /// cbpProcess control.
+        /// lblReference control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblReference;
+        
+        /// <summary>
+        /// cboReferenceID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReferenceID;
+        
+        /// <summary>
+        /// txtRemarks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
+        
+        /// <summary>
+        /// cbpEntryPopupView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpEntryPopupView;
     }
 }

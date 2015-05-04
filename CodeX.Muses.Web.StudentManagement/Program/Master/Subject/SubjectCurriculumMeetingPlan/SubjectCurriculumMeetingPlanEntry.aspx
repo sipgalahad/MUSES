@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSubjectPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="SubjectCurriculumSyllabusEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SubjectCurriculumSyllabusEntry" %>
+    CodeBehind="SubjectCurriculumMeetingPlanEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.SubjectCurriculumMeetingPlanEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -19,11 +19,11 @@
             $li = $(this).closest('li');
 
             var parentID = $li.find('.hdnParentID').val();
-            var curriculumDtID = $li.find('.cboCurriculumSyllabusID option:selected').val();
+            var curriculumDtID = $li.find('.cboCurriculumMeetingPlanID option:selected').val();
             var subjectCurriculumID = tacSubjectCurriculum.getValue();
 
             var id = 'add|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID;
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumSyllabus/SubjectCurriculumSyllabusEntryDtCtl.ascx");
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumMeetingPlan/SubjectCurriculumMeetingPlanEntryDtCtl.ascx");
             openUserControlPopup(url, id, 'Entry Data', 700, 400);
         });
 
@@ -32,12 +32,12 @@
             $li = $(this).closest('li');
 
             var parentID = $li.find('.hdnParentID').val();
-            var curriculumDtID = $li.find('.cboCurriculumSyllabusID option:selected').val();
+            var curriculumDtID = $li.find('.cboCurriculumMeetingPlanID option:selected').val();
             var subjectCurriculumID = tacSubjectCurriculum.getValue();
 
             $row = $(this).closest('tr');
-            var id = 'edit|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $row.find('.hdnSubjectCurriculumSyllabusID').val();
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumSyllabus/SubjectCurriculumSyllabusEntryDtCtl.ascx");
+            var id = 'edit|' + subjectCurriculumID + '|' + curriculumDtID + '|' + parentID + '|' + $row.find('.hdnSubjectCurriculumMeetingPlanID').val();
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculumMeetingPlan/SubjectCurriculumMeetingPlanEntryDtCtl.ascx");
             openUserControlPopup(url, id, 'Entry Data', 700, 400);
         });
 
@@ -47,7 +47,7 @@
             showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val($row.find('.hdnSubjectCurriculumSyllabusID').val());
+                    $('#<%=hdnEntryID.ClientID %>').val($row.find('.hdnSubjectCurriculumMeetingPlanID').val());
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -108,45 +108,51 @@
             $panel = $($('#tmplSubjectCurriculum').html());
             $li.append($panel);
 
-            fillSubjectCurriculumSyllabusList(0);
+            fillSubjectCurriculumMeetingPlanList(0);
         }
 
-        function fillSubjectCurriculumSyllabusList(idx) {
+        function fillSubjectCurriculumMeetingPlanList(idx) {
             $li = $('#ulContainerSubjectCurriculum li:eq(' + idx + ')');
             var filterExpression = "";
-            var parentID = $li.find('.hdnCurriculumSyllabusID').val();
+            var parentID = $li.find('.hdnCurriculumMeetingPlanID').val();
             if (parentID == "")
                 filterExpression = 'CurriculumID = ' + $('#<%=hdnCurriculumID.ClientID %>').val() + ' AND ParentID IS NULL AND IsDeleted = 0';
             else
                 filterExpression = 'CurriculumID = ' + $('#<%=hdnCurriculumID.ClientID %>').val() + ' AND ParentID = ' + parentID + ' AND IsDeleted = 0';
-            Methods.getListObject('GetCurriculumSyllabusList', filterExpression, function (result) {
+            Methods.getListObject('GetCurriculumMeetingPlanList', filterExpression, function (result) {
                 for (var i = 0; i < result.length; ++i) {
                     var isUsingCode = '1';
                     if (!result[i].IsUsingCode)
                         isUsingCode = '0';
-                    $option = $("<option value='" + result[i].CurriculumSyllabusID + "' isusingcode='" + isUsingCode + "'>" + result[i].CurriculumSyllabusName + "</option>");
-                    $panel.find('.cboCurriculumSyllabusID').append($option);
+
+                    var referenceID = '0';
+                    if (result[i].CurriculumSyllabusReferenceID != null)
+                        referenceID = result[i].CurriculumSyllabusReferenceID;
+
+                    $option = $("<option value='" + result[i].CurriculumMeetingPlanID + "' isusingcode='" + isUsingCode + "' referenceid='" + referenceID + "'>" + result[i].CurriculumMeetingPlanName + "</option>");
+                    $panel.find('.cboCurriculumMeetingPlanID').append($option);
                 }
-                $panel.find('.cboCurriculumSyllabusID').change(function () {
+                $panel.find('.cboCurriculumMeetingPlanID').change(function () {
                     $li = $(this).closest('li');
                     var idx = $('#ulContainerSubjectCurriculum li').index($li);
                     $('#ulContainerSubjectCurriculum li:gt(' + idx + ')').remove();
-                    refreshGridCurriculumSyllabus($li);
+                    refreshGridCurriculumMeetingPlan($li);
                 });
-                refreshGridCurriculumSyllabus($li);
+                refreshGridCurriculumMeetingPlan($li);
             });
         }
 
-        function onAfterSaveRecordSubjectCurriculumSyllabus() {
-            refreshGridCurriculumSyllabus($li);
+        function onAfterSaveRecordSubjectCurriculumMeetingPlan() {
+            refreshGridCurriculumMeetingPlan($li);
         }
 
-        function refreshGridCurriculumSyllabus($li) {
-            $opt = $li.find('.cboCurriculumSyllabusID option:selected');
+        function refreshGridCurriculumMeetingPlan($li) {
+            $opt = $li.find('.cboCurriculumMeetingPlanID option:selected');
             var id = $opt.val();
             var isUsingCode = $opt.attr('isusingcode');
+            var referenceID = $opt.attr('referenceid');
             
-            $tbl = $li.find('.tblSubjectCurriculumSyllabus');
+            $tbl = $li.find('.tblSubjectCurriculumMeetingPlan');
             $tbl.find('tr:gt(0)').each(function () {
                 $(this).remove();
             });
@@ -159,15 +165,25 @@
             var parentID = $li.find('.hdnParentID').val();
             var filterExpression = "";
             if (parentID == "")
-                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
+                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
             else
-                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumSyllabusID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
-            Methods.getListObject('GetvSubjectCurriculumSyllabusList', filterExpression, function (result) {
-                $("#tmplListSubjectCurriculumSyllabus").tmpl(result).appendTo($tbl);
+                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+            Methods.getListObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
+                $("#tmplListSubjectCurriculumMeetingPlan").tmpl(result).appendTo($tbl);
 
                 if (isUsingCode == '0') {
                     $tbl.find('tr:gt(0)').each(function () {
                         $(this).find('.tdCode').attr('style', 'display:none');
+                    });
+                }
+                if (referenceID == '0') {
+                    $tbl.find('tr:gt(0)').each(function () {
+                        $(this).find('.tdReference').attr('style', 'display:none');
+                    });
+                }
+                else {
+                    $tbl.find('tr:gt(0)').each(function () {
+                        $(this).find('.tdName').attr('style', 'display:none');
                     });
                 }
                 $tbl.find('tr:gt(0)').click(function (e) {
@@ -193,11 +209,11 @@
                             $panel = $($('#tmplSubjectCurriculum').html());
                             $li.append($panel);
 
-                            $li.find('.hdnCurriculumSyllabusID').val(id);
+                            $li.find('.hdnCurriculumMeetingPlanID').val(id);
 
-                            $li.find('.hdnParentID').val($(this).find('.hdnSubjectCurriculumSyllabusID').val());
+                            $li.find('.hdnParentID').val($(this).find('.hdnSubjectCurriculumMeetingPlanID').val());
 
-                            fillSubjectCurriculumSyllabusList(idx);
+                            fillSubjectCurriculumMeetingPlanList(idx);
                         }
                     }
                 });
@@ -210,7 +226,7 @@
             if (param[0] == 'fail')
                 showToast('Save Failed', 'Error Message : ' + param[1]);
             else {
-                onAfterSaveRecordSubjectCurriculumSyllabus();
+                onAfterSaveRecordSubjectCurriculumMeetingPlan();
                 hideLoadingPanel();
             }
         }
@@ -234,8 +250,8 @@
         #ulContainerSubjectCurriculum li                        { padding: 5px; width: 450px; height: 400px; border-right: 1px solid #EAEAEA; display: inline-table; list-style-type: none; }
         #ulContainerSubjectCurriculum li:first-child            { border-left: 1px solid #EAEAEA; }
         
-        .tblSubjectCurriculumSyllabus             { border-collapse:collapse; table-layout:fixed; width: 440px; }
-        .tblSubjectCurriculumSyllabus td:nth-child(2) div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 340px; white-space: nowrap }
+        .tblSubjectCurriculumMeetingPlan             { border-collapse:collapse; table-layout:fixed; width: 440px; }
+        .tblSubjectCurriculumMeetingPlan td:nth-child(2) div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 340px; white-space: nowrap }
     </style>
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server" />
@@ -266,14 +282,15 @@
             </tr> 
         </table>
     </fieldset>
-    <script id="tmplListSubjectCurriculumSyllabus" type="text/x-jquery-tmpl">
-        <tr class="trSubjectCurriculumSyllabus">
-            <td class="tdCode"><div>${SubjectCurriculumSyllabusCode}</div></td>
-            <td><div>${SubjectCurriculumSyllabusName}</div></td>
+    <script id="tmplListSubjectCurriculumMeetingPlan" type="text/x-jquery-tmpl">
+        <tr class="trSubjectCurriculumMeetingPlan">
+            <td class="tdCode"><div>${SubjectCurriculumMeetingPlanCode}</div></td>
+            <td class="tdName"><div>${SubjectCurriculumMeetingPlanName}</div></td>
+            <td class="tdReference"><div>${ReferenceName}</div></td>
             <td>
                 <div style='float:right;' class="divDetailDelete"></div>
                 <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                <input type="hidden" class="hdnSubjectCurriculumSyllabusID" value="${SubjectCurriculumSyllabusID}"/>
+                <input type="hidden" class="hdnSubjectCurriculumMeetingPlanID" value="${SubjectCurriculumMeetingPlanID}"/>
                 <input type="hidden" class="hdnIsHeader" value="${IsHeader}"/>
             </td>
         </tr>
@@ -286,16 +303,16 @@
             </colgroup>
             <tr>
                 <td class="tdLabel">Tipe</td>
-                <td><select class="cboCurriculumSyllabusID" style="width:200px;"></select></td>
+                <td><select class="cboCurriculumMeetingPlanID" style="width:200px;"></select></td>
             </tr>
         </table>
         <input type="hidden" class="hdnParentID" value=""/>
-        <input type="hidden" class="hdnCurriculumSyllabusID" value=""/>
+        <input type="hidden" class="hdnCurriculumMeetingPlanID" value=""/>
         <div class="divTransactionEntry" style="margin-top: 5px;">
             <span class="divTransactionAdd divAdd"><%=GetLabel("Tambah Data")%></span>&nbsp;
             <br />
         </div>
-        <table class="tblSubjectCurriculumSyllabus grdSelected" rules="all">
+        <table class="tblSubjectCurriculumMeetingPlan grdSelected" rules="all">
             <tr>
                 <th class="thCode" style="width: 80px">Kode</th>
                 <th>Teks</th>

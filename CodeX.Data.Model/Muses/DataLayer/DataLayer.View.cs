@@ -3498,6 +3498,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumMeetingPlanName;
         private Int16 _DisplayOrder;
+        private Boolean _IsUsingCode;
         private Int32 _ParentID;
         private String _ParentName;
         private Boolean _IsHeader;
@@ -3532,6 +3533,12 @@ namespace CodeX.Data.Model
         {
             get { return _DisplayOrder; }
             set { _DisplayOrder = value; }
+        }
+        [Column(Name = "IsUsingCode", DataType = "Boolean")]
+        public Boolean IsUsingCode
+        {
+            get { return _IsUsingCode; }
+            set { _IsUsingCode = value; }
         }
         [Column(Name = "ParentID", DataType = "Int32")]
         public Int32 ParentID
@@ -22750,6 +22757,98 @@ namespace CodeX.Data.Model
         {
             get { return _ListClassTypeName; }
             set { _ListClassTypeName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vSubjectCurriculumMeetingPlan
+    [Serializable]
+    [Table(Name = "vSubjectCurriculumMeetingPlan")]
+    public class vSubjectCurriculumMeetingPlan
+    {
+        private Int32 _SubjectCurriculumMeetingPlanID;
+        private Int32 _SubjectCurriculumID;
+        private Int32 _SubjectID;
+        private Int32 _CurriculumMeetingPlanID;
+        private Boolean _IsHeader;
+        private String _SubjectCurriculumMeetingPlanCode;
+        private String _SubjectCurriculumMeetingPlanName;
+        private Int32 _ParentID;
+        private Int32 _ReferenceID;
+        private String _ReferenceName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "SubjectCurriculumMeetingPlanID", DataType = "Int32")]
+        public Int32 SubjectCurriculumMeetingPlanID
+        {
+            get { return _SubjectCurriculumMeetingPlanID; }
+            set { _SubjectCurriculumMeetingPlanID = value; }
+        }
+        [Column(Name = "SubjectCurriculumID", DataType = "Int32")]
+        public Int32 SubjectCurriculumID
+        {
+            get { return _SubjectCurriculumID; }
+            set { _SubjectCurriculumID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "CurriculumMeetingPlanID", DataType = "Int32")]
+        public Int32 CurriculumMeetingPlanID
+        {
+            get { return _CurriculumMeetingPlanID; }
+            set { _CurriculumMeetingPlanID = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "SubjectCurriculumMeetingPlanCode", DataType = "String")]
+        public String SubjectCurriculumMeetingPlanCode
+        {
+            get { return _SubjectCurriculumMeetingPlanCode; }
+            set { _SubjectCurriculumMeetingPlanCode = value; }
+        }
+        [Column(Name = "SubjectCurriculumMeetingPlanName", DataType = "String")]
+        public String SubjectCurriculumMeetingPlanName
+        {
+            get { return _SubjectCurriculumMeetingPlanName; }
+            set { _SubjectCurriculumMeetingPlanName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ReferenceID", DataType = "Int32")]
+        public Int32 ReferenceID
+        {
+            get { return _ReferenceID; }
+            set { _ReferenceID = value; }
+        }
+        [Column(Name = "ReferenceName", DataType = "String")]
+        public String ReferenceName
+        {
+            get { return _ReferenceName; }
+            set { _ReferenceName = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
