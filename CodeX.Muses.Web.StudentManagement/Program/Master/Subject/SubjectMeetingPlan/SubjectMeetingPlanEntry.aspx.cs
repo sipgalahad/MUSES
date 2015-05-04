@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            if (AppSession.SubjectMatterID > 0)
+            if (AppSession.SubjectCurriculumID > 0)
                 return Constant.MenuCode.StudentManagement.SBM_SUBJECT_MEETING_PLAN;
             return Constant.MenuCode.StudentManagement.SB_SUBJECT_MEETING_PLAN;
         }

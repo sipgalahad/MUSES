@@ -2396,6 +2396,7 @@ namespace CodeX.Data.Model
         private String _Remarks;
         private String _NextMeetingRemarks;
         private Int32? _SubjectMeetingPlanHdID;
+        private Int32? _SubjectCurriculumMeetingPlanID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -2467,6 +2468,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectMeetingPlanHdID; }
             set { _SubjectMeetingPlanHdID = value; }
+        }
+        [Column(Name = "SubjectCurriculumMeetingPlanID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubjectCurriculumMeetingPlanID
+        {
+            get { return _SubjectCurriculumMeetingPlanID; }
+            set { _SubjectCurriculumMeetingPlanID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -16239,7 +16246,7 @@ namespace CodeX.Data.Model
         private Int16 _PassingGrade;
         private Int32? _TheoryFinalMarkFormulaID;
         private Int32? _PracticeFinalMarkFormulaID;
-        private Int32? _SubjectMatterID;
+        private Int32? _SubjectCurriculumID;
         private String _GCSubjectType;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -16295,11 +16302,11 @@ namespace CodeX.Data.Model
             get { return _PracticeFinalMarkFormulaID; }
             set { _PracticeFinalMarkFormulaID = value; }
         }
-        [Column(Name = "SubjectMatterID", DataType = "Int32", IsNullable = true)]
-        public Int32? SubjectMatterID
+        [Column(Name = "SubjectCurriculumID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubjectCurriculumID
         {
-            get { return _SubjectMatterID; }
-            set { _SubjectMatterID = value; }
+            get { return _SubjectCurriculumID; }
+            set { _SubjectCurriculumID = value; }
         }
         [Column(Name = "GCSubjectType", DataType = "String")]
         public String GCSubjectType
@@ -27223,7 +27230,7 @@ namespace CodeX.Data.Model
     public class SubjectCurriculumClassType : DbDataModel
     {
         private Int32 _SubjectCurriculumID;
-        private Int32 _ClassTypeID;
+        private Int32 _CurriculumClassTypeID;
 
         [Column(Name = "SubjectCurriculumID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 SubjectCurriculumID
@@ -27231,11 +27238,11 @@ namespace CodeX.Data.Model
             get { return _SubjectCurriculumID; }
             set { _SubjectCurriculumID = value; }
         }
-        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 ClassTypeID
+        [Column(Name = "CurriculumClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumClassTypeID
         {
-            get { return _ClassTypeID; }
-            set { _ClassTypeID = value; }
+            get { return _CurriculumClassTypeID; }
+            set { _CurriculumClassTypeID = value; }
         }
     }
 
@@ -27244,17 +27251,17 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(SubjectCurriculumClassType));
         private bool _isAuditLog = false;
-        private const string p_ClassTypeID = "@p_ClassTypeID";
+        private const string p_CurriculumClassTypeID = "@p_CurriculumClassTypeID";
         private const string p_SubjectCurriculumID = "@p_SubjectCurriculumID";
         public SubjectCurriculumClassTypeDao() { }
         public SubjectCurriculumClassTypeDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public SubjectCurriculumClassType Get(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        public SubjectCurriculumClassType Get(Int32 SubjectCurriculumID, Int32 CurriculumClassTypeID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_ClassTypeID, ClassTypeID);
+            _ctx.Add(p_CurriculumClassTypeID, CurriculumClassTypeID);
             _ctx.Add(p_SubjectCurriculumID, SubjectCurriculumID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (SubjectCurriculumClassType)_helper.DataRowToObject(row, new SubjectCurriculumClassType());
@@ -27269,13 +27276,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 SubjectCurriculumID, Int32 ClassTypeID)
+        public int Delete(Int32 SubjectCurriculumID, Int32 CurriculumClassTypeID)
         {
             SubjectCurriculumClassType record;
             if (_ctx.Transaction == null)
-                record = new SubjectCurriculumClassTypeDao().Get(SubjectCurriculumID, ClassTypeID);
+                record = new SubjectCurriculumClassTypeDao().Get(SubjectCurriculumID, CurriculumClassTypeID);
             else
-                record = Get(SubjectCurriculumID, ClassTypeID);
+                record = Get(SubjectCurriculumID, CurriculumClassTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

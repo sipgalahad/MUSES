@@ -19,12 +19,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = "";
             if (temp.Count() > 1)
             {
-                AppSession.SubjectMatterID = Convert.ToInt32(temp[1]);
-                filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_MATTER_PAGE);
+                AppSession.SubjectCurriculumID = Convert.ToInt32(temp[1]);
+                filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_CURRICULUM_PAGE);
             }
             else
             {
-                AppSession.SubjectMatterID = 0;
+                AppSession.SubjectCurriculumID = 0;
                 filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_PAGE);
             }
             

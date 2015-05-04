@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class PeriodClassTypeSubjectEntry {
         
         /// <summary>
+        /// hdnCurriculumID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
+        
+        /// <summary>
         /// cboClassType control.
         /// </summary>
         /// <remarks>
@@ -58,13 +67,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
         
         /// <summary>
-        /// tacSubjectMatter control.
+        /// tacSubjectCurriculum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectMatter;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculum;
         
         /// <summary>
         /// txtNoMeetingHoursInWeek control.

@@ -31,13 +31,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassMeetingID;
         
         /// <summary>
-        /// hdnSubjectMatterID control.
+        /// hdnSubjectCurriculumID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMatterID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectCurriculumID;
         
         /// <summary>
         /// hdnSubjectIndicatorSave control.
@@ -94,13 +94,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
         
         /// <summary>
-        /// tacSubjectMeetingPlanHd control.
+        /// tacSubjectCurriculumMeetingPlan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectMeetingPlanHd;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculumMeetingPlan;
         
         /// <summary>
         /// txtRemarks control.

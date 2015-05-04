@@ -21,7 +21,7 @@
 
             $('#<%=btnSave.ClientID %>').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    var subjectMeetingPlanHdID = tacSubjectMeetingPlanHd.getValue();
+                    var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
                     if (subjectMeetingPlanHdID == '') {
                         var result = '';
                         $('.tacSubjectIndicator').each(function () {
@@ -38,9 +38,9 @@
             });
 
             $('#btnMeetingPlanDt').click(function () {
-                var id = tacSubjectMeetingPlanHd.getValue();
+                var id = tacSubjectCurriculumMeetingPlan.getValue();
                 if (id != null && id != '') {
-                    var url = ResolveUrl("~/Program/ClassMeeting/ClassMeeting/SubjectMeetingPlanDtCtl.ascx");
+                    var url = ResolveUrl("~/Program/ClassMeeting/ClassMeeting/SubjectCurriculumMeetingPlanDtCtl.ascx");
                     openUserControlPopup(url, id, 'Detil Pertemuan', 750, 570);
                 }
             });
@@ -100,63 +100,63 @@
         }
         //#endregion
 
-        //#region SubjectMeetingPlanHd
-        function onGetSubjectMeetingPlanHdFilterExpression() {
-            var filterExpression = "<%=OnGetSubjectMeetingPlanHdFilterExpression() %>";
+        //#region SubjectCurriculumMeetingPlan
+        function onGetSubjectCurriculumMeetingPlanFilterExpression() {
+            var filterExpression = "<%=OnGetSubjectCurriculumMeetingPlanFilterExpression() %>";
             return filterExpression;
         }
 
-        function onTacSubjectMeetingPlanHdButtonSearchClick() {
-            openSearchDialog('subjectmeetingplanhd', onGetSubjectMeetingPlanHdFilterExpression(), function (value) {
-                var filterExpression = onGetSubjectMeetingPlanHdFilterExpression() + " AND SubjectMeetingPlanHdID = '" + value + "'";
-                Methods.getObject('GetvSubjectMeetingPlanHdList', filterExpression, function (result) {
+        function onTacSubjectCurriculumMeetingPlanButtonSearchClick() {
+            openSearchDialog('subjectcurriculummeetingplan', onGetSubjectCurriculumMeetingPlanFilterExpression(), function (value) {
+                var filterExpression = onGetSubjectCurriculumMeetingPlanFilterExpression() + " AND SubjectCurriculumMeetingPlanID = '" + value + "'";
+                Methods.getObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
                     if (result != null) {
-                        tacSubjectMeetingPlanHd.setValue(result.SubjectMeetingPlanHdID);
-                        tacSubjectMeetingPlanHd.setText(result.MeetingNo);
-                        entityToControlSubjectMeetingPlanHd();
+                        tacSubjectCurriculumMeetingPlan.setValue(result.SubjectCurriculumMeetingPlanID);
+                        tacSubjectCurriculumMeetingPlan.setText(result.SubjectCurriculumMeetingPlanName);
+                        entityToControlSubjectCurriculumMeetingPlan();
                     }
                     else {
-                        tacSubjectMeetingPlanHd.setValue('');
-                        tacSubjectMeetingPlanHd.setText('');
-                        entityToControlSubjectMeetingPlanHd();
+                        tacSubjectCurriculumMeetingPlan.setValue('');
+                        tacSubjectCurriculumMeetingPlan.setText('');
+                        entityToControlSubjectCurriculumMeetingPlan();
                     }
                 });
             });
 
         }
 
-        function onTacSubjectMeetingPlanHdValueChanged() {
-            entityToControlSubjectMeetingPlanHd(null);
+        function onTacSubjectCurriculumMeetingPlanValueChanged() {
+            entityToControlSubjectCurriculumMeetingPlan(null);
         }
 
-        function entityToControlSubjectMeetingPlanHd() {
+        function entityToControlSubjectCurriculumMeetingPlan() {
             $('#tblEntry .trSubjectIndicatorDt').each(function () {
                 $(this).remove();
             });
 
-            var subjectMeetingPlanHdID = tacSubjectMeetingPlanHd.getValue();
-            if (subjectMeetingPlanHdID != '') {
-                var filterExpression = 'SubjectMeetingPlanID = ' + subjectMeetingPlanHdID;
-                Methods.getListObject('GetvSubjectMeetingPlanIndicatorList', filterExpression, function (result) {
-                    for (var i = 0; i < result.length; ++i) {
-                        var entity = result[i];
-                        $('#divEntryDtAdd').click();
+            var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
+//            if (subjectMeetingPlanHdID != '') {
+//                var filterExpression = 'SubjectCurriculumMeetingPlanID = ' + subjectMeetingPlanHdID;
+//                Methods.getListObject('GetvSubjectCurriculumMeetingPlanIndicatorList', filterExpression, function (result) {
+//                    for (var i = 0; i < result.length; ++i) {
+//                        var entity = result[i];
+//                        $('#divEntryDtAdd').click();
 
-                        $tr = $('.trSubjectIndicatorDt').last();
-                        tempHelper.setEnabled(false);
-                        $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
-                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
-                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+//                        $tr = $('.trSubjectIndicatorDt').last();
+//                        tempHelper.setEnabled(false);
+//                        $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+//                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
+//                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
+//                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
 
-                        $tr.find('.divDetailDelete').hide();
-                    }
-                });
+//                        $tr.find('.divDetailDelete').hide();
+//                    }
+//                });
 
-                $('#divEntryDtAdd').hide();
-            }
-            else
-                $('#divEntryDtAdd').show();
+//                $('#divEntryDtAdd').hide();
+//            }
+//            else
+//                $('#divEntryDtAdd').show();
         }
         //#endregion        
 
@@ -182,10 +182,10 @@
             });
 
             setTimeout(function () {
-                var subjectMeetingPlanHdID = tacSubjectMeetingPlanHd.getValue();
+                var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
                 if (subjectMeetingPlanHdID != '') {
-                    var filterExpression = 'SubjectMeetingPlanID = ' + subjectMeetingPlanHdID;
-                    Methods.getListObject('GetvSubjectMeetingPlanIndicatorList', filterExpression, function (result) {
+                    var filterExpression = 'SubjectCurriculumMeetingPlanID = ' + subjectMeetingPlanHdID;
+                    Methods.getListObject('GetvSubjectCurriculumMeetingPlanIndicatorList', filterExpression, function (result) {
                         for (var i = 0; i < result.length; ++i) {
                             var entity = result[i];
                             $('#divEntryDtAdd').click();
@@ -307,7 +307,7 @@
         </tr>
     </script>
     <input type="hidden" id="hdnClassMeetingID" runat="server" />
-    <input type="hidden" id="hdnSubjectMatterID" runat="server" />
+    <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
     <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />
     <table style="width:100%" id="tblEntry">
         <colgroup>
@@ -357,10 +357,10 @@
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pertemuan")%></label></td>
             <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMeetingPlanHd" ClientInstanceName="tacSubjectMeetingPlanHd" MethodName="GetvSubjectMeetingPlanHdList" GetFilterExpressionFunction="onGetSubjectMeetingPlanHdFilterExpression"
-                    SearchFields="MeetingNo,SubjectCompetencyStandardName" TextField="MeetingNo" ValueField="SubjectMeetingPlanHdID" SearchText="${MeetingNo} (<b>${SubjectCompetencyStandardName}</b>)(<b>${ListSubjectBasicCompetencyID}</<b>)" OrderByExpression="MeetingNo">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMeetingPlanHdButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacSubjectMeetingPlanHdValueChanged(); }" />
+                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectCurriculumMeetingPlan" ClientInstanceName="tacSubjectCurriculumMeetingPlan" MethodName="GetvSubjectCurriculumMeetingPlanList" GetFilterExpressionFunction="onGetSubjectCurriculumMeetingPlanFilterExpression"
+                    SearchFields="MeetingNo,SubjectCompetencyStandardName" TextField="MeetingNo" ValueField="SubjectCurriculumMeetingPlanID" SearchText="${MeetingNo} (<b>${SubjectCompetencyStandardName}</b>)(<b>${ListSubjectBasicCompetencyID}</<b>)" OrderByExpression="MeetingNo">
+                    <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectCurriculumMeetingPlanButtonSearchClick(); }"
+                        ValueChanged="function(){ onTacSubjectCurriculumMeetingPlanValueChanged(); }" />
                 </cdx:CodeXAutoCompleteTextBox>   
                 <input type="button" id="btnMeetingPlanDt" class="btnMore" value="..." />
             </td>

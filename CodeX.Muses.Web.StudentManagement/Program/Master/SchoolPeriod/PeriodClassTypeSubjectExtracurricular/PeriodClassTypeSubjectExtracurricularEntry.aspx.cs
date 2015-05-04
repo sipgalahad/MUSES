@@ -22,6 +22,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
+            hdnCurriculumID.Value = entitySchoolPeriod.CurriculumID.ToString();
+
             List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.EXTRACURRICULAR));
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
@@ -30,7 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacSubjectMatter, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, false), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -101,10 +104,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
-            if (tacSubjectMatter.Value != "")
-                entity.SubjectMatterID = Convert.ToInt32(tacSubjectMatter.Value);
+            if (tacSubjectCurriculum.Value != "")
+                entity.SubjectCurriculumID = Convert.ToInt32(tacSubjectCurriculum.Value);
             else
-                entity.SubjectMatterID = null;
+                entity.SubjectCurriculumID = null;
             entity.NoMeetingHoursInWeek = 1;
         }
 

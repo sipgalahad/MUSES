@@ -18,17 +18,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.SB_SUBJECT_MATTER;
+            return Constant.MenuCode.StudentManagement.SB_SUBJECT_CURRICULUM;
         }
         protected override void InitializeDataControl()
         {
             List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
-
-            Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
-            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("ClassTypeID IN (SELECT ClassTypeID FROM SubjectClassType WHERE SubjectID = {0})", AppSession.SubjectID));
-            rptClassType.DataSource = lstClassType;
-            rptClassType.DataBind();
 
             //List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
             //rptPeriodSection.DataSource = lstSc;
@@ -54,10 +49,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                ClassType obj = (ClassType)e.Item.DataItem;
+                CurriculumClassType obj = (CurriculumClassType)e.Item.DataItem;
                 CheckBox chkClassType = (CheckBox)e.Item.FindControl("chkClassType");
-                chkClassType.Attributes.Add("classtypename", obj.ClassTypeName);
-                chkClassType.Attributes.Add("classtypeid", obj.ClassTypeID.ToString());
+                chkClassType.Attributes.Add("classtypename", obj.CurriculumClassTypeName);
+                chkClassType.Attributes.Add("classtypeid", obj.CurriculumClassTypeID.ToString());
             }
         }
 
@@ -77,6 +72,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             BindGridView();
+        }
+
+        protected void cbpClassType_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
+            List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", cboCurriculum.Value, Constant.ClassStudyType.REGULAR));
+            rptClassType.DataSource = lstClassType;
+            rptClassType.DataBind();
         }
         #endregion
 
@@ -144,7 +147,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     SubjectCurriculumClassType entityDt = new SubjectCurriculumClassType();
                     entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                    entityDt.ClassTypeID = Convert.ToInt32(classTypeID);
+                    entityDt.CurriculumClassTypeID = Convert.ToInt32(classTypeID);
                     entityClassTypeDao.Insert(entityDt);
                 }
 
@@ -215,12 +218,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
                 foreach (string classTypeID in lstClassTypeID)
                 {
-                    SubjectCurriculumClassType entityDt = lstEntityDt.FirstOrDefault(p => p.ClassTypeID.ToString() == classTypeID);
+                    SubjectCurriculumClassType entityDt = lstEntityDt.FirstOrDefault(p => p.CurriculumClassTypeID.ToString() == classTypeID);
                     if (entityDt == null)
                     {
                         entityDt = new SubjectCurriculumClassType();
                         entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                        entityDt.ClassTypeID = Convert.ToInt32(classTypeID);
+                        entityDt.CurriculumClassTypeID = Convert.ToInt32(classTypeID);
                         entityClassTypeDao.Insert(entityDt);
                     }
                     else
@@ -229,7 +232,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 foreach (SubjectCurriculumClassType entityDt in lstEntityDt)
                 {
-                    entityClassTypeDao.Delete(entityDt.SubjectCurriculumID, entityDt.ClassTypeID);
+                    entityClassTypeDao.Delete(entityDt.SubjectCurriculumID, entityDt.CurriculumClassTypeID);
                 }
                 ctx.CommitTransaction();
             }

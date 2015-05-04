@@ -18,9 +18,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            if (AppSession.SubjectMatterID > 0)
-                return Constant.MenuCode.StudentManagement.SBM_SUBJECT_BASIC_COMPETENCY;
-            return Constant.MenuCode.StudentManagement.SB_SUBJECT_BASIC_COMPETENCY;
+            if (AppSession.SubjectCurriculumID > 0)
+                return Constant.MenuCode.StudentManagement.SBM_SUBJECT_CURRICULUM_SYLLABUS;
+            return Constant.MenuCode.StudentManagement.SB_SUBJECT_CURRICULUM_SYLLABUS;
         }
 
         protected string OnGetSubjectCurriculumFilterExpression()
@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             hdnSubjectID.Value = AppSession.SubjectID.ToString();
+
+            if (AppSession.SubjectCurriculumID > 0)
+            {
+                SubjectCurriculum entityHd = BusinessLayer.GetSubjectCurriculum(AppSession.SubjectCurriculumID);
+                tacSubjectCurriculum.Value = entityHd.SubjectCurriculumID.ToString();
+                tacSubjectCurriculum.Text = entityHd.SubjectCurriculumName;
+                tacSubjectCurriculum.Readonly = true;
+                hdnCurriculumID.Value = entityHd.CurriculumID.ToString();
+            }
 
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
             Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");

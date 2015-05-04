@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.WS_SUBJECT_MEETING_PLAN;
+            return Constant.MenuCode.StudentManagement.WS_SUBJECT_CURRICULUM_MEETING_PLAN;
         }
         protected override void InitializeDataControl()
         {
@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void BindGridView()
         {
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            string filterExpression = string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}' AND IsDeleted = 0 ORDER BY MeetingNo ASC", classSubject.SubjectMatterID, cboGCPeriodSection.Value);
+            string filterExpression = string.Format("SubjectMatterID = {0} AND GCPeriodSection = '{1}' AND IsDeleted = 0 ORDER BY MeetingNo ASC", classSubject.SubjectCurriculumID, cboGCPeriodSection.Value);
             grdView.DataSource = BusinessLayer.GetvSubjectMeetingPlanHdList(filterExpression);
             grdView.DataBind();
         }

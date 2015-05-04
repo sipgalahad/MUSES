@@ -421,35 +421,35 @@ namespace CodeX.Web.Common
         }
         #endregion
 
-        #region SubjectMatterID
-        public static Int32 SubjectMatterID
+        #region SubjectCurriculumID
+        public static Int32 SubjectCurriculumID
         {
             get
             {
-                if (HttpContext.Current.Session["_SubjectMatterID"] == null)
+                if (HttpContext.Current.Session["_SubjectCurriculumID"] == null)
                 {
                     if (HttpContext.Current.Request.Cookies["Muses"] != null)
                     {
-                        if (HttpContext.Current.Request.Cookies["Muses"]["_SubjectMatterID"] != null)
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SubjectCurriculumID"] != null)
                         {
-                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SubjectMatterID"]);
-                            HttpContext.Current.Session["_SubjectMatterID"] = value;
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SubjectCurriculumID"]);
+                            HttpContext.Current.Session["_SubjectCurriculumID"] = value;
                             return value;
                         }
                     }
                     return 0;
                 }
-                return ((Int32)(HttpContext.Current.Session["_SubjectMatterID"]));
+                return ((Int32)(HttpContext.Current.Session["_SubjectCurriculumID"]));
             }
             set
             {
                 if (HttpContext.Current.Request.Cookies["Muses"] != null)
                 {
                     HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
-                    myCookie.Values["_SubjectMatterID"] = value.ToString();
+                    myCookie.Values["_SubjectCurriculumID"] = value.ToString();
                     HttpContext.Current.Response.Cookies.Add(myCookie);
                 }
-                HttpContext.Current.Session["_SubjectMatterID"] = value;
+                HttpContext.Current.Session["_SubjectCurriculumID"] = value;
             }
         }
         #endregion

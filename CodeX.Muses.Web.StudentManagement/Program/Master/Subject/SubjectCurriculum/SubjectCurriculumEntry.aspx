@@ -67,9 +67,12 @@
             });
         });
 
+        var isEdit = false;
+        var entity = null;
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
+            isEdit = true;
             $row = $(this).closest('tr');
-            var entity = rowToObject($row);
+            entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectCurriculumID);
             cboCurriculum.SetValue(entity.CurriculumID);
@@ -79,15 +82,6 @@
             $('.chkClassType input:checked').each(function () {
                 $(this).prop('checked', false);
             });
-
-            var lstClassTypeID = entity.ListClassTypeID.split(',');
-            for (var i = 0; i < lstClassTypeID.length; ++i) {
-                $('.chkClassType').each(function () {
-                    if ($(this).attr('classtypeid') == lstClassTypeID[i])
-                        $(this).find('input').prop('checked', true);
-                });
-            }
-            setDdeClassTypeText();
 
             $('.txtSummaryName').each(function () {
                 $(this).val('');
@@ -104,10 +98,34 @@
             //                }
             //            });
 
-            $('#entryDetailContainer').show();
+            cbpClassType.PerformCallback('refresh');
         });
 
         //#endregion
+
+        function onCbpClassTypeEndCallback() {
+            if (isEdit) {
+                isEdit = false;
+
+                var lstClassTypeID = entity.ListClassTypeID.split(',');
+                for (var i = 0; i < lstClassTypeID.length; ++i) {
+                    $('.chkClassType').each(function () {
+                        if ($(this).attr('classtypeid') == lstClassTypeID[i])
+                            $(this).find('input').prop('checked', true);
+                    });
+                }
+                entity = null;
+                setDdeClassTypeText();
+                $('#entryDetailContainer').show();
+            }
+            hideLoadingPanel();
+        }
+
+        function onCboCurriculumValueChanged() {
+            $('#<%=hdnLstClassTypeID.ClientID %>').val('');
+            ddeClassType.SetText('');
+            cbpClassType.PerformCallback('refresh');
+        }
 
         $('.chkClassType input').live('change', function () {
             setDdeClassTypeText();
@@ -189,22 +207,38 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kurikulum")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboCurriculum" ClientInstanceName="cboCurriculum" runat="server" Width="200px" /></td>
+                                    <td>
+                                        <dxe:ASPxComboBox ID="cboCurriculum" ClientInstanceName="cboCurriculum" runat="server" Width="200px">
+                                            <ClientSideEvents ValueChanged="function(s,e){ onCboCurriculumValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
                                     <td colspan="5">
-                                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassType" ID="ddeClassType"
-                                            Width="300px" runat="server" EnableAnimation="False">
-                                            <DropDownWindowStyle BackColor="#EDEDED" />
-                                            <DropDownWindowTemplate>
-                                                <asp:Repeater ID="rptClassType" runat="server" OnItemDataBound="rptClassType_ItemDataBound">
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="chkClassType" CssClass="chkClassType" runat="server"  /> <%#Eval("ClassTypeName") %><br />
-                                                    </ItemTemplate>
-                                                </asp:Repeater>
-                                            </DropDownWindowTemplate>
-                                        </dxe:ASPxDropDownEdit>
+                                        <dxcp:ASPxCallbackPanel ID="cbpClassType" runat="server" Width="100%" ClientInstanceName="cbpClassType"
+                                            ShowLoadingPanel="false" OnCallback="cbpClassType_Callback">
+                                            <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
+                                                EndCallback="function(s,e){ onCbpClassTypeEndCallback(); }" />
+                                            <PanelCollection>
+                                                <dx:PanelContent ID="PanelContent2" runat="server">
+                                                    <asp:Panel runat="server" ID="Panel1" Style="width: 100%; margin-left: auto; margin-right: auto;
+                                                        position: relative; font-size: 0.95em;">
+                                                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassType" ID="ddeClassType"
+                                                            Width="300px" runat="server" EnableAnimation="False">
+                                                            <DropDownWindowStyle BackColor="#EDEDED" />
+                                                            <DropDownWindowTemplate>
+                                                                <asp:Repeater ID="rptClassType" runat="server" OnItemDataBound="rptClassType_ItemDataBound">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkClassType" CssClass="chkClassType" runat="server"  /> <%#Eval("CurriculumClassTypeName") %><br />
+                                                                    </ItemTemplate>
+                                                                </asp:Repeater>
+                                                            </DropDownWindowTemplate>
+                                                        </dxe:ASPxDropDownEdit>
+                                                    </asp:Panel>
+                                                </dx:PanelContent>
+                                            </PanelCollection>
+                                        </dxcp:ASPxCallbackPanel>
                                     </td>
                                 </tr>
                                 <tr>

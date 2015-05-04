@@ -18,7 +18,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.WS_SUBJECT_MATTER;
+            return Constant.MenuCode.StudentManagement.WS_SUBJECT_CURRICULUM_SYLLABUS;
         }
 
         protected string OnGetSubjectMatterHdFilterExpression()
@@ -33,7 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboGCPeriodSection.SelectedIndex = 0;
 
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString();
+            hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
 
             BindGridView();
         }

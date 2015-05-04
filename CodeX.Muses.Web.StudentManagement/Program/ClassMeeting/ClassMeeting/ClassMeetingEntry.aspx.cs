@@ -20,13 +20,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             return Constant.MenuCode.StudentManagement.WS_CLASS_MEETING;
         }
-        protected string OnGetSubjectMeetingPlanHdFilterExpression()
+        protected string OnGetSubjectCurriculumMeetingPlanFilterExpression()
         {
-            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+            return string.Format("CurriculumID = {0} AND GCCurriculumMeetingPlanType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumMeetingPlanType.MEETING);
         }
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+            return string.Format("SubjectMatterID = {0}", hdnSubjectCurriculumID.Value);
         }
         protected string OnGetRoomFilterExpression()
         {
@@ -63,10 +63,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacTeacher.Text = entity.TeacherName;
                 txtRemarks.Text = entity.Remarks;
                 txtNextMeetingRemarks.Text = entity.NextMeetingRemarks;
-                if (entity.SubjectMeetingPlanHdID != 0)
+                if (entity.SubjectCurriculumMeetingPlanID != 0)
                 {
-                    tacSubjectMeetingPlanHd.Value = entity.SubjectMeetingPlanHdID.ToString();
-                    tacSubjectMeetingPlanHd.Text = entity.MeetingNo.ToString();
+                    tacSubjectCurriculumMeetingPlan.Value = entity.SubjectCurriculumMeetingPlanID.ToString();
+                    tacSubjectCurriculumMeetingPlan.Text = entity.SubjectCurriculumMeetingPlanName.ToString();
                 }
             }
             if (AppSession.UserLogin.EmployeeID != null)
@@ -77,7 +77,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
 
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString();
+            hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
         
             Helper.SetControlEntrySetting(txtMeetingDate, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, true, true), "mpEntry");
@@ -102,10 +102,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
             entity.Remarks = txtRemarks.Text;
             entity.NextMeetingRemarks = txtNextMeetingRemarks.Text;
-            if (tacSubjectMeetingPlanHd.Value != "")
-                entity.SubjectMeetingPlanHdID = Convert.ToInt32(tacSubjectMeetingPlanHd.Value);
+            if (tacSubjectCurriculumMeetingPlan.Value != "")
+                entity.SubjectCurriculumMeetingPlanID = Convert.ToInt32(tacSubjectCurriculumMeetingPlan.Value);
             else
-                entity.SubjectMeetingPlanHdID = null;
+                entity.SubjectCurriculumMeetingPlanID = null;
         }
 
         protected override bool OnCustomButtonClick(string type, ref string errMessage)

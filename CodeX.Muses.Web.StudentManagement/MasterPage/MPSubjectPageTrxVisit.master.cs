@@ -24,8 +24,8 @@ namespace CodeX.Muses.Web.StudentManagement.MasterPage
             if (!Page.IsPostBack)
             {
                 string parentCode = "";
-                if (AppSession.SubjectMatterID > 0)
-                    parentCode = Constant.MenuCode.StudentManagement.SUBJECT_MATTER_PAGE;
+                if (AppSession.SubjectCurriculumID > 0)
+                    parentCode = Constant.MenuCode.StudentManagement.SUBJECT_CURRICULUM_PAGE;
                 else
                     parentCode = Constant.MenuCode.StudentManagement.SUBJECT_PAGE;
                 string filterExpression = string.Format("(ParentCode = '{0}' OR ParentID IN (SELECT MenuID FROM Menu WHERE ParentID = (SELECT MenuID FROM Menu WHERE MenuCode = '{0}')))", parentCode);

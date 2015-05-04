@@ -14,7 +14,7 @@
     <script type="text/javascript">
         //#region Subject Competency Standard
         function onGetSubjectCompetencyStandardFilterExpression() {
-            var filterExpression = "SubjectMatterID = " + $('#<%=hdnSubjectMatterID.ClientID %>').val() + " AND GCPeriodSection = '" + cboGCPeriodSection.GetValue() + "' AND IsDeleted = 0";
+            var filterExpression = "SubjectMatterID = " + $('#<%=hdnSubjectCurriculumID.ClientID %>').val() + " AND GCPeriodSection = '" + cboGCPeriodSection.GetValue() + "' AND IsDeleted = 0";
             return filterExpression;
         }
 
@@ -57,7 +57,7 @@
             cbpView.PerformCallback('refresh');
         }
     </script>
-    <input type="hidden" id="hdnSubjectMatterID" runat="server" />
+    <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
             <col style="width:200px"/>

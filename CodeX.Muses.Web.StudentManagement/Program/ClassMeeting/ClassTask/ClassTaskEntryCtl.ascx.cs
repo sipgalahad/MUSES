@@ -17,7 +17,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            return string.Format("SubjectMatterID = {0}", hdnSubjectMatterID.Value);
+            return string.Format("SubjectMatterID = {0}", hdnSubjectCurriculumID.Value);
         }
         public override void InitializeDataControl(string param)
         {
@@ -37,7 +37,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            hdnSubjectMatterID.Value = classSubject.SubjectMatterID.ToString();
+            hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
             if (classMeeting != null)
                 hdnSubjectMeetingPlanHdID.Value = classMeeting.SubjectMeetingPlanHdID.ToString();
             else

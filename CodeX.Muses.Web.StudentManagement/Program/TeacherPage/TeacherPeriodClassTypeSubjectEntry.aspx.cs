@@ -31,6 +31,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
+            SchoolPeriod entitySp = lstSchoolPeriod.FirstOrDefault(p => p.SchoolPeriodID == Convert.ToInt32(cboSchoolPeriod.Value));
+            hdnCurriculumID.Value = entitySp.CurriculumID.ToString();
+
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboSubjectType, lstSc, "StandardCodeName", "StandardCodeID");
 
@@ -46,7 +49,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboSubjectType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacSubjectMatter, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtNoMeetingHoursInWeek, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPassingGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -98,10 +101,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
             entity.GCSubjectType = cboSubjectType.Value.ToString();
-            if (tacSubjectMatter.Value != "" && tacSubjectMatter.Value != "0")
-                entity.SubjectMatterID = Convert.ToInt32(tacSubjectMatter.Value);
+            if (tacSubjectCurriculum.Value != "" && tacSubjectCurriculum.Value != "0")
+                entity.SubjectCurriculumID = Convert.ToInt32(tacSubjectCurriculum.Value);
             else
-                entity.SubjectMatterID = null;
+                entity.SubjectCurriculumID = null;
             entity.NoMeetingHoursInWeek = Convert.ToInt16(txtNoMeetingHoursInWeek.Text);
             entity.PassingGrade = Convert.ToInt16(txtPassingGrade.Text);
             if (cboTheoryFinalMarkFormula.Value == null || cboTheoryFinalMarkFormula.Value.ToString() == "0")

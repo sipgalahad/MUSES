@@ -120,6 +120,10 @@
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformation.aspx" />
+    <Content Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformationDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformation.aspx" />
+    <Content Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectMatter\SubjectIndicatorInformationCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectMatter\SubjectBasicCompetencyDtInformationCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanInformation.aspx" />
@@ -127,23 +131,13 @@
     <Content Include="Program\ClassMeeting\SubjectMeetingPlan\SubjectMeetingPlanDtInformationCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumList.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntryDtCtl.ascx" />
     <Content Include="Program\StudentMarkLedger\StudentMarkLedgerEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GradePromotionFormulaDtCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectList.aspx" />
-    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterList.aspx" />
-    <Content Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectMatter\SubjectMeetingPlanEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanDtEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx" />
-    <Content Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectPageLauncher.aspx" />
     <Content Include="Program\StudentDailyAttendance\StudentDailyAttendanceEntry.aspx" />
     <Content Include="Program\ClassMeeting\StudentNote\StudentNoteViewDtCtl.ascx" />
@@ -628,6 +622,34 @@
     <Compile Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskRemedialEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformation.aspx.cs">
+      <DependentUpon>SubjectCurriculumMeetingPlanInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformation.aspx.designer.cs">
+      <DependentUpon>SubjectCurriculumMeetingPlanInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformationDtCtl.ascx.cs">
+      <DependentUpon>SubjectCurriculumMeetingPlanInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>SubjectCurriculumMeetingPlanInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformation.aspx.cs">
+      <DependentUpon>SubjectCurriculumSyllabusInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformation.aspx.designer.cs">
+      <DependentUpon>SubjectCurriculumSyllabusInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx.cs">
+      <DependentUpon>SubjectCurriculumSyllabusInformationDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx.designer.cs">
+      <DependentUpon>SubjectCurriculumSyllabusInformationDtCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ClassMeeting\SubjectMatter\SubjectIndicatorInformationCtl.ascx.cs">
       <DependentUpon>SubjectIndicatorInformationCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -677,6 +699,13 @@
     <Compile Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx.designer.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanEntryDtCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumList.aspx.cs">
+      <DependentUpon>SubjectCurriculumList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumList.aspx.designer.cs">
+      <DependentUpon>SubjectCurriculumList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx.cs">
       <DependentUpon>SubjectCurriculumEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -712,89 +741,12 @@
     <Compile Include="Program\Master\SchoolPeriod\GradePromotionFormulaDtCtl.ascx.designer.cs">
       <DependentUpon>GradePromotionFormulaDtCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx.cs">
-      <DependentUpon>SubjectBasicCompetencyDtEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectBasicCompetencyDtEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx.cs">
-      <DependentUpon>SubjectBasicCompetencyEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectBasicCompetencyEntry.aspx.designer.cs">
-      <DependentUpon>SubjectBasicCompetencyEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx.cs">
-      <DependentUpon>SubjectIndicatorEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectBasicCompetency\SubjectIndicatorEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectIndicatorEntryCtl.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Program\Master\Subject\SubjectList.aspx.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectList.aspx.designer.cs">
       <DependentUpon>SubjectList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterList.aspx.cs">
-      <DependentUpon>SubjectMatterList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterList.aspx.designer.cs">
-      <DependentUpon>SubjectMatterList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx.cs">
-      <DependentUpon>SubjectCompetencyStandardEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectCompetencyStandardEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectCompetencyStandardEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx.cs">
-      <DependentUpon>SubjectMatterClassTypeEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterClassTypeEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectMatterClassTypeEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.cs">
-      <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMatterEntry.aspx.designer.cs">
-      <DependentUpon>SubjectMatterEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMeetingPlanEntryCtl.ascx.cs">
-      <DependentUpon>SubjectMeetingPlanEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMatter\SubjectMeetingPlanEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectMeetingPlanEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanDtEntryCtl.ascx.cs">
-      <DependentUpon>SubjectMeetingPlanDtEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectMeetingPlanDtEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx.cs">
-      <DependentUpon>SubjectMeetingPlanEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanEntry.aspx.designer.cs">
-      <DependentUpon>SubjectMeetingPlanEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx.cs">
-      <DependentUpon>SubjectMeetingPlanIndicatorEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectMeetingPlan\SubjectMeetingPlanIndicatorEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectMeetingPlanIndicatorEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectPageLauncher.aspx.cs">
       <DependentUpon>SubjectPageLauncher.aspx</DependentUpon>

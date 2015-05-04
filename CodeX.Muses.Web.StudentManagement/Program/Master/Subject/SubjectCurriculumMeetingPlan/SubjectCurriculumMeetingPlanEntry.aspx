@@ -13,6 +13,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            setTimeout(function () {
+                if (tacSubjectCurriculum.getValue() != '') {
+                    onRefreshGridView();
+                }
+            }, 100);
         });
 
         $('.divTransactionAdd').live('click', function () {

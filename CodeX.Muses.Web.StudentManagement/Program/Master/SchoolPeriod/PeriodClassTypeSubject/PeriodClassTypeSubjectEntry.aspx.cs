@@ -28,6 +28,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
+            hdnCurriculumID.Value = entitySchoolPeriod.CurriculumID.ToString();
+
             List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
             Methods.SetComboBoxField<vPeriodClassType>(cboClassType, lstClassType, "CurriculumClassTypeName", "PeriodClassTypeID");
             cboClassType.SelectedIndex = 0;
@@ -47,7 +50,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboSubjectType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(tacSubjectMatter, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(tacTeacher, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtNoMeetingHoursInWeek, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPassingGrade, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -121,10 +124,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
             entity.GCSubjectType = cboSubjectType.Value.ToString();
-            if (tacSubjectMatter.Value != "" && tacSubjectMatter.Value != "0")
-                entity.SubjectMatterID = Convert.ToInt32(tacSubjectMatter.Value);
+            if (tacSubjectCurriculum.Value != "" && tacSubjectCurriculum.Value != "0")
+                entity.SubjectCurriculumID = Convert.ToInt32(tacSubjectCurriculum.Value);
             else
-                entity.SubjectMatterID = null;
+                entity.SubjectCurriculumID = null;
             entity.TeacherID = Convert.ToInt32(tacTeacher.Value);
             entity.NoMeetingHoursInWeek = Convert.ToInt16(txtNoMeetingHoursInWeek.Text);
             entity.PassingGrade = Convert.ToInt16(txtPassingGrade.Text);

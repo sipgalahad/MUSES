@@ -148,6 +148,13 @@ namespace CodeX.Common
             public const string ADMISSION = "MS018^001";
         }
 
+        public static class CurriculumMeetingPlanType
+        {
+            public const string INDICATOR = "MS034^001";
+            public const string MEETING = "MS034^002";
+            public const string OTHER = "MS034^999";
+        }
+
         public static class ClassStudyType
         {
             public const string REGULAR = "MS024^001";
@@ -365,9 +372,9 @@ namespace CodeX.Common
 
                 public const string SUBJECT_PAGE = "CP99010000";
                 public const string SB_SUBJECT_CLASS_TYPE = "CP99010100";
-                public const string SB_SUBJECT_MATTER = "CP99010200";
-                public const string SB_SUBJECT_BASIC_COMPETENCY = "CP99010300";
-                public const string SB_SUBJECT_MEETING_PLAN = "CP99010400";
+                public const string SB_SUBJECT_CURRICULUM = "CP99010200";
+                public const string SB_SUBJECT_CURRICULUM_SYLLABUS = "CP99010300";
+                public const string SB_SUBJECT_CURRICULUM_MEETING_PLAN = "CP99010400";
 
                 public const string CURRICULUM_PAGE = "CP99020000";
                 public const string CR_CURRICULUM_MAJOR = "CP99020101";
@@ -582,8 +589,8 @@ namespace CodeX.Common
                 public const string WS_STUDENT_NOTE = "SM99040104";
                 public const string WS_ATTENDANCE_HISTORY = "SM99040201";
                 public const string WS_STUDENT_MARK = "SM99040202";
-                public const string WS_SUBJECT_MATTER = "SM99040203";
-                public const string WS_SUBJECT_MEETING_PLAN = "SM99040204";
+                public const string WS_SUBJECT_CURRICULUM_SYLLABUS = "SM99040203";
+                public const string WS_SUBJECT_CURRICULUM_MEETING_PLAN = "SM99040204";
 
                 public const string TEACHER_CLASS_SUBJECT_PAGE = "SM99050000";
                 public const string TCS_CLASS_TASK = "SM99050101";
@@ -603,14 +610,14 @@ namespace CodeX.Common
                 public const string CS_STUDENT_ATTENDANCE = "SM99060106";
 
                 public const string SUBJECT_PAGE = "SM99070000";
-                public const string SB_SUBJECT_MATTER = "SM99070200";
-                public const string SB_SUBJECT_BASIC_COMPETENCY = "SM99070300";
-                public const string SB_SUBJECT_MEETING_PLAN = "SM99070400";
+                public const string SB_SUBJECT_CURRICULUM = "SM99070200";
+                public const string SB_SUBJECT_CURRICULUM_SYLLABUS = "SM99070300";
+                public const string SB_SUBJECT_CURRICULUM_MEETING_PLAN = "SM99070400";
 
-                public const string SUBJECT_MATTER_PAGE = "SM99080000";
-                public const string SBM_SUBJECT_MATTER = "SM99080100";
-                public const string SBM_SUBJECT_BASIC_COMPETENCY = "SM99080200";
-                public const string SBM_SUBJECT_MEETING_PLAN = "SM99080300";
+                public const string SUBJECT_CURRICULUM_PAGE = "SM99080000";
+                public const string SBM_SUBJECT_CURRICULUM = "SM99080100";
+                public const string SBM_SUBJECT_CURRICULUM_SYLLABUS = "SM99080200";
+                public const string SBM_SUBJECT_CURRICULUM_MEETING_PLAN = "SM99080300";
             }
             #endregion
             #endregion

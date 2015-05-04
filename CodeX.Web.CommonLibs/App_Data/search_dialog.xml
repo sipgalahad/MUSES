@@ -793,6 +793,16 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Subject Curriculum Meeting Plan -->
+  <searchdialog type="subjectcurriculummeetingplan" methodname="GetvSubjectCurriculumMeetingPlanList" keyfieldname="SubjectCurriculumMeetingPlanID" orderbyexpression="SubjectCurriculumMeetingPlanName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="SubjectCurriculumMeetingPlanName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SubjectCurriculumMeetingPlanName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Subject Indicator -->
   <searchdialog type="subjectindicator" methodname="GetvSubjectIndicatorList" keyfieldname="SubjectIndicatorID" orderbyexpression="SubjectIndicatorName ASC">
     <gridcolumns>

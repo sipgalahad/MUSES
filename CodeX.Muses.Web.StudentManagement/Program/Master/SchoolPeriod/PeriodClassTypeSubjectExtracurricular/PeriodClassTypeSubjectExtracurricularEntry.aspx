@@ -19,8 +19,8 @@
                 tacSubject.setText('');
                 tacTeacher.setValue('');
                 tacTeacher.setText('');
-                tacSubjectMatter.setValue('');
-                tacSubjectMatter.setText('');
+                tacSubjectCurriculum.setValue('');
+                tacSubjectCurriculum.setText('');
                 $('#entryDetailContainer').show();
             });
 
@@ -55,8 +55,8 @@
             tacSubject.setText(entity.SubjectName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
-            tacSubjectMatter.setValue(entity.SubjectMatterID);
-            tacSubjectMatter.setText(entity.SubjectMatterName);
+            tacSubjectCurriculum.setValue(entity.SubjectCurriculumID);
+            tacSubjectCurriculum.setText(entity.SubjectCurriculumName);
             $('#entryDetailContainer').show();
         });
 
@@ -120,32 +120,32 @@
         //#endregion
 
         //#region Subject Matter
-        function onGetSubjectMatterHdFilterExpression() {
+        function onGetSubjectCurriculumFilterExpression() {
             var filterExpression = "1 = 0";
             var subjectID = tacSubject.getValue();
             if (subjectID != '')
-                filterExpression = "SubjectID = " + subjectID + " AND IsDeleted = 0";
+                filterExpression = "SubjectID = " + subjectID + " AND CurriculumID = " + $('#<%=hdnCurriculumID.ClientID %>').val() + " AND SubjectCurriculumID IN (SELECT SubjectCurriculumID FROM SubjectCurriculumClassType WHERE CurriculumClassTypeID = " + $('#<%=hdnClassTypeID.ClientID %>').val() + ") AND IsDeleted = 0";
             return filterExpression;
         }
 
-        function onTacSubjectMatterButtonSearchClick() {
-            openSearchDialog('subjectmatter', onGetSubjectMatterHdFilterExpression(), function (value) {
-                var filterExpression = onGetSubjectMatterHdFilterExpression() + " AND SubjectMatterCode = '" + value + "'";
-                Methods.getObject('GetSubjectMatterHdList', filterExpression, function (result) {
+        function onTacSubjectCurriculumButtonSearchClick() {
+            openSearchDialog('subjectcurriculum', onGetSubjectCurriculumFilterExpression(), function (value) {
+                var filterExpression = onGetSubjectCurriculumFilterExpression() + " AND SubjectCurriculumID = '" + value + "'";
+                Methods.getObject('GetSubjectCurriculumList', filterExpression, function (result) {
                     if (result != null) {
-                        tacSubjectMatter.setValue(result.SubjectMatterID);
-                        tacSubjectMatter.setText(result.SubjectMatterName);
+                        tacSubjectCurriculum.setValue(result.SubjectCurriculumID);
+                        tacSubjectCurriculum.setText(result.SubjectCurriculumName);
                     }
                     else {
-                        tacSubjectMatter.setValue('');
-                        tacSubjectMatter.setText('');
+                        tacSubjectCurriculum.setValue('');
+                        tacSubjectCurriculum.setText('');
                     }
                 });
             });
 
         }
 
-        function onTacSubjectMatterValueChanged() {
+        function onTacSubjectCurriculumValueChanged() {
         }
         //#endregion
 
@@ -178,6 +178,7 @@
             hideLoadingPanel();
         }
     </script>
+    <input type="hidden" value="" id="hdnCurriculumID" runat="server" />
     <table>
         <tr>
             <td><%=GetLabel("Tipe Kelas") %></td>
@@ -226,10 +227,10 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
                                     <td>
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectMatter" ClientInstanceName="tacSubjectMatter" MethodName="GetSubjectMatterHdList" GetFilterExpressionFunction="onGetSubjectMatterHdFilterExpression"
-                                            SearchFields="SubjectMatterName,SubjectMatterCode" TextField="SubjectMatterName" ValueField="SubjectMatterID" SearchText="${SubjectMatterName} (<b>${SubjectMatterCode}</b>)" OrderByExpression="SubjectMatterName">
-                                            <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectMatterButtonSearchClick(); }"
-                                                ValueChanged="function(){ onTacSubjectMatterValueChanged(); }" />
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectCurriculum" ClientInstanceName="tacSubjectCurriculum" MethodName="GetSubjectCurriculumList" GetFilterExpressionFunction="onGetSubjectCurriculumFilterExpression"
+                                            SearchFields="SubjectCurriculumName,SubjectCurriculumCode" TextField="SubjectCurriculumName" ValueField="SubjectCurriculumID" SearchText="${SubjectCurriculumName} (<b>${SubjectCurriculumCode}</b>)" OrderByExpression="SubjectCurriculumName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectCurriculumButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacSubjectCurriculumValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
@@ -261,7 +262,7 @@
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Ekskul"/>
                                 <asp:BoundField DataField="TeacherName" HeaderText="Pembina" HeaderStyle-Width="280px" />
-                                <asp:BoundField DataField="SubjectMatterName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
@@ -271,8 +272,8 @@
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
-                                        <input type="hidden" value="<%#Eval("SubjectMatterID") %>" bindingfield="SubjectMatterID" />
-                                        <input type="hidden" value="<%#Eval("SubjectMatterName") %>" bindingfield="SubjectMatterName" />
+                                        <input type="hidden" value="<%#Eval("SubjectCurriculumID") %>" bindingfield="SubjectCurriculumID" />
+                                        <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

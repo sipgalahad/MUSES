@@ -66,9 +66,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SubjectMatterID = {0} AND IsDeleted = 0", AppSession.SubjectMatterID);
-            grdView.DataSource = BusinessLayer.GetvSubjectMatterHdList(filterExpression);
-            grdView.DataBind();
+            //string filterExpression = string.Format("SubjectMatterID = {0} AND IsDeleted = 0", AppSession.SubjectCurriculumID);
+            //grdView.DataSource = BusinessLayer.GetvSubjectMatterHdList(filterExpression);
+            //grdView.DataBind();
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
