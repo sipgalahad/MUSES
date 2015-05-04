@@ -268,6 +268,33 @@ namespace CodeX.Data.Model
 
         }
 
+        public static String NumberInWordsForScore(Decimal number)
+        {
+
+            Decimal temp1 = (number % 1);
+            Int64 amount = Convert.ToInt64(number - temp1);
+            int count = BitConverter.GetBytes(decimal.GetBits(temp1)[3])[2];
+            Int64 amount2 = Convert.ToInt64(temp1 * Convert.ToInt64(Math.Pow(10, count)));
+            String str = "koma ";
+            if (amount2.ToString().Length != count)
+            {
+                for (int i = amount2.ToString().Length; i < count; i++) str += "nol ";
+            }
+            String result = String.Format("{0}{1}{2}", NumberInWords(amount), str, NumberInWords(amount2));
+            return UpperFirst(result.ToLower());
+        }
+
+        private static string UpperFirst(string text)
+        {
+            String temp = "";
+            foreach (String obj in text.Split(' '))
+            {
+                if (obj != "")
+                    temp += String.Format("{0} ", char.ToUpper(obj[0]) + ((obj.Length > 1) ? obj.Substring(1).ToLower() : string.Empty));
+            }
+            return temp;
+        }
+
         #region Calculate Patient Age Based on DateOfBirth
         public static int GetPatientAgeInDay(DateTime dateOfBirth, DateTime nowDate)
         {

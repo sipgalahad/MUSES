@@ -218,7 +218,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     if (cs.TheoryMark > 0)
                     {
                         tdTheory.InnerHtml = cs.TheoryMark.ToString("N");
-                        tdTxtTheory.InnerHtml = Function.NumberInWords(Convert.ToInt64(cs.TheoryMark));
+                        tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(cs.TheoryMark);
                     }
                     else 
                     {
@@ -229,7 +229,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     if (cs.PracticeMark > 0)
                     {
                         tdPractice.InnerHtml = cs.PracticeMark.ToString("N");
-                        tdTxtPractice.InnerHtml = Function.NumberInWords(Convert.ToInt64(cs.PracticeMark));
+                        tdTxtPractice.InnerHtml = Function.NumberInWordsForScore(cs.PracticeMark);
                     }
                     else
                     {
