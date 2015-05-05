@@ -377,9 +377,10 @@ namespace CodeX.Common
                 public const string SB_SUBJECT_CURRICULUM_MEETING_PLAN = "CP99010400";
 
                 public const string CURRICULUM_PAGE = "CP99020000";
-                public const string CR_CURRICULUM_MAJOR = "CP99020101";
-                public const string CR_CURRICULUM_CLASS_TYPE = "CP99020102";
-                public const string CR_CURRICULUM_EXTRACURRICULAR_CLASS_TYPE = "CP99020103";                
+                public const string CR_CURRICULUM_PERIOD_SECTION = "CP99020101";
+                public const string CR_CURRICULUM_MAJOR = "CP99020102";
+                public const string CR_CURRICULUM_CLASS_TYPE = "CP99020103";
+                public const string CR_CURRICULUM_EXTRACURRICULAR_CLASS_TYPE = "CP99020104";
                 public const string CR_CURRICULUM_MARK_TYPE = "CP99020201";
                 public const string CR_CURRICULUM_FINAL_MARK_FORMULA = "CP99020202";
                 public const string CR_CURRICULUM_SYLLABUS = "CP99020301";

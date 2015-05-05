@@ -3059,6 +3059,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region CurriculumPeriodSection
+        public static CurriculumPeriodSection GetCurriculumPeriodSection(Int32 CurriculumPeriodSectionID)
+        {
+            return new CurriculumPeriodSectionDao().Get(CurriculumPeriodSectionID);
+        }
+        public static int InsertCurriculumPeriodSection(CurriculumPeriodSection record)
+        {
+            return new CurriculumPeriodSectionDao().Insert(record);
+        }
+        public static int UpdateCurriculumPeriodSection(CurriculumPeriodSection record)
+        {
+            return new CurriculumPeriodSectionDao().Update(record);
+        }
+        public static int DeleteCurriculumPeriodSection(Int32 CurriculumPeriodSectionID)
+        {
+            return new CurriculumPeriodSectionDao().Delete(CurriculumPeriodSectionID);
+        }
+        public static List<CurriculumPeriodSection> GetCurriculumPeriodSectionList(string filterExpression)
+        {
+            List<CurriculumPeriodSection> result = new List<CurriculumPeriodSection>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(CurriculumPeriodSection));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((CurriculumPeriodSection)helper.IDataReaderToObject(reader, new CurriculumPeriodSection()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region CurriculumSubject
         public static CurriculumSubject GetCurriculumSubject(Int32 CurriculumSubjectID)
         {
@@ -14392,6 +14432,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region TeacherMarkTypeDimension
+        public static TeacherMarkTypeDimension GetTeacherMarkTypeDimension(Int32 TeacherMarkTypeDimensionID)
+        {
+            return new TeacherMarkTypeDimensionDao().Get(TeacherMarkTypeDimensionID);
+        }
+        public static int InsertTeacherMarkTypeDimension(TeacherMarkTypeDimension record)
+        {
+            return new TeacherMarkTypeDimensionDao().Insert(record);
+        }
+        public static int UpdateTeacherMarkTypeDimension(TeacherMarkTypeDimension record)
+        {
+            return new TeacherMarkTypeDimensionDao().Update(record);
+        }
+        public static int DeleteTeacherMarkTypeDimension(Int32 TeacherMarkTypeDimensionID)
+        {
+            return new TeacherMarkTypeDimensionDao().Delete(TeacherMarkTypeDimensionID);
+        }
+        public static List<TeacherMarkTypeDimension> GetTeacherMarkTypeDimensionList(string filterExpression)
+        {
+            List<TeacherMarkTypeDimension> result = new List<TeacherMarkTypeDimension>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeDimension));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkTypeDimension)helper.IDataReaderToObject(reader, new TeacherMarkTypeDimension()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region TeacherMarkTypeGroup
         public static TeacherMarkTypeGroup GetTeacherMarkTypeGroup(Int32 TeacherMarkTypeGroupID)
         {
@@ -14462,6 +14542,71 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public static List<TeacherMarkTypeGroup> GetTeacherMarkTypeGroupList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<TeacherMarkTypeGroup> result = new List<TeacherMarkTypeGroup>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((TeacherMarkTypeGroup)helper.IDataReaderToObject(reader, new TeacherMarkTypeGroup()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static Int32 GetTeacherMarkTypeGroupRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetTeacherMarkTypeGroupRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(TeacherMarkTypeGroup));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TeacherMarkTypeGroupID", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

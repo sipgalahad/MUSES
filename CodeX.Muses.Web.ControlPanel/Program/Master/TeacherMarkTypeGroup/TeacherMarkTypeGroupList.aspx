@@ -62,6 +62,18 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('.lnkDimension a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/TeacherMarkTypeGroup/TeacherMarkTypeDimensionEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Dimensi', 1000, 550);
+        }); 
+
+        $('.lnkSubDimension a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/TeacherMarkTypeGroup/TeacherMarkTypeItemEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Sub Dimensi', 1100, 550);
+        }); 
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -76,8 +88,12 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="TeacherMarkTypeGroupID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="TeacherMarkTypeGroupName" HeaderText="Nama" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="FinalMarkPercentage" HeaderText="Nilai" HeaderStyle-Width="180px" />
+                                <asp:BoundField DataField="TeacherMarkTypeGroupName" HeaderText="Nama" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="FinalMarkPercentage" HeaderText="Bobot [%]" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="80px" />
+                                <asp:TemplateField HeaderStyle-Width="5px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:HyperLinkField HeaderText="Dimensi" Text="Dimensi" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDimension" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Sub Dimensi" Text="Sub Dimensi" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSubDimension" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

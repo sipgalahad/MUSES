@@ -26009,66 +26009,21 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vTeacherMarkTypeGroup
-    [Serializable]
-    [Table(Name = "vTeacherMarkTypeGroup")]
-    public class vTeacherMarkTypeGroup
-    {
-        private Int32 _TeacherMarkTypeGroupID;
-        private String _SiteID;
-        private String _SiteName;
-        private String _TeacherMarkTypeGroupName;
-        private Int32 _FinalMarkPercentage;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32")]
-        public Int32 TeacherMarkTypeGroupID
-        {
-            get { return _TeacherMarkTypeGroupID; }
-            set { _TeacherMarkTypeGroupID = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
-        }
-        [Column(Name = "SiteName", DataType = "String")]
-        public String SiteName
-        {
-            get { return _SiteName; }
-            set { _SiteName = value; }
-        }
-        [Column(Name = "TeacherMarkTypeGroupName", DataType = "Int32")]
-        public String TeacherMarkTypeGroupName
-        {
-            get { return _TeacherMarkTypeGroupName; }
-            set { _TeacherMarkTypeGroupName = value; }
-        }
-        [Column(Name = "FinalMarkPercentage", DataType = "Int32")]
-        public Int32 FinalMarkPercentage
-        {
-            get { return _FinalMarkPercentage; }
-            set { _FinalMarkPercentage = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
     #region vTeacherMarkTypeItem
     [Serializable]
     [Table(Name = "vTeacherMarkTypeItem")]
     public class vTeacherMarkTypeItem
     {
         private Int32 _TeacherMarkTypeItemID;
+        private Int32 _TeacherMarkTypeDimensionID;
+        private String _TeacherMarkTypeDimensionName;
+        private String _SiteID;
         private Int32 _TeacherMarkTypeGroupID;
         private String _TeacherMarkTypeGroupName;
         private String _TeacherMarkTypeItemName;
         private Int32 _FinalMarkPercentage;
+        private Int16 _DisplayOrder;
+        private String _KeyProgressIndicatorText;
         private Boolean _IsDeleted;
 
         [Column(Name = "TeacherMarkTypeItemID", DataType = "Int32")]
@@ -26077,19 +26032,37 @@ namespace CodeX.Data.Model
             get { return _TeacherMarkTypeItemID; }
             set { _TeacherMarkTypeItemID = value; }
         }
+        [Column(Name = "TeacherMarkTypeDimensionID", DataType = "Int32")]
+        public Int32 TeacherMarkTypeDimensionID
+        {
+            get { return _TeacherMarkTypeDimensionID; }
+            set { _TeacherMarkTypeDimensionID = value; }
+        }
+        [Column(Name = "TeacherMarkTypeDimensionName", DataType = "String")]
+        public String TeacherMarkTypeDimensionName
+        {
+            get { return _TeacherMarkTypeDimensionName; }
+            set { _TeacherMarkTypeDimensionName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
         [Column(Name = "TeacherMarkTypeGroupID", DataType = "Int32")]
         public Int32 TeacherMarkTypeGroupID
         {
             get { return _TeacherMarkTypeGroupID; }
             set { _TeacherMarkTypeGroupID = value; }
         }
-        [Column(Name = "TeacherMarkTypeGroupName", DataType = "Int32")]
+        [Column(Name = "TeacherMarkTypeGroupName", DataType = "String")]
         public String TeacherMarkTypeGroupName
         {
             get { return _TeacherMarkTypeGroupName; }
             set { _TeacherMarkTypeGroupName = value; }
         }
-        [Column(Name = "TeacherMarkTypeItemName", DataType = "Int32")]
+        [Column(Name = "TeacherMarkTypeItemName", DataType = "String")]
         public String TeacherMarkTypeItemName
         {
             get { return _TeacherMarkTypeItemName; }
@@ -26100,6 +26073,18 @@ namespace CodeX.Data.Model
         {
             get { return _FinalMarkPercentage; }
             set { _FinalMarkPercentage = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "KeyProgressIndicatorText", DataType = "String")]
+        public String KeyProgressIndicatorText
+        {
+            get { return _KeyProgressIndicatorText; }
+            set { _KeyProgressIndicatorText = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

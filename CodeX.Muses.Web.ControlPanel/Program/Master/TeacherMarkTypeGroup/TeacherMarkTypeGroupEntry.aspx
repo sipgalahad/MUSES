@@ -14,8 +14,6 @@
     <script type="text/javascript">
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
-    <input type="hidden" id="hdnStartDate" runat="server" value="" />
-    <input type="hidden" id="hdnEndDate" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>
             <col width="50%"/>
@@ -26,11 +24,19 @@
                 <table width="100%">
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Dimensi")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtTeacherMarkTypeGroupName" /></td>
+                        <td><asp:TextBox runat="server" ID="txtTeacherMarkTypeGroupName" Width="200px" /></td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nilai Akhir")%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtFinalMark" CssClass="number" /></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bobot")%> [%]</label></td>
+                        <td><asp:TextBox runat="server" ID="txtFinalMark" CssClass="number" Width="80px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Urutan Tampil")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtDisplayOrder" CssClass="number" Width="80px" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan")%></label></td>
+                        <td><asp:TextBox ID="txtRemarks" Width="400px" runat="server" TextMode="MultiLine" Rows="2" /></td>
                     </tr>
                 </table>
             </td>

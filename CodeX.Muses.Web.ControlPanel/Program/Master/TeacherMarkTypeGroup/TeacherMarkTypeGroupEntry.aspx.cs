@@ -32,8 +32,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
-                String filterExpression = String.Format("TeacherMarkTypeGroupID = {0}", Convert.ToInt32(ID));
-                vTeacherMarkTypeGroup entity = BusinessLayer.GetvTeacherMarkTypeGroupList(filterExpression)[0];
+                TeacherMarkTypeGroup entity = BusinessLayer.GetTeacherMarkTypeGroup(Convert.ToInt32(ID));
                 SetControlProperties();
                 EntityToControl(entity);
             }
@@ -55,19 +54,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtTeacherMarkTypeGroupName, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtFinalMark, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
 
-        private void EntityToControl(vTeacherMarkTypeGroup entity)
+        private void EntityToControl(TeacherMarkTypeGroup entity)
         {
             txtTeacherMarkTypeGroupName.Text = entity.TeacherMarkTypeGroupName;
             txtFinalMark.Text = entity.FinalMarkPercentage.ToString();
+            txtDisplayOrder.Text = entity.DisplayOrder.ToString();
+            txtRemarks.Text = entity.Remarks;
         }
 
         private void ControlToEntity(TeacherMarkTypeGroup entity)
         {
             entity.TeacherMarkTypeGroupName = txtTeacherMarkTypeGroupName.Text;
             entity.FinalMarkPercentage = Convert.ToInt32(txtFinalMark.Text);
-            entity.SiteID = AppSession.UserLogin.SiteID;
+            entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
+            entity.Remarks = txtRemarks.Text;
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
@@ -99,16 +103,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             IDbContext ctx = DbFactory.Configure(true);
-            TeacherMarkTypeGroupDao teacherMarkDao = new TeacherMarkTypeGroupDao(ctx);
+            TeacherMarkTypeGroupDao entityDao = new TeacherMarkTypeGroupDao(ctx);
             bool result = false;
             try
             {
                 TeacherMarkTypeGroup entity = new TeacherMarkTypeGroup();
                 ControlToEntity(entity);
-                entity.IsDeleted = false;
+                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.LastUpdatedBy = entity.CreatedBy = AppSession.UserLogin.UserID;
-                teacherMarkDao.Insert(entity);
-                //retval = BusinessLayer.GetTeacherMarkTypeGroupMaxID(ctx).ToString();
+                entityDao.Insert(entity);
+                retval = BusinessLayer.GetTeacherMarkTypeGroupMaxID(ctx).ToString();
                 ctx.CommitTransaction();
                 result = true;
             }
@@ -130,13 +134,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            TeacherMarkTypeGroupDao teacherMarkDao = new TeacherMarkTypeGroupDao(ctx);
+            TeacherMarkTypeGroupDao entityDao = new TeacherMarkTypeGroupDao(ctx);
             try
             {
-                TeacherMarkTypeGroup entity = teacherMarkDao.Get(Convert.ToInt32(hdnID.Value));
+                TeacherMarkTypeGroup entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                teacherMarkDao.Update(entity);
+                entityDao.Update(entity);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
