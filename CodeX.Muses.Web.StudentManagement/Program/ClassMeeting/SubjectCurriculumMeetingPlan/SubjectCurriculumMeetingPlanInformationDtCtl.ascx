@@ -15,6 +15,8 @@
     <input type="hidden" id="hdnSubjectCurriculumMeetingPlanID" value="" runat="server" />
     <input type="hidden" id="hdnParentID" value="" runat="server" />
     <input type="hidden" id="hdnIsUsingCode" value="" runat="server" />
+    <input type="hidden" id="hdnIsPerSchoolPeriodSection" value="" runat="server" />
+    <input type="hidden" id="hdnCurriculumSchoolPeriodSectionID" value="" runat="server" />
     <input type="hidden" id="hdnIsAdd" value="" runat="server" />
     <table class="tblContentArea">
         <colgroup>
@@ -32,6 +34,10 @@
                             <tr>
                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe")%></label></td>
                                 <td><asp:TextBox ID="txtType" runat="server" Width="200px" ReadOnly="true" /></td>
+                            </tr>
+                            <tr id="trSchoolPeriodSection" runat="server">
+                                <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
+                                <td><asp:TextBox ID="txtSchoolPeriodSectionName" runat="server" Width="200px" ReadOnly="true" /></td>
                             </tr>
                             <tr id="trCode" runat="server">
                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>

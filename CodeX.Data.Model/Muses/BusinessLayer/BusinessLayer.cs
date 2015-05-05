@@ -3059,34 +3059,34 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region CurriculumSchoolTimeUnit
-        public static CurriculumSchoolTimeUnit GetCurriculumSchoolTimeUnit(Int32 CurriculumSchoolTimeUnitID)
+        #region CurriculumSchoolPeriodSection
+        public static CurriculumSchoolPeriodSection GetCurriculumSchoolPeriodSection(Int32 CurriculumSchoolPeriodSectionID)
         {
-            return new CurriculumSchoolTimeUnitDao().Get(CurriculumSchoolTimeUnitID);
+            return new CurriculumSchoolPeriodSectionDao().Get(CurriculumSchoolPeriodSectionID);
         }
-        public static int InsertCurriculumSchoolTimeUnit(CurriculumSchoolTimeUnit record)
+        public static int InsertCurriculumSchoolPeriodSection(CurriculumSchoolPeriodSection record)
         {
-            return new CurriculumSchoolTimeUnitDao().Insert(record);
+            return new CurriculumSchoolPeriodSectionDao().Insert(record);
         }
-        public static int UpdateCurriculumSchoolTimeUnit(CurriculumSchoolTimeUnit record)
+        public static int UpdateCurriculumSchoolPeriodSection(CurriculumSchoolPeriodSection record)
         {
-            return new CurriculumSchoolTimeUnitDao().Update(record);
+            return new CurriculumSchoolPeriodSectionDao().Update(record);
         }
-        public static int DeleteCurriculumSchoolTimeUnit(Int32 CurriculumSchoolTimeUnitID)
+        public static int DeleteCurriculumSchoolPeriodSection(Int32 CurriculumSchoolPeriodSectionID)
         {
-            return new CurriculumSchoolTimeUnitDao().Delete(CurriculumSchoolTimeUnitID);
+            return new CurriculumSchoolPeriodSectionDao().Delete(CurriculumSchoolPeriodSectionID);
         }
-        public static List<CurriculumSchoolTimeUnit> GetCurriculumSchoolTimeUnitList(string filterExpression)
+        public static List<CurriculumSchoolPeriodSection> GetCurriculumSchoolPeriodSectionList(string filterExpression)
         {
-            List<CurriculumSchoolTimeUnit> result = new List<CurriculumSchoolTimeUnit>();
+            List<CurriculumSchoolPeriodSection> result = new List<CurriculumSchoolPeriodSection>();
             IDbContext ctx = DbFactory.Configure();
             try
             {
-                DbHelper helper = new DbHelper(typeof(CurriculumSchoolTimeUnit));
+                DbHelper helper = new DbHelper(typeof(CurriculumSchoolPeriodSection));
                 ctx.CommandText = helper.Select(filterExpression);
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
-                        result.Add((CurriculumSchoolTimeUnit)helper.IDataReaderToObject(reader, new CurriculumSchoolTimeUnit()));
+                        result.Add((CurriculumSchoolPeriodSection)helper.IDataReaderToObject(reader, new CurriculumSchoolPeriodSection()));
             }
             catch (Exception ex)
             {

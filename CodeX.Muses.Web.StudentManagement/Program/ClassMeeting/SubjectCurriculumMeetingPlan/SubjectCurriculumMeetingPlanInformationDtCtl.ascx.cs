@@ -23,6 +23,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSubjectCurriculumID.Value = temp[1];
             hdnCurriculumMeetingPlanID.Value = temp[2];
             hdnParentID.Value = temp[3];
+            hdnIsPerSchoolPeriodSection.Value = temp[4];
+            hdnCurriculumSchoolPeriodSectionID.Value = temp[5];
+
+            if (hdnIsPerSchoolPeriodSection.Value == "1")
+                txtSchoolPeriodSectionName.Text = BusinessLayer.GetCurriculumSchoolPeriodSection(Convert.ToInt32(hdnCurriculumSchoolPeriodSectionID.Value)).CurriculumSchoolPeriodSectionName;
+            else
+                trSchoolPeriodSection.Style.Add("display", "none");
 
             vCurriculumMeetingPlan entityDt = BusinessLayer.GetvCurriculumMeetingPlanList(String.Format("CurriculumMeetingPlanID = {0}", hdnCurriculumMeetingPlanID.Value)).FirstOrDefault();
             txtType.Text = entityDt.CurriculumMeetingPlanName;
@@ -39,7 +46,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";
 
-            hdnSubjectCurriculumMeetingPlanID.Value = temp[4];
+            hdnSubjectCurriculumMeetingPlanID.Value = temp[6];
             hdnIsAdd.Value = "0";
 
             SubjectCurriculumMeetingPlan entity = BusinessLayer.GetSubjectCurriculumMeetingPlan(Convert.ToInt32(hdnSubjectCurriculumMeetingPlanID.Value));

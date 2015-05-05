@@ -39,19 +39,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacSubjectCurriculum.Text = entityHd.SubjectCurriculumName;
                 tacSubjectCurriculum.Readonly = true;
                 hdnCurriculumID.Value = entityHd.CurriculumID.ToString();
-                if (entityHd.IsSyllabusPerSchoolTimeUnit)
+                hdnIsPerSchoolPeriodSection.Value = entityHd.IsSyllabusPerSchoolPeriodSection ? "1" : "0";
+                if (entityHd.IsSyllabusPerSchoolPeriodSection)
                 {
-                    trSchoolTimeUnit.Attributes.Remove("style");
+                    trSchoolPeriodSection.Attributes.Remove("style");
                     string optVal = "";
-                    List<CurriculumSchoolTimeUnit> lstSchoolTimeUnit = BusinessLayer.GetCurriculumSchoolTimeUnitList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.SubjectCurriculumID));
-                    foreach (CurriculumSchoolTimeUnit schoolTimeUnit in lstSchoolTimeUnit)
+                    List<CurriculumSchoolPeriodSection> lstSchoolPeriodSection = BusinessLayer.GetCurriculumSchoolPeriodSectionList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.SubjectCurriculumID));
+                    foreach (CurriculumSchoolPeriodSection schoolTimeUnit in lstSchoolPeriodSection)
                     {
-                        optVal += string.Format("<option value='{0}'>{1}</option>", schoolTimeUnit.CurriculumSchoolTimeUnitID, schoolTimeUnit.CurriculumSchoolTimeUnitName);
+                        optVal += string.Format("<option value='{0}'>{1}</option>", schoolTimeUnit.CurriculumSchoolPeriodSectionID, schoolTimeUnit.CurriculumSchoolPeriodSectionName);
                     }
-                    cboSchoolTimeUnit.InnerHtml = optVal;
+                    cboSchoolPeriodSection.InnerHtml = optVal;
                 }
                 else
-                    trSchoolTimeUnit.Attributes.Add("style", "display:none");
+                    trSchoolPeriodSection.Attributes.Add("style", "display:none");
             }
 
             //if (AppSession.SubjectMatterID > 0)

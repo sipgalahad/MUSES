@@ -94,22 +94,22 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeClassType;
         
         /// <summary>
-        /// chkIsSyllabusPerSchoolTimeUnit control.
+        /// chkIsSyllabusPerSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsSyllabusPerSchoolTimeUnit;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsSyllabusPerSchoolPeriodSection;
         
         /// <summary>
-        /// chkIsMeetingPlanPerSchoolTimeUnit control.
+        /// chkIsMeetingPlanPerSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsMeetingPlanPerSchoolTimeUnit;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsMeetingPlanPerSchoolPeriodSection;
         
         /// <summary>
         /// txtRemarks control.

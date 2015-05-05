@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class CurriculumSchoolTimeUnitEntry {
+    public partial class CurriculumSchoolPeriodSectionEntry {
         
         /// <summary>
         /// hdnEntryID control.
@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtCurriculumSchoolTimeUnitName control.
+        /// txtCurriculumSchoolPeriodSectionName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCurriculumSchoolTimeUnitName;
+        protected global::System.Web.UI.WebControls.TextBox txtCurriculumSchoolPeriodSectionName;
         
         /// <summary>
         /// cbpView control.

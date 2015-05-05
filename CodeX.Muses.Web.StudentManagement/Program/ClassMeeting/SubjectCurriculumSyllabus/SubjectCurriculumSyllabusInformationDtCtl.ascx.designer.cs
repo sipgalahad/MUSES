@@ -58,6 +58,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsUsingCode;
         
         /// <summary>
+        /// hdnIsPerSchoolPeriodSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsPerSchoolPeriodSection;
+        
+        /// <summary>
+        /// hdnCurriculumSchoolPeriodSectionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumSchoolPeriodSectionID;
+        
+        /// <summary>
         /// hdnIsAdd control.
         /// </summary>
         /// <remarks>
@@ -74,6 +92,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtType;
+        
+        /// <summary>
+        /// trSchoolPeriodSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSchoolPeriodSection;
+        
+        /// <summary>
+        /// txtSchoolPeriodSectionName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodSectionName;
         
         /// <summary>
         /// trCode control.

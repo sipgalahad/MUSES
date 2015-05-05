@@ -58,22 +58,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsUsingCode;
         
         /// <summary>
-        /// hdnIsPerSchoolTimeUnit control.
+        /// hdnIsPerSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsPerSchoolTimeUnit;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsPerSchoolPeriodSection;
         
         /// <summary>
-        /// hdnCurriculumSchoolTimeUnitID control.
+        /// hdnCurriculumSchoolPeriodSectionID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumSchoolTimeUnitID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumSchoolPeriodSectionID;
         
         /// <summary>
         /// hdnIsAdd control.
@@ -94,22 +94,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtType;
         
         /// <summary>
-        /// trSchoolTimeUnit control.
+        /// trSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSchoolTimeUnit;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSchoolPeriodSection;
         
         /// <summary>
-        /// txtSchoolTimeUnitName control.
+        /// txtSchoolPeriodSectionName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSchoolTimeUnitName;
+        protected global::System.Web.UI.WebControls.TextBox txtSchoolPeriodSectionName;
         
         /// <summary>
         /// trCode control.

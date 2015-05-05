@@ -18,6 +18,10 @@
                     onRefreshGridView();
                 }
             }, 100);
+
+            $('#<%=cboSchoolPeriodSection.ClientID %>').change(function () {
+                onRefreshGridView();
+            });
         });
 
         //#region edit and delete
@@ -52,14 +56,12 @@
                     if (result != null) {
                         tacSubjectCurriculum.setValue(result.SubjectCurriculumID);
                         tacSubjectCurriculum.setText(result.SubjectCurriculumName);
-                        $('#<%=hdnCurriculumID.ClientID %>').val(result.CurriculumID);
                     }
                     else {
                         tacSubjectCurriculum.setValue('');
                         tacSubjectCurriculum.setText('');
-                        $('#<%=hdnCurriculumID.ClientID %>').val('');
                     }
-                    onRefreshGridView();
+                    entityToControlSubjectCurriculum(result);
                 });
             });
         }
@@ -69,15 +71,39 @@
             if (id != '') {
                 var filterExpression = "SubjectCurriculumID = '" + id + "'";
                 Methods.getObject('GetSubjectCurriculumList', filterExpression, function (result) {
-                    if (result != null)
-                        $('#<%=hdnCurriculumID.ClientID %>').val(result.CurriculumID);
-                    else 
-                        $('#<%=hdnCurriculumID.ClientID %>').val('');
-                    onRefreshGridView();
+                    entityToControlSubjectCurriculum(result);
                 });
             }
             else {
                 $('#<%=hdnCurriculumID.ClientID %>').val('');
+                $('#<%=trSchoolPeriodSection.ClientID %>').attr('style', 'display:none');
+                onRefreshGridView();
+            }
+        }
+
+        function entityToControlSubjectCurriculum(result) {
+            if (result != null) {
+                $('#<%=hdnCurriculumID.ClientID %>').val(result.CurriculumID);
+                $('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val(result.IsMeetingPlanPerSchoolPeriodSection ? '1' : '0');
+                if (result.IsMeetingPlanPerSchoolPeriodSection) {
+                    $('#<%=trSchoolPeriodSection.ClientID %>').removeAttr('style');
+                    var filterExpression = 'CurriculumID = ' + result.CurriculumID + ' AND IsDeleted = 0';
+                    Methods.getListObject('GetCurriculumSchoolPeriodSectionList', filterExpression, function (result1) {
+                        for (var i = 0; i < result1.length; ++i) {
+                            $option = $("<option value='" + result1[i].CurriculumSchoolPeriodSectionID + "'>" + result1[i].CurriculumSchoolPeriodSectionName + "</option>");
+                            $('#<%=cboSchoolPeriodSection.ClientID %>').append($option);
+                        }
+                        onRefreshGridView();
+                    });
+                }
+                else {
+                    $('#<%=trSchoolPeriodSection.ClientID %>').attr('style', 'display:none');
+                    onRefreshGridView();
+                }
+            }
+            else {
+                $('#<%=hdnCurriculumID.ClientID %>').val('');
+                $('#<%=trSchoolPeriodSection.ClientID %>').attr('style', 'display:none');
                 onRefreshGridView();
             }
         }
@@ -132,7 +158,7 @@
             var id = $opt.val();
             var isUsingCode = $opt.attr('isusingcode');
             var referenceID = $opt.attr('referenceid');
-            
+
             $tbl = $li.find('.tblSubjectCurriculumMeetingPlan');
             $tbl.find('tr:gt(0)').each(function () {
                 $(this).remove();
@@ -145,10 +171,18 @@
 
             var parentID = $li.find('.hdnParentID').val();
             var filterExpression = "";
-            if (parentID == "")
-                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
-            else
-                filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+            if (parentID == "") {
+                if ($('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() == '0')
+                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
+                else
+                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID IS NULL AND IsDeleted = 0";
+            }
+            else {
+                if ($('#<%=hdnIsPerSchoolPeriodSection.ClientID %>').val() == '0')
+                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+                else
+                    filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND CurriculumSchoolPeriodSectionID = " + $('#<%=cboSchoolPeriodSection.ClientID %> option:selected').val() + " AND ParentID = " + parentID + " AND IsDeleted = 0";
+            }
             Methods.getListObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
                 $("#tmplListSubjectCurriculumMeetingPlan").tmpl(result).appendTo($tbl);
 
@@ -236,6 +270,7 @@
     </style>
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server" />
+    <input type="hidden" id="hdnIsPerSchoolPeriodSection" runat="server" />
     <fieldset id="fsFilter">
         <table class="tblEntryContent" style="width:70%">
             <colgroup>
@@ -253,12 +288,10 @@
                     </cdx:CodeXAutoCompleteTextBox>   
                 </td>
             </tr> 
-            <tr>
+            <tr id="trSchoolPeriodSection" runat="server" style="display:none">
                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Semester")%></label></td>
                 <td>
-                    <dxe:ASPxComboBox ID="cboGCPeriodSection" ClientInstanceName="cboGCPeriodSection" Width="200px" runat="server">
-                        <ClientSideEvents ValueChanged="function(){ onCboGCPeriodSectionValueChanged(); }" />
-                    </dxe:ASPxComboBox>
+                    <select id="cboSchoolPeriodSection" runat="server" style="width:200px"></select>
                 </td>
             </tr> 
         </table>

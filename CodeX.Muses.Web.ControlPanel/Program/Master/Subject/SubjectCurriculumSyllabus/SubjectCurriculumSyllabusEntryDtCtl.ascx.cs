@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             hdnSubjectCurriculumID.Value = temp[1];
             hdnCurriculumSyllabusID.Value = temp[2];
             hdnParentID.Value = temp[3];
-            hdnIsPerSchoolTimeUnit.Value = temp[4];
-            hdnCurriculumSchoolTimeUnitID.Value = temp[5];
+            hdnIsPerSchoolPeriodSection.Value = temp[4];
+            hdnCurriculumSchoolPeriodSectionID.Value = temp[5];
 
-            if (hdnIsPerSchoolTimeUnit.Value == "1")
-                txtSchoolTimeUnitName.Text = BusinessLayer.GetCurriculumSchoolTimeUnit(Convert.ToInt32(hdnCurriculumSchoolTimeUnitID.Value)).CurriculumSchoolTimeUnitName;
+            if (hdnIsPerSchoolPeriodSection.Value == "1")
+                txtSchoolPeriodSectionName.Text = BusinessLayer.GetCurriculumSchoolPeriodSection(Convert.ToInt32(hdnCurriculumSchoolPeriodSectionID.Value)).CurriculumSchoolPeriodSectionName;
             else
-                trSchoolTimeUnit.Style.Add("display", "none");
+                trSchoolPeriodSection.Style.Add("display", "none");
 
             vCurriculumSyllabus entityDt = BusinessLayer.GetvCurriculumSyllabusList(String.Format("CurriculumSyllabusID = {0}", hdnCurriculumSyllabusID.Value)).FirstOrDefault();
             txtType.Text = entityDt.CurriculumSyllabusName;
@@ -119,10 +119,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                     entity.ParentID = Convert.ToInt32(hdnParentID.Value);
                 else
                     entity.ParentID = null;
-                if (hdnIsPerSchoolTimeUnit.Value == "1")
-                    entity.CurriculumSchoolTimeUnitID = Convert.ToInt32(hdnCurriculumSchoolTimeUnitID.Value);
+                if (hdnIsPerSchoolPeriodSection.Value == "1")
+                    entity.CurriculumSchoolPeriodSectionID = Convert.ToInt32(hdnCurriculumSchoolPeriodSectionID.Value);
                 else
-                    entity.CurriculumSchoolTimeUnitID = null;
+                    entity.CurriculumSchoolPeriodSectionID = null;
                 entity.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
                 entity.CurriculumSyllabusID = Convert.ToInt32(hdnCurriculumSyllabusID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;

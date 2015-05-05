@@ -123,8 +123,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
             entity.SubjectCurriculumName = txtSubjectCurriculumName.Text;
-            entity.IsSyllabusPerSchoolTimeUnit = chkIsSyllabusPerSchoolTimeUnit.Checked;
-            entity.IsMeetingPlanPerSchoolTimeUnit = chkIsMeetingPlanPerSchoolTimeUnit.Checked;
+            entity.IsSyllabusPerSchoolPeriodSection = chkIsSyllabusPerSchoolPeriodSection.Checked;
+            entity.IsMeetingPlanPerSchoolPeriodSection = chkIsMeetingPlanPerSchoolPeriodSection.Checked;
             entity.Remarks = txtRemarks.Text;
         }
 

@@ -31,13 +31,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// hdnIsPerSchoolTimeUnit control.
+        /// hdnIsPerSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsPerSchoolTimeUnit;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsPerSchoolPeriodSection;
         
         /// <summary>
         /// hdnCurriculumID control.
@@ -58,22 +58,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculum;
         
         /// <summary>
-        /// trSchoolTimeUnit control.
+        /// trSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSchoolTimeUnit;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSchoolPeriodSection;
         
         /// <summary>
-        /// cboSchoolTimeUnit control.
+        /// cboSchoolPeriodSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlSelect cboSchoolTimeUnit;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect cboSchoolPeriodSection;
         
         /// <summary>
         /// cbpProcess control.

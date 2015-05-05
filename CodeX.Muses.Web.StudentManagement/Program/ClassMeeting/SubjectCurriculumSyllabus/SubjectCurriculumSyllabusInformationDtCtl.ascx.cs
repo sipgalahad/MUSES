@@ -23,6 +23,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSubjectCurriculumID.Value = temp[1];
             hdnCurriculumSyllabusID.Value = temp[2];
             hdnParentID.Value = temp[3];
+            hdnIsPerSchoolPeriodSection.Value = temp[4];
+            hdnCurriculumSchoolPeriodSectionID.Value = temp[5];
 
             vCurriculumSyllabus entityDt = BusinessLayer.GetvCurriculumSyllabusList(String.Format("CurriculumSyllabusID = {0}", hdnCurriculumSyllabusID.Value)).FirstOrDefault();
             txtType.Text = entityDt.CurriculumSyllabusName;
@@ -38,7 +40,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";
 
-            hdnSubjectCurriculumSyllabusID.Value = temp[4];
+            hdnSubjectCurriculumSyllabusID.Value = temp[6];
             hdnIsAdd.Value = "0";
 
             SubjectCurriculumSyllabus entity = BusinessLayer.GetSubjectCurriculumSyllabus(Convert.ToInt32(hdnSubjectCurriculumSyllabusID.Value));

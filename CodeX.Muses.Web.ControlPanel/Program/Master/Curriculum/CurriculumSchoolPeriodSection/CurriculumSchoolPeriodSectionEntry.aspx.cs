@@ -14,17 +14,17 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class CurriculumSchoolTimeUnitEntry : BasePageTrx
+    public partial class CurriculumSchoolPeriodSectionEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_SCHOOL_TIME_UNIT;
+            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_SCHOOL_PERIOD_SECTION;
         }
         protected override void InitializeDataControl()
         {
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtCurriculumSchoolTimeUnitName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtCurriculumSchoolPeriodSectionName, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void BindGridView()
         {
             string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
-            grdView.DataSource = BusinessLayer.GetCurriculumSchoolTimeUnitList(filterExpression);
+            grdView.DataSource = BusinessLayer.GetCurriculumSchoolPeriodSectionList(filterExpression);
             grdView.DataBind();
         }
 
@@ -82,19 +82,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumSchoolTimeUnit entity)
+        private void ControlToEntity(CurriculumSchoolPeriodSection entity)
         {
-            entity.CurriculumSchoolTimeUnitName = txtCurriculumSchoolTimeUnitName.Text;
+            entity.CurriculumSchoolPeriodSectionName = txtCurriculumSchoolPeriodSectionName.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSchoolTimeUnitDao entityDao = new CurriculumSchoolTimeUnitDao(ctx);
+            CurriculumSchoolPeriodSectionDao entityDao = new CurriculumSchoolPeriodSectionDao(ctx);
             try
             {
-                CurriculumSchoolTimeUnit entity = new CurriculumSchoolTimeUnit();
+                CurriculumSchoolPeriodSection entity = new CurriculumSchoolPeriodSection();
                 ControlToEntity(entity);
                 entity.CurriculumID = AppSession.CurriculumID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
@@ -119,10 +119,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSchoolTimeUnitDao entityDao = new CurriculumSchoolTimeUnitDao(ctx);
+            CurriculumSchoolPeriodSectionDao entityDao = new CurriculumSchoolPeriodSectionDao(ctx);
             try
             {
-                CurriculumSchoolTimeUnit entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumSchoolPeriodSection entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
@@ -146,10 +146,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumSchoolTimeUnit entity = BusinessLayer.GetCurriculumSchoolTimeUnit(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumSchoolPeriodSection entity = BusinessLayer.GetCurriculumSchoolPeriodSection(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumSchoolTimeUnit(entity);
+                BusinessLayer.UpdateCurriculumSchoolPeriodSection(entity);
                 return true;
             }
             catch (Exception ex)

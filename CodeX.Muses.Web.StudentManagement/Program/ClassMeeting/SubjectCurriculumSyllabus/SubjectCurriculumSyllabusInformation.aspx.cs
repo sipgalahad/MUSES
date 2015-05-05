@@ -38,14 +38,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacSubjectCurriculum.Text = entityHd.SubjectCurriculumName;
                 tacSubjectCurriculum.Readonly = true;
                 hdnCurriculumID.Value = entityHd.CurriculumID.ToString();
+                hdnIsPerSchoolPeriodSection.Value = entityHd.IsSyllabusPerSchoolPeriodSection ? "1" : "0";
+                if (entityHd.IsSyllabusPerSchoolPeriodSection)
+                {
+                    trSchoolPeriodSection.Attributes.Remove("style");
+                    string optVal = "";
+                    List<CurriculumSchoolPeriodSection> lstSchoolPeriodSection = BusinessLayer.GetCurriculumSchoolPeriodSectionList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.SubjectCurriculumID));
+                    foreach (CurriculumSchoolPeriodSection schoolTimeUnit in lstSchoolPeriodSection)
+                    {
+                        optVal += string.Format("<option value='{0}'>{1}</option>", schoolTimeUnit.CurriculumSchoolPeriodSectionID, schoolTimeUnit.CurriculumSchoolPeriodSectionName);
+                    }
+                    cboSchoolPeriodSection.InnerHtml = optVal;
+                }
+                else
+                    trSchoolPeriodSection.Attributes.Add("style", "display:none");
             }
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
-            Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
-            cboGCPeriodSection.SelectedIndex = 0;
-
             Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, true), "mpFilter");
-            Helper.SetControlEntrySetting(cboGCPeriodSection, new ControlEntrySetting(true, true, true), "mpFilter");
         }
 
 

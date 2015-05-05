@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             hdnSubjectCurriculumID.Value = temp[1];
             hdnCurriculumMeetingPlanID.Value = temp[2];
             hdnParentID.Value = temp[3];
-            hdnIsPerSchoolTimeUnit.Value = temp[4];
-            hdnCurriculumSchoolTimeUnitID.Value = temp[5];
+            hdnIsPerSchoolPeriodSection.Value = temp[4];
+            hdnCurriculumSchoolPeriodSectionID.Value = temp[5];
 
-            if (hdnIsPerSchoolTimeUnit.Value == "1")
-                txtSchoolTimeUnitName.Text = BusinessLayer.GetCurriculumSchoolTimeUnit(Convert.ToInt32(hdnCurriculumSchoolTimeUnitID.Value)).CurriculumSchoolTimeUnitName;
+            if (hdnIsPerSchoolPeriodSection.Value == "1")
+                txtSchoolPeriodSectionName.Text = BusinessLayer.GetCurriculumSchoolPeriodSection(Convert.ToInt32(hdnCurriculumSchoolPeriodSectionID.Value)).CurriculumSchoolPeriodSectionName;
             else
-                trSchoolTimeUnit.Style.Add("display", "none");
+                trSchoolPeriodSection.Style.Add("display", "none");
 
             vCurriculumMeetingPlan entityDt = BusinessLayer.GetvCurriculumMeetingPlanList(String.Format("CurriculumMeetingPlanID = {0}", hdnCurriculumMeetingPlanID.Value)).FirstOrDefault();
             txtType.Text = entityDt.CurriculumMeetingPlanName;
@@ -120,10 +120,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                     entity.ParentID = Convert.ToInt32(hdnParentID.Value);
                 else
                     entity.ParentID = null;
-                if (hdnIsPerSchoolTimeUnit.Value == "1")
-                    entity.CurriculumSchoolTimeUnitID = Convert.ToInt32(hdnCurriculumSchoolTimeUnitID.Value);
+                if (hdnIsPerSchoolPeriodSection.Value == "1")
+                    entity.CurriculumSchoolPeriodSectionID = Convert.ToInt32(hdnCurriculumSchoolPeriodSectionID.Value);
                 else
-                    entity.CurriculumSchoolTimeUnitID = null;
+                    entity.CurriculumSchoolPeriodSectionID = null;
                 entity.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
                 entity.CurriculumMeetingPlanID = Convert.ToInt32(hdnCurriculumMeetingPlanID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;

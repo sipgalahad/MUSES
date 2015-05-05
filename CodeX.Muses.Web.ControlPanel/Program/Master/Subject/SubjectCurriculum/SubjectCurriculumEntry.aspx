@@ -15,8 +15,8 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 cboCurriculum.SetValue('');
                 $('#<%=txtSubjectCurriculumName.ClientID %>').val('');
-                $('#<%=chkIsSyllabusPerSchoolTimeUnit.ClientID %>').prop('checked', false);
-                $('#<%=chkIsMeetingPlanPerSchoolTimeUnit.ClientID %>').prop('checked', false); 
+                $('#<%=chkIsSyllabusPerSchoolPeriodSection.ClientID %>').prop('checked', false);
+                $('#<%=chkIsMeetingPlanPerSchoolPeriodSection.ClientID %>').prop('checked', false); 
                 $('#<%=txtRemarks.ClientID %>').val('');
 
                 $('#<%=hdnLstClassTypeID.ClientID %>').val('');
@@ -79,8 +79,8 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectCurriculumID);
             cboCurriculum.SetValue(entity.CurriculumID);
             $('#<%=txtSubjectCurriculumName.ClientID %>').val(entity.SubjectCurriculumName);
-            $('#<%=chkIsSyllabusPerSchoolTimeUnit.ClientID %>').prop('checked', entity.IsSyllabusPerSchoolTimeUnit == 'True');
-            $('#<%=chkIsMeetingPlanPerSchoolTimeUnit.ClientID %>').prop('checked', entity.IsMeetingPlanPerSchoolTimeUnit == 'True'); 
+            $('#<%=chkIsSyllabusPerSchoolPeriodSection.ClientID %>').prop('checked', entity.IsSyllabusPerSchoolPeriodSection == 'True');
+            $('#<%=chkIsMeetingPlanPerSchoolPeriodSection.ClientID %>').prop('checked', entity.IsMeetingPlanPerSchoolPeriodSection == 'True'); 
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
 
             $('.chkClassType input:checked').each(function () {
@@ -247,11 +247,11 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Silabus Per Semester")%></label></td>
-                                    <td><asp:CheckBox ID="chkIsSyllabusPerSchoolTimeUnit" runat="server" /></td>
+                                    <td><asp:CheckBox ID="chkIsSyllabusPerSchoolPeriodSection" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("RPP Per Semester")%></label></td>
-                                    <td><asp:CheckBox ID="chkIsMeetingPlanPerSchoolTimeUnit" runat="server" /></td>
+                                    <td><asp:CheckBox ID="chkIsMeetingPlanPerSchoolPeriodSection" runat="server" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
@@ -304,8 +304,8 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumID") %>" bindingfield="SubjectCurriculumID" />
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
-                                        <input type="hidden" value="<%#Eval("IsSyllabusPerSchoolTimeUnit") %>" bindingfield="IsSyllabusPerSchoolTimeUnit" />
-                                        <input type="hidden" value="<%#Eval("IsMeetingPlanPerSchoolTimeUnit") %>" bindingfield="IsMeetingPlanPerSchoolTimeUnit" />
+                                        <input type="hidden" value="<%#Eval("IsSyllabusPerSchoolPeriodSection") %>" bindingfield="IsSyllabusPerSchoolPeriodSection" />
+                                        <input type="hidden" value="<%#Eval("IsMeetingPlanPerSchoolPeriodSection") %>" bindingfield="IsMeetingPlanPerSchoolPeriodSection" />
                                         <input type="hidden" value="<%#Eval("CurriculumID") %>" bindingfield="CurriculumID" />
                                         <input type="hidden" value="<%#Eval("CurriculumName") %>" bindingfield="CurriculumName" />
                                         <input type="hidden" value="<%#Eval("ListClassTypeID") %>" bindingfield="ListClassTypeID" />
