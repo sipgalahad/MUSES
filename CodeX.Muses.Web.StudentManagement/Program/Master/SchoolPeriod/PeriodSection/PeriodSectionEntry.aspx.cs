@@ -22,14 +22,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
-            Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
-            cboGCPeriodSection.SelectedIndex = 0;
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
+            List<CurriculumSchoolPeriodSection> lstPeriodSection = BusinessLayer.GetCurriculumSchoolPeriodSectionList(string.Format("CurriculumID = {0} AND IsDeleted = 0", entitySchoolPeriod.CurriculumID));
+            Methods.SetComboBoxField<CurriculumSchoolPeriodSection>(cboCurriculumSchoolPeriodSection, lstPeriodSection, "CurriculumSchoolPeriodSectionName", "CurriculumSchoolPeriodSectionID");
+            cboCurriculumSchoolPeriodSection.SelectedIndex = 0;
 
             BindGridView();
 
             Helper.SetControlEntrySetting(txtPeriodSectionCode, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboGCPeriodSection, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboCurriculumSchoolPeriodSection, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPeriodSectionName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false), "mpTrx");
@@ -94,7 +95,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(PeriodSection entity)
         {
             entity.PeriodSectionCode = txtPeriodSectionCode.Text;
-            entity.GCPeriodSection = cboGCPeriodSection.Value.ToString();
+            entity.CurriculumSchoolPeriodSectionID = Convert.ToInt32(cboCurriculumSchoolPeriodSection.Value);
             entity.PeriodSectionName = txtPeriodSectionName.Text;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);

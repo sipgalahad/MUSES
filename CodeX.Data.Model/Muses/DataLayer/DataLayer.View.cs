@@ -13197,6 +13197,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _PeriodSectionID;
         private String _PeriodSectionCode;
+        private Int32 _CurriculumSchoolPeriodSectionID;
+        private String _CurriculumSchoolPeriodSectionName;
         private String _GCPeriodSection;
         private String _PeriodSection;
         private String _PeriodSectionName;
@@ -13219,6 +13221,18 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodSectionCode; }
             set { _PeriodSectionCode = value; }
+        }
+        [Column(Name = "CurriculumSchoolPeriodSectionID", DataType = "Int32")]
+        public Int32 CurriculumSchoolPeriodSectionID
+        {
+            get { return _CurriculumSchoolPeriodSectionID; }
+            set { _CurriculumSchoolPeriodSectionID = value; }
+        }
+        [Column(Name = "CurriculumSchoolPeriodSectionName", DataType = "String")]
+        public String CurriculumSchoolPeriodSectionName
+        {
+            get { return _CurriculumSchoolPeriodSectionName; }
+            set { _CurriculumSchoolPeriodSectionName = value; }
         }
         [Column(Name = "GCPeriodSection", DataType = "String")]
         public String GCPeriodSection
