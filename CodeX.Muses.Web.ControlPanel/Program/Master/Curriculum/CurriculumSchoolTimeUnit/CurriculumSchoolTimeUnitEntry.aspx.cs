@@ -14,17 +14,17 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class CurriculumPeriodSectionEntry : BasePageTrx
+    public partial class CurriculumSchoolTimeUnitEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_PERIOD_SECTION;
+            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_SCHOOL_TIME_UNIT;
         }
         protected override void InitializeDataControl()
         {
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtCurriculumPeriodSectionName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtCurriculumSchoolTimeUnitName, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void BindGridView()
         {
             string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
-            grdView.DataSource = BusinessLayer.GetCurriculumPeriodSectionList(filterExpression);
+            grdView.DataSource = BusinessLayer.GetCurriculumSchoolTimeUnitList(filterExpression);
             grdView.DataBind();
         }
 
@@ -82,19 +82,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumPeriodSection entity)
+        private void ControlToEntity(CurriculumSchoolTimeUnit entity)
         {
-            entity.CurriculumPeriodSectionName = txtCurriculumPeriodSectionName.Text;
+            entity.CurriculumSchoolTimeUnitName = txtCurriculumSchoolTimeUnitName.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumPeriodSectionDao entityDao = new CurriculumPeriodSectionDao(ctx);
+            CurriculumSchoolTimeUnitDao entityDao = new CurriculumSchoolTimeUnitDao(ctx);
             try
             {
-                CurriculumPeriodSection entity = new CurriculumPeriodSection();
+                CurriculumSchoolTimeUnit entity = new CurriculumSchoolTimeUnit();
                 ControlToEntity(entity);
                 entity.CurriculumID = AppSession.CurriculumID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
@@ -119,10 +119,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumPeriodSectionDao entityDao = new CurriculumPeriodSectionDao(ctx);
+            CurriculumSchoolTimeUnitDao entityDao = new CurriculumSchoolTimeUnitDao(ctx);
             try
             {
-                CurriculumPeriodSection entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumSchoolTimeUnit entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
@@ -146,10 +146,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumPeriodSection entity = BusinessLayer.GetCurriculumPeriodSection(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumSchoolTimeUnit entity = BusinessLayer.GetCurriculumSchoolTimeUnit(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumPeriodSection(entity);
+                BusinessLayer.UpdateCurriculumSchoolTimeUnit(entity);
                 return true;
             }
             catch (Exception ex)

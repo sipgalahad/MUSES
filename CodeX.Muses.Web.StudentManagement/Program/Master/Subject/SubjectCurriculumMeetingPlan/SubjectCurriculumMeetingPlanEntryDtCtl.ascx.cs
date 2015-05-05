@@ -22,6 +22,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnSubjectCurriculumID.Value = temp[1];
             hdnCurriculumMeetingPlanID.Value = temp[2];
             hdnParentID.Value = temp[3];
+            hdnIsPerSchoolTimeUnit.Value = temp[4];
+            hdnCurriculumSchoolTimeUnitID.Value = temp[5];
+
+            if (hdnIsPerSchoolTimeUnit.Value == "1")
+                txtSchoolTimeUnitName.Text = BusinessLayer.GetCurriculumSchoolTimeUnit(Convert.ToInt32(hdnCurriculumSchoolTimeUnitID.Value)).CurriculumSchoolTimeUnitName;
+            else
+                trSchoolTimeUnit.Style.Add("display", "none");
 
             vCurriculumMeetingPlan entityDt = BusinessLayer.GetvCurriculumMeetingPlanList(String.Format("CurriculumMeetingPlanID = {0}", hdnCurriculumMeetingPlanID.Value)).FirstOrDefault();
             txtType.Text = entityDt.CurriculumMeetingPlanName;
@@ -40,7 +47,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             if (temp[0] == "edit")
             {
-                hdnSubjectCurriculumMeetingPlanID.Value = temp[4];
+                hdnSubjectCurriculumMeetingPlanID.Value = temp[6];
                 hdnIsAdd.Value = "0";
 
                 SubjectCurriculumMeetingPlan entity = BusinessLayer.GetSubjectCurriculumMeetingPlan(Convert.ToInt32(hdnSubjectCurriculumMeetingPlanID.Value));
@@ -113,6 +120,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.ParentID = Convert.ToInt32(hdnParentID.Value);
                 else
                     entity.ParentID = null;
+                if (hdnIsPerSchoolTimeUnit.Value == "1")
+                    entity.CurriculumSchoolTimeUnitID = Convert.ToInt32(hdnCurriculumSchoolTimeUnitID.Value);
+                else
+                    entity.CurriculumSchoolTimeUnitID = null;
                 entity.SubjectCurriculumID = Convert.ToInt32(hdnSubjectCurriculumID.Value);
                 entity.CurriculumMeetingPlanID = Convert.ToInt32(hdnCurriculumMeetingPlanID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPCurriculumPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="CurriculumPeriodSectionEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.CurriculumPeriodSectionEntry" %>
+    CodeBehind="CurriculumSchoolTimeUnitEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.CurriculumSchoolTimeUnitEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -13,7 +13,7 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtCurriculumPeriodSectionName.ClientID %>').val('');
+                $('#<%=txtCurriculumSchoolTimeUnitName.ClientID %>').val('');
 
                 $('#entryDetailContainer').show();
             });
@@ -34,7 +34,7 @@
             showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumPeriodSectionID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSchoolTimeUnitID);
                     cbpProcessPopup.PerformCallback('delete');
                 }
             });
@@ -44,8 +44,8 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumPeriodSectionID);
-            $('#<%=txtCurriculumPeriodSectionName.ClientID %>').val(entity.CurriculumPeriodSectionName);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSchoolTimeUnitID);
+            $('#<%=txtCurriculumSchoolTimeUnitName.ClientID %>').val(entity.CurriculumSchoolTimeUnitName);
 
             $('#entryDetailContainer').show();
         });
@@ -89,7 +89,7 @@
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtCurriculumPeriodSectionName" runat="server" Width="200px" /></td>
+                                    <td><asp:TextBox ID="txtCurriculumSchoolTimeUnitName" runat="server" Width="200px" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -114,13 +114,13 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="CurriculumPeriodSectionName" HeaderText="Nama" />
+                                <asp:BoundField DataField="CurriculumSchoolTimeUnitName" HeaderText="Nama" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("CurriculumPeriodSectionID") %>" bindingfield="CurriculumPeriodSectionID" />
-                                        <input type="hidden" value="<%#Eval("CurriculumPeriodSectionName") %>" bindingfield="CurriculumPeriodSectionName" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSchoolTimeUnitID") %>" bindingfield="CurriculumSchoolTimeUnitID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSchoolTimeUnitName") %>" bindingfield="CurriculumSchoolTimeUnitName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

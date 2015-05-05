@@ -22734,6 +22734,8 @@ namespace CodeX.Data.Model
         private String _CurriculumName;
         private String _ListClassTypeID;
         private String _ListClassTypeName;
+        private Boolean _IsSyllabusPerSchoolTimeUnit;
+        private Boolean _IsMeetingPlanPerSchoolTimeUnit;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -22779,6 +22781,18 @@ namespace CodeX.Data.Model
             get { return _ListClassTypeName; }
             set { _ListClassTypeName = value; }
         }
+        [Column(Name = "IsSyllabusPerSchoolTimeUnit", DataType = "Boolean")]
+        public Boolean IsSyllabusPerSchoolTimeUnit
+        {
+            get { return _IsSyllabusPerSchoolTimeUnit; }
+            set { _IsSyllabusPerSchoolTimeUnit = value; }
+        }
+        [Column(Name = "IsMeetingPlanPerSchoolTimeUnit", DataType = "Boolean")]
+        public Boolean IsMeetingPlanPerSchoolTimeUnit
+        {
+            get { return _IsMeetingPlanPerSchoolTimeUnit; }
+            set { _IsMeetingPlanPerSchoolTimeUnit = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -22810,6 +22824,7 @@ namespace CodeX.Data.Model
         private Int32 _ReferenceID;
         private String _ReferenceName;
         private String _GCCurriculumMeetingPlanType;
+        private Int32 _CurriculumSchoolTimeUnitID;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -22885,6 +22900,12 @@ namespace CodeX.Data.Model
             get { return _GCCurriculumMeetingPlanType; }
             set { _GCCurriculumMeetingPlanType = value; }
         }
+        [Column(Name = "CurriculumSchoolTimeUnitID", DataType = "Int32")]
+        public Int32 CurriculumSchoolTimeUnitID
+        {
+            get { return _CurriculumSchoolTimeUnitID; }
+            set { _CurriculumSchoolTimeUnitID = value; }
+        }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
@@ -22913,6 +22934,7 @@ namespace CodeX.Data.Model
         private String _SubjectCurriculumSyllabusName;
         private Int32 _ParentID;
         private Int32 _ReferenceID;
+        private Int32 _CurriculumSchoolTimeUnitID;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -22969,6 +22991,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReferenceID; }
             set { _ReferenceID = value; }
+        }
+        [Column(Name = "CurriculumSchoolTimeUnitID", DataType = "Int32")]
+        public Int32 CurriculumSchoolTimeUnitID
+        {
+            get { return _CurriculumSchoolTimeUnitID; }
+            set { _CurriculumSchoolTimeUnitID = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

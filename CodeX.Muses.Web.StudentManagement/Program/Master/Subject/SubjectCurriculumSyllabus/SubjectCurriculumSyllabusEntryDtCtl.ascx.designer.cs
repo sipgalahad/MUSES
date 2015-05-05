@@ -58,6 +58,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsUsingCode;
         
         /// <summary>
+        /// hdnIsPerSchoolTimeUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsPerSchoolTimeUnit;
+        
+        /// <summary>
+        /// hdnCurriculumSchoolTimeUnitID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumSchoolTimeUnitID;
+        
+        /// <summary>
         /// hdnIsAdd control.
         /// </summary>
         /// <remarks>
@@ -74,6 +92,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtType;
+        
+        /// <summary>
+        /// trSchoolTimeUnit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSchoolTimeUnit;
+        
+        /// <summary>
+        /// txtSchoolTimeUnitName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSchoolTimeUnitName;
         
         /// <summary>
         /// trCode control.

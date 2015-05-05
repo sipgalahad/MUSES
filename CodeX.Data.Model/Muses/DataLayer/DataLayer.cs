@@ -6108,25 +6108,25 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region CurriculumPeriodSection
+    #region CurriculumSchoolTimeUnit
     [Serializable]
-    [Table(Name = "CurriculumPeriodSection")]
-    public class CurriculumPeriodSection : DbDataModel
+    [Table(Name = "CurriculumSchoolTimeUnit")]
+    public class CurriculumSchoolTimeUnit : DbDataModel
     {
-        private Int32 _CurriculumPeriodSectionID;
+        private Int32 _CurriculumSchoolTimeUnitID;
         private Int32 _CurriculumID;
-        private String _CurriculumPeriodSectionName;
+        private String _CurriculumSchoolTimeUnitName;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
 
-        [Column(Name = "CurriculumPeriodSectionID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 CurriculumPeriodSectionID
+        [Column(Name = "CurriculumSchoolTimeUnitID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 CurriculumSchoolTimeUnitID
         {
-            get { return _CurriculumPeriodSectionID; }
-            set { _CurriculumPeriodSectionID = value; }
+            get { return _CurriculumSchoolTimeUnitID; }
+            set { _CurriculumSchoolTimeUnitID = value; }
         }
         [Column(Name = "CurriculumID", DataType = "Int32")]
         public Int32 CurriculumID
@@ -6134,11 +6134,11 @@ namespace CodeX.Data.Model
             get { return _CurriculumID; }
             set { _CurriculumID = value; }
         }
-        [Column(Name = "CurriculumPeriodSectionName", DataType = "String")]
-        public String CurriculumPeriodSectionName
+        [Column(Name = "CurriculumSchoolTimeUnitName", DataType = "String")]
+        public String CurriculumSchoolTimeUnitName
         {
-            get { return _CurriculumPeriodSectionName; }
-            set { _CurriculumPeriodSectionName = value; }
+            get { return _CurriculumSchoolTimeUnitName; }
+            set { _CurriculumSchoolTimeUnitName = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -6172,43 +6172,43 @@ namespace CodeX.Data.Model
         }
     }
 
-    public class CurriculumPeriodSectionDao
+    public class CurriculumSchoolTimeUnitDao
     {
         private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(CurriculumPeriodSection));
+        private readonly DbHelper _helper = new DbHelper(typeof(CurriculumSchoolTimeUnit));
         private bool _isAuditLog = false;
-        private const string p_CurriculumPeriodSectionID = "@p_CurriculumPeriodSectionID";
-        public CurriculumPeriodSectionDao() { }
-        public CurriculumPeriodSectionDao(IDbContext ctx)
+        private const string p_CurriculumSchoolTimeUnitID = "@p_CurriculumSchoolTimeUnitID";
+        public CurriculumSchoolTimeUnitDao() { }
+        public CurriculumSchoolTimeUnitDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public CurriculumPeriodSection Get(Int32 CurriculumPeriodSectionID)
+        public CurriculumSchoolTimeUnit Get(Int32 CurriculumSchoolTimeUnitID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_CurriculumPeriodSectionID, CurriculumPeriodSectionID);
+            _ctx.Add(p_CurriculumSchoolTimeUnitID, CurriculumSchoolTimeUnitID);
             DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (CurriculumPeriodSection)_helper.DataRowToObject(row, new CurriculumPeriodSection());
+            return (row == null) ? null : (CurriculumSchoolTimeUnit)_helper.DataRowToObject(row, new CurriculumSchoolTimeUnit());
         }
-        public int Insert(CurriculumPeriodSection record)
+        public int Insert(CurriculumSchoolTimeUnit record)
         {
             record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
-        public int Update(CurriculumPeriodSection record)
+        public int Update(CurriculumSchoolTimeUnit record)
         {
             record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 CurriculumPeriodSectionID)
+        public int Delete(Int32 CurriculumSchoolTimeUnitID)
         {
-            CurriculumPeriodSection record;
+            CurriculumSchoolTimeUnit record;
             if (_ctx.Transaction == null)
-                record = new CurriculumPeriodSectionDao().Get(CurriculumPeriodSectionID);
+                record = new CurriculumSchoolTimeUnitDao().Get(CurriculumSchoolTimeUnitID);
             else
-                record = Get(CurriculumPeriodSectionID);
+                record = Get(CurriculumSchoolTimeUnitID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -27219,6 +27219,8 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private Int32 _CurriculumID;
         private String _SubjectCurriculumName;
+        private Boolean _IsSyllabusPerSchoolTimeUnit;
+        private Boolean _IsMeetingPlanPerSchoolTimeUnit;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -27249,6 +27251,18 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectCurriculumName; }
             set { _SubjectCurriculumName = value; }
+        }
+        [Column(Name = "IsSyllabusPerSchoolTimeUnit", DataType = "Boolean")]
+        public Boolean IsSyllabusPerSchoolTimeUnit
+        {
+            get { return _IsSyllabusPerSchoolTimeUnit; }
+            set { _IsSyllabusPerSchoolTimeUnit = value; }
+        }
+        [Column(Name = "IsMeetingPlanPerSchoolTimeUnit", DataType = "Boolean")]
+        public Boolean IsMeetingPlanPerSchoolTimeUnit
+        {
+            get { return _IsMeetingPlanPerSchoolTimeUnit; }
+            set { _IsMeetingPlanPerSchoolTimeUnit = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -27406,6 +27420,7 @@ namespace CodeX.Data.Model
         private String _SubjectCurriculumMeetingPlanName;
         private Int32? _ParentID;
         private Int32? _ReferenceID;
+        private Int32? _CurriculumSchoolTimeUnitID;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -27454,6 +27469,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReferenceID; }
             set { _ReferenceID = value; }
+        }
+        [Column(Name = "CurriculumSchoolTimeUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumSchoolTimeUnitID
+        {
+            get { return _CurriculumSchoolTimeUnitID; }
+            set { _CurriculumSchoolTimeUnitID = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -27547,6 +27568,7 @@ namespace CodeX.Data.Model
         private String _SubjectCurriculumSyllabusName;
         private Int32? _ParentID;
         private Int32? _ReferenceID;
+        private Int32? _CurriculumSchoolTimeUnitID;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -27595,6 +27617,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReferenceID; }
             set { _ReferenceID = value; }
+        }
+        [Column(Name = "CurriculumSchoolTimeUnitID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumSchoolTimeUnitID
+        {
+            get { return _CurriculumSchoolTimeUnitID; }
+            set { _CurriculumSchoolTimeUnitID = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
