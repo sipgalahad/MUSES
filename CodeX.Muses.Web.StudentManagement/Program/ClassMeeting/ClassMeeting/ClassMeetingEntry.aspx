@@ -40,8 +40,9 @@
             $('#btnMeetingPlanDt').click(function () {
                 var id = tacSubjectCurriculumMeetingPlan.getValue();
                 if (id != null && id != '') {
+                    id += '|' + $('#<%=hdnSubjectID.ClientID %>').val();
                     var url = ResolveUrl("~/Program/ClassMeeting/ClassMeeting/SubjectCurriculumMeetingPlanDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Detil Pertemuan', 750, 570);
+                    openUserControlPopup(url, id, 'Detil Pertemuan', 1000, 610);
                 }
             });
         });
@@ -181,49 +182,49 @@
                 idxSubjectIndicator++;
             });
 
-            setTimeout(function () {
-                var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
-                if (subjectMeetingPlanHdID != '') {
-                    var filterExpression = 'SubjectCurriculumMeetingPlanID = ' + subjectMeetingPlanHdID;
-                    Methods.getListObject('GetvSubjectCurriculumMeetingPlanIndicatorList', filterExpression, function (result) {
-                        for (var i = 0; i < result.length; ++i) {
-                            var entity = result[i];
-                            $('#divEntryDtAdd').click();
+//            setTimeout(function () {
+//                var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
+//                if (subjectMeetingPlanHdID != '') {
+//                    var filterExpression = 'SubjectCurriculumMeetingPlanID = ' + subjectMeetingPlanHdID;
+//                    Methods.getListObject('GetvSubjectCurriculumMeetingPlanIndicatorList', filterExpression, function (result) {
+//                        for (var i = 0; i < result.length; ++i) {
+//                            var entity = result[i];
+//                            $('#divEntryDtAdd').click();
 
-                            $tr = $('.trSubjectIndicatorDt').last();
-                            tempHelper.setEnabled(false);
-                            $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-                            $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
-                            $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
-                            $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+//                            $tr = $('.trSubjectIndicatorDt').last();
+//                            tempHelper.setEnabled(false);
+//                            $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+//                            $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
+//                            $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
+//                            $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
 
-                            $tr.find('.divDetailDelete').hide();
-                        }
-                    });
+//                            $tr.find('.divDetailDelete').hide();
+//                        }
+//                    });
 
-                    $('#divEntryDtAdd').hide();
-                }
-                else {
-                    $('#divEntryDtAdd').show();
+//                    $('#divEntryDtAdd').hide();
+//                }
+//                else {
+//                    $('#divEntryDtAdd').show();
 
-                    var classMeetingID = $('#<%=hdnClassMeetingID.ClientID %>').val();
-                    if (classMeetingID != '0') {
-                        var filterExpression = 'ClassMeetingID = ' + classMeetingID;
-                        Methods.getListObject('GetvClassMeetingIndicatorList', filterExpression, function (result) {
-                            for (var i = 0; i < result.length; ++i) {
-                                var entity = result[i];
-                                $('#divEntryDtAdd').click();
+//                    var classMeetingID = $('#<%=hdnClassMeetingID.ClientID %>').val();
+//                    if (classMeetingID != '0') {
+//                        var filterExpression = 'ClassMeetingID = ' + classMeetingID;
+//                        Methods.getListObject('GetvClassMeetingIndicatorList', filterExpression, function (result) {
+//                            for (var i = 0; i < result.length; ++i) {
+//                                var entity = result[i];
+//                                $('#divEntryDtAdd').click();
 
-                                $tr = $('.trSubjectIndicatorDt').last();
-                                $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-                                $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
-                                $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
-                                $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
-                            }
-                        });
-                    }
-                }
-            }, 500);
+//                                $tr = $('.trSubjectIndicatorDt').last();
+//                                $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+//                                $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
+//                                $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
+//                                $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+//                            }
+//                        });
+//                    }
+//                }
+//            }, 500);
         });
 
         function onSubjectIndicatorIDValueChanged($s) {
@@ -306,6 +307,7 @@
             </td>
         </tr>
     </script>
+    <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnClassMeetingID" runat="server" />
     <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
     <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />

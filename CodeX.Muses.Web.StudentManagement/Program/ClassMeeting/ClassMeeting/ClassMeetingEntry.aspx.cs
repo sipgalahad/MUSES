@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tacSubjectCurriculumMeetingPlan.Text = entity.SubjectCurriculumMeetingPlanName.ToString();
                 }
             }
-            if (AppSession.UserLogin.EmployeeID != null)
+            if (AppSession.UserLogin.EmployeeID != null && AppSession.UserLogin.EmployeeID != 0)
             {
                 tacTeacher.Value = AppSession.UserLogin.EmployeeID.ToString();
                 tacTeacher.Text = AppSession.UserLogin.UserFullName;
@@ -78,7 +78,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
-        
+            hdnSubjectID.Value = classSubject.SubjectID.ToString();
+
             Helper.SetControlEntrySetting(txtMeetingDate, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, true, true), "mpEntry");
             Helper.SetControlEntrySetting(txtEndTime, new ControlEntrySetting(true, true, false), "mpEntry");

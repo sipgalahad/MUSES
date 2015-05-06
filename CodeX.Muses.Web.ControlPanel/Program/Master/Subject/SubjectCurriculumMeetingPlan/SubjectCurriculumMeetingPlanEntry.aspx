@@ -294,7 +294,8 @@
         #ulContainerSubjectCurriculum li:first-child            { border-left: 1px solid #EAEAEA; }
         
         .tblSubjectCurriculumMeetingPlan             { border-collapse:collapse; table-layout:fixed; width: 440px; }
-        .tblSubjectCurriculumMeetingPlan td:nth-child(2) div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 340px; white-space: nowrap }
+        .tdName div,         
+        .tdReference div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 340px; white-space: nowrap }
     </style>
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server" />
