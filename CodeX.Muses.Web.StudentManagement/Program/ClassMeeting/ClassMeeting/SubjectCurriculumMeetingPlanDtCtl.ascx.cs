@@ -24,7 +24,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             vSubjectCurriculumMeetingPlan entity = BusinessLayer.GetvSubjectCurriculumMeetingPlanList(string.Format("SubjectCurriculumMeetingPlanID = {0}", hdnID.Value)).FirstOrDefault();
             txtMeetingNo.Text = entity.SubjectCurriculumMeetingPlanName.ToString();
             hdnCurriculumMeetingPlanID.Value = entity.CurriculumMeetingPlanID.ToString();
-
+            hdnSubjectCurriculumMeetingPlanID.Value = entity.SubjectCurriculumMeetingPlanID.ToString();
             if (entity.ParentID > 0)
                 hdnParentSubjectCurriculumMeetingPlanID.Value = entity.ParentID.ToString();
             else

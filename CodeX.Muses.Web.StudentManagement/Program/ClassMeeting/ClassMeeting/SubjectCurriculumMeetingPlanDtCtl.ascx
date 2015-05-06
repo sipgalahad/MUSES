@@ -199,7 +199,12 @@
         else
             $tbl.find('.thCode').attr('style', 'display:none');
 
-        var parentID = $li.find('.hdnParentID').val();
+        var parentID = '';
+        var idx = $('#ulContainerSubjectCurriculumDetail li').index($li);
+        if (idx == 0)
+            parentID = $('#<%=hdnSubjectCurriculumMeetingPlanID.ClientID %>').val();
+        else
+            parentID = $li.find('.hdnParentID').val();
         var filterExpression = "";
         if (parentID == "")
             filterExpression = "SubjectID = " + $('#<%=hdnSubjectID.ClientID %>').val() + " AND CurriculumMeetingPlanID = " + id + " AND ParentID IS NULL AND IsDeleted = 0";
@@ -276,6 +281,7 @@
     <input type="hidden" id="hdnCurriculumID" value="" runat="server" />
     <input type="hidden" id="hdnSubjectID" value="" runat="server" />
     <input type="hidden" id="hdnCurriculumMeetingPlanID" value="" runat="server" />
+    <input type="hidden" id="hdnSubjectCurriculumMeetingPlanID" value="" runat="server" />
     <input type="hidden" id="hdnParentSubjectCurriculumMeetingPlanID" value="" runat="server" />
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
