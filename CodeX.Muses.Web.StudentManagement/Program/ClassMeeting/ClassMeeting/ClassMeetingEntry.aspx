@@ -21,18 +21,21 @@
 
             $('#<%=btnSave.ClientID %>').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
-                    var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
-                    if (subjectMeetingPlanHdID == '') {
-                        var result = '';
-                        $('.tacSubjectIndicator').each(function () {
-                            if (result != "")
-                                result += ',';
-                            result += $(this).find('.hdnAutoCompleteValue').val();
-                        });
-                        $('#<%=hdnSubjectIndicatorSave.ClientID %>').val(result);
-                    }
-                    else
-                        $('#<%=hdnSubjectIndicatorSave.ClientID %>').val('');
+                    var result = '';
+                    $('.tacSubjectIndicator').each(function () {
+                        if (result != "")
+                            result += '|';
+                        var subjectIndicatorID = '';
+                        var subjectIndicatorName = '';
+                        $tr = $(this).closest('tr');
+                        var keyField = $tr.find('.keyField').html();
+                        if ($tr.find('.chkIsFromMeetingPlan').is(':checked'))
+                            subjectIndicatorID = $tr.find('.hdnAutoCompleteValue').val();
+                        else
+                            subjectIndicatorName = $tr.find('.txtSubjectIndicatorName').val();
+                        result += keyField + ',' + subjectIndicatorID + ',' + subjectIndicatorName;
+                    });
+                    $('#<%=hdnSubjectIndicatorSave.ClientID %>').val(result);
                     onCustomButtonClick('save');
                 }
             });
@@ -114,50 +117,56 @@
                     if (result != null) {
                         tacSubjectCurriculumMeetingPlan.setValue(result.SubjectCurriculumMeetingPlanID);
                         tacSubjectCurriculumMeetingPlan.setText(result.SubjectCurriculumMeetingPlanName);
-                        entityToControlSubjectCurriculumMeetingPlan();
                     }
                     else {
                         tacSubjectCurriculumMeetingPlan.setValue('');
                         tacSubjectCurriculumMeetingPlan.setText('');
-                        entityToControlSubjectCurriculumMeetingPlan();
                     }
+                    entityToControlSubjectCurriculumMeetingPlan(result);
                 });
             });
 
         }
 
         function onTacSubjectCurriculumMeetingPlanValueChanged() {
-            entityToControlSubjectCurriculumMeetingPlan(null);
+            var id = tacSubjectCurriculumMeetingPlan.getValue();
+            if (id != '') {
+                var filterExpression = "SubjectCurriculumMeetingPlanID = '" + value + "'";
+                Methods.getObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
+                    entityToControlSubjectCurriculumMeetingPlan(result);
+                });
+            }
         }
 
-        function entityToControlSubjectCurriculumMeetingPlan() {
+        function entityToControlSubjectCurriculumMeetingPlan(result) {
             $('#tblEntry .trSubjectIndicatorDt').each(function () {
                 $(this).remove();
             });
+            if (result != null) {
+                $('#<%=hdnParentSubjectCurriculumMeetingPlanID.ClientID %>').val(result.ParentID);
+                var filterExpression = onGetSubjectIndicatorFilterExpression();
 
-            var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
-//            if (subjectMeetingPlanHdID != '') {
-//                var filterExpression = 'SubjectCurriculumMeetingPlanID = ' + subjectMeetingPlanHdID;
-//                Methods.getListObject('GetvSubjectCurriculumMeetingPlanIndicatorList', filterExpression, function (result) {
-//                    for (var i = 0; i < result.length; ++i) {
-//                        var entity = result[i];
-//                        $('#divEntryDtAdd').click();
+                if (result.ParentID > 0)
+                    filterExpression += " AND (DisplayPath LIKE '%/" + result.SubjectCurriculumMeetingPlanID + "/%' OR DisplayPath LIKE '%/" + result.ParentID + "/%' )";
+                else
+                    filterExpression += " AND (DisplayPath LIKE '%/" + result.SubjectCurriculumMeetingPlanID + "/%')";
+                Methods.getListObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
+                    for (var i = 0; i < result.length; ++i) {
+                        var entity = result[i];
+                        $('#divEntryDtAdd').click();
 
-//                        $tr = $('.trSubjectIndicatorDt').last();
-//                        tempHelper.setEnabled(false);
-//                        $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-//                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
-//                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
-//                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+                        $tr = $('.trSubjectIndicatorDt').last();
+                        $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+                        $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectCurriculumMeetingPlanID);
+                        $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectCurriculumMeetingPlanName);
+                        $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectCurriculumMeetingPlanName);
 
-//                        $tr.find('.divDetailDelete').hide();
-//                    }
-//                });
-
-//                $('#divEntryDtAdd').hide();
-//            }
-//            else
-//                $('#divEntryDtAdd').show();
+                        $tr.find('.divDetailDelete').hide();
+                    }
+                });
+            }
+            else
+                $('#<%=hdnParentSubjectCurriculumMeetingPlanID.ClientID %>').val('');
         }
         //#endregion        
 
@@ -176,55 +185,52 @@
                 $newTr.insertBefore($('#trSaveEntryPopup'));
 
                 tempHelper = new CodeXClientAutoCompleteHelper();
-                tempHelper.init("SubjectIndicator" + idxSubjectIndicator, "SubjectBasicCompetencyName,SubjectIndicatorName", "GetvSubjectIndicatorList", "", "onGetSubjectIndicatorFilterExpression", "SubjectIndicatorID");
+                tempHelper.init("SubjectIndicator" + idxSubjectIndicator, "SubjectCurriculumMeetingPlanName", "GetvSubjectCurriculumMeetingPlanList", "", "onGetSubjectIndicatorFilterExpression", "SubjectCurriculumMeetingPlanID");
                 tempHelper.setClientSideEvents(onSubjectIndicatorIDValueChanged);
                 tempHelper.initializeControl();
                 idxSubjectIndicator++;
             });
 
-//            setTimeout(function () {
-//                var subjectMeetingPlanHdID = tacSubjectCurriculumMeetingPlan.getValue();
-//                if (subjectMeetingPlanHdID != '') {
-//                    var filterExpression = 'SubjectCurriculumMeetingPlanID = ' + subjectMeetingPlanHdID;
-//                    Methods.getListObject('GetvSubjectCurriculumMeetingPlanIndicatorList', filterExpression, function (result) {
-//                        for (var i = 0; i < result.length; ++i) {
-//                            var entity = result[i];
-//                            $('#divEntryDtAdd').click();
+            setTimeout(function () {
+                $('#divEntryDtAdd').show();
 
-//                            $tr = $('.trSubjectIndicatorDt').last();
-//                            tempHelper.setEnabled(false);
-//                            $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-//                            $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
-//                            $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
-//                            $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+                var classMeetingID = $('#<%=hdnClassMeetingID.ClientID %>').val();
+                if (classMeetingID != '0') {
+                    var filterExpression = 'ClassMeetingID = ' + classMeetingID;
+                    Methods.getListObject('GetvClassMeetingIndicatorList', filterExpression, function (result) {
+                        for (var i = 0; i < result.length; ++i) {
+                            var entity = result[i];
+                            $('#divEntryDtAdd').click();
 
-//                            $tr.find('.divDetailDelete').hide();
-//                        }
-//                    });
+                            $tr = $('.trSubjectIndicatorDt').last();
+                            $tr.find('.chkIsFromMeetingPlan').prop('checked', entity.SubjectIndicatorID > 0);
+                            $tr.find('.chkIsFromMeetingPlan').change();
+                            $tr.find('.keyField').html(entity.ClassMeetingIndicatorID);
+                            if (entity.SubjectIndicatorID > 0) {
+                                $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
+                                $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
+                                $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
+                                $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
+                            }
+                            else {
+                                $tr.find('.txtSubjectIndicatorName').val(entity.SubjectIndicatorName);
+                            }
+                        }
+                    });
+                }
+            }, 500);
+        });
 
-//                    $('#divEntryDtAdd').hide();
-//                }
-//                else {
-//                    $('#divEntryDtAdd').show();
-
-//                    var classMeetingID = $('#<%=hdnClassMeetingID.ClientID %>').val();
-//                    if (classMeetingID != '0') {
-//                        var filterExpression = 'ClassMeetingID = ' + classMeetingID;
-//                        Methods.getListObject('GetvClassMeetingIndicatorList', filterExpression, function (result) {
-//                            for (var i = 0; i < result.length; ++i) {
-//                                var entity = result[i];
-//                                $('#divEntryDtAdd').click();
-
-//                                $tr = $('.trSubjectIndicatorDt').last();
-//                                $tacSubjectIndicator = $tr.find('.tacSubjectIndicator');
-//                                $tacSubjectIndicator.find('.hdnAutoCompleteValue').val(entity.SubjectIndicatorID);
-//                                $tacSubjectIndicator.find('.hdnAutoCompleteText').val(entity.SubjectIndicatorName);
-//                                $tacSubjectIndicator.find('.txtAutoComplete').val(entity.SubjectIndicatorName);
-//                            }
-//                        });
-//                    }
-//                }
-//            }, 500);
+        $('.chkIsFromMeetingPlan').live('change', function () {
+            $tr = $(this).closest('tr');
+            if ($(this).is(':checked')) {
+                $tr.find('.tacSubjectIndicator').show();
+                $tr.find('.txtSubjectIndicatorName').hide();
+            }
+            else {
+                $tr.find('.tacSubjectIndicator').hide();
+                $tr.find('.txtSubjectIndicatorName').show();
+            }
         });
 
         function onSubjectIndicatorIDValueChanged($s) {
@@ -245,14 +251,14 @@
         $('.tacSubjectIndicator .btnAutoCompleteSearchMore').live('click', function () {
             if ($(this).attr('enabled') == null) {
                 $tacTr = $(this).closest('tr');
-                openSearchDialog('subjectindicator', onGetSubjectIndicatorFilterExpression(), function (value) {
-                    var filterExpression = onGetSubjectIndicatorFilterExpression() + " AND SubjectIndicatorID = '" + value + "'";
-                    Methods.getObject('GetvSubjectIndicatorList', filterExpression, function (result) {
+                openSearchDialog('subjectcurriculummeetingplan', onGetSubjectIndicatorFilterExpression(), function (value) {
+                    var filterExpression = onGetSubjectIndicatorFilterExpression() + " AND SubjectCurriculumMeetingPlanID = '" + value + "'";
+                    Methods.getObject('GetvSubjectCurriculumMeetingPlanList', filterExpression, function (result) {
                         $tacCOA = $tacTr.find('.tacSubjectIndicator');
                         if (result != null) {
-                            $tacCOA.find('.hdnAutoCompleteValue').val(result.SubjectIndicatorID);
-                            $tacCOA.find('.hdnAutoCompleteText').val(result.SubjectIndicatorName);
-                            $tacCOA.find('.txtAutoComplete').val(result.SubjectIndicatorName);
+                            $tacCOA.find('.hdnAutoCompleteValue').val(result.SubjectCurriculumMeetingPlanID);
+                            $tacCOA.find('.hdnAutoCompleteText').val(result.SubjectCurriculumMeetingPlanName);
+                            $tacCOA.find('.txtAutoComplete').val(result.SubjectCurriculumMeetingPlanName);
                         }
                         else {
                             $tacCOA.find('.hdnAutoCompleteValue').val('');
@@ -276,7 +282,8 @@
             <td>
                 <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <td>
+                        <td class='keyField' style='display:none'>0</td>
+                        <td style="width:450px">
                             <div id="SubjectIndicator${idx}" class="tacSubjectIndicator">
                                 <div>
                                     <div class="containerAutoComplete">
@@ -293,14 +300,16 @@
                                     </div>
                                     <script class="tmpltAutoComplete" type="text/x-jquery-tmpl">
                                         <div>
-                                            ${SubjectIndicatorName} (<b>${SubjectIndicatorCode}</b>)
-                                            <input type='hidden' value='${SubjectIndicatorName}' class='hdnAutoCompleteRowText'/>
-                                            <input type='hidden' value='${SubjectIndicatorID}' class='hdnAutoCompleteRowValue'/>
+                                            ${SubjectCurriculumMeetingPlanName}
+                                            <input type='hidden' value='${SubjectCurriculumMeetingPlanName}' class='hdnAutoCompleteRowText'/>
+                                            <input type='hidden' value='${SubjectCurriculumMeetingPlanID}' class='hdnAutoCompleteRowValue'/>
                                         </div>
                                     </script1>
                                 </div>
                             </div>
+                            <input type="text" class="txtSubjectIndicatorName" style="width:440px; display:none"/>
                         </td>
+                        <td style='width:100px'><input type='checkbox' checked='checked' class='chkIsFromMeetingPlan'/><%=GetLabel("Dari RPP") %></td>
                         <td><div style='float:right;' class="divDeleteEntryDt divDetailDelete"></div></td>
                     </tr>
                 </table>
@@ -359,6 +368,7 @@
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pertemuan")%></label></td>
             <td>
+                <input type="hidden" id="hdnParentSubjectCurriculumMeetingPlanID" runat="server" />
                 <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubjectCurriculumMeetingPlan" ClientInstanceName="tacSubjectCurriculumMeetingPlan" MethodName="GetvSubjectCurriculumMeetingPlanList" GetFilterExpressionFunction="onGetSubjectCurriculumMeetingPlanFilterExpression"
                     SearchFields="MeetingNo,SubjectCompetencyStandardName" TextField="MeetingNo" ValueField="SubjectCurriculumMeetingPlanID" SearchText="${MeetingNo} (<b>${SubjectCompetencyStandardName}</b>)(<b>${ListSubjectBasicCompetencyID}</<b>)" OrderByExpression="MeetingNo">
                     <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectCurriculumMeetingPlanButtonSearchClick(); }"

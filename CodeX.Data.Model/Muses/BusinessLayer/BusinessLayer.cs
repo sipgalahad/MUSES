@@ -1172,9 +1172,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ClassMeetingIndicator
-        public static ClassMeetingIndicator GetClassMeetingIndicator(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        public static ClassMeetingIndicator GetClassMeetingIndicator(Int32 ClassMeetingIndicatorID)
         {
-            return new ClassMeetingIndicatorDao().Get(ClassMeetingID, SubjectIndicatorID);
+            return new ClassMeetingIndicatorDao().Get(ClassMeetingIndicatorID);
         }
         public static int InsertClassMeetingIndicator(ClassMeetingIndicator record)
         {
@@ -1184,9 +1184,9 @@ namespace CodeX.Data.Model
         {
             return new ClassMeetingIndicatorDao().Update(record);
         }
-        public static int DeleteClassMeetingIndicator(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        public static int DeleteClassMeetingIndicator(Int32 ClassMeetingIndicatorID)
         {
-            return new ClassMeetingIndicatorDao().Delete(ClassMeetingID, SubjectIndicatorID);
+            return new ClassMeetingIndicatorDao().Delete(ClassMeetingIndicatorID);
         }
         public static List<ClassMeetingIndicator> GetClassMeetingIndicatorList(string filterExpression)
         {
@@ -1854,9 +1854,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ClassSubjectTaskIndicator
-        public static ClassSubjectTaskIndicator GetClassSubjectTaskIndicator(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        public static ClassSubjectTaskIndicator GetClassSubjectTaskIndicator(Int32 ClassSubjectTaskIndicatorID)
         {
-            return new ClassSubjectTaskIndicatorDao().Get(ClassSubjectTaskID, SubjectIndicatorID);
+            return new ClassSubjectTaskIndicatorDao().Get(ClassSubjectTaskIndicatorID);
         }
         public static int InsertClassSubjectTaskIndicator(ClassSubjectTaskIndicator record)
         {
@@ -1866,9 +1866,9 @@ namespace CodeX.Data.Model
         {
             return new ClassSubjectTaskIndicatorDao().Update(record);
         }
-        public static int DeleteClassSubjectTaskIndicator(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        public static int DeleteClassSubjectTaskIndicator(Int32 ClassSubjectTaskIndicatorID)
         {
-            return new ClassSubjectTaskIndicatorDao().Delete(ClassSubjectTaskID, SubjectIndicatorID);
+            return new ClassSubjectTaskIndicatorDao().Delete(ClassSubjectTaskIndicatorID);
         }
         public static List<ClassSubjectTaskIndicator> GetClassSubjectTaskIndicatorList(string filterExpression)
         {

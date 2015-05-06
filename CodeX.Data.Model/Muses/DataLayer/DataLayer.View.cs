@@ -1795,10 +1795,17 @@ namespace CodeX.Data.Model
     [Table(Name = "vClassMeetingIndicator")]
     public class vClassMeetingIndicator
     {
+        private Int32 _ClassMeetingIndicatorID;
         private Int32 _ClassMeetingID;
         private Int32 _SubjectIndicatorID;
         private String _SubjectIndicatorName;
 
+        [Column(Name = "ClassMeetingIndicatorID", DataType = "Int32")]
+        public Int32 ClassMeetingIndicatorID
+        {
+            get { return _ClassMeetingIndicatorID; }
+            set { _ClassMeetingIndicatorID = value; }
+        }
         [Column(Name = "ClassMeetingID", DataType = "Int32")]
         public Int32 ClassMeetingID
         {
@@ -2847,10 +2854,17 @@ namespace CodeX.Data.Model
     [Table(Name = "vClassSubjectTaskIndicator")]
     public class vClassSubjectTaskIndicator
     {
+        private Int32 _ClassSubjectTaskIndicatorID;
         private Int32 _ClassSubjectTaskID;
         private Int32 _SubjectIndicatorID;
         private String _SubjectIndicatorName;
 
+        [Column(Name = "ClassSubjectTaskIndicatorID", DataType = "Int32")]
+        public Int32 ClassSubjectTaskIndicatorID
+        {
+            get { return _ClassSubjectTaskIndicatorID; }
+            set { _ClassSubjectTaskIndicatorID = value; }
+        }
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
         public Int32 ClassSubjectTaskID
         {
@@ -22841,6 +22855,8 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumSchoolPeriodSectionID;
         private String _Remarks;
         private Boolean _IsDeleted;
+        private Int32 _Level;
+        private String _DisplayPath;
 
         [Column(Name = "SubjectCurriculumMeetingPlanID", DataType = "Int32")]
         public Int32 SubjectCurriculumMeetingPlanID
@@ -22931,6 +22947,18 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+        [Column(Name = "Level", DataType = "Int32")]
+        public Int32 Level
+        {
+            get { return _Level; }
+            set { _Level = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
         }
     }
     #endregion

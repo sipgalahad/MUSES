@@ -2632,20 +2632,34 @@ namespace CodeX.Data.Model
     [Table(Name = "ClassMeetingIndicator")]
     public class ClassMeetingIndicator : DbDataModel
     {
+        private Int32 _ClassMeetingIndicatorID;
         private Int32 _ClassMeetingID;
-        private Int32 _SubjectIndicatorID;
+        private Int32? _SubjectIndicatorID;
+        private String _SubjectIndicatorName;
 
-        [Column(Name = "ClassMeetingID", DataType = "Int32", IsPrimaryKey = true)]
+        [Column(Name = "ClassMeetingIndicatorID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassMeetingIndicatorID
+        {
+            get { return _ClassMeetingIndicatorID; }
+            set { _ClassMeetingIndicatorID = value; }
+        }
+        [Column(Name = "ClassMeetingID", DataType = "Int32")]
         public Int32 ClassMeetingID
         {
             get { return _ClassMeetingID; }
             set { _ClassMeetingID = value; }
         }
-        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 SubjectIndicatorID
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubjectIndicatorID
         {
             get { return _SubjectIndicatorID; }
             set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String", IsNullable = true)]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
         }
     }
 
@@ -2654,18 +2668,16 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(ClassMeetingIndicator));
         private bool _isAuditLog = false;
-        private const string p_ClassMeetingID = "@p_ClassMeetingID";
-        private const string p_SubjectIndicatorID = "@p_SubjectIndicatorID";
+        private const string p_ClassMeetingIndicatorID = "@p_ClassMeetingIndicatorID";
         public ClassMeetingIndicatorDao() { }
         public ClassMeetingIndicatorDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ClassMeetingIndicator Get(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        public ClassMeetingIndicator Get(Int32 ClassMeetingIndicatorID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_ClassMeetingID, ClassMeetingID);
-            _ctx.Add(p_SubjectIndicatorID, SubjectIndicatorID);
+            _ctx.Add(p_ClassMeetingIndicatorID, ClassMeetingIndicatorID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (ClassMeetingIndicator)_helper.DataRowToObject(row, new ClassMeetingIndicator());
         }
@@ -2679,13 +2691,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ClassMeetingID, Int32 SubjectIndicatorID)
+        public int Delete(Int32 ClassMeetingIndicatorID)
         {
             ClassMeetingIndicator record;
             if (_ctx.Transaction == null)
-                record = new ClassMeetingIndicatorDao().Get(ClassMeetingID, SubjectIndicatorID);
+                record = new ClassMeetingIndicatorDao().Get(ClassMeetingIndicatorID);
             else
-                record = Get(ClassMeetingID, SubjectIndicatorID);
+                record = Get(ClassMeetingIndicatorID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -3895,20 +3907,34 @@ namespace CodeX.Data.Model
     [Table(Name = "ClassSubjectTaskIndicator")]
     public class ClassSubjectTaskIndicator : DbDataModel
     {
+        private Int32 _ClassSubjectTaskIndicatorID;
         private Int32 _ClassSubjectTaskID;
-        private Int32 _SubjectIndicatorID;
+        private Int32? _SubjectIndicatorID;
+        private String _SubjectIndicatorName;
 
-        [Column(Name = "ClassSubjectTaskID", DataType = "Int32", IsPrimaryKey = true)]
+        [Column(Name = "ClassSubjectTaskIndicatorID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ClassSubjectTaskIndicatorID
+        {
+            get { return _ClassSubjectTaskIndicatorID; }
+            set { _ClassSubjectTaskIndicatorID = value; }
+        }
+        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
         public Int32 ClassSubjectTaskID
         {
             get { return _ClassSubjectTaskID; }
             set { _ClassSubjectTaskID = value; }
         }
-        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 SubjectIndicatorID
+        [Column(Name = "SubjectIndicatorID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubjectIndicatorID
         {
             get { return _SubjectIndicatorID; }
             set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String", IsNullable = true)]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
         }
     }
 
@@ -3917,18 +3943,16 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(ClassSubjectTaskIndicator));
         private bool _isAuditLog = false;
-        private const string p_ClassSubjectTaskID = "@p_ClassSubjectTaskID";
-        private const string p_SubjectIndicatorID = "@p_SubjectIndicatorID";
+        private const string p_ClassSubjectTaskIndicatorID = "@p_ClassSubjectTaskIndicatorID";
         public ClassSubjectTaskIndicatorDao() { }
         public ClassSubjectTaskIndicatorDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ClassSubjectTaskIndicator Get(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        public ClassSubjectTaskIndicator Get(Int32 ClassSubjectTaskIndicatorID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_ClassSubjectTaskID, ClassSubjectTaskID);
-            _ctx.Add(p_SubjectIndicatorID, SubjectIndicatorID);
+            _ctx.Add(p_ClassSubjectTaskIndicatorID, ClassSubjectTaskIndicatorID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (ClassSubjectTaskIndicator)_helper.DataRowToObject(row, new ClassSubjectTaskIndicator());
         }
@@ -3942,13 +3966,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ClassSubjectTaskID, Int32 SubjectIndicatorID)
+        public int Delete(Int32 ClassSubjectTaskIndicatorID)
         {
             ClassSubjectTaskIndicator record;
             if (_ctx.Transaction == null)
-                record = new ClassSubjectTaskIndicatorDao().Get(ClassSubjectTaskID, SubjectIndicatorID);
+                record = new ClassSubjectTaskIndicatorDao().Get(ClassSubjectTaskIndicatorID);
             else
-                record = Get(ClassSubjectTaskID, SubjectIndicatorID);
+                record = Get(ClassSubjectTaskIndicatorID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

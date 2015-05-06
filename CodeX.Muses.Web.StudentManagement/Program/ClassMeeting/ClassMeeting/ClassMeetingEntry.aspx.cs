@@ -22,11 +22,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected string OnGetSubjectCurriculumMeetingPlanFilterExpression()
         {
-            return string.Format("CurriculumID = {0} AND GCCurriculumMeetingPlanType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumMeetingPlanType.MEETING);
+            return string.Format("SubjectCurriculumID = {0} AND GCCurriculumMeetingPlanType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumMeetingPlanType.MEETING);
         }
         protected string OnGetSubjectIndicatorFilterExpression()
         {
-            return string.Format("SubjectMatterID = {0}", hdnSubjectCurriculumID.Value);
+            return string.Format("SubjectCurriculumID = {0} AND GCCurriculumMeetingPlanType = '{1}' AND IsDeleted = 0", hdnSubjectCurriculumID.Value, Constant.CurriculumMeetingPlanType.INDICATOR);
         }
         protected string OnGetRoomFilterExpression()
         {
@@ -131,12 +131,25 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                         if (hdnSubjectIndicatorSave.Value != "")
                         {
-                            string[] lstSubjectIndicatorID = hdnSubjectIndicatorSave.Value.Split(',');
-                            foreach (string subjectIndicatorID in lstSubjectIndicatorID)
+                            string[] lstSaveValue = hdnSubjectIndicatorSave.Value.Split('|');
+                            foreach (string saveValue in lstSaveValue)
                             {
+                                string[] temp = saveValue.Split(',');
+                                int classMeetingIndicatorID = Convert.ToInt32(temp[0]);
+                                string subjectIndicatorID = temp[1];
+                                string subjectIndicatorName = temp[2];
                                 ClassMeetingIndicator entityIndicator = new ClassMeetingIndicator();
                                 entityIndicator.ClassMeetingID = entity.ClassMeetingID;
-                                entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                if (subjectIndicatorID == "")
+                                {
+                                    entityIndicator.SubjectIndicatorID = null;
+                                    entityIndicator.SubjectIndicatorName = subjectIndicatorName;
+                                }
+                                else
+                                {
+                                    entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                    entityIndicator.SubjectIndicatorName = null;
+                                }
                                 entityIndicatorDao.Insert(entityIndicator);
                             }
                         }
@@ -159,25 +172,51 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         List<ClassMeetingIndicator> lstEntityIndicator = BusinessLayer.GetClassMeetingIndicatorList(string.Format("ClassMeetingID = {0}", entity.ClassMeetingID), ctx);
                         if (hdnSubjectIndicatorSave.Value != "")
                         {
-                            string[] lstSubjectIndicatorID = hdnSubjectIndicatorSave.Value.Split(',');
-                            foreach (string subjectIndicatorID in lstSubjectIndicatorID)
+                            string[] lstSaveValue = hdnSubjectIndicatorSave.Value.Split('|');
+                            foreach (string saveValue in lstSaveValue)
                             {
-                                ClassMeetingIndicator entityIndicator = lstEntityIndicator.FirstOrDefault(p => p.SubjectIndicatorID == Convert.ToInt32(subjectIndicatorID));
+                                string[] temp = saveValue.Split(',');
+                                int classMeetingIndicatorID = Convert.ToInt32(temp[0]);
+                                string subjectIndicatorID = temp[1];
+                                string subjectIndicatorName = temp[2];
+                                ClassMeetingIndicator entityIndicator = lstEntityIndicator.FirstOrDefault(p => p.ClassMeetingIndicatorID == Convert.ToInt32(classMeetingIndicatorID));
                                 if (entityIndicator == null)
                                 {
                                     entityIndicator = new ClassMeetingIndicator();
                                     entityIndicator.ClassMeetingID = entity.ClassMeetingID;
-                                    entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                    if (subjectIndicatorID == "")
+                                    {
+                                        entityIndicator.SubjectIndicatorID = null;
+                                        entityIndicator.SubjectIndicatorName = subjectIndicatorName;
+                                    }
+                                    else
+                                    {
+                                        entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                        entityIndicator.SubjectIndicatorName = null;
+                                    }
                                     entityIndicatorDao.Insert(entityIndicator);
                                 }
                                 else
+                                {
+                                    if (subjectIndicatorID == "")
+                                    {
+                                        entityIndicator.SubjectIndicatorID = null;
+                                        entityIndicator.SubjectIndicatorName = subjectIndicatorName;
+                                    }
+                                    else
+                                    {
+                                        entityIndicator.SubjectIndicatorID = Convert.ToInt32(subjectIndicatorID);
+                                        entityIndicator.SubjectIndicatorName = null;
+                                    }
+                                    entityIndicatorDao.Update(entityIndicator);
                                     lstEntityIndicator.Remove(entityIndicator);
+                                }
                             }
                         }
 
                         foreach (ClassMeetingIndicator entityIndicator in lstEntityIndicator)
                         {
-                            entityIndicatorDao.Delete(entityIndicator.ClassMeetingID, entityIndicator.SubjectIndicatorID);
+                            entityIndicatorDao.Delete(entityIndicator.ClassMeetingIndicatorID);
                         }
                     }
                     ctx.CommitTransaction();
