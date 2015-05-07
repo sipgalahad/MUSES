@@ -177,7 +177,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void cbpSubject_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", tacSchoolClass.Value, Constant.ClassStudyType.REGULAR));
+            Int32 SchoolClassID = 0;
+            if(tacSchoolClass.Value != "")
+                SchoolClassID = Convert.ToInt32(tacSchoolClass.Value);
+            lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("SchoolClassID = {0} AND SubjectGCClassStudyType = '{1}' AND IsDeleted = 0", SchoolClassID, Constant.ClassStudyType.REGULAR));
             
             ASPxCallbackPanel cbpSubject = (ASPxCallbackPanel)ddeSubject.FindControl("cbpSubject");
             GridView grdSubject = (GridView)cbpSubject.FindControl("grdSubject");
