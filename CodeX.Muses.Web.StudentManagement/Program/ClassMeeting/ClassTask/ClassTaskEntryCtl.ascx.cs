@@ -48,7 +48,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void SetControlProperties()
         {
-            List<CurriculumMarkType> lstCurriculumMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID));
+            List<CurriculumMarkType> lstCurriculumMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID));
             Methods.SetComboBoxField<CurriculumMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboLessonType.SelectedIndex = 0;
         }

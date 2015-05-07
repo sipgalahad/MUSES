@@ -2374,6 +2374,8 @@ namespace CodeX.Data.Model
         private Decimal _Mark;
         private Int32 _StudentProgressRuleDtID;
         private String _StudentProgressRuleDtName;
+        private Int32 _MarkTypeDtID;
+        private String _MarkTypeDtName;
         private String _DescriptionMark;
 
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
@@ -2417,6 +2419,18 @@ namespace CodeX.Data.Model
         {
             get { return _StudentProgressRuleDtName; }
             set { _StudentProgressRuleDtName = value; }
+        }
+        [Column(Name = "MarkTypeDtID", DataType = "Int32")]
+        public Int32 MarkTypeDtID
+        {
+            get { return _MarkTypeDtID; }
+            set { _MarkTypeDtID = value; }
+        }
+        [Column(Name = "MarkTypeDtName", DataType = "String")]
+        public String MarkTypeDtName
+        {
+            get { return _MarkTypeDtName; }
+            set { _MarkTypeDtName = value; }
         }
         [Column(Name = "DescriptionMark", DataType = "String")]
         public String DescriptionMark
@@ -2513,6 +2527,10 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumMarkTypeID;
         private String _CurriculumMarkTypeName;
         private Int32 _CurriculumMarkTypeDtID;
+        private Int32 _MarkTypeID;
+        private String _GCMarkType;
+        private Decimal _MinValue;
+        private Decimal _MaxValue;
         private String _CurriculumMarkTypeDtName;
         private Int16 _FinalMarkPercentage;
         private DateTime _TaskDate;
@@ -2589,6 +2607,30 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeDtID; }
             set { _CurriculumMarkTypeDtID = value; }
+        }
+        [Column(Name = "MarkTypeID", DataType = "Int32")]
+        public Int32 MarkTypeID
+        {
+            get { return _MarkTypeID; }
+            set { _MarkTypeID = value; }
+        }
+        [Column(Name = "GCMarkType", DataType = "String")]
+        public String GCMarkType
+        {
+            get { return _GCMarkType; }
+            set { _GCMarkType = value; }
+        }
+        [Column(Name = "MinValue", DataType = "Decimal")]
+        public Decimal MinValue
+        {
+            get { return _MinValue; }
+            set { _MinValue = value; }
+        }
+        [Column(Name = "MaxValue", DataType = "Decimal")]
+        public Decimal MaxValue
+        {
+            get { return _MaxValue; }
+            set { _MaxValue = value; }
         }
         [Column(Name = "CurriculumMarkTypeDtName", DataType = "String")]
         public String CurriculumMarkTypeDtName
@@ -3475,10 +3517,13 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumID;
         private String _CurriculumMarkTypeName;
-        private String _GCTaskMarkType;
-        private String _TaskMarkType;
-        private String _GCFinalMarkType;
-        private String _FinalMarkType;
+        private Int32 _TaskMarkTypeID;
+        private String _TaskMarkTypeName;
+        private Int32 _FinalMarkTypeID;
+        private String _FinalMarkTypeName;
+        private Int32 _PredicateMarkTypeID;
+        private String _PredicateMarkTypeName;
+        private Boolean _IsAllowTask;
         private Boolean _IsDeleted;
 
         [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
@@ -3499,29 +3544,47 @@ namespace CodeX.Data.Model
             get { return _CurriculumMarkTypeName; }
             set { _CurriculumMarkTypeName = value; }
         }
-        [Column(Name = "GCTaskMarkType", DataType = "String")]
-        public String GCTaskMarkType
+        [Column(Name = "TaskMarkTypeID", DataType = "Int32")]
+        public Int32 TaskMarkTypeID
         {
-            get { return _GCTaskMarkType; }
-            set { _GCTaskMarkType = value; }
+            get { return _TaskMarkTypeID; }
+            set { _TaskMarkTypeID = value; }
         }
-        [Column(Name = "TaskMarkType", DataType = "String")]
-        public String TaskMarkType
+        [Column(Name = "TaskMarkTypeName", DataType = "String")]
+        public String TaskMarkTypeName
         {
-            get { return _TaskMarkType; }
-            set { _TaskMarkType = value; }
+            get { return _TaskMarkTypeName; }
+            set { _TaskMarkTypeName = value; }
         }
-        [Column(Name = "GCFinalMarkType", DataType = "String")]
-        public String GCFinalMarkType
+        [Column(Name = "FinalMarkTypeID", DataType = "Int32")]
+        public Int32 FinalMarkTypeID
         {
-            get { return _GCFinalMarkType; }
-            set { _GCFinalMarkType = value; }
+            get { return _FinalMarkTypeID; }
+            set { _FinalMarkTypeID = value; }
         }
-        [Column(Name = "FinalMarkType", DataType = "String")]
-        public String FinalMarkType
+        [Column(Name = "FinalMarkTypeName", DataType = "String")]
+        public String FinalMarkTypeName
         {
-            get { return _FinalMarkType; }
-            set { _FinalMarkType = value; }
+            get { return _FinalMarkTypeName; }
+            set { _FinalMarkTypeName = value; }
+        }
+        [Column(Name = "PredicateMarkTypeID", DataType = "Int32")]
+        public Int32 PredicateMarkTypeID
+        {
+            get { return _PredicateMarkTypeID; }
+            set { _PredicateMarkTypeID = value; }
+        }
+        [Column(Name = "PredicateMarkTypeName", DataType = "String")]
+        public String PredicateMarkTypeName
+        {
+            get { return _PredicateMarkTypeName; }
+            set { _PredicateMarkTypeName = value; }
+        }
+        [Column(Name = "IsAllowTask", DataType = "Boolean")]
+        public Boolean IsAllowTask
+        {
+            get { return _IsAllowTask; }
+            set { _IsAllowTask = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

@@ -49,6 +49,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFinalMarkType;
         
         /// <summary>
+        /// cboPredicateMarkType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPredicateMarkType;
+        
+        /// <summary>
+        /// chkIsAllowTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsAllowTask;
+        
+        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>

@@ -15,28 +15,30 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            var GCSubjectMarkType = $('#<%=hdnGCSubjectMarkType.ClientID %>').val();
             $('#<%=btnSave.ClientID %>').click(function () {
-                var result = '';
-                $('.grdStudent tr.trStudent').each(function () {
-                    var studentID = $(this).find('.keyField').html();
-                    var mark = '';
-                    switch (GCSubjectMarkType) {
-                        case '<%=OnGetSubjectMarkTypeNumber() %>': mark = $(this).find('.txtMark').val(); break;
-                        case '<%=OnGetSubjectMarkTypeOption() %>':
-                            var idx = $(this).find('.hdnItemIndex').val();
-                            var cboStudentMarkOption = eval('cboStudentMarkOption' + idx);
-                            if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
-                                mark = cboStudentMarkOption.GetValue(); break;
-                        case '<%=OnGetSubjectMarkTypeText() %>': mark = $(this).find('.txtStudentMarkDescription').val(); break;
-                    }
+                if (IsValid(null, 'fsMark', 'mpMark')) {
+                    var GCSubjectMarkType = $('#<%=hdnGCSubjectMarkType.ClientID %>').val();
+                    var result = '';
+                    $('.grdStudent tr.trStudent').each(function () {
+                        var studentID = $(this).find('.keyField').html();
+                        var mark = '';
+                        switch (GCSubjectMarkType) {
+                            case '<%=OnGetSubjectMarkTypeNumber() %>': mark = $(this).find('.txtMark').val(); break;
+                            case '<%=OnGetSubjectMarkTypeOption() %>':
+                                var idx = $(this).find('.hdnItemIndex').val();
+                                var cboStudentMarkOption = eval('cboStudentMarkOption' + idx);
+                                if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
+                                    mark = cboStudentMarkOption.GetValue(); break;
+                            case '<%=OnGetSubjectMarkTypeText() %>': mark = $(this).find('.txtStudentMarkDescription').val(); break;
+                        }
 
-                    if (result != '')
-                        result += '|';
-                    result += studentID + ',' + mark;
-                });
-                $('#<%=hdnListSaveValue.ClientID %>').val(result);
-                onCustomButtonClick('save');
+                        if (result != '')
+                            result += '|';
+                        result += studentID + ',' + mark;
+                    });
+                    $('#<%=hdnListSaveValue.ClientID %>').val(result);
+                    onCustomButtonClick('save');
+                }
             });
 
             registerViewListClickHandler();
@@ -47,6 +49,10 @@
                 if (!$(this).hasClass('selected')) {
                     var id = $(this).find('.hdnClassSubjectTaskID').val();
                     $('#<%=hdnClassSubjectTaskID.ClientID %>').val(id);
+                    $('#<%=hdnGCSubjectMarkType.ClientID %>').val($(this).find('.hdnGCMarkType').val());
+                    $('#<%=hdnMarkTypeID.ClientID %>').val($(this).find('.hdnMarkTypeID').val());
+                    $('#<%=hdnMinValue.ClientID %>').val($(this).find('.hdnMinValue').val());
+                    $('#<%=hdnMaxValue.ClientID %>').val($(this).find('.hdnMaxValue').val());
                     $('#ulMeetingViewList li.selected').removeClass('selected');
                     $(this).addClass('selected');
                     cbpMeetingDetail.PerformCallback();
@@ -133,8 +139,10 @@
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />
-    <input type="hidden" id="hdnStudentProgressRuleID" runat="server" />
+    <input type="hidden" id="hdnMarkTypeID" runat="server" />
     <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
+    <input type="hidden" id="hdnMinValue" runat="server" />
+    <input type="hidden" id="hdnMaxValue" runat="server" />
     <style type="text/css">
         #ulMeetingViewList .divMeetingDate        { float: left; width: 66px; margin: 3px 10px 0 0; background-color: #6BBD46; padding: 3px 10px; font-size: 20px; color: White; vertical-align: middle; text-align: center; }
         #ulMeetingViewList li                          { padding: 5px 3px; cursor: pointer; list-style-type:none; margin-bottom: 1px; }
@@ -182,6 +190,10 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit divEdit"><%=GetLabel("Edit")%></div>
                                         <div style='float:right;margin-right:10px;color:Red;' class="divDetailEdit divRemedial"><%=GetLabel("Remidi")%></div>
                                         <input type="hidden" value='<%# Eval("ClassSubjectTaskID") %>' class="hdnClassSubjectTaskID" />
+                                        <input type="hidden" value='<%# Eval("GCMarkType") %>' class="hdnGCMarkType" />
+                                        <input type="hidden" value='<%# Eval("MarkTypeID") %>' class="hdnMarkTypeID" />
+                                        <input type="hidden" value='<%# Eval("MinValue") %>' class="hdnMinValue" />
+                                        <input type="hidden" value='<%# Eval("MaxValue") %>' class="hdnMaxValue" />
                                         <div class="divMeetingDate"><%# Eval("TaskDate", "{0:dd MMM}")%><br /><%# Eval("TaskDate", "{0:yyyy}")%></div>
                                         <div style="font-size: 24px; font-weight: 100;"><%#Eval("Topic") %> (<%#Eval("ClassTaskCode")%>)</div>
                                         <div style="font-size: 12px;"><%#Eval("CurriculumMarkTypeDtName") %> (<%#Eval("CurriculumMarkTypeName")%>)<br /><%#Eval("StartTime") %> - <%#Eval("EndTime") %></div>
@@ -211,43 +223,45 @@
                         <dx:PanelContent ID="PanelContent1" runat="server">
                             <div style="height: 415px; overflow-y: scroll; overflow-x: hidden; font-size: 12px;">
                                 <div class="containerTblEntryContent">
-                                    <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
-                                        <tr>
-                                            <th><%=GetLabel("Siswa") %></th>
-                                            <th class="thCenter" style="width:85px"><%=GetLabel("Nilai") %></th>
-                                        </tr>
-                                        <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
-                                            <ItemTemplate>
-                                                <tr class="trStudent">
-                                                    <td class="keyField"><%#Eval("StudentID") %></td>
-                                                    <td>
-                                                        <table cellpadding="0" cellspacing="0">
-                                                            <tr>
-                                                                <td style="width: 35px;">
-                                                                    <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
-                                                                    <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
-                                                                    <div class="gridCircle divStudentImage"></div>
-                                                                </td>
-                                                                <td>
-                                                                    <%#Eval("StudentName") %>
-                                                                    <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                    <td align="center">
-                                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                                        <div id="divMark" runat="server">
-                                                            <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark" Text="" Width="60px" />
-                                                            &nbsp;<b id="bIsRemedial" runat="server" style="color:Red;">R*</b>
-                                                        </div>
-                                                        <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="100px" runat="server" />
-                                                        <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />
-                                                    </td>
-                                                </tr>
-                                            </ItemTemplate>
-                                        </asp:Repeater>
-                                    </table>
+                                    <fieldset id="fsMark">
+                                        <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
+                                            <tr>
+                                                <th><%=GetLabel("Siswa") %></th>
+                                                <th class="thCenter" style="width:85px"><%=GetLabel("Nilai") %></th>
+                                            </tr>
+                                            <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <tr class="trStudent">
+                                                        <td class="keyField"><%#Eval("StudentID") %></td>
+                                                        <td>
+                                                            <table cellpadding="0" cellspacing="0">
+                                                                <tr>
+                                                                    <td style="width: 35px;">
+                                                                        <img class="imgStudentImage" src='<%#Eval("StudentImageUrl") %>' alt="" height="25px" width="20px" style="float:left;margin-right: 10px; display:none" />
+                                                                        <input type="hidden" value='<%# Eval("GCGender")%>' class="hdnStudentGender" />
+                                                                        <div class="gridCircle divStudentImage"></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%#Eval("StudentName") %>
+                                                                        <input type="hidden" id="hdnAttendance" class="hdnAttendance" runat="server" value="" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td align="center">
+                                                            <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                                            <div id="divMark" runat="server">
+                                                                <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtMark min max" Text="" Width="60px" />
+                                                                &nbsp;<b id="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                                            </div>
+                                                            <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="100px" runat="server" />
+                                                            <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />
+                                                        </td>
+                                                    </tr>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        </table>
+                                    </fieldset>
                                 </div>
                             </div>
                         </dx:PanelContent>

@@ -16,6 +16,8 @@
                 $('#<%=txtCurriculumMarkTypeName.ClientID %>').val('');
                 cboTaskMarkType.SetValue('');
                 cboFinalMarkType.SetValue('');
+                cboPredicateMarkType.SetValue('');
+                $('#<%=chkIsAllowTask.ClientID %>').prop('checked', false); 
                 $('#entryDetailContainer').show();
             });
 
@@ -47,8 +49,10 @@
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMarkTypeID);
             $('#<%=txtCurriculumMarkTypeName.ClientID %>').val(entity.CurriculumMarkTypeName);
-            cboTaskMarkType.SetValue(entity.GCTaskMarkType);
-            cboFinalMarkType.SetValue(entity.GCFinalMarkType);
+            cboTaskMarkType.SetValue(entity.TaskMarkTypeID);
+            cboFinalMarkType.SetValue(entity.FinalMarkTypeID);
+            cboPredicateMarkType.SetValue(entity.PredicateMarkTypeID);
+            $('#<%=chkIsAllowTask.ClientID %>').prop('checked', entity.IsAllowTask == 'True'); 
 
             $('#entryDetailContainer').show();
         });
@@ -102,12 +106,20 @@
                                     <td><asp:TextBox ID="txtCurriculumMarkTypeName" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Format Nilai Tugas")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Tugas")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboTaskMarkType" ClientInstanceName="cboTaskMarkType" runat="server" Width="100px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Format Nilai Rapor")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Rapor")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboFinalMarkType" ClientInstanceName="cboFinalMarkType" runat="server" Width="100px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Predikat Rapor")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboPredicateMarkType" ClientInstanceName="cboPredicateMarkType" runat="server" Width="100px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Allow Task")%></label></td>
+                                    <td><asp:CheckBox ID="chkIsAllowTask" runat="server" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -133,8 +145,9 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="CurriculumMarkTypeName" HeaderText="Nama" />
-                                <asp:BoundField DataField="TaskMarkType" HeaderText="Format Nilai Tugas" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="FinalMarkType" HeaderText="Format Nilai Akhir" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="TaskMarkTypeName" HeaderText="Format Nilai Tugas" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="FinalMarkTypeName" HeaderText="Format Nilai Akhir" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="PredicateMarkTypeName" HeaderText="Format Predikat Akhir" HeaderStyle-Width="150px" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="100px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
@@ -142,8 +155,10 @@
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeID") %>" bindingfield="CurriculumMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeName") %>" bindingfield="CurriculumMarkTypeName" />
-                                        <input type="hidden" value="<%#Eval("GCTaskMarkType") %>" bindingfield="GCTaskMarkType" />
-                                        <input type="hidden" value="<%#Eval("GCFinalMarkType") %>" bindingfield="GCFinalMarkType" />
+                                        <input type="hidden" value="<%#Eval("TaskMarkTypeID") %>" bindingfield="TaskMarkTypeID" />
+                                        <input type="hidden" value="<%#Eval("FinalMarkTypeID") %>" bindingfield="FinalMarkTypeID" />
+                                        <input type="hidden" value="<%#Eval("PredicateMarkTypeID") %>" bindingfield="PredicateMarkTypeID" />
+                                        <input type="hidden" value="<%#Eval("IsAllowTask") %>" bindingfield="IsAllowTask" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

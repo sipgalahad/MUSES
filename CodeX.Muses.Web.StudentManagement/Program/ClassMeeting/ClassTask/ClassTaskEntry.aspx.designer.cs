@@ -40,13 +40,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassSubjectTaskID;
         
         /// <summary>
-        /// hdnStudentProgressRuleID control.
+        /// hdnMarkTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentProgressRuleID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMarkTypeID;
         
         /// <summary>
         /// hdnGCSubjectMarkType control.
@@ -56,6 +56,24 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCSubjectMarkType;
+        
+        /// <summary>
+        /// hdnMinValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMinValue;
+        
+        /// <summary>
+        /// hdnMaxValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMaxValue;
         
         /// <summary>
         /// txtPassingGrade control.

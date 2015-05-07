@@ -22,15 +22,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MARK_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboTaskMarkType, lstSc, "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboFinalMarkType, lstSc, "StandardCodeName", "StandardCodeID");
+            List<MarkTypeHd> lstMark = BusinessLayer.GetMarkTypeHdList(string.Format("IsDeleted = 0"));
+            lstMark.Insert(0, new MarkTypeHd { MarkTypeID = 0, MarkTypeName = "" });
+            Methods.SetComboBoxField<MarkTypeHd>(cboTaskMarkType, lstMark, "MarkTypeName", "MarkTypeID");
+            Methods.SetComboBoxField<MarkTypeHd>(cboFinalMarkType, lstMark, "MarkTypeName", "MarkTypeID");
+            Methods.SetComboBoxField<MarkTypeHd>(cboPredicateMarkType, lstMark, "MarkTypeName", "MarkTypeID");
 
             BindGridView();
 
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboTaskMarkType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboFinalMarkType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -91,8 +91,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         private void ControlToEntity(CurriculumMarkType entity)
         {
             entity.CurriculumMarkTypeName = txtCurriculumMarkTypeName.Text;
-            entity.GCTaskMarkType = cboTaskMarkType.Value.ToString();
-            entity.GCFinalMarkType = cboFinalMarkType.Value.ToString();
+            if (cboTaskMarkType.Value != null && cboTaskMarkType.Value.ToString() != "0")
+                entity.TaskMarkTypeID = Convert.ToInt32(cboTaskMarkType.Value);
+            else
+                entity.TaskMarkTypeID = null;
+            if (cboFinalMarkType.Value != null && cboFinalMarkType.Value.ToString() != "0")
+                entity.FinalMarkTypeID = Convert.ToInt32(cboFinalMarkType.Value);
+            else
+                entity.FinalMarkTypeID = null;
+            if (cboPredicateMarkType.Value != null && cboPredicateMarkType.Value.ToString() != "0")
+                entity.PredicateMarkTypeID = Convert.ToInt32(cboPredicateMarkType.Value);
+            else
+                entity.PredicateMarkTypeID = null;
+            entity.IsAllowTask = chkIsAllowTask.Checked;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
