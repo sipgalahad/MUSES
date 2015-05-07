@@ -162,6 +162,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region MarkTypeHd
+    public partial class MarkTypeHd
+    {
+        public string cfMarkTypeID
+        {
+            get
+            {
+                return string.Format("{0}|{1}", _MarkTypeID, _GCMarkType);
+            }
+        }
+    }
+    #endregion
     #region PurchaseRequestHd
     public partial class PurchaseRequestHd
     {

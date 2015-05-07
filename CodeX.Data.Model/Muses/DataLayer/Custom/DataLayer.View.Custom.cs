@@ -659,6 +659,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMarkTypeFormula
+    public partial class vMarkTypeFormula
+    {
+        public string cfFromValue
+        {
+            get
+            {
+                if (_FromGCMarkType == Constant.MarkType.OPTION)
+                    return _FromMarkTypeDtName;
+                return string.Format("{0} - {1}", _MinValue, _MaxValue);
+            }
+        }
+    }
+    #endregion
     #region vMarkTypeHd
     public partial class vMarkTypeHd
     {

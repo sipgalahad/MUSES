@@ -12512,6 +12512,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMarkTypeFormula
+    [Serializable]
+    [Table(Name = "vMarkTypeFormula")]
+    public partial class vMarkTypeFormula
+    {
+        private Int32 _MarkTypeFormulaID;
+        private Int32 _MarkTypeID;
+        private Int32 _FromMarkTypeID;
+        private String _FromMarkTypeName;
+        private String _FromGCMarkType;
+        private Decimal _MinValue;
+        private Decimal _MaxValue;
+        private Int32 _FromMarkTypeDtID;
+        private String _FromMarkTypeDtName;
+        private Int32 _ToMarkTypeDtID;
+        private String _ToMarkTypeDtName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "MarkTypeFormulaID", DataType = "Int32")]
+        public Int32 MarkTypeFormulaID
+        {
+            get { return _MarkTypeFormulaID; }
+            set { _MarkTypeFormulaID = value; }
+        }
+        [Column(Name = "MarkTypeID", DataType = "Int32")]
+        public Int32 MarkTypeID
+        {
+            get { return _MarkTypeID; }
+            set { _MarkTypeID = value; }
+        }
+        [Column(Name = "FromMarkTypeID", DataType = "Int32")]
+        public Int32 FromMarkTypeID
+        {
+            get { return _FromMarkTypeID; }
+            set { _FromMarkTypeID = value; }
+        }
+        [Column(Name = "FromMarkTypeName", DataType = "String")]
+        public String FromMarkTypeName
+        {
+            get { return _FromMarkTypeName; }
+            set { _FromMarkTypeName = value; }
+        }
+        [Column(Name = "FromGCMarkType", DataType = "String")]
+        public String FromGCMarkType
+        {
+            get { return _FromGCMarkType; }
+            set { _FromGCMarkType = value; }
+        }
+        [Column(Name = "MinValue", DataType = "Decimal")]
+        public Decimal MinValue
+        {
+            get { return _MinValue; }
+            set { _MinValue = value; }
+        }
+        [Column(Name = "MaxValue", DataType = "Decimal")]
+        public Decimal MaxValue
+        {
+            get { return _MaxValue; }
+            set { _MaxValue = value; }
+        }
+        [Column(Name = "FromMarkTypeDtID", DataType = "Int32")]
+        public Int32 FromMarkTypeDtID
+        {
+            get { return _FromMarkTypeDtID; }
+            set { _FromMarkTypeDtID = value; }
+        }
+        [Column(Name = "FromMarkTypeDtName", DataType = "String")]
+        public String FromMarkTypeDtName
+        {
+            get { return _FromMarkTypeDtName; }
+            set { _FromMarkTypeDtName = value; }
+        }
+        [Column(Name = "ToMarkTypeDtID", DataType = "Int32")]
+        public Int32 ToMarkTypeDtID
+        {
+            get { return _ToMarkTypeDtID; }
+            set { _ToMarkTypeDtID = value; }
+        }
+        [Column(Name = "ToMarkTypeDtName", DataType = "String")]
+        public String ToMarkTypeDtName
+        {
+            get { return _ToMarkTypeDtName; }
+            set { _ToMarkTypeDtName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vMarkTypeHd
     [Serializable]
     [Table(Name = "vMarkTypeHd")]

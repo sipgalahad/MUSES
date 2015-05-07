@@ -419,6 +419,16 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Mark Type Dt -->
+  <searchdialog type="marktypedt" methodname="GetMarkTypeDtList" keyfieldname="MarkTypeDtID" orderbyexpression="DisplayOrder ASC">
+    <gridcolumns>
+      <gridcolumn datafield="MarkTypeDtName" headertext="Teks" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="MarkTypeDtName" headertext="Teks" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Menu -->
   <searchdialog type="menu" methodname="GetvMenuList" keyfieldname="MenuCode" istreeview="1">
     <gridcolumns>

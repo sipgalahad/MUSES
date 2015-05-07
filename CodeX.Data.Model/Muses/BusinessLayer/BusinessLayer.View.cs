@@ -4928,6 +4928,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vMarkTypeFormula
+        public static List<vMarkTypeFormula> GetvMarkTypeFormulaList(string filterExpression)
+        {
+            List<vMarkTypeFormula> result = new List<vMarkTypeFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vMarkTypeFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vMarkTypeFormula)helper.IDataReaderToObject(reader, new vMarkTypeFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vMarkTypeHd
         public static List<vMarkTypeHd> GetvMarkTypeHdList(string filterExpression)
         {

@@ -68,10 +68,10 @@
             openUserControlPopup(url, id, 'Detil', 800, 550);
         });
 
-        $('.lnkDueDate a').live('click', function () {
+        $('.lnkFormula a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/StudentFeeComp/MarkTypeDueDateEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Detil Pembayaran', 800, 550);
+            var url = ResolveUrl("~/Program/Master/MarkType/MarkTypeFormulaEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Formula', 800, 550);
         }); 
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -96,6 +96,7 @@
                                         <a <%# Eval("IsOption").ToString() == "False" ? "style='display:none'" : ""%>>Detil</a>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:HyperLinkField HeaderText="Formula" Text="Formula" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkFormula" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

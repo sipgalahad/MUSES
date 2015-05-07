@@ -7678,6 +7678,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region MarkTypeFormula
+        public static MarkTypeFormula GetMarkTypeFormula(Int32 MarkTypeFormulaID)
+        {
+            return new MarkTypeFormulaDao().Get(MarkTypeFormulaID);
+        }
+        public static int InsertMarkTypeFormula(MarkTypeFormula record)
+        {
+            return new MarkTypeFormulaDao().Insert(record);
+        }
+        public static int UpdateMarkTypeFormula(MarkTypeFormula record)
+        {
+            return new MarkTypeFormulaDao().Update(record);
+        }
+        public static int DeleteMarkTypeFormula(Int32 MarkTypeFormulaID)
+        {
+            return new MarkTypeFormulaDao().Delete(MarkTypeFormulaID);
+        }
+        public static List<MarkTypeFormula> GetMarkTypeFormulaList(string filterExpression)
+        {
+            List<MarkTypeFormula> result = new List<MarkTypeFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarkTypeFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarkTypeFormula)helper.IDataReaderToObject(reader, new MarkTypeFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region MarkTypeHd
         public static MarkTypeHd GetMarkTypeHd(Int32 MarkTypeID)
         {
