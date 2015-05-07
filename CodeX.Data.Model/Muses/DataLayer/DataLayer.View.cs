@@ -12512,6 +12512,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMarkTypeHd
+    [Serializable]
+    [Table(Name = "vMarkTypeHd")]
+    public partial class vMarkTypeHd
+    {
+        private Int32 _MarkTypeID;
+        private String _MarkTypeCode;
+        private String _MarkTypeName;
+        private String _GCMarkType;
+        private String _MarkType;
+        private Decimal _MinValue;
+        private Decimal _MaxValue;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "MarkTypeID", DataType = "Int32")]
+        public Int32 MarkTypeID
+        {
+            get { return _MarkTypeID; }
+            set { _MarkTypeID = value; }
+        }
+        [Column(Name = "MarkTypeCode", DataType = "String")]
+        public String MarkTypeCode
+        {
+            get { return _MarkTypeCode; }
+            set { _MarkTypeCode = value; }
+        }
+        [Column(Name = "MarkTypeName", DataType = "String")]
+        public String MarkTypeName
+        {
+            get { return _MarkTypeName; }
+            set { _MarkTypeName = value; }
+        }
+        [Column(Name = "GCMarkType", DataType = "String")]
+        public String GCMarkType
+        {
+            get { return _GCMarkType; }
+            set { _GCMarkType = value; }
+        }
+        [Column(Name = "MarkType", DataType = "String")]
+        public String MarkType
+        {
+            get { return _MarkType; }
+            set { _MarkType = value; }
+        }
+        [Column(Name = "MinValue", DataType = "Decimal")]
+        public Decimal MinValue
+        {
+            get { return _MinValue; }
+            set { _MinValue = value; }
+        }
+        [Column(Name = "MaxValue", DataType = "Decimal")]
+        public Decimal MaxValue
+        {
+            get { return _MaxValue; }
+            set { _MaxValue = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vOrganizationDt
     [Serializable]
     [Table(Name = "vOrganizationDt")]

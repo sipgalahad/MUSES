@@ -7638,6 +7638,102 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region MarkTypeDt
+        public static MarkTypeDt GetMarkTypeDt(Int32 MarkTypeDtID)
+        {
+            return new MarkTypeDtDao().Get(MarkTypeDtID);
+        }
+        public static int InsertMarkTypeDt(MarkTypeDt record)
+        {
+            return new MarkTypeDtDao().Insert(record);
+        }
+        public static int UpdateMarkTypeDt(MarkTypeDt record)
+        {
+            return new MarkTypeDtDao().Update(record);
+        }
+        public static int DeleteMarkTypeDt(Int32 MarkTypeDtID)
+        {
+            return new MarkTypeDtDao().Delete(MarkTypeDtID);
+        }
+        public static List<MarkTypeDt> GetMarkTypeDtList(string filterExpression)
+        {
+            List<MarkTypeDt> result = new List<MarkTypeDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarkTypeDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarkTypeDt)helper.IDataReaderToObject(reader, new MarkTypeDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region MarkTypeHd
+        public static MarkTypeHd GetMarkTypeHd(Int32 MarkTypeID)
+        {
+            return new MarkTypeHdDao().Get(MarkTypeID);
+        }
+        public static int InsertMarkTypeHd(MarkTypeHd record)
+        {
+            return new MarkTypeHdDao().Insert(record);
+        }
+        public static int UpdateMarkTypeHd(MarkTypeHd record)
+        {
+            return new MarkTypeHdDao().Update(record);
+        }
+        public static int DeleteMarkTypeHd(Int32 MarkTypeID)
+        {
+            return new MarkTypeHdDao().Delete(MarkTypeID);
+        }
+        public static List<MarkTypeHd> GetMarkTypeHdList(string filterExpression)
+        {
+            List<MarkTypeHd> result = new List<MarkTypeHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarkTypeHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MarkTypeHd)helper.IDataReaderToObject(reader, new MarkTypeHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetMarkTypeHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MarkTypeHd));
+                ctx.CommandText = helper.SelectMaxColumn("MarkTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region OrganizationDt
         public static OrganizationDt GetOrganizationDt(Int32 OrganizationDtID)
         {

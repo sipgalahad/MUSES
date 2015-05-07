@@ -15742,6 +15742,260 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region MarkTypeDt
+    [Serializable]
+    [Table(Name = "MarkTypeDt")]
+    public class MarkTypeDt : DbDataModel
+    {
+        private Int32 _MarkTypeDtID;
+        private Int32 _MarkTypeID;
+        private String _MarkTypeDtName;
+        private Int16 _DisplayOrder;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MarkTypeDtID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 MarkTypeDtID
+        {
+            get { return _MarkTypeDtID; }
+            set { _MarkTypeDtID = value; }
+        }
+        [Column(Name = "MarkTypeID", DataType = "Int32")]
+        public Int32 MarkTypeID
+        {
+            get { return _MarkTypeID; }
+            set { _MarkTypeID = value; }
+        }
+        [Column(Name = "MarkTypeDtName", DataType = "String")]
+        public String MarkTypeDtName
+        {
+            get { return _MarkTypeDtName; }
+            set { _MarkTypeDtName = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class MarkTypeDtDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MarkTypeDt));
+        private bool _isAuditLog = false;
+        private const string p_MarkTypeDtID = "@p_MarkTypeDtID";
+        public MarkTypeDtDao() { }
+        public MarkTypeDtDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MarkTypeDt Get(Int32 MarkTypeDtID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MarkTypeDtID, MarkTypeDtID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MarkTypeDt)_helper.DataRowToObject(row, new MarkTypeDt());
+        }
+        public int Insert(MarkTypeDt record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MarkTypeDt record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MarkTypeDtID)
+        {
+            MarkTypeDt record;
+            if (_ctx.Transaction == null)
+                record = new MarkTypeDtDao().Get(MarkTypeDtID);
+            else
+                record = Get(MarkTypeDtID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region MarkTypeHd
+    [Serializable]
+    [Table(Name = "MarkTypeHd")]
+    public class MarkTypeHd : DbDataModel
+    {
+        private Int32 _MarkTypeID;
+        private String _MarkTypeCode;
+        private String _MarkTypeName;
+        private String _GCMarkType;
+        private Decimal _MinValue;
+        private Decimal _MaxValue;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "MarkTypeID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 MarkTypeID
+        {
+            get { return _MarkTypeID; }
+            set { _MarkTypeID = value; }
+        }
+        [Column(Name = "MarkTypeCode", DataType = "String")]
+        public String MarkTypeCode
+        {
+            get { return _MarkTypeCode; }
+            set { _MarkTypeCode = value; }
+        }
+        [Column(Name = "MarkTypeName", DataType = "String")]
+        public String MarkTypeName
+        {
+            get { return _MarkTypeName; }
+            set { _MarkTypeName = value; }
+        }
+        [Column(Name = "GCMarkType", DataType = "String")]
+        public String GCMarkType
+        {
+            get { return _GCMarkType; }
+            set { _GCMarkType = value; }
+        }
+        [Column(Name = "MinValue", DataType = "Decimal", IsNullable = true)]
+        public Decimal MinValue
+        {
+            get { return _MinValue; }
+            set { _MinValue = value; }
+        }
+        [Column(Name = "MaxValue", DataType = "Decimal", IsNullable = true)]
+        public Decimal MaxValue
+        {
+            get { return _MaxValue; }
+            set { _MaxValue = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class MarkTypeHdDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MarkTypeHd));
+        private bool _isAuditLog = false;
+        private const string p_MarkTypeID = "@p_MarkTypeID";
+        public MarkTypeHdDao() { }
+        public MarkTypeHdDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MarkTypeHd Get(Int32 MarkTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_MarkTypeID, MarkTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MarkTypeHd)_helper.DataRowToObject(row, new MarkTypeHd());
+        }
+        public int Insert(MarkTypeHd record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MarkTypeHd record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MarkTypeID)
+        {
+            MarkTypeHd record;
+            if (_ctx.Transaction == null)
+                record = new MarkTypeHdDao().Get(MarkTypeID);
+            else
+                record = Get(MarkTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region OrganizationDt
     [Serializable]
     [Table(Name = "OrganizationDt")]

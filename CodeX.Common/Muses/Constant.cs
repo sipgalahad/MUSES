@@ -162,6 +162,13 @@ namespace CodeX.Common
             public const string PERSONALITY = "MS024^003";
         }
 
+        public static class MarkType
+        {
+            public const string NUMBER = "MS025^001";
+            public const string OPTION = "MS025^002";
+            public const string DESCRIPTION = "MS025^003";
+        }
+
         public static class AdmissionPaymentPeriod 
         { 
             public const string SEKALI_BAYAR = "MS014^001";
@@ -322,6 +329,7 @@ namespace CodeX.Common
                 public const string STUDENT_PROGRESS_RULE = "CP010116";
                 public const string GRADE_PROMOTION_FORMULA = "CP010117";
                 public const string CURRICULUM = "CP010118";
+                public const string MARK_TYPE = "CP010119";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";

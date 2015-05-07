@@ -133,6 +133,9 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\MarkType\MarkTypeEntry.aspx" />
+    <Content Include="Program\Master\MarkType\MarkTypeList.aspx" />
+    <Content Include="Program\Master\MarkType\MarkTypeDtEntryCtl.ascx" />
     <Content Include="Program\Master\Curriculum\CurriculumSchoolPeriodSection\CurriculumSchoolPeriodSectionEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumMeetingPlan\CurriculumMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumSyllabus\CurriculumSyllabusEntry.aspx" />
@@ -644,6 +647,27 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MarkType\MarkTypeEntry.aspx.cs">
+      <DependentUpon>MarkTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MarkType\MarkTypeEntry.aspx.designer.cs">
+      <DependentUpon>MarkTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MarkType\MarkTypeList.aspx.cs">
+      <DependentUpon>MarkTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MarkType\MarkTypeList.aspx.designer.cs">
+      <DependentUpon>MarkTypeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\MarkType\MarkTypeDtEntryCtl.ascx.cs">
+      <DependentUpon>MarkTypeDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\MarkType\MarkTypeDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>MarkTypeDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumSchoolPeriodSection\CurriculumSchoolPeriodSectionEntry.aspx.cs">
       <DependentUpon>CurriculumSchoolPeriodSectionEntry.aspx</DependentUpon>
