@@ -659,6 +659,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMarkTypeHd
+    public partial class vMarkTypeHd
+    {
+        public bool IsOption
+        {
+            get
+            {
+                return _GCMarkType == Constant.MarkType.OPTION;
+            }
+        }
+    }
+    #endregion
     #region vPeriodAdmission
     public partial class vPeriodAdmission
     {
