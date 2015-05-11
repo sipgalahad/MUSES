@@ -16779,6 +16779,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PeriodClassTypeFinalMarkFormula
+    [Serializable]
+    [Table(Name = "PeriodClassTypeFinalMarkFormula")]
+    public class PeriodClassTypeFinalMarkFormula : DbDataModel
+    {
+        private Int32 _PeriodClassTypeID;
+        private Int32 _CurriculumMarkTypeID;
+        private Int32? _CurriculumFinalMarkFormulaID;
+
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumFinalMarkFormulaID
+        {
+            get { return _CurriculumFinalMarkFormulaID; }
+            set { _CurriculumFinalMarkFormulaID = value; }
+        }
+    }
+
+    public class PeriodClassTypeFinalMarkFormulaDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodClassTypeFinalMarkFormula));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumMarkTypeID = "@p_CurriculumMarkTypeID";
+        private const string p_PeriodClassTypeID = "@p_PeriodClassTypeID";
+        public PeriodClassTypeFinalMarkFormulaDao() { }
+        public PeriodClassTypeFinalMarkFormulaDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodClassTypeFinalMarkFormula Get(Int32 PeriodClassTypeID, Int32 CurriculumMarkTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumMarkTypeID, CurriculumMarkTypeID);
+            _ctx.Add(p_PeriodClassTypeID, PeriodClassTypeID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodClassTypeFinalMarkFormula)_helper.DataRowToObject(row, new PeriodClassTypeFinalMarkFormula());
+        }
+        public int Insert(PeriodClassTypeFinalMarkFormula record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodClassTypeFinalMarkFormula record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodClassTypeID, Int32 CurriculumMarkTypeID)
+        {
+            PeriodClassTypeFinalMarkFormula record;
+            if (_ctx.Transaction == null)
+                record = new PeriodClassTypeFinalMarkFormulaDao().Get(PeriodClassTypeID, CurriculumMarkTypeID);
+            else
+                record = Get(PeriodClassTypeID, CurriculumMarkTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodClassTypeSubject
     [Serializable]
     [Table(Name = "PeriodClassTypeSubject")]
@@ -16929,6 +17000,148 @@ namespace CodeX.Data.Model
                 record = new PeriodClassTypeSubjectDao().Get(PeriodClassTypeSubjectID);
             else
                 record = Get(PeriodClassTypeSubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PeriodClassTypeSubjectFinalMarkFormula
+    [Serializable]
+    [Table(Name = "PeriodClassTypeSubjectFinalMarkFormula")]
+    public class PeriodClassTypeSubjectFinalMarkFormula : DbDataModel
+    {
+        private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _CurriculumMarkTypeID;
+        private Int32? _CurriculumFinalMarkFormulaID;
+
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumFinalMarkFormulaID
+        {
+            get { return _CurriculumFinalMarkFormulaID; }
+            set { _CurriculumFinalMarkFormulaID = value; }
+        }
+    }
+
+    public class PeriodClassTypeSubjectFinalMarkFormulaDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodClassTypeSubjectFinalMarkFormula));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumMarkTypeID = "@p_CurriculumMarkTypeID";
+        private const string p_PeriodClassTypeSubjectID = "@p_PeriodClassTypeSubjectID";
+        public PeriodClassTypeSubjectFinalMarkFormulaDao() { }
+        public PeriodClassTypeSubjectFinalMarkFormulaDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodClassTypeSubjectFinalMarkFormula Get(Int32 PeriodClassTypeSubjectID, Int32 CurriculumMarkTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumMarkTypeID, CurriculumMarkTypeID);
+            _ctx.Add(p_PeriodClassTypeSubjectID, PeriodClassTypeSubjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodClassTypeSubjectFinalMarkFormula)_helper.DataRowToObject(row, new PeriodClassTypeSubjectFinalMarkFormula());
+        }
+        public int Insert(PeriodClassTypeSubjectFinalMarkFormula record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodClassTypeSubjectFinalMarkFormula record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodClassTypeSubjectID, Int32 CurriculumMarkTypeID)
+        {
+            PeriodClassTypeSubjectFinalMarkFormula record;
+            if (_ctx.Transaction == null)
+                record = new PeriodClassTypeSubjectFinalMarkFormulaDao().Get(PeriodClassTypeSubjectID, CurriculumMarkTypeID);
+            else
+                record = Get(PeriodClassTypeSubjectID, CurriculumMarkTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region PeriodFinalMarkFormula
+    [Serializable]
+    [Table(Name = "PeriodFinalMarkFormula")]
+    public class PeriodFinalMarkFormula : DbDataModel
+    {
+        private Int32 _SchoolPeriodID;
+        private Int32 _CurriculumMarkTypeID;
+        private Int32? _CurriculumFinalMarkFormulaID;
+
+        [Column(Name = "SchoolPeriodID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumFinalMarkFormulaID
+        {
+            get { return _CurriculumFinalMarkFormulaID; }
+            set { _CurriculumFinalMarkFormulaID = value; }
+        }
+    }
+
+    public class PeriodFinalMarkFormulaDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodFinalMarkFormula));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumMarkTypeID = "@p_CurriculumMarkTypeID";
+        private const string p_SchoolPeriodID = "@p_SchoolPeriodID";
+        public PeriodFinalMarkFormulaDao() { }
+        public PeriodFinalMarkFormulaDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodFinalMarkFormula Get(Int32 SchoolPeriodID, Int32 CurriculumMarkTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumMarkTypeID, CurriculumMarkTypeID);
+            _ctx.Add(p_SchoolPeriodID, SchoolPeriodID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodFinalMarkFormula)_helper.DataRowToObject(row, new PeriodFinalMarkFormula());
+        }
+        public int Insert(PeriodFinalMarkFormula record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodFinalMarkFormula record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 SchoolPeriodID, Int32 CurriculumMarkTypeID)
+        {
+            PeriodFinalMarkFormula record;
+            if (_ctx.Transaction == null)
+                record = new PeriodFinalMarkFormulaDao().Get(SchoolPeriodID, CurriculumMarkTypeID);
+            else
+                record = Get(SchoolPeriodID, CurriculumMarkTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

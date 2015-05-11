@@ -117,6 +117,7 @@
     <Content Include="Program\Admission\ProspectiveStudentAcceptance\ProspectiveStudentAcceptanceList.aspx" />
     <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx" />
+    <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry2.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
@@ -124,6 +125,7 @@
     <Content Include="Program\ClassMeeting\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanInformationDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformation.aspx" />
     <Content Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\CurriculumFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumList.aspx" />
@@ -595,6 +597,13 @@
     <Compile Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx.designer.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanDtCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry2.aspx.cs">
+      <DependentUpon>ClassTaskSummaryEntry2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry2.aspx.designer.cs">
+      <DependentUpon>ClassTaskSummaryEntry2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx.cs">
       <DependentUpon>StudentRemedialMarkViewDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -643,6 +652,13 @@
     </Compile>
     <Compile Include="Program\ClassMeeting\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusInformationDtCtl.ascx.designer.cs">
       <DependentUpon>SubjectCurriculumSyllabusInformationDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\CurriculumFinalMarkFormulaDtCtl.ascx.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolPeriod\CurriculumFinalMarkFormulaDtCtl.ascx.designer.cs">
+      <DependentUpon>CurriculumFinalMarkFormulaDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanEntry.aspx</DependentUpon>

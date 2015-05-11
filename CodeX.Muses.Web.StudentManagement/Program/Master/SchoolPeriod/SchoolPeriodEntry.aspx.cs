@@ -9,6 +9,7 @@ using CodeX.Web.Common;
 using CodeX.Data.Model;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -102,6 +103,52 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboStudentProgressRule.Value = entity.StudentProgressRuleID.ToString();
             cboExtracurricularProgressRule.Value = entity.ExtracurricularProgressRuleID.ToString();
             cboGradePromotionFormula.Value = entity.GradePromotionFormulaID.ToString();
+
+            lstFinalMarkFormula = BusinessLayer.GetPeriodFinalMarkFormulaList(string.Format("SchoolPeriodID = {0}", hdnID.Value));
+            List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsAllowTask = 1 AND IsDeleted = 0", entity.CurriculumID));
+            rptFinalMarkFormula.DataSource = lstMarkType;
+            rptFinalMarkFormula.DataBind();
+        }
+
+        List<PeriodFinalMarkFormula> lstFinalMarkFormula = null;
+        protected void rptFinalMarkFormula_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                CurriculumMarkType entity = (CurriculumMarkType)e.Item.DataItem;
+
+                ASPxComboBox cboCurriculumFinalMarkFormulaID = (ASPxComboBox)e.Item.FindControl("cboCurriculumFinalMarkFormulaID");
+                cboCurriculumFinalMarkFormulaID.ClientInstanceName = string.Format("cboCurriculumFinalMarkFormulaID{0}", e.Item.ItemIndex);
+
+                List<CurriculumFinalMarkFormulaHd> lstFormula = BusinessLayer.GetCurriculumFinalMarkFormulaHdList(string.Format("CurriculumMarkTypeID = {0} AND IsDeleted = 0", entity.CurriculumMarkTypeID));
+                lstFormula.Insert(0, new CurriculumFinalMarkFormulaHd { CurriculumFinalMarkFormulaID = 0, CurriculumFinalMarkFormulaName = "" });
+                Methods.SetComboBoxField<CurriculumFinalMarkFormulaHd>(cboCurriculumFinalMarkFormulaID, lstFormula, "CurriculumFinalMarkFormulaName", "CurriculumFinalMarkFormulaID");
+
+                PeriodFinalMarkFormula entityFinalMarkFormula = lstFinalMarkFormula.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
+                if (entityFinalMarkFormula != null)
+                    cboCurriculumFinalMarkFormulaID.Value = entityFinalMarkFormula.CurriculumFinalMarkFormulaID.ToString();
+            }
+        }
+
+        protected void cbpFinalMarkFormula_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            if (cboCurriculum.Value != null)
+            {
+                if (hdnID.Value != "")
+                    lstFinalMarkFormula = BusinessLayer.GetPeriodFinalMarkFormulaList(string.Format("SchoolPeriodID = {0}", hdnID.Value));
+                else
+                    lstFinalMarkFormula = new List<PeriodFinalMarkFormula>();
+                List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsAllowTask = 1 AND IsDeleted = 0", cboCurriculum.Value));
+                rptFinalMarkFormula.DataSource = lstMarkType;
+                rptFinalMarkFormula.DataBind();
+            }
+            else
+            {
+                List<CurriculumMarkType> lstMarkType = new List<CurriculumMarkType>();
+                rptFinalMarkFormula.DataSource = lstMarkType;
+                rptFinalMarkFormula.DataBind();
+            }
+            
         }
 
         private void ControlToEntity(SchoolPeriod entity)
@@ -150,6 +197,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             SchoolPeriodDao entityDao = new SchoolPeriodDao(ctx);
+            PeriodFinalMarkFormulaDao entityFinalMarkDao = new PeriodFinalMarkFormulaDao(ctx);
             bool result = false;
             try
             {
@@ -158,7 +206,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
-                retval = BusinessLayer.GetSchoolPeriodMaxID(ctx).ToString();
+                entity.SchoolPeriodID = BusinessLayer.GetSchoolPeriodMaxID(ctx);
+                
+                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    PeriodFinalMarkFormula entityFinalMark = new PeriodFinalMarkFormula();
+                    entityFinalMark.SchoolPeriodID = entity.SchoolPeriodID;
+                    entityFinalMark.CurriculumMarkTypeID = Convert.ToInt32(temp[0]);
+                    if (temp[1] != "")
+                        entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                    else
+                        entityFinalMark.CurriculumFinalMarkFormulaID = null;
+                    entityFinalMarkDao.Insert(entityFinalMark);
+                }
+
+                retval = entity.SchoolPeriodID.ToString();
                 ctx.CommitTransaction();
                 result = true;
             }
@@ -178,20 +242,65 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            SchoolPeriodDao entityDao = new SchoolPeriodDao(ctx);
+            PeriodFinalMarkFormulaDao entityFinalMarkDao = new PeriodFinalMarkFormulaDao(ctx);
             try
             {
-                SchoolPeriod entity = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(hdnID.Value));
+                SchoolPeriod entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSchoolPeriod(entity);
-                return true;
+                entityDao.Update(entity);
+
+                List<PeriodFinalMarkFormula> lstEntityFinalMark = BusinessLayer.GetPeriodFinalMarkFormulaList(string.Format("SchoolPeriodID = {0}", entity.SchoolPeriodID), ctx);
+                string[] lstSaveValue = hdnSaveValue.Value.Split('|');
+                foreach (string saveValue in lstSaveValue)
+                {
+                    string[] temp = saveValue.Split(';');
+                    int CurriculumMarkTypeID = Convert.ToInt32(temp[0]);
+
+                    PeriodFinalMarkFormula entityFinalMark = lstEntityFinalMark.FirstOrDefault(p => p.CurriculumMarkTypeID == CurriculumMarkTypeID);
+                    if (entityFinalMark == null)
+                    {
+                        entityFinalMark = new PeriodFinalMarkFormula();
+                        entityFinalMark.SchoolPeriodID = entity.SchoolPeriodID;
+                        entityFinalMark.CurriculumMarkTypeID = CurriculumMarkTypeID;
+                        if (temp[1] != "")
+                            entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                        else
+                            entityFinalMark.CurriculumFinalMarkFormulaID = null;
+                        entityFinalMarkDao.Insert(entityFinalMark);
+                    }
+                    else
+                    {
+                        if (temp[1] != "")
+                            entityFinalMark.CurriculumFinalMarkFormulaID = Convert.ToInt32(temp[1]);
+                        else
+                            entityFinalMark.CurriculumFinalMarkFormulaID = null;
+                        entityFinalMarkDao.Update(entityFinalMark);
+                        lstEntityFinalMark.Remove(entityFinalMark);
+                    }
+                }
+
+                foreach (PeriodFinalMarkFormula entityFinalMark in lstEntityFinalMark)
+                {
+                    entityFinalMarkDao.Delete(entityFinalMark.SchoolPeriodID, entityFinalMark.CurriculumMarkTypeID);
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                return false;
+                result = false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
     }
 }

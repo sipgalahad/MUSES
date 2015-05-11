@@ -45,12 +45,25 @@
 
             $(function () {
                 $('#<%=btnMPEntrySaveNew.ClientID %>').click(function (evt) {
-                    if (IsValid(evt, 'fsMPEntry', 'mpEntry'))
-                        cbpMPEntryProcess.PerformCallback('savenew|' + $('#<%=hdnIsAdd.ClientID %>').val());
+                    var errMessage = { text: "" };
+                    var isAllowSave = true;
+                    if (typeof onBeforeSaveRecord != 'undefined')
+                        isAllowSave = onBeforeSaveRecord(errMessage);
+                    if (isAllowSave) {
+                        if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
+                            cbpMPEntryProcess.PerformCallback('savenew|' + $('#<%=hdnIsAdd.ClientID %>').val());
+                        }
+                    }
                 });
                 $('#<%=btnMPEntrySaveClose.ClientID %>').click(function (evt) {
-                    if (IsValid(evt, 'fsMPEntry', 'mpEntry'))
-                        cbpMPEntryProcess.PerformCallback('saveclose|' + $('#<%=hdnIsAdd.ClientID %>').val());
+                    var errMessage = { text: "" };
+                    var isAllowSave = true;
+                    if (typeof onBeforeSaveRecord != 'undefined')
+                        isAllowSave = onBeforeSaveRecord(errMessage);
+                    if (isAllowSave) {
+                        if (IsValid(evt, 'fsMPEntry', 'mpEntry'))
+                            cbpMPEntryProcess.PerformCallback('saveclose|' + $('#<%=hdnIsAdd.ClientID %>').val());
+                    }
                 });
                 $('#<%=btnMPEntryCancel.ClientID %>').click(function () {
                     showLoadingPanel();

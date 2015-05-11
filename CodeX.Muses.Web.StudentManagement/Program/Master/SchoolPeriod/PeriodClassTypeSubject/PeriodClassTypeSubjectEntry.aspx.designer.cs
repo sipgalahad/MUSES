@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class PeriodClassTypeSubjectEntry {
         
         /// <summary>
+        /// hdnSaveValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
+        
+        /// <summary>
         /// hdnCurriculumID control.
         /// </summary>
         /// <remarks>
@@ -128,6 +137,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkIsPracticeFormulaDefault;
+        
+        /// <summary>
+        /// rptFinalMarkFormula control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptFinalMarkFormula;
         
         /// <summary>
         /// cbpView control.

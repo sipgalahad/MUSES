@@ -3891,6 +3891,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumSubjectMarkType
+    [Serializable]
+    [Table(Name = "vCurriculumSubjectMarkType")]
+    public class vCurriculumSubjectMarkType
+    {
+        private Int32 _CurriculumSubjectID;
+        private Int32 _SubjectID;
+        private Int32 _CurriculumMarkTypeID;
+        private Int32 _CurriculumID;
+        private String _CurriculumMarkTypeName;
+        private Int32 _TaskMarkTypeID;
+        private String _TaskMarkTypeName;
+        private Int32 _FinalMarkTypeID;
+        private String _FinalMarkTypeName;
+        private Int32 _PredicateMarkTypeID;
+        private String _PredicateMarkTypeName;
+        private Boolean _IsAllowTask;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CurriculumSubjectID", DataType = "Int32")]
+        public Int32 CurriculumSubjectID
+        {
+            get { return _CurriculumSubjectID; }
+            set { _CurriculumSubjectID = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
+        public String CurriculumMarkTypeName
+        {
+            get { return _CurriculumMarkTypeName; }
+            set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "TaskMarkTypeID", DataType = "Int32")]
+        public Int32 TaskMarkTypeID
+        {
+            get { return _TaskMarkTypeID; }
+            set { _TaskMarkTypeID = value; }
+        }
+        [Column(Name = "TaskMarkTypeName", DataType = "String")]
+        public String TaskMarkTypeName
+        {
+            get { return _TaskMarkTypeName; }
+            set { _TaskMarkTypeName = value; }
+        }
+        [Column(Name = "FinalMarkTypeID", DataType = "Int32")]
+        public Int32 FinalMarkTypeID
+        {
+            get { return _FinalMarkTypeID; }
+            set { _FinalMarkTypeID = value; }
+        }
+        [Column(Name = "FinalMarkTypeName", DataType = "String")]
+        public String FinalMarkTypeName
+        {
+            get { return _FinalMarkTypeName; }
+            set { _FinalMarkTypeName = value; }
+        }
+        [Column(Name = "PredicateMarkTypeID", DataType = "Int32")]
+        public Int32 PredicateMarkTypeID
+        {
+            get { return _PredicateMarkTypeID; }
+            set { _PredicateMarkTypeID = value; }
+        }
+        [Column(Name = "PredicateMarkTypeName", DataType = "String")]
+        public String PredicateMarkTypeName
+        {
+            get { return _PredicateMarkTypeName; }
+            set { _PredicateMarkTypeName = value; }
+        }
+        [Column(Name = "IsAllowTask", DataType = "Boolean")]
+        public Boolean IsAllowTask
+        {
+            get { return _IsAllowTask; }
+            set { _IsAllowTask = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vCurriculumSyllabus
     [Serializable]
     [Table(Name = "vCurriculumSyllabus")]
@@ -13342,6 +13441,49 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vPeriodFinalMarkFormula
+    [Serializable]
+    [Table(Name = "vPeriodFinalMarkFormula")]
+    public class vPeriodFinalMarkFormula
+    {
+        private Int32 _SchoolPeriodID;
+        private Int32 _CurriculumMarkTypeID;
+        private String _CurriculumMarkTypeName;
+        private Int32 _CurriculumFinalMarkFormulaID;
+        private String _CurriculumFinalMarkFormulaName;
+
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
+        public String CurriculumMarkTypeName
+        {
+            get { return _CurriculumMarkTypeName; }
+            set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 CurriculumFinalMarkFormulaID
+        {
+            get { return _CurriculumFinalMarkFormulaID; }
+            set { _CurriculumFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaName", DataType = "String")]
+        public String CurriculumFinalMarkFormulaName
+        {
+            get { return _CurriculumFinalMarkFormulaName; }
+            set { _CurriculumFinalMarkFormulaName = value; }
         }
     }
     #endregion

@@ -8022,6 +8022,79 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetPeriodClassTypeMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassType));
+                ctx.CommandText = helper.SelectMaxColumn("PeriodClassTypeID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PeriodClassTypeFinalMarkFormula
+        public static PeriodClassTypeFinalMarkFormula GetPeriodClassTypeFinalMarkFormula(Int32 PeriodClassTypeID, Int32 CurriculumMarkTypeID)
+        {
+            return new PeriodClassTypeFinalMarkFormulaDao().Get(PeriodClassTypeID, CurriculumMarkTypeID);
+        }
+        public static int InsertPeriodClassTypeFinalMarkFormula(PeriodClassTypeFinalMarkFormula record)
+        {
+            return new PeriodClassTypeFinalMarkFormulaDao().Insert(record);
+        }
+        public static int UpdatePeriodClassTypeFinalMarkFormula(PeriodClassTypeFinalMarkFormula record)
+        {
+            return new PeriodClassTypeFinalMarkFormulaDao().Update(record);
+        }
+        public static int DeletePeriodClassTypeFinalMarkFormula(Int32 PeriodClassTypeID, Int32 CurriculumMarkTypeID)
+        {
+            return new PeriodClassTypeFinalMarkFormulaDao().Delete(PeriodClassTypeID, CurriculumMarkTypeID);
+        }
+        public static List<PeriodClassTypeFinalMarkFormula> GetPeriodClassTypeFinalMarkFormulaList(string filterExpression)
+        {
+            List<PeriodClassTypeFinalMarkFormula> result = new List<PeriodClassTypeFinalMarkFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeFinalMarkFormula)helper.IDataReaderToObject(reader, new PeriodClassTypeFinalMarkFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PeriodClassTypeFinalMarkFormula> GetPeriodClassTypeFinalMarkFormulaList(string filterExpression, IDbContext ctx)
+        {
+            List<PeriodClassTypeFinalMarkFormula> result = new List<PeriodClassTypeFinalMarkFormula>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeFinalMarkFormula)helper.IDataReaderToObject(reader, new PeriodClassTypeFinalMarkFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region PeriodClassTypeSubject
         public static PeriodClassTypeSubject GetPeriodClassTypeSubject(Int32 PeriodClassTypeSubjectID)
@@ -8059,6 +8132,136 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetPeriodClassTypeSubjectMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubject));
+                ctx.CommandText = helper.SelectMaxColumn("PeriodClassTypeSubjectID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PeriodClassTypeSubjectFinalMarkFormula
+        public static PeriodClassTypeSubjectFinalMarkFormula GetPeriodClassTypeSubjectFinalMarkFormula(Int32 PeriodClassTypeSubjectID, Int32 CurriculumMarkTypeID)
+        {
+            return new PeriodClassTypeSubjectFinalMarkFormulaDao().Get(PeriodClassTypeSubjectID, CurriculumMarkTypeID);
+        }
+        public static int InsertPeriodClassTypeSubjectFinalMarkFormula(PeriodClassTypeSubjectFinalMarkFormula record)
+        {
+            return new PeriodClassTypeSubjectFinalMarkFormulaDao().Insert(record);
+        }
+        public static int UpdatePeriodClassTypeSubjectFinalMarkFormula(PeriodClassTypeSubjectFinalMarkFormula record)
+        {
+            return new PeriodClassTypeSubjectFinalMarkFormulaDao().Update(record);
+        }
+        public static int DeletePeriodClassTypeSubjectFinalMarkFormula(Int32 PeriodClassTypeSubjectID, Int32 CurriculumMarkTypeID)
+        {
+            return new PeriodClassTypeSubjectFinalMarkFormulaDao().Delete(PeriodClassTypeSubjectID, CurriculumMarkTypeID);
+        }
+        public static List<PeriodClassTypeSubjectFinalMarkFormula> GetPeriodClassTypeSubjectFinalMarkFormulaList(string filterExpression)
+        {
+            List<PeriodClassTypeSubjectFinalMarkFormula> result = new List<PeriodClassTypeSubjectFinalMarkFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubjectFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeSubjectFinalMarkFormula)helper.IDataReaderToObject(reader, new PeriodClassTypeSubjectFinalMarkFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PeriodClassTypeSubjectFinalMarkFormula> GetPeriodClassTypeSubjectFinalMarkFormulaList(string filterExpression, IDbContext ctx)
+        {
+            List<PeriodClassTypeSubjectFinalMarkFormula> result = new List<PeriodClassTypeSubjectFinalMarkFormula>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodClassTypeSubjectFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodClassTypeSubjectFinalMarkFormula)helper.IDataReaderToObject(reader, new PeriodClassTypeSubjectFinalMarkFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PeriodFinalMarkFormula
+        public static PeriodFinalMarkFormula GetPeriodFinalMarkFormula(Int32 SchoolPeriodID, Int32 CurriculumMarkTypeID)
+        {
+            return new PeriodFinalMarkFormulaDao().Get(SchoolPeriodID, CurriculumMarkTypeID);
+        }
+        public static int InsertPeriodFinalMarkFormula(PeriodFinalMarkFormula record)
+        {
+            return new PeriodFinalMarkFormulaDao().Insert(record);
+        }
+        public static int UpdatePeriodFinalMarkFormula(PeriodFinalMarkFormula record)
+        {
+            return new PeriodFinalMarkFormulaDao().Update(record);
+        }
+        public static int DeletePeriodFinalMarkFormula(Int32 SchoolPeriodID, Int32 CurriculumMarkTypeID)
+        {
+            return new PeriodFinalMarkFormulaDao().Delete(SchoolPeriodID, CurriculumMarkTypeID);
+        }
+        public static List<PeriodFinalMarkFormula> GetPeriodFinalMarkFormulaList(string filterExpression)
+        {
+            List<PeriodFinalMarkFormula> result = new List<PeriodFinalMarkFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodFinalMarkFormula)helper.IDataReaderToObject(reader, new PeriodFinalMarkFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PeriodFinalMarkFormula> GetPeriodFinalMarkFormulaList(string filterExpression, IDbContext ctx)
+        {
+            List<PeriodFinalMarkFormula> result = new List<PeriodFinalMarkFormula>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodFinalMarkFormula)helper.IDataReaderToObject(reader, new PeriodFinalMarkFormula()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

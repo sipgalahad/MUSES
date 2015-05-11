@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ClassTaskSummaryEntry {
+    public partial class ClassTaskSummaryEntry2 {
         
         /// <summary>
         /// btnSave control.
@@ -130,15 +130,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
         
         /// <summary>
-        /// rptHeaderMarkType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType;
-        
-        /// <summary>
         /// thTheory control.
         /// </summary>
         /// <remarks>
@@ -166,13 +157,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell thAffective;
         
         /// <summary>
-        /// rptHeaderMarkType2 control.
+        /// rptHeaderTheoryTaskGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType2;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderTheoryTaskGroup;
         
         /// <summary>
         /// thFinalReadonlyMarkTheory control.

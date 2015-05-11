@@ -16,7 +16,7 @@ using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class ClassTaskSummaryEntry : BasePageTrx
+    public partial class ClassTaskSummaryEntry2 : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
@@ -55,17 +55,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<StudentProgressRuleDt> lstProgress = null;
         protected override void InitializeDataControl()
         {
-            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-
-            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entityClassSubject.SubjectID));
-            rptHeaderMarkType.DataSource = lstCurriculumMarkType;
-            rptHeaderMarkType.DataBind();
-
-            rptHeaderMarkType2.DataSource = lstCurriculumMarkType;
-            rptHeaderMarkType2.DataBind();
-
             PeriodSection periodSection = BusinessLayer.GetPeriodSection(AppSession.ClassSubject.PeriodSectionID);
 
+            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnIsMainTeacher.Value = entityClassSubject.ParentID == 0 ? "1" : "0";
             txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
             hdnGCSubjectMarkType.Value = entityClassSubject.GCSubjectMarkType;
@@ -99,8 +91,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                                   TheoryDisplayOrder = p.TheoryDisplayOrder,
                                                   TheoryFinalMarkPercentage = p.TheoryFinalMarkPercentage
                                               }).GroupBy(p => p.TheoryFinalMarkFormulaDtID).Select(p => p.First()).OrderBy(p => p.TheoryDisplayOrder).ToList();
-            //rptHeaderTheoryTaskGroup.DataSource = lstTheoryGroup;
-            //rptHeaderTheoryTaskGroup.DataBind();
+            rptHeaderTheoryTaskGroup.DataSource = lstTheoryGroup;
+            rptHeaderTheoryTaskGroup.DataBind();
 
             spnTotalTheoryPercentage.InnerHtml = lstTheoryGroup.Sum(p => p.TheoryFinalMarkPercentage).ToString();
 
@@ -207,11 +199,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
         }
 
-        protected void rptHeaderMarkType2_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-
-        }
-
         #region Header
         #region Theory
         protected void rptHeaderTheoryTaskGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -285,8 +272,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<ClassStudentSubjectTaskGroupMark> lstStudentGroupMark = null;
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
         List<ClassStudentSubjectMark> lstStudentFinalMark = null;
-        
-        
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)

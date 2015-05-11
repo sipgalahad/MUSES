@@ -1592,6 +1592,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumSubjectMarkType
+        public static List<vCurriculumSubjectMarkType> GetvCurriculumSubjectMarkTypeList(string filterExpression)
+        {
+            List<vCurriculumSubjectMarkType> result = new List<vCurriculumSubjectMarkType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSubjectMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSubjectMarkType)helper.IDataReaderToObject(reader, new vCurriculumSubjectMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCurriculumSyllabus
         public static List<vCurriculumSyllabus> GetvCurriculumSyllabusList(string filterExpression)
         {
@@ -5212,6 +5236,30 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vPeriodClassTypeSubject)helper.IDataReaderToObject(reader, new vPeriodClassTypeSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPeriodFinalMarkFormula
+        public static List<vPeriodFinalMarkFormula> GetvPeriodFinalMarkFormulaList(string filterExpression)
+        {
+            List<vPeriodFinalMarkFormula> result = new List<vPeriodFinalMarkFormula>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodFinalMarkFormula));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodFinalMarkFormula)helper.IDataReaderToObject(reader, new vPeriodFinalMarkFormula()));
             }
             catch (Exception ex)
             {

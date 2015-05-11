@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="ClassTaskSummaryEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassTaskSummaryEntry" %>
+    CodeBehind="ClassTaskSummaryEntry2.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.ClassTaskSummaryEntry2" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -363,26 +363,17 @@
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>
                 <th rowspan="3" style="width:300px"><%=GetLabel("Siswa") %></th>
-                <asp:Repeater ID="rptHeaderMarkType" runat="server">
-                    <ItemTemplate>
-                        <th class="thCenter"><%#Eval("CurriculumMarkTypeName") %></th>
-                    </ItemTemplate>
-                </asp:Repeater>
                 <th id="thTheory" runat="server" class="thCenter"><%=GetLabel("KOGNITIF / PENGETAHUAN") %></th>
                 <th id="thPractice" runat="server" class="thCenter"><%=GetLabel("PSIKOMOTORIK / PRAKTEK") %></th>
                 <th id="thAffective" runat="server" colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
                 <th colspan="2" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
             </tr>
-            <tr>
-                <asp:Repeater ID="rptHeaderMarkType2" runat="server" OnItemDataBound="rptHeaderMarkType2_ItemDataBound">
-                    <ItemTemplate> 
-                        <asp:Repeater ID="rptHeaderTheoryTaskGroup" runat="server" OnItemDataBound="rptHeaderTheoryTaskGroup_ItemDataBound">
-                            <ItemTemplate>
-                                <th class="thCenter" id="thHeaderTheoryTaskGroup" runat="server">
-                                    <%#Eval("TheoryFinalMarkFormulaDtName")%> <br /><%#Eval("TheoryFinalMarkPercentage")%> [%]
-                                </th>
-                            </ItemTemplate>
-                        </asp:Repeater>
+            <tr> 
+                <asp:Repeater ID="rptHeaderTheoryTaskGroup" runat="server" OnItemDataBound="rptHeaderTheoryTaskGroup_ItemDataBound">
+                    <ItemTemplate>
+                        <th class="thCenter" id="thHeaderTheoryTaskGroup" runat="server">
+                            <%#Eval("TheoryFinalMarkFormulaDtName")%> <br /><%#Eval("TheoryFinalMarkPercentage")%> [%]
+                        </th>
                     </ItemTemplate>
                 </asp:Repeater>
                 <th id="thFinalReadonlyMarkTheory" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter">
