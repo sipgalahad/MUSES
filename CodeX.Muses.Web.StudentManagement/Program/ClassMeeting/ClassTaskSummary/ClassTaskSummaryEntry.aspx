@@ -217,6 +217,7 @@
         function setStudentFinalMark($tr) {
             $tr.find('.txtFinalStudentMark').each(function () {
                 var total = 0;
+                $td = $(this).parent();
                 var curriculummarktypeid = $(this).attr("curriculummarktypeid");
                 $tr.find('.txtFinalStudentMarkGroup[curriculummarktypeid="' + curriculummarktypeid + '"]').each(function () {
                     var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
@@ -224,8 +225,66 @@
                 });
                 $tr.find('.txtTotalStudentMark[curriculummarktypeid="' + curriculummarktypeid + '"]').val(total);
                 if (!isOnLoad) {
-                    $(this).val(total);
-                    $(this).change();
+                    var taskMarkTypeID = $td.find('.hdnTaskMarkTypeID').val();
+                    var finalMarkTypeID = $td.find('.hdnFinalMarkTypeID').val();
+                    var predicateMarkTypeID = $td.find('.hdnPredicateMarkTypeID').val();
+                    var taskGCMarkType = $td.find('.hdnTaskGCMarkType').val();
+                    var finalGCMarkType = $td.find('.hdnFinalGCMarkType').val();
+                    var predicateGCMarkType = $td.find('.hdnPredicateGCMarkType').val();
+                    var isAllowTask = $td.find('.hdnIsAllowTask').val() == 'True';
+
+                    if (isAllowTask) {
+                        if (taskMarkTypeID == finalMarkTypeID) {
+                            $(this).val(total);
+                            $(this).change();
+                        }
+                        else {
+                            if (finalGCMarkType == '<%=OnGetSubjectMarkTypeOption() %>') {
+                                var positiontag = $(this).attr('positiontag');
+                                var cboFinalStudentMarkOption = eval('cboFinalStudentMarkOption' + positiontag);
+                                var lstMarkTypeFormula = $('#<%=hdnListMarkTypeFormula.ClientID %>').val().split('|');
+                                for (var i = 0; i < lstMarkTypeFormula.length; ++i) {
+                                    var temp = lstMarkTypeFormula[i].split(';');
+                                    if (temp[0] == finalMarkTypeID && temp[1] == taskMarkTypeID) {
+                                        if (taskGCMarkType == '<%=OnGetSubjectMarkTypeNumber() %>') {
+                                            if (total >= parseFloat(temp[2]) && total <= parseFloat(temp[3])) {
+                                                cboFinalStudentMarkOption.SetValue(temp[5]);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (predicateMarkTypeID != '0') {
+                            if (finalGCMarkType == '<%=OnGetSubjectMarkTypeOption() %>') {
+                                var positiontag = $(this).attr('positiontag');
+                                var cboFinalStudentMarkOption = eval('cboFinalStudentMarkOption' + positiontag);
+                                var cboPredicateStudentMarkOption = eval('cboPredicateStudentMarkOption' + positiontag);
+
+                                var value = cboFinalStudentMarkOption.GetValue();
+                                var lstMarkTypeFormula = $('#<%=hdnListMarkTypeFormula.ClientID %>').val().split('|');
+                                for (var i = 0; i < lstMarkTypeFormula.length; ++i) {
+                                    var temp = lstMarkTypeFormula[i].split(';');
+                                    if (temp[0] == predicateMarkTypeID && temp[1] == finalMarkTypeID) {
+                                        if (finalGCMarkType == '<%=OnGetSubjectMarkTypeNumber() %>') {
+                                            if (value >= parseFloat(temp[2]) && value <= parseFloat(temp[3])) {
+                                                cboPredicateStudentMarkOption.SetValue(temp[5]);
+                                                break;
+                                            }
+                                        }
+                                        else if (finalGCMarkType == '<%=OnGetSubjectMarkTypeOption() %>') {
+                                            if (value == temp[4]) {
+                                                cboPredicateStudentMarkOption.SetValue(temp[5]);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -270,6 +329,8 @@
         .bIsRemedial                { cursor: pointer; }
         .bIsRemedial:hover          { text-decoration: underline; }
     </style>
+    <input type="hidden" id="hdnListMarkTypeFormula" runat="server" />
+    <input type="hidden" id="hdnTableWidth" runat="server" />
     <input type="hidden" id="hdnListSaveHeaderValue" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnListProgress" runat="server" />
@@ -384,10 +445,14 @@
                                 <td align="center" id="tdFinalStudentMark" runat="server">
                                     <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
                                     <input type="hidden" class="hdnCurriculumMarkTypeID" value='<%# Eval("CurriculumMarkTypeID") %>' />
+                                    <input type="hidden" class="hdnTaskMarkTypeID" value='<%# Eval("TaskMarkTypeID") %>' />
+                                    <input type="hidden" class="hdnFinalMarkTypeID" value='<%# Eval("FinalMarkTypeID") %>' />
+                                    <input type="hidden" class="hdnPredicateMarkTypeID" value='<%# Eval("PredicateMarkTypeID") %>' />
                                     <input type="hidden" class="hdnTaskGCMarkType" value='<%# Eval("TaskGCMarkType") %>' />
                                     <input type="hidden" class="hdnFinalGCMarkType" value='<%# Eval("FinalGCMarkType") %>' />
                                     <input type="hidden" class="hdnPredicateGCMarkType" value='<%# Eval("PredicateGCMarkType") %>' />
-                                    <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="90%" />
+                                    <input type="hidden" class="hdnIsAllowTask" value='<%# Eval("IsAllowTask") %>' />
+                                    <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="80px" />
                                     <dxe:ASPxComboBox ID="cboFinalStudentMarkOption" Width="80px" runat="server" />
                                     <asp:TextBox ID="txtFinalStudentMarkDescription" runat="server" CssClass="txtFinalStudentMarkDescription" Text="" Width="390px" />                         
                                 </td>
