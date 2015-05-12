@@ -27,7 +27,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
                 return 740 + (lstClassTask.Count * 90);
-            return 1200 + (lstClassTask.Count * 90) + (lstTheoryGroup.Count * 130) + (lstPracticeGroup.Count * 130);
+            //return 1200 + (lstClassTask.Count * 90) + (lstTheoryGroup.Count * 130) + (lstPracticeGroup.Count * 130);
+            return 2000;
         }
         protected string OnGetSubjectMarkTypeNumber()
         {
@@ -47,28 +48,55 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return Constant.TransactionStatus.APPROVED;
         }
 
-        List<vClassSubjectTaskCustom> lstClassTask = null;
-        List<vClassSubjectTaskCustom> lstTheory = null;
-        List<vClassSubjectTaskCustom> lstPractice = null;
-        List<vClassSubjectTaskCustom> lstTheoryGroup = null;
-        List<vClassSubjectTaskCustom> lstPracticeGroup = null;
+        class CTaskCount
+        {
+            public int CurriculumMarkTypeID { get; set; }
+            public int CurriculumFinalMarkFormulaDtID { get; set; }
+            public int Count { get; set; }
+        }
+
+        List<CTaskCount> lstTaskCount = null;
+        List<MarkTypeDt> lstMarkTypeDt = null;
+        List<vClassSubjectTask> lstClassTask = null;
         List<StudentProgressRuleDt> lstProgress = null;
+        List<vPeriodClassTypeSubjectFinalMarkFormulaCustom> lstFinalMarkFormulaHd = null;
+        List<vCurriculumFinalMarkFormulaDt> lstFinalMarkFormulaDt = null;
+        List<vCurriculumSubjectMarkType> lstCurriculumMarkType = null;
         protected override void InitializeDataControl()
         {
+            lstTaskCount = new List<CTaskCount>();
+
             vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
 
-            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entityClassSubject.SubjectID));
-            rptHeaderMarkType.DataSource = lstCurriculumMarkType;
-            rptHeaderMarkType.DataBind();
+            lstFinalMarkFormulaHd = BusinessLayer.GetvPeriodClassTypeSubjectFinalMarkFormulaCustomList(string.Format("PeriodClassTypeSubjectID = {0}", entityClassSubject.PeriodClassTypeSubjectID));
+            string lstFinalMarkFormulaID = string.Join(",", lstFinalMarkFormulaHd.Select(p => p.CurriculumFinalMarkFormulaID).ToList());
+            if (lstFinalMarkFormulaID != "")
+                lstFinalMarkFormulaDt = BusinessLayer.GetvCurriculumFinalMarkFormulaDtList(string.Format("CurriculumFinalMarkFormulaID IN ({0}) AND IsDeleted = 0", lstFinalMarkFormulaID));
+            else
+                lstFinalMarkFormulaDt = new List<vCurriculumFinalMarkFormulaDt>();
+
+            lstClassTask = BusinessLayer.GetvClassSubjectTaskList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
+
+            lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entityClassSubject.SubjectID));
+
+            string lstMarkTypeTaskID = string.Join(",", lstCurriculumMarkType.Select(p => p.TaskMarkTypeID).ToList());
+            string lstMarkTypeFinalID = string.Join(",", lstCurriculumMarkType.Select(p => p.FinalMarkTypeID).ToList());
+            string lstMarkTypePredicateID = string.Join(",", lstCurriculumMarkType.Select(p => p.PredicateMarkTypeID).ToList());
+            lstMarkTypeDt = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID IN ({0},{1},{2}) AND IsDeleted = 0", lstMarkTypeTaskID, lstMarkTypeFinalID, lstMarkTypePredicateID));
+
+            rptHeaderMarkType3.DataSource = lstCurriculumMarkType;
+            rptHeaderMarkType3.DataBind();
 
             rptHeaderMarkType2.DataSource = lstCurriculumMarkType;
             rptHeaderMarkType2.DataBind();
+
+            rptHeaderMarkType1.DataSource = lstCurriculumMarkType;
+            rptHeaderMarkType1.DataBind();
 
             PeriodSection periodSection = BusinessLayer.GetPeriodSection(AppSession.ClassSubject.PeriodSectionID);
 
             hdnIsMainTeacher.Value = entityClassSubject.ParentID == 0 ? "1" : "0";
             txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
-            hdnGCSubjectMarkType.Value = entityClassSubject.GCSubjectMarkType;
             hdnGCClassStudyType.Value = entityClassSubject.SubjectGCClassStudyType;
             lstProgress = BusinessLayer.GetStudentProgressRuleDtList(string.Format("StudentProgressRuleID = {0} AND IsDeleted = 0", entityClassSubject.StudentProgressRuleID));
             SubjectMatterHd subjectMatterHd = BusinessLayer.GetSubjectMatterHd(entityClassSubject.SubjectMatterID);
@@ -86,77 +114,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnListProgress.Value = string.Join("|", lstProgress.Select(p => string.Format("{0};{1};{2};{3}", p.StudentProgressRuleDtID, p.FromValue > -1 ? p.FromValue : entityClassSubject.PassingGrade, p.ToValue > -1 ? p.ToValue : entityClassSubject.PassingGrade, p.Remarks.Replace("{StandarKompetensi}", hdnCompetencyStandard.Value))));
 
             lstProgress.Insert(0, new StudentProgressRuleDt { StudentProgressRuleDtID = 0, StudentProgressRuleDtName = "" });
-
-            lstClassTask = BusinessLayer.GetvClassSubjectTaskCustomList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
-
-            #region Theory
-            lstTheory = lstClassTask.Where(p => p.GCLessonType == Constant.LessonType.THEORY).ToList();
-
-            lstTheoryGroup = (from p in lstTheory
-                                              select new vClassSubjectTaskCustom {
-                                                  TheoryFinalMarkFormulaDtID = p.TheoryFinalMarkFormulaDtID,
-                                                  TheoryFinalMarkFormulaDtName = p.TheoryFinalMarkFormulaDtName,
-                                                  TheoryDisplayOrder = p.TheoryDisplayOrder,
-                                                  TheoryFinalMarkPercentage = p.TheoryFinalMarkPercentage
-                                              }).GroupBy(p => p.TheoryFinalMarkFormulaDtID).Select(p => p.First()).OrderBy(p => p.TheoryDisplayOrder).ToList();
-            //rptHeaderTheoryTaskGroup.DataSource = lstTheoryGroup;
-            //rptHeaderTheoryTaskGroup.DataBind();
-
-            spnTotalTheoryPercentage.InnerHtml = lstTheoryGroup.Sum(p => p.TheoryFinalMarkPercentage).ToString();
-
-            rptHeaderTheoryGroup.DataSource = lstTheoryGroup;
-            rptHeaderTheoryGroup.DataBind();
-
-            if (lstTheory.Count < 1)
-            {
-                thFinalMarkTheory.Style.Add("display", "none");
-                thFinalReadonlyMarkTheory.Style.Add("display", "none");
-                thTheory.Style.Add("display", "none");
-            }
-            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
-            {
-                thTheory.ColSpan = lstTheory.Count;
-                thFinalMarkTheory.Style.Add("display", "none");
-                thFinalReadonlyMarkTheory.Style.Add("display", "none");
-            }
-            else
-                thTheory.ColSpan = lstTheory.Count + 2 + (lstTheoryGroup.Count * 2);
-            #endregion
-
-            #region Practice
-            lstPractice = lstClassTask.Where(p => p.GCLessonType == Constant.LessonType.PRACTICE).ToList();
-
-            lstPracticeGroup = (from p in lstPractice
-                                select new vClassSubjectTaskCustom
-                                {
-                                    PracticeFinalMarkFormulaDtID = p.PracticeFinalMarkFormulaDtID,
-                                    PracticeFinalMarkFormulaDtName = p.PracticeFinalMarkFormulaDtName,
-                                    PracticeDisplayOrder = p.PracticeDisplayOrder,
-                                    PracticeFinalMarkPercentage = p.PracticeFinalMarkPercentage
-                                }).GroupBy(p => p.PracticeFinalMarkFormulaDtID).Select(p => p.First()).OrderBy(p => p.PracticeDisplayOrder).ToList();
-            rptHeaderPracticeTaskGroup.DataSource = lstPracticeGroup;
-            rptHeaderPracticeTaskGroup.DataBind();
-
-            spnTotalPracticePercentage.InnerHtml = lstPracticeGroup.Sum(p => p.PracticeFinalMarkPercentage).ToString();
-
-            rptHeaderPracticeGroup.DataSource = lstPracticeGroup;
-            rptHeaderPracticeGroup.DataBind();
-
-            if (lstPractice.Count < 1)
-            {
-                thFinalMarkPractice.Style.Add("display", "none");
-                thFinalReadonlyMarkPractice.Style.Add("display", "none");
-                thPractice.Style.Add("display", "none");
-            }
-            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
-            {
-                thPractice.ColSpan = lstPractice.Count;
-                thFinalMarkPractice.Style.Add("display", "none");
-                thFinalReadonlyMarkPractice.Style.Add("display", "none");
-            }
-            else
-                thPractice.ColSpan = lstPractice.Count + 2 + (lstPracticeGroup.Count * 2);
-            #endregion
 
             string filterExpression = "";
             if (entityClassSubject.ParentID == 0)
@@ -199,88 +156,131 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
             }
 
-            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            //if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            //{
+            //    thAffective.Style.Add("display", "none");
+            //    thAffectiveDescription.Style.Add("display", "none");
+            //    thAffectiveMark.Style.Add("display", "none");
+            //}
+        }
+
+        protected void rptHeaderMarkType1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                thAffective.Style.Add("display", "none");
-                thAffectiveDescription.Style.Add("display", "none");
-                thAffectiveMark.Style.Add("display", "none");
+                vCurriculumSubjectMarkType entity = (vCurriculumSubjectMarkType)e.Item.DataItem;
+                HtmlTableCell thHeader = (HtmlTableCell)e.Item.FindControl("thHeader");
+                int colSpan = 0;
+
+                List<CTaskCount> lstTaskCount1 = lstTaskCount.Where(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID).ToList();
+                foreach (CTaskCount taskCount in lstTaskCount1)
+                {
+                    colSpan += taskCount.Count + 2;
+                }
+                if (entity.IsAllowTask)
+                    colSpan += 2;
+                else
+                    colSpan += 1;
+
+                if (entity.PredicateMarkTypeID > 0)
+                    colSpan++;
+                thHeader.ColSpan = colSpan;
             }
         }
 
         protected void rptHeaderMarkType2_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-
-        }
-
-        #region Header
-        #region Theory
-        protected void rptHeaderTheoryTaskGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
-                HtmlTableCell thHeaderTheoryTaskGroup = (HtmlTableCell)e.Item.FindControl("thHeaderTheoryTaskGroup");
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
-                    thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).Count();
-                else
-                    thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).Count() + 2;
-            }
-        }
+                vCurriculumSubjectMarkType entity = (vCurriculumSubjectMarkType)e.Item.DataItem;
 
-        protected void rptHeaderTheoryGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
-                Repeater rptHeaderTheory = (Repeater)e.Item.FindControl("rptHeaderTheory");
-                rptHeaderTheory.DataSource = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
-                rptHeaderTheory.DataBind();
-
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                vPeriodClassTypeSubjectFinalMarkFormulaCustom entityFormulaHd = lstFinalMarkFormulaHd.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
+                if (entityFormulaHd != null)
                 {
-                    HtmlTableCell thAverageMarkTheory = (HtmlTableCell)e.Item.FindControl("thAverageMarkTheory");
-                    HtmlTableCell thFinalMarkTheory = (HtmlTableCell)e.Item.FindControl("thFinalMarkTheory");
-                    thAverageMarkTheory.Style.Add("display", "none");
-                    thFinalMarkTheory.Style.Add("display", "none");
+                    Repeater rptHeaderMarkType2Dt = (Repeater)e.Item.FindControl("rptHeaderMarkType2Dt");
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt = lstFinalMarkFormulaDt.Where(p => p.CurriculumFinalMarkFormulaID == entityFormulaHd.CurriculumFinalMarkFormulaID).OrderBy(p => p.DisplayOrder).ToList();
+                    rptHeaderMarkType2Dt.DataSource = lstFormulaDt;
+                    rptHeaderMarkType2Dt.DataBind();
+
+                    HtmlGenericControl spnTotalPercentage = (HtmlGenericControl)e.Item.FindControl("spnTotalPercentage");
+                    spnTotalPercentage.InnerHtml = lstFormulaDt.Sum(p => p.FinalMarkPercentage).ToString();
+                }
+                if (!entity.IsAllowTask)
+                {
+                    HtmlTableCell thFinalReadonlyMark = (HtmlTableCell)e.Item.FindControl("thFinalReadonlyMark");
+                    thFinalReadonlyMark.Style.Add("display", "none");
+                }
+                if (entity.PredicateMarkTypeID == 0)
+                {
+                    HtmlTableCell thPredicateMark = (HtmlTableCell)e.Item.FindControl("thPredicateMark");
+                    thPredicateMark.Style.Add("display", "none");
                 }
             }
         }
-        #endregion
-
-        #region Practice
-        protected void rptHeaderPracticeTaskGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void rptHeaderMarkType2Dt_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
-                HtmlTableCell thHeaderPracticeTaskGroup = (HtmlTableCell)e.Item.FindControl("thHeaderPracticeTaskGroup");
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
-                    thHeaderPracticeTaskGroup.ColSpan = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).Count();
+                vCurriculumFinalMarkFormulaDt entityGroup = (vCurriculumFinalMarkFormulaDt)e.Item.DataItem;
+                string[] lstMarkTypeID = entityGroup.ListMarkTypeID.Split(',');
+                int taskCount = lstTaskCount.Where(p => p.CurriculumFinalMarkFormulaDtID == entityGroup.CurriculumFinalMarkFormulaDtID).Sum(p => p.Count);
+
+                HtmlTableCell thHeaderTaskGroup = (HtmlTableCell)e.Item.FindControl("thHeaderTaskGroup");
+                if (taskCount == 0)
+                    thHeaderTaskGroup.Style.Add("display", "none");
                 else
-                    thHeaderPracticeTaskGroup.ColSpan = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).Count() + 2;
+                    thHeaderTaskGroup.ColSpan = taskCount + 2;
+                //vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
+
+                //if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                //    thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).Count();
+                //else
+                //    thHeaderTheoryTaskGroup.ColSpan = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).Count() + 2;
             }
         }
 
-        protected void rptHeaderPracticeGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void rptHeaderMarkType3_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
-                Repeater rptHeaderPractice = (Repeater)e.Item.FindControl("rptHeaderPractice");
-                rptHeaderPractice.DataSource = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
-                rptHeaderPractice.DataBind();
+                vCurriculumSubjectMarkType entity = (vCurriculumSubjectMarkType)e.Item.DataItem;
 
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                vPeriodClassTypeSubjectFinalMarkFormulaCustom entityFormulaHd = lstFinalMarkFormulaHd.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
+                if (entityFormulaHd != null)
                 {
-                    HtmlTableCell thAverageMarkPractice = (HtmlTableCell)e.Item.FindControl("thAverageMarkPractice");
-                    HtmlTableCell thFinalMarkPractice = (HtmlTableCell)e.Item.FindControl("thFinalMarkPractice");
-                    thAverageMarkPractice.Style.Add("display", "none");
-                    thFinalMarkPractice.Style.Add("display", "none");
+                    Repeater rptHeaderMarkType3Dt1 = (Repeater)e.Item.FindControl("rptHeaderMarkType3Dt1");
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt = lstFinalMarkFormulaDt.Where(p => p.CurriculumFinalMarkFormulaID == entityFormulaHd.CurriculumFinalMarkFormulaID).OrderBy(p => p.DisplayOrder).ToList();
+                    rptHeaderMarkType3Dt1.DataSource = lstFormulaDt;
+                    rptHeaderMarkType3Dt1.DataBind();
+                    //HtmlGenericControl spnTotalTheoryPercentage = (HtmlGenericControl)e.Item.FindControl("spnTotalTheoryPercentage");
+                    //spnTotalTheoryPercentage.InnerHtml = lstFormulaDt.Sum(p => p.FinalMarkPercentage).ToString();
                 }
             }
         }
-        #endregion
-        #endregion
+
+        protected void rptHeaderMarkType3Dt1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vCurriculumFinalMarkFormulaDt entityGroup = (vCurriculumFinalMarkFormulaDt)e.Item.DataItem;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+                string[] lstMarkTypeID = entityGroup.ListMarkTypeID.Split(',');
+                Repeater rptHeaderMarkType3Dt2 = (Repeater)e.Item.FindControl("rptHeaderMarkType3Dt2");
+                List<vClassSubjectTask> lstTask = lstClassTask.Where(p => lstMarkTypeID.Contains(p.CurriculumMarkTypeDtID.ToString())).ToList();
+                rptHeaderMarkType3Dt2.DataSource = lstTask.OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
+                rptHeaderMarkType3Dt2.DataBind();
+
+                if (lstTask.Count > 0)
+                    lstTaskCount.Add(new CTaskCount { CurriculumMarkTypeID = markType.CurriculumMarkTypeID, CurriculumFinalMarkFormulaDtID = entityGroup.CurriculumFinalMarkFormulaDtID, Count = lstTask.Count });
+                else
+                {
+                    HtmlTableCell thAverageMark = (HtmlTableCell)e.Item.FindControl("thAverageMark");
+                    HtmlTableCell thFinalMark = (HtmlTableCell)e.Item.FindControl("thFinalMark");
+                    thAverageMark.Style.Add("display", "none");
+                    thFinalMark.Style.Add("display", "none");
+                }
+            }
+        }
 
         List<ClassStudentSubjectTaskGroupMark> lstStudentGroupMark = null;
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
@@ -293,11 +293,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassStudent entity = (vClassStudent)e.Item.DataItem;
                 ClassStudentSubjectMark studentFinalMark = lstStudentFinalMark.FirstOrDefault(p => p.StudentID == entity.StudentID);
-                TextBox txtFinalStudentMarkTheory = (TextBox)e.Item.FindControl("txtFinalStudentMarkTheory");
-                txtFinalStudentMarkTheory.Attributes.Add("itemindex", e.Item.ItemIndex.ToString());
+                //TextBox txtFinalStudentMark = (TextBox)e.Item.FindControl("txtFinalStudentMark");
+                //txtFinalStudentMark.Attributes.Add("itemindex", e.Item.ItemIndex.ToString());
 
-                TextBox txtFinalStudentMarkPractice = (TextBox)e.Item.FindControl("txtFinalStudentMarkPractice");
-                txtFinalStudentMarkPractice.Attributes.Add("itemindex", e.Item.ItemIndex.ToString());
+                //TextBox txtFinalStudentMarkPractice = (TextBox)e.Item.FindControl("txtFinalStudentMarkPractice");
+                //txtFinalStudentMarkPractice.Attributes.Add("itemindex", e.Item.ItemIndex.ToString());
 
                 ASPxComboBox cboStudentProgressRule = (ASPxComboBox)e.Item.FindControl("cboStudentProgressRule");
                 cboStudentProgressRule.ClientInstanceName = string.Format("cboStudentProgressRule{0}", e.Item.ItemIndex);
@@ -306,90 +306,153 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 if (studentFinalMark != null)
                 {
-                    TextBox txtAffectiveMark = (TextBox)e.Item.FindControl("txtAffectiveMark");
-                    TextBox txtAffectiveDescription = (TextBox)e.Item.FindControl("txtAffectiveDescription");
                     TextBox txtProgressDescription = (TextBox)e.Item.FindControl("txtProgressDescription");
-                    txtFinalStudentMarkTheory.Text = studentFinalMark.TheoryMark.ToString();
-                    txtFinalStudentMarkPractice.Text = studentFinalMark.PracticeMark.ToString();
-                    txtAffectiveMark.Text = studentFinalMark.AffectiveMark;
-                    txtAffectiveDescription.Text = studentFinalMark.AffectiveDescription;
+                    //txtFinalStudentMark.Text = studentFinalMark.TheoryMark.ToString();
+                    //txtFinalStudentMarkPractice.Text = studentFinalMark.PracticeMark.ToString();
                     txtProgressDescription.Text = studentFinalMark.ProgressDescription;
                     cboStudentProgressRule.Value = studentFinalMark.StudentProgressRuleDtID.ToString();
                 }
 
-                Repeater rptStudentMarkTheoryGroup = (Repeater)e.Item.FindControl("rptStudentMarkTheoryGroup");
-                rptStudentMarkTheoryGroup.DataSource = lstTheoryGroup;
-                rptStudentMarkTheoryGroup.DataBind();
-                Repeater rptStudentMarkPracticeGroup = (Repeater)e.Item.FindControl("rptStudentMarkPracticeGroup");
-                rptStudentMarkPracticeGroup.DataSource = lstPracticeGroup;
-                rptStudentMarkPracticeGroup.DataBind();
+                Repeater rptStudentMarkType = (Repeater)e.Item.FindControl("rptStudentMarkType");
+                rptStudentMarkType.DataSource = lstCurriculumMarkType;
+                rptStudentMarkType.DataBind();
 
-                HtmlTableCell tdTotalStudentMarkTheory = (HtmlTableCell)e.Item.FindControl("tdTotalStudentMarkTheory");
-                HtmlTableCell tdFinalStudentMarkTheory = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkTheory");
+                //if (lstTheory.Count < 1)
+                //{
+                //    tdTotalStudentMarkTheory.Style.Add("display", "none");
+                //    tdFinalStudentMarkTheory.Style.Add("display", "none");
+                //}
+                //if (lstPractice.Count < 1)
+                //{
+                //    tdTotalStudentMarkPractice.Style.Add("display", "none");
+                //    tdFinalStudentMarkPractice.Style.Add("display", "none");
+                //}
 
-                HtmlTableCell tdTotalStudentMarkPractice = (HtmlTableCell)e.Item.FindControl("tdTotalStudentMarkPractice");
-                HtmlTableCell tdFinalStudentMarkPractice = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkPractice");
+                //if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                //{
+                //    HtmlTableCell tdStudentAffectiveMark = (HtmlTableCell)e.Item.FindControl("tdStudentAffectiveMark");
+                //    HtmlTableCell tdStudentAffectiveDescription = (HtmlTableCell)e.Item.FindControl("tdStudentAffectiveDescription");
+                //    tdStudentAffectiveMark.Style.Add("display", "none");
+                //    tdStudentAffectiveDescription.Style.Add("display", "none");
+                //    tdTotalStudentMarkPractice.Style.Add("display", "none");
+                //    tdFinalStudentMarkPractice.Style.Add("display", "none");
+                //    tdTotalStudentMarkTheory.Style.Add("display", "none");
+                //    tdFinalStudentMarkTheory.Style.Add("display", "none");
+                //}
+            }
+        }
 
-                if (lstTheory.Count < 1)
+        protected void rptStudentMarkType_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vCurriculumSubjectMarkType entity = (vCurriculumSubjectMarkType)e.Item.DataItem;
+
+                if (!entity.IsAllowTask)
                 {
-                    tdTotalStudentMarkTheory.Style.Add("display", "none");
-                    tdFinalStudentMarkTheory.Style.Add("display", "none");
+                    HtmlTableCell tdTotalStudentMark = (HtmlTableCell)e.Item.FindControl("tdTotalStudentMark");
+                    tdTotalStudentMark.Style.Add("display", "none");
                 }
-                if (lstPractice.Count < 1)
+                ASPxComboBox cboPredicateStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboPredicateStudentMarkOption");
+                cboPredicateStudentMarkOption.ClientInstanceName = string.Format("cboPredicateStudentMarkOption{0}", e.Item.ItemIndex.ToString("D2"));
+                if (entity.PredicateMarkTypeID > 0)
                 {
-                    tdTotalStudentMarkPractice.Style.Add("display", "none");
-                    tdFinalStudentMarkPractice.Style.Add("display", "none");
+                    List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == entity.PredicateMarkTypeID).ToList();
+                    Methods.SetComboBoxField<MarkTypeDt>(cboPredicateStudentMarkOption, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
+                }
+                else
+                {
+                    HtmlTableCell tdPredicateStudentMark = (HtmlTableCell)e.Item.FindControl("tdPredicateStudentMark");
+                    tdPredicateStudentMark.Style.Add("display", "none");
                 }
 
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                TextBox txtFinalStudentMark = (TextBox)e.Item.FindControl("txtFinalStudentMark");
+                txtFinalStudentMark.Attributes.Add("curriculummarktypeid", entity.CurriculumMarkTypeID.ToString());
+
+                ASPxComboBox cboFinalStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboFinalStudentMarkOption");
+                TextBox txtFinalStudentMarkDescription = (TextBox)e.Item.FindControl("txtFinalStudentMarkDescription");
+
+                cboFinalStudentMarkOption.ClientInstanceName = string.Format("cboFinalStudentMarkOption{0}", e.Item.ItemIndex.ToString("D2"));
+
+                switch (entity.FinalGCMarkType)
                 {
-                    HtmlTableCell tdStudentAffectiveMark = (HtmlTableCell)e.Item.FindControl("tdStudentAffectiveMark");
-                    HtmlTableCell tdStudentAffectiveDescription = (HtmlTableCell)e.Item.FindControl("tdStudentAffectiveDescription");
-                    tdStudentAffectiveMark.Style.Add("display", "none");
-                    tdStudentAffectiveDescription.Style.Add("display", "none");
-                    tdTotalStudentMarkPractice.Style.Add("display", "none");
-                    tdFinalStudentMarkPractice.Style.Add("display", "none");
-                    tdTotalStudentMarkTheory.Style.Add("display", "none");
-                    tdFinalStudentMarkTheory.Style.Add("display", "none");
+                    case Constant.SubjectMarkType.NUMBER: cboFinalStudentMarkOption.ClientVisible = false; txtFinalStudentMarkDescription.Style.Add("display", "none"); break;
+                    case Constant.SubjectMarkType.OPTION:
+                        txtFinalStudentMark.Style.Add("display", "none"); txtFinalStudentMarkDescription.Style.Add("display", "none");
+                        List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == entity.FinalMarkTypeID).ToList();
+                        Methods.SetComboBoxField<MarkTypeDt>(cboFinalStudentMarkOption, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
+                        break;
+                    case Constant.SubjectMarkType.TEXT: cboFinalStudentMarkOption.ClientVisible = false; txtFinalStudentMark.Style.Add("display", "none"); break;
+                }
+
+                vPeriodClassTypeSubjectFinalMarkFormulaCustom entityFormulaHd = lstFinalMarkFormulaHd.FirstOrDefault(p => p.CurriculumMarkTypeID == entity.CurriculumMarkTypeID);
+                if (entityFormulaHd != null)
+                {
+                    Repeater rptStudentMarkGroup = (Repeater)e.Item.FindControl("rptStudentMarkGroup");
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt = lstFinalMarkFormulaDt.Where(p => p.CurriculumFinalMarkFormulaID == entityFormulaHd.CurriculumFinalMarkFormulaID).OrderBy(p => p.DisplayOrder).ToList();
+                    List<vCurriculumFinalMarkFormulaDt> lstFormulaDt1 = new List<vCurriculumFinalMarkFormulaDt>();
+                    foreach (CTaskCount taskCount in lstTaskCount)
+                    {
+                        vCurriculumFinalMarkFormulaDt entityFormulaDt = lstFormulaDt.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == taskCount.CurriculumFinalMarkFormulaDtID);
+                        if (entityFormulaDt != null)
+                            lstFormulaDt1.Add(entityFormulaDt);
+                    }
+
+                    rptStudentMarkGroup.DataSource = lstFormulaDt1;
+                    rptStudentMarkGroup.DataBind();
+                    //HtmlGenericControl spnTotalTheoryPercentage = (HtmlGenericControl)e.Item.FindControl("spnTotalTheoryPercentage");
+                    //spnTotalTheoryPercentage.InnerHtml = lstFormulaDt.Sum(p => p.FinalMarkPercentage).ToString();
+                }
+                else
+                {
+                    //HtmlTableCell thFinalMark = (HtmlTableCell)e.Item.FindControl("thFinalMark");
+                    //HtmlTableCell thFinalReadonlyMark = (HtmlTableCell)e.Item.FindControl("thFinalReadonlyMark");
+                    //thFinalMark.Style.Add("display", "none");
+                    //thFinalReadonlyMark.Style.Add("display", "none");
                 }
             }
         }
 
         #region Repeater Inside Student
         #region Theory
-        protected void rptStudentMarkTheoryGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void rptStudentMarkGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
-                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
-                Repeater rptStudentMarkTheory = (Repeater)e.Item.FindControl("rptStudentMarkTheory");
-                rptStudentMarkTheory.DataSource = lstTheory.Where(p => p.TheoryFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
-                rptStudentMarkTheory.DataBind();
+                vCurriculumFinalMarkFormulaDt entityGroup = (vCurriculumFinalMarkFormulaDt)e.Item.DataItem;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+                vClassStudent student = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vClassStudent;
+                Repeater rptStudentMark = (Repeater)e.Item.FindControl("rptStudentMark");
+                string[] lstMarkTypeID = entityGroup.ListMarkTypeID.Split(',');
+                rptStudentMark.DataSource = lstClassTask.Where(p => lstMarkTypeID.Contains(p.CurriculumMarkTypeDtID.ToString())).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
+                rptStudentMark.DataBind();
 
-                TextBox txtFinalStudentMarkTheoryGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkTheoryGroup");
-                txtFinalStudentMarkTheoryGroup.Attributes.Add("formulapercentage", entityGroup.TheoryFinalMarkPercentage.ToString());
-                txtFinalStudentMarkTheoryGroup.Attributes.Add("formuladtid", entityGroup.TheoryFinalMarkFormulaDtID.ToString());
-                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID && p.StudentID == student.StudentID);
+                TextBox txtFinalStudentMarkGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkGroup");
+                txtFinalStudentMarkGroup.Attributes.Add("formulapercentage", entityGroup.FinalMarkPercentage.ToString());
+                txtFinalStudentMarkGroup.Attributes.Add("formuladtid", entityGroup.CurriculumFinalMarkFormulaDtID.ToString());
+                txtFinalStudentMarkGroup.Attributes.Add("curriculummarktypeid", markType.CurriculumMarkTypeID.ToString());
+                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.CurriculumFinalMarkFormulaDtID && p.StudentID == student.StudentID);
                 if (entityMark != null)
-                    txtFinalStudentMarkTheoryGroup.Text = entityMark.Mark.ToString();
+                    txtFinalStudentMarkGroup.Text = entityMark.Mark.ToString();
 
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
-                {
-                    HtmlTableCell tdAverageStudentMarkTheoryGroup = (HtmlTableCell)e.Item.FindControl("tdAverageStudentMarkTheoryGroup");
-                    HtmlTableCell tdFinalStudentMarkTheoryGroup = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkTheoryGroup");
-                    tdAverageStudentMarkTheoryGroup.Style.Add("display", "none");
-                    tdFinalStudentMarkTheoryGroup.Style.Add("display", "none");
-                }
+                //if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                //{
+                //    HtmlTableCell tdAverageStudentMarkGroup = (HtmlTableCell)e.Item.FindControl("tdAverageStudentMarkGroup");
+                //    HtmlTableCell tdFinalStudentMarkGroup = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkGroup");
+                //    tdAverageStudentMarkGroup.Style.Add("display", "none");
+                //    tdFinalStudentMarkGroup.Style.Add("display", "none");
+                //}
             }
         }
 
-        protected void rptStudentMarkTheory_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void rptStudentMark_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                vClassSubjectTaskCustom subjectTask = (vClassSubjectTaskCustom)e.Item.DataItem;
-                vClassStudent student = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vClassStudent;
+                vClassSubjectTask subjectTask = (vClassSubjectTask)e.Item.DataItem;
+                vCurriculumFinalMarkFormulaDt entityFormula = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vCurriculumFinalMarkFormulaDt;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+                vClassStudent student = ((RepeaterItem)((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).Parent.Parent).DataItem as vClassStudent;
 
                 TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
                 ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
@@ -397,17 +460,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
 
                 int parentIndex = ((RepeaterItem)e.Item.Parent.Parent).ItemIndex;
-                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}", "Theory", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
+                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
                 txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
-                txtStudentMark.Attributes.Add("formuladtid", subjectTask.TheoryFinalMarkFormulaDtID.ToString());
+                txtStudentMark.Attributes.Add("formuladtid", entityFormula.CurriculumFinalMarkFormulaDtID.ToString());
                 HtmlGenericControl divMark = (HtmlGenericControl)e.Item.FindControl("divMark");
-                switch (hdnGCSubjectMarkType.Value)
+                switch (markType.TaskGCMarkType)
                 {
                     case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
                     case Constant.SubjectMarkType.OPTION:
                         divMark.Style.Add("display", "none"); 
                         txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
-                        Methods.SetComboBoxField<StudentProgressRuleDt>(cboStudentMarkOption, lstProgress, "StudentProgressRuleDtName", "StudentProgressRuleDtID");
+                        List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == markType.TaskMarkTypeID).ToList();
+                        Methods.SetComboBoxField<MarkTypeDt>(cboStudentMarkOption, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
                         break;
                     case Constant.SubjectMarkType.TEXT: divMark.Style.Add("display", "none"); cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
                 }
@@ -428,76 +492,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         #endregion
         
-        #region Practice
-        protected void rptStudentMarkPracticeGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                vClassSubjectTaskCustom entityGroup = (vClassSubjectTaskCustom)e.Item.DataItem;
-                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
-                Repeater rptStudentMarkPractice = (Repeater)e.Item.FindControl("rptStudentMarkPractice");
-                rptStudentMarkPractice.DataSource = lstPractice.Where(p => p.PracticeFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID).OrderBy(p => p.TaskDate).ThenBy(p => p.ClassSubjectTaskID).ToList();
-                rptStudentMarkPractice.DataBind();
-
-                TextBox txtFinalStudentMarkPracticeGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkPracticeGroup");
-                txtFinalStudentMarkPracticeGroup.Attributes.Add("formulapercentage", entityGroup.PracticeFinalMarkPercentage.ToString());
-                txtFinalStudentMarkPracticeGroup.Attributes.Add("formuladtid", entityGroup.PracticeFinalMarkFormulaDtID.ToString());
-                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID && p.StudentID == student.StudentID);
-                if (entityMark != null)
-                    txtFinalStudentMarkPracticeGroup.Text = entityMark.Mark.ToString();
-                
-                if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
-                {
-                    HtmlTableCell tdAverageStudentMarkPracticeGroup = (HtmlTableCell)e.Item.FindControl("tdAverageStudentMarkPracticeGroup");
-                    HtmlTableCell tdFinalStudentMarkTheoryGroup = (HtmlTableCell)e.Item.FindControl("tdFinalStudentMarkTheoryGroup");
-                    tdAverageStudentMarkPracticeGroup.Style.Add("display", "none");
-                    tdFinalStudentMarkTheoryGroup.Style.Add("display", "none");
-                }                
-            }
-        }
-
-        protected void rptStudentMarkPractice_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                vClassSubjectTaskCustom subjectTask = (vClassSubjectTaskCustom)e.Item.DataItem;
-                vClassStudent student = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vClassStudent;
-
-                TextBox txtStudentMark = (TextBox)e.Item.FindControl("txtStudentMark");
-                ASPxComboBox cboStudentMarkOption = (ASPxComboBox)e.Item.FindControl("cboStudentMarkOption");
-                TextBox txtStudentMarkDescription = (TextBox)e.Item.FindControl("txtStudentMarkDescription");
-                vClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == subjectTask.ClassSubjectTaskID && p.StudentID == student.StudentID);
-
-                int parentIndex = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).ItemIndex;
-                cboStudentMarkOption.ClientInstanceName = string.Format("cboStudentMarkOption{0}{1}{2}", "Practice", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
-                txtStudentMark.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
-                txtStudentMark.Attributes.Add("formuladtid", subjectTask.PracticeFinalMarkFormulaDtID.ToString());
-                HtmlGenericControl divMark = (HtmlGenericControl)e.Item.FindControl("divMark");
-                switch (hdnGCSubjectMarkType.Value)
-                {
-                    case Constant.SubjectMarkType.NUMBER: cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
-                    case Constant.SubjectMarkType.OPTION:
-                        divMark.Style.Add("display", "none"); txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
-                        Methods.SetComboBoxField<StudentProgressRuleDt>(cboStudentMarkOption, lstProgress, "StudentProgressRuleDtName", "StudentProgressRuleDtID");
-                        break;
-                    case Constant.SubjectMarkType.TEXT: divMark.Style.Add("display", "none"); cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
-                }
-                HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");
-                if (studentMark != null)
-                {
-                    txtStudentMark.Text = studentMark.Mark.ToString();
-                    cboStudentMarkOption.Value = studentMark.StudentProgressRuleDtID.ToString();
-                    txtStudentMarkDescription.Text = studentMark.DescriptionMark;
-                    if (!studentMark.IsRemedial)
-                        bIsRemedial.Style.Add("display", "none");
-                }
-                else
-                    bIsRemedial.Style.Add("display", "none");
-
-                bIsRemedial.Attributes.Add("ClassSubjectTaskID", subjectTask.ClassSubjectTaskID.ToString());
-            }
-        }
-        #endregion      
         #endregion        
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -605,81 +599,81 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                     int ClassSubjectTaskID = lstClassSubjectTaskID[ctr];
                                     ClassStudentSubjectTaskMark studentMark = lstStudentMark.FirstOrDefault(p => p.ClassSubjectTaskID == ClassSubjectTaskID && p.StudentID == studentID);
 
-                                    if (hdnGCSubjectMarkType.Value == Constant.SubjectMarkType.NUMBER)
-                                    {
-                                        Decimal mark = -1;
-                                        if (saveValue2 != "-")
-                                            mark = Convert.ToDecimal(saveValue2);
-                                        if (studentMark == null)
-                                        {
-                                            if (mark > -1)
-                                            {
-                                                studentMark = new ClassStudentSubjectTaskMark();
-                                                studentMark.StudentID = studentID;
-                                                studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
-                                                studentMark.Mark = mark;
-                                                entityStudentSubjectTaskMarkDao.Insert(studentMark);
-                                            }
-                                        }
-                                        else if (studentMark.Mark != mark)
-                                        {
-                                            if (mark > -1)
-                                            {
-                                                studentMark.Mark = mark;
-                                                entityStudentSubjectTaskMarkDao.Update(studentMark);
-                                            }
-                                            else
-                                                entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
-                                        }
-                                    }
-                                    else if (hdnGCSubjectMarkType.Value == Constant.SubjectMarkType.OPTION)
-                                    {
-                                        if (studentMark == null)
-                                        {
-                                            if (saveValue2 != "")
-                                            {
-                                                studentMark = new ClassStudentSubjectTaskMark();
-                                                studentMark.StudentID = studentID;
-                                                studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
-                                                studentMark.StudentProgressRuleDtID = Convert.ToInt32(saveValue2);
-                                                entityStudentSubjectTaskMarkDao.Insert(studentMark);
-                                            }
-                                        }
-                                        else if (studentMark.StudentProgressRuleDtID.ToString() != saveValue2)
-                                        {
-                                            if (saveValue2 != "")
-                                            {
-                                                studentMark.StudentProgressRuleDtID = Convert.ToInt32(saveValue2);
-                                                entityStudentSubjectTaskMarkDao.Update(studentMark);
-                                            }
-                                            else
-                                                entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (studentMark == null)
-                                        {
-                                            if (saveValue2 != "")
-                                            {
-                                                studentMark = new ClassStudentSubjectTaskMark();
-                                                studentMark.StudentID = studentID;
-                                                studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
-                                                studentMark.DescriptionMark = saveValue2;
-                                                entityStudentSubjectTaskMarkDao.Insert(studentMark);
-                                            }
-                                        }
-                                        else if (studentMark.DescriptionMark != saveValue2)
-                                        {
-                                            if (saveValue2 != "")
-                                            {
-                                                studentMark.DescriptionMark = saveValue2;
-                                                entityStudentSubjectTaskMarkDao.Update(studentMark);
-                                            }
-                                            else
-                                                entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
-                                        }
-                                    }
+                                    //if (hdnGCSubjectMarkType.Value == Constant.SubjectMarkType.NUMBER)
+                                    //{
+                                    //    Decimal mark = -1;
+                                    //    if (saveValue2 != "-")
+                                    //        mark = Convert.ToDecimal(saveValue2);
+                                    //    if (studentMark == null)
+                                    //    {
+                                    //        if (mark > -1)
+                                    //        {
+                                    //            studentMark = new ClassStudentSubjectTaskMark();
+                                    //            studentMark.StudentID = studentID;
+                                    //            studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                    //            studentMark.Mark = mark;
+                                    //            entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                    //        }
+                                    //    }
+                                    //    else if (studentMark.Mark != mark)
+                                    //    {
+                                    //        if (mark > -1)
+                                    //        {
+                                    //            studentMark.Mark = mark;
+                                    //            entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                    //        }
+                                    //        else
+                                    //            entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                    //    }
+                                    //}
+                                    //else if (hdnGCSubjectMarkType.Value == Constant.SubjectMarkType.OPTION)
+                                    //{
+                                    //    if (studentMark == null)
+                                    //    {
+                                    //        if (saveValue2 != "")
+                                    //        {
+                                    //            studentMark = new ClassStudentSubjectTaskMark();
+                                    //            studentMark.StudentID = studentID;
+                                    //            studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                    //            studentMark.StudentProgressRuleDtID = Convert.ToInt32(saveValue2);
+                                    //            entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                    //        }
+                                    //    }
+                                    //    else if (studentMark.StudentProgressRuleDtID.ToString() != saveValue2)
+                                    //    {
+                                    //        if (saveValue2 != "")
+                                    //        {
+                                    //            studentMark.StudentProgressRuleDtID = Convert.ToInt32(saveValue2);
+                                    //            entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                    //        }
+                                    //        else
+                                    //            entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                    //    }
+                                    //}
+                                    //else
+                                    //{
+                                    //    if (studentMark == null)
+                                    //    {
+                                    //        if (saveValue2 != "")
+                                    //        {
+                                    //            studentMark = new ClassStudentSubjectTaskMark();
+                                    //            studentMark.StudentID = studentID;
+                                    //            studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
+                                    //            studentMark.DescriptionMark = saveValue2;
+                                    //            entityStudentSubjectTaskMarkDao.Insert(studentMark);
+                                    //        }
+                                    //    }
+                                    //    else if (studentMark.DescriptionMark != saveValue2)
+                                    //    {
+                                    //        if (saveValue2 != "")
+                                    //        {
+                                    //            studentMark.DescriptionMark = saveValue2;
+                                    //            entityStudentSubjectTaskMarkDao.Update(studentMark);
+                                    //        }
+                                    //        else
+                                    //            entityStudentSubjectTaskMarkDao.Delete(ClassSubjectTaskID, studentID);
+                                    //    }
+                                    //}
                                 }
                                 ctr++;
                             }

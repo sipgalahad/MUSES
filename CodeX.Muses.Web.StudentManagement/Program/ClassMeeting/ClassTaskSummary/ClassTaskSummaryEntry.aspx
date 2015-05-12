@@ -18,17 +18,9 @@
     <script type="text/javascript">
         var isOnLoad = true;
         $(function () {
-            var GCSubjectMarkType = $('#<%=hdnGCSubjectMarkType.ClientID %>').val();
             $('#<%=btnSave.ClientID %>').click(function () {
                 var result = '';
-                $('.txtFinalMarkPercentageTheory').each(function () {
-                    var classTaskID = $(this).parent().find('.hdnClassSubjectTaskID').val();
-                    var value = parseFloat($(this).val());
-                    if (result != '')
-                        result += '|';
-                    result += classTaskID + ',' + value;
-                });
-                $('.txtFinalMarkPercentagePractice').each(function () {
+                $('.txtFinalMarkPercentage').each(function () {
                     var classTaskID = $(this).parent().find('.hdnClassSubjectTaskID').val();
                     var value = parseFloat($(this).val());
                     if (result != '')
@@ -46,13 +38,13 @@
                     if (studentProgressRuleDtID == null || studentProgressRuleDtID == "0")
                         studentProgressRuleDtID = "";
 
-                    $(this).find('.txtStudentMarkTheory').each(function () {
+                    $(this).find('.txtStudentMark').each(function () {
                         var value = '';
                         var positiontag = $(this).attr('positiontag');
                         switch (GCSubjectMarkType) {
                             case '<%=OnGetSubjectMarkTypeNumber() %>': value = $(this).val(); break;
                             case '<%=OnGetSubjectMarkTypeOption() %>':
-                                var cboStudentMarkOption = eval('cboStudentMarkOptionTheory' + positiontag);
+                                var cboStudentMarkOption = eval('cboStudentMarkOption' + positiontag);
                                 if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
                                     value = cboStudentMarkOption.GetValue(); break;
                             case '<%=OnGetSubjectMarkTypeText() %>': value = $(this).parent().find('.txtStudentMarkTheoryDescription').val(); break;
@@ -64,31 +56,7 @@
                     });
 
                     var tempResult2 = '';
-                    $(this).find('.txtFinalStudentMarkTheoryGroup').each(function () {
-                        var value = $(this).val();
-                        if (tempResult2 != '')
-                            tempResult2 += ',';
-                        tempResult2 += $(this).attr('formuladtid') + ')' + value;
-                    });
-
-                    $(this).find('.txtStudentMarkPractice').each(function () {
-                        var value = '';
-                        var positiontag = $(this).attr('positiontag');
-                        switch (GCSubjectMarkType) {
-                            case '<%=OnGetSubjectMarkTypeNumber() %>': value = $(this).val(); break;
-                            case '<%=OnGetSubjectMarkTypeOption() %>':
-                                var cboStudentMarkOption = eval('cboStudentMarkOptionPractice' + positiontag);
-                                if (cboStudentMarkOption.GetValue() != null)
-                                    value = cboStudentMarkOption.GetValue(); break;
-                            case '<%=OnGetSubjectMarkTypeText() %>': value = $(this).parent().find('.txtStudentMarkPracticeDescription').val(); break;
-                        }
-
-                        if (tempResult != '')
-                            tempResult += ',';
-                        tempResult += value;
-                    });
-
-                    $(this).find('.txtFinalStudentMarkPracticeGroup').each(function () {
+                    $(this).find('.txtFinalStudentMarkGroup').each(function () {
                         var value = $(this).val();
                         if (tempResult2 != '')
                             tempResult2 += ',';
@@ -96,7 +64,7 @@
                     });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMarkTheory').val() + '*' + $(this).find('.txtFinalStudentMarkPractice').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + studentProgressRuleDtID + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult + '*' + tempResult2;
+                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMark').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + studentProgressRuleDtID + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult + '*' + tempResult2;
                     idx++;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
@@ -123,8 +91,7 @@
             $('#tblView').width(width);
 
             setTimeout(function () {
-                setTotalPercentageTheory();
-                setTotalPercentagePractice();
+                setTotalPercentage();
                 isOnLoad = false;
             }, 500);
         });
@@ -157,16 +124,16 @@
         }
 
         //#region Theory
-        var lstFinalMarkPercentageTheory = [];
-        function setTotalPercentageTheory() {
-            $('.txtFinalMarkPercentageTheory').each(function () {
+        var lstFinalMarkPercentage = [];
+        function setTotalPercentage() {
+            $('.txtFinalMarkPercentage').each(function () {
                 var value = parseFloat($(this).val());
-                lstFinalMarkPercentageTheory.push(value);
+                lstFinalMarkPercentage.push(value);
             });
-            $('.txtAverageFinalMarkPercentageTheory').each(function () {
+            $('.txtAverageFinalMarkPercentage').each(function () {
                 var formulaDtID = $(this).attr('formuladtid');
                 var totalGroup = 0;
-                $('.txtFinalMarkPercentageTheory[formuladtid="' + formulaDtID + '"]').each(function () {
+                $('.txtFinalMarkPercentage[formuladtid="' + formulaDtID + '"]').each(function () {
                     var value = 0;
                     if ($(this).val() != "-" && $(this).val() != "")
                         value = parseFloat($(this).val());
@@ -175,147 +142,72 @@
                 $(this).val(totalGroup);
             });
             $('.trDetail').each(function () {
-                setStudentGroupMarkTheory($(this));
+                setStudentGroupMark($(this));
             });
         }
 
-        $('.txtFinalMarkPercentageTheory').live('change', function () {
-            var idx = $(this).index('.txtFinalMarkPercentageTheory');
-            lstFinalMarkPercentageTheory[idx] = parseFloat($(this).val());
-            setTotalPercentageTheory();
+        $('.txtFinalMarkPercentage').live('change', function () {
+            var idx = $(this).index('.txtFinalMarkPercentage');
+            lstFinalMarkPercentage[idx] = parseFloat($(this).val());
+            setTotalPercentage();
         });
 
-        $('.txtStudentMarkTheory').live('change', function () {
-            setStudentGroupMarkTheory($(this).closest('.trDetail'));
+        $('.txtStudentMark').live('change', function () {
+            setStudentGroupMark($(this).closest('.trDetail'));
         });
 
-        function setStudentGroupMarkTheory($tr) {
+        function setStudentGroupMark($tr) {
             var ctr = 0;
 
-            $tr.find('.txtAverageStudentMarkTheoryGroup').each(function () {
+            $tr.find('.txtAverageStudentMarkGroup').each(function () {
                 var formulaDtID = $(this).attr('formuladtid');
                 var totalGroup = 0;
-                $tr.find('.txtStudentMarkTheory[formuladtid="' + formulaDtID + '"]').each(function () {
+                $tr.find('.txtStudentMark[formuladtid="' + formulaDtID + '"]').each(function () {
                     var value = 0;
                     if ($(this).val() != "-" && $(this).val() != "")
                         value = parseFloat($(this).val());
-                    var ctr = $tr.find('.txtStudentMarkTheory').index($(this));
-                    totalGroup += value * lstFinalMarkPercentageTheory[ctr] / 100;
+                    var ctr = $tr.find('.txtStudentMark').index($(this));
+                    totalGroup += value * lstFinalMarkPercentage[ctr] / 100;
                 });
 
                 $(this).val(totalGroup);
                 if (!isOnLoad) {
-                    $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkTheoryGroup');
+                    $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkGroup');
                     $txtFinal.val(totalGroup);
-                    $txtFinal.change();
+                    //$txtFinal.change();
                 }
             });
-            setStudentFinalMarkTheory($tr);
+            setStudentFinalMark($tr);
         }
 
-        function setStudentFinalMarkTheory($tr) {
-            var total = 0;
-            $tr.find('.txtFinalStudentMarkTheoryGroup').each(function () {
-                var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
-                total += $(this).val() * formulaPercentage / 100;
-            });
-
-            $tr.find('.txtTotalStudentMarkTheory').val(total);
-            if (!isOnLoad) {
-                $tr.find('.txtFinalStudentMarkTheory').val(total);
-                $tr.find('.txtFinalStudentMarkTheory').change();
-            }
-        }
-
-        $('.txtFinalStudentMarkTheoryGroup').live('change', function () {
-            $tr = $(this).closest('.trDetail');
-            setStudentFinalMarkTheory($tr);
-        });
-        //#endregion
-
-        //#region Practice
-        var lstFinalMarkPercentagePractice = [];
-        function setTotalPercentagePractice() {
-            $('.txtFinalMarkPercentagePractice').each(function () {
-                var value = parseFloat($(this).val());
-                lstFinalMarkPercentagePractice.push(value);
-            });
-            $('.txtAverageFinalMarkPercentagePractice').each(function () {
-                var formulaDtID = $(this).attr('formuladtid');
-                var totalGroup = 0;
-                $('.txtFinalMarkPercentagePractice[formuladtid="' + formulaDtID + '"]').each(function () {
-                    var value = 0;
-                    if ($(this).val() != "-" && $(this).val() != "")
-                        value = parseFloat($(this).val());
-                    totalGroup += value;
+        function setStudentFinalMark($tr) {
+            $tr.find('.txtFinalStudentMark').each(function () {
+                var total = 0;
+                var curriculummarktypeid = $(this).attr("curriculummarktypeid");
+                $tr.find('.txtFinalStudentMarkGroup[curriculummarktypeid="' + curriculummarktypeid + '"]').each(function () {
+                    var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
+                    total += $(this).val() * formulaPercentage / 100;
                 });
-                $(this).val(totalGroup);
-            });
-            $('.trDetail').each(function () {
-                setStudentGroupMarkPractice($(this));
-            });
-        }
-
-        $('.txtFinalMarkPercentagePractice').live('change', function () {
-            var idx = $(this).index('.txtFinalMarkPercentagePractice');
-            lstFinalMarkPercentagePractice[idx] = parseFloat($(this).val());
-            setTotalPercentagePractice();
-        });
-
-        $('.txtStudentMarkPractice').live('change', function () {
-            setStudentGroupMarkPractice($(this).closest('.trDetail'));
-        });
-
-        function setStudentGroupMarkPractice($tr) {
-            var ctr = 0;
-
-            $tr.find('.txtAverageStudentMarkPracticeGroup').each(function () {
-                var formulaDtID = $(this).attr('formuladtid');
-                var totalGroup = 0;
-                $tr.find('.txtStudentMarkPractice[formuladtid="' + formulaDtID + '"]').each(function () {
-                    var value = 0;
-                    if ($(this).val() != "-" && $(this).val() != "")
-                        value = parseFloat($(this).val());
-                    var ctr = $tr.find('.txtStudentMarkPractice').index($(this));
-                    totalGroup += value * lstFinalMarkPercentagePractice[ctr] / 100;
-                });
-
-                $(this).val(totalGroup);
+                $tr.find('.txtTotalStudentMark[curriculummarktypeid="' + curriculummarktypeid + '"]').val(total);
                 if (!isOnLoad) {
-                    $txtFinal = $(this).parent().next().find('.txtFinalStudentMarkPracticeGroup');
-                    $txtFinal.val(totalGroup);
-                    $txtFinal.change();
+                    $(this).val(total);
+                    $(this).change();
                 }
             });
-            setStudentFinalMarkPractice($tr);
         }
 
-        function setStudentFinalMarkPractice($tr) {
-            var total = 0;
-            $tr.find('.txtFinalStudentMarkPracticeGroup').each(function () {
-                var formulaPercentage = parseFloat($(this).attr('formulapercentage'));
-                total += $(this).val() * formulaPercentage / 100;
-            });
-
-            $tr.find('.txtTotalStudentMarkPractice').val(total);
-            if (!isOnLoad) {
-                $tr.find('.txtFinalStudentMarkPractice').val(total);
-                $tr.find('.txtFinalStudentMarkPractice').change();
-            }
-        }
-
-        $('.txtFinalStudentMarkPracticeGroup').live('change', function () {
+        $('.txtFinalStudentMarkGroup').live('change', function () {
             $tr = $(this).closest('.trDetail');
-            setStudentFinalMarkPractice($tr);
+            setStudentFinalMark($tr);
         });
         //#endregion
 
         //#region Progress Description
-        $('.txtFinalStudentMarkTheory').live('change', function () {
+        $('.txtFinalStudentMark').live('change', function () {
             var value = parseFloat($(this).val());
             var idx = $(this).attr('itemindex');
             $tr = $('.trDetail:eq(' + idx + ')');
-            var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
+            /*var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
             var lstProgress = $('#<%=hdnListProgress.ClientID %>').val().split('|');
             for (var i = 0; i < lstProgress.length; ++i) {
                 var temp = lstProgress[i].split(';');
@@ -324,7 +216,7 @@
                     $tr.find('.txtProgressDescription').val(temp[3].replace('{NamaSiswa}', studentName));
                     cboStudentProgressRule.SetValue(temp[0]);
                 }
-            }
+            }*/
         });
 
         function onCboStudentProgressRuleValueChanged(s, idx, studentName) {
@@ -350,7 +242,6 @@
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
     <input type="hidden" id="hdnGCClassStudyType" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
-    <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
     <input type="hidden" id="hdnCompetencyStandard" runat="server" />
     <table cellspacing="0" cellpadding="0">
@@ -363,90 +254,57 @@
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>
                 <th rowspan="3" style="width:300px"><%=GetLabel("Siswa") %></th>
-                <asp:Repeater ID="rptHeaderMarkType" runat="server">
+                <asp:Repeater ID="rptHeaderMarkType1" runat="server" OnItemDataBound="rptHeaderMarkType1_ItemDataBound">
                     <ItemTemplate>
-                        <th class="thCenter"><%#Eval("CurriculumMarkTypeName") %></th>
+                        <th class="thCenter" id="thHeader" runat="server"><%#Eval("CurriculumMarkTypeName") %></th>
                     </ItemTemplate>
                 </asp:Repeater>
-                <th id="thTheory" runat="server" class="thCenter"><%=GetLabel("KOGNITIF / PENGETAHUAN") %></th>
-                <th id="thPractice" runat="server" class="thCenter"><%=GetLabel("PSIKOMOTORIK / PRAKTEK") %></th>
-                <th id="thAffective" runat="server" colspan="2" class="thCenter"><%=GetLabel("Afektif") %></th>
                 <th colspan="2" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeaderMarkType2" runat="server" OnItemDataBound="rptHeaderMarkType2_ItemDataBound">
                     <ItemTemplate> 
-                        <asp:Repeater ID="rptHeaderTheoryTaskGroup" runat="server" OnItemDataBound="rptHeaderTheoryTaskGroup_ItemDataBound">
+                        <asp:Repeater ID="rptHeaderMarkType2Dt" runat="server" OnItemDataBound="rptHeaderMarkType2Dt_ItemDataBound">
                             <ItemTemplate>
-                                <th class="thCenter" id="thHeaderTheoryTaskGroup" runat="server">
-                                    <%#Eval("TheoryFinalMarkFormulaDtName")%> <br /><%#Eval("TheoryFinalMarkPercentage")%> [%]
+                                <th class="thCenter" id="thHeaderTaskGroup" runat="server">
+                                    <%#Eval("CurriculumFinalMarkFormulaDtName")%> <br /><%#Eval("FinalMarkPercentage")%> [%]
                                 </th>
                             </ItemTemplate>
-                        </asp:Repeater>
-                    </ItemTemplate>
-                </asp:Repeater>
-                <th id="thFinalReadonlyMarkTheory" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter">
-                    <%=GetLabel("Total") %><br />
-                    <span id="spnTotalTheoryPercentage" runat="server"></span> [%]
-                </th>
-                <th id="thFinalMarkTheory" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor") %></th>
-                <asp:Repeater ID="rptHeaderPracticeTaskGroup" runat="server" OnItemDataBound="rptHeaderPracticeTaskGroup_ItemDataBound">
-                    <ItemTemplate>
-                        <th class="thCenter" id="thHeaderPracticeTaskGroup" runat="server">
-                            <%#Eval("PracticeFinalMarkFormulaDtName")%> <br /><%#Eval("PracticeFinalMarkPercentage")%> [%]
+                        </asp:Repeater>                        
+                        <th id="thFinalReadonlyMark" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter">
+                            <%=GetLabel("Total") %><br />
+                            <span id="spnTotalPercentage" runat="server"></span> [%]
                         </th>
+                        <th id="thFinalMark" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor") %></th>
+                        <th id="thPredicateMark" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Predikat") %></th>
                     </ItemTemplate>
                 </asp:Repeater>
-                <th id="thFinalReadonlyMarkPractice" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter">
-                    <%=GetLabel("Total") %><br />
-                    <span id="spnTotalPracticePercentage" runat="server"></span> [%]
-                </th>
-                <th id="thFinalMarkPractice" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor")%></th>
-                <th id="thAffectiveMark" runat="server" class="thCenter" rowspan="2" style="width:40px"><%=GetLabel("Nilai") %></th>
-                <th id="thAffectiveDescription" runat="server" class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
                 <th class="thCenter" rowspan="2" style="width:80px"><%=GetLabel("Kriteria") %></th>
                 <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
             </tr>
             <tr>
-                <asp:Repeater ID="rptHeaderTheoryGroup" runat="server" OnItemDataBound="rptHeaderTheoryGroup_ItemDataBound">
-                    <ItemTemplate>
-                        <asp:Repeater ID="rptHeaderTheory" runat="server">
+                <asp:Repeater ID="rptHeaderMarkType3" runat="server" OnItemDataBound="rptHeaderMarkType3_ItemDataBound">
+                    <ItemTemplate> 
+                        <asp:Repeater ID="rptHeaderMarkType3Dt1" runat="server" OnItemDataBound="rptHeaderMarkType3Dt1_ItemDataBound">
                             <ItemTemplate>
-                                <th class="thCenter" style="width:90px">
-                                    <%#Eval("ClassTaskCode")%><br />
-                                    <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
-                                    <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' class="number txtFinalMarkPercentageTheory" />[%]
+                                <asp:Repeater ID="rptHeaderMarkType3Dt2" runat="server">
+                                    <ItemTemplate>
+                                        <th class="thCenter" style="width:90px">
+                                            <%#Eval("ClassTaskCode")%><br />
+                                            <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
+                                            <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" class="number txtFinalMarkPercentage" formuladtid='<%#DataBinder.Eval(Container,"Parent.Parent.DataItem.CurriculumFinalMarkFormulaDtID")%>' />[%]
+                                        </th>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                <th id="thAverageMark" runat="server" class="thCenter" style="width:80px; background-color:#B9EB33">
+                                    <%=GetLabel("Rata-Rata") %><br />
+                                    <input type="text" class="txtAverageFinalMarkPercentage number" formuladtid='<%#Eval("CurriculumFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
+                                </th>
+                                <th id="thFinalMark" runat="server" class="thCenter" style="width:80px; background-color:#B9EB33">
+                                    <%=GetLabel("Nilai") %><br />
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <th id="thAverageMarkTheory" runat="server" class="thCenter" style="width:80px; background-color:#B9EB33">
-                            <%=GetLabel("Rata-Rata") %><br />
-                            <input type="text" class="txtAverageFinalMarkPercentageTheory number" formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
-                        </th>
-                        <th id="thFinalMarkTheory" runat="server" class="thCenter" style="width:80px; background-color:#B9EB33">
-                            <%=GetLabel("Nilai") %><br />
-                        </th>
-                    </ItemTemplate>
-                </asp:Repeater>
-
-                <asp:Repeater ID="rptHeaderPracticeGroup" runat="server" OnItemDataBound="rptHeaderPracticeGroup_ItemDataBound">
-                    <ItemTemplate>
-                        <asp:Repeater ID="rptHeaderPractice" runat="server">
-                            <ItemTemplate>
-                                <th class="thCenter" style="width:90px">
-                                    <%#Eval("ClassTaskCode")%><br />
-                                    <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
-                                    <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' class="number txtFinalMarkPercentagePractice" />[%]
-                                </th>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                        <th id="thAverageMarkPractice" runat="server" class="thCenter" style="width:65px; background-color:#B9EB33">
-                            <%=GetLabel("Rata-Rata") %><br />
-                            <input type="text" class="txtAverageFinalMarkPercentagePractice number" formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:30px" class="number" />[%]
-                        </th>
-                        <th id="thFinalMarkPractice" runat="server" class="thCenter" style="width:65px; background-color:#B9EB33">
-                            <%=GetLabel("Nilai") %><br />
-                        </th>
                     </ItemTemplate>
                 </asp:Repeater>
             </tr>
@@ -468,50 +326,38 @@
                                 </tr>
                             </table>
                         </td>
-                        <asp:Repeater ID="rptStudentMarkTheoryGroup" runat="server" OnItemDataBound="rptStudentMarkTheoryGroup_ItemDataBound">
-                            <ItemTemplate>
-                                <asp:Repeater ID="rptStudentMarkTheory" runat="server" OnItemDataBound="rptStudentMarkTheory_ItemDataBound">
+                        <asp:Repeater ID="rptStudentMarkType" runat="server" OnItemDataBound="rptStudentMarkType_ItemDataBound">
+                            <ItemTemplate> 
+                                <asp:Repeater ID="rptStudentMarkGroup" runat="server" OnItemDataBound="rptStudentMarkGroup_ItemDataBound">
                                     <ItemTemplate>
-                                        <td align="center">
-                                            <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                            <div id="divMark" runat="server">
-                                                <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkTheory" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
-                                            </div>
-                                            <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
-                                            <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkTheoryDescription" Text="" Width="390px" />                         
-                                        </td>
+                                        <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
+                                            <ItemTemplate>
+                                                <td align="center">
+                                                    <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                                    <div id="divMark" runat="server">
+                                                        <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMark" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
+                                                    </div>
+                                                    <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
+                                                    <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkDescription" Text="" Width="390px" />                         
+                                                </td>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                        <td align="center" id="tdAverageStudentMarkGroup" runat="server"><input class="txtAverageStudentMarkGroup number" formulapercentage='<%#Eval("FinalMarkPercentage") %>' formuladtid='<%#Eval("CurriculumFinalMarkFormulaDtID") %>' readonly="readonly" style="width:60px" /></td>
+                                        <td align="center" id="tdFinalStudentMarkGroup" runat="server"><asp:TextBox ID="txtFinalStudentMarkGroup" runat="server" CssClass="number txtFinalStudentMarkGroup" Text="" Width="60px" /></td>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                                <td align="center" id="tdAverageStudentMarkTheoryGroup" runat="server"><input class="txtAverageStudentMarkTheoryGroup number" formulapercentage='<%#Eval("TheoryFinalMarkPercentage") %>' formuladtid='<%#Eval("TheoryFinalMarkFormulaDtID") %>' readonly="readonly" style="width:60px" /></td>
-                                <td align="center" id="tdFinalStudentMarkTheoryGroup" runat="server"><asp:TextBox ID="txtFinalStudentMarkTheoryGroup" runat="server" CssClass="number txtFinalStudentMarkTheoryGroup" Text="" Width="60px" /></td>
+                                <td align="center" id="tdTotalStudentMark" runat="server"><input class="txtTotalStudentMark number" curriculummarktypeid='<%#Eval("CurriculumMarkTypeID") %>' readonly="readonly" style="width:90%" /></td>
+                                <td align="center" id="tdFinalStudentMark" runat="server">
+                                    <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                    <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="90%" />
+                                    <dxe:ASPxComboBox ID="cboFinalStudentMarkOption" Width="80px" runat="server" />
+                                    <asp:TextBox ID="txtFinalStudentMarkDescription" runat="server" CssClass="txtFinalStudentMarkDescription" Text="" Width="390px" />                         
+                                </td>
+                                <td align="center" id="tdPredicateStudentMark" runat="server">
+                                    <dxe:ASPxComboBox ID="cboPredicateStudentMarkOption" Width="80px" runat="server" />                     
+                                </td>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <td align="center" id="tdTotalStudentMarkTheory" runat="server"><input class="txtTotalStudentMarkTheory number" readonly="readonly" style="width:90%" /></td>
-                        <td align="center" id="tdFinalStudentMarkTheory" runat="server"><asp:TextBox ID="txtFinalStudentMarkTheory" CssClass="txtFinalStudentMarkTheory number" Text="-" runat="server" Width="90%" /></td>
-                        
-                        <asp:Repeater ID="rptStudentMarkPracticeGroup" runat="server" OnItemDataBound="rptStudentMarkPracticeGroup_ItemDataBound">
-                            <ItemTemplate>
-                                <asp:Repeater ID="rptStudentMarkPractice" runat="server" OnItemDataBound="rptStudentMarkPractice_ItemDataBound">
-                                    <ItemTemplate>
-                                        <td align="center">
-                                            <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
-                                            <div id="divMark" runat="server">
-                                                <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMarkPractice" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
-                                            </div>
-                                            <dxe:ASPxComboBox ID="cboStudentMarkOption" Width="80px" runat="server" />
-                                            <asp:TextBox ID="txtStudentMarkDescription" runat="server" CssClass="txtStudentMarkPracticeDescription" Text="" Width="390px" />                         
-                                        </td>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                                <td align="center" id="tdAverageStudentMarkPracticeGroup" runat="server"><input class="txtAverageStudentMarkPracticeGroup number" formulapercentage='<%#Eval("PracticeFinalMarkPercentage") %>' formuladtid='<%#Eval("PracticeFinalMarkFormulaDtID") %>' readonly="readonly" style="width:60px" /></td>
-                                <td align="center" id="tdFinalStudentMarkTheoryGroup" runat="server"><asp:TextBox ID="txtFinalStudentMarkPracticeGroup" runat="server" CssClass="number txtFinalStudentMarkPracticeGroup" Text="" Width="60px" /></td>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                        <td align="center" id="tdTotalStudentMarkPractice" runat="server"><input class="txtTotalStudentMarkPractice number" readonly="readonly" style="width:90%" /></td>
-                        <td align="center" id="tdFinalStudentMarkPractice" runat="server"><asp:TextBox ID="txtFinalStudentMarkPractice" CssClass="txtFinalStudentMarkPractice number" Text="-" runat="server" Width="90%" /></td>
-                        
-                        <td align="center" id="tdStudentAffectiveMark" runat="server"><asp:TextBox ID="txtAffectiveMark" CssClass="txtAffectiveMark" runat="server" Width="90%" /></td>
-                        <td align="center" id="tdStudentAffectiveDescription" runat="server"><asp:TextBox ID="txtAffectiveDescription" CssClass="txtAffectiveDescription" runat="server" Width="90%" /></td>
                         <td align="center"><dxe:ASPxComboBox ID="cboStudentProgressRule" runat="server" Width="90%" /></td>
                         <td align="center">
                             <input type="hidden" class="hdnPreferredName" value='<%#Eval("PreferredName") %>' />

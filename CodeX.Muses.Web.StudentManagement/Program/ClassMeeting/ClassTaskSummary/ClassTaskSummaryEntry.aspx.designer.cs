@@ -94,15 +94,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentClassSubjectID;
         
         /// <summary>
-        /// hdnGCSubjectMarkType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCSubjectMarkType;
-        
-        /// <summary>
         /// hdnGCTransactionStatus control.
         /// </summary>
         /// <remarks>
@@ -130,40 +121,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
         
         /// <summary>
-        /// rptHeaderMarkType control.
+        /// rptHeaderMarkType1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType;
-        
-        /// <summary>
-        /// thTheory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thTheory;
-        
-        /// <summary>
-        /// thPractice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thPractice;
-        
-        /// <summary>
-        /// thAffective control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAffective;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType1;
         
         /// <summary>
         /// rptHeaderMarkType2 control.
@@ -175,103 +139,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType2;
         
         /// <summary>
-        /// thFinalReadonlyMarkTheory control.
+        /// rptHeaderMarkType3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalReadonlyMarkTheory;
-        
-        /// <summary>
-        /// spnTotalTheoryPercentage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnTotalTheoryPercentage;
-        
-        /// <summary>
-        /// thFinalMarkTheory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalMarkTheory;
-        
-        /// <summary>
-        /// rptHeaderPracticeTaskGroup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderPracticeTaskGroup;
-        
-        /// <summary>
-        /// thFinalReadonlyMarkPractice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalReadonlyMarkPractice;
-        
-        /// <summary>
-        /// spnTotalPracticePercentage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnTotalPracticePercentage;
-        
-        /// <summary>
-        /// thFinalMarkPractice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thFinalMarkPractice;
-        
-        /// <summary>
-        /// thAffectiveMark control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAffectiveMark;
-        
-        /// <summary>
-        /// thAffectiveDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell thAffectiveDescription;
-        
-        /// <summary>
-        /// rptHeaderTheoryGroup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderTheoryGroup;
-        
-        /// <summary>
-        /// rptHeaderPracticeGroup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHeaderPracticeGroup;
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType3;
         
         /// <summary>
         /// rptStudent control.

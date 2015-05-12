@@ -5248,6 +5248,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vPeriodClassTypeSubjectFinalMarkFormulaCustom
+        public static List<vPeriodClassTypeSubjectFinalMarkFormulaCustom> GetvPeriodClassTypeSubjectFinalMarkFormulaCustomList(string filterExpression)
+        {
+            List<vPeriodClassTypeSubjectFinalMarkFormulaCustom> result = new List<vPeriodClassTypeSubjectFinalMarkFormulaCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodClassTypeSubjectFinalMarkFormulaCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodClassTypeSubjectFinalMarkFormulaCustom)helper.IDataReaderToObject(reader, new vPeriodClassTypeSubjectFinalMarkFormulaCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPeriodFinalMarkFormula
         public static List<vPeriodFinalMarkFormula> GetvPeriodFinalMarkFormulaList(string filterExpression)
         {

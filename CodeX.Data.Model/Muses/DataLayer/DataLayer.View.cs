@@ -3519,10 +3519,13 @@ namespace CodeX.Data.Model
         private String _CurriculumMarkTypeName;
         private Int32 _TaskMarkTypeID;
         private String _TaskMarkTypeName;
+        private String _TaskGCMarkType;
         private Int32 _FinalMarkTypeID;
         private String _FinalMarkTypeName;
+        private String _FinalGCMarkType;
         private Int32 _PredicateMarkTypeID;
         private String _PredicateMarkTypeName;
+        private String _PredicateGCMarkType;
         private Boolean _IsAllowTask;
         private Boolean _IsDeleted;
 
@@ -3556,6 +3559,12 @@ namespace CodeX.Data.Model
             get { return _TaskMarkTypeName; }
             set { _TaskMarkTypeName = value; }
         }
+        [Column(Name = "TaskGCMarkType", DataType = "String")]
+        public String TaskGCMarkType
+        {
+            get { return _TaskGCMarkType; }
+            set { _TaskGCMarkType = value; }
+        }
         [Column(Name = "FinalMarkTypeID", DataType = "Int32")]
         public Int32 FinalMarkTypeID
         {
@@ -3568,6 +3577,12 @@ namespace CodeX.Data.Model
             get { return _FinalMarkTypeName; }
             set { _FinalMarkTypeName = value; }
         }
+        [Column(Name = "FinalGCMarkType", DataType = "String")]
+        public String FinalGCMarkType
+        {
+            get { return _FinalGCMarkType; }
+            set { _FinalGCMarkType = value; }
+        }
         [Column(Name = "PredicateMarkTypeID", DataType = "Int32")]
         public Int32 PredicateMarkTypeID
         {
@@ -3579,6 +3594,12 @@ namespace CodeX.Data.Model
         {
             get { return _PredicateMarkTypeName; }
             set { _PredicateMarkTypeName = value; }
+        }
+        [Column(Name = "PredicateGCMarkType", DataType = "String")]
+        public String PredicateGCMarkType
+        {
+            get { return _PredicateGCMarkType; }
+            set { _PredicateGCMarkType = value; }
         }
         [Column(Name = "IsAllowTask", DataType = "Boolean")]
         public Boolean IsAllowTask
@@ -3903,10 +3924,13 @@ namespace CodeX.Data.Model
         private String _CurriculumMarkTypeName;
         private Int32 _TaskMarkTypeID;
         private String _TaskMarkTypeName;
+        private String _TaskGCMarkType;
         private Int32 _FinalMarkTypeID;
         private String _FinalMarkTypeName;
+        private String _FinalGCMarkType;
         private Int32 _PredicateMarkTypeID;
         private String _PredicateMarkTypeName;
+        private String _PredicateGCMarkType;
         private Boolean _IsAllowTask;
         private Boolean _IsDeleted;
 
@@ -3952,6 +3976,12 @@ namespace CodeX.Data.Model
             get { return _TaskMarkTypeName; }
             set { _TaskMarkTypeName = value; }
         }
+        [Column(Name = "TaskGCMarkType", DataType = "String")]
+        public String TaskGCMarkType
+        {
+            get { return _TaskGCMarkType; }
+            set { _TaskGCMarkType = value; }
+        }
         [Column(Name = "FinalMarkTypeID", DataType = "Int32")]
         public Int32 FinalMarkTypeID
         {
@@ -3964,6 +3994,12 @@ namespace CodeX.Data.Model
             get { return _FinalMarkTypeName; }
             set { _FinalMarkTypeName = value; }
         }
+        [Column(Name = "FinalGCMarkType", DataType = "String")]
+        public String FinalGCMarkType
+        {
+            get { return _FinalGCMarkType; }
+            set { _FinalGCMarkType = value; }
+        }
         [Column(Name = "PredicateMarkTypeID", DataType = "Int32")]
         public Int32 PredicateMarkTypeID
         {
@@ -3975,6 +4011,12 @@ namespace CodeX.Data.Model
         {
             get { return _PredicateMarkTypeName; }
             set { _PredicateMarkTypeName = value; }
+        }
+        [Column(Name = "PredicateGCMarkType", DataType = "String")]
+        public String PredicateGCMarkType
+        {
+            get { return _PredicateGCMarkType; }
+            set { _PredicateGCMarkType = value; }
         }
         [Column(Name = "IsAllowTask", DataType = "Boolean")]
         public Boolean IsAllowTask
@@ -13441,6 +13483,35 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vPeriodClassTypeSubjectFinalMarkFormulaCustom
+    [Serializable]
+    [Table(Name = "vPeriodClassTypeSubjectFinalMarkFormulaCustom")]
+    public class vPeriodClassTypeSubjectFinalMarkFormulaCustom
+    {
+        private Int32 _PeriodClassTypeSubjectID;
+        private Int32 _CurriculumMarkTypeID;
+        private Int32 _CurriculumFinalMarkFormulaID;
+
+        [Column(Name = "PeriodClassTypeSubjectID", DataType = "Int32")]
+        public Int32 PeriodClassTypeSubjectID
+        {
+            get { return _PeriodClassTypeSubjectID; }
+            set { _PeriodClassTypeSubjectID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumFinalMarkFormulaID", DataType = "Int32")]
+        public Int32 CurriculumFinalMarkFormulaID
+        {
+            get { return _CurriculumFinalMarkFormulaID; }
+            set { _CurriculumFinalMarkFormulaID = value; }
         }
     }
     #endregion
