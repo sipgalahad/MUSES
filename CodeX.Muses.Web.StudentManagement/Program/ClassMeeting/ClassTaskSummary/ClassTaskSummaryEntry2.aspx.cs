@@ -294,10 +294,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     TextBox txtAffectiveMark = (TextBox)e.Item.FindControl("txtAffectiveMark");
                     TextBox txtAffectiveDescription = (TextBox)e.Item.FindControl("txtAffectiveDescription");
                     TextBox txtProgressDescription = (TextBox)e.Item.FindControl("txtProgressDescription");
-                    txtFinalStudentMarkTheory.Text = studentFinalMark.TheoryMark.ToString();
-                    txtFinalStudentMarkPractice.Text = studentFinalMark.PracticeMark.ToString();
-                    txtAffectiveMark.Text = studentFinalMark.AffectiveMark;
-                    txtAffectiveDescription.Text = studentFinalMark.AffectiveDescription;
+                    //txtFinalStudentMarkTheory.Text = studentFinalMark.TheoryMark.ToString();
+                    //txtFinalStudentMarkPractice.Text = studentFinalMark.PracticeMark.ToString();
+                    //txtAffectiveMark.Text = studentFinalMark.AffectiveMark;
+                    //txtAffectiveDescription.Text = studentFinalMark.AffectiveDescription;
                     txtProgressDescription.Text = studentFinalMark.ProgressDescription;
                     cboStudentProgressRule.Value = studentFinalMark.StudentProgressRuleDtID.ToString();
                 }
@@ -355,7 +355,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 TextBox txtFinalStudentMarkTheoryGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkTheoryGroup");
                 txtFinalStudentMarkTheoryGroup.Attributes.Add("formulapercentage", entityGroup.TheoryFinalMarkPercentage.ToString());
                 txtFinalStudentMarkTheoryGroup.Attributes.Add("formuladtid", entityGroup.TheoryFinalMarkFormulaDtID.ToString());
-                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID && p.StudentID == student.StudentID);
+                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == entityGroup.TheoryFinalMarkFormulaDtID && p.StudentID == student.StudentID);
                 if (entityMark != null)
                     txtFinalStudentMarkTheoryGroup.Text = entityMark.Mark.ToString();
 
@@ -427,7 +427,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 TextBox txtFinalStudentMarkPracticeGroup = (TextBox)e.Item.FindControl("txtFinalStudentMarkPracticeGroup");
                 txtFinalStudentMarkPracticeGroup.Attributes.Add("formulapercentage", entityGroup.PracticeFinalMarkPercentage.ToString());
                 txtFinalStudentMarkPracticeGroup.Attributes.Add("formuladtid", entityGroup.PracticeFinalMarkFormulaDtID.ToString());
-                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID && p.StudentID == student.StudentID);
+                ClassStudentSubjectTaskGroupMark entityMark = lstStudentGroupMark.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == entityGroup.PracticeFinalMarkFormulaDtID && p.StudentID == student.StudentID);
                 if (entityMark != null)
                     txtFinalStudentMarkPracticeGroup.Text = entityMark.Mark.ToString();
                 
@@ -556,10 +556,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 studentFinalMark.ClassSubjectID = ClassSubjectID;
                                 studentFinalMark.StudentID = studentID;
                                 studentFinalMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
-                                studentFinalMark.TheoryMark = finalStudentMarkTheory;
-                                studentFinalMark.PracticeMark = finalStudentMarkPractice;
-                                studentFinalMark.AffectiveMark = temp[3];
-                                studentFinalMark.AffectiveDescription = temp[4];
+                                //studentFinalMark.TheoryMark = finalStudentMarkTheory;
+                                //studentFinalMark.PracticeMark = finalStudentMarkPractice;
+                                //studentFinalMark.AffectiveMark = temp[3];
+                                //studentFinalMark.AffectiveDescription = temp[4];
                                 if (temp[5] == "")
                                     studentFinalMark.StudentProgressRuleDtID = null;
                                 else
@@ -569,10 +569,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             }
                             else
                             {
-                                studentFinalMark.TheoryMark = finalStudentMarkTheory;
-                                studentFinalMark.PracticeMark = finalStudentMarkPractice;
-                                studentFinalMark.AffectiveMark = temp[3];
-                                studentFinalMark.AffectiveDescription = temp[4];
+                                //studentFinalMark.TheoryMark = finalStudentMarkTheory;
+                                //studentFinalMark.PracticeMark = finalStudentMarkPractice;
+                                //studentFinalMark.AffectiveMark = temp[3];
+                                //studentFinalMark.AffectiveDescription = temp[4];
                                 if (temp[5] == "")
                                     studentFinalMark.StudentProgressRuleDtID = null;
                                 else
@@ -675,7 +675,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             {
                                 string[] temp1 = saveValue2.Split(')');
                                 int StudentFinalMarkFormulaDtID = Convert.ToInt32(temp1[0]);
-                                ClassStudentSubjectTaskGroupMark studentMark = lstStudentGroupMark.FirstOrDefault(p => p.StudentFinalMarkFormulaDtID == StudentFinalMarkFormulaDtID && p.StudentID == studentID);
+                                ClassStudentSubjectTaskGroupMark studentMark = lstStudentGroupMark.FirstOrDefault(p => p.CurriculumFinalMarkFormulaDtID == StudentFinalMarkFormulaDtID && p.StudentID == studentID);
 
                                 Decimal mark = -1;
                                 if (temp1[1] != "-" && temp1[1] != "")
@@ -688,7 +688,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                         studentMark.ClassSubjectID = AppSession.ClassSubject.ClassSubjectID;
                                         studentMark.PeriodSectionID = AppSession.ClassSubject.PeriodSectionID;
                                         studentMark.StudentID = studentID;
-                                        studentMark.StudentFinalMarkFormulaDtID = StudentFinalMarkFormulaDtID;
+                                        studentMark.CurriculumFinalMarkFormulaDtID = StudentFinalMarkFormulaDtID;
                                         studentMark.Mark = mark;
                                         entityStudentSubjectTaskGroupMarkDao.Insert(studentMark);
                                     }

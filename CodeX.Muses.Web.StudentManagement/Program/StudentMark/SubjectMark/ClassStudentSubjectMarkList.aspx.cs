@@ -55,11 +55,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 if (studentMark != null)
                 {
-                    divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
-                    divMarkPractice.InnerHtml = studentMark.PracticeMark.ToString();
-                    divAffectiveMark.InnerHtml = studentMark.AffectiveMark;
-                    divAffectiveDescription.InnerHtml = studentMark.AffectiveDescription;
-                    divProgressDescription.InnerHtml = studentMark.ProgressDescription;
+                    //divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
+                    //divMarkPractice.InnerHtml = studentMark.PracticeMark.ToString();
+                    //divAffectiveMark.InnerHtml = studentMark.AffectiveMark;
+                    //divAffectiveDescription.InnerHtml = studentMark.AffectiveDescription;
+                    //divProgressDescription.InnerHtml = studentMark.ProgressDescription;
                 }
                 else
                 {

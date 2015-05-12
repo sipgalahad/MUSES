@@ -1440,9 +1440,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ClassStudentSubjectMark
-        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
+        public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID)
         {
-            return new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID);
+            return new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID);
         }
         public static int InsertClassStudentSubjectMark(ClassStudentSubjectMark record)
         {
@@ -1452,9 +1452,9 @@ namespace CodeX.Data.Model
         {
             return new ClassStudentSubjectMarkDao().Update(record);
         }
-        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
+        public static int DeleteClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID)
         {
-            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectID, StudentID, PeriodSectionID);
+            return new ClassStudentSubjectMarkDao().Delete(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID);
         }
         public static List<ClassStudentSubjectMark> GetClassStudentSubjectMarkList(string filterExpression)
         {
@@ -1497,9 +1497,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ClassStudentSubjectTaskGroupMark
-        public static ClassStudentSubjectTaskGroupMark GetClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        public static ClassStudentSubjectTaskGroupMark GetClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 CurriculumFinalMarkFormulaDtID, Int32 StudentID)
         {
-            return new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+            return new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, CurriculumFinalMarkFormulaDtID, StudentID);
         }
         public static int InsertClassStudentSubjectTaskGroupMark(ClassStudentSubjectTaskGroupMark record)
         {
@@ -1509,9 +1509,9 @@ namespace CodeX.Data.Model
         {
             return new ClassStudentSubjectTaskGroupMarkDao().Update(record);
         }
-        public static int DeleteClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        public static int DeleteClassStudentSubjectTaskGroupMark(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 CurriculumFinalMarkFormulaDtID, Int32 StudentID)
         {
-            return new ClassStudentSubjectTaskGroupMarkDao().Delete(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+            return new ClassStudentSubjectTaskGroupMarkDao().Delete(ClassSubjectID, PeriodSectionID, CurriculumFinalMarkFormulaDtID, StudentID);
         }
         public static List<ClassStudentSubjectTaskGroupMark> GetClassStudentSubjectTaskGroupMarkList(string filterExpression)
         {

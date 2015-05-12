@@ -3106,10 +3106,11 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
         private Int32 _PeriodSectionID;
-        private Decimal _TheoryMark;
-        private Decimal _PracticeMark;
-        private String _AffectiveMark;
-        private String _AffectiveDescription;
+        private Int32 _CurriculumMarkTypeID;
+        private Decimal _Mark;
+        private Int32? _MarkTypeDtID;
+        private String _DescriptionMark;
+        private Int32? _PredicateMarkTypeDtID;
         private Int32? _StudentProgressRuleDtID;
         private String _ProgressDescription;
 
@@ -3131,29 +3132,35 @@ namespace CodeX.Data.Model
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
         }
-        [Column(Name = "TheoryMark", DataType = "Decimal")]
-        public Decimal TheoryMark
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumMarkTypeID
         {
-            get { return _TheoryMark; }
-            set { _TheoryMark = value; }
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
         }
-        [Column(Name = "PracticeMark", DataType = "Decimal")]
-        public Decimal PracticeMark
+        [Column(Name = "Mark", DataType = "Decimal", IsNullable = true)]
+        public Decimal Mark
         {
-            get { return _PracticeMark; }
-            set { _PracticeMark = value; }
+            get { return _Mark; }
+            set { _Mark = value; }
         }
-        [Column(Name = "AffectiveMark", DataType = "String", IsNullable = true)]
-        public String AffectiveMark
+        [Column(Name = "MarkTypeDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? MarkTypeDtID
         {
-            get { return _AffectiveMark; }
-            set { _AffectiveMark = value; }
+            get { return _MarkTypeDtID; }
+            set { _MarkTypeDtID = value; }
         }
-        [Column(Name = "AffectiveDescription", DataType = "String", IsNullable = true)]
-        public String AffectiveDescription
+        [Column(Name = "DescriptionMark", DataType = "String", IsNullable = true)]
+        public String DescriptionMark
         {
-            get { return _AffectiveDescription; }
-            set { _AffectiveDescription = value; }
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
+        }
+        [Column(Name = "PredicateMarkTypeDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? PredicateMarkTypeDtID
+        {
+            get { return _PredicateMarkTypeDtID; }
+            set { _PredicateMarkTypeDtID = value; }
         }
         [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsNullable = true)]
         public Int32? StudentProgressRuleDtID
@@ -3175,6 +3182,7 @@ namespace CodeX.Data.Model
         private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectMark));
         private bool _isAuditLog = false;
         private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_CurriculumMarkTypeID = "@p_CurriculumMarkTypeID";
         private const string p_PeriodSectionID = "@p_PeriodSectionID";
         private const string p_StudentID = "@p_StudentID";
         public ClassStudentSubjectMarkDao() { }
@@ -3182,10 +3190,11 @@ namespace CodeX.Data.Model
         {
             _ctx = ctx;
         }
-        public ClassStudentSubjectMark Get(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
+        public ClassStudentSubjectMark Get(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID)
         {
             _ctx.CommandText = _helper.GetRecord();
             _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_CurriculumMarkTypeID, CurriculumMarkTypeID);
             _ctx.Add(p_PeriodSectionID, PeriodSectionID);
             _ctx.Add(p_StudentID, StudentID);
             DataRow row = DaoBase.GetDataRow(_ctx);
@@ -3201,13 +3210,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID)
+        public int Delete(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID)
         {
             ClassStudentSubjectMark record;
             if (_ctx.Transaction == null)
-                record = new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID);
+                record = new ClassStudentSubjectMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID);
             else
-                record = Get(ClassSubjectID, StudentID, PeriodSectionID);
+                record = Get(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -3220,7 +3229,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
-        private Int32 _StudentFinalMarkFormulaDtID;
+        private Int32 _CurriculumFinalMarkFormulaDtID;
         private Int32 _StudentID;
         private Decimal _Mark;
         private String _GCOptionMark;
@@ -3238,11 +3247,11 @@ namespace CodeX.Data.Model
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
         }
-        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 StudentFinalMarkFormulaDtID
+        [Column(Name = "CurriculumFinalMarkFormulaDtID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumFinalMarkFormulaDtID
         {
-            get { return _StudentFinalMarkFormulaDtID; }
-            set { _StudentFinalMarkFormulaDtID = value; }
+            get { return _CurriculumFinalMarkFormulaDtID; }
+            set { _CurriculumFinalMarkFormulaDtID = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 StudentID
@@ -3276,20 +3285,20 @@ namespace CodeX.Data.Model
         private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectTaskGroupMark));
         private bool _isAuditLog = false;
         private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_CurriculumFinalMarkFormulaDtID = "@p_CurriculumFinalMarkFormulaDtID";
         private const string p_PeriodSectionID = "@p_PeriodSectionID";
-        private const string p_StudentFinalMarkFormulaDtID = "@p_StudentFinalMarkFormulaDtID";
         private const string p_StudentID = "@p_StudentID";
         public ClassStudentSubjectTaskGroupMarkDao() { }
         public ClassStudentSubjectTaskGroupMarkDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public ClassStudentSubjectTaskGroupMark Get(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        public ClassStudentSubjectTaskGroupMark Get(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 CurriculumFinalMarkFormulaDtID, Int32 StudentID)
         {
             _ctx.CommandText = _helper.GetRecord();
             _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_CurriculumFinalMarkFormulaDtID, CurriculumFinalMarkFormulaDtID);
             _ctx.Add(p_PeriodSectionID, PeriodSectionID);
-            _ctx.Add(p_StudentFinalMarkFormulaDtID, StudentFinalMarkFormulaDtID);
             _ctx.Add(p_StudentID, StudentID);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (ClassStudentSubjectTaskGroupMark)_helper.DataRowToObject(row, new ClassStudentSubjectTaskGroupMark());
@@ -3304,13 +3313,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 StudentFinalMarkFormulaDtID, Int32 StudentID)
+        public int Delete(Int32 ClassSubjectID, Int32 PeriodSectionID, Int32 CurriculumFinalMarkFormulaDtID, Int32 StudentID)
         {
             ClassStudentSubjectTaskGroupMark record;
             if (_ctx.Transaction == null)
-                record = new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+                record = new ClassStudentSubjectTaskGroupMarkDao().Get(ClassSubjectID, PeriodSectionID, CurriculumFinalMarkFormulaDtID, StudentID);
             else
-                record = Get(ClassSubjectID, PeriodSectionID, StudentFinalMarkFormulaDtID, StudentID);
+                record = Get(ClassSubjectID, PeriodSectionID, CurriculumFinalMarkFormulaDtID, StudentID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

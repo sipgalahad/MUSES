@@ -230,8 +230,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 {
                     decimal mark = 0;
                     ClassStudentSubjectMark classStudentSubjectMark = lstStudentSubjectMark.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectID == entitySubject.ClassSubjectID && p.PeriodSectionID == periodSection.PeriodSectionID);
-                    if (classStudentSubjectMark != null)
-                        mark = classStudentSubjectMark.TheoryMark;
+                    //if (classStudentSubjectMark != null)
+                    //    mark = classStudentSubjectMark.TheoryMark;
 
                     finalMark = mark * lstGradePromotionFormula.FirstOrDefault(p => p.GCPeriodSection == periodSection.GCPeriodSection).FinalMarkPercentage / 100;
                 }
@@ -260,9 +260,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 if (mark != null)
                 {
-                    tdTheoryMark.InnerHtml = mark.TheoryMark.ToString();
-                    tdPracticeMark.InnerHtml = mark.PracticeMark.ToString();
-                    tdAffectiveMark.InnerHtml = mark.AffectiveMark.ToString();
+                    //tdTheoryMark.InnerHtml = mark.TheoryMark.ToString();
+                    //tdPracticeMark.InnerHtml = mark.PracticeMark.ToString();
+                    //tdAffectiveMark.InnerHtml = mark.AffectiveMark.ToString();
                 }
 
                 if (chkIsOnlyFinalMark.Checked)

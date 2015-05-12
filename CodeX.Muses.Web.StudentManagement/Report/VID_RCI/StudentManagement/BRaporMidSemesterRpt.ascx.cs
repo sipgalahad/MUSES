@@ -255,8 +255,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 #region Affective
                 HtmlTableCell tdDetailSikap = e.Item.FindControl("tdDetailSikap") as HtmlTableCell;
                 ClassStudentSubjectMark ssm = lstStudentSubjectMark.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
-                if (ssm != null) tdDetailSikap.InnerHtml = ssm.AffectiveMark;
-                else tdDetailSikap.InnerHtml = "-";
+                //if (ssm != null) tdDetailSikap.InnerHtml = ssm.AffectiveMark;
+                //else tdDetailSikap.InnerHtml = "-";
                 #endregion
             }
         }

@@ -165,12 +165,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 if (mark != null)
                 {
-                    tdTheoryMark.InnerHtml = mark.TheoryMark.ToString();
-                    tdPracticeMark.InnerHtml = mark.PracticeMark.ToString();
-                    tdAffectiveMark.InnerHtml = mark.AffectiveMark.ToString();
+                    //tdTheoryMark.InnerHtml = mark.TheoryMark.ToString();
+                    //tdPracticeMark.InnerHtml = mark.PracticeMark.ToString();
+                    //tdAffectiveMark.InnerHtml = mark.AffectiveMark.ToString();
 
-                    if (mark.TheoryMark < entitySubject.PassingGrade)
-                        tdTheoryMark.Attributes.Add("class", "belowpassinggrade");
+                    //if (mark.TheoryMark < entitySubject.PassingGrade)
+                    //    tdTheoryMark.Attributes.Add("class", "belowpassinggrade");
                 }
             }
         }

@@ -215,29 +215,29 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
                 if (cs != null)
                 {
-                    if (cs.TheoryMark > 0)
-                    {
-                        tdTheory.InnerHtml = cs.TheoryMark.ToString("N");
-                        tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(cs.TheoryMark);
-                    }
-                    else 
-                    {
-                        tdTheory.InnerHtml = "-";
-                        tdTxtTheory.InnerHtml = "-";
-                    }
+                    //if (cs.TheoryMark > 0)
+                    //{
+                    //    tdTheory.InnerHtml = cs.TheoryMark.ToString("N");
+                    //    tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(cs.TheoryMark);
+                    //}
+                    //else 
+                    //{
+                    //    tdTheory.InnerHtml = "-";
+                    //    tdTxtTheory.InnerHtml = "-";
+                    //}
 
-                    if (cs.PracticeMark > 0)
-                    {
-                        tdPractice.InnerHtml = cs.PracticeMark.ToString("N");
-                        tdTxtPractice.InnerHtml = Function.NumberInWordsForScore(cs.PracticeMark);
-                    }
-                    else
-                    {
-                        tdPractice.InnerHtml = "-";
-                        tdTxtPractice.InnerHtml = "-";
-                    }
+                    //if (cs.PracticeMark > 0)
+                    //{
+                    //    tdPractice.InnerHtml = cs.PracticeMark.ToString("N");
+                    //    tdTxtPractice.InnerHtml = Function.NumberInWordsForScore(cs.PracticeMark);
+                    //}
+                    //else
+                    //{
+                    //    tdPractice.InnerHtml = "-";
+                    //    tdTxtPractice.InnerHtml = "-";
+                    //}
 
-                    tdAffective.InnerHtml = cs.AffectiveMark != null ? cs.AffectiveMark : "-";
+                    //tdAffective.InnerHtml = cs.AffectiveMark != null ? cs.AffectiveMark : "-";
                 }
                 else 
                 {

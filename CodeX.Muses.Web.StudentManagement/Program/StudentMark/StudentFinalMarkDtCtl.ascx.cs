@@ -41,8 +41,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 HtmlGenericControl divMarkPractice = (HtmlGenericControl)e.Row.FindControl("divMarkPractice");
                 if (studentMark != null)
                 {
-                    divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
-                    divMarkPractice.InnerHtml = studentMark.PracticeMark.ToString();
+                    //divMarkTheory.InnerHtml = studentMark.TheoryMark.ToString();
+                    //divMarkPractice.InnerHtml = studentMark.PracticeMark.ToString();
                 }
                 else
                 {

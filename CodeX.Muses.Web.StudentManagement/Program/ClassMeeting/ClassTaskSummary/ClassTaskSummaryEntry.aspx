@@ -32,27 +32,61 @@
                 result = '';
                 var idx = 0;
                 $('.trDetail').each(function () {
-                    var tempResult = '';
                     var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
                     var studentProgressRuleDtID = cboStudentProgressRule.GetValue();
                     if (studentProgressRuleDtID == null || studentProgressRuleDtID == "0")
                         studentProgressRuleDtID = "";
 
-                    $(this).find('.txtStudentMark').each(function () {
-                        var value = '';
-                        var positiontag = $(this).attr('positiontag');
-                        switch (GCSubjectMarkType) {
-                            case '<%=OnGetSubjectMarkTypeNumber() %>': value = $(this).val(); break;
-                            case '<%=OnGetSubjectMarkTypeOption() %>':
-                                var cboStudentMarkOption = eval('cboStudentMarkOption' + positiontag);
-                                if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
-                                    value = cboStudentMarkOption.GetValue(); break;
-                            case '<%=OnGetSubjectMarkTypeText() %>': value = $(this).parent().find('.txtStudentMarkTheoryDescription').val(); break;
-                        }
+                    $tr = $(this);
+                    var tempResult1 = '';
+                    $(this).find('.hdnCurriculumMarkTypeID').each(function () {
+                        var curriculumMarkTypeID = $(this).val();
+                        $td = $(this).parent();
 
-                        if (tempResult != '')
-                            tempResult += ',';
-                        tempResult += value;
+                        var itemIndex = $td.find('.hdnItemIndex').val();
+                        var taskGCMarkType = $td.find('.hdnTaskGCMarkType').val();
+                        var finalGCMarkType = $td.find('.hdnFinalGCMarkType').val();
+                        var predicateGCMarkType = $td.find('.hdnPredicateGCMarkType').val();
+                        $txtFinalStudentMark = $td.find('.txtFinalStudentMark');
+                        var positiontag = $txtFinalStudentMark.attr('positiontag');
+
+                        var finalMark = '';
+                        switch (finalGCMarkType) {
+                            case '<%=OnGetSubjectMarkTypeNumber() %>':
+                                finalMark = $txtFinalStudentMark.val(); break;
+                            case '<%=OnGetSubjectMarkTypeOption() %>':
+                                var cboFinalStudentMarkOption = eval('cboFinalStudentMarkOption' + positiontag);
+                                if (cboFinalStudentMarkOption.GetValue() != null && cboFinalStudentMarkOption.GetValue() != '0')
+                                    finalMark = cboFinalStudentMarkOption.GetValue(); break;
+                            case '<%=OnGetSubjectMarkTypeText() %>':
+                                $txtFinalStudentMarkDescription = $td.find('.txtFinalStudentMarkDescription');
+                                finalMark = $txtFinalStudentMark.val(); break;
+                        }
+                        var cboPredicateStudentMarkOption = eval('cboPredicateStudentMarkOption' + positiontag);
+                        var predicateMark = '';
+                        if (cboPredicateStudentMarkOption.GetValue() != null && cboPredicateStudentMarkOption.GetValue() != '0')
+                            predicateMark = cboPredicateStudentMarkOption.GetValue();
+                        var tempResult2 = '';
+                        $tr.find('td[curriculummarktypeid="' + curriculumMarkTypeID + '"]').each(function () {
+                            var value = '';
+                            $txtStudentMark = $(this).find('.txtStudentMark');
+                            var positiontag = $txtStudentMark.attr('positiontag');
+                            switch (taskGCMarkType) {
+                                case '<%=OnGetSubjectMarkTypeNumber() %>':
+                                    value = $txtStudentMark.val(); break;
+                                case '<%=OnGetSubjectMarkTypeOption() %>':
+                                    var cboStudentMarkOption = eval('cboStudentMarkOption' + positiontag);
+                                    if (cboStudentMarkOption.GetValue() != null && cboStudentMarkOption.GetValue() != '0')
+                                        value = cboStudentMarkOption.GetValue(); break;
+                                case '<%=OnGetSubjectMarkTypeText() %>': value = $(this).find('.txtStudentMarkTheoryDescription').val(); break;
+                            }
+                            if (tempResult2 != '')
+                                tempResult2 += ',';
+                            tempResult2 += value;
+                        });
+                        if (tempResult1 != '')
+                            tempResult1 += ';';
+                        tempResult1 += curriculumMarkTypeID + '(' + taskGCMarkType + '(' + finalGCMarkType + '(' + predicateGCMarkType + '(' + finalMark + '(' + predicateMark + '(' + tempResult2;
                     });
 
                     var tempResult2 = '';
@@ -64,7 +98,7 @@
                     });
                     if (result != '')
                         result += '|';
-                    result += $(this).find('.keyField').html() + '*' + $(this).find('.txtFinalStudentMark').val() + '*' + $(this).find('.txtAffectiveMark').val() + '*' + $(this).find('.txtAffectiveDescription').val() + '*' + studentProgressRuleDtID + '*' + $(this).find('.txtProgressDescription').val() + '*' + tempResult + '*' + tempResult2;
+                    result += $(this).find('.keyField').html() + '*' + tempResult1 + '*' + tempResult2;
                     idx++;
                 });
                 $('#<%=hdnListSaveValue.ClientID %>').val(result);
@@ -332,7 +366,7 @@
                                     <ItemTemplate>
                                         <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
                                             <ItemTemplate>
-                                                <td align="center">
+                                                <td align="center" curriculummarktypeid='<%#DataBinder.Eval(Container,"Parent.Parent.Parent.Parent.DataItem.CurriculumMarkTypeID")%>'>
                                                     <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
                                                     <div id="divMark" runat="server">
                                                         <asp:TextBox ID="txtStudentMark" runat="server" CssClass="number txtStudentMark" Text="" Width="60px" />&nbsp;<b id="bIsRemedial" class="bIsRemedial" runat="server" style="color:Red;">R*</b>
@@ -349,6 +383,10 @@
                                 <td align="center" id="tdTotalStudentMark" runat="server"><input class="txtTotalStudentMark number" curriculummarktypeid='<%#Eval("CurriculumMarkTypeID") %>' readonly="readonly" style="width:90%" /></td>
                                 <td align="center" id="tdFinalStudentMark" runat="server">
                                     <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                    <input type="hidden" class="hdnCurriculumMarkTypeID" value='<%# Eval("CurriculumMarkTypeID") %>' />
+                                    <input type="hidden" class="hdnTaskGCMarkType" value='<%# Eval("TaskGCMarkType") %>' />
+                                    <input type="hidden" class="hdnFinalGCMarkType" value='<%# Eval("FinalGCMarkType") %>' />
+                                    <input type="hidden" class="hdnPredicateGCMarkType" value='<%# Eval("PredicateGCMarkType") %>' />
                                     <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="90%" />
                                     <dxe:ASPxComboBox ID="cboFinalStudentMarkOption" Width="80px" runat="server" />
                                     <asp:TextBox ID="txtFinalStudentMarkDescription" runat="server" CssClass="txtFinalStudentMarkDescription" Text="" Width="390px" />                         
