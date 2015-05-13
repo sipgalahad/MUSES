@@ -75,8 +75,8 @@
             tacSubject.setText(entity.SubjectName);
             tacSubjectCurriculum.setValue(entity.SubjectCurriculumID);
             tacSubjectCurriculum.setText(entity.SubjectCurriculumName);
-            cboSubjectType.SetValue(entity.GCSubjectType);
-            cboSubjectType.SetEnabled(false);
+            cboCurriculumSubjectGroup.SetValue(entity.CurriculumSubjectGroupID);
+            cboCurriculumSubjectGroup.SetEnabled(false);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
             tacSubject.setEnabled(false);
@@ -210,7 +210,7 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pelajaran")%></label></td>
-                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboSubjectType" ClientInstanceName="cboSubjectType" Width="200px" /></td>
+                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
@@ -269,7 +269,7 @@
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="280px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
-                                <asp:BoundField DataField="SubjectType" HeaderText="Jenis Pelajaran" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="120px" />
                                 <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
@@ -282,7 +282,7 @@
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumID") %>" bindingfield="SubjectCurriculumID" />
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
-                                        <input type="hidden" value="<%#Eval("GCSubjectType") %>" bindingfield="GCSubjectType" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
                                         <input type="hidden" value="<%#Eval("TheoryFinalMarkFormulaID") %>" bindingfield="TheoryFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("PracticeFinalMarkFormulaID") %>" bindingfield="PracticeFinalMarkFormulaID" />

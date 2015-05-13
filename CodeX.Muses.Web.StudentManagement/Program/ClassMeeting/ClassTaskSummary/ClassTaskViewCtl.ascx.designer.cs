@@ -10,204 +10,168 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class PeriodClassTypeSubjectEntry {
+    public partial class ClassTaskViewCtl {
         
         /// <summary>
-        /// hdnSaveValue control.
+        /// hdnClassMeetingID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassMeetingID;
         
         /// <summary>
-        /// hdnCurriculumID control.
+        /// hdnSubjectCurriculumID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectCurriculumID;
         
         /// <summary>
-        /// cboClassType control.
+        /// hdnSubjectMeetingPlanHdID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboClassType;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMeetingPlanHdID;
         
         /// <summary>
-        /// hdnEntryID control.
+        /// hdnSubjectIndicatorSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectIndicatorSave;
         
         /// <summary>
-        /// tacSubject control.
+        /// hdnID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnID;
         
         /// <summary>
-        /// cboCurriculumSubjectGroup control.
+        /// txtClassTaskCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumSubjectGroup;
+        protected global::System.Web.UI.WebControls.TextBox txtClassTaskCode;
         
         /// <summary>
-        /// tacTeacher control.
+        /// txtTopic control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTeacher;
+        protected global::System.Web.UI.WebControls.TextBox txtTopic;
         
         /// <summary>
-        /// tacSubjectCurriculum control.
+        /// trLessonType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculum;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trLessonType;
         
         /// <summary>
-        /// txtNoMeetingHoursInWeek control.
+        /// cboLessonType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoMeetingHoursInWeek;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboLessonType;
         
         /// <summary>
-        /// txtPassingGrade control.
+        /// txtTaskType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
+        protected global::System.Web.UI.WebControls.TextBox txtTaskType;
         
         /// <summary>
-        /// cboTheoryFinalMarkFormula control.
+        /// txtFinalMarkPercentage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTheoryFinalMarkFormula;
+        protected global::System.Web.UI.WebControls.TextBox txtFinalMarkPercentage;
         
         /// <summary>
-        /// chkIsTheoryFormulaDefault control.
+        /// txtTaskDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsTheoryFormulaDefault;
+        protected global::System.Web.UI.WebControls.TextBox txtTaskDate;
         
         /// <summary>
-        /// cboPracticeFinalMarkFormula control.
+        /// txtStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboPracticeFinalMarkFormula;
+        protected global::System.Web.UI.WebControls.TextBox txtStartDate;
         
         /// <summary>
-        /// chkIsPracticeFormulaDefault control.
+        /// txtStartTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsPracticeFormulaDefault;
+        protected global::System.Web.UI.WebControls.TextBox txtStartTime;
         
         /// <summary>
-        /// rptFinalMarkFormula control.
+        /// txtEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptFinalMarkFormula;
+        protected global::System.Web.UI.WebControls.TextBox txtEndDate;
         
         /// <summary>
-        /// cbpView control.
+        /// txtEndTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::System.Web.UI.WebControls.TextBox txtEndTime;
         
         /// <summary>
-        /// PanelContent1 control.
+        /// txtRemarks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::System.Web.UI.WebControls.TextBox txtRemarks;
         
         /// <summary>
-        /// pnlView control.
+        /// rptIndicator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlView;
-        
-        /// <summary>
-        /// hdnClassTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassTypeID;
-        
-        /// <summary>
-        /// hdnClassRowCount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassRowCount;
-        
-        /// <summary>
-        /// grdView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdView;
-        
-        /// <summary>
-        /// cbpProcess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
+        protected global::System.Web.UI.WebControls.Repeater rptIndicator;
     }
 }

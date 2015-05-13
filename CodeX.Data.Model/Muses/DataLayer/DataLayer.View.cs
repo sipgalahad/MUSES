@@ -13322,8 +13322,6 @@ namespace CodeX.Data.Model
         private String _GCClassStudyType;
         private Int32 _SubjectCurriculumID;
         private String _SubjectCurriculumName;
-        private String _GCSubjectType;
-        private String _SubjectType;
         private Int32 _TeacherID;
         private String _TeacherCode;
         private String _TeacherName;
@@ -13331,6 +13329,8 @@ namespace CodeX.Data.Model
         private Int16 _PassingGrade;
         private Int32 _TheoryFinalMarkFormulaID;
         private Int32 _PracticeFinalMarkFormulaID;
+        private Int32 _CurriculumSubjectGroupID;
+        private String _CurriculumSubjectGroupName;
         private Boolean _IsEditable;
         private Boolean _IsDeleted;
 
@@ -13418,18 +13418,6 @@ namespace CodeX.Data.Model
             get { return _SubjectCurriculumName; }
             set { _SubjectCurriculumName = value; }
         }
-        [Column(Name = "GCSubjectType", DataType = "String")]
-        public String GCSubjectType
-        {
-            get { return _GCSubjectType; }
-            set { _GCSubjectType = value; }
-        }
-        [Column(Name = "SubjectType", DataType = "String")]
-        public String SubjectType
-        {
-            get { return _SubjectType; }
-            set { _SubjectType = value; }
-        }
         [Column(Name = "TeacherID", DataType = "Int32")]
         public Int32 TeacherID
         {
@@ -13471,6 +13459,18 @@ namespace CodeX.Data.Model
         {
             get { return _PracticeFinalMarkFormulaID; }
             set { _PracticeFinalMarkFormulaID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
+        {
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
+        }
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
+        {
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
         }
         [Column(Name = "IsEditable", DataType = "Boolean")]
         public Boolean IsEditable

@@ -130,6 +130,12 @@
             }, 500);
         });
 
+        $('.lblTask.lblLink').live('click', function () {
+            var id = $(this).parent().find('.hdnClassSubjectTaskID').val();
+            var url = ResolveUrl("~/Program/ClassMeeting/ClassTaskSummary/ClassTaskViewCtl.ascx");
+            openUserControlPopup(url, id, 'Detil Tugas', 800, 550);
+        });
+
         $('.lblStudent').live('click', function () {
             var id = $(this).closest('table').parent().closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/ClassMeeting/ClassTaskSummary/StudentSummaryViewDtCtl.ascx");
@@ -324,6 +330,7 @@
             }
         }
         //#endregion
+
     </script>
     <style type="text/css">
         .bIsRemedial                { cursor: pointer; }
@@ -385,7 +392,7 @@
                                 <asp:Repeater ID="rptHeaderMarkType3Dt2" runat="server">
                                     <ItemTemplate>
                                         <th class="thCenter" style="width:90px">
-                                            <%#Eval("ClassTaskCode")%><br />
+                                            <label class="lblTask lblLink"><%#Eval("ClassTaskCode")%></label><br />
                                             <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
                                             <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" class="number txtFinalMarkPercentage" formuladtid='<%#DataBinder.Eval(Container,"Parent.Parent.DataItem.CurriculumFinalMarkFormulaDtID")%>' />[%]
                                         </th>

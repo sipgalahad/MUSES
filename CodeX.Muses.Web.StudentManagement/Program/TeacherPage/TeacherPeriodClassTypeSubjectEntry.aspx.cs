@@ -27,15 +27,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
             if (selectedSchoolPeriod == null)
+            {
                 cboSchoolPeriod.SelectedIndex = 0;
+                selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault();
+            }
             else
                 cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
 
             SchoolPeriod entitySp = lstSchoolPeriod.FirstOrDefault(p => p.SchoolPeriodID == Convert.ToInt32(cboSchoolPeriod.Value));
             hdnCurriculumID.Value = entitySp.CurriculumID.ToString();
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboSubjectType, lstSc, "StandardCodeName", "StandardCodeID");
+            List<CurriculumSubjectGroup> lstSubjectGroup = BusinessLayer.GetCurriculumSubjectGroupList(string.Format("CurriculumID = {0} AND IsDeleted = 0", selectedSchoolPeriod.CurriculumID));
+            Methods.SetComboBoxField<CurriculumSubjectGroup>(cboCurriculumSubjectGroup, lstSubjectGroup, "CurriculumSubjectGroupName", "CurriculumSubjectGroupID");
 
             List<StudentFinalMarkFormulaHd> lstFormula = BusinessLayer.GetStudentFinalMarkFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             lstFormula.Insert(0, new StudentFinalMarkFormulaHd { StudentFinalMarkFormulaID = 0, StudentFinalMarkFormulaName = "" });
@@ -48,7 +51,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             BindGridView();
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboSubjectType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboCurriculumSubjectGroup, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(tacSubjectCurriculum, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtNoMeetingHoursInWeek, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtPassingGrade, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -100,7 +103,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private void ControlToEntity(PeriodClassTypeSubject entity)
         {
             entity.SubjectID = Convert.ToInt32(tacSubject.Value);
-            entity.GCSubjectType = cboSubjectType.Value.ToString();
+            entity.CurriculumSubjectGroupID = Convert.ToInt32(cboCurriculumSubjectGroup.Value);
             if (tacSubjectCurriculum.Value != "" && tacSubjectCurriculum.Value != "0")
                 entity.SubjectCurriculumID = Convert.ToInt32(tacSubjectCurriculum.Value);
             else

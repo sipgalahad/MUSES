@@ -117,7 +117,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 PeriodClassTypeSubject entity = new PeriodClassTypeSubject();
                 ControlToEntity(entity);
-                entity.GCSubjectType = Constant.SubjectType.UMUM;
+                entity.CurriculumSubjectGroupID = null;
                 entity.PeriodClassTypeID = Convert.ToInt32(cboClassType.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 BusinessLayer.InsertPeriodClassTypeSubject(entity);

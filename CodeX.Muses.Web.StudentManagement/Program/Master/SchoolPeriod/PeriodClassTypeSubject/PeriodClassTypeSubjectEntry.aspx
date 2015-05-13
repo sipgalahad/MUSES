@@ -23,7 +23,7 @@
                 tacTeacher.setText('');
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val('');
                 $('#<%=txtPassingGrade.ClientID %>').val('0');
-                cboSubjectType.SetValue('<%=OnGetSubjectTypeUmum() %>');
+                cboCurriculumSubjectGroup.SetSelectedIndex(0);
 
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
@@ -124,7 +124,7 @@
             tacSubjectCurriculum.setText(entity.SubjectCurriculumName);
             tacTeacher.setValue(entity.TeacherID);
             tacTeacher.setText(entity.TeacherName);
-            cboSubjectType.SetValue(entity.GCSubjectType);
+            cboCurriculumSubjectGroup.SetValue(entity.CurriculumSubjectGroupID);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
             if (entity.IsEditable == 'False') {
@@ -375,7 +375,7 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pelajaran")%></label></td>
-                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboSubjectType" ClientInstanceName="cboSubjectType" Width="200px" /></td>
+                                    <td colspan="3"><dxe:ASPxComboBox runat="server" ID="cboCurriculumSubjectGroup" ClientInstanceName="cboCurriculumSubjectGroup" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Guru")%></label></td>
@@ -461,10 +461,10 @@
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
-                                <asp:BoundField DataField="SubjectType" HeaderText="Jenis Pelajaran" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="TeacherName" HeaderText="Guru" HeaderStyle-Width="280px" />
                                 <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Pertemuan" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
@@ -477,7 +477,7 @@
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
                                         <input type="hidden" value="<%#Eval("TeacherID") %>" bindingfield="TeacherID" />
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
-                                        <input type="hidden" value="<%#Eval("GCSubjectType") %>" bindingfield="GCSubjectType" />
+                                        <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
                                         <input type="hidden" value="<%#Eval("TheoryFinalMarkFormulaID") %>" bindingfield="TheoryFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("PracticeFinalMarkFormulaID") %>" bindingfield="PracticeFinalMarkFormulaID" />

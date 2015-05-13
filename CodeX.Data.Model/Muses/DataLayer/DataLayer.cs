@@ -16872,8 +16872,9 @@ namespace CodeX.Data.Model
         private Int16 _PassingGrade;
         private Int32? _TheoryFinalMarkFormulaID;
         private Int32? _PracticeFinalMarkFormulaID;
+        private Int32? _SubjectMatterID;
         private Int32? _SubjectCurriculumID;
-        private String _GCSubjectType;
+        private Int32? _CurriculumSubjectGroupID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -16928,17 +16929,23 @@ namespace CodeX.Data.Model
             get { return _PracticeFinalMarkFormulaID; }
             set { _PracticeFinalMarkFormulaID = value; }
         }
+        [Column(Name = "SubjectMatterID", DataType = "Int32", IsNullable = true)]
+        public Int32? SubjectMatterID
+        {
+            get { return _SubjectMatterID; }
+            set { _SubjectMatterID = value; }
+        }
         [Column(Name = "SubjectCurriculumID", DataType = "Int32", IsNullable = true)]
         public Int32? SubjectCurriculumID
         {
             get { return _SubjectCurriculumID; }
             set { _SubjectCurriculumID = value; }
         }
-        [Column(Name = "GCSubjectType", DataType = "String")]
-        public String GCSubjectType
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32", IsNullable = true)]
+        public Int32? CurriculumSubjectGroupID
         {
-            get { return _GCSubjectType; }
-            set { _GCSubjectType = value; }
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

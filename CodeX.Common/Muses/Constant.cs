@@ -69,7 +69,7 @@ namespace CodeX.Common
             public const string PERIOD_SECTION = "MS028";
             public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
             public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
-            public const string SUBJECT_TYPE = "MS031";
+            public const string COMPETENCY_DESCRIPTION_TYPE = "MS031";
             public const string ABSENCE_REASON = "MS032";
             public const string CURRICULUM_SYLLABUS_TYPE = "MS033";
             public const string CURRICULUM_MEETING_PLAN_TYPE = "MS034";
