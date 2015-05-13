@@ -32,11 +32,6 @@
                 result = '';
                 var idx = 0;
                 $('.trDetail').each(function () {
-                    var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
-                    var studentProgressRuleDtID = cboStudentProgressRule.GetValue();
-                    if (studentProgressRuleDtID == null || studentProgressRuleDtID == "0")
-                        studentProgressRuleDtID = "";
-
                     $tr = $(this);
                     var tempResult1 = '';
                     $(this).find('.hdnCurriculumMarkTypeID').each(function () {
@@ -47,8 +42,19 @@
                         var taskGCMarkType = $td.find('.hdnTaskGCMarkType').val();
                         var finalGCMarkType = $td.find('.hdnFinalGCMarkType').val();
                         var predicateGCMarkType = $td.find('.hdnPredicateGCMarkType').val();
+                        var GCCompetencyDescriptionType = $td.find('.hdnGCCompetencyDescriptionType').val();
+                        var competencyMark = '';
+                        var competencyDesc = '';
+
                         $txtFinalStudentMark = $td.find('.txtFinalStudentMark');
                         var positiontag = $txtFinalStudentMark.attr('positiontag');
+
+                        if (GCCompetencyDescriptionType == '<%=OnGetCompetencyDescriptionSemester() %>') {
+                            var cboCompetencyMarkType = eval('cboCompetencyMarkType' + positiontag);
+                            if (cboCompetencyMarkType.GetValue() != null && cboCompetencyMarkType.GetValue() != '0')
+                                competencyMark = cboCompetencyMarkType.GetValue();
+                            competencyDesc = $tr.find('.txtCompetencyDescription[positiontag="' + positiontag + '"]').val();
+                        }
 
                         var finalMark = '';
                         switch (finalGCMarkType) {
@@ -86,7 +92,7 @@
                         });
                         if (tempResult1 != '')
                             tempResult1 += ';';
-                        tempResult1 += curriculumMarkTypeID + '(' + taskGCMarkType + '(' + finalGCMarkType + '(' + predicateGCMarkType + '(' + finalMark + '(' + predicateMark + '(' + tempResult2;
+                        tempResult1 += curriculumMarkTypeID + '(' + taskGCMarkType + '(' + finalGCMarkType + '(' + predicateGCMarkType + '(' + finalMark + '(' + predicateMark + '(' + competencyMark + '(' + competencyDesc + '(' + tempResult2;
                     });
 
                     var tempResult2 = '';
@@ -304,28 +310,51 @@
         //#region Progress Description
         $('.txtFinalStudentMark').live('change', function () {
             var value = parseFloat($(this).val());
-            var idx = $(this).attr('itemindex');
-            $tr = $('.trDetail:eq(' + idx + ')');
-            /*var cboStudentProgressRule = eval('cboStudentProgressRule' + idx);
-            var lstProgress = $('#<%=hdnListProgress.ClientID %>').val().split('|');
-            for (var i = 0; i < lstProgress.length; ++i) {
-                var temp = lstProgress[i].split(';');
-                if (value >= parseFloat(temp[1]) && value <= parseFloat(temp[2])) {
-                    var studentName = $tr.find('.hdnPreferredName').val();
-                    $tr.find('.txtProgressDescription').val(temp[3].replace('{NamaSiswa}', studentName));
-                    cboStudentProgressRule.SetValue(temp[0]);
-                }
-            }*/
-        });
+            var positiontag = $(this).attr('positiontag');
+            $tr = $(this).closest('tr');
+            $td = $(this).parent();
 
-        function onCboStudentProgressRuleValueChanged(s, idx, studentName) {
-            $tr = $('.trDetail:eq(' + idx + ')');
-            var value = s.GetValue();
-            var lstProgress = $('#<%=hdnListProgress.ClientID %>').val().split('|');
+            var total = parseFloat($(this).val());
+
+            var competencyMarkTypeID = $td.find('.hdnCompetencyMarkTypeID').val();
+            var finalMarkTypeID = $td.find('.hdnFinalMarkTypeID').val();
+            var finalGCMarkType = $td.find('.hdnFinalGCMarkType').val();
+
+            var cboCompetencyMarkType = eval('cboCompetencyMarkType' + positiontag);
+
+            var lstMarkTypeFormula = $('#<%=hdnListMarkTypeFormula.ClientID %>').val().split('|');
+            for (var i = 0; i < lstMarkTypeFormula.length; ++i) {
+                var temp = lstMarkTypeFormula[i].split(';');
+                if (temp[0] == competencyMarkTypeID && temp[1] == finalMarkTypeID) {
+                    if (finalGCMarkType == '<%=OnGetSubjectMarkTypeNumber() %>') {
+                        if (total >= parseFloat(temp[2]) && total <= parseFloat(temp[3])) {
+                            cboCompetencyMarkType.SetValue(temp[5]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var studentName = $tr.find('.hdnPreferredName').val();
+            var value = cboCompetencyMarkType.GetValue();
+            var idx2 = parseInt(positiontag.substring(2));
+            var lstProgress = $tr.find('.hdnListProgress:eq(' + idx2 + ')').val().split('|');
             for (var i = 0; i < lstProgress.length; ++i) {
                 var temp = lstProgress[i].split(';');
                 if (temp[0] == value) {
-                    $tr.find('.txtProgressDescription').val(temp[3].replace('{NamaSiswa}', studentName));
+                    $tr.find('.txtCompetencyDescription').val(temp[1].replace('{NamaSiswa}', studentName));
+                }
+            }
+        });
+
+        function onCboCompetencyMarkTypeValueChanged(s, idx, idx2, studentName) {
+            $tr = $('.trDetail:eq(' + idx + ')');
+            var value = s.GetValue();
+            var lstProgress = $tr.find('.hdnListProgress:eq('+idx2+')').val().split('|');
+            for (var i = 0; i < lstProgress.length; ++i) {
+                var temp = lstProgress[i].split(';');
+                if (temp[0] == value) {
+                    $tr.find('.txtCompetencyDescription').val(temp[1].replace('{NamaSiswa}', studentName));
                 }
             }
         }
@@ -340,12 +369,10 @@
     <input type="hidden" id="hdnTableWidth" runat="server" />
     <input type="hidden" id="hdnListSaveHeaderValue" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
-    <input type="hidden" id="hdnListProgress" runat="server" />
     <input type="hidden" id="hdnIsMainTeacher" runat="server" />
     <input type="hidden" id="hdnGCClassStudyType" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
     <input type="hidden" id="hdnGCTransactionStatus" runat="server" />
-    <input type="hidden" id="hdnCompetencyStandard" runat="server" />
     <table cellspacing="0" cellpadding="0">
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
@@ -361,7 +388,7 @@
                         <th class="thCenter" id="thHeader" runat="server"><%#Eval("CurriculumMarkTypeName") %></th>
                     </ItemTemplate>
                 </asp:Repeater>
-                <th colspan="2" class="thCenter"><%=GetLabel("Deskripsi Kemajuan Bljr") %></th>
+                <th class="thCenter" id="thDesc" runat="server"><%=GetLabel("Deskripsi Kompetensi") %></th>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeaderMarkType2" runat="server" OnItemDataBound="rptHeaderMarkType2_ItemDataBound">
@@ -381,8 +408,11 @@
                         <th id="thPredicateMark" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Predikat") %></th>
                     </ItemTemplate>
                 </asp:Repeater>
-                <th class="thCenter" rowspan="2" style="width:80px"><%=GetLabel("Kriteria") %></th>
-                <th class="thCenter" rowspan="2" style="width:200px"><%=GetLabel("Deskripsi") %></th>
+                <asp:Repeater ID="rptHeaderMarkTypeDesc2" runat="server">
+                    <ItemTemplate>
+                        <th class="thCenter" colspan="2"><%#Eval("CurriculumMarkTypeName") %></th>
+                    </ItemTemplate>
+                </asp:Repeater>
             </tr>
             <tr>
                 <asp:Repeater ID="rptHeaderMarkType3" runat="server" OnItemDataBound="rptHeaderMarkType3_ItemDataBound">
@@ -409,12 +439,21 @@
                         </asp:Repeater>
                     </ItemTemplate>
                 </asp:Repeater>
+                <asp:Repeater ID="rptHeaderMarkTypeDesc3" runat="server">
+                    <ItemTemplate>
+                        <th class="thCenter" style="width:80px"><%=GetLabel("Kriteria") %></th>
+                        <th class="thCenter" style="width:200px"><%=GetLabel("Deskripsi") %></th>
+                    </ItemTemplate>
+                </asp:Repeater>
             </tr>
             <asp:Repeater ID="rptStudent" runat="server" OnItemDataBound="rptStudent_ItemDataBound">
                 <ItemTemplate>
                     <tr class="trDetail">
-                        <td class="keyField"><%#Eval("StudentID") %></td>
+                        <td class="keyField">
+                            <%#Eval("StudentID") %>
+                        </td>
                         <td>
+                            <input type="hidden" class="hdnPreferredName" value='<%#Eval("PreferredName") %>' />
                             <table cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td style="width: 35px;">
@@ -455,10 +494,12 @@
                                     <input type="hidden" class="hdnTaskMarkTypeID" value='<%# Eval("TaskMarkTypeID") %>' />
                                     <input type="hidden" class="hdnFinalMarkTypeID" value='<%# Eval("FinalMarkTypeID") %>' />
                                     <input type="hidden" class="hdnPredicateMarkTypeID" value='<%# Eval("PredicateMarkTypeID") %>' />
+                                    <input type="hidden" class="hdnCompetencyMarkTypeID" value='<%# Eval("CompetencyMarkTypeID") %>' />
                                     <input type="hidden" class="hdnTaskGCMarkType" value='<%# Eval("TaskGCMarkType") %>' />
                                     <input type="hidden" class="hdnFinalGCMarkType" value='<%# Eval("FinalGCMarkType") %>' />
                                     <input type="hidden" class="hdnPredicateGCMarkType" value='<%# Eval("PredicateGCMarkType") %>' />
                                     <input type="hidden" class="hdnIsAllowTask" value='<%# Eval("IsAllowTask") %>' />
+                                    <input type="hidden" class="hdnGCCompetencyDescriptionType" value='<%# Eval("GCCompetencyDescriptionType") %>' />
                                     <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="80px" />
                                     <dxe:ASPxComboBox ID="cboFinalStudentMarkOption" Width="80px" runat="server" />
                                     <asp:TextBox ID="txtFinalStudentMarkDescription" runat="server" CssClass="txtFinalStudentMarkDescription" Text="" Width="390px" />                         
@@ -468,11 +509,15 @@
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <td align="center"><dxe:ASPxComboBox ID="cboStudentProgressRule" runat="server" Width="90%" /></td>
-                        <td align="center">
-                            <input type="hidden" class="hdnPreferredName" value='<%#Eval("PreferredName") %>' />
-                            <asp:TextBox ID="txtProgressDescription" CssClass="txtProgressDescription" runat="server" Width="90%" />
-                        </td>
+                        <asp:Repeater ID="rptStudentMarkTypeDesc" runat="server" OnItemDataBound="rptStudentMarkTypeDesc_ItemDataBound">
+                            <ItemTemplate> 
+                                <td align="center"><dxe:ASPxComboBox ID="cboCompetencyMarkType" runat="server" Width="90%" /></td>
+                                <td align="center">
+                                    <input type="hidden" class="hdnListProgress" id="hdnListProgress" runat="server"/>
+                                    <asp:TextBox ID="txtCompetencyDescription" CssClass="txtCompetencyDescription" runat="server" Width="90%" />
+                                </td>
+                            </ItemTemplate> 
+                        </asp:Repeater>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>

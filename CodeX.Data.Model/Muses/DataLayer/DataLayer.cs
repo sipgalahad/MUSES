@@ -3111,8 +3111,8 @@ namespace CodeX.Data.Model
         private Int32? _MarkTypeDtID;
         private String _DescriptionMark;
         private Int32? _PredicateMarkTypeDtID;
-        private Int32? _StudentProgressRuleDtID;
-        private String _ProgressDescription;
+        private Int32? _CompetencyMarkTypeDtID;
+        private String _CompetencyDescription;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 ClassSubjectID
@@ -3162,17 +3162,17 @@ namespace CodeX.Data.Model
             get { return _PredicateMarkTypeDtID; }
             set { _PredicateMarkTypeDtID = value; }
         }
-        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32", IsNullable = true)]
-        public Int32? StudentProgressRuleDtID
+        [Column(Name = "CompetencyMarkTypeDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? CompetencyMarkTypeDtID
         {
-            get { return _StudentProgressRuleDtID; }
-            set { _StudentProgressRuleDtID = value; }
+            get { return _CompetencyMarkTypeDtID; }
+            set { _CompetencyMarkTypeDtID = value; }
         }
-        [Column(Name = "ProgressDescription", DataType = "String", IsNullable = true)]
-        public String ProgressDescription
+        [Column(Name = "CompetencyDescription", DataType = "String", IsNullable = true)]
+        public String CompetencyDescription
         {
-            get { return _ProgressDescription; }
-            set { _ProgressDescription = value; }
+            get { return _CompetencyDescription; }
+            set { _CompetencyDescription = value; }
         }
     }
 

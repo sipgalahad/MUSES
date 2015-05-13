@@ -182,7 +182,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 HtmlTableCell tdEskul = e.Item.FindControl("tdEskul") as HtmlTableCell;
                 ClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
-                if (cs != null) tdEskul.InnerHtml = cs.ProgressDescription;
+                if (cs != null) tdEskul.InnerHtml = cs.DescriptionMark;
                 else tdEskul.InnerHtml = "-";
             }
         }
@@ -194,7 +194,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 HtmlTableCell tdKompetensi = e.Item.FindControl("tdKompetensi") as HtmlTableCell;
                 ClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
-                if (cs != null) tdKompetensi.InnerHtml = cs.ProgressDescription;
+                if (cs != null) tdKompetensi.InnerHtml = cs.DescriptionMark;
                 else tdKompetensi.InnerHtml = "-";
             }
         }

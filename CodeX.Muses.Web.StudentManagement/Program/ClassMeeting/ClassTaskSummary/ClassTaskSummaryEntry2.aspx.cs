@@ -298,8 +298,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     //txtFinalStudentMarkPractice.Text = studentFinalMark.PracticeMark.ToString();
                     //txtAffectiveMark.Text = studentFinalMark.AffectiveMark;
                     //txtAffectiveDescription.Text = studentFinalMark.AffectiveDescription;
-                    txtProgressDescription.Text = studentFinalMark.ProgressDescription;
-                    cboStudentProgressRule.Value = studentFinalMark.StudentProgressRuleDtID.ToString();
+                    //txtProgressDescription.Text = studentFinalMark.ProgressDescription;
+                    //cboStudentProgressRule.Value = studentFinalMark.StudentProgressRuleDtID.ToString();
                 }
 
                 Repeater rptStudentMarkTheoryGroup = (Repeater)e.Item.FindControl("rptStudentMarkTheoryGroup");
@@ -560,11 +560,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 //studentFinalMark.PracticeMark = finalStudentMarkPractice;
                                 //studentFinalMark.AffectiveMark = temp[3];
                                 //studentFinalMark.AffectiveDescription = temp[4];
-                                if (temp[5] == "")
-                                    studentFinalMark.StudentProgressRuleDtID = null;
-                                else
-                                    studentFinalMark.StudentProgressRuleDtID = Convert.ToInt32(temp[5]);
-                                studentFinalMark.ProgressDescription = temp[6];
+                                //if (temp[5] == "")
+                                //    studentFinalMark.StudentProgressRuleDtID = null;
+                                //else
+                                //    studentFinalMark.StudentProgressRuleDtID = Convert.ToInt32(temp[5]);
+                                //studentFinalMark.ProgressDescription = temp[6];
                                 entityStudentSubjectMarkDao.Insert(studentFinalMark);
                             }
                             else
@@ -573,11 +573,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                 //studentFinalMark.PracticeMark = finalStudentMarkPractice;
                                 //studentFinalMark.AffectiveMark = temp[3];
                                 //studentFinalMark.AffectiveDescription = temp[4];
-                                if (temp[5] == "")
-                                    studentFinalMark.StudentProgressRuleDtID = null;
-                                else
-                                    studentFinalMark.StudentProgressRuleDtID = Convert.ToInt32(temp[5]);
-                                studentFinalMark.ProgressDescription = temp[6];
+                                //if (temp[5] == "")
+                                //    studentFinalMark.StudentProgressRuleDtID = null;
+                                //else
+                                //    studentFinalMark.StudentProgressRuleDtID = Convert.ToInt32(temp[5]);
+                                //studentFinalMark.ProgressDescription = temp[6];
                                 entityStudentSubjectMarkDao.Update(studentFinalMark);
                             }
 

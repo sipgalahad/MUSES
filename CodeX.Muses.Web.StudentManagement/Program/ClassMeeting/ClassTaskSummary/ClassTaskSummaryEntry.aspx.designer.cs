@@ -76,15 +76,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
         
         /// <summary>
-        /// hdnListProgress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListProgress;
-        
-        /// <summary>
         /// hdnIsMainTeacher control.
         /// </summary>
         /// <remarks>
@@ -121,15 +112,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCTransactionStatus;
         
         /// <summary>
-        /// hdnCompetencyStandard control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCompetencyStandard;
-        
-        /// <summary>
         /// txtPassingGrade control.
         /// </summary>
         /// <remarks>
@@ -148,6 +130,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType1;
         
         /// <summary>
+        /// thDesc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thDesc;
+        
+        /// <summary>
         /// rptHeaderMarkType2 control.
         /// </summary>
         /// <remarks>
@@ -157,6 +148,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType2;
         
         /// <summary>
+        /// rptHeaderMarkTypeDesc2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkTypeDesc2;
+        
+        /// <summary>
         /// rptHeaderMarkType3 control.
         /// </summary>
         /// <remarks>
@@ -164,6 +164,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkType3;
+        
+        /// <summary>
+        /// rptHeaderMarkTypeDesc3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptHeaderMarkTypeDesc3;
         
         /// <summary>
         /// rptStudent control.

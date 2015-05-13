@@ -44,7 +44,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ClassStudentSubjectMark studentMark = lstMark.FirstOrDefault(p => p.ClassSubjectID == entity.ClassSubjectID);
                 TextBox txtMarkDescription = (TextBox)e.Row.FindControl("txtMarkDescription");
                 if (studentMark != null)
-                    txtMarkDescription.Text = studentMark.ProgressDescription;
+                    txtMarkDescription.Text = studentMark.DescriptionMark;
             }
         }
     }

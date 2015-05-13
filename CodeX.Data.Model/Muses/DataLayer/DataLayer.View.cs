@@ -3967,6 +3967,11 @@ namespace CodeX.Data.Model
         private String _PredicateMarkTypeName;
         private String _PredicateGCMarkType;
         private Boolean _IsAllowTask;
+        private Boolean _IsShowCompetencyDescription;
+        private String _GCCompetencyDescriptionType;
+        private String _CompetencyDescriptionType;
+        private Int32 _CompetencyMarkTypeID;
+        private String _CompetencyMarkTypeName;
         private Boolean _IsDeleted;
 
         [Column(Name = "CurriculumSubjectID", DataType = "Int32")]
@@ -4058,6 +4063,36 @@ namespace CodeX.Data.Model
         {
             get { return _IsAllowTask; }
             set { _IsAllowTask = value; }
+        }
+        [Column(Name = "IsShowCompetencyDescription", DataType = "Boolean")]
+        public Boolean IsShowCompetencyDescription
+        {
+            get { return _IsShowCompetencyDescription; }
+            set { _IsShowCompetencyDescription = value; }
+        }
+        [Column(Name = "GCCompetencyDescriptionType", DataType = "String")]
+        public String GCCompetencyDescriptionType
+        {
+            get { return _GCCompetencyDescriptionType; }
+            set { _GCCompetencyDescriptionType = value; }
+        }
+        [Column(Name = "CompetencyDescriptionType", DataType = "String")]
+        public String CompetencyDescriptionType
+        {
+            get { return _CompetencyDescriptionType; }
+            set { _CompetencyDescriptionType = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeID", DataType = "Int32")]
+        public Int32 CompetencyMarkTypeID
+        {
+            get { return _CompetencyMarkTypeID; }
+            set { _CompetencyMarkTypeID = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeName", DataType = "String")]
+        public String CompetencyMarkTypeName
+        {
+            get { return _CompetencyMarkTypeName; }
+            set { _CompetencyMarkTypeName = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
