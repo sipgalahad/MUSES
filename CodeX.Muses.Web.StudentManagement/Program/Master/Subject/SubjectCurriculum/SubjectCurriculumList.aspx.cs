@@ -25,10 +25,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
 
-            //List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
-            //rptPeriodSection.DataSource = lstSc;
-            //rptPeriodSection.DataBind();
-
             BindGridView();
 
             Helper.SetControlEntrySetting(txtSubjectCurriculumName, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -99,20 +95,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     else
                         result += string.Format("fail|{0}", errMessage);
                 }
-                else
-                {
-                    if (OnSaveAddRecordEntityDt(ref errMessage))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
-            }
-            else if (param[0] == "delete")
-            {
-                if (OnDeleteEntityDt(ref errMessage))
-                    result += "success";
-                else
-                    result += string.Format("fail|{0}", errMessage);
             }
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
@@ -121,61 +103,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void ControlToEntity(SubjectCurriculum entity)
         {
-            entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
             entity.SubjectCurriculumName = txtSubjectCurriculumName.Text;
             entity.Remarks = txtRemarks.Text;
-        }
-
-        private bool OnSaveAddRecordEntityDt(ref string errMessage)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            SubjectCurriculumDao entityDao = new SubjectCurriculumDao(ctx);
-            SubjectCurriculumClassTypeDao entityClassTypeDao = new SubjectCurriculumClassTypeDao(ctx);
-            SubjectCompetencyStandardSummaryDao entitySummaryDao = new SubjectCompetencyStandardSummaryDao(ctx);
-            try
-            {
-                SubjectCurriculum entity = new SubjectCurriculum();
-                ControlToEntity(entity);
-                entity.SubjectID = AppSession.SubjectID;
-                entity.CreatedBy = AppSession.UserLogin.UserID;
-                entityDao.Insert(entity);
-                entity.SubjectCurriculumID = BusinessLayer.GetSubjectCurriculumMaxID(ctx);
-
-                string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
-                foreach (string classTypeID in lstClassTypeID)
-                {
-                    SubjectCurriculumClassType entityDt = new SubjectCurriculumClassType();
-                    entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                    entityDt.CurriculumClassTypeID = Convert.ToInt32(classTypeID);
-                    entityClassTypeDao.Insert(entityDt);
-                }
-
-                //string[] lstSaveValue = hdnLstPeriodSectionSummary.Value.Split('|');
-                //foreach (string saveValue in lstSaveValue)
-                //{
-                //    string[] temp = saveValue.Split(';');
-                //    SubjectCompetencyStandardSummary entityDt = new SubjectCompetencyStandardSummary();
-                //    entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                //    entityDt.GCPeriodSection = temp[0];
-                //    entityDt.SummaryName = temp[1];
-                //    entitySummaryDao.Insert(entityDt);
-                //}
-
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                result = false;
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
@@ -184,35 +113,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             SubjectCurriculumDao entityDao = new SubjectCurriculumDao(ctx);
             SubjectCurriculumClassTypeDao entityClassTypeDao = new SubjectCurriculumClassTypeDao(ctx);
-            SubjectCompetencyStandardSummaryDao entitySummaryDao = new SubjectCompetencyStandardSummaryDao(ctx);
             try
             {
                 SubjectCurriculum entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
-
-                //List<SubjectCompetencyStandardSummary> lstEntityComp = BusinessLayer.GetSubjectCompetencyStandardSummaryList(string.Format("SubjectCurriculumID = {0}", entity.SubjectCurriculumID), ctx);
-                //string[] lstSaveValue = hdnLstPeriodSectionSummary.Value.Split('|');
-                //foreach (string saveValue in lstSaveValue)
-                //{
-                //    string[] temp = saveValue.Split(';');
-                //    string GCPeriodSection = temp[0];
-                //    SubjectCompetencyStandardSummary entityDt = lstEntityComp.FirstOrDefault(p => p.GCPeriodSection == GCPeriodSection);
-                //    if (entityDt == null)
-                //    {
-                //        entityDt = new SubjectCompetencyStandardSummary();
-                //        entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                //        entityDt.GCPeriodSection = GCPeriodSection;
-                //        entityDt.SummaryName = temp[1];
-                //        entitySummaryDao.Insert(entityDt);
-                //    }
-                //    else
-                //    {
-                //        entityDt.SummaryName = temp[1];
-                //        entitySummaryDao.Update(entityDt);
-                //    }
-                //}
 
                 List<SubjectCurriculumClassType> lstEntityDt = BusinessLayer.GetSubjectCurriculumClassTypeList(string.Format("SubjectCurriculumID = {0}", entity.SubjectCurriculumID), ctx);
                 string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
@@ -248,24 +154,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ctx.Close();
             }
             return result;
-        }
-
-        private bool OnDeleteEntityDt(ref string errMessage)
-        {
-            try
-            {
-                SubjectCurriculum entity = BusinessLayer.GetSubjectCurriculum(Convert.ToInt32(hdnEntryID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubjectCurriculum(entity);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                errMessage = ex.Message;
-                return false;
-            }
         }
         #endregion
     }

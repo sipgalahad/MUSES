@@ -23245,6 +23245,7 @@ namespace CodeX.Data.Model
         private String _ListClassTypeName;
         private Boolean _IsSyllabusPerSchoolPeriodSection;
         private Boolean _IsMeetingPlanPerSchoolPeriodSection;
+        private Boolean _IsFinalMarkDesriptionPerSection;
         private String _Remarks;
         private Boolean _IsDeleted;
 
@@ -23301,6 +23302,12 @@ namespace CodeX.Data.Model
         {
             get { return _IsMeetingPlanPerSchoolPeriodSection; }
             set { _IsMeetingPlanPerSchoolPeriodSection = value; }
+        }
+        [Column(Name = "IsFinalMarkDesriptionPerSection", DataType = "Boolean")]
+        public Boolean IsFinalMarkDesriptionPerSection
+        {
+            get { return _IsFinalMarkDesriptionPerSection; }
+            set { _IsFinalMarkDesriptionPerSection = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks

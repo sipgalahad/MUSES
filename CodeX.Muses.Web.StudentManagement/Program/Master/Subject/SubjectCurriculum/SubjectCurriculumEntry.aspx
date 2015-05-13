@@ -13,7 +13,7 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                cboCurriculum.SetValue('');
+                cboCurriculum.SetEnabled(false);
                 $('#<%=txtSubjectCurriculumName.ClientID %>').val('');
                 $('#<%=chkIsSyllabusPerSchoolPeriodSection.ClientID %>').prop('checked', false);
                 $('#<%=chkIsMeetingPlanPerSchoolPeriodSection.ClientID %>').prop('checked', false); 
@@ -25,37 +25,19 @@
                     $(this).prop('checked', false);
                 });
 
-                $('.txtSummaryName').each(function () {
-                    $(this).val('');
-                });
-
                 $('#entryDetailContainer').show();
             });
 
             $('#btnCancel').click(function () {
+                cboCurriculum.SetEnabled(true);
                 $('#entryDetailContainer').hide();
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
-                    getSaveValue();
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
                     cbpProcess.PerformCallback('save');
-                }
             });
         });
-
-        function getSaveValue() {
-            var lstSaveValue = '';
-            $('.txtSummaryName').each(function () {
-                if (lstSaveValue != '')
-                    lstSaveValue += '|';
-                var summaryName = $(this).val();
-                $tr = $(this).closest('tr');
-                var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
-                lstSaveValue += GCPeriodSection + ';' + summaryName;
-            });
-            $('#<%=hdnLstPeriodSectionSummary.ClientID %>').val(lstSaveValue);
-        }
 
         //#region edit and delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
@@ -76,8 +58,8 @@
             $row = $(this).closest('tr');
             entity = rowToObject($row);
 
+            cboCurriculum.SetEnabled(false);
             $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectCurriculumID);
-            cboCurriculum.SetValue(entity.CurriculumID);
             $('#<%=txtSubjectCurriculumName.ClientID %>').val(entity.SubjectCurriculumName);
             $('#<%=chkIsSyllabusPerSchoolPeriodSection.ClientID %>').prop('checked', entity.IsSyllabusPerSchoolPeriodSection == 'True');
             $('#<%=chkIsMeetingPlanPerSchoolPeriodSection.ClientID %>').prop('checked', entity.IsMeetingPlanPerSchoolPeriodSection == 'True'); 
@@ -86,21 +68,6 @@
             $('.chkClassType input:checked').each(function () {
                 $(this).prop('checked', false);
             });
-
-            $('.txtSummaryName').each(function () {
-                $(this).val('');
-            });
-            //            var filterExpression = 'SubjectCurriculumID = ' + entity.SubjectCurriculumID;
-            //            Methods.getListObject('GetSubjectCompetencyStandardSummaryList', filterExpression, function (result) {
-            //                for (var i = 0; i < result.length; ++i) {
-            //                    $('.txtSummaryName').each(function () {
-            //                        $tr = $(this).closest('tr');
-            //                        var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
-            //                        if (GCPeriodSection == result[i].GCPeriodSection)
-            //                            $(this).val(result[i].SummaryName);
-            //                    });
-            //                }
-            //            });
 
             cbpClassType.PerformCallback('refresh');
         });
@@ -121,8 +88,10 @@
                 entity = null;
                 setDdeClassTypeText();
                 $('#entryDetailContainer').show();
+                hideLoadingPanel();
             }
-            hideLoadingPanel();
+            else
+                cbpView.PerformCallback('refresh');
         }
 
         function onCboCurriculumValueChanged() {
@@ -174,22 +143,30 @@
             cbpView.PerformCallback('refresh');
         }
 
-        $('.lnkCompetencyStandard a').live('click', function () {
+        $('.lnkFinalMarkDesc a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculum/SubjectCompetencyStandardEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectCurriculumID, 'Standar Kompetensi', 800, 550);
-        });
-
-        $('.lnkSubjectMeetingPlan a').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculum/SubjectMeetingPlanEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectCurriculumID, 'Detil Pertemuan', 800, 550);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculum/SubjectCurriculumFinalMarkDescEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectCurriculumID, 'Deskripsi Rapor', 450, 350);
         });
     </script>
     <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
-    <input type="hidden" id="hdnLstPeriodSectionSummary" value="" runat="server" />
+    <fieldset id="fsFilter">
+        <table class="tblEntryContent" style="width:70%">
+            <colgroup>
+                <col style="width:200px"/>
+                <col/>
+            </colgroup>
+            <tr>
+                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kurikulum")%></label></td>
+                <td>
+                    <dxe:ASPxComboBox ID="cboCurriculum" ClientInstanceName="cboCurriculum" runat="server" Width="200px">
+                        <ClientSideEvents ValueChanged="function(s,e){ onCboCurriculumValueChanged(); }" />
+                    </dxe:ASPxComboBox>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -208,14 +185,6 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtSubjectCurriculumName" runat="server" Width="200px" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kurikulum")%></label></td>
-                                    <td>
-                                        <dxe:ASPxComboBox ID="cboCurriculum" ClientInstanceName="cboCurriculum" runat="server" Width="200px">
-                                            <ClientSideEvents ValueChanged="function(s,e){ onCboCurriculumValueChanged(); }" />
-                                        </dxe:ASPxComboBox>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
@@ -257,20 +226,6 @@
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2"><h4><%=GetLabel("Deskripsi Rapor") %></h4></td>
-                                </tr>
-                                <asp:Repeater ID="rptPeriodSection" runat="server" OnItemDataBound="rptPeriodSection_ItemDataBound">
-                                    <ItemTemplate>
-                                        <tr>
-                                            <td class="tdLabel">
-                                                <input type="hidden" class="hdnGCPeriodSection" value='<%#Eval("StandardCodeID")%>' />
-                                                <label class="lblMandatory"><%#Eval("StandardCodeName")%></label>
-                                            </td>
-                                            <td><asp:TextBox ID="txtSummaryName" CssClass="txtSummaryName" Width="100%" runat="server" /></td>
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:Repeater>
                             </table>
                         </td>
                     </tr>
@@ -295,9 +250,13 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Nama" HeaderStyle-Width="180px" />
-                                <asp:BoundField DataField="CurriculumName" HeaderText="Kurikulum" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="ListClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkFinalMarkDesc" HeaderText="Deskripsi Rapor" HeaderStyle-Width="120px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsFinalMarkDesriptionPerSection").ToString() == "False" ? "style='display:none'" : ""%>>Deskripsi Rapor</a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
@@ -306,8 +265,6 @@
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
                                         <input type="hidden" value="<%#Eval("IsSyllabusPerSchoolPeriodSection") %>" bindingfield="IsSyllabusPerSchoolPeriodSection" />
                                         <input type="hidden" value="<%#Eval("IsMeetingPlanPerSchoolPeriodSection") %>" bindingfield="IsMeetingPlanPerSchoolPeriodSection" />
-                                        <input type="hidden" value="<%#Eval("CurriculumID") %>" bindingfield="CurriculumID" />
-                                        <input type="hidden" value="<%#Eval("CurriculumName") %>" bindingfield="CurriculumName" />
                                         <input type="hidden" value="<%#Eval("ListClassTypeID") %>" bindingfield="ListClassTypeID" />
                                         <input type="hidden" value="<%#Eval("ListClassTypeName") %>" bindingfield="ListClassTypeName" />
                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />

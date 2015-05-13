@@ -24,16 +24,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
-
-            //List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
-            //rptPeriodSection.DataSource = lstSc;
-            //rptPeriodSection.DataBind();
+            cboCurriculum.SelectedIndex = 0;
 
             BindGridView();
 
             Helper.SetControlEntrySetting(txtSubjectCurriculumName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrx");
-            Helper.SetControlEntrySetting(cboCurriculum, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected void rptPeriodSection_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -64,7 +60,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.SubjectID);
+            string filterExpression = string.Format("SubjectID = {0} AND CurriculumID = {1} AND IsDeleted = 0", AppSession.SubjectID, cboCurriculum.Value);
             grdView.DataSource = BusinessLayer.GetvSubjectCurriculumList(filterExpression);
             grdView.DataBind();
         }
@@ -121,7 +117,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void ControlToEntity(SubjectCurriculum entity)
         {
-            entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
             entity.SubjectCurriculumName = txtSubjectCurriculumName.Text;
             entity.IsSyllabusPerSchoolPeriodSection = chkIsSyllabusPerSchoolPeriodSection.Checked;
             entity.IsMeetingPlanPerSchoolPeriodSection = chkIsMeetingPlanPerSchoolPeriodSection.Checked;
@@ -134,11 +129,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             SubjectCurriculumDao entityDao = new SubjectCurriculumDao(ctx);
             SubjectCurriculumClassTypeDao entityClassTypeDao = new SubjectCurriculumClassTypeDao(ctx);
-            SubjectCompetencyStandardSummaryDao entitySummaryDao = new SubjectCompetencyStandardSummaryDao(ctx);
             try
             {
                 SubjectCurriculum entity = new SubjectCurriculum();
                 ControlToEntity(entity);
+                entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
                 entity.SubjectID = AppSession.SubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
@@ -152,17 +147,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entityDt.CurriculumClassTypeID = Convert.ToInt32(classTypeID);
                     entityClassTypeDao.Insert(entityDt);
                 }
-
-                //string[] lstSaveValue = hdnLstPeriodSectionSummary.Value.Split('|');
-                //foreach (string saveValue in lstSaveValue)
-                //{
-                //    string[] temp = saveValue.Split(';');
-                //    SubjectCompetencyStandardSummary entityDt = new SubjectCompetencyStandardSummary();
-                //    entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                //    entityDt.GCPeriodSection = temp[0];
-                //    entityDt.SummaryName = temp[1];
-                //    entitySummaryDao.Insert(entityDt);
-                //}
 
                 ctx.CommitTransaction();
             }
@@ -186,35 +170,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             IDbContext ctx = DbFactory.Configure(true);
             SubjectCurriculumDao entityDao = new SubjectCurriculumDao(ctx);
             SubjectCurriculumClassTypeDao entityClassTypeDao = new SubjectCurriculumClassTypeDao(ctx);
-            SubjectCompetencyStandardSummaryDao entitySummaryDao = new SubjectCompetencyStandardSummaryDao(ctx);
             try
             {
                 SubjectCurriculum entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
-
-                //List<SubjectCompetencyStandardSummary> lstEntityComp = BusinessLayer.GetSubjectCompetencyStandardSummaryList(string.Format("SubjectCurriculumID = {0}", entity.SubjectCurriculumID), ctx);
-                //string[] lstSaveValue = hdnLstPeriodSectionSummary.Value.Split('|');
-                //foreach (string saveValue in lstSaveValue)
-                //{
-                //    string[] temp = saveValue.Split(';');
-                //    string GCPeriodSection = temp[0];
-                //    SubjectCompetencyStandardSummary entityDt = lstEntityComp.FirstOrDefault(p => p.GCPeriodSection == GCPeriodSection);
-                //    if (entityDt == null)
-                //    {
-                //        entityDt = new SubjectCompetencyStandardSummary();
-                //        entityDt.SubjectCurriculumID = entity.SubjectCurriculumID;
-                //        entityDt.GCPeriodSection = GCPeriodSection;
-                //        entityDt.SummaryName = temp[1];
-                //        entitySummaryDao.Insert(entityDt);
-                //    }
-                //    else
-                //    {
-                //        entityDt.SummaryName = temp[1];
-                //        entitySummaryDao.Update(entityDt);
-                //    }
-                //}
 
                 List<SubjectCurriculumClassType> lstEntityDt = BusinessLayer.GetSubjectCurriculumClassTypeList(string.Format("SubjectCurriculumID = {0}", entity.SubjectCurriculumID), ctx);
                 string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');

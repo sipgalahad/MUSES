@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstClassTypeID;
         
         /// <summary>
-        /// hdnLstPeriodSectionSummary control.
+        /// cboCurriculum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstPeriodSectionSummary;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculum;
         
         /// <summary>
         /// hdnEntryID control.
@@ -47,15 +47,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSubjectCurriculumName;
-        
-        /// <summary>
-        /// cboCurriculum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculum;
         
         /// <summary>
         /// cbpClassType control.
@@ -119,15 +110,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRemarks;
-        
-        /// <summary>
-        /// rptPeriodSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptPeriodSection;
         
         /// <summary>
         /// cbpView control.

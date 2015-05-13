@@ -11,62 +11,17 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            $('#divTransactionAdd').click(function (evt) {
-                $('#<%=hdnEntryID.ClientID %>').val('');
-                cboCurriculum.SetValue('');
-                $('#<%=txtSubjectCurriculumName.ClientID %>').val('');
-                $('#<%=txtRemarks.ClientID %>').val('');
-
-                $('#<%=hdnLstClassTypeID.ClientID %>').val('');
-                ddeClassType.SetText('');
-                $('.chkClassType input:checked').each(function () {
-                    $(this).prop('checked', false);
-                });
-
-                $('.txtSummaryName').each(function () {
-                    $(this).val('');
-                });
-
-                $('#entryDetailContainer').show();
-            });
-
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
-                    getSaveValue();
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
                     cbpProcess.PerformCallback('save');
-                }
             });
         });
-
-        function getSaveValue() {
-            var lstSaveValue = '';
-            $('.txtSummaryName').each(function () {
-                if (lstSaveValue != '')
-                    lstSaveValue += '|';
-                var summaryName = $(this).val();
-                $tr = $(this).closest('tr');
-                var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
-                lstSaveValue += GCPeriodSection + ';' + summaryName;
-            });
-            $('#<%=hdnLstPeriodSectionSummary.ClientID %>').val(lstSaveValue);
-        }
 
         //#region edit and delete
-        $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
-            $row = $(this).closest('tr');
-            showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
-                if (result) {
-                    var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectCurriculumID);
-                    cbpProcessPopup.PerformCallback('delete');
-                }
-            });
-        });
-
         var isEdit = false;
         var entity = null;
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
@@ -82,21 +37,6 @@
             $('.chkClassType input:checked').each(function () {
                 $(this).prop('checked', false);
             });
-
-            $('.txtSummaryName').each(function () {
-                $(this).val('');
-            });
-            //            var filterExpression = 'SubjectCurriculumID = ' + entity.SubjectCurriculumID;
-            //            Methods.getListObject('GetSubjectCompetencyStandardSummaryList', filterExpression, function (result) {
-            //                for (var i = 0; i < result.length; ++i) {
-            //                    $('.txtSummaryName').each(function () {
-            //                        $tr = $(this).closest('tr');
-            //                        var GCPeriodSection = $tr.find('.hdnGCPeriodSection').val();
-            //                        if (GCPeriodSection == result[i].GCPeriodSection)
-            //                            $(this).val(result[i].SummaryName);
-            //                    });
-            //                }
-            //            });
 
             cbpClassType.PerformCallback('refresh');
         });
@@ -154,15 +94,9 @@
                 if (param[1] == 'fail')
                     showToast('Save Failed', 'Error Message : ' + param[2]);
                 else {
-                    $('#divTransactionAdd').click();
+                    $('#entryDetailContainer').hide();
                     cbpView.PerformCallback('refresh');
                 }
-            }
-            else if (param[0] == 'delete') {
-                if (param[1] == 'fail')
-                    showToast('Delete Failed', 'Error Message : ' + param[2]);
-                else
-                    cbpView.PerformCallback('refresh');
             }
         }
 
@@ -170,24 +104,15 @@
             cbpView.PerformCallback('refresh');
         }
 
-        $('.lnkCompetencyStandard a').live('click', function () {
+        $('.lnkFinalMarkDesc a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculum/SubjectCompetencyStandardEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectCurriculumID, 'Standar Kompetensi', 800, 550);
-        });
-
-        $('.lnkSubjectMeetingPlan a').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculum/SubjectMeetingPlanEntryCtl.ascx");
-            openUserControlPopup(url, entity.SubjectCurriculumID, 'Detil Pertemuan', 800, 550);
+            var url = ResolveUrl("~/Program/Master/Subject/SubjectCurriculum/SubjectCurriculumFinalMarkDescEntryCtl.ascx");
+            openUserControlPopup(url, entity.SubjectCurriculumID, 'Deskripsi Rapor', 450, 350);
         });
     </script>
     <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
-    <input type="hidden" id="hdnLstPeriodSectionSummary" value="" runat="server" />
     <div class="divTransactionEntry">
-        <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
             <fieldset id="fsTrx" style="margin: 0">
                 <input type="hidden" id="hdnEntryID" runat="server" value="" />
@@ -208,7 +133,7 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kurikulum")%></label></td>
                                     <td>
-                                        <dxe:ASPxComboBox ID="cboCurriculum" ClientInstanceName="cboCurriculum" runat="server" Width="200px">
+                                        <dxe:ASPxComboBox ID="cboCurriculum" ClientEnabled="false" ClientInstanceName="cboCurriculum" runat="server" Width="200px">
                                             <ClientSideEvents ValueChanged="function(s,e){ onCboCurriculumValueChanged(); }" />
                                         </dxe:ASPxComboBox>
                                     </td>
@@ -245,20 +170,6 @@
                                     <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
                                     <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2"><h4><%=GetLabel("Deskripsi Rapor") %></h4></td>
-                                </tr>
-                                <asp:Repeater ID="rptPeriodSection" runat="server" OnItemDataBound="rptPeriodSection_ItemDataBound">
-                                    <ItemTemplate>
-                                        <tr>
-                                            <td class="tdLabel">
-                                                <input type="hidden" class="hdnGCPeriodSection" value='<%#Eval("StandardCodeID")%>' />
-                                                <label class="lblMandatory"><%#Eval("StandardCodeName")%></label>
-                                            </td>
-                                            <td><asp:TextBox ID="txtSummaryName" CssClass="txtSummaryName" Width="100%" runat="server" /></td>
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:Repeater>
                             </table>
                         </td>
                     </tr>
@@ -286,9 +197,13 @@
                                 <asp:BoundField DataField="CurriculumName" HeaderText="Kurikulum" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="ListClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="180px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkFinalMarkDesc" HeaderText="Deskripsi Rapor" HeaderStyle-Width="120px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsFinalMarkDesriptionPerSection").ToString() == "False" ? "style='display:none'" : ""%>>Deskripsi Rapor</a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumID") %>" bindingfield="SubjectCurriculumID" />
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />

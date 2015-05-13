@@ -191,6 +191,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             hdnTableWidth.Value = tableWidth.ToString();
         }
 
+        #region Repeater Level 1
         protected void rptHeaderMarkType1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -221,7 +222,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 thHeader.ColSpan = colSpan;
             }
         }
+        #endregion
 
+        #region Repeater Level 2
         protected void rptHeaderMarkType2_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -266,7 +269,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     thHeaderTaskGroup.ColSpan = taskCount + 2;
             }
         }
+        #endregion
 
+        #region Repeater Level 3
         protected void rptHeaderMarkType3_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -309,12 +314,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
             }
         }
+        #endregion
 
+        #region Repeater Student
         List<ClassStudentSubjectTaskGroupMark> lstStudentGroupMark = null;
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
         List<ClassStudentSubjectMark> lstStudentFinalMark = null;
-        
-        
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -456,9 +461,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
             }
         }
-
-        #region Repeater Inside Student
-        #region Theory
         protected void rptStudentMarkGroup_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -539,9 +541,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 bIsRemedial.Attributes.Add("ClassSubjectTaskID", subjectTask.ClassSubjectTaskID.ToString());
             }
-        }
-        #endregion
-        
+        }        
         #endregion        
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)

@@ -129,6 +129,7 @@
     <Content Include="Program\Master\SchoolPeriod\CurriculumFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx" />
+    <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumFinalMarkDescEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumList.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx" />
@@ -681,6 +682,13 @@
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx.designer.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanEntryDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumFinalMarkDescEntryCtl.ascx.cs">
+      <DependentUpon>SubjectCurriculumFinalMarkDescEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumFinalMarkDescEntryCtl.ascx.designer.cs">
+      <DependentUpon>SubjectCurriculumFinalMarkDescEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculum\SubjectCurriculumList.aspx.cs">
       <DependentUpon>SubjectCurriculumList.aspx</DependentUpon>

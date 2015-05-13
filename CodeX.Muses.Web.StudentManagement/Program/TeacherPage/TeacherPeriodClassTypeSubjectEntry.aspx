@@ -269,9 +269,9 @@
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="280px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
-                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="120px" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jumlah Jam Pertemuan" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
+                                <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Pertemuan" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

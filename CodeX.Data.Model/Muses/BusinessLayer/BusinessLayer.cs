@@ -13187,6 +13187,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SubjectCurriculumFinalMarkDescription
+        public static SubjectCurriculumFinalMarkDescription GetSubjectCurriculumFinalMarkDescription(Int32 SubjectCurriculumFinalMarkDescriptionID)
+        {
+            return new SubjectCurriculumFinalMarkDescriptionDao().Get(SubjectCurriculumFinalMarkDescriptionID);
+        }
+        public static int InsertSubjectCurriculumFinalMarkDescription(SubjectCurriculumFinalMarkDescription record)
+        {
+            return new SubjectCurriculumFinalMarkDescriptionDao().Insert(record);
+        }
+        public static int UpdateSubjectCurriculumFinalMarkDescription(SubjectCurriculumFinalMarkDescription record)
+        {
+            return new SubjectCurriculumFinalMarkDescriptionDao().Update(record);
+        }
+        public static int DeleteSubjectCurriculumFinalMarkDescription(Int32 SubjectCurriculumFinalMarkDescriptionID)
+        {
+            return new SubjectCurriculumFinalMarkDescriptionDao().Delete(SubjectCurriculumFinalMarkDescriptionID);
+        }
+        public static List<SubjectCurriculumFinalMarkDescription> GetSubjectCurriculumFinalMarkDescriptionList(string filterExpression)
+        {
+            List<SubjectCurriculumFinalMarkDescription> result = new List<SubjectCurriculumFinalMarkDescription>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumFinalMarkDescription));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumFinalMarkDescription)helper.IDataReaderToObject(reader, new SubjectCurriculumFinalMarkDescription()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<SubjectCurriculumFinalMarkDescription> GetSubjectCurriculumFinalMarkDescriptionList(string filterExpression, IDbContext ctx)
+        {
+            List<SubjectCurriculumFinalMarkDescription> result = new List<SubjectCurriculumFinalMarkDescription>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SubjectCurriculumFinalMarkDescription));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SubjectCurriculumFinalMarkDescription)helper.IDataReaderToObject(reader, new SubjectCurriculumFinalMarkDescription()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SubjectCurriculumMeetingPlan
         public static SubjectCurriculumMeetingPlan GetSubjectCurriculumMeetingPlan(Int32 SubjectCurriculumMeetingPlanID)
         {

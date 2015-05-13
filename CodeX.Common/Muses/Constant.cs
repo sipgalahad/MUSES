@@ -85,10 +85,10 @@ namespace CodeX.Common
             public const string OTHER = "MS032^999";
         }
 
-        public static class SubjectType
+        public static class CompetencyDescriptionType
         {
-            public const string UMUM = "MS031^001";
-            public const string PENJURUSAN = "MS031^002";
+            public const string SEMESTER = "MS031^001";
+            public const string TASK_INDICATOR = "MS031^002";
         }
 
         public static class SchoolPeriodStatus
