@@ -67,6 +67,33 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.CheckBox chkIsAllowTask;
         
         /// <summary>
+        /// chkIsShowCompetencyDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkIsShowCompetencyDescription;
+        
+        /// <summary>
+        /// cboCompetencyDescriptionType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCompetencyDescriptionType;
+        
+        /// <summary>
+        /// cboCompetencyMarkType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCompetencyMarkType;
+        
+        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>

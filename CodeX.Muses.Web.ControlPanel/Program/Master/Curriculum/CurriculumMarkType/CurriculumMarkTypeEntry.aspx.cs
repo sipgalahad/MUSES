@@ -23,14 +23,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override void InitializeDataControl()
         {
             List<MarkTypeHd> lstMark = BusinessLayer.GetMarkTypeHdList(string.Format("IsDeleted = 0"));
+            Methods.SetComboBoxField<MarkTypeHd>(cboCompetencyMarkType, lstMark, "MarkTypeName", "MarkTypeID");
             lstMark.Insert(0, new MarkTypeHd { MarkTypeID = 0, MarkTypeName = "" });
             Methods.SetComboBoxField<MarkTypeHd>(cboTaskMarkType, lstMark, "MarkTypeName", "MarkTypeID");
             Methods.SetComboBoxField<MarkTypeHd>(cboFinalMarkType, lstMark, "MarkTypeName", "MarkTypeID");
             Methods.SetComboBoxField<MarkTypeHd>(cboPredicateMarkType, lstMark, "MarkTypeName", "MarkTypeID");
 
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.COMPETENCY_DESCRIPTION_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboCompetencyDescriptionType, lstSc, "StandardCodeName", "StandardCodeID");
+
             BindGridView();
 
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboCompetencyDescriptionType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboCompetencyMarkType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -104,6 +110,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entity.PredicateMarkTypeID = null;
             entity.IsAllowTask = chkIsAllowTask.Checked;
+            entity.IsShowCompetencyDescription = chkIsShowCompetencyDescription.Checked;
+            if (entity.IsShowCompetencyDescription)
+            {
+                entity.GCCompetencyDescriptionType = cboCompetencyDescriptionType.Value.ToString();
+                entity.CompetencyMarkTypeID = Convert.ToInt32(cboCompetencyMarkType.Value);
+            }
+            else
+            {
+                entity.GCCompetencyDescriptionType = null;
+                entity.CompetencyMarkTypeID = null;
+            }
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)

@@ -5779,6 +5779,9 @@ namespace CodeX.Data.Model
         private Int32? _FinalMarkTypeID;
         private Int32? _PredicateMarkTypeID;
         private Boolean _IsAllowTask;
+        private Boolean _IsShowCompetencyDescription;
+        private String _GCCompetencyDescriptionType;
+        private Int32? _CompetencyMarkTypeID;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -5826,6 +5829,24 @@ namespace CodeX.Data.Model
         {
             get { return _IsAllowTask; }
             set { _IsAllowTask = value; }
+        }
+        [Column(Name = "IsShowCompetencyDescription", DataType = "Boolean")]
+        public Boolean IsShowCompetencyDescription
+        {
+            get { return _IsShowCompetencyDescription; }
+            set { _IsShowCompetencyDescription = value; }
+        }
+        [Column(Name = "GCCompetencyDescriptionType", DataType = "String", IsNullable = true)]
+        public String GCCompetencyDescriptionType
+        {
+            get { return _GCCompetencyDescriptionType; }
+            set { _GCCompetencyDescriptionType = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeID", DataType = "Int32", IsNullable = true)]
+        public Int32? CompetencyMarkTypeID
+        {
+            get { return _CompetencyMarkTypeID; }
+            set { _CompetencyMarkTypeID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

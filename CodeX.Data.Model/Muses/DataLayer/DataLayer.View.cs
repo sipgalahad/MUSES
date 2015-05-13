@@ -2122,8 +2122,8 @@ namespace CodeX.Data.Model
         private Int32 _SubjectMatterID;
         private Int32 _SubjectCurriculumID;
         private String _GCClassStudyType;
-        private String _GCSubjectType;
-        private String _SubjectType;
+        private Int32 _CurriculumSubjectGroupID;
+        private String _CurriculumSubjectGroupName;
         private Int32 _StudentProgressRuleID;
         private Boolean _IsDeleted;
 
@@ -2265,17 +2265,17 @@ namespace CodeX.Data.Model
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
         }
-        [Column(Name = "GCSubjectType", DataType = "String")]
-        public String GCSubjectType
+        [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
+        public Int32 CurriculumSubjectGroupID
         {
-            get { return _GCSubjectType; }
-            set { _GCSubjectType = value; }
+            get { return _CurriculumSubjectGroupID; }
+            set { _CurriculumSubjectGroupID = value; }
         }
-        [Column(Name = "SubjectType", DataType = "String")]
-        public String SubjectType
+        [Column(Name = "CurriculumSubjectGroupName", DataType = "String")]
+        public String CurriculumSubjectGroupName
         {
-            get { return _SubjectType; }
-            set { _SubjectType = value; }
+            get { return _CurriculumSubjectGroupName; }
+            set { _CurriculumSubjectGroupName = value; }
         }
         [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
         public Int32 StudentProgressRuleID
@@ -3526,6 +3526,11 @@ namespace CodeX.Data.Model
         private Int32 _PredicateMarkTypeID;
         private String _PredicateMarkTypeName;
         private String _PredicateGCMarkType;
+        private Boolean _IsShowCompetencyDescription;
+        private String _GCCompetencyDescriptionType;
+        private String _CompetencyDescriptionType;
+        private Int32 _CompetencyMarkTypeID;
+        private String _CompetencyMarkTypeName;
         private Boolean _IsAllowTask;
         private Boolean _IsDeleted;
 
@@ -3600,6 +3605,36 @@ namespace CodeX.Data.Model
         {
             get { return _PredicateGCMarkType; }
             set { _PredicateGCMarkType = value; }
+        }
+        [Column(Name = "IsShowCompetencyDescription", DataType = "Boolean")]
+        public Boolean IsShowCompetencyDescription
+        {
+            get { return _IsShowCompetencyDescription; }
+            set { _IsShowCompetencyDescription = value; }
+        }
+        [Column(Name = "GCCompetencyDescriptionType", DataType = "String")]
+        public String GCCompetencyDescriptionType
+        {
+            get { return _GCCompetencyDescriptionType; }
+            set { _GCCompetencyDescriptionType = value; }
+        }
+        [Column(Name = "CompetencyDescriptionType", DataType = "String")]
+        public String CompetencyDescriptionType
+        {
+            get { return _CompetencyDescriptionType; }
+            set { _CompetencyDescriptionType = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeID", DataType = "Int32")]
+        public Int32 CompetencyMarkTypeID
+        {
+            get { return _CompetencyMarkTypeID; }
+            set { _CompetencyMarkTypeID = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeName", DataType = "String")]
+        public String CompetencyMarkTypeName
+        {
+            get { return _CompetencyMarkTypeName; }
+            set { _CompetencyMarkTypeName = value; }
         }
         [Column(Name = "IsAllowTask", DataType = "Boolean")]
         public Boolean IsAllowTask

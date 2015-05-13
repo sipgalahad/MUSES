@@ -17,7 +17,11 @@
                 cboTaskMarkType.SetValue('');
                 cboFinalMarkType.SetValue('');
                 cboPredicateMarkType.SetValue('');
-                $('#<%=chkIsAllowTask.ClientID %>').prop('checked', false); 
+                $('#<%=chkIsAllowTask.ClientID %>').prop('checked', false);
+                $('#<%=chkIsShowCompetencyDescription.ClientID %>').prop('checked', false);
+                cboCompetencyDescriptionType.SetValue('');
+                cboCompetencyMarkType.SetValue('');
+                $('#<%=chkIsShowCompetencyDescription.ClientID %>').change();
                 $('#entryDetailContainer').show();
             });
 
@@ -28,6 +32,19 @@
             $('#btnSave').click(function (evt) {
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
+            });
+
+            $('#<%=chkIsShowCompetencyDescription.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    cboCompetencyDescriptionType.SetEnabled(true);
+                    cboCompetencyMarkType.SetEnabled(true);
+                }
+                else {
+                    cboCompetencyDescriptionType.SetEnabled(false);
+                    cboCompetencyMarkType.SetEnabled(false);
+                    cboCompetencyDescriptionType.SetValue('');
+                    cboCompetencyMarkType.SetValue('');
+                }
             });
         });
 
@@ -53,7 +70,10 @@
             cboFinalMarkType.SetValue(entity.FinalMarkTypeID);
             cboPredicateMarkType.SetValue(entity.PredicateMarkTypeID);
             $('#<%=chkIsAllowTask.ClientID %>').prop('checked', entity.IsAllowTask == 'True'); 
-
+            $('#<%=chkIsShowCompetencyDescription.ClientID %>').prop('checked', entity.IsShowCompetencyDescription == 'True'); 
+            cboCompetencyDescriptionType.SetValue(entity.GCCompetencyDescriptionType);
+            cboCompetencyMarkType.SetValue(entity.CompetencyMarkTypeID);
+            $('#<%=chkIsShowCompetencyDescription.ClientID %>').change();
             $('#entryDetailContainer').show();
         });
 
@@ -99,7 +119,7 @@
                         <td valign="top">
                             <table>
                                 <colgroup>
-                                    <col style="width: 160px" />
+                                    <col style="width: 250px" />
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
@@ -107,19 +127,31 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Tugas")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboTaskMarkType" ClientInstanceName="cboTaskMarkType" runat="server" Width="100px" /></td>
+                                    <td><dxe:ASPxComboBox ID="cboTaskMarkType" ClientInstanceName="cboTaskMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Rapor")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboFinalMarkType" ClientInstanceName="cboFinalMarkType" runat="server" Width="100px" /></td>
+                                    <td><dxe:ASPxComboBox ID="cboFinalMarkType" ClientInstanceName="cboFinalMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Predikat Rapor")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboPredicateMarkType" ClientInstanceName="cboPredicateMarkType" runat="server" Width="100px" /></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Predikat Akhir")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboPredicateMarkType" ClientInstanceName="cboPredicateMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Allow Task")%></label></td>
                                     <td><asp:CheckBox ID="chkIsAllowTask" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Allow Deskripsi Kompetensi")%></label></td>
+                                    <td><asp:CheckBox ID="chkIsShowCompetencyDescription" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Deskripsi Kompetensi")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboCompetencyDescriptionType" ClientInstanceName="cboCompetencyDescriptionType" runat="server" Width="200px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Format Kompetensi")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboCompetencyMarkType" ClientInstanceName="cboCompetencyMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -148,6 +180,8 @@
                                 <asp:BoundField DataField="TaskMarkTypeName" HeaderText="Format Nilai Tugas" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="FinalMarkTypeName" HeaderText="Format Nilai Akhir" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="PredicateMarkTypeName" HeaderText="Format Predikat Akhir" HeaderStyle-Width="150px" />
+                                <asp:CheckBoxField DataField="IsShowCompetencyDescription" HeaderText="Kompetensi" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" />
+                                <asp:BoundField DataField="CompetencyMarkTypeName" HeaderText="Format Kompetensi" HeaderStyle-Width="150px" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="100px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
@@ -159,6 +193,9 @@
                                         <input type="hidden" value="<%#Eval("FinalMarkTypeID") %>" bindingfield="FinalMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("PredicateMarkTypeID") %>" bindingfield="PredicateMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("IsAllowTask") %>" bindingfield="IsAllowTask" />
+                                        <input type="hidden" value="<%#Eval("IsShowCompetencyDescription") %>" bindingfield="IsShowCompetencyDescription" />
+                                        <input type="hidden" value="<%#Eval("GCCompetencyDescriptionType") %>" bindingfield="GCCompetencyDescriptionType" />
+                                        <input type="hidden" value="<%#Eval("CompetencyMarkTypeID") %>" bindingfield="CompetencyMarkTypeID" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
