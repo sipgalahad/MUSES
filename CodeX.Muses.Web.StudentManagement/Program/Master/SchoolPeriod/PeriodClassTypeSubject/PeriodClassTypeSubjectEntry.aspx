@@ -27,12 +27,6 @@
 
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
-                cboTheoryFinalMarkFormula.SetValue('');
-                cboPracticeFinalMarkFormula.SetValue('');
-                $('#<%=chkIsTheoryFormulaDefault.ClientID %>').prop('checked', true);
-                $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', true);
-                cboTheoryFinalMarkFormula.SetEnabled(false);
-                cboPracticeFinalMarkFormula.SetEnabled(false);
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
 
                 $('.chkIsCurriculumFinalMarkDefault input').each(function () {
@@ -41,24 +35,6 @@
                 });
 
                 $('#entryDetailContainer').show();
-            });
-
-            $('#<%=chkIsTheoryFormulaDefault.ClientID %>').change(function () {
-                if ($(this).is(':checked')) {
-                    cboTheoryFinalMarkFormula.SetEnabled(false);
-                    cboTheoryFinalMarkFormula.SetValue('');
-                }
-                else
-                    cboTheoryFinalMarkFormula.SetEnabled(true);
-            });
-
-            $('#<%=chkIsPracticeFormulaDefault.ClientID %>').change(function () {
-                if ($(this).is(':checked')) {
-                    cboPracticeFinalMarkFormula.SetEnabled(false);
-                    cboPracticeFinalMarkFormula.SetValue('');
-                }
-                else
-                    cboPracticeFinalMarkFormula.SetEnabled(true);
             });
 
             $('#btnCancel').click(function () {
@@ -81,22 +57,6 @@
                     });
                     $('#<%=hdnSaveValue.ClientID %>').val(result);
                     cbpProcess.PerformCallback('save');
-                }
-            });
-
-            $('#btnTheoryFinalMarkFormulaDt').click(function () {
-                var id = cboTheoryFinalMarkFormula.GetValue();
-                if (id != null && id != '') {
-                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
-                }
-            });
-
-            $('#btnPracticeFinalMarkFormulaDt').click(function () {
-                var id = cboPracticeFinalMarkFormula.GetValue();
-                if (id != null && id != '') {
-                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
                 }
             });
         });
@@ -136,28 +96,6 @@
                 tacSubject.setEnabled(true);
                 tacTeacher.setEnabled(true);
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
-            }
-
-            if (entity.TheoryFinalMarkFormulaID == 0) {
-                $('#<%=chkIsTheoryFormulaDefault.ClientID %>').prop('checked', true);
-                cboTheoryFinalMarkFormula.SetValue('');
-                cboTheoryFinalMarkFormula.SetEnabled(false);
-            }
-            else {
-                cboTheoryFinalMarkFormula.SetValue(entity.TheoryFinalMarkFormulaID);
-                cboTheoryFinalMarkFormula.SetEnabled(true);
-                $('#<%=chkIsTheoryFormulaDefault.ClientID %>').prop('checked', false);
-            }
-
-            if (entity.PracticeFinalMarkFormulaID == 0) {
-                $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', true);
-                cboPracticeFinalMarkFormula.SetValue('');
-                cboPracticeFinalMarkFormula.SetEnabled(false);
-            }
-            else {
-                cboPracticeFinalMarkFormula.SetValue(entity.PracticeFinalMarkFormulaID);
-                cboPracticeFinalMarkFormula.SetEnabled(true);
-                $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', false);
             }
 
             var filterExpression = "PeriodClassTypeSubjectID = " + entity.PeriodClassTypeSubjectID;
@@ -337,8 +275,11 @@
     <input type="hidden" id="hdnSaveValue" runat="server" value="" />
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />
     <table>
+        <colgroup>
+            <col style="width: 150px"/>
+        </colgroup>
         <tr>
-            <td><%=GetLabel("Tipe Kelas") %></td>
+            <td class="tdLabel"><%=GetLabel("Tipe Kelas") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboClassType" ClientInstanceName="cboClassType" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboClassTypeValueChanged(s); }" />
@@ -406,18 +347,6 @@
                                     <td colspan="3"><asp:TextBox ID="txtPassingGrade" CssClass="number" Width="80px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Formula Nilai Rapor (Teori)")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboTheoryFinalMarkFormula" ClientInstanceName="cboTheoryFinalMarkFormula" Width="300px" /></td>
-                                    <td><input type="button" id="btnTheoryFinalMarkFormulaDt" class="btnMore" value="..." /></td>
-                                    <td><asp:CheckBox ID="chkIsTheoryFormulaDefault" runat="server" /><%=GetLabel("Default") %></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Formula Nilai Rapor (Praktek)")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboPracticeFinalMarkFormula" ClientInstanceName="cboPracticeFinalMarkFormula" Width="300px" /></td>
-                                    <td><input type="button" id="btnPracticeFinalMarkFormulaDt" class="btnMore" value="..." /></td>
-                                    <td><asp:CheckBox ID="chkIsPracticeFormulaDefault" runat="server" /><%=GetLabel("Default") %></td>
-                                </tr>
-                                <tr>
                                     <td colspan="3"><h4><%=GetLabel("Formula Nilai Rapor") %></h4></td>
                                 </tr>   
                                 <asp:Repeater ID="rptFinalMarkFormula" runat="server" OnItemDataBound="rptFinalMarkFormula_ItemDataBound">
@@ -479,8 +408,6 @@
                                         <input type="hidden" value="<%#Eval("TeacherName") %>" bindingfield="TeacherName" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
-                                        <input type="hidden" value="<%#Eval("TheoryFinalMarkFormulaID") %>" bindingfield="TheoryFinalMarkFormulaID" />
-                                        <input type="hidden" value="<%#Eval("PracticeFinalMarkFormulaID") %>" bindingfield="PracticeFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("PassingGrade") %>" bindingfield="PassingGrade" />
                                         <input type="hidden" value="<%#Eval("IsEditable") %>" bindingfield="IsEditable" />
                                     </ItemTemplate>

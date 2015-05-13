@@ -137,6 +137,18 @@ namespace CodeX.Data.Model
         public Boolean IsMainTeacher { get { return _ParentID == 0; } }
     }
     #endregion
+    #region vCurriculumClassType
+    public partial class vCurriculumClassType
+    {
+        public Boolean IsExtracurricular
+        {
+            get
+            {
+                return _GCClassStudyType == Constant.ClassStudyType.EXTRACURRICULAR;
+            }
+        }
+    }
+    #endregion
     #region vFADepreciation
     public partial class vFADepreciation
     {

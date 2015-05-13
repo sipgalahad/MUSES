@@ -224,26 +224,4 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region StudentProgressRuleDt
-    public partial class StudentProgressRuleDt
-    {
-        public String cfValue
-        {
-            get
-            {
-                string result = "";
-                if (_IsFromPassingGrade)
-                    result += "{KKM}";
-                else
-                    result += _FromValue.ToString();
-                result += " - ";
-                if (_IsToPassingGrade)
-                    result += "{KKM}";
-                else
-                    result += _ToValue.ToString();
-                return result;
-            }
-        }
-    }
-    #endregion
 }

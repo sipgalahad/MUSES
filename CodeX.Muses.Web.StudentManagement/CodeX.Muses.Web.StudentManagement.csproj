@@ -118,7 +118,6 @@
     <Content Include="Program\ClassList\ExtracurricularWeeklyScheduleList.aspx" />
     <Content Include="Program\ClassMeeting\ClassMeeting\SubjectCurriculumMeetingPlanDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskViewCtl.ascx" />
-    <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry2.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\StudentSummaryViewDtCtl.ascx" />
     <Content Include="Program\ClassMeeting\ClassTask\ClassTaskRemedialEntryCtl.ascx" />
@@ -150,8 +149,6 @@
     <Content Include="Program\Master\SchoolPeriod\ClassStudentExtracurricular\ClassStudentExtracurricularQuickPicksEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\Organization\OrganizationEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx" />
-    <Content Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx" />
-    <Content Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\SchoolClassExtracurricular\SchoolClassExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolPeriod\GenerateSchoolClassExtracurricular\GenerateSchoolClassExtracurricularEntryCtl.ascx" />
@@ -606,13 +603,6 @@
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskViewCtl.ascx.designer.cs">
       <DependentUpon>ClassTaskViewCtl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry2.aspx.cs">
-      <DependentUpon>ClassTaskSummaryEntry2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry2.aspx.designer.cs">
-      <DependentUpon>ClassTaskSummaryEntry2.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\StudentRemedialMarkViewDtCtl.ascx.cs">
       <DependentUpon>StudentRemedialMarkViewDtCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -829,20 +819,6 @@
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\Organization\OrganizationDtEntryCtl.ascx.designer.cs">
       <DependentUpon>OrganizationDtEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx.cs">
-      <DependentUpon>StudentProgressRuleDtCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\StudentProgressRuleDtCtl.ascx.designer.cs">
-      <DependentUpon>StudentProgressRuleDtCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx.cs">
-      <DependentUpon>StudentFinalMarkFormulaDtCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SchoolPeriod\StudentFinalMarkFormulaDtCtl.ascx.designer.cs">
-      <DependentUpon>StudentFinalMarkFormulaDtCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\PeriodClassTypePersonality\PeriodClassTypePersonalityEntry.aspx.cs">
       <DependentUpon>PeriodClassTypePersonalityEntry.aspx</DependentUpon>

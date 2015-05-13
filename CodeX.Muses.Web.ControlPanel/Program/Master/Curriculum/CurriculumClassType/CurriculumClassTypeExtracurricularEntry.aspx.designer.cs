@@ -7,28 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class TeacherPeriodClassTypeSubjectEntry {
+    public partial class CurriculumClassTypeExtracurricularEntry {
         
         /// <summary>
-        /// hdnCurriculumID control.
+        /// hdnGCClassStudyType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
-        
-        /// <summary>
-        /// cboSchoolPeriod control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCClassStudyType;
         
         /// <summary>
         /// hdnEntryID control.
@@ -40,58 +31,58 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// hdnClassTypeID control.
+        /// txtCurriculumClassTypeCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassTypeID;
+        protected global::System.Web.UI.WebControls.TextBox txtCurriculumClassTypeCode;
         
         /// <summary>
-        /// tacSubject control.
+        /// txtCurriculumClassTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::System.Web.UI.WebControls.TextBox txtCurriculumClassTypeName;
         
         /// <summary>
-        /// cboCurriculumSubjectGroup control.
+        /// trGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumSubjectGroup;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGrade;
         
         /// <summary>
-        /// tacSubjectCurriculum control.
+        /// cboGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculum;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGrade;
         
         /// <summary>
-        /// txtNoMeetingHoursInWeek control.
+        /// trMajor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoMeetingHoursInWeek;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trMajor;
         
         /// <summary>
-        /// txtPassingGrade control.
+        /// cboMajor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMajor;
         
         /// <summary>
         /// cbpView control.

@@ -33,7 +33,7 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ClassTypeName" HeaderText="Tipe Kelas"/>
+                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas"/>
                                 <asp:BoundField DataField="NoOfClass" HeaderText="Jumlah Kelas" HeaderStyle-Width="150px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>

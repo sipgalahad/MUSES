@@ -31,15 +31,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectCurriculumID;
         
         /// <summary>
-        /// hdnSubjectMeetingPlanHdID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectMeetingPlanHdID;
-        
-        /// <summary>
         /// hdnSubjectIndicatorSave control.
         /// </summary>
         /// <remarks>

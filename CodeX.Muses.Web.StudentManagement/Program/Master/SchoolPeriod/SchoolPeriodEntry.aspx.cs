@@ -52,20 +52,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<DailySchedulePackage>(cboExamSchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboExamSchedulePackage.SelectedIndex = 0;
 
-            List<StudentFinalMarkFormulaHd> lstFormula = BusinessLayer.GetStudentFinalMarkFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboTheoryFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
-            cboTheoryFinalMarkFormula.SelectedIndex = 0;
-
-            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboPracticeFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
-            cboPracticeFinalMarkFormula.SelectedIndex = 0;
-
-            List<StudentProgressRuleHd> lstProgress = BusinessLayer.GetStudentProgressRuleHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<StudentProgressRuleHd>(cboStudentProgressRule, lstProgress, "StudentProgressRuleName", "StudentProgressRuleID");
-            cboStudentProgressRule.SelectedIndex = 0;
-
-            Methods.SetComboBoxField<StudentProgressRuleHd>(cboExtracurricularProgressRule, lstProgress, "StudentProgressRuleName", "StudentProgressRuleID");
-            cboExtracurricularProgressRule.SelectedIndex = 0;
-
             List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<GradePromotionFormulaHd>(cboGradePromotionFormula, lstGradePromotionFormula, "GradePromotionFormulaName", "GradePromotionFormulaID");
             cboGradePromotionFormula.SelectedIndex = 0;
@@ -81,10 +67,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SetControlEntrySetting(cboCurriculum, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboDailySchedulePackage, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboExamSchedulePackage, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboTheoryFinalMarkFormula, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboPracticeFinalMarkFormula, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboStudentProgressRule, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboExtracurricularProgressRule, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGradePromotionFormula, new ControlEntrySetting(true, true, true));
         }
 
@@ -98,10 +80,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboCurriculum.Value = entity.CurriculumID.ToString();
             cboDailySchedulePackage.Value = entity.DailySchedulePackageID.ToString();
             cboExamSchedulePackage.Value = entity.ExamSchedulePackageID.ToString();
-            cboTheoryFinalMarkFormula.Value = entity.TheoryFinalMarkFormulaID.ToString();
-            cboPracticeFinalMarkFormula.Value = entity.PracticeFinalMarkFormulaID.ToString();
-            cboStudentProgressRule.Value = entity.StudentProgressRuleID.ToString();
-            cboExtracurricularProgressRule.Value = entity.ExtracurricularProgressRuleID.ToString();
             cboGradePromotionFormula.Value = entity.GradePromotionFormulaID.ToString();
 
             lstFinalMarkFormula = BusinessLayer.GetPeriodFinalMarkFormulaList(string.Format("SchoolPeriodID = {0}", hdnID.Value));
@@ -160,10 +138,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
             entity.DailySchedulePackageID = Convert.ToInt32(cboDailySchedulePackage.Value);
             entity.ExamSchedulePackageID = Convert.ToInt32(cboExamSchedulePackage.Value);
-            entity.TheoryFinalMarkFormulaID = Convert.ToInt32(cboTheoryFinalMarkFormula.Value);
-            entity.PracticeFinalMarkFormulaID = Convert.ToInt32(cboPracticeFinalMarkFormula.Value);
-            entity.StudentProgressRuleID = Convert.ToInt32(cboStudentProgressRule.Value);
-            entity.ExtracurricularProgressRuleID = Convert.ToInt32(cboExtracurricularProgressRule.Value);
             entity.GradePromotionFormulaID = Convert.ToInt32(cboGradePromotionFormula.Value);
             entity.Remarks = txtRemarks.Text;
         }

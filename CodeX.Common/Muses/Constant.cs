@@ -325,11 +325,9 @@ namespace CodeX.Common
                 public const string EXTRACURRICULAR_CLASS_TYPE = "CP010112";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
                 public const string PERSONALITY = "CP010114";
-                public const string STUDENT_FINAL_MARK_FORMULA = "CP010115";
-                public const string STUDENT_PROGRESS_RULE = "CP010116";
-                public const string GRADE_PROMOTION_FORMULA = "CP010117";
-                public const string CURRICULUM = "CP010118";
-                public const string MARK_TYPE = "CP010119";
+                public const string GRADE_PROMOTION_FORMULA = "CP010115";
+                public const string CURRICULUM = "CP010116";
+                public const string MARK_TYPE = "CP010117";
 
                 public const string ITEM_GROUP_MASTER = "CP010201";
                 public const string ITEM_PRODUCT = "CP010202";
@@ -379,10 +377,9 @@ namespace CodeX.Common
                 public const string REPORT = "CP090000";
 
                 public const string SUBJECT_PAGE = "CP99010000";
-                public const string SB_SUBJECT_CLASS_TYPE = "CP99010100";
-                public const string SB_SUBJECT_CURRICULUM = "CP99010200";
-                public const string SB_SUBJECT_CURRICULUM_SYLLABUS = "CP99010300";
-                public const string SB_SUBJECT_CURRICULUM_MEETING_PLAN = "CP99010400";
+                public const string SB_SUBJECT_CURRICULUM = "CP99010100";
+                public const string SB_SUBJECT_CURRICULUM_SYLLABUS = "CP99010200";
+                public const string SB_SUBJECT_CURRICULUM_MEETING_PLAN = "CP99010300";
 
                 public const string CURRICULUM_PAGE = "CP99020000";
                 public const string CR_CURRICULUM_SCHOOL_PERIOD_SECTION = "CP99020101";

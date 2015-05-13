@@ -13,24 +13,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
-            $('#<%=chkIsTheoryFormulaDefault.ClientID %>').change(function () {
-                if ($(this).is(':checked')) {
-                    cboTheoryFinalMarkFormula.SetEnabled(false);
-                    cboTheoryFinalMarkFormula.SetValue('');
-                }
-                else
-                    cboTheoryFinalMarkFormula.SetEnabled(true);
-            });
-
-            $('#<%=chkIsPracticeFormulaDefault.ClientID %>').change(function () {
-                if ($(this).is(':checked')) {
-                    cboPracticeFinalMarkFormula.SetEnabled(false);
-                    cboPracticeFinalMarkFormula.SetValue('');
-                }
-                else
-                    cboPracticeFinalMarkFormula.SetEnabled(true);
-            });
-
             $('#btnCancel').click(function () {
                 $('#entryDetailContainer').hide();
             });
@@ -38,22 +20,6 @@
             $('#btnSave').click(function (evt) {
                 if (IsValid(evt, 'fsTrx', 'mpTrx'))
                     cbpProcess.PerformCallback('save');
-            });
-
-            $('#btnTheoryFinalMarkFormulaDt').click(function () {
-                var id = cboTheoryFinalMarkFormula.GetValue();
-                if (id != null && id != '') {
-                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
-                }
-            });
-
-            $('#btnPracticeFinalMarkFormulaDt').click(function () {
-                var id = cboPracticeFinalMarkFormula.GetValue();
-                if (id != null && id != '') {
-                    var url = ResolveUrl("~/Program/Master/SchoolPeriod/StudentFinalMarkFormulaDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
-                }
             });
             $('#btnSubjectCurriculumDt').click(function () {
                 var id = tacSubjectCurriculum.getValue();
@@ -81,28 +47,6 @@
             $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
             tacSubject.setEnabled(false);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').attr('readonly', 'readonly');
-
-            if (entity.TheoryFinalMarkFormulaID == 0) {
-                $('#<%=chkIsTheoryFormulaDefault.ClientID %>').prop('checked', true);
-                cboTheoryFinalMarkFormula.SetValue('');
-                cboTheoryFinalMarkFormula.SetEnabled(false);
-            }
-            else {
-                cboTheoryFinalMarkFormula.SetValue(entity.TheoryFinalMarkFormulaID);
-                cboTheoryFinalMarkFormula.SetEnabled(true);
-                $('#<%=chkIsTheoryFormulaDefault.ClientID %>').prop('checked', false);
-            }
-
-            if (entity.PracticeFinalMarkFormulaID == 0) {
-                $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', true);
-                cboPracticeFinalMarkFormula.SetValue('');
-                cboPracticeFinalMarkFormula.SetEnabled(false);
-            }
-            else {
-                cboPracticeFinalMarkFormula.SetValue(entity.PracticeFinalMarkFormulaID);
-                cboPracticeFinalMarkFormula.SetEnabled(true);
-                $('#<%=chkIsPracticeFormulaDefault.ClientID %>').prop('checked', false);
-            }
             $('#entryDetailContainer').show();
         });
 
@@ -231,18 +175,6 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("KKM")%></label></td>
                                     <td colspan="3"><asp:TextBox ID="txtPassingGrade" CssClass="number" Width="80px" runat="server" /></td>
                                 </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Formula Nilai Rapor (Teori)")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboTheoryFinalMarkFormula" ClientInstanceName="cboTheoryFinalMarkFormula" Width="300px" /></td>
-                                    <td><input type="button" id="btnTheoryFinalMarkFormulaDt" class="btnMore" value="..." /></td>
-                                    <td><asp:CheckBox ID="chkIsTheoryFormulaDefault" runat="server" /><%=GetLabel("Default") %></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Formula Nilai Rapor (Praktek)")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboPracticeFinalMarkFormula" ClientInstanceName="cboPracticeFinalMarkFormula" Width="300px" /></td>
-                                    <td><input type="button" id="btnPracticeFinalMarkFormulaDt" class="btnMore" value="..." /></td>
-                                    <td><asp:CheckBox ID="chkIsPracticeFormulaDefault" runat="server" /><%=GetLabel("Default") %></td>
-                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -284,8 +216,6 @@
                                         <input type="hidden" value="<%#Eval("SubjectCurriculumName") %>" bindingfield="SubjectCurriculumName" />
                                         <input type="hidden" value="<%#Eval("CurriculumSubjectGroupID") %>" bindingfield="CurriculumSubjectGroupID" />
                                         <input type="hidden" value="<%#Eval("NoMeetingHoursInWeek") %>" bindingfield="NoMeetingHoursInWeek" />
-                                        <input type="hidden" value="<%#Eval("TheoryFinalMarkFormulaID") %>" bindingfield="TheoryFinalMarkFormulaID" />
-                                        <input type="hidden" value="<%#Eval("PracticeFinalMarkFormulaID") %>" bindingfield="PracticeFinalMarkFormulaID" />
                                         <input type="hidden" value="<%#Eval("PassingGrade") %>" bindingfield="PassingGrade" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

@@ -54,8 +54,11 @@
     </script>
     <input type="hidden" id="hdnEntryID" runat="server"/>
     <table>
+        <colgroup>
+            <col style="width: 150px"/>
+        </colgroup>
         <tr>
-            <td><%=GetLabel("Kelas") %></td>
+            <td class="tdLabel"><%=GetLabel("Kelas") %></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboClass" ClientInstanceName="cboClass" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboClassValueChanged(s); }" />

@@ -578,7 +578,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (studentMark != null)
                 {
                     txtStudentMark.Text = studentMark.Mark.ToString();
-                    cboStudentMarkOption.Value = studentMark.StudentProgressRuleDtID.ToString();
+                    cboStudentMarkOption.Value = studentMark.MarkTypeDtID.ToString();
                     txtStudentMarkDescription.Text = studentMark.DescriptionMark;
                     if (!studentMark.IsRemedial)
                         bIsRemedial.Style.Add("display", "none");
@@ -769,15 +769,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                                                 studentMark = new ClassStudentSubjectTaskMark();
                                                 studentMark.StudentID = studentID;
                                                 studentMark.ClassSubjectTaskID = ClassSubjectTaskID;
-                                                studentMark.StudentProgressRuleDtID = Convert.ToInt32(saveValue2);
+                                                studentMark.MarkTypeDtID = Convert.ToInt32(saveValue2);
                                                 entityStudentSubjectTaskMarkDao.Insert(studentMark);
                                             }
                                         }
-                                        else if (studentMark.StudentProgressRuleDtID.ToString() != saveValue2)
+                                        else if (studentMark.MarkTypeDtID.ToString() != saveValue2)
                                         {
                                             if (saveValue2 != "")
                                             {
-                                                studentMark.StudentProgressRuleDtID = Convert.ToInt32(saveValue2);
+                                                studentMark.MarkTypeDtID = Convert.ToInt32(saveValue2);
                                                 entityStudentSubjectTaskMarkDao.Update(studentMark);
                                             }
                                             else

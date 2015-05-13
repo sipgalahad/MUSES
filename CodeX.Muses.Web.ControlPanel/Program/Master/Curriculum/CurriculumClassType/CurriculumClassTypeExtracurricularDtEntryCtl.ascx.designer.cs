@@ -7,100 +7,73 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.StudentManagement.Program {
+namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class TeacherPeriodClassTypeSubjectEntry {
+    public partial class CurriculumClassTypeExtracurricularDtEntryCtl {
         
         /// <summary>
-        /// hdnCurriculumID control.
+        /// hdnSelectedMember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSelectedMember;
         
         /// <summary>
-        /// cboSchoolPeriod control.
+        /// hdnCurriculumClassTypeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCurriculumClassTypeID;
         
         /// <summary>
-        /// hdnEntryID control.
+        /// hdnParam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParam;
         
         /// <summary>
-        /// hdnClassTypeID control.
+        /// hdnFilterItemCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnClassTypeID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterItemCode;
         
         /// <summary>
-        /// tacSubject control.
+        /// hdnFilterItemName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterItemName;
         
         /// <summary>
-        /// cboCurriculumSubjectGroup control.
+        /// txtCurriculumClassTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumSubjectGroup;
+        protected global::System.Web.UI.WebControls.TextBox txtCurriculumClassTypeName;
         
         /// <summary>
-        /// tacSubjectCurriculum control.
+        /// cbpPopup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubjectCurriculum;
-        
-        /// <summary>
-        /// txtNoMeetingHoursInWeek control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNoMeetingHoursInWeek;
-        
-        /// <summary>
-        /// txtPassingGrade control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPassingGrade;
-        
-        /// <summary>
-        /// cbpView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpPopup;
         
         /// <summary>
         /// PanelContent1 control.
@@ -130,12 +103,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cbpProcess control.
+        /// rptSelected control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
+        protected global::System.Web.UI.WebControls.Repeater rptSelected;
     }
 }

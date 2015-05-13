@@ -133,6 +133,8 @@
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
+    <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\MarkType\MarkTypeFormulaEntryCtl.ascx" />
     <Content Include="Program\Master\MarkType\MarkTypeEntry.aspx" />
     <Content Include="Program\Master\MarkType\MarkTypeList.aspx" />
@@ -167,11 +169,6 @@
     <Content Include="Program\Master\Customer\CustomerList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
-    <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx" />
-    <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx" />
-    <Content Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx" />
-    <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaEntry.aspx" />
-    <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaList.aspx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\MasterCoding\MasterCodingEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\MasterCoding\MasterCodingList.aspx" />
@@ -215,10 +212,7 @@
     <Content Include="Program\Master\SchoolMajor\SchoolMajorList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompEntry.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx" />
-    <Content Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\PersonalityList.aspx" />
-    <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx" />
-    <Content Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx" />
@@ -650,6 +644,20 @@
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx.cs">
+      <DependentUpon>CurriculumClassTypeExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>CurriculumClassTypeExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx.cs">
+      <DependentUpon>CurriculumClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>CurriculumClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\Master\MarkType\MarkTypeFormulaEntryCtl.ascx.cs">
       <DependentUpon>MarkTypeFormulaEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -887,41 +895,6 @@
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx.designer.cs">
       <DependentUpon>StudentFeeCompTypePaymentEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx.cs">
-      <DependentUpon>StudentProgressRuleDtEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>StudentProgressRuleDtEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx.cs">
-      <DependentUpon>StudentProgressRuleEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleEntry.aspx.designer.cs">
-      <DependentUpon>StudentProgressRuleEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx.cs">
-      <DependentUpon>StudentProgressRuleList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\StudentProgressRule\StudentProgressRuleList.aspx.designer.cs">
-      <DependentUpon>StudentProgressRuleList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaEntry.aspx.cs">
-      <DependentUpon>StudentFinalMarkFormulaEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaEntry.aspx.designer.cs">
-      <DependentUpon>StudentFinalMarkFormulaEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaList.aspx.cs">
-      <DependentUpon>StudentFinalMarkFormulaList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaList.aspx.designer.cs">
-      <DependentUpon>StudentFinalMarkFormulaList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx.cs">
       <DependentUpon>ItemAlternateUnitEntryCtl.ascx</DependentUpon>
@@ -1224,33 +1197,12 @@
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx.designer.cs">
       <DependentUpon>StudentFeeCompList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaDtEntryCtl.ascx.cs">
-      <DependentUpon>StudentFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\StudentFinalMarkFormula\StudentFinalMarkFormulaDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>StudentFinalMarkFormulaDtEntryCtl.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Program\Master\Subject\PersonalityList.aspx.cs">
       <DependentUpon>PersonalityList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Program\Master\Subject\PersonalityList.aspx.designer.cs">
       <DependentUpon>PersonalityList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.cs">
-      <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeQuickPicksEntryCtl.ascx.designer.cs">
-      <DependentUpon>SubjectClassTypeQuickPicksEntryCtl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.cs">
-      <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\Subject\SubjectClassType\SubjectClassTypeEntry.aspx.designer.cs">
-      <DependentUpon>SubjectClassTypeEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanEntry.aspx</DependentUpon>

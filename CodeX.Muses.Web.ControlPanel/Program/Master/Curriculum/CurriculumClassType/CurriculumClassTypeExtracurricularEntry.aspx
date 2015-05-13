@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="AdmissionSelectionEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.AdmissionSelectionEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPCurriculumPageTrxVisit.master" AutoEventWireup="true" 
+    CodeBehind="CurriculumClassTypeExtracurricularEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.CurriculumClassTypeExtracurricularEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -13,10 +13,11 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtSelectionName.ClientID %>').val(''); 
-                $('#<%=txtDisplayOrder.ClientID %>').val('1');
-                $('#<%=txtFinalMarkPercentage.ClientID %>').val('0');
-                $('#<%=txtRemarks.ClientID %>').val('');
+                $('#<%=txtCurriculumClassTypeCode.ClientID %>').val('');
+                $('#<%=txtCurriculumClassTypeName.ClientID %>').val('');
+                cboGrade.SetValue('');
+                cboMajor.SetValue('');
+
                 $('#entryDetailContainer').show();
             });
 
@@ -25,7 +26,7 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
                     cbpProcess.PerformCallback('save');
             });
         });
@@ -33,11 +34,11 @@
         //#region edit and delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');
-            showToastConfirmation('Are You Sure Want To Delete?', function (result) {
+            showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.AdmissionSelectionID);
-                    cbpProcess.PerformCallback('delete');
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumClassTypeID);
+                    cbpProcessPopup.PerformCallback('delete');
                 }
             });
         });
@@ -46,11 +47,12 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.AdmissionSelectionID);
-            $('#<%=txtSelectionName.ClientID %>').val(entity.SelectionName);
-            $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
-            $('#<%=txtFinalMarkPercentage.ClientID %>').val(entity.FinalMarkPercentage);
-            $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumClassTypeID);
+            $('#<%=txtCurriculumClassTypeCode.ClientID %>').val(entity.CurriculumClassTypeCode);
+            $('#<%=txtCurriculumClassTypeName.ClientID %>').val(entity.CurriculumClassTypeName);
+            cboGrade.SetValue(entity.GCGrade);
+            cboMajor.SetValue(entity.CurriculumMajorID);
+
             $('#entryDetailContainer').show();
         });
 
@@ -76,29 +78,19 @@
             }
         }
 
-        function onCboPeriodAdmissionValueChanged(s) {
-            $('#btnCancel').click();
-            cbpView.PerformCallback('refresh');
-        }
+        $('.lnkClassType a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Curriculum/CurriculumClassType/CurriculumClassTypeExtracurricularDtEntryCtl.ascx");
+            openUserControlPopup(url, entity.CurriculumClassTypeID, 'Tipe Kelas', 1000, 620);
+        });
     </script>
-    <table>
-        <colgroup>
-            <col style="width: 200px"/>
-        </colgroup>
-        <tr>
-            <td class="tdLabel"><%=GetLabel("Gelombang Pendaftaran") %></td>
-            <td>
-                <dxe:ASPxComboBox runat="server" ID="cboPeriodAdmission" ClientInstanceName="cboPeriodAdmission" Width="200px">
-                    <ClientSideEvents ValueChanged="function(s,e) { onCboPeriodAdmissionValueChanged(s); }" />
-                </dxe:ASPxComboBox>
-            </td>
-        </tr>
-    </table>
+    <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
             <fieldset id="fsTrx" style="margin: 0">
-                <input type="hidden" value="" id="hdnEntryID" runat="server" />
+                <input type="hidden" id="hdnEntryID" runat="server" value="" />
                 <table style="width: 100%">
                     <colgroup>
                         <col style="width: 50%" />
@@ -110,20 +102,20 @@
                                     <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtSelectionName" Width="300px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
+                                    <td><asp:TextBox ID="txtCurriculumClassTypeCode" Width="100px" runat="server" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("% Nilai Akhir")%></label></td>
-                                    <td><asp:TextBox ID="txtFinalMarkPercentage" CssClass="number" Width="80px" runat="server" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
+                                    <td><asp:TextBox ID="txtCurriculumClassTypeName" Width="300px" runat="server" /></td>
                                 </tr>
-                                <tr>
-                                    <td class="tdLabel"><label><%=GetLabel("Urutan")%></label></td>
-                                    <td><asp:TextBox ID="txtDisplayOrder" CssClass="number" Width="80px" runat="server" /></td>
+                                <tr id="trGrade" runat="server">
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tingkat (Kelas)")%></label></td>
+                                    <td><dxe:ASPxComboBox runat="server" ID="cboGrade" ClientInstanceName="cboGrade" Width="200px" /></td>
                                 </tr>
-                                <tr>
-                                    <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
-                                    <td><asp:TextBox runat="server" ID="txtRemarks" TextMode="MultiLine" Rows="2" Width="300px" /></td>
+                                <tr id="trMajor" runat="server">
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
+                                    <td><dxe:ASPxComboBox runat="server" ID="cboMajor" ClientInstanceName="cboMajor" Width="200px" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -148,20 +140,22 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="AdmissionSelectionID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="SelectionName" HeaderText="Nama" HeaderStyle-Width="200px"/>
-                                <asp:BoundField DataField="FinalMarkPercentage" HeaderText="[%] Nilai Akhir" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="200px"/>
-                                <asp:BoundField HeaderStyle-Width="10px" />
-                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" />
+                                <asp:BoundField DataField="CurriculumClassTypeCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Nama" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkClassType" HeaderText="Tipe Kelas" HeaderStyle-Width="100px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsExtracurricular").ToString() == "False" ? "style='display:none'" : ""%>>Tipe Kelas</a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("AdmissionSelectionID") %>" bindingfield="AdmissionSelectionID" />
-                                        <input type="hidden" value="<%#Eval("SelectionName") %>" bindingfield="SelectionName" />
-                                        <input type="hidden" value="<%#Eval("FinalMarkPercentage") %>" bindingfield="FinalMarkPercentage" />
-                                        <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
-                                        <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
+                                        <input type="hidden" value="<%#Eval("CurriculumClassTypeID") %>" bindingfield="CurriculumClassTypeID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumClassTypeCode") %>" bindingfield="CurriculumClassTypeCode" />
+                                        <input type="hidden" value="<%#Eval("CurriculumClassTypeName") %>" bindingfield="CurriculumClassTypeName" />
+                                        <input type="hidden" value="<%#Eval("GCGrade") %>" bindingfield="GCGrade" />
+                                        <input type="hidden" value="<%#Eval("CurriculumMajorID") %>" bindingfield="CurriculumMajorID" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

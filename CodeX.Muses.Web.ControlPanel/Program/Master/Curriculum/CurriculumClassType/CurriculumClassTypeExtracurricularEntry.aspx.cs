@@ -14,15 +14,20 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class CurriculumClassTypeEntry : BasePageTrx
+    public partial class CurriculumClassTypeExtracurricularEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_CLASS_TYPE;
+            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_EXTRACURRICULAR_CLASS_TYPE;
         }
         protected override void InitializeDataControl()
         {
-            hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
+            hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+            {
+                trGrade.Style.Add("display", "none");
+                trMajor.Style.Add("display", "none");
+            }
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
             List<CurriculumMajor> lstMajor = BusinessLayer.GetCurriculumMajorList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
             lstMajor.Insert(0, new CurriculumMajor { CurriculumMajorID = 0, CurriculumMajorName = "" });

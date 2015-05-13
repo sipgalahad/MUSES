@@ -15,7 +15,6 @@
 
 <input type="hidden" id="hdnClassMeetingID" runat="server" />
 <input type="hidden" id="hdnSubjectCurriculumID" runat="server" />
-<input type="hidden" id="hdnSubjectMeetingPlanHdID" runat="server" />
 <input type="hidden" id="hdnSubjectIndicatorSave" runat="server" />
 <input type="hidden" id="hdnID" runat="server" value="" />
 <div>

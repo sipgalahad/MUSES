@@ -38,10 +38,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
             vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
-            if (classMeeting != null)
-                hdnSubjectMeetingPlanHdID.Value = classMeeting.SubjectMeetingPlanHdID.ToString();
-            else
-                hdnSubjectMeetingPlanHdID.Value = "0";
             hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
             //txtFinalMarkPercentage.Focus();       
         }

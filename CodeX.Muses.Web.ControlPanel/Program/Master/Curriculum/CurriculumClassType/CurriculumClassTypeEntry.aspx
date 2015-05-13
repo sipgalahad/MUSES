@@ -77,6 +77,13 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        $('.lnkClassType a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Master/Curriculum/CurriculumClassType/CurriculumClassTypeExtracurricularDtEntryCtl.ascx");
+            openUserControlPopup(url, entity.CurriculumClassTypeID, 'Tipe Kelas', 1000, 620);
+        });
     </script>
     <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
     <div class="divTransactionEntry">

@@ -813,44 +813,6 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-  <!-- #Region Subject Indicator -->
-  <searchdialog type="subjectindicator" methodname="GetvSubjectIndicatorList" keyfieldname="SubjectIndicatorID" orderbyexpression="SubjectIndicatorName ASC">
-    <gridcolumns>
-      <gridcolumn datafield="SubjectBasicCompetencyName" headertext="Kompetensi Dasar" width="200px" />
-      <gridcolumn datafield="SubjectIndicatorName" headertext="Indikator" width="200px" />
-    </gridcolumns>
-    <intellisensetexts>
-      <intellisensetext datafield="SubjectBasicCompetencyName" headertext="Kompetensi Dasar" description="" />
-      <intellisensetext datafield="SubjectIndicatorName" headertext="Indikator" description="" />
-    </intellisensetexts>
-  </searchdialog>
-  <!-- #EndRegion -->
-  <!-- #Region Subject Matter -->
-  <searchdialog type="subjectmatter" methodname="GetSubjectMatterHdList" keyfieldname="SubjectMatterCode" orderbyexpression="SubjectMatterName ASC">
-    <gridcolumns>
-      <gridcolumn datafield="SubjectMatterCode" headertext="Kode" width="50px" />
-      <gridcolumn datafield="SubjectMatterName" headertext="Nama" width="300px" />
-    </gridcolumns>
-    <intellisensetexts>
-      <intellisensetext datafield="SubjectMatterName" headertext="Nama" description="" />
-      <intellisensetext datafield="SubjectMatterCode" headertext="Kode" description="" />
-    </intellisensetexts>
-  </searchdialog>
-  <!-- #EndRegion -->
-  <!-- #Region Subject Meeting Plan Hd -->
-  <searchdialog type="subjectmeetingplanhd" methodname="GetvSubjectMeetingPlanHdList" keyfieldname="SubjectMeetingPlanHdID" orderbyexpression="MeetingNo ASC">
-    <gridcolumns>
-      <gridcolumn datafield="MeetingNo" headertext="Pertemuan Ke" width="50px" horizontalalign="right" />
-      <gridcolumn datafield="SubjectCompetencyStandardName" headertext="Standar Kompetensi" width="200px" />
-      <gridcolumn datafield="ListSubjectBasicCompetencyName" headertext="Kompetensi Dasar" width="200px" />
-    </gridcolumns>
-    <intellisensetexts>
-      <intellisensetext datafield="MeetingNo" headertext="Kompetensi Dasar" description="" />
-      <intellisensetext datafield="SubjectCompetencyStandardName" headertext="Standar Kompetensi" description="" />
-      <intellisensetext datafield="ListSubjectBasicCompetencyName" headertext="Kompetensi Dasar" description="" />
-    </intellisensetexts>
-  </searchdialog>
-  <!-- #EndRegion -->
   <!-- #Region Supplier Credit Note -->
   <searchdialog type="suppliercreditnote" methodname="GetvSupplierCreditNoteList" keyfieldname="CreditNoteNo" orderbyexpression="CreditNoteID DESC">
     <gridcolumns>

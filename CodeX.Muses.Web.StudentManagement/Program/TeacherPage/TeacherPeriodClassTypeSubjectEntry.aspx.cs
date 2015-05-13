@@ -40,14 +40,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<CurriculumSubjectGroup> lstSubjectGroup = BusinessLayer.GetCurriculumSubjectGroupList(string.Format("CurriculumID = {0} AND IsDeleted = 0", selectedSchoolPeriod.CurriculumID));
             Methods.SetComboBoxField<CurriculumSubjectGroup>(cboCurriculumSubjectGroup, lstSubjectGroup, "CurriculumSubjectGroupName", "CurriculumSubjectGroupID");
 
-            List<StudentFinalMarkFormulaHd> lstFormula = BusinessLayer.GetStudentFinalMarkFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            lstFormula.Insert(0, new StudentFinalMarkFormulaHd { StudentFinalMarkFormulaID = 0, StudentFinalMarkFormulaName = "" });
-            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboTheoryFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
-            cboTheoryFinalMarkFormula.SelectedIndex = 0;
-
-            Methods.SetComboBoxField<StudentFinalMarkFormulaHd>(cboPracticeFinalMarkFormula, lstFormula, "StudentFinalMarkFormulaName", "StudentFinalMarkFormulaID");
-            cboPracticeFinalMarkFormula.SelectedIndex = 0;
-
             BindGridView();
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -110,15 +102,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entity.SubjectCurriculumID = null;
             entity.NoMeetingHoursInWeek = Convert.ToInt16(txtNoMeetingHoursInWeek.Text);
             entity.PassingGrade = Convert.ToInt16(txtPassingGrade.Text);
-            if (cboTheoryFinalMarkFormula.Value == null || cboTheoryFinalMarkFormula.Value.ToString() == "0")
-                entity.TheoryFinalMarkFormulaID = null;
-            else
-                entity.TheoryFinalMarkFormulaID = Convert.ToInt32(cboTheoryFinalMarkFormula.Value);
-
-            if (cboPracticeFinalMarkFormula.Value == null || cboPracticeFinalMarkFormula.Value.ToString() == "0")
-                entity.PracticeFinalMarkFormulaID = null;
-            else
-                entity.PracticeFinalMarkFormulaID = Convert.ToInt32(cboPracticeFinalMarkFormula.Value);
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)

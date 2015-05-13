@@ -1630,8 +1630,6 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private String _Remarks;
         private String _NextMeetingRemarks;
-        private Int32 _SubjectMeetingPlanHdID;
-        private Int16 _MeetingNo;
         private Int32 _SubjectCurriculumMeetingPlanID;
         private String _SubjectCurriculumMeetingPlanCode;
         private String _SubjectCurriculumMeetingPlanName;
@@ -1708,18 +1706,6 @@ namespace CodeX.Data.Model
         {
             get { return _NextMeetingRemarks; }
             set { _NextMeetingRemarks = value; }
-        }
-        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32")]
-        public Int32 SubjectMeetingPlanHdID
-        {
-            get { return _SubjectMeetingPlanHdID; }
-            set { _SubjectMeetingPlanHdID = value; }
-        }
-        [Column(Name = "MeetingNo", DataType = "Int16")]
-        public Int16 MeetingNo
-        {
-            get { return _MeetingNo; }
-            set { _MeetingNo = value; }
         }
         [Column(Name = "SubjectCurriculumMeetingPlanID", DataType = "Int32")]
         public Int32 SubjectCurriculumMeetingPlanID
@@ -2119,12 +2105,10 @@ namespace CodeX.Data.Model
         private Int32 _RoomID;
         private String _RoomName;
         private Int16 _PassingGrade;
-        private Int32 _SubjectMatterID;
         private Int32 _SubjectCurriculumID;
         private String _GCClassStudyType;
         private Int32 _CurriculumSubjectGroupID;
         private String _CurriculumSubjectGroupName;
-        private Int32 _StudentProgressRuleID;
         private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectID", DataType = "Int32")]
@@ -2247,12 +2231,6 @@ namespace CodeX.Data.Model
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
         }
-        [Column(Name = "SubjectMatterID", DataType = "Int32")]
-        public Int32 SubjectMatterID
-        {
-            get { return _SubjectMatterID; }
-            set { _SubjectMatterID = value; }
-        }
         [Column(Name = "SubjectCurriculumID", DataType = "Int32")]
         public Int32 SubjectCurriculumID
         {
@@ -2276,12 +2254,6 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSubjectGroupName; }
             set { _CurriculumSubjectGroupName = value; }
-        }
-        [Column(Name = "StudentProgressRuleID", DataType = "Int32")]
-        public Int32 StudentProgressRuleID
-        {
-            get { return _StudentProgressRuleID; }
-            set { _StudentProgressRuleID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -2372,8 +2344,6 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private Boolean _IsRemedial;
         private Decimal _Mark;
-        private Int32 _StudentProgressRuleDtID;
-        private String _StudentProgressRuleDtName;
         private Int32 _MarkTypeDtID;
         private String _MarkTypeDtName;
         private String _DescriptionMark;
@@ -2407,18 +2377,6 @@ namespace CodeX.Data.Model
         {
             get { return _Mark; }
             set { _Mark = value; }
-        }
-        [Column(Name = "StudentProgressRuleDtID", DataType = "Int32")]
-        public Int32 StudentProgressRuleDtID
-        {
-            get { return _StudentProgressRuleDtID; }
-            set { _StudentProgressRuleDtID = value; }
-        }
-        [Column(Name = "StudentProgressRuleDtName", DataType = "String")]
-        public String StudentProgressRuleDtName
-        {
-            get { return _StudentProgressRuleDtName; }
-            set { _StudentProgressRuleDtName = value; }
         }
         [Column(Name = "MarkTypeDtID", DataType = "Int32")]
         public Int32 MarkTypeDtID
@@ -2685,203 +2643,6 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vClassSubjectTaskCustom
-    [Serializable]
-    [Table(Name = "vClassSubjectTaskCustom")]
-    public class vClassSubjectTaskCustom
-    {
-        private Int32 _ClassSubjectTaskID;
-        private Int32 _ClassSubjectID;
-        private Int32 _PeriodSectionID;
-        private String _ClassTaskCode;
-        private String _GCTaskType;
-        private Int32 _TheoryFinalMarkFormulaDtID;
-        private String _TheoryFinalMarkFormulaDtName;
-        private Int16 _TheoryDisplayOrder;
-        private Decimal _TheoryFinalMarkPercentage;
-        private Int32 _PracticeFinalMarkFormulaDtID;
-        private String _PracticeFinalMarkFormulaDtName;
-        private Int16 _PracticeDisplayOrder;
-        private Decimal _PracticeFinalMarkPercentage;
-        private String _TaskType;
-        private String _GCLessonType;
-        private String _LessonType;
-        private Int16 _FinalMarkPercentage;
-        private DateTime _TaskDate;
-        private DateTime _StartDate;
-        private DateTime _EndDate;
-        private String _StartTime;
-        private String _EndTime;
-        private String _Topic;
-        private String _Remarks;
-        private Int32 _TheoryFinalMarkFormulaID;
-        private Int32 _PracticeFinalMarkFormulaID;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
-        public Int32 ClassSubjectTaskID
-        {
-            get { return _ClassSubjectTaskID; }
-            set { _ClassSubjectTaskID = value; }
-        }
-        [Column(Name = "ClassSubjectID", DataType = "Int32")]
-        public Int32 ClassSubjectID
-        {
-            get { return _ClassSubjectID; }
-            set { _ClassSubjectID = value; }
-        }
-        [Column(Name = "PeriodSectionID", DataType = "Int32")]
-        public Int32 PeriodSectionID
-        {
-            get { return _PeriodSectionID; }
-            set { _PeriodSectionID = value; }
-        }
-        [Column(Name = "ClassTaskCode", DataType = "String")]
-        public String ClassTaskCode
-        {
-            get { return _ClassTaskCode; }
-            set { _ClassTaskCode = value; }
-        }
-        [Column(Name = "GCTaskType", DataType = "String")]
-        public String GCTaskType
-        {
-            get { return _GCTaskType; }
-            set { _GCTaskType = value; }
-        }
-        [Column(Name = "TheoryFinalMarkFormulaDtID", DataType = "Int32")]
-        public Int32 TheoryFinalMarkFormulaDtID
-        {
-            get { return _TheoryFinalMarkFormulaDtID; }
-            set { _TheoryFinalMarkFormulaDtID = value; }
-        }
-        [Column(Name = "TheoryFinalMarkFormulaDtName", DataType = "String")]
-        public String TheoryFinalMarkFormulaDtName
-        {
-            get { return _TheoryFinalMarkFormulaDtName; }
-            set { _TheoryFinalMarkFormulaDtName = value; }
-        }
-        [Column(Name = "TheoryDisplayOrder", DataType = "Int16")]
-        public Int16 TheoryDisplayOrder
-        {
-            get { return _TheoryDisplayOrder; }
-            set { _TheoryDisplayOrder = value; }
-        }
-        [Column(Name = "TheoryFinalMarkPercentage", DataType = "Decimal")]
-        public Decimal TheoryFinalMarkPercentage
-        {
-            get { return _TheoryFinalMarkPercentage; }
-            set { _TheoryFinalMarkPercentage = value; }
-        }
-        [Column(Name = "PracticeFinalMarkFormulaDtID", DataType = "Int32")]
-        public Int32 PracticeFinalMarkFormulaDtID
-        {
-            get { return _PracticeFinalMarkFormulaDtID; }
-            set { _PracticeFinalMarkFormulaDtID = value; }
-        }
-        [Column(Name = "PracticeFinalMarkFormulaDtName", DataType = "String")]
-        public String PracticeFinalMarkFormulaDtName
-        {
-            get { return _PracticeFinalMarkFormulaDtName; }
-            set { _PracticeFinalMarkFormulaDtName = value; }
-        }
-        [Column(Name = "PracticeDisplayOrder", DataType = "Int16")]
-        public Int16 PracticeDisplayOrder
-        {
-            get { return _PracticeDisplayOrder; }
-            set { _PracticeDisplayOrder = value; }
-        }
-        [Column(Name = "PracticeFinalMarkPercentage", DataType = "Decimal")]
-        public Decimal PracticeFinalMarkPercentage
-        {
-            get { return _PracticeFinalMarkPercentage; }
-            set { _PracticeFinalMarkPercentage = value; }
-        }
-        [Column(Name = "TaskType", DataType = "String")]
-        public String TaskType
-        {
-            get { return _TaskType; }
-            set { _TaskType = value; }
-        }
-        [Column(Name = "GCLessonType", DataType = "String")]
-        public String GCLessonType
-        {
-            get { return _GCLessonType; }
-            set { _GCLessonType = value; }
-        }
-        [Column(Name = "LessonType", DataType = "String")]
-        public String LessonType
-        {
-            get { return _LessonType; }
-            set { _LessonType = value; }
-        }
-        [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
-        public Int16 FinalMarkPercentage
-        {
-            get { return _FinalMarkPercentage; }
-            set { _FinalMarkPercentage = value; }
-        }
-        [Column(Name = "TaskDate", DataType = "DateTime")]
-        public DateTime TaskDate
-        {
-            get { return _TaskDate; }
-            set { _TaskDate = value; }
-        }
-        [Column(Name = "StartDate", DataType = "DateTime")]
-        public DateTime StartDate
-        {
-            get { return _StartDate; }
-            set { _StartDate = value; }
-        }
-        [Column(Name = "EndDate", DataType = "DateTime")]
-        public DateTime EndDate
-        {
-            get { return _EndDate; }
-            set { _EndDate = value; }
-        }
-        [Column(Name = "StartTime", DataType = "String")]
-        public String StartTime
-        {
-            get { return _StartTime; }
-            set { _StartTime = value; }
-        }
-        [Column(Name = "EndTime", DataType = "String")]
-        public String EndTime
-        {
-            get { return _EndTime; }
-            set { _EndTime = value; }
-        }
-        [Column(Name = "Topic", DataType = "String")]
-        public String Topic
-        {
-            get { return _Topic; }
-            set { _Topic = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 TheoryFinalMarkFormulaID
-        {
-            get { return _TheoryFinalMarkFormulaID; }
-            set { _TheoryFinalMarkFormulaID = value; }
-        }
-        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 PracticeFinalMarkFormulaID
-        {
-            get { return _PracticeFinalMarkFormulaID; }
-            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -3306,7 +3067,7 @@ namespace CodeX.Data.Model
     #region vCurriculumClassType
     [Serializable]
     [Table(Name = "vCurriculumClassType")]
-    public class vCurriculumClassType
+    public partial class vCurriculumClassType
     {
         private Int32 _CurriculumClassTypeID;
         private String _CurriculumClassTypeCode;
@@ -3392,6 +3153,63 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vCurriculumClassTypeExtracurricular
+    [Serializable]
+    [Table(Name = "vCurriculumClassTypeExtracurricular")]
+    public class vCurriculumClassTypeExtracurricular
+    {
+        private Int32 _CurriculumClassTypeID;
+        private String _CurriculumClassTypeCode;
+        private String _CurriculumClassTypeName;
+        private String _GCGrade;
+        private Int32 _CurriculumMajorID;
+        private String _GCMajor;
+        private Int32 _ExtracurricularCurriculumClassTypeID;
+
+        [Column(Name = "CurriculumClassTypeID", DataType = "Int32")]
+        public Int32 CurriculumClassTypeID
+        {
+            get { return _CurriculumClassTypeID; }
+            set { _CurriculumClassTypeID = value; }
+        }
+        [Column(Name = "CurriculumClassTypeCode", DataType = "String")]
+        public String CurriculumClassTypeCode
+        {
+            get { return _CurriculumClassTypeCode; }
+            set { _CurriculumClassTypeCode = value; }
+        }
+        [Column(Name = "CurriculumClassTypeName", DataType = "String")]
+        public String CurriculumClassTypeName
+        {
+            get { return _CurriculumClassTypeName; }
+            set { _CurriculumClassTypeName = value; }
+        }
+        [Column(Name = "GCGrade", DataType = "String")]
+        public String GCGrade
+        {
+            get { return _GCGrade; }
+            set { _GCGrade = value; }
+        }
+        [Column(Name = "CurriculumMajorID", DataType = "Int32")]
+        public Int32 CurriculumMajorID
+        {
+            get { return _CurriculumMajorID; }
+            set { _CurriculumMajorID = value; }
+        }
+        [Column(Name = "GCMajor", DataType = "String")]
+        public String GCMajor
+        {
+            get { return _GCMajor; }
+            set { _GCMajor = value; }
+        }
+        [Column(Name = "ExtracurricularCurriculumClassTypeID", DataType = "Int32")]
+        public Int32 ExtracurricularCurriculumClassTypeID
+        {
+            get { return _ExtracurricularCurriculumClassTypeID; }
+            set { _ExtracurricularCurriculumClassTypeID = value; }
         }
     }
     #endregion
@@ -13226,8 +13044,6 @@ namespace CodeX.Data.Model
         private String _Major;
         private Int32 _DailySchedulePackageID;
         private String _DailySchedulePackageName;
-        private Int32 _TheoryFinalMarkFormulaID;
-        private Int32 _PracticeFinalMarkFormulaID;
         private Int32 _GradePromotionFormulaID;
         private Int16 _NoOfClass;
         private Int32 _CreatedClass;
@@ -13335,18 +13151,6 @@ namespace CodeX.Data.Model
             get { return _DailySchedulePackageName; }
             set { _DailySchedulePackageName = value; }
         }
-        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 TheoryFinalMarkFormulaID
-        {
-            get { return _TheoryFinalMarkFormulaID; }
-            set { _TheoryFinalMarkFormulaID = value; }
-        }
-        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 PracticeFinalMarkFormulaID
-        {
-            get { return _PracticeFinalMarkFormulaID; }
-            set { _PracticeFinalMarkFormulaID = value; }
-        }
         [Column(Name = "GradePromotionFormulaID", DataType = "Int32")]
         public Int32 GradePromotionFormulaID
         {
@@ -13397,8 +13201,6 @@ namespace CodeX.Data.Model
         private String _TeacherName;
         private Int16 _NoMeetingHoursInWeek;
         private Int16 _PassingGrade;
-        private Int32 _TheoryFinalMarkFormulaID;
-        private Int32 _PracticeFinalMarkFormulaID;
         private Int32 _CurriculumSubjectGroupID;
         private String _CurriculumSubjectGroupName;
         private Boolean _IsEditable;
@@ -13517,18 +13319,6 @@ namespace CodeX.Data.Model
         {
             get { return _PassingGrade; }
             set { _PassingGrade = value; }
-        }
-        [Column(Name = "TheoryFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 TheoryFinalMarkFormulaID
-        {
-            get { return _TheoryFinalMarkFormulaID; }
-            set { _TheoryFinalMarkFormulaID = value; }
-        }
-        [Column(Name = "PracticeFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 PracticeFinalMarkFormulaID
-        {
-            get { return _PracticeFinalMarkFormulaID; }
-            set { _PracticeFinalMarkFormulaID = value; }
         }
         [Column(Name = "CurriculumSubjectGroupID", DataType = "Int32")]
         public Int32 CurriculumSubjectGroupID
@@ -22996,70 +22786,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vStudentFinalMarkFormulaDt
-    [Serializable]
-    [Table(Name = "vStudentFinalMarkFormulaDt")]
-    public class vStudentFinalMarkFormulaDt
-    {
-        private Int32 _StudentFinalMarkFormulaDtID;
-        private Int32 _StudentFinalMarkFormulaID;
-        private String _StudentFinalMarkFormulaDtName;
-        private Int16 _DisplayOrder;
-        private Decimal _FinalMarkPercentage;
-        private String _ListGCTaskType;
-        private String _ListTaskType;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "StudentFinalMarkFormulaDtID", DataType = "Int32")]
-        public Int32 StudentFinalMarkFormulaDtID
-        {
-            get { return _StudentFinalMarkFormulaDtID; }
-            set { _StudentFinalMarkFormulaDtID = value; }
-        }
-        [Column(Name = "StudentFinalMarkFormulaID", DataType = "Int32")]
-        public Int32 StudentFinalMarkFormulaID
-        {
-            get { return _StudentFinalMarkFormulaID; }
-            set { _StudentFinalMarkFormulaID = value; }
-        }
-        [Column(Name = "StudentFinalMarkFormulaDtName", DataType = "String")]
-        public String StudentFinalMarkFormulaDtName
-        {
-            get { return _StudentFinalMarkFormulaDtName; }
-            set { _StudentFinalMarkFormulaDtName = value; }
-        }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
-        {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
-        }
-        [Column(Name = "FinalMarkPercentage", DataType = "Decimal")]
-        public Decimal FinalMarkPercentage
-        {
-            get { return _FinalMarkPercentage; }
-            set { _FinalMarkPercentage = value; }
-        }
-        [Column(Name = "ListGCTaskType", DataType = "String")]
-        public String ListGCTaskType
-        {
-            get { return _ListGCTaskType; }
-            set { _ListGCTaskType = value; }
-        }
-        [Column(Name = "ListTaskType", DataType = "String")]
-        public String ListTaskType
-        {
-            get { return _ListTaskType; }
-            set { _ListTaskType = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
     #region vStudentPastStudy
     [Serializable]
     [Table(Name = "vStudentPastStudy")]
@@ -23122,141 +22848,6 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectBasicCompetency
-    [Serializable]
-    [Table(Name = "vSubjectBasicCompetency")]
-    public class vSubjectBasicCompetency
-    {
-        private Int32 _SubjectBasicCompetencyID;
-        private Int32 _SubjectCompetencyStandardID;
-        private String _SubjectCompetencyStandardName;
-        private String _SubjectBasicCompetencyName;
-        private String _StudySource;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
-        public Int32 SubjectBasicCompetencyID
-        {
-            get { return _SubjectBasicCompetencyID; }
-            set { _SubjectBasicCompetencyID = value; }
-        }
-        [Column(Name = "SubjectCompetencyStandardID", DataType = "Int32")]
-        public Int32 SubjectCompetencyStandardID
-        {
-            get { return _SubjectCompetencyStandardID; }
-            set { _SubjectCompetencyStandardID = value; }
-        }
-        [Column(Name = "SubjectCompetencyStandardName", DataType = "String")]
-        public String SubjectCompetencyStandardName
-        {
-            get { return _SubjectCompetencyStandardName; }
-            set { _SubjectCompetencyStandardName = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyName", DataType = "String")]
-        public String SubjectBasicCompetencyName
-        {
-            get { return _SubjectBasicCompetencyName; }
-            set { _SubjectBasicCompetencyName = value; }
-        }
-        [Column(Name = "StudySource", DataType = "String")]
-        public String StudySource
-        {
-            get { return _StudySource; }
-            set { _StudySource = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectClassType
-    [Serializable]
-    [Table(Name = "vSubjectClassType")]
-    public class vSubjectClassType
-    {
-        private Int32 _SubjectID;
-        private String _SubjectCode;
-        private String _SubjectName;
-        private Int32 _ClassTypeID;
-        private String _ClassTypeCode;
-        private String _ClassTypeName;
-        private String _GCGrade;
-        private String _Grade;
-        private String _GCMajor;
-        private String _Major;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectID", DataType = "Int32")]
-        public Int32 SubjectID
-        {
-            get { return _SubjectID; }
-            set { _SubjectID = value; }
-        }
-        [Column(Name = "SubjectCode", DataType = "String")]
-        public String SubjectCode
-        {
-            get { return _SubjectCode; }
-            set { _SubjectCode = value; }
-        }
-        [Column(Name = "SubjectName", DataType = "String")]
-        public String SubjectName
-        {
-            get { return _SubjectName; }
-            set { _SubjectName = value; }
-        }
-        [Column(Name = "ClassTypeID", DataType = "Int32")]
-        public Int32 ClassTypeID
-        {
-            get { return _ClassTypeID; }
-            set { _ClassTypeID = value; }
-        }
-        [Column(Name = "ClassTypeCode", DataType = "String")]
-        public String ClassTypeCode
-        {
-            get { return _ClassTypeCode; }
-            set { _ClassTypeCode = value; }
-        }
-        [Column(Name = "ClassTypeName", DataType = "String")]
-        public String ClassTypeName
-        {
-            get { return _ClassTypeName; }
-            set { _ClassTypeName = value; }
-        }
-        [Column(Name = "GCGrade", DataType = "String")]
-        public String GCGrade
-        {
-            get { return _GCGrade; }
-            set { _GCGrade = value; }
-        }
-        [Column(Name = "Grade", DataType = "String")]
-        public String Grade
-        {
-            get { return _Grade; }
-            set { _Grade = value; }
-        }
-        [Column(Name = "GCMajor", DataType = "String")]
-        public String GCMajor
-        {
-            get { return _GCMajor; }
-            set { _GCMajor = value; }
-        }
-        [Column(Name = "Major", DataType = "String")]
-        public String Major
-        {
-            get { return _Major; }
-            set { _Major = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -23574,241 +23165,6 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectIndicator
-    [Serializable]
-    [Table(Name = "vSubjectIndicator")]
-    public partial class vSubjectIndicator
-    {
-        private Int32 _SubjectIndicatorID;
-        private Int32 _SubjectBasicCompetencyID;
-        private Int32 _SubjectMatterID;
-        private String _SubjectBasicCompetencyName;
-        private String _SubjectIndicatorName;
-        private Int16 _DisplayOrder;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
-        public Int32 SubjectIndicatorID
-        {
-            get { return _SubjectIndicatorID; }
-            set { _SubjectIndicatorID = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyID", DataType = "Int32")]
-        public Int32 SubjectBasicCompetencyID
-        {
-            get { return _SubjectBasicCompetencyID; }
-            set { _SubjectBasicCompetencyID = value; }
-        }
-        [Column(Name = "SubjectMatterID", DataType = "Int32")]
-        public Int32 SubjectMatterID
-        {
-            get { return _SubjectMatterID; }
-            set { _SubjectMatterID = value; }
-        }
-        [Column(Name = "SubjectBasicCompetencyName", DataType = "String")]
-        public String SubjectBasicCompetencyName
-        {
-            get { return _SubjectBasicCompetencyName; }
-            set { _SubjectBasicCompetencyName = value; }
-        }
-        [Column(Name = "SubjectIndicatorName", DataType = "String")]
-        public String SubjectIndicatorName
-        {
-            get { return _SubjectIndicatorName; }
-            set { _SubjectIndicatorName = value; }
-        }
-        [Column(Name = "DisplayOrder", DataType = "Int16")]
-        public Int16 DisplayOrder
-        {
-            get { return _DisplayOrder; }
-            set { _DisplayOrder = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectMatterHd
-    [Serializable]
-    [Table(Name = "vSubjectMatterHd")]
-    public class vSubjectMatterHd
-    {
-        private Int32 _SubjectMatterID;
-        private String _SubjectMatterCode;
-        private String _SubjectMatterName;
-        private Int32 _SubjectID;
-        private String _ListClassTypeID;
-        private String _ListClassTypeName;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectMatterID", DataType = "Int32")]
-        public Int32 SubjectMatterID
-        {
-            get { return _SubjectMatterID; }
-            set { _SubjectMatterID = value; }
-        }
-        [Column(Name = "SubjectMatterCode", DataType = "String")]
-        public String SubjectMatterCode
-        {
-            get { return _SubjectMatterCode; }
-            set { _SubjectMatterCode = value; }
-        }
-        [Column(Name = "SubjectMatterName", DataType = "String")]
-        public String SubjectMatterName
-        {
-            get { return _SubjectMatterName; }
-            set { _SubjectMatterName = value; }
-        }
-        [Column(Name = "SubjectID", DataType = "Int32")]
-        public Int32 SubjectID
-        {
-            get { return _SubjectID; }
-            set { _SubjectID = value; }
-        }
-        [Column(Name = "ListClassTypeID", DataType = "String")]
-        public String ListClassTypeID
-        {
-            get { return _ListClassTypeID; }
-            set { _ListClassTypeID = value; }
-        }
-        [Column(Name = "ListClassTypeName", DataType = "String")]
-        public String ListClassTypeName
-        {
-            get { return _ListClassTypeName; }
-            set { _ListClassTypeName = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectMeetingPlanHd
-    [Serializable]
-    [Table(Name = "vSubjectMeetingPlanHd")]
-    public class vSubjectMeetingPlanHd
-    {
-        private Int32 _SubjectMeetingPlanHdID;
-        private Int32 _SubjectMatterID;
-        private String _GCPeriodSection;
-        private String _PeriodSection;
-        private Int16 _MeetingNo;
-        private Int32 _SubjectCompetencyStandardID;
-        private String _SubjectCompetencyStandardName;
-        private String _ListSubjectBasicCompetencyID;
-        private String _ListSubjectBasicCompetencyName;
-        private String _Remarks;
-        private Boolean _IsDeleted;
-
-        [Column(Name = "SubjectMeetingPlanHdID", DataType = "Int32")]
-        public Int32 SubjectMeetingPlanHdID
-        {
-            get { return _SubjectMeetingPlanHdID; }
-            set { _SubjectMeetingPlanHdID = value; }
-        }
-        [Column(Name = "SubjectMatterID", DataType = "Int32")]
-        public Int32 SubjectMatterID
-        {
-            get { return _SubjectMatterID; }
-            set { _SubjectMatterID = value; }
-        }
-        [Column(Name = "GCPeriodSection", DataType = "String")]
-        public String GCPeriodSection
-        {
-            get { return _GCPeriodSection; }
-            set { _GCPeriodSection = value; }
-        }
-        [Column(Name = "PeriodSection", DataType = "String")]
-        public String PeriodSection
-        {
-            get { return _PeriodSection; }
-            set { _PeriodSection = value; }
-        }
-        [Column(Name = "MeetingNo", DataType = "Int16")]
-        public Int16 MeetingNo
-        {
-            get { return _MeetingNo; }
-            set { _MeetingNo = value; }
-        }
-        [Column(Name = "SubjectCompetencyStandardID", DataType = "Int32")]
-        public Int32 SubjectCompetencyStandardID
-        {
-            get { return _SubjectCompetencyStandardID; }
-            set { _SubjectCompetencyStandardID = value; }
-        }
-        [Column(Name = "SubjectCompetencyStandardName", DataType = "String")]
-        public String SubjectCompetencyStandardName
-        {
-            get { return _SubjectCompetencyStandardName; }
-            set { _SubjectCompetencyStandardName = value; }
-        }
-        [Column(Name = "ListSubjectBasicCompetencyID", DataType = "String")]
-        public String ListSubjectBasicCompetencyID
-        {
-            get { return _ListSubjectBasicCompetencyID; }
-            set { _ListSubjectBasicCompetencyID = value; }
-        }
-        [Column(Name = "ListSubjectBasicCompetencyName", DataType = "String")]
-        public String ListSubjectBasicCompetencyName
-        {
-            get { return _ListSubjectBasicCompetencyName; }
-            set { _ListSubjectBasicCompetencyName = value; }
-        }
-        [Column(Name = "Remarks", DataType = "String")]
-        public String Remarks
-        {
-            get { return _Remarks; }
-            set { _Remarks = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-    }
-    #endregion
-    #region vSubjectMeetingPlanIndicator
-    [Serializable]
-    [Table(Name = "vSubjectMeetingPlanIndicator")]
-    public class vSubjectMeetingPlanIndicator
-    {
-        private Int32 _SubjectMeetingPlanID;
-        private Int32 _SubjectIndicatorID;
-        private String _SubjectIndicatorName;
-
-        [Column(Name = "SubjectMeetingPlanID", DataType = "Int32")]
-        public Int32 SubjectMeetingPlanID
-        {
-            get { return _SubjectMeetingPlanID; }
-            set { _SubjectMeetingPlanID = value; }
-        }
-        [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
-        public Int32 SubjectIndicatorID
-        {
-            get { return _SubjectIndicatorID; }
-            set { _SubjectIndicatorID = value; }
-        }
-        [Column(Name = "SubjectIndicatorName", DataType = "String")]
-        public String SubjectIndicatorName
-        {
-            get { return _SubjectIndicatorName; }
-            set { _SubjectIndicatorName = value; }
         }
     }
     #endregion

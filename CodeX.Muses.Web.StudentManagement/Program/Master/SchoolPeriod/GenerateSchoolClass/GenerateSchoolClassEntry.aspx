@@ -39,7 +39,7 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="PeriodClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ClassTypeName" HeaderText="Tipe Kelas"/>
+                                <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas"/>
                                 <asp:BoundField DataField="Grade" HeaderText="Tingkat" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Major" HeaderText="Jurusan" HeaderStyle-Width="150px" />
                                 <asp:TemplateField HeaderText="Tipe Jadwal" HeaderStyle-Width="300px">
