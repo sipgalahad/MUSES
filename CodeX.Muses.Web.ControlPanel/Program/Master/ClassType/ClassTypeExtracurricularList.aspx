@@ -4,6 +4,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -62,12 +64,23 @@
         }
         //#endregion
 
-        $('.lnkClassType a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/ClassType/ClassTypeExtracurricularDtEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Tipe Kelas', 1000, 620);
-        });
+        function onCboSchoolTypeValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
+    <table>
+        <colgroup>
+            <col style="width:150px"/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label><%=GetLabel("Unit Sekolah")%></label></td>
+            <td>
+                <dxe:ASPxComboBox runat="server" ID="cboSchoolType" ClientInstanceName="cboSchoolType" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolTypeValueChanged(s); }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
+    </table>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">
@@ -83,7 +96,6 @@
                                 <asp:BoundField DataField="ClassTypeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="ClassTypeCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="ClassTypeName" HeaderText="Nama" />
-                                <asp:HyperLinkField HeaderText="Tipe Kelas" Text="Tipe Kelas" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkClassType" HeaderStyle-Width="100px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

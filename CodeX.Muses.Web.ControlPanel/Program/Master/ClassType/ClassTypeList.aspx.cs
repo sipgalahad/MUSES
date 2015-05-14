@@ -27,6 +27,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
+
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE));
+            Methods.SetComboBoxField<StandardCode>(cboSchoolType, lstSc, "StandardCodeName", "StandardCodeID");
+            if (Request.Form["schooltype"] != null)
+                cboSchoolType.Value = Request.Form["schooltype"].ToString();
+            else
+            {
+                SiteParameter sp = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.SCHOOL_TYPE);
+                cboSchoolType.Value = sp.ParameterValue;
+            }
+
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
@@ -52,7 +63,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             if (filterExpression != "")
                 filterExpression += " AND ";
             string GCClassStudyType = Constant.ClassStudyType.REGULAR;
-            filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
+            filterExpression += string.Format("GCSchoolType = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", cboSchoolType.Value, GCClassStudyType);
             return filterExpression;
         }
 
@@ -97,7 +108,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/ClassType/ClassTypeEntry.aspx");
+            url = ResolveUrl(string.Format("~/Program/Master/ClassType/ClassTypeEntry.aspx?id=add|{0}", cboSchoolType.Value));
             return true;
         }
 
@@ -105,7 +116,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/ClassType/ClassTypeEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/ClassType/ClassTypeEntry.aspx?id=edit|{0}", hdnID.Value));
                 return true;
             }
             return false;

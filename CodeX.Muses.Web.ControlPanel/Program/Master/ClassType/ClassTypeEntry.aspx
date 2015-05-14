@@ -5,7 +5,13 @@
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
+    <script type="text/javascript">
+        function onBeforeGoToListPage(mapForm) {
+            mapForm.appendChild(createInputHiddenPost("schooltype", $('#<%=hdnGCSchoolType.ClientID %>').val()));
+        }
+    </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
+    <input type="hidden" id="hdnGCSchoolType" runat="server" value="" />
     <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
     <table class="tblContentArea">
         <colgroup>

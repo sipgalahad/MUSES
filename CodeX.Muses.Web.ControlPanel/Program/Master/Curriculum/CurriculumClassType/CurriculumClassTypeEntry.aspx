@@ -15,6 +15,7 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 $('#<%=txtCurriculumClassTypeCode.ClientID %>').val('');
                 $('#<%=txtCurriculumClassTypeName.ClientID %>').val('');
+                cboClassType.SetValue(''); 
                 cboGrade.SetValue('');
                 cboMajor.SetValue('');
 
@@ -50,6 +51,7 @@
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumClassTypeID);
             $('#<%=txtCurriculumClassTypeCode.ClientID %>').val(entity.CurriculumClassTypeCode);
             $('#<%=txtCurriculumClassTypeName.ClientID %>').val(entity.CurriculumClassTypeName);
+            cboClassType.SetValue(entity.ClassTypeID);
             cboGrade.SetValue(entity.GCGrade);
             cboMajor.SetValue(entity.CurriculumMajorID);
 
@@ -78,6 +80,31 @@
             }
         }
 
+        function onCboClassTypeValueChanged() {
+            var classTypeID = cboClassType.GetValue();
+            var lst = $('#<%=hdnLstClassType.ClientID %>').val().split('|');
+            var lstMajor = $('#<%=hdnLstCurriculumMajor.ClientID %>').val().split('|');
+            for (var i = 0; i < lst.length; ++i) {
+                var temp = lst[i].split(';');
+                if (temp[0] == classTypeID) {
+                    if (temp[2] != '') {
+                        for (var j = 0; j < lstMajor.length; ++j) {
+                            var temp2 = lstMajor[j].split(';');
+                            if (temp2[1] == temp[2]) {
+                                cboGrade.SetValue(temp[1]);
+                                cboMajor.SetValue(temp2[0]);
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        cboGrade.SetValue(temp[1]);
+                        cboMajor.SetValue('0');
+                    }
+                }
+            }
+        }
+
         $('.lnkClassType a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
@@ -86,6 +113,8 @@
         });
     </script>
     <input type="hidden" id="hdnGCClassStudyType" runat="server" value="" />
+    <input type="hidden" id="hdnLstClassType" runat="server" value="" />
+    <input type="hidden" id="hdnLstCurriculumMajor" runat="server" value="" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -109,13 +138,21 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtCurriculumClassTypeName" Width="300px" runat="server" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
+                                    <td>
+                                        <dxe:ASPxComboBox runat="server" ID="cboClassType" ClientInstanceName="cboClassType" Width="200px">
+                                            <ClientSideEvents ValueChanged="function(s,e){ onCboClassTypeValueChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
                                 <tr id="trGrade" runat="server">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tingkat (Kelas)")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboGrade" ClientInstanceName="cboGrade" Width="200px" /></td>
+                                    <td><dxe:ASPxComboBox runat="server" ClientEnabled="false" ID="cboGrade" ClientInstanceName="cboGrade" Width="200px" /></td>
                                 </tr>
                                 <tr id="trMajor" runat="server">
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jurusan")%></label></td>
-                                    <td><dxe:ASPxComboBox runat="server" ID="cboMajor" ClientInstanceName="cboMajor" Width="200px" /></td>
+                                    <td><dxe:ASPxComboBox runat="server" ClientEnabled="false" ID="cboMajor" ClientInstanceName="cboMajor" Width="200px" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -151,6 +188,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumClassTypeID") %>" bindingfield="CurriculumClassTypeID" />
                                         <input type="hidden" value="<%#Eval("CurriculumClassTypeCode") %>" bindingfield="CurriculumClassTypeCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumClassTypeName") %>" bindingfield="CurriculumClassTypeName" />
+                                        <input type="hidden" value="<%#Eval("ClassTypeID") %>" bindingfield="ClassTypeID" />
                                         <input type="hidden" value="<%#Eval("GCGrade") %>" bindingfield="GCGrade" />
                                         <input type="hidden" value="<%#Eval("CurriculumMajorID") %>" bindingfield="CurriculumMajorID" />
                                     </ItemTemplate>

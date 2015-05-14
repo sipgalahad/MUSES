@@ -23,22 +23,26 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0 && Page.Request.QueryString["id"] != "ex")
+            string[] temp = Page.Request.QueryString["id"].Split('|');
+
+            if (temp[0] == "edit")
             {
                 IsAdd = false;
-                String ID = Request.QueryString["id"];
+                String ID = temp[1];
                 hdnID.Value = ID;
                 SetControlProperties();
                 ClassType entity = BusinessLayer.GetClassType(Convert.ToInt32(ID));
                 hdnGCClassStudyType.Value = entity.GCClassStudyType;
+                hdnGCSchoolType.Value = entity.GCSchoolType;
                 EntityToControl(entity);
             }
             else
             {
-                if (Page.Request.QueryString["id"] == "ex")
+                if (temp.Length > 2 && temp[2] == "ex")
                     hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
                 else
                     hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
+                hdnGCSchoolType.Value = temp[1];
                 SetControlProperties();
                 IsAdd = true;
             }
@@ -130,7 +134,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 ClassType entity = new ClassType();
                 ControlToEntity(entity);
-                entity.SiteID = AppSession.UserLogin.SiteID;
+                entity.GCSchoolType = hdnGCSchoolType.Value;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetClassTypeMaxID(ctx).ToString();

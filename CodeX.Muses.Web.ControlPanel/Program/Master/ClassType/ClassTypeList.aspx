@@ -4,6 +4,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhList" runat="server">
     <script type="text/javascript" src='<%= ResolveUrl("~/Libs/Scripts/CustomGridViewList.js")%>'></script>
@@ -61,9 +63,26 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        function onCboSchoolTypeValueChanged() {
+            cbpView.PerformCallback('refresh');
+        }
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    <table>
+        <colgroup>
+            <col style="width:150px"/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label><%=GetLabel("Unit Sekolah")%></label></td>
+            <td>
+                <dxe:ASPxComboBox runat="server" ID="cboSchoolType" ClientInstanceName="cboSchoolType" Width="200px">
+                    <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolTypeValueChanged(s); }" />
+                </dxe:ASPxComboBox>
+            </td>
+        </tr>
+    </table>
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">

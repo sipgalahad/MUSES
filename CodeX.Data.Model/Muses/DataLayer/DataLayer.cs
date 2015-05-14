@@ -4136,7 +4136,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassTypeID;
         private String _ClassTypeCode;
         private String _ClassTypeName;
-        private String _SiteID;
+        private String _GCSchoolType;
         private String _GCClassStudyType;
         private String _GCGrade;
         private String _GCMajor;
@@ -4164,11 +4164,11 @@ namespace CodeX.Data.Model
             get { return _ClassTypeName; }
             set { _ClassTypeName = value; }
         }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
         {
-            get { return _SiteID; }
-            set { _SiteID = value; }
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType
@@ -4257,70 +4257,6 @@ namespace CodeX.Data.Model
                 record = new ClassTypeDao().Get(ClassTypeID);
             else
                 record = Get(ClassTypeID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region ClassTypeExtracurricular
-    [Serializable]
-    [Table(Name = "ClassTypeExtracurricular")]
-    public class ClassTypeExtracurricular : DbDataModel
-    {
-        private Int32 _ClassTypeID;
-        private Int32 _ExtracurricularClassTypeID;
-
-        [Column(Name = "ClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 ClassTypeID
-        {
-            get { return _ClassTypeID; }
-            set { _ClassTypeID = value; }
-        }
-        [Column(Name = "ExtracurricularClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
-        public Int32 ExtracurricularClassTypeID
-        {
-            get { return _ExtracurricularClassTypeID; }
-            set { _ExtracurricularClassTypeID = value; }
-        }
-    }
-
-    public class ClassTypeExtracurricularDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(ClassTypeExtracurricular));
-        private bool _isAuditLog = false;
-        private const string p_ClassTypeID = "@p_ClassTypeID";
-        private const string p_ExtracurricularClassTypeID = "@p_ExtracurricularClassTypeID";
-        public ClassTypeExtracurricularDao() { }
-        public ClassTypeExtracurricularDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public ClassTypeExtracurricular Get(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_ClassTypeID, ClassTypeID);
-            _ctx.Add(p_ExtracurricularClassTypeID, ExtracurricularClassTypeID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (ClassTypeExtracurricular)_helper.DataRowToObject(row, new ClassTypeExtracurricular());
-        }
-        public int Insert(ClassTypeExtracurricular record)
-        {
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(ClassTypeExtracurricular record)
-        {
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 ClassTypeID, Int32 ExtracurricularClassTypeID)
-        {
-            ClassTypeExtracurricular record;
-            if (_ctx.Transaction == null)
-                record = new ClassTypeExtracurricularDao().Get(ClassTypeID, ExtracurricularClassTypeID);
-            else
-                record = Get(ClassTypeID, ExtracurricularClassTypeID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -5097,6 +5033,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumCode;
         private String _CurriculumName;
+        private String _GCSchoolType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -5121,6 +5058,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumName; }
             set { _CurriculumName = value; }
+        }
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
@@ -5211,6 +5154,7 @@ namespace CodeX.Data.Model
         private String _CurriculumClassTypeCode;
         private String _CurriculumClassTypeName;
         private Int32 _CurriculumID;
+        private Int32 _ClassTypeID;
         private String _GCClassStudyType;
         private String _GCGrade;
         private Int32? _CurriculumMajorID;
@@ -5243,6 +5187,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumID; }
             set { _CurriculumID = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType

@@ -24,15 +24,23 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
-            List<CurriculumMajor> lstMajor = BusinessLayer.GetCurriculumMajorList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
-            lstMajor.Insert(0, new CurriculumMajor { CurriculumMajorID = 0, CurriculumMajorName = "" });
+            List<vCurriculumMajor> lstMajor = BusinessLayer.GetvCurriculumMajorList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
+            lstMajor.Insert(0, new vCurriculumMajor { CurriculumMajorID = 0, CurriculumMajorName = "" });
             Methods.SetComboBoxField<vSchoolGrade>(cboGrade, lstGrade, "Grade", "GCGrade");
-            Methods.SetComboBoxField<CurriculumMajor>(cboMajor, lstMajor, "CurriculumMajorName", "CurriculumMajorID");
+            Methods.SetComboBoxField<vCurriculumMajor>(cboMajor, lstMajor, "CurriculumMajorName", "CurriculumMajorID");
+
+            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
+            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("GCSchoolType = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0 ORDER BY ClassTypeCode", entityCurriculum.GCSchoolType, Constant.ClassStudyType.REGULAR));
+            Methods.SetComboBoxField<ClassType>(cboClassType, lstClassType, "ClassTypeName", "ClassTypeID");
+
+            hdnLstCurriculumMajor.Value = string.Join("|", lstMajor.Select(p => string.Format("{0};{1}", p.CurriculumMajorID, p.GCMajor)));
+            hdnLstClassType.Value = string.Join("|", lstClassType.Select(p => string.Format("{0};{1};{2}", p.ClassTypeID, p.GCGrade, p.GCMajor)));
 
             BindGridView();
 
             Helper.SetControlEntrySetting(txtCurriculumClassTypeCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtCurriculumClassTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboClassType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
@@ -95,6 +103,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumClassTypeCode = txtCurriculumClassTypeCode.Text;
             entity.CurriculumClassTypeName = txtCurriculumClassTypeName.Text;
+            entity.ClassTypeID = Convert.ToInt32(cboClassType.Value);
             if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
             {
                 entity.GCGrade = null;

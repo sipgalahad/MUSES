@@ -21,16 +21,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void InitializeDataControl()
         {
-            if (Request.QueryString.Count > 0)
+            string[] temp = Page.Request.QueryString["id"].Split('|');
+            if (temp[0] == "edit")
             {
                 IsAdd = false;
-                String ID = Request.QueryString["id"];
+                String ID = temp[1];
                 hdnID.Value = ID;
                 Curriculum entity = BusinessLayer.GetCurriculum(Convert.ToInt32(ID));
+                hdnGCSchoolType.Value = entity.GCSchoolType;
                 EntityToControl(entity);
             }
             else
             {
+                hdnGCSchoolType.Value = temp[1];
                 IsAdd = true;
             }
             txtCurriculumCode.Focus();
@@ -92,7 +95,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 Curriculum entity = new Curriculum();
                 ControlToEntity(entity);
-                //entity.SiteID = AppSession.UserLogin.SiteID;
+                entity.GCSchoolType = hdnGCSchoolType.Value;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetCurriculumMaxID(ctx).ToString();

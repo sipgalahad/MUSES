@@ -132,7 +132,6 @@
     <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
     <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
-    <Content Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\MarkType\MarkTypeFormulaEntryCtl.ascx" />
@@ -636,13 +635,6 @@
     </Compile>
     <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.designer.cs">
       <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.cs">
-      <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularDtEntryCtl.ascx.designer.cs">
-      <DependentUpon>ClassTypeExtracurricularDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx.cs">
       <DependentUpon>CurriculumClassTypeExtracurricularEntry.aspx</DependentUpon>

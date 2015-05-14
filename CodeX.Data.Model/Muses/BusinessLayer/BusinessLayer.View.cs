@@ -1175,30 +1175,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vClassTypeExtracurricular
-        public static List<vClassTypeExtracurricular> GetvClassTypeExtracurricularList(string filterExpression)
-        {
-            List<vClassTypeExtracurricular> result = new List<vClassTypeExtracurricular>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vClassTypeExtracurricular));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vClassTypeExtracurricular)helper.IDataReaderToObject(reader, new vClassTypeExtracurricular()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region vCOAGroup
         public static List<vCOAGroup> GetvCOAGroupList(string filterExpression)
         {
