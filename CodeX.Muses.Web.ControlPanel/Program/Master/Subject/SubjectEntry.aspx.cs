@@ -53,24 +53,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtSubjectCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtSubjectName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboLessonType, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboSubjectMarkType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
         }
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUBJECT_MARK_TYPE, Constant.StandardCode.LESSON_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboSubjectMarkType, lstSc.Where(p => p.ParentID == Constant.StandardCode.SUBJECT_MARK_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboLessonType, lstSc.Where(p => p.ParentID == Constant.StandardCode.LESSON_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         private void EntityToControl(Subject entity)
         {
             txtSubjectCode.Text = entity.SubjectCode;
             txtSubjectName.Text = entity.SubjectName;
-            cboSubjectMarkType.Value = entity.GCSubjectMarkType;
-            cboLessonType.Value = entity.GCLessonType;
             txtRemarks.Text = entity.Remarks;
         }
 
@@ -79,8 +72,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.SubjectCode = txtSubjectCode.Text;
             entity.SubjectName = txtSubjectName.Text;
             entity.GCClassStudyType = hdnGCClassStudyType.Value;
-            entity.GCLessonType = cboLessonType.Value.ToString();
-            entity.GCSubjectMarkType = cboSubjectMarkType.Value.ToString();
             entity.Remarks = txtRemarks.Text;
         }
 

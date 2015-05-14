@@ -2094,9 +2094,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
-        private String _GCSubjectMarkType;
         private String _SubjectGCClassStudyType;
-        private String _GCLessonType;
         private Int16 _NoMeetingHoursInWeek;
         private Int32 _ParentID;
         private Int32 _TeacherID;
@@ -2165,23 +2163,11 @@ namespace CodeX.Data.Model
             get { return _SubjectName; }
             set { _SubjectName = value; }
         }
-        [Column(Name = "GCSubjectMarkType", DataType = "String")]
-        public String GCSubjectMarkType
-        {
-            get { return _GCSubjectMarkType; }
-            set { _GCSubjectMarkType = value; }
-        }
         [Column(Name = "SubjectGCClassStudyType", DataType = "String")]
         public String SubjectGCClassStudyType
         {
             get { return _SubjectGCClassStudyType; }
             set { _SubjectGCClassStudyType = value; }
-        }
-        [Column(Name = "GCLessonType", DataType = "String")]
-        public String GCLessonType
-        {
-            get { return _GCLessonType; }
-            set { _GCLessonType = value; }
         }
         [Column(Name = "NoMeetingHoursInWeek", DataType = "Int16")]
         public Int16 NoMeetingHoursInWeek
@@ -2478,10 +2464,6 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
-        private String _GCTaskType;
-        private String _TaskType;
-        private String _GCLessonType;
-        private String _LessonType;
         private Int32 _CurriculumMarkTypeID;
         private String _CurriculumMarkTypeName;
         private Int32 _CurriculumMarkTypeDtID;
@@ -2523,30 +2505,6 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTaskCode; }
             set { _ClassTaskCode = value; }
-        }
-        [Column(Name = "GCTaskType", DataType = "String")]
-        public String GCTaskType
-        {
-            get { return _GCTaskType; }
-            set { _GCTaskType = value; }
-        }
-        [Column(Name = "TaskType", DataType = "String")]
-        public String TaskType
-        {
-            get { return _TaskType; }
-            set { _TaskType = value; }
-        }
-        [Column(Name = "GCLessonType", DataType = "String")]
-        public String GCLessonType
-        {
-            get { return _GCLessonType; }
-            set { _GCLessonType = value; }
-        }
-        [Column(Name = "LessonType", DataType = "String")]
-        public String LessonType
-        {
-            get { return _LessonType; }
-            set { _LessonType = value; }
         }
         [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
         public Int32 CurriculumMarkTypeID

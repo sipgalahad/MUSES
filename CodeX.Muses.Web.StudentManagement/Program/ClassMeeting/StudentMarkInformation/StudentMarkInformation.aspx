@@ -14,7 +14,6 @@
             setStudentImage();
         });
     </script>
-    <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">
         <tr>

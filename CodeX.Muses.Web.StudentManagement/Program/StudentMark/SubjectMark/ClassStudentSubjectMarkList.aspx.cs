@@ -70,10 +70,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     divProgressDescription.InnerHtml = "-";
                 }
 
-                if (entity.GCLessonType == Constant.LessonType.PRACTICE)
-                    divMarkTheory.InnerHtml = "-";
-                else if (entity.GCLessonType == Constant.LessonType.THEORY)
-                    divMarkPractice.InnerHtml = "-";
+                //if (entity.GCLessonType == Constant.LessonType.PRACTICE)
+                //    divMarkTheory.InnerHtml = "-";
+                //else if (entity.GCLessonType == Constant.LessonType.THEORY)
+                //    divMarkPractice.InnerHtml = "-";
             }
         }
     }

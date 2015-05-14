@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtHeaderText.Text = string.Format("{0} - {1}", entity.CoverageTypeCode, entity.CoverageTypeName);
 
             Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
-            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.ClassStudyType.REGULAR));
+            List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0", Constant.ClassStudyType.REGULAR));
             rptClassType.DataSource = lstClassType;
             rptClassType.DataBind();
 

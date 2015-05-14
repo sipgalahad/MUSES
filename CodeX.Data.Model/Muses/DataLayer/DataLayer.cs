@@ -3716,8 +3716,6 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
-        private String _GCTaskType;
-        private String _GCLessonType;
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumMarkTypeDtID;
         private Int16 _FinalMarkPercentage;
@@ -3757,18 +3755,6 @@ namespace CodeX.Data.Model
         {
             get { return _ClassTaskCode; }
             set { _ClassTaskCode = value; }
-        }
-        [Column(Name = "GCTaskType", DataType = "String")]
-        public String GCTaskType
-        {
-            get { return _GCTaskType; }
-            set { _GCTaskType = value; }
-        }
-        [Column(Name = "GCLessonType", DataType = "String")]
-        public String GCLessonType
-        {
-            get { return _GCLessonType; }
-            set { _GCLessonType = value; }
         }
         [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
         public Int32 CurriculumMarkTypeID
@@ -26604,8 +26590,6 @@ namespace CodeX.Data.Model
         private String _SubjectName;
         private String _SiteID;
         private String _GCClassStudyType;
-        private String _GCSubjectMarkType;
-        private String _GCLessonType;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -26642,18 +26626,6 @@ namespace CodeX.Data.Model
         {
             get { return _GCClassStudyType; }
             set { _GCClassStudyType = value; }
-        }
-        [Column(Name = "GCSubjectMarkType", DataType = "String")]
-        public String GCSubjectMarkType
-        {
-            get { return _GCSubjectMarkType; }
-            set { _GCSubjectMarkType = value; }
-        }
-        [Column(Name = "GCLessonType", DataType = "String")]
-        public String GCLessonType
-        {
-            get { return _GCLessonType; }
-            set { _GCLessonType = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
