@@ -30259,6 +30259,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _TeacherID;
         private Int32 _SubjectID;
+        private String _SiteID;
 
         [Column(Name = "TeacherID", DataType = "Int32", IsPrimaryKey = true)]
         public Int32 TeacherID
@@ -30272,6 +30273,12 @@ namespace CodeX.Data.Model
             get { return _SubjectID; }
             set { _SubjectID = value; }
         }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
     }
 
     public class TeacherSubjectDao
@@ -30279,6 +30286,7 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(TeacherSubject));
         private bool _isAuditLog = false;
+        private const string p_SiteID = "@p_SiteID";
         private const string p_SubjectID = "@p_SubjectID";
         private const string p_TeacherID = "@p_TeacherID";
         public TeacherSubjectDao() { }
@@ -30286,9 +30294,10 @@ namespace CodeX.Data.Model
         {
             _ctx = ctx;
         }
-        public TeacherSubject Get(Int32 TeacherID, Int32 SubjectID)
+        public TeacherSubject Get(Int32 TeacherID, Int32 SubjectID, String SiteID)
         {
             _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_SiteID, SiteID);
             _ctx.Add(p_SubjectID, SubjectID);
             _ctx.Add(p_TeacherID, TeacherID);
             DataRow row = DaoBase.GetDataRow(_ctx);
@@ -30304,13 +30313,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 TeacherID, Int32 SubjectID)
+        public int Delete(Int32 TeacherID, Int32 SubjectID, String SiteID)
         {
             TeacherSubject record;
             if (_ctx.Transaction == null)
-                record = new TeacherSubjectDao().Get(TeacherID, SubjectID);
+                record = new TeacherSubjectDao().Get(TeacherID, SubjectID, SiteID);
             else
-                record = Get(TeacherID, SubjectID);
+                record = Get(TeacherID, SubjectID, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

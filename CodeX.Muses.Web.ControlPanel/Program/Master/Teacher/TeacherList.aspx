@@ -66,7 +66,7 @@
         $('.lnkDetail a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Master/Teacher/TeacherSubjectEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Pelajaran', 900, 650);
+            openUserControlPopup(url, id, 'Pelajaran', 800, 550);
         });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />

@@ -22839,6 +22839,7 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private Int32 _CurriculumID;
         private String _CurriculumName;
+        private String _GCSchoolType;
         private String _ListClassTypeID;
         private String _ListClassTypeName;
         private Boolean _IsSyllabusPerSchoolPeriodSection;
@@ -22876,6 +22877,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumName; }
             set { _CurriculumName = value; }
+        }
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "ListClassTypeID", DataType = "String")]
         public String ListClassTypeID
@@ -26083,6 +26090,8 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
+        private String _SiteID;
+        private String _SiteName;
 
         [Column(Name = "TeacherID", DataType = "Int32")]
         public Int32 TeacherID
@@ -26119,6 +26128,18 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
         }
     }
     #endregion

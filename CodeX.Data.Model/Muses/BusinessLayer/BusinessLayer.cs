@@ -14172,9 +14172,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region TeacherSubject
-        public static TeacherSubject GetTeacherSubject(Int32 TeacherID, Int32 SubjectID)
+        public static TeacherSubject GetTeacherSubject(Int32 TeacherID, Int32 SubjectID, String SiteID)
         {
-            return new TeacherSubjectDao().Get(TeacherID, SubjectID);
+            return new TeacherSubjectDao().Get(TeacherID, SubjectID, SiteID);
         }
         public static int InsertTeacherSubject(TeacherSubject record)
         {
@@ -14184,9 +14184,9 @@ namespace CodeX.Data.Model
         {
             return new TeacherSubjectDao().Update(record);
         }
-        public static int DeleteTeacherSubject(Int32 TeacherID, Int32 SubjectID)
+        public static int DeleteTeacherSubject(Int32 TeacherID, Int32 SubjectID, String SiteID)
         {
-            return new TeacherSubjectDao().Delete(TeacherID, SubjectID);
+            return new TeacherSubjectDao().Delete(TeacherID, SubjectID, SiteID);
         }
         public static List<TeacherSubject> GetTeacherSubjectList(string filterExpression)
         {
@@ -14207,23 +14207,6 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
-            }
-            return result;
-        }
-        public static List<TeacherSubject> GetTeacherSubjectList(string filterExpression, IDbContext ctx)
-        {
-            List<TeacherSubject> result = new List<TeacherSubject>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(TeacherSubject));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((TeacherSubject)helper.IDataReaderToObject(reader, new TeacherSubject()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
             }
             return result;
         }

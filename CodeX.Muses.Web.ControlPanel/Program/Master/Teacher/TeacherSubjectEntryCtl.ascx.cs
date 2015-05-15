@@ -9,131 +9,104 @@ using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Web.Common;
 using CodeX.Common;
-using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class TeacherSubjectEntryCtl : BaseEntryPopupCtl
+    public partial class TeacherSubjectEntryCtl : BaseViewPopupCtl
     {
-        protected int PageCount = 1;
-        private string[] lstSelectedMember = null;
-        public override void InitializeDataControl(string param)
+        protected string OnGetDailyScheduleTypeKBM()
         {
-            hdnTeacherID.Value = param;
-
-            Employee entityHd = BusinessLayer.GetEmployee(Convert.ToInt32(hdnTeacherID.Value));
-            txtTeacherName.Text = entityHd.FullName;
-
-            if (param != "")
-            {
-                List<vTeacherSubject> lstSelected = BusinessLayer.GetvTeacherSubjectList(string.Format("TeacherID = {0}", hdnTeacherID.Value));
-                rptSelected.DataSource = lstSelected;
-                rptSelected.DataBind();
-
-                hdnSelectedMember.Value = String.Join(",", lstSelected.Select(p => p.SubjectID).ToList());
-            }
-
-            BindGridView(1, true, ref PageCount);
+            return Constant.SchoolDailyScheduleType.KBM;
+        }
+        protected string OnGetSubjectFilterExpression()
+        {
+            return string.Format("GCClassStudyType IN ('{0}','{1}') AND IsDeleted = 0", Constant.ClassStudyType.REGULAR, Constant.ClassStudyType.EXTRACURRICULAR);
         }
 
-        protected void cbpPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        public override void InitializeDataControl(string param)
         {
-            int pageCount = 1;
+            List<Site> lstSite = BusinessLayer.GetSiteList("IsHeader = 0");
+            Methods.SetComboBoxField<Site>(cboSite, lstSite, "SiteName", "SiteID");
+
+            hdnID.Value = param;
+            Employee entity = BusinessLayer.GetEmployee(Convert.ToInt32(hdnID.Value));
+            txtHeaderText.Text = string.Format("{0}", entity.FullName);
+            hdnDefaultSite.Value = entity.SiteID;
+
+            BindGridView();
+
+            Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+        }
+
+        private void BindGridView()
+        {
+            grdView.DataSource = BusinessLayer.GetvTeacherSubjectList(string.Format("TeacherID = {0}", hdnID.Value));
+            grdView.DataBind();
+        }
+
+        protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindGridView();
+        }
+
+        #region Process Detail
+        protected void cbpProcessPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
             string result = "";
-            if (e.Parameter != null && e.Parameter != "")
+            string errMessage = "";
+            string[] param = e.Parameter.Split('|');
+            result = param[0] + "|";
+            if (param[0] == "save")
             {
-                string[] param = e.Parameter.Split('|');
-                if (param[0] == "changepage")
-                {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
-                    result = "changepage";
-                }
-                else // refresh
-                {
-                    BindGridView(1, true, ref pageCount);
-                    result = "refresh|" + pageCount;
-                }
+                if (OnSaveAddRecordEntityDt(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
+            }
+            else if (param[0] == "delete")
+            {
+                if (OnDeleteEntityDt(ref errMessage))
+                    result += "success";
+                else
+                    result += string.Format("fail|{0}", errMessage);
             }
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
         }
 
-        private string GetFilterExpression()
+        private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
-            string filterExpression = string.Format("SubjectCode LIKE '%{0}%' AND SubjectName LIKE '%{1}%' AND IsDeleted = 0", hdnFilterItemCode.Value, hdnFilterItemName.Value);
-            return filterExpression;
-        }
-
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
-        {
-            string filterExpression = GetFilterExpression();
-            if (isCountPageCount)
-            {
-                int rowCount = BusinessLayer.GetSubjectRowCount(filterExpression);
-                pageCount = Helper.GetPageCount(rowCount, 10);
-            }
-            lstSelectedMember = hdnSelectedMember.Value.Split(',');
-            List<Subject> lstEntity = BusinessLayer.GetSubjectList(filterExpression, 10, pageIndex, "");
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
-        }
-
-        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                Subject entity = e.Row.DataItem as Subject;
-                CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
-                if (lstSelectedMember.Contains(entity.SubjectID.ToString()))
-                    chkIsSelected.Checked = true;
-            }
-        }
-
-        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            TeacherSubjectDao entityDtDao = new TeacherSubjectDao(ctx);
             try
             {
-                lstSelectedMember = hdnSelectedMember.Value.Split(',');
-                int TeacherID = Convert.ToInt32(hdnTeacherID.Value);
-
-                List<TeacherSubject> lstTeacherSubject = BusinessLayer.GetTeacherSubjectList(string.Format("TeacherID = {0}", TeacherID, hdnSelectedMember.Value), ctx);
-                int ct = 0;
-                foreach (String itemID in lstSelectedMember)
-                {
-                    int SubjectID = Convert.ToInt32(lstSelectedMember[ct]);
-                    TeacherSubject entityDt = lstTeacherSubject.FirstOrDefault(p => p.SubjectID == SubjectID);
-                    if (entityDt == null)
-                    {
-                        entityDt = new TeacherSubject();
-                        entityDt.TeacherID = TeacherID;
-                        entityDt.SubjectID = SubjectID;
-                        entityDtDao.Insert(entityDt);
-                    }
-                    ct++;
-                }
-                foreach (TeacherSubject entity in lstTeacherSubject)
-                {
-                    if (!lstSelectedMember.Contains(entity.SubjectID.ToString()))
-                        entityDtDao.Delete(TeacherID, entity.SubjectID);
-                }
-                ctx.CommitTransaction();
+                TeacherSubject entity = new TeacherSubject();
+                entity.SubjectID = Convert.ToInt32(hdnSubjectID.Value);
+                entity.SiteID = cboSite.Value.ToString();
+                entity.TeacherID = Convert.ToInt32(hdnID.Value);
+                BusinessLayer.InsertTeacherSubject(entity);
+                return true;
             }
             catch (Exception ex)
             {
-                Helper.InsertErrorLog(ex);
-                result = false;
                 errMessage = ex.Message;
-                ctx.RollBackTransaction();
+                return false;
             }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
         }
+
+        private bool OnDeleteEntityDt(ref string errMessage)
+        {
+            try
+            {
+                BusinessLayer.DeleteTeacherSubject(Convert.ToInt32(hdnID.Value), Convert.ToInt32(hdnSubjectID.Value), cboSite.Value.ToString());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+        #endregion
     }
 }

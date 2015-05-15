@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string OnGetSubjectCurriculumFilterExpression()
         {
-            return string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.Subject.SubjectID);
+            return string.Format("SubjectID = {0} AND GCSchoolType = '{1}' AND IsDeleted = 0", AppSession.Subject.SubjectID, AppSession.Subject.GCSchoolType);
         }
 
         protected override void InitializeDataControl()
