@@ -15,11 +15,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected void Page_Load(object sender, EventArgs e)
         {
             string[] temp = Request.QueryString["id"].Split('|');
-            AppSession.Subject.SubjectID = Convert.ToInt32(temp[0]);
+            SubjectModel subject = new SubjectModel();
+            subject.SubjectID = Convert.ToInt32(temp[0]);
+            subject.GCSchoolType = temp[1];
+            AppSession.Subject = subject;
             string filterExpression = "";
-            if (temp.Count() > 1)
+            if (temp.Count() > 2)
             {
-                AppSession.SubjectCurriculumID = Convert.ToInt32(temp[1]);
+                AppSession.SubjectCurriculumID = Convert.ToInt32(temp[2]);
                 filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.StudentManagement.SUBJECT_CURRICULUM_PAGE);
             }
             else

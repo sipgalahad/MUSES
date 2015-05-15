@@ -24,7 +24,7 @@
             $('#btnSubjectCurriculumDt').click(function () {
                 var id = tacSubjectCurriculum.getValue();
                 if (id != null && id != '') {
-                    var url = ResolveUrl('~/Program/Master/Subject/SubjectPageLauncher.aspx?id=' + tacSubject.getValue() + '|' + id);
+                    var url = ResolveUrl('~/Program/Master/Subject/SubjectPageLauncher.aspx?id=' + tacSubject.getValue() + '|' + $('#<%=hdnGCSchoolType.ClientID %>').val() + '|' + id);
                     openWindowPopup(url, 'Subject', '1300', '650');
                 }
             });
@@ -52,7 +52,7 @@
 
         //#endregion
 
-        //#region Subject Matter
+        //#region Subject Curriculum
         function onGetSubjectCurriculumFilterExpression() {
             var filterExpression = "1 = 0";
             var subjectID = tacSubject.getValue();
@@ -114,7 +114,8 @@
             hideLoadingPanel();
         }
     </script>
-    <input type="hidden" value="" id="hdnCurriculumID" runat="server" />    
+    <input type="hidden" value="" id="hdnCurriculumID" runat="server" />   
+    <input type="hidden" value="" id="hdnGCSchoolType" runat="server" />    
     <table>
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("Tahun Ajaran") %></td>
@@ -132,7 +133,7 @@
                 <input type="hidden" id="hdnClassTypeID" runat="server" value="" />
                 <table style="width: 100%">
                     <colgroup>
-                        <col style="width: 50%" />
+                        <col style="width: 100%" />
                     </colgroup>
                     <tr>
                         <td valign="top">
@@ -158,14 +159,15 @@
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Kurikulum")%></label></td>
-                                    <td colspan="3">
+                                    <td colspan="2">
                                         <cdx:CodeXAutoCompleteTextBox runat="server" Width="300px" ID="tacSubjectCurriculum" ClientInstanceName="tacSubjectCurriculum" MethodName="GetSubjectCurriculumList" GetFilterExpressionFunction="onGetSubjectCurriculumFilterExpression"
                                             SearchFields="SubjectCurriculumName,SubjectCurriculumCode" TextField="SubjectCurriculumName" ValueField="SubjectCurriculumID" SearchText="${SubjectCurriculumName} (<b>${SubjectCurriculumCode}</b>)" OrderByExpression="SubjectCurriculumName">
                                             <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectCurriculumButtonSearchClick(); }"
                                                 ValueChanged="function(){ onTacSubjectCurriculumValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>   
-                                        <input type="button" id="btnSubjectCurriculumDt" class="btnMore" value="..." />
+                                        
                                     </td>
+                                    <td><input type="button" id="btnSubjectCurriculumDt" class="btnMore" value="..." /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jam Pertemuan")%></label></td>

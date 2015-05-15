@@ -66,7 +66,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private string GetFilterExpression()
         {
-            string filterExpression = string.Format("SubjectID = {0} AND TeacherCode LIKE '%{1}%' AND TeacherName LIKE '%{2}%'", hdnSubjectID.Value, hdnFilterItemCode.Value, hdnFilterItemName.Value);
+            string filterExpression = string.Format("SiteID = '{0}' AND SubjectID = {1} AND TeacherCode LIKE '%{2}%' AND TeacherName LIKE '%{3}%'", AppSession.UserLogin.SiteID, hdnSubjectID.Value, hdnFilterItemCode.Value, hdnFilterItemName.Value);
             return filterExpression;
         }
 

@@ -94,7 +94,7 @@
             var filterExpression = "1 = 0";
             var subjectID = tacSubject.getValue();
             if (subjectID != '')
-                filterExpression = "SubjectID = " + subjectID;
+                filterExpression = "SiteID = '" + $('#<%=hdnSiteID.ClientID %>').val() + "' AND SubjectID = " + subjectID;
             return filterExpression;
         }
 
@@ -179,6 +179,7 @@
         }
     </script>
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />
+    <input type="hidden" value="" id="hdnSiteID" runat="server" />
     <table>
         <colgroup>
             <col style="width: 150px"/>
@@ -269,7 +270,7 @@
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;<%#Eval("IsEditable").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("PeriodClassTypeSubjectID") %>" bindingfield="PeriodClassTypeSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />

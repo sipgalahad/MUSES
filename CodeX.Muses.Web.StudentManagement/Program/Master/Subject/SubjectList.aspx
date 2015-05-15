@@ -80,9 +80,10 @@
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SubjectIDGCSchoolType" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Nama" />
+                                <asp:BoundField DataField="SchoolType" HeaderText="Tipe Sekolah" HeaderStyle-Width="150px" />
                                 <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>

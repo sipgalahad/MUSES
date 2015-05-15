@@ -26143,6 +26143,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacherSubjectPerSchoolType
+    [Serializable]
+    [Table(Name = "vTeacherSubjectPerSchoolType")]
+    public partial class vTeacherSubjectPerSchoolType
+    {
+        private Int32 _TeacherID;
+        private String _TeacherCode;
+        private String _TeacherName;
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+        private String _GCSchoolType;
+        private String _SchoolType;
+
+        [Column(Name = "TeacherID", DataType = "Int32")]
+        public Int32 TeacherID
+        {
+            get { return _TeacherID; }
+            set { _TeacherID = value; }
+        }
+        [Column(Name = "TeacherCode", DataType = "String")]
+        public String TeacherCode
+        {
+            get { return _TeacherCode; }
+            set { _TeacherCode = value; }
+        }
+        [Column(Name = "TeacherName", DataType = "String")]
+        public String TeacherName
+        {
+            get { return _TeacherName; }
+            set { _TeacherName = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SchoolType", DataType = "String")]
+        public String SchoolType
+        {
+            get { return _SchoolType; }
+            set { _SchoolType = value; }
+        }
+    }
+    #endregion
     #region vTeacherSubstitution
     [Serializable]
     [Table(Name = "vTeacherSubstitution")]

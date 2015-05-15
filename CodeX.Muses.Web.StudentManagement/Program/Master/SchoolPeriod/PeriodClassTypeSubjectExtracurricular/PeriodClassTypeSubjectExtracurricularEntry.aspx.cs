@@ -22,6 +22,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            hdnSiteID.Value = AppSession.UserLogin.SiteID;
+
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
             hdnCurriculumID.Value = entitySchoolPeriod.CurriculumID.ToString();
 

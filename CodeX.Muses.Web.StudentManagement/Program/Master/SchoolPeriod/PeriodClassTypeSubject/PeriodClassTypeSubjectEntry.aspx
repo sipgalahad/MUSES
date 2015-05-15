@@ -87,16 +87,11 @@
             cboCurriculumSubjectGroup.SetValue(entity.CurriculumSubjectGroupID);
             $('#<%=txtNoMeetingHoursInWeek.ClientID %>').val(entity.NoMeetingHoursInWeek);
             $('#<%=txtPassingGrade.ClientID %>').val(entity.PassingGrade);
-            if (entity.IsEditable == 'False') {
-                tacSubject.setEnabled(false);
-                tacTeacher.setEnabled(false);
+            if (entity.IsEditable == 'False') 
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').attr('readonly', 'readonly');
-            }
-            else {
-                tacSubject.setEnabled(true);
-                tacTeacher.setEnabled(true);
+            else 
                 $('#<%=txtNoMeetingHoursInWeek.ClientID %>').removeAttr('readonly');
-            }
+            
 
             var filterExpression = "PeriodClassTypeSubjectID = " + entity.PeriodClassTypeSubjectID;
             Methods.getListObject('GetPeriodClassTypeSubjectFinalMarkFormulaList', filterExpression, function (result) {
@@ -218,7 +213,7 @@
             var filterExpression = "1 = 0";
             var subjectID = tacSubject.getValue();
             if (subjectID != '')
-                filterExpression = "SubjectID = " + subjectID;
+                filterExpression = "SiteID = '" + $('#<%=hdnSiteID.ClientID %>').val() + "' AND SubjectID = " + subjectID;
             return filterExpression;
         }
 
@@ -274,6 +269,7 @@
     </script>
     <input type="hidden" id="hdnSaveValue" runat="server" value="" />
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />
+    <input type="hidden" value="" id="hdnSiteID" runat="server" />
     <table>
         <colgroup>
             <col style="width: 150px"/>

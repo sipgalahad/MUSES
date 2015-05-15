@@ -25,17 +25,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            hdnFilterExpression.Value = filterExpression;
-            hdnID.Value = keyValue;
-            filterExpression = GetFilterExpression();
-            if (keyValue != "")
-            {
-                int row = BusinessLayer.GetSubjectRowIndex(filterExpression, keyValue, "SubjectCode") + 1;
-                CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
-            }
-            else
-                CurrPage = 1;
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -51,7 +40,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND SubjectID IN (SELECT SubjectID FROM TeacherSubject WHERE TeacherID = {1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, AppSession.UserLogin.EmployeeID);
+            filterExpression += string.Format("TeacherID = {0}", AppSession.UserLogin.EmployeeID);
             return filterExpression;
         }
 
@@ -61,11 +50,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetSubjectRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvTeacherSubjectPerSchoolTypeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Subject> lstEntity = BusinessLayer.GetSubjectList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SubjectCode");
+            List<vTeacherSubjectPerSchoolType> lstEntity = BusinessLayer.GetvTeacherSubjectPerSchoolTypeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SubjectCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -92,38 +81,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
-        }
-
-        protected override bool OnAddRecord(ref string url, ref string errMessage)
-        {
-            if (Page.Request.QueryString["id"] == "ex")
-                url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx?id=ex");
-            else
-                url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx");
-            return true;
-        }
-
-        protected override bool OnEditRecord(ref string url, ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                url = ResolveUrl(string.Format("~/Program/Master/Subject/SubjectEntry.aspx?id={0}", hdnID.Value));
-                return true;
-            }
-            return false;
-        }
-
-        protected override bool OnDeleteRecord(ref string errMessage)
-        {
-            if (hdnID.Value.ToString() != "")
-            {
-                Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(hdnID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubject(entity);
-                return true;
-            }
-            return false;
         }
     }
 }

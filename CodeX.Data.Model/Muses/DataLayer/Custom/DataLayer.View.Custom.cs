@@ -2175,4 +2175,16 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vTeacherSubjectPerSchoolType
+    public partial class vTeacherSubjectPerSchoolType 
+    {
+        public string SubjectIDGCSchoolType
+        {
+            get
+            {
+                return string.Format("{0}|{1}", _SubjectID, _GCSchoolType);
+            }
+        }
+    }
+    #endregion
 }
