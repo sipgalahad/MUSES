@@ -18,13 +18,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         public override void InitializeDataControl(string param)
         {
             hdnID.Value = param;
+            String GCSchoolType = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.SCHOOL_TYPE).ParameterValue;
+
             GradePromotionFormulaHd entity = BusinessLayer.GetGradePromotionFormulaHd(Convert.ToInt32(hdnID.Value));
             txtHeaderText.Text = string.Format("{0} - {1}", entity.GradePromotionFormulaCode, entity.GradePromotionFormulaName);
 
             List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.PERIOD_SECTION));
             Methods.SetComboBoxField<StandardCode>(cboGCPeriodSection, lstSc, "StandardCodeName", "StandardCodeID");
 
-            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("GCSchoolType = '{0}'", GCSchoolType));
             lstGrade.Insert(0, new vSchoolGrade { GCGrade = "", Grade = "" });
             Methods.SetComboBoxField<vSchoolGrade>(cboGCGrade, lstGrade, "Grade", "GCGrade");
 

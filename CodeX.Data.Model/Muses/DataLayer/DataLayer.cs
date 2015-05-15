@@ -23446,15 +23446,15 @@ namespace CodeX.Data.Model
     [Table(Name = "SchoolGrade")]
     public class SchoolGrade : DbDataModel
     {
-        private String _SiteID;
+        private String _GCSchoolType;
         private String _GCGrade;
         private Int16 _DisplayOrder;
 
-        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
-        public String SiteID
+        [Column(Name = "GCSchoolType", DataType = "String", IsPrimaryKey = true)]
+        public String GCSchoolType
         {
-            get { return _SiteID; }
-            set { _SiteID = value; }
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "GCGrade", DataType = "String", IsPrimaryKey = true)]
         public String GCGrade
@@ -23476,17 +23476,17 @@ namespace CodeX.Data.Model
         private readonly DbHelper _helper = new DbHelper(typeof(SchoolGrade));
         private bool _isAuditLog = false;
         private const string p_GCGrade = "@p_GCGrade";
-        private const string p_SiteID = "@p_SiteID";
+        private const string p_GCSchoolType = "@p_GCSchoolType";
         public SchoolGradeDao() { }
         public SchoolGradeDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public SchoolGrade Get(String SiteID, String GCGrade)
+        public SchoolGrade Get(String GCSchoolType, String GCGrade)
         {
             _ctx.CommandText = _helper.GetRecord();
             _ctx.Add(p_GCGrade, GCGrade);
-            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_GCSchoolType, GCSchoolType);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (SchoolGrade)_helper.DataRowToObject(row, new SchoolGrade());
         }
@@ -23500,13 +23500,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(String SiteID, String GCGrade)
+        public int Delete(String GCSchoolType, String GCGrade)
         {
             SchoolGrade record;
             if (_ctx.Transaction == null)
-                record = new SchoolGradeDao().Get(SiteID, GCGrade);
+                record = new SchoolGradeDao().Get(GCSchoolType, GCGrade);
             else
-                record = Get(SiteID, GCGrade);
+                record = Get(GCSchoolType, GCGrade);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -23517,14 +23517,14 @@ namespace CodeX.Data.Model
     [Table(Name = "SchoolMajor")]
     public class SchoolMajor : DbDataModel
     {
-        private String _SiteID;
+        private String _GCSchoolType;
         private String _GCMajor;
 
-        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
-        public String SiteID
+        [Column(Name = "GCSchoolType", DataType = "String", IsPrimaryKey = true)]
+        public String GCSchoolType
         {
-            get { return _SiteID; }
-            set { _SiteID = value; }
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "GCMajor", DataType = "String", IsPrimaryKey = true)]
         public String GCMajor
@@ -23540,17 +23540,17 @@ namespace CodeX.Data.Model
         private readonly DbHelper _helper = new DbHelper(typeof(SchoolMajor));
         private bool _isAuditLog = false;
         private const string p_GCMajor = "@p_GCMajor";
-        private const string p_SiteID = "@p_SiteID";
+        private const string p_GCSchoolType = "@p_GCSchoolType";
         public SchoolMajorDao() { }
         public SchoolMajorDao(IDbContext ctx)
         {
             _ctx = ctx;
         }
-        public SchoolMajor Get(String SiteID, String GCMajor)
+        public SchoolMajor Get(String GCSchoolType, String GCMajor)
         {
             _ctx.CommandText = _helper.GetRecord();
             _ctx.Add(p_GCMajor, GCMajor);
-            _ctx.Add(p_SiteID, SiteID);
+            _ctx.Add(p_GCSchoolType, GCSchoolType);
             DataRow row = DaoBase.GetDataRow(_ctx);
             return (row == null) ? null : (SchoolMajor)_helper.DataRowToObject(row, new SchoolMajor());
         }
@@ -23564,13 +23564,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(String SiteID, String GCMajor)
+        public int Delete(String GCSchoolType, String GCMajor)
         {
             SchoolMajor record;
             if (_ctx.Transaction == null)
-                record = new SchoolMajorDao().Get(SiteID, GCMajor);
+                record = new SchoolMajorDao().Get(GCSchoolType, GCMajor);
             else
-                record = Get(SiteID, GCMajor);
+                record = Get(GCSchoolType, GCMajor);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

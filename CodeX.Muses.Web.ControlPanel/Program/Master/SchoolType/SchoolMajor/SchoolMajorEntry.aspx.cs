@@ -22,12 +22,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
-            List<vSchoolMajor> lstSchoolMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<vSchoolMajor>(cboGCMajor, lstSchoolMajor, "Major", "GCMajor");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_MAJOR));
+            Methods.SetComboBoxField<StandardCode>(cboGCMajor, lstSc, "StandardCodeName", "StandardCodeID");
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtCurriculumMajorName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboGCMajor, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
@@ -39,8 +38,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
-            grdView.DataSource = BusinessLayer.GetvCurriculumMajorList(filterExpression);
+            string filterExpression = string.Format("GCSchoolType = '{0}'", AppSession.SchoolTypeID);
+            grdView.DataSource = BusinessLayer.GetvSchoolMajorList(filterExpression);
             grdView.DataBind();
         }
 
@@ -59,20 +58,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             result = param[0] + "|";
             if (param[0] == "save")
             {
-                if (hdnEntryID.Value.ToString() != "")
-                {
-                    if (OnSaveEditRecordEntityDt(ref errMessage))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
+                if (OnSaveAddRecordEntityDt(ref errMessage))
+                    result += "success";
                 else
-                {
-                    if (OnSaveAddRecordEntityDt(ref errMessage))
-                        result += "success";
-                    else
-                        result += string.Format("fail|{0}", errMessage);
-                }
+                    result += string.Format("fail|{0}", errMessage);
             }
             else if (param[0] == "delete")
             {
@@ -86,51 +75,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumMajor entity)
+        private void ControlToEntity(SchoolMajor entity)
         {
             entity.GCMajor = cboGCMajor.Value.ToString();
-            entity.CurriculumMajorName = txtCurriculumMajorName.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumMajorDao entityDao = new CurriculumMajorDao(ctx);
+            SchoolMajorDao entityDao = new SchoolMajorDao(ctx);
             try
             {
-                CurriculumMajor entity = new CurriculumMajor();
+                SchoolMajor entity = new SchoolMajor();
                 ControlToEntity(entity);
-                entity.CurriculumID = AppSession.CurriculumID;
-                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entity.GCSchoolType = AppSession.SchoolTypeID;
                 entityDao.Insert(entity);
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                Helper.InsertErrorLog(ex);
-                result = false;
-                errMessage = ex.Message;
-                ctx.RollBackTransaction();
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-
-        private bool OnSaveEditRecordEntityDt(ref string errMessage)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            CurriculumMajorDao entityDao = new CurriculumMajorDao(ctx);
-            try
-            {
-                CurriculumMajor entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
-                ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                entityDao.Update(entity);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -151,10 +111,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumMajor entity = BusinessLayer.GetCurriculumMajor(Convert.ToInt32(hdnEntryID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumMajor(entity);
+                BusinessLayer.DeleteSchoolMajor(AppSession.SchoolTypeID, hdnEntryID.Value);
                 return true;
             }
             catch (Exception ex)

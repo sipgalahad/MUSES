@@ -22,22 +22,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// cboGCMajor control.
+        /// cboGCGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCMajor;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCGrade;
         
         /// <summary>
-        /// txtCurriculumMajorName control.
+        /// txtDisplayOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCurriculumMajorName;
+        protected global::System.Web.UI.WebControls.TextBox txtDisplayOrder;
         
         /// <summary>
         /// cbpView control.

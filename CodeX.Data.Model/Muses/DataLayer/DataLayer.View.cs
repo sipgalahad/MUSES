@@ -20800,18 +20800,18 @@ namespace CodeX.Data.Model
     [Table(Name = "vSchoolGrade")]
     public class vSchoolGrade
     {
-        private String _SiteID;
+        private String _GCSchoolType;
         private String _GCGrade;
         private String _Grade;
         private Int16 _DisplayOrder;
         private Boolean _IsAllowRegistration;
         private Boolean _IsNeedNationalStudentNo;
 
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
         {
-            get { return _SiteID; }
-            set { _SiteID = value; }
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "GCGrade", DataType = "String")]
         public String GCGrade
@@ -20850,15 +20850,15 @@ namespace CodeX.Data.Model
     [Table(Name = "vSchoolMajor")]
     public class vSchoolMajor
     {
-        private String _SiteID;
+        private String _GCSchoolType;
         private String _GCMajor;
         private String _Major;
 
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
         {
-            get { return _SiteID; }
-            set { _SiteID = value; }
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
         }
         [Column(Name = "GCMajor", DataType = "String")]
         public String GCMajor

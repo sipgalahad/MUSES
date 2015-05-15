@@ -11014,9 +11014,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region SchoolGrade
-        public static SchoolGrade GetSchoolGrade(String SiteID, String GCGrade)
+        public static SchoolGrade GetSchoolGrade(String GCSchoolType, String GCGrade)
         {
-            return new SchoolGradeDao().Get(SiteID, GCGrade);
+            return new SchoolGradeDao().Get(GCSchoolType, GCGrade);
         }
         public static int InsertSchoolGrade(SchoolGrade record)
         {
@@ -11026,9 +11026,9 @@ namespace CodeX.Data.Model
         {
             return new SchoolGradeDao().Update(record);
         }
-        public static int DeleteSchoolGrade(String SiteID, String GCGrade)
+        public static int DeleteSchoolGrade(String GCSchoolType, String GCGrade)
         {
-            return new SchoolGradeDao().Delete(SiteID, GCGrade);
+            return new SchoolGradeDao().Delete(GCSchoolType, GCGrade);
         }
         public static List<SchoolGrade> GetSchoolGradeList(string filterExpression)
         {
@@ -11052,28 +11052,11 @@ namespace CodeX.Data.Model
             }
             return result;
         }
-        public static List<SchoolGrade> GetSchoolGradeList(string filterExpression, IDbContext ctx)
-        {
-            List<SchoolGrade> result = new List<SchoolGrade>();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(SchoolGrade));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((SchoolGrade)helper.IDataReaderToObject(reader, new SchoolGrade()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
         #endregion
         #region SchoolMajor
-        public static SchoolMajor GetSchoolMajor(String SiteID, String GCMajor)
+        public static SchoolMajor GetSchoolMajor(String GCSchoolType, String GCMajor)
         {
-            return new SchoolMajorDao().Get(SiteID, GCMajor);
+            return new SchoolMajorDao().Get(GCSchoolType, GCMajor);
         }
         public static int InsertSchoolMajor(SchoolMajor record)
         {
@@ -11083,9 +11066,9 @@ namespace CodeX.Data.Model
         {
             return new SchoolMajorDao().Update(record);
         }
-        public static int DeleteSchoolMajor(String SiteID, String GCMajor)
+        public static int DeleteSchoolMajor(String GCSchoolType, String GCMajor)
         {
-            return new SchoolMajorDao().Delete(SiteID, GCMajor);
+            return new SchoolMajorDao().Delete(GCSchoolType, GCMajor);
         }
         public static List<SchoolMajor> GetSchoolMajorList(string filterExpression)
         {

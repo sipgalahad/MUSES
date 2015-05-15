@@ -22,13 +22,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
-        //    List<vSchoolMajor> lstSchoolMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
-        //    Methods.SetComboBoxField<vSchoolMajor>(cboGCMajor, lstSchoolMajor, "Major", "GCMajor");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_GRADE));
+            Methods.SetComboBoxField<StandardCode>(cboGCGrade, lstSc, "StandardCodeName", "StandardCodeID");
 
-        //    BindGridView();
+            BindGridView();
 
-        //    Helper.SetControlEntrySetting(txtCurriculumMajorName, new ControlEntrySetting(true, true, true), "mpTrx");
-        //    Helper.SetControlEntrySetting(cboGCMajor, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboGCGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -39,8 +39,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
-            grdView.DataSource = BusinessLayer.GetvCurriculumMajorList(filterExpression);
+            string filterExpression = string.Format("GCSchoolType = '{0}'", AppSession.SchoolTypeID);
+            grdView.DataSource = BusinessLayer.GetvSchoolGradeList(filterExpression);
             grdView.DataBind();
         }
 
@@ -86,23 +86,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumMajor entity)
+        private void ControlToEntity(SchoolGrade entity)
         {
-            entity.GCMajor = cboGCMajor.Value.ToString();
-            entity.CurriculumMajorName = txtCurriculumMajorName.Text;
+            entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumMajorDao entityDao = new CurriculumMajorDao(ctx);
+            SchoolGradeDao entityDao = new SchoolGradeDao(ctx);
             try
             {
-                CurriculumMajor entity = new CurriculumMajor();
+                SchoolGrade entity = new SchoolGrade();
                 ControlToEntity(entity);
-                entity.CurriculumID = AppSession.CurriculumID;
-                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entity.GCGrade = cboGCGrade.Value.ToString();
+                entity.GCSchoolType = AppSession.SchoolTypeID;
                 entityDao.Insert(entity);
                 ctx.CommitTransaction();
             }
@@ -124,12 +123,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumMajorDao entityDao = new CurriculumMajorDao(ctx);
+            SchoolGradeDao entityDao = new SchoolGradeDao(ctx);
             try
             {
-                CurriculumMajor entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                SchoolGrade entity = entityDao.Get(AppSession.SchoolTypeID, hdnEntryID.Value);
                 ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
                 ctx.CommitTransaction();
             }
@@ -151,10 +149,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumMajor entity = BusinessLayer.GetCurriculumMajor(Convert.ToInt32(hdnEntryID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumMajor(entity);
+                BusinessLayer.DeleteSchoolGrade(AppSession.SchoolTypeID, hdnEntryID.Value);
                 return true;
             }
             catch (Exception ex)

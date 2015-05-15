@@ -22,7 +22,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
-            List<vSchoolMajor> lstSchoolMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
+            List<vSchoolMajor> lstSchoolMajor = BusinessLayer.GetvSchoolMajorList(string.Format("GCSchoolType = '{0}'", entityCurriculum.GCSchoolType));
             Methods.SetComboBoxField<vSchoolMajor>(cboGCMajor, lstSchoolMajor, "Major", "GCMajor");
 
             BindGridView();

@@ -14,7 +14,6 @@
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 cboGCMajor.SetValue('');
-                $('#<%=txtCurriculumMajorName.ClientID %>').val('');
 
                 $('#entryDetailContainer').show();
             });
@@ -35,23 +34,11 @@
             showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMajorID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.GCMajor);
                     cbpProcessPopup.PerformCallback('delete');
                 }
             });
         });
-
-        $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-
-            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMajorID);
-            cboGCMajor.SetValue(entity.GCMajor);
-            $('#<%=txtCurriculumMajorName.ClientID %>').val(entity.CurriculumMajorName);
-
-            $('#entryDetailContainer').show();
-        });
-
         //#endregion
 
         function onCbpProcesEndCallback(s) {
@@ -93,10 +80,6 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jurusan")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboGCMajor" ClientInstanceName="cboGCMajor" runat="server" Width="100px" /></td>
                                 </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtCurriculumMajorName" runat="server" Width="200px" /></td>
-                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -121,14 +104,10 @@
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="Major" HeaderText="Tipe Jurusan" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="CurriculumMajorName" HeaderText="Nama" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
-                                        <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("CurriculumMajorID") %>" bindingfield="CurriculumMajorID" />
                                         <input type="hidden" value="<%#Eval("GCMajor") %>" bindingfield="GCMajor" />
-                                        <input type="hidden" value="<%#Eval("CurriculumMajorName") %>" bindingfield="CurriculumMajorName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

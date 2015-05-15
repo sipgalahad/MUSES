@@ -13,8 +13,9 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                cboGCMajor.SetValue('');
-                $('#<%=txtCurriculumMajorName.ClientID %>').val('');
+                cboGCGrade.SetValue('');
+                $('#<%=txtDisplayOrder.ClientID %>').val('');
+                cboGCGrade.SetEnabled(true);
 
                 $('#entryDetailContainer').show();
             });
@@ -35,7 +36,7 @@
             showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMajorID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.GCGrade);
                     cbpProcessPopup.PerformCallback('delete');
                 }
             });
@@ -45,9 +46,10 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMajorID);
-            cboGCMajor.SetValue(entity.GCMajor);
-            $('#<%=txtCurriculumMajorName.ClientID %>').val(entity.CurriculumMajorName);
+            cboGCGrade.SetEnabled(false);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.GCGrade);
+            cboGCGrade.SetValue(entity.GCGrade);
+            $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
 
             $('#entryDetailContainer').show();
         });
@@ -90,12 +92,12 @@
                                     <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jurusan")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboGCMajor" ClientInstanceName="cboGCMajor" runat="server" Width="100px" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tingkat Kelas")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboGCGrade" ClientInstanceName="cboGCGrade" runat="server" Width="100px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
-                                    <td><asp:TextBox ID="txtCurriculumMajorName" runat="server" Width="200px" /></td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Urutan")%></label></td>
+                                    <td><asp:TextBox ID="txtDisplayOrder" CssClass="number" runat="server" Width="80px" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -120,15 +122,13 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="Major" HeaderText="Tipe Jurusan" HeaderStyle-Width="100px" />
-                                <asp:BoundField DataField="CurriculumMajorName" HeaderText="Nama" />
+                                <asp:BoundField DataField="Grade" HeaderText="Tipe Jurusan" HeaderStyle-Width="100px" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("CurriculumMajorID") %>" bindingfield="CurriculumMajorID" />
-                                        <input type="hidden" value="<%#Eval("GCMajor") %>" bindingfield="GCMajor" />
-                                        <input type="hidden" value="<%#Eval("CurriculumMajorName") %>" bindingfield="CurriculumMajorName" />
+                                        <input type="hidden" value="<%#Eval("GCGrade") %>" bindingfield="GCGrade" />
+                                        <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

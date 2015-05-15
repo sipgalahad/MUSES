@@ -23,18 +23,18 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected override void InitializeDataControl()
         {
             hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
             if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
             {
                 trGrade.Style.Add("display", "none");
                 trMajor.Style.Add("display", "none");
             }
-            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
+            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("GCSchoolType = '{0}' ORDER BY DisplayOrder", entityCurriculum.GCSchoolType));
             List<CurriculumMajor> lstMajor = BusinessLayer.GetCurriculumMajorList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
             lstMajor.Insert(0, new CurriculumMajor { CurriculumMajorID = 0, CurriculumMajorName = "" });
             Methods.SetComboBoxField<vSchoolGrade>(cboGrade, lstGrade, "Grade", "GCGrade");
             Methods.SetComboBoxField<CurriculumMajor>(cboMajor, lstMajor, "CurriculumMajorName", "CurriculumMajorID");
 
-            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
             List<ClassType> lstClassType = BusinessLayer.GetClassTypeList(string.Format("GCSchoolType = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0 ORDER BY ClassTypeCode", entityCurriculum.GCSchoolType, Constant.ClassStudyType.EXTRACURRICULAR));
             Methods.SetComboBoxField<ClassType>(cboClassType, lstClassType, "ClassTypeName", "ClassTypeID");
 
