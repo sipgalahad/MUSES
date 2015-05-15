@@ -214,6 +214,7 @@
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompEntry.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx" />
     <Content Include="Program\Master\Subject\PersonalityList.aspx" />
+    <Content Include="Program\Master\Subject\SchoolSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntryDtCtl.ascx" />
     <Content Include="Program\Master\Subject\SubjectCurriculumSyllabus\SubjectCurriculumSyllabusEntry.aspx" />
@@ -1218,6 +1219,13 @@
     </Compile>
     <Compile Include="Program\Master\Subject\PersonalityList.aspx.designer.cs">
       <DependentUpon>PersonalityList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SchoolSubjectEntryCtl.ascx.cs">
+      <DependentUpon>SchoolSubjectEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Subject\SchoolSubjectEntryCtl.ascx.designer.cs">
+      <DependentUpon>SchoolSubjectEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Subject\SubjectCurriculumMeetingPlan\SubjectCurriculumMeetingPlanEntry.aspx.cs">
       <DependentUpon>SubjectCurriculumMeetingPlanEntry.aspx</DependentUpon>

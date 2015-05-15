@@ -25,12 +25,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected string OnGetSubjectCurriculumFilterExpression()
         {
-            return string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.SubjectID);
+            return string.Format("SubjectID = {0} AND IsDeleted = 0", AppSession.Subject.SubjectID);
         }
 
         protected override void InitializeDataControl()
         {
-            hdnSubjectID.Value = AppSession.SubjectID.ToString();
+            hdnSubjectID.Value = AppSession.Subject.SubjectID.ToString();
 
             if (AppSession.SubjectCurriculumID > 0)
             {

@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
-            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("IsDeleted = 0"));
+            List<Curriculum> lstCurriculum = BusinessLayer.GetCurriculumList(string.Format("GCSchoolType = '{0}' AND IsDeleted = 0", AppSession.Subject.GCSchoolType));
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
             cboCurriculum.SelectedIndex = 0;
 
@@ -60,7 +60,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SubjectID = {0} AND CurriculumID = {1} AND IsDeleted = 0", AppSession.SubjectID, cboCurriculum.Value);
+            string filterExpression = string.Format("SubjectID = {0} AND CurriculumID = {1} AND IsDeleted = 0", AppSession.Subject.SubjectID, cboCurriculum.Value);
             grdView.DataSource = BusinessLayer.GetvSubjectCurriculumList(filterExpression);
             grdView.DataBind();
         }
@@ -134,7 +134,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 SubjectCurriculum entity = new SubjectCurriculum();
                 ControlToEntity(entity);
                 entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
-                entity.SubjectID = AppSession.SubjectID;
+                entity.SubjectID = AppSession.Subject.SubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 entity.SubjectCurriculumID = BusinessLayer.GetSubjectCurriculumMaxID(ctx);

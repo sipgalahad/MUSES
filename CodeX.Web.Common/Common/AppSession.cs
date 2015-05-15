@@ -388,35 +388,39 @@ namespace CodeX.Web.Common
         }
         #endregion
 
-        #region SubjectID
-        public static Int32 SubjectID
+        #region Subject
+        public static SubjectModel Subject
         {
             get
             {
-                if (HttpContext.Current.Session["_SubjectID"] == null)
+                if (HttpContext.Current.Session["_Subject"] == null)
                 {
                     if (HttpContext.Current.Request.Cookies["Muses"] != null)
                     {
-                        if (HttpContext.Current.Request.Cookies["Muses"]["_SubjectID"] != null)
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_Subject"] != null)
                         {
-                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["Muses"]["_SubjectID"]);
-                            HttpContext.Current.Session["_SubjectID"] = value;
-                            return value;
+                            string[] temp = HttpContext.Current.Request.Cookies["Muses"]["_Subject"].Split('|');
+                            SubjectModel entity = new SubjectModel();
+                            entity.SubjectID = Convert.ToInt32(temp[0]);
+                            entity.GCSchoolType = temp[1];
+                            HttpContext.Current.Session["_Subject"] = entity;
+                            return entity;
                         }
                     }
-                    return 0;
+                    return null;
                 }
-                return ((Int32)(HttpContext.Current.Session["_SubjectID"]));
+                return ((SubjectModel)(HttpContext.Current.Session["_Subject"]));
             }
             set
             {
                 if (HttpContext.Current.Request.Cookies["Muses"] != null)
                 {
                     HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
-                    myCookie.Values["_SubjectID"] = value.ToString();
+                    myCookie.Values["_Subject"] = string.Format("{0}|{1}", value.SubjectID, value.GCSchoolType);
                     HttpContext.Current.Response.Cookies.Add(myCookie);
                 }
-                HttpContext.Current.Session["_SubjectID"] = value;
+
+                HttpContext.Current.Session["_Subject"] = value;
             }
         }
         #endregion

@@ -14,7 +14,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AppSession.SubjectID = Convert.ToInt32(Request.QueryString["id"]);
+            string[] temp = Request.QueryString["id"].Split('|');
+            SubjectModel subject = new SubjectModel();
+            subject.SubjectID = Convert.ToInt32(temp[0]);
+            subject.GCSchoolType = temp[1];
+            AppSession.Subject = subject;
 
             string filterExpression = string.Format("ParentCode = '{0}'", Constant.MenuCode.ControlPanel.SUBJECT_PAGE);
             List<GetUserMenuAccess> lstMenu = BusinessLayer.GetUserMenuAccess(Constant.Module.CONTROL_PANEL, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, filterExpression);

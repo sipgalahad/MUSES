@@ -62,10 +62,10 @@
         }
         //#endregion
 
-        $('.lnkDetail a').live('click', function () {
+        $('.lnkSchoolType a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl('~/Program/Master/Subject/SubjectPageLauncher.aspx?id=' + id);
-            openWindowPopup(url, 'Subject', '1300', '650');
+            var url = ResolveUrl("~/Program/Master/Subject/SchoolSubjectEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Tipe Sekolah', 600, 500);
         });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -83,7 +83,7 @@
                                 <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="SubjectCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Nama" />
-                                <asp:HyperLinkField HeaderText="Detil" Text="Detil" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Tipe Sekolah" Text="Tipe Sekolah" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSchoolType" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

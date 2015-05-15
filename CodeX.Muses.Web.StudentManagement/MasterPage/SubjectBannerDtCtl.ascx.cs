@@ -15,7 +15,7 @@ namespace CodeX.Muses.Web.StudentManagement.MasterPage
     {
         public void InitializeBanner()
         {
-            Subject entity = BusinessLayer.GetSubjectList(string.Format("SubjectID = {0}", AppSession.SubjectID))[0];
+            Subject entity = BusinessLayer.GetSubjectList(string.Format("SubjectID = {0}", AppSession.Subject.SubjectID))[0];
             hdnTitleText.Value = entity.SubjectName;
             //divBusinessPartnerCode.InnerHtml = entity.BusinessPartnerCode;
             //divContactPerson.InnerHtml = entity.ContactPerson;

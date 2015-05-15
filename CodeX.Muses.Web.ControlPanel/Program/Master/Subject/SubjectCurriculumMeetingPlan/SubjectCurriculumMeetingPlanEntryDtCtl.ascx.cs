@@ -40,7 +40,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 trName.Style.Add("display", "none");
                 lblReference.InnerHtml = entityDt.CurriculumSyllabusReferenceName;
-                List<vSubjectCurriculumSyllabus> lstReference = BusinessLayer.GetvSubjectCurriculumSyllabusList(string.Format("SubjectID = {0} AND CurriculumSyllabusID = {1} AND IsDeleted = 0", AppSession.SubjectID, entityDt.CurriculumSyllabusReferenceID));
+                List<vSubjectCurriculumSyllabus> lstReference = BusinessLayer.GetvSubjectCurriculumSyllabusList(string.Format("SubjectID = {0} AND CurriculumSyllabusID = {1} AND IsDeleted = 0", AppSession.Subject.SubjectID, entityDt.CurriculumSyllabusReferenceID));
                 Methods.SetComboBoxField<vSubjectCurriculumSyllabus>(cboReferenceID, lstReference, "SubjectCurriculumSyllabusName", "SubjectCurriculumSyllabusID");
             }
             hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";

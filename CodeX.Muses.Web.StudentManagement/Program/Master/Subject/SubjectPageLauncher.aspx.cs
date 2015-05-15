@@ -15,7 +15,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected void Page_Load(object sender, EventArgs e)
         {
             string[] temp = Request.QueryString["id"].Split('|');
-            AppSession.SubjectID = Convert.ToInt32(temp[0]);
+            AppSession.Subject.SubjectID = Convert.ToInt32(temp[0]);
             string filterExpression = "";
             if (temp.Count() > 1)
             {

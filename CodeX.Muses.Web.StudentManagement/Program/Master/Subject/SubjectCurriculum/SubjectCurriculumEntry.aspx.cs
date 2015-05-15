@@ -60,7 +60,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("SubjectID = {0} AND CurriculumID = {1} AND IsDeleted = 0", AppSession.SubjectID, cboCurriculum.Value);
+            string filterExpression = string.Format("SubjectID = {0} AND CurriculumID = {1} AND IsDeleted = 0", AppSession.Subject.SubjectID, cboCurriculum.Value);
             grdView.DataSource = BusinessLayer.GetvSubjectCurriculumList(filterExpression);
             grdView.DataBind();
         }
@@ -134,7 +134,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 SubjectCurriculum entity = new SubjectCurriculum();
                 ControlToEntity(entity);
                 entity.CurriculumID = Convert.ToInt32(cboCurriculum.Value);
-                entity.SubjectID = AppSession.SubjectID;
+                entity.SubjectID = AppSession.Subject.SubjectID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 entity.SubjectCurriculumID = BusinessLayer.GetSubjectCurriculumMaxID(ctx);

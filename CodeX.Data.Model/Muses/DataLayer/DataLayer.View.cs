@@ -20972,6 +20972,7 @@ namespace CodeX.Data.Model
     public class vSchoolSubject
     {
         private String _GCSchoolType;
+        private String _SchoolType;
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
@@ -20983,6 +20984,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCSchoolType; }
             set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SchoolType", DataType = "String")]
+        public String SchoolType
+        {
+            get { return _SchoolType; }
+            set { _SchoolType = value; }
         }
         [Column(Name = "SubjectID", DataType = "Int32")]
         public Int32 SubjectID

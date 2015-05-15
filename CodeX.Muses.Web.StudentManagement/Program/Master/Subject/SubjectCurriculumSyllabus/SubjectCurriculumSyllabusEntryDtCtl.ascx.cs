@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             else
             {
                 lblReference.InnerHtml = entityDt.ReferenceName;
-                List<vSubjectCurriculumSyllabus> lstReference = BusinessLayer.GetvSubjectCurriculumSyllabusList(string.Format("SubjectID = {0} AND CurriculumSyllabusID = {1} AND IsDeleted = 0", AppSession.SubjectID, entityDt.ReferenceID));
+                List<vSubjectCurriculumSyllabus> lstReference = BusinessLayer.GetvSubjectCurriculumSyllabusList(string.Format("SubjectID = {0} AND CurriculumSyllabusID = {1} AND IsDeleted = 0", AppSession.Subject.SubjectID, entityDt.ReferenceID));
                 Methods.SetComboBoxField<vSubjectCurriculumSyllabus>(cboReferenceID, lstReference, "SubjectCurriculumSyllabusCode", "SubjectCurriculumSyllabusID");
             }
             hdnIsUsingCode.Value = entityDt.IsUsingCode ? "1" : "0";
