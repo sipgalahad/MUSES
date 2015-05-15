@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPCurriculumPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="CurriculumPersonalityEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.CurriculumPersonalityEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolTypePageTrxVisit.master" AutoEventWireup="true" 
+    CodeBehind="SchoolSubjectEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.SchoolSubjectEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -17,6 +17,8 @@
                 $('#<%=hdnEntryID.ClientID %>').val('');
                 tacSubject.setValue('');
                 tacSubject.setText('');
+                tacSubject.setEnabled(true);
+                $('#<%=txtDisplayOrder.ClientID %>').val('');
 
                 $('#entryDetailContainer').show();
             });
@@ -26,35 +28,10 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
                     cbpProcess.PerformCallback('save');
             });
         });
-
-        //#region edit and delete
-        $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
-            $row = $(this).closest('tr');
-            showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
-                if (result) {
-                    var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectID);
-                    cbpProcessPopup.PerformCallback('delete');
-                }
-            });
-        });
-
-        $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
-            $row = $(this).closest('tr');
-            var entity = rowToObject($row);
-
-            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectID);
-            tacSubject.setValue(entity.SubjectID);
-            tacSubject.setText(entity.SubjectName);
-
-            $('#entryDetailContainer').show();
-        });
-
-        //#endregion
 
         //#region Subject
         function onGetSubjectFilterExpression() {
@@ -83,6 +60,32 @@
         }
         //#endregion
 
+        //#region edit and delete
+        $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
+            $row = $(this).closest('tr');
+            showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
+                if (result) {
+                    var entity = rowToObject($row);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectID);
+                    cbpProcessPopup.PerformCallback('delete');
+                }
+            });
+        });
+
+        $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+
+            $('#<%=hdnEntryID.ClientID %>').val(entity.SubjectID);
+            tacSubject.setEnabled(false);
+            tacSubject.setValue(entity.SubjectID);
+            tacSubject.setText(entity.SubjectName);
+            $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
+
+            $('#entryDetailContainer').show();
+        });
+        //#endregion
+
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
 
@@ -103,10 +106,7 @@
             }
         }
     </script>
-    <input type="hidden" id="hdnGCClassStudyType" value="" runat="server" />
-    <input type="hidden" id="hdnGCSchoolType" value="" runat="server" />
-    <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
-    <input type="hidden" id="hdnLstMarkTypeID" value="" runat="server" />
+    <input type="hidden" id="hdnGCClassStudyType" runat="server" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -132,6 +132,10 @@
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Urutan")%></label></td>
+                                    <td><asp:TextBox ID="txtDisplayOrder" CssClass="number" Width="80px" runat="server" /></td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -155,14 +159,17 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" />
+                                <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
+                                <asp:BoundField DataField="SubjectCode" HeaderText="Kode" HeaderStyle-Width="150px" />
+                                <asp:BoundField DataField="SubjectName" HeaderText="Nama" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("CurriculumSubjectID") %>" bindingfield="CurriculumSubjectID" />
                                         <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
+                                        <input type="hidden" value="<%#Eval("SubjectCode") %>" bindingfield="SubjectCode" />
                                         <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

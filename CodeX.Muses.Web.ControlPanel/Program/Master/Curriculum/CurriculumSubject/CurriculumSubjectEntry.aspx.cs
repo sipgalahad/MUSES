@@ -25,7 +25,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected string OnGetSubjectFilterExpression()
         {
-            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0)", hdnGCClassStudyType.Value, AppSession.CurriculumID);
+            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0) AND SubjectID IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{2}')", hdnGCClassStudyType.Value, AppSession.CurriculumID, hdnGCSchoolType.Value);
         }
 
         protected override void InitializeDataControl()
@@ -39,6 +39,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             else
                 hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
+
+            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
+            hdnGCSchoolType.Value = entityCurriculum.GCSchoolType;
+
             Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
             List<CurriculumClassType> lstClassType = BusinessLayer.GetCurriculumClassTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value));
             rptClassType.DataSource = lstClassType;

@@ -23738,6 +23738,77 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region SchoolSubject
+    [Serializable]
+    [Table(Name = "SchoolSubject")]
+    public class SchoolSubject : DbDataModel
+    {
+        private String _GCSchoolType;
+        private Int32 _SubjectID;
+        private Int16 _DisplayOrder;
+
+        [Column(Name = "GCSchoolType", DataType = "String", IsPrimaryKey = true)]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+    }
+
+    public class SchoolSubjectDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(SchoolSubject));
+        private bool _isAuditLog = false;
+        private const string p_GCSchoolType = "@p_GCSchoolType";
+        private const string p_SubjectID = "@p_SubjectID";
+        public SchoolSubjectDao() { }
+        public SchoolSubjectDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public SchoolSubject Get(String GCSchoolType, Int32 SubjectID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCSchoolType, GCSchoolType);
+            _ctx.Add(p_SubjectID, SubjectID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (SchoolSubject)_helper.DataRowToObject(row, new SchoolSubject());
+        }
+        public int Insert(SchoolSubject record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(SchoolSubject record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(String GCSchoolType, Int32 SubjectID)
+        {
+            SchoolSubject record;
+            if (_ctx.Transaction == null)
+                record = new SchoolSubjectDao().Get(GCSchoolType, SubjectID);
+            else
+                record = Get(GCSchoolType, SubjectID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region SiteBusinessPartner
     [Serializable]
     [Table(Name = "SiteBusinessPartner")]
@@ -26588,7 +26659,6 @@ namespace CodeX.Data.Model
         private Int32 _SubjectID;
         private String _SubjectCode;
         private String _SubjectName;
-        private String _SiteID;
         private String _GCClassStudyType;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -26614,12 +26684,6 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectName; }
             set { _SubjectName = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "GCClassStudyType", DataType = "String")]
         public String GCClassStudyType

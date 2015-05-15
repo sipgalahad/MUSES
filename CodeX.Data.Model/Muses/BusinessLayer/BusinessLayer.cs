@@ -11247,6 +11247,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region SchoolSubject
+        public static SchoolSubject GetSchoolSubject(String GCSchoolType, Int32 SubjectID)
+        {
+            return new SchoolSubjectDao().Get(GCSchoolType, SubjectID);
+        }
+        public static int InsertSchoolSubject(SchoolSubject record)
+        {
+            return new SchoolSubjectDao().Insert(record);
+        }
+        public static int UpdateSchoolSubject(SchoolSubject record)
+        {
+            return new SchoolSubjectDao().Update(record);
+        }
+        public static int DeleteSchoolSubject(String GCSchoolType, Int32 SubjectID)
+        {
+            return new SchoolSubjectDao().Delete(GCSchoolType, SubjectID);
+        }
+        public static List<SchoolSubject> GetSchoolSubjectList(string filterExpression)
+        {
+            List<SchoolSubject> result = new List<SchoolSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(SchoolSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((SchoolSubject)helper.IDataReaderToObject(reader, new SchoolSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region SiteBusinessPartner
         public static SiteBusinessPartner GetSiteBusinessPartner(Int32 SiteBusinessPartnerID)
         {

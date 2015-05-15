@@ -110,6 +110,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="MasterPage\SchoolTypeBannerDtCtl.ascx" />
     <Content Include="MasterPage\CurriculumBannerDtCtl.ascx" />
     <Content Include="MasterPage\MPSubjectPageTrxVisit.master" />
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
@@ -129,9 +130,6 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
     <Content Include="Program\Master\Bank\BankEntry.aspx" />
     <Content Include="Program\Master\Bank\BankList.aspx" />
-    <Content Include="Program\Master\ClassType\ClassTypeEntry.aspx" />
-    <Content Include="Program\Master\ClassType\ClassTypeList.aspx" />
-    <Content Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularDtEntryCtl.ascx" />
     <Content Include="Program\Master\MarkType\MarkTypeFormulaEntryCtl.ascx" />
@@ -166,6 +164,14 @@
     <Content Include="Program\Master\CustomerContract\CustomerContractMemberEntryCtl.ascx" />
     <Content Include="Program\Master\Customer\CustomerEntry.aspx" />
     <Content Include="Program\Master\Customer\CustomerList.aspx" />
+    <Content Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx" />
+    <Content Include="Program\Master\SchoolType\ClassTypeExtracurricular\ClassTypeExtracurricularEntry.aspx" />
+    <Content Include="Program\Master\SchoolType\SchoolSubject\SchoolSubjectEntry.aspx" />
+    <Content Include="Program\Master\SchoolType\SchoolGrade\SchoolGradeEntry.aspx" />
+    <Content Include="Program\Master\SchoolType\SchoolMajor\SchoolMajorEntry.aspx" />
+    <Content Include="Program\Master\SchoolType\SchoolTypePageLauncher.aspx" />
+    <Content Include="Program\Master\SchoolType\SchoolTypeEntry.aspx" />
+    <Content Include="Program\Master\SchoolType\SchoolTypeList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompTypePaymentEntryCtl.ascx" />
     <Content Include="Program\Master\ItemProduct\ItemAlternateUnitEntryCtl.ascx" />
@@ -205,10 +211,6 @@
     <Content Include="Program\Master\ProspectiveStudentForm\ProspectiveStudentFormList.aspx" />
     <Content Include="Program\Master\Room\RoomEntry.aspx" />
     <Content Include="Program\Master\Room\RoomList.aspx" />
-    <Content Include="Program\Master\SchoolGrade\SchoolGradeEntry.aspx" />
-    <Content Include="Program\Master\SchoolGrade\SchoolGradeList.aspx" />
-    <Content Include="Program\Master\SchoolMajor\SchoolMajorEntry.aspx" />
-    <Content Include="Program\Master\SchoolMajor\SchoolMajorList.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompEntry.aspx" />
     <Content Include="Program\Master\StudentFeeComp\StudentFeeCompList.aspx" />
     <Content Include="Program\Master\Subject\PersonalityList.aspx" />
@@ -475,6 +477,20 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MasterPage\SchoolTypeBannerDtCtl.ascx.cs">
+      <DependentUpon>SchoolTypeBannerDtCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\SchoolTypeBannerDtCtl.ascx.designer.cs">
+      <DependentUpon>SchoolTypeBannerDtCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage\MPSchoolTypePageTrxVisit.master.cs">
+      <DependentUpon>MPSchoolTypePageTrxVisit.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage\MPSchoolTypePageTrxVisit.master.designer.cs">
+      <DependentUpon>MPSchoolTypePageTrxVisit.master</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage\MPCurriculumPageTrxVisit.master.cs">
       <DependentUpon>MPCurriculumPageTrxVisit.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -614,27 +630,6 @@
     </Compile>
     <Compile Include="Program\Master\Bank\BankList.aspx.designer.cs">
       <DependentUpon>BankList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeEntry.aspx.cs">
-      <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeEntry.aspx.designer.cs">
-      <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.cs">
-      <DependentUpon>ClassTypeList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeList.aspx.designer.cs">
-      <DependentUpon>ClassTypeList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.cs">
-      <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\ClassType\ClassTypeExtracurricularList.aspx.designer.cs">
-      <DependentUpon>ClassTypeExtracurricularList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx.cs">
       <DependentUpon>CurriculumClassTypeExtracurricularEntry.aspx</DependentUpon>
@@ -873,6 +868,62 @@
     </Compile>
     <Compile Include="Program\Master\Customer\CustomerList.aspx.designer.cs">
       <DependentUpon>CustomerList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx.cs">
+      <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx.designer.cs">
+      <DependentUpon>ClassTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\ClassTypeExtracurricular\ClassTypeExtracurricularEntry.aspx.cs">
+      <DependentUpon>ClassTypeExtracurricularEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\ClassTypeExtracurricular\ClassTypeExtracurricularEntry.aspx.designer.cs">
+      <DependentUpon>ClassTypeExtracurricularEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolSubject\SchoolSubjectEntry.aspx.cs">
+      <DependentUpon>SchoolSubjectEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolSubject\SchoolSubjectEntry.aspx.designer.cs">
+      <DependentUpon>SchoolSubjectEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolGrade\SchoolGradeEntry.aspx.cs">
+      <DependentUpon>SchoolGradeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolGrade\SchoolGradeEntry.aspx.designer.cs">
+      <DependentUpon>SchoolGradeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolMajor\SchoolMajorEntry.aspx.cs">
+      <DependentUpon>SchoolMajorEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolMajor\SchoolMajorEntry.aspx.designer.cs">
+      <DependentUpon>SchoolMajorEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolTypePageLauncher.aspx.cs">
+      <DependentUpon>SchoolTypePageLauncher.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolTypePageLauncher.aspx.designer.cs">
+      <DependentUpon>SchoolTypePageLauncher.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolTypeEntry.aspx.cs">
+      <DependentUpon>SchoolTypeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolTypeEntry.aspx.designer.cs">
+      <DependentUpon>SchoolTypeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolTypeList.aspx.cs">
+      <DependentUpon>SchoolTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\SchoolType\SchoolTypeList.aspx.designer.cs">
+      <DependentUpon>SchoolTypeList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompTypeDueDateEntryCtl.ascx.cs">
       <DependentUpon>StudentFeeCompTypeDueDateEntryCtl.ascx</DependentUpon>
@@ -1146,34 +1197,6 @@
     </Compile>
     <Compile Include="Program\Master\Room\RoomList.aspx.designer.cs">
       <DependentUpon>RoomList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SchoolGrade\SchoolGradeEntry.aspx.cs">
-      <DependentUpon>SchoolGradeEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SchoolGrade\SchoolGradeEntry.aspx.designer.cs">
-      <DependentUpon>SchoolGradeEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SchoolGrade\SchoolGradeList.aspx.cs">
-      <DependentUpon>SchoolGradeList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SchoolGrade\SchoolGradeList.aspx.designer.cs">
-      <DependentUpon>SchoolGradeList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SchoolMajor\SchoolMajorEntry.aspx.cs">
-      <DependentUpon>SchoolMajorEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SchoolMajor\SchoolMajorEntry.aspx.designer.cs">
-      <DependentUpon>SchoolMajorEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\SchoolMajor\SchoolMajorList.aspx.cs">
-      <DependentUpon>SchoolMajorList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\SchoolMajor\SchoolMajorList.aspx.designer.cs">
-      <DependentUpon>SchoolMajorList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\StudentFeeComp\StudentFeeCompEntry.aspx.cs">
       <DependentUpon>StudentFeeCompEntry.aspx</DependentUpon>
@@ -1690,6 +1713,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage\MPCurriculumPageTrxVisit.master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPage\MPSchoolTypePageTrxVisit.master" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

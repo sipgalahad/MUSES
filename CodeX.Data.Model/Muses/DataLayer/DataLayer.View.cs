@@ -20966,6 +20966,56 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vSchoolSubject
+    [Serializable]
+    [Table(Name = "vSchoolSubject")]
+    public class vSchoolSubject
+    {
+        private String _GCSchoolType;
+        private Int32 _SubjectID;
+        private String _SubjectCode;
+        private String _SubjectName;
+        private String _GCClassStudyType;
+        private Int16 _DisplayOrder;
+
+        [Column(Name = "GCSchoolType", DataType = "String")]
+        public String GCSchoolType
+        {
+            get { return _GCSchoolType; }
+            set { _GCSchoolType = value; }
+        }
+        [Column(Name = "SubjectID", DataType = "Int32")]
+        public Int32 SubjectID
+        {
+            get { return _SubjectID; }
+            set { _SubjectID = value; }
+        }
+        [Column(Name = "SubjectCode", DataType = "String")]
+        public String SubjectCode
+        {
+            get { return _SubjectCode; }
+            set { _SubjectCode = value; }
+        }
+        [Column(Name = "SubjectName", DataType = "String")]
+        public String SubjectName
+        {
+            get { return _SubjectName; }
+            set { _SubjectName = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String")]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+    }
+    #endregion
     #region vSiteItem
     [Serializable]
     [Table(Name = "vSiteItem")]

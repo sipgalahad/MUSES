@@ -14,27 +14,33 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class CurriculumPersonalityEntry : BasePageTrx
+    public partial class SchoolSubjectEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_PERSONALITY;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.EXTRACURRICULAR)
+                return Constant.MenuCode.ControlPanel.ST_EXTRACURRICULAR_SUBJECT;
+            if (hdnGCClassStudyType.Value == Constant.ClassStudyType.PERSONALITY)
+                return Constant.MenuCode.ControlPanel.ST_PERSONALITY_SUBJECT;
+            return Constant.MenuCode.ControlPanel.ST_SUBJECT;
         }
-
         protected string OnGetSubjectFilterExpression()
         {
-            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0) AND SubjectID IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{2}')", hdnGCClassStudyType.Value, AppSession.CurriculumID, hdnGCSchoolType.Value);
+            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{1}' AND IsDeleted = 0)", hdnGCClassStudyType.Value, AppSession.SchoolTypeID);
         }
-
         protected override void InitializeDataControl()
         {
-            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
-            hdnGCSchoolType.Value = entityCurriculum.GCSchoolType;
-            hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
+            if (Page.Request.QueryString["id"] == "ex")
+                hdnGCClassStudyType.Value = Constant.ClassStudyType.EXTRACURRICULAR;
+            else if (Page.Request.QueryString["id"] == "pr")
+                hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
+            else
+                hdnGCClassStudyType.Value = Constant.ClassStudyType.REGULAR;
 
             BindGridView();
 
             Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDisplayOrder, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -45,8 +51,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
-            grdView.DataSource = BusinessLayer.GetvCurriculumSubjectList(filterExpression);
+            string filterExpression = string.Format("GCSchoolType = '{0}' AND GCClassStudyType = '{1}' ORDER BY DisplayOrder", AppSession.SchoolTypeID, hdnGCClassStudyType.Value);
+            grdView.DataSource = BusinessLayer.GetvSchoolSubjectList(filterExpression);
             grdView.DataBind();
         }
 
@@ -92,24 +98,23 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumSubject entity)
+        private void ControlToEntity(SchoolSubject entity)
         {
-            entity.SubjectID = Convert.ToInt32(tacSubject.Value);
+            entity.DisplayOrder = Convert.ToInt16(txtDisplayOrder.Text);
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
+            SchoolSubjectDao entityDao = new SchoolSubjectDao(ctx);
             try
             {
-                CurriculumSubject entity = new CurriculumSubject();
+                SchoolSubject entity = new SchoolSubject();
                 ControlToEntity(entity);
-                entity.CurriculumID = AppSession.CurriculumID;
-                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entity.SubjectID = Convert.ToInt32(tacSubject.Value);
+                entity.GCSchoolType = AppSession.SchoolTypeID;
                 entityDao.Insert(entity);
-                entity.CurriculumSubjectID = BusinessLayer.GetCurriculumSubjectMaxID(ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -130,12 +135,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
+            SchoolSubjectDao entityDao = new SchoolSubjectDao(ctx);
             try
             {
-                CurriculumSubject entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                SchoolSubject entity = entityDao.Get(AppSession.SchoolTypeID, Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
                 ctx.CommitTransaction();
             }
@@ -157,10 +161,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumSubject entity = BusinessLayer.GetCurriculumSubject(Convert.ToInt32(hdnEntryID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumSubject(entity);
+                BusinessLayer.DeleteSchoolSubject(AppSession.SchoolTypeID, Convert.ToInt32(hdnEntryID.Value));
                 return true;
             }
             catch (Exception ex)

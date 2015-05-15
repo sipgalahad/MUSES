@@ -14,27 +14,25 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class CurriculumPersonalityEntry : BasePageTrx
+    public partial class ClassTypeEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_PERSONALITY;
+            return Constant.MenuCode.ControlPanel.ST_CLASS_TYPE;
         }
-
-        protected string OnGetSubjectFilterExpression()
-        {
-            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0) AND SubjectID IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{2}')", hdnGCClassStudyType.Value, AppSession.CurriculumID, hdnGCSchoolType.Value);
-        }
-
         protected override void InitializeDataControl()
         {
-            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
-            hdnGCSchoolType.Value = entityCurriculum.GCSchoolType;
-            hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
+            List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("SiteID = '{0}' ORDER BY DisplayOrder", AppSession.UserLogin.SiteID));
+            List<vSchoolMajor> lstMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+            lstMajor.Insert(0, new vSchoolMajor { GCMajor = "", Major = "" });
+            Methods.SetComboBoxField<vSchoolGrade>(cboGrade, lstGrade, "Grade", "GCGrade");
+            Methods.SetComboBoxField<vSchoolMajor>(cboMajor, lstMajor, "Major", "GCMajor");
 
             BindGridView();
 
-            Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtClassTypeCode, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtClassTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboGrade, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -45,8 +43,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
-            grdView.DataSource = BusinessLayer.GetvCurriculumSubjectList(filterExpression);
+            string filterExpression = string.Format("GCSchoolType = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0 ORDER BY ClassTypeCode", AppSession.SchoolTypeID, Constant.ClassStudyType.REGULAR);
+            grdView.DataSource = BusinessLayer.GetvClassTypeList(filterExpression);
             grdView.DataBind();
         }
 
@@ -92,24 +90,30 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumSubject entity)
+        private void ControlToEntity(ClassType entity)
         {
-            entity.SubjectID = Convert.ToInt32(tacSubject.Value);
+            entity.ClassTypeCode = txtClassTypeCode.Text;
+            entity.ClassTypeName = txtClassTypeName.Text;
+            entity.GCGrade = cboGrade.Value.ToString();
+            if (cboMajor.Value != null && cboMajor.Value.ToString() != "")
+                entity.GCMajor = cboMajor.Value.ToString();
+            else
+                entity.GCMajor = null;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
+            ClassTypeDao entityDao = new ClassTypeDao(ctx);
             try
             {
-                CurriculumSubject entity = new CurriculumSubject();
+                ClassType entity = new ClassType();
                 ControlToEntity(entity);
-                entity.CurriculumID = AppSession.CurriculumID;
+                entity.GCSchoolType = AppSession.SchoolTypeID;
+                entity.GCClassStudyType = Constant.ClassStudyType.REGULAR;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
-                entity.CurriculumSubjectID = BusinessLayer.GetCurriculumSubjectMaxID(ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -130,10 +134,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
+            ClassTypeDao entityDao = new ClassTypeDao(ctx);
             try
             {
-                CurriculumSubject entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                ClassType entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
@@ -157,10 +161,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumSubject entity = BusinessLayer.GetCurriculumSubject(Convert.ToInt32(hdnEntryID.Value));
+                ClassType entity = BusinessLayer.GetClassType(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumSubject(entity);
+                BusinessLayer.UpdateClassType(entity);
                 return true;
             }
             catch (Exception ex)

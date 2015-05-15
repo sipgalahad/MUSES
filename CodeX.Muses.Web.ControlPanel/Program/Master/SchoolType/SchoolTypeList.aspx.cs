@@ -4,15 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using CodeX.Data.Model;
-using CodeX.Web.Common;
 using CodeX.Web.Common.UI;
+using CodeX.Web.Common;
+using CodeX.Data.Model;
 using DevExpress.Web.ASPxCallbackPanel;
 using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class PersonalityList : BasePageList
+    public partial class SchoolTypeList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.PERSONALITY;
+            return Constant.MenuCode.ControlPanel.SCHOOL_UNIT;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetSubjectRowIndex(filterExpression, keyValue, "SubjectCode") + 1;
+                int row = BusinessLayer.GetStandardCodeRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -43,7 +43,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
             fieldListText = new string[] { "Kode", "Nama" };
-            fieldListValue = new string[] { "SubjectCode", "SubjectName" };
+            fieldListValue = new string[] { "StandardCodeID", "StandardCodeName" };
         }
 
         private string GetFilterExpression()
@@ -51,22 +51,20 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            string GCClassStudyType = Constant.ClassStudyType.PERSONALITY;
-            filterExpression += string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0", GCClassStudyType);
+            filterExpression += string.Format("ParentID = '{0}' AND IsDeleted = 0", Constant.StandardCode.SCHOOL_TYPE);
             return filterExpression;
         }
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = GetFilterExpression();
-
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetSubjectRowCount(filterExpression);
+                rowCount = BusinessLayer.GetStandardCodeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Subject> lstEntity = BusinessLayer.GetSubjectList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "SubjectCode");
+            List<StandardCode> lstEntity = BusinessLayer.GetStandardCodeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -97,7 +95,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/Subject/SubjectEntry.aspx?id=pr");
+            url = ResolveUrl("~/Program/Master/SchoolType/SchoolTypeEntry.aspx");
             return true;
         }
 
@@ -105,7 +103,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/Subject/SubjectEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/SchoolType/SchoolTypeEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;
@@ -115,10 +113,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                Subject entity = BusinessLayer.GetSubject(Convert.ToInt32(hdnID.Value));
+                StandardCode entity = BusinessLayer.GetStandardCode(hdnID.Value);
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateSubject(entity);
+                BusinessLayer.UpdateStandardCode(entity);
                 return true;
             }
             return false;

@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPCurriculumPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="CurriculumPersonalityEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.CurriculumPersonalityEntry" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolTypePageTrxVisit.master" AutoEventWireup="true" 
+    CodeBehind="SchoolMajorEntry.aspx.cs" Inherits="CodeX.Muses.Web.ControlPanel.Program.SchoolMajorEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -7,16 +7,14 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
-<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
-    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                tacSubject.setValue('');
-                tacSubject.setText('');
+                cboGCMajor.SetValue('');
+                $('#<%=txtCurriculumMajorName.ClientID %>').val('');
 
                 $('#entryDetailContainer').show();
             });
@@ -26,7 +24,7 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) 
                     cbpProcess.PerformCallback('save');
             });
         });
@@ -37,7 +35,7 @@
             showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMajorID);
                     cbpProcessPopup.PerformCallback('delete');
                 }
             });
@@ -47,40 +45,13 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
 
-            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumSubjectID);
-            tacSubject.setValue(entity.SubjectID);
-            tacSubject.setText(entity.SubjectName);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMajorID);
+            cboGCMajor.SetValue(entity.GCMajor);
+            $('#<%=txtCurriculumMajorName.ClientID %>').val(entity.CurriculumMajorName);
 
             $('#entryDetailContainer').show();
         });
 
-        //#endregion
-
-        //#region Subject
-        function onGetSubjectFilterExpression() {
-            var filterExpression = "<%=OnGetSubjectFilterExpression() %>";
-            return filterExpression;
-        }
-
-        function onTacSubjectButtonSearchClick() {
-            openSearchDialog('subject', onGetSubjectFilterExpression(), function (value) {
-                var filterExpression = onGetSubjectFilterExpression() + " AND SubjectCode = '" + value + "'";
-                Methods.getObject('GetSubjectList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacSubject.setValue(result.SubjectID);
-                        tacSubject.setText(result.SubjectName);
-                    }
-                    else {
-                        tacSubject.setValue('');
-                        tacSubject.setText('');
-                    }
-                });
-            });
-
-        }
-
-        function onTacSubjectValueChanged() {
-        }
         //#endregion
 
         function onCbpProcesEndCallback(s) {
@@ -103,10 +74,6 @@
             }
         }
     </script>
-    <input type="hidden" id="hdnGCClassStudyType" value="" runat="server" />
-    <input type="hidden" id="hdnGCSchoolType" value="" runat="server" />
-    <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
-    <input type="hidden" id="hdnLstMarkTypeID" value="" runat="server" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -123,14 +90,12 @@
                                     <col style="width: 160px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Pelajaran")%></label></td>
-                                    <td>
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacSubject" ClientInstanceName="tacSubject" MethodName="GetvSubjectClassTypeList" GetFilterExpressionFunction="onGetSubjectFilterExpression"
-                                            SearchFields="SubjectName,SubjectCode" TextField="SubjectName" ValueField="SubjectID" SearchText="${SubjectName} (<b>${SubjectCode}</b>)" OrderByExpression="SubjectName">
-                                            <ClientSideEvents ButtonSearchClick="function(){ onTacSubjectButtonSearchClick(); }"
-                                                ValueChanged="function(){ onTacSubjectValueChanged(); }" />
-                                        </cdx:CodeXAutoCompleteTextBox>   
-                                    </td>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Jurusan")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboGCMajor" ClientInstanceName="cboGCMajor" runat="server" Width="100px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
+                                    <td><asp:TextBox ID="txtCurriculumMajorName" runat="server" Width="200px" /></td>
                                 </tr>
                             </table>
                         </td>
@@ -155,14 +120,15 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
-                                <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" />
+                                <asp:BoundField DataField="Major" HeaderText="Tipe Jurusan" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="CurriculumMajorName" HeaderText="Nama" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                        <input type="hidden" value="<%#Eval("CurriculumSubjectID") %>" bindingfield="CurriculumSubjectID" />
-                                        <input type="hidden" value="<%#Eval("SubjectID") %>" bindingfield="SubjectID" />
-                                        <input type="hidden" value="<%#Eval("SubjectName") %>" bindingfield="SubjectName" />
+                                        <input type="hidden" value="<%#Eval("CurriculumMajorID") %>" bindingfield="CurriculumMajorID" />
+                                        <input type="hidden" value="<%#Eval("GCMajor") %>" bindingfield="GCMajor" />
+                                        <input type="hidden" value="<%#Eval("CurriculumMajorName") %>" bindingfield="CurriculumMajorName" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

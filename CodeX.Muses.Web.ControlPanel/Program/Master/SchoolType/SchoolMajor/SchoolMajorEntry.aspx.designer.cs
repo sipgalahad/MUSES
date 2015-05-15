@@ -10,43 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class CurriculumSubjectEntry {
-        
-        /// <summary>
-        /// hdnGCClassStudyType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCClassStudyType;
-        
-        /// <summary>
-        /// hdnGCSchoolType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCSchoolType;
-        
-        /// <summary>
-        /// hdnLstClassTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstClassTypeID;
-        
-        /// <summary>
-        /// hdnLstMarkTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstMarkTypeID;
+    public partial class SchoolMajorEntry {
         
         /// <summary>
         /// hdnEntryID control.
@@ -58,31 +22,22 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// tacSubject control.
+        /// cboGCMajor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCMajor;
         
         /// <summary>
-        /// ddeClassType control.
+        /// txtCurriculumMajorName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeClassType;
-        
-        /// <summary>
-        /// ddeMarkType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeMarkType;
+        protected global::System.Web.UI.WebControls.TextBox txtCurriculumMajorName;
         
         /// <summary>
         /// cbpView control.

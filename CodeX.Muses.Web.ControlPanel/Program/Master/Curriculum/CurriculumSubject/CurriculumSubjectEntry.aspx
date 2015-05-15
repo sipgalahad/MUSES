@@ -184,6 +184,7 @@
         }
     </script>
     <input type="hidden" id="hdnGCClassStudyType" value="" runat="server" />
+    <input type="hidden" id="hdnGCSchoolType" value="" runat="server" />
     <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
     <input type="hidden" id="hdnLstMarkTypeID" value="" runat="server" />
     <div class="divTransactionEntry">

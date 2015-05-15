@@ -10,43 +10,7 @@
 namespace CodeX.Muses.Web.ControlPanel.Program {
     
     
-    public partial class CurriculumSubjectEntry {
-        
-        /// <summary>
-        /// hdnGCClassStudyType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCClassStudyType;
-        
-        /// <summary>
-        /// hdnGCSchoolType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCSchoolType;
-        
-        /// <summary>
-        /// hdnLstClassTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstClassTypeID;
-        
-        /// <summary>
-        /// hdnLstMarkTypeID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstMarkTypeID;
+    public partial class ClassTypeEntry {
         
         /// <summary>
         /// hdnEntryID control.
@@ -58,31 +22,58 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// tacSubject control.
+        /// txtClassTypeCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacSubject;
+        protected global::System.Web.UI.WebControls.TextBox txtClassTypeCode;
         
         /// <summary>
-        /// ddeClassType control.
+        /// txtClassTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeClassType;
+        protected global::System.Web.UI.WebControls.TextBox txtClassTypeName;
         
         /// <summary>
-        /// ddeMarkType control.
+        /// trGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxDropDownEdit ddeMarkType;
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGrade;
+        
+        /// <summary>
+        /// cboGrade control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGrade;
+        
+        /// <summary>
+        /// trMajor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trMajor;
+        
+        /// <summary>
+        /// cboMajor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMajor;
         
         /// <summary>
         /// cbpView control.

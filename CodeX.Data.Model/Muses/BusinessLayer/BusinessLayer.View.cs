@@ -7978,6 +7978,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vSchoolSubject
+        public static List<vSchoolSubject> GetvSchoolSubjectList(string filterExpression)
+        {
+            List<vSchoolSubject> result = new List<vSchoolSubject>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vSchoolSubject));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vSchoolSubject)helper.IDataReaderToObject(reader, new vSchoolSubject()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSiteItem
         public static List<vSiteItem> GetvSiteItemList(string filterExpression)
         {

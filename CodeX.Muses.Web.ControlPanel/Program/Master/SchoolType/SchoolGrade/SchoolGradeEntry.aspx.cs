@@ -14,27 +14,21 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class CurriculumPersonalityEntry : BasePageTrx
+    public partial class SchoolGradeEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.CR_CURRICULUM_PERSONALITY;
+            return Constant.MenuCode.ControlPanel.ST_SCHOOL_GRADE;
         }
-
-        protected string OnGetSubjectFilterExpression()
-        {
-            return string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0 AND SubjectID NOT IN (SELECT SubjectID FROM CurriculumSubject WHERE CurriculumID = {1} AND IsDeleted = 0) AND SubjectID IN (SELECT SubjectID FROM SchoolSubject WHERE GCSchoolType = '{2}')", hdnGCClassStudyType.Value, AppSession.CurriculumID, hdnGCSchoolType.Value);
-        }
-
         protected override void InitializeDataControl()
         {
-            Curriculum entityCurriculum = BusinessLayer.GetCurriculum(AppSession.CurriculumID);
-            hdnGCSchoolType.Value = entityCurriculum.GCSchoolType;
-            hdnGCClassStudyType.Value = Constant.ClassStudyType.PERSONALITY;
+        //    List<vSchoolMajor> lstSchoolMajor = BusinessLayer.GetvSchoolMajorList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID));
+        //    Methods.SetComboBoxField<vSchoolMajor>(cboGCMajor, lstSchoolMajor, "Major", "GCMajor");
 
-            BindGridView();
+        //    BindGridView();
 
-            Helper.SetControlEntrySetting(tacSubject, new ControlEntrySetting(true, true, true), "mpTrx");
+        //    Helper.SetControlEntrySetting(txtCurriculumMajorName, new ControlEntrySetting(true, true, true), "mpTrx");
+        //    Helper.SetControlEntrySetting(cboGCMajor, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -45,8 +39,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value);
-            grdView.DataSource = BusinessLayer.GetvCurriculumSubjectList(filterExpression);
+            string filterExpression = string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID);
+            grdView.DataSource = BusinessLayer.GetvCurriculumMajorList(filterExpression);
             grdView.DataBind();
         }
 
@@ -92,24 +86,24 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(CurriculumSubject entity)
+        private void ControlToEntity(CurriculumMajor entity)
         {
-            entity.SubjectID = Convert.ToInt32(tacSubject.Value);
+            entity.GCMajor = cboGCMajor.Value.ToString();
+            entity.CurriculumMajorName = txtCurriculumMajorName.Text;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
+            CurriculumMajorDao entityDao = new CurriculumMajorDao(ctx);
             try
             {
-                CurriculumSubject entity = new CurriculumSubject();
+                CurriculumMajor entity = new CurriculumMajor();
                 ControlToEntity(entity);
                 entity.CurriculumID = AppSession.CurriculumID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
-                entity.CurriculumSubjectID = BusinessLayer.GetCurriculumSubjectMaxID(ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -130,10 +124,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            CurriculumSubjectDao entityDao = new CurriculumSubjectDao(ctx);
+            CurriculumMajorDao entityDao = new CurriculumMajorDao(ctx);
             try
             {
-                CurriculumSubject entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumMajor entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
@@ -157,10 +151,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             try
             {
-                CurriculumSubject entity = BusinessLayer.GetCurriculumSubject(Convert.ToInt32(hdnEntryID.Value));
+                CurriculumMajor entity = BusinessLayer.GetCurriculumMajor(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateCurriculumSubject(entity);
+                BusinessLayer.UpdateCurriculumMajor(entity);
                 return true;
             }
             catch (Exception ex)

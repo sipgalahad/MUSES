@@ -312,17 +312,14 @@ namespace CodeX.Common
             public static class ControlPanel
             {
                 public const string TEACHER = "CP010101";
-                public const string CLASS_TYPE = "CP010102";
+                public const string SCHOOL_UNIT = "CP010102";
                 public const string ROOM = "CP010103";
                 public const string SUBJECT = "CP010104";
                 public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
                 public const string PROSPECTIVE_STUDENT_FORM = "CP010107";
-                public const string SCHOOL_GRADE = "CP010108";
-                public const string SCHOOL_MAJOR = "CP010109";
                 public const string TEACHER_MARK_TYPE_GROUP = "CP010110";
                 public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
-                public const string EXTRACURRICULAR_CLASS_TYPE = "CP010112";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
                 public const string PERSONALITY = "CP010114";
                 public const string GRADE_PROMOTION_FORMULA = "CP010115";
@@ -394,6 +391,15 @@ namespace CodeX.Common
                 public const string CR_CURRICULUM_SUBJECT = "CP99020402";
                 public const string CR_CURRICULUM_EXTRACURRICULAR = "CP99020403";
                 public const string CR_CURRICULUM_PERSONALITY = "CP99020404";
+
+                public const string SCHOOL_TYPE_PAGE = "CP99030000";
+                public const string ST_SCHOOL_GRADE = "CP99030101";
+                public const string ST_SCHOOL_MAJOR = "CP99030102";
+                public const string ST_CLASS_TYPE = "CP99030103";
+                public const string ST_EXTRACURRICULAR_CLASS_TYPE = "CP99030104";
+                public const string ST_SUBJECT = "CP99030201";
+                public const string ST_EXTRACURRICULAR_SUBJECT = "CP99030202";
+                public const string ST_PERSONALITY_SUBJECT = "CP99030203";
             }
             #endregion
 

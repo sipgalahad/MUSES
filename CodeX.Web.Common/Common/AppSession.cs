@@ -289,6 +289,39 @@ namespace CodeX.Web.Common
         }
         #endregion
 
+        #region SchoolTypeID
+        public static String SchoolTypeID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_SchoolTypeID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["Muses"]["_SchoolTypeID"] != null)
+                        {
+                            String value = HttpContext.Current.Request.Cookies["Muses"]["_SchoolTypeID"].ToString();
+                            HttpContext.Current.Session["_SchoolTypeID"] = value;
+                            return value;
+                        }
+                    }
+                    return "";
+                }
+                return HttpContext.Current.Session["_SchoolTypeID"].ToString();
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["Muses"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["Muses"];
+                    myCookie.Values["_SchoolTypeID"] = value;
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_SchoolTypeID"] = value;
+            }
+        }
+        #endregion
+
         #region SchoolPeriodID
         public static Int32 SchoolPeriodID
         {

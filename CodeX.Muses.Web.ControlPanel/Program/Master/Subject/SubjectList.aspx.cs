@@ -58,7 +58,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 GCClassStudyType = Constant.ClassStudyType.EXTRACURRICULAR;
             else
                 GCClassStudyType = Constant.ClassStudyType.REGULAR;
-            filterExpression += string.Format("SiteID = '{0}' AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, GCClassStudyType);
+            filterExpression += string.Format("GCClassStudyType = '{0}' AND IsDeleted = 0", GCClassStudyType);
             return filterExpression;
         }
 
