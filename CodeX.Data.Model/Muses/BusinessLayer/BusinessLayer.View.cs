@@ -948,6 +948,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassStudentSubjectMark
+        public static List<vClassStudentSubjectMark> GetvClassStudentSubjectMarkList(string filterExpression)
+        {
+            List<vClassStudentSubjectMark> result = new List<vClassStudentSubjectMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassStudentSubjectMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassStudentSubjectMark)helper.IDataReaderToObject(reader, new vClassStudentSubjectMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassStudentSubjectTaskMark
         public static List<vClassStudentSubjectTaskMark> GetvClassStudentSubjectTaskMarkList(string filterExpression)
         {

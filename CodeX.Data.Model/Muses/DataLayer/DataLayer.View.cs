@@ -2320,6 +2320,105 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassStudentSubjectMark
+    [Serializable]
+    [Table(Name = "vClassStudentSubjectMark")]
+    public class vClassStudentSubjectMark
+    {
+        private Int32 _ClassSubjectID;
+        private Int32 _StudentID;
+        private Int32 _PeriodSectionID;
+        private Int32 _CurriculumMarkTypeID;
+        private Decimal _Mark;
+        private Int32 _MarkTypeDtID;
+        private String _MarkTypeDtName;
+        private String _DescriptionMark;
+        private Int32 _PredicateMarkTypeDtID;
+        private String _PredicateMarkTypeDtName;
+        private Int32 _CompetencyMarkTypeDtID;
+        private String _CompetencyMarkTypeDtName;
+        private String _CompetencyDescription;
+
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32")]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "Mark", DataType = "Decimal")]
+        public Decimal Mark
+        {
+            get { return _Mark; }
+            set { _Mark = value; }
+        }
+        [Column(Name = "MarkTypeDtID", DataType = "Int32")]
+        public Int32 MarkTypeDtID
+        {
+            get { return _MarkTypeDtID; }
+            set { _MarkTypeDtID = value; }
+        }
+        [Column(Name = "MarkTypeDtName", DataType = "String")]
+        public String MarkTypeDtName
+        {
+            get { return _MarkTypeDtName; }
+            set { _MarkTypeDtName = value; }
+        }
+        [Column(Name = "DescriptionMark", DataType = "String")]
+        public String DescriptionMark
+        {
+            get { return _DescriptionMark; }
+            set { _DescriptionMark = value; }
+        }
+        [Column(Name = "PredicateMarkTypeDtID", DataType = "Int32")]
+        public Int32 PredicateMarkTypeDtID
+        {
+            get { return _PredicateMarkTypeDtID; }
+            set { _PredicateMarkTypeDtID = value; }
+        }
+        [Column(Name = "PredicateMarkTypeDtName", DataType = "String")]
+        public String PredicateMarkTypeDtName
+        {
+            get { return _PredicateMarkTypeDtName; }
+            set { _PredicateMarkTypeDtName = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeDtID", DataType = "Int32")]
+        public Int32 CompetencyMarkTypeDtID
+        {
+            get { return _CompetencyMarkTypeDtID; }
+            set { _CompetencyMarkTypeDtID = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeDtName", DataType = "String")]
+        public String CompetencyMarkTypeDtName
+        {
+            get { return _CompetencyMarkTypeDtName; }
+            set { _CompetencyMarkTypeDtName = value; }
+        }
+        [Column(Name = "CompetencyDescription", DataType = "String")]
+        public String CompetencyDescription
+        {
+            get { return _CompetencyDescription; }
+            set { _CompetencyDescription = value; }
+        }
+    }
+    #endregion
     #region vClassStudentSubjectTaskMark
     [Serializable]
     [Table(Name = "vClassStudentSubjectTaskMark")]
@@ -20638,6 +20737,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodClassTypeID;
         private Int32 _SchoolPeriodID;
         private String _SchoolPeriodName;
+        private Int32 _CurriculumID;
         private Int32 _PeriodSectionID;
         private String _PeriodSectionName;
         private Int32 _CurriculumClassTypeID;
@@ -20696,6 +20796,12 @@ namespace CodeX.Data.Model
         {
             get { return _SchoolPeriodName; }
             set { _SchoolPeriodName = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
         }
         [Column(Name = "PeriodSectionID", DataType = "Int32")]
         public Int32 PeriodSectionID

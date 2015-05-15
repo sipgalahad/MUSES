@@ -18,40 +18,55 @@
         }
     </script>
     <div style="height:440px; overflow-y:auto">
-        <input type="hidden" id="hdnID" value="" runat="server" />  
-        <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
-            <HeaderTemplate>
-                <table rules="all" class="grdBorder grdSelected">
-                    <thead>
-                        <tr>
-                            <th rowspan="2" class="thCenter"><%=GetLabel("Mata Pelajaran") %></th>
-                            <th rowspan="2" class="thCenter" style="width:60px"><%=GetLabel("KKM") %></th>
-                            <th colspan="2" class="thCenter"><%=GetLabel("NILAI") %></th>
-                            <th colspan="2" class="thCenter"><%=GetLabel("Affective") %></th>
-                            <th rowspan="2" class="thCenter" style="width:350px"><%=GetLabel("Deskripsi Kemajuan Belajar") %></th>
-                        </tr>
-                        <tr>
-                            <th class="thCenter" style="width:60px"><%=GetLabel("Teori") %></th>
-                            <th class="thCenter" style="width:60px"><%=GetLabel("Praktek") %></th>
-                            <th class="thCenter" style="width:60px"><%=GetLabel("Nilai") %></th>
-                            <th class="thCenter" style="width:250px"><%=GetLabel("Deskripsi") %></th>
-                        </tr>
-            </HeaderTemplate> 
-            <ItemTemplate>
+        <input type="hidden" id="hdnID" value="" runat="server" />          
+        <table rules="all" class="grdBorder grdSelected">
+            <thead>
                 <tr>
-                    <td><%#Eval("SubjectName") %></td>
-                    <td align="center"><%#Eval("PassingGrade") %></td>
-                    <td align="center"><div runat="server" id="divMarkTheory"></div></td>
-                    <td align="center"><div runat="server" id="divMarkPractice"></div></td>
-                    <td align="center"><div runat="server" id="divAffectiveMark"></div></td>
-                    <td><div runat="server" id="divAffectiveDescription"></div></td>
-                    <td><div runat="server" id="divProgressDescription"></div></td>
+                    <th rowspan="3" class="thCenter"><%=GetLabel("Mata Pelajaran") %></th>
+                    <th rowspan="3" class="thCenter" style="width:60px"><%=GetLabel("KKM") %></th>
+                    <th class="thCenter" id="thMark" runat="server"><%=GetLabel("NILAI") %></th>
+                    <th class="thCenter" id="thCompetencyDescription" runat="server"><%=GetLabel("Deskripsi Kompetensi") %></th>
                 </tr>
-            </ItemTemplate>
-            <FooterTemplate>
-                    </thead>
-                </table>
-            </FooterTemplate>
-        </asp:Repeater>
+                <tr>
+                    <asp:Repeater ID="rptHeader2" runat="server" OnItemDataBound="rptHeader2_ItemDataBound">
+                        <ItemTemplate>
+                            <th class="thCenter" id="thHeader" runat="server" style="width:80px"></th>    
+                        </ItemTemplate>
+                    </asp:Repeater>
+                    <asp:Repeater ID="rptHeader2Desc" runat="server">
+                        <ItemTemplate>
+                            <th class="thCenter" rowspan="2" style="width:80px"><%#Eval("CurriculumMarkTypeName")%></th>    
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </tr>
+                <tr>
+                    <asp:Repeater ID="rptHeader3" runat="server">
+                        <ItemTemplate>
+                            <th class="thCenter" style="width:80px"><%=GetLabel("Nilai") %></th>    
+                            <th class="thCenter" style="width:80px"><%=GetLabel("Predikat") %></th>    
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </tr>
+            </thead>
+            <asp:Repeater ID="rptView" runat="server" OnItemDataBound="rptView_ItemDataBound">
+                <ItemTemplate>
+                    <tr>
+                        <td><%#Eval("SubjectName") %></td>
+                        <td align="center"><%#Eval("PassingGrade") %></td>
+                        <asp:Repeater ID="rptStudentMark" runat="server" OnItemDataBound="rptStudentMark_ItemDataBound">
+                            <ItemTemplate>
+                                <td class="thCenter" id="tdFinalMark" runat="server"></td>
+                                <td class="thCenter" id="tdPredicateMark" runat="server"></td>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <asp:Repeater ID="rptStudentMarkDesc" runat="server" OnItemDataBound="rptStudentMarkDesc_ItemDataBound">
+                            <ItemTemplate>
+                                <td class="thCenter" id="tdDescription" runat="server"></td>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </tr>
+                </ItemTemplate>
+            </asp:Repeater>
+        </table>
     </div>
 </asp:Content>
