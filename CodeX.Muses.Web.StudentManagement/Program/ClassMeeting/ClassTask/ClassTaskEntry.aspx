@@ -41,6 +41,10 @@
                 }
             });
 
+            $('#btnGenerate').click(function () {
+                $('#<%=btnExport.ClientID%>').click();
+            });
+
             registerViewListClickHandler();
         });
 
@@ -139,6 +143,7 @@
     </script>
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnClassSubjectTaskID" runat="server" />
+    <input type="hidden" id="hdnSchoolClassID" runat="server" />
     <input type="hidden" id="hdnMarkTypeID" runat="server" />
     <input type="hidden" id="hdnGCSubjectMarkType" runat="server" />
     <input type="hidden" id="hdnMinValue" runat="server" />
@@ -153,6 +158,10 @@
         .divDetailEdit:hover                      { text-decoration:underline; }
         h4                                                  { color: #013EDD; }
     </style>
+    <div style="display:none;">
+        <asp:Button ID="btnTemp" Visible="true" runat="server" OnClientClick="return false" Text="Export" />
+        <asp:Button ID="btnExport" Visible="true" runat="server" OnClick="btnExport_Click" Text="Export" />
+    </div>
     <table cellspacing="0" cellpadding="0">
         <tr>
             <td class="tdLabel" style="width:100px;"><%=GetLabel("KKM") %></td>
@@ -214,7 +223,8 @@
                 </div> 
             </td>
             <td valign="top">
-                <h4><%=GetLabel("Nilai")%></h4>       
+                <h4><%=GetLabel("Nilai")%></h4>    
+                <input type="button" id="btnGenerate" style="margin:5px 0;" value='<%=GetLabel("Export") %>' />
                 <dxcp:ASPxCallbackPanel ID="cbpMeetingDetail" runat="server" Width="100%" ClientInstanceName="cbpMeetingDetail"
                     ShowLoadingPanel="false" OnCallback="cbpMeetingDetail_Callback">
                     <ClientSideEvents Init="function(s,e){ onHistoryInit(); }" BeginCallback="function(s,e){ showLoadingPanel(); }"

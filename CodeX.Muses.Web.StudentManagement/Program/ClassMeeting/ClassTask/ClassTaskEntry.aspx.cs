@@ -13,6 +13,8 @@ using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using DevExpress.Web.ASPxEditors;
 using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
@@ -46,6 +48,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             vClassSubject entity = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
             txtPassingGrade.Text = entity.PassingGrade.ToString();
+            hdnSchoolClassID.Value = entity.SchoolClassID.ToString();
 
             List<CurriculumMarkType> lstSc = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID));
             lstSc.Insert(0, new CurriculumMarkType { CurriculumMarkTypeID = 0, CurriculumMarkTypeName = " -- Semua -- " });
@@ -104,8 +107,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             lstOption = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID = {0} AND IsDeleted = 0", hdnMarkTypeID.Value));
             lstOption.Insert(0, new MarkTypeDt { MarkTypeDtID = 0, MarkTypeDtName = "" });
 
-            ClassSubject classSubject = BusinessLayer.GetClassSubject(AppSession.ClassSubject.ClassSubjectID);
-            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", classSubject.SchoolClassID));
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value));
             rptStudent.DataSource = lstStudent;
             rptStudent.DataBind();
         }
@@ -221,6 +223,76 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ctx.Close();
             }
             return result;
+        }
+
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            // XML declaration
+            XmlDeclaration declaration = doc.CreateXmlDeclaration("1.0", "utf-8", "yes");
+            doc.AppendChild(declaration);
+
+            // Root element: Table
+            XmlElement table = doc.CreateElement("Table");
+            doc.AppendChild(table);
+
+            string filterExpression = "1 = 0";
+            if (hdnClassSubjectTaskID.Value != "")
+                filterExpression = string.Format("ClassSubjectTaskID = {0}", hdnClassSubjectTaskID.Value);
+            List<vClassStudentSubjectTaskMark> lstStudentTaskMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(filterExpression);
+            List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", hdnSchoolClassID.Value));
+            foreach(vClassStudent student in lstStudent)
+            {
+                // Export
+                XmlElement export = doc.CreateElement("export");
+                table.AppendChild(export);
+
+                // ID Siswa
+                XmlElement IDSiswa = doc.CreateElement("id_siswa");
+                IDSiswa.InnerText = student.StudentCode;
+                export.AppendChild(IDSiswa);
+
+                // Nama
+                XmlElement Nama = doc.CreateElement("Nama");
+                Nama.InnerText = student.StudentName;
+                export.AppendChild(Nama);
+
+                // Nilai
+                XmlElement Nilai = doc.CreateElement("Nilai");
+                vClassStudentSubjectTaskMark mark = lstStudentTaskMark.FirstOrDefault(p => p.StudentID == student.StudentID);
+                if (mark != null)
+                {
+                    switch (hdnGCSubjectMarkType.Value)
+                    {
+                        case Constant.SubjectMarkType.NUMBER: Nilai.InnerText = mark.Mark.ToString(); break;
+                        case Constant.SubjectMarkType.OPTION: Nilai.InnerText = mark.MarkTypeDtName; break;
+                        case Constant.SubjectMarkType.TEXT: Nilai.InnerText = mark.DescriptionMark; break;
+                    }
+                }
+                else
+                    Nilai.InnerText = "-";
+                
+                export.AppendChild(Nilai);
+            }
+
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            XmlTextWriter writer = new XmlTextWriter(stream, System.Text.Encoding.UTF8);
+            writer.Formatting = Formatting.Indented;
+            writer.Indentation = 4;
+            doc.WriteTo(writer);
+            writer.Flush();
+            Response.Clear();
+            byte[] byteArray = stream.ToArray();
+            Response.AppendHeader("Content-Disposition", "filename=NilaiTugas.xml");
+            Response.AppendHeader("Content-Length", byteArray.Length.ToString());
+            Response.ContentType = "application/octet-stream";
+            Response.BinaryWrite(byteArray);
+            writer.Close();
+            Response.Flush();
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
+            HttpContext.Current.Response.Flush();
+            HttpContext.Current.Response.End();
         }
     }
 }
