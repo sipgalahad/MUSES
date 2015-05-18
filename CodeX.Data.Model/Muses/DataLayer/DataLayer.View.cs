@@ -2329,6 +2329,7 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private Int32 _PeriodSectionID;
         private Int32 _CurriculumMarkTypeID;
+        private String _CurriculumMarkTypeCode;
         private Decimal _Mark;
         private Int32 _MarkTypeDtID;
         private String _MarkTypeDtName;
@@ -2362,6 +2363,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeID; }
             set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeCode", DataType = "String")]
+        public String CurriculumMarkTypeCode
+        {
+            get { return _CurriculumMarkTypeCode; }
+            set { _CurriculumMarkTypeCode = value; }
         }
         [Column(Name = "Mark", DataType = "Decimal")]
         public Decimal Mark
@@ -3348,6 +3355,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumID;
+        private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
         private Int32 _TaskMarkTypeID;
         private String _TaskMarkTypeName;
@@ -3377,6 +3385,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumID; }
             set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeCode", DataType = "String")]
+        public String CurriculumMarkTypeCode
+        {
+            get { return _CurriculumMarkTypeCode; }
+            set { _CurriculumMarkTypeCode = value; }
         }
         [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
         public String CurriculumMarkTypeName

@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         private string HeadMaster = "";
         
         List<vClassSubjectTask> lstClassSubjectTask = null;
-        List<ClassStudentSubjectMark> lstNilai = null;
+        List<vClassStudentSubjectMark> lstNilai = null;
         List<OrganizationHd> lstOrganizationHd = new List<OrganizationHd>();
         List<vOrganizationDt> lstOrganizationDt = new List<vOrganizationDt>();
         List<vOrganizationDtStudent> lstOrganizationDtStudent = new List<vOrganizationDtStudent>();
@@ -130,7 +130,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 if (lstClassSubjectID != "")
                 {
                     lstClassSubjectTask = BusinessLayer.GetvClassSubjectTaskList(String.Format("ClassSubjectID IN ({0})", lstClassSubjectID));
-                    lstNilai = BusinessLayer.GetClassStudentSubjectMarkList(String.Format("StudentID = {0}", StudentID)).ToList();
+                    lstNilai = BusinessLayer.GetvClassStudentSubjectMarkList(String.Format("StudentID = {0}", StudentID)).ToList();
 
                     rptSubject.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR);
                     rptSubject.DataBind();
@@ -181,8 +181,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 HtmlTableCell tdEskul = e.Item.FindControl("tdEskul") as HtmlTableCell;
-                ClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
-                if (cs != null) tdEskul.InnerHtml = cs.DescriptionMark;
+                vClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
+                if (cs != null) tdEskul.InnerHtml = cs.CompetencyDescription;
                 else tdEskul.InnerHtml = "-";
             }
         }
@@ -193,8 +193,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 HtmlTableCell tdKompetensi = e.Item.FindControl("tdKompetensi") as HtmlTableCell;
-                ClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
-                if (cs != null) tdKompetensi.InnerHtml = cs.DescriptionMark;
+                vClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID && x.CurriculumMarkTypeCode == "SMA_2006_TEORI");
+                if (cs != null) tdKompetensi.InnerHtml = cs.CompetencyDescription;
                 else tdKompetensi.InnerHtml = "-";
             }
         }
@@ -205,7 +205,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
 
-                ClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID);
+                List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == entity.ClassSubjectID).ToList();
                 HtmlTableCell tdTheory = e.Item.FindControl("tdTheory") as HtmlTableCell;
                 HtmlTableCell tdTxtTheory = e.Item.FindControl("tdTxtTheory") as HtmlTableCell;
                 HtmlTableCell tdPractice = e.Item.FindControl("tdPractice") as HtmlTableCell;
@@ -213,40 +213,34 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
                 HtmlTableCell tdAffective = e.Item.FindControl("tdAffective") as HtmlTableCell;
 
-                if (cs != null)
+                vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.CurriculumMarkTypeCode == "SMA_2006_TEORI");
+                if (theoryMark != null && theoryMark.Mark > 0)
                 {
-                    //if (cs.TheoryMark > 0)
-                    //{
-                    //    tdTheory.InnerHtml = cs.TheoryMark.ToString("N");
-                    //    tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(cs.TheoryMark);
-                    //}
-                    //else 
-                    //{
-                    //    tdTheory.InnerHtml = "-";
-                    //    tdTxtTheory.InnerHtml = "-";
-                    //}
-
-                    //if (cs.PracticeMark > 0)
-                    //{
-                    //    tdPractice.InnerHtml = cs.PracticeMark.ToString("N");
-                    //    tdTxtPractice.InnerHtml = Function.NumberInWordsForScore(cs.PracticeMark);
-                    //}
-                    //else
-                    //{
-                    //    tdPractice.InnerHtml = "-";
-                    //    tdTxtPractice.InnerHtml = "-";
-                    //}
-
-                    //tdAffective.InnerHtml = cs.AffectiveMark != null ? cs.AffectiveMark : "-";
+                    tdTheory.InnerHtml = theoryMark.Mark.ToString("N");
+                    tdTxtTheory.InnerHtml = Function.NumberInWordsForScore(theoryMark.Mark);
                 }
-                else 
+                else
                 {
                     tdTheory.InnerHtml = "-";
                     tdTxtTheory.InnerHtml = "-";
+                }
+                vClassStudentSubjectMark practiceMark = lstMark.FirstOrDefault(p => p.CurriculumMarkTypeCode == "SMA_2006_PRAKTIK");
+                if (practiceMark != null && practiceMark.Mark > 0)
+                {
+                    tdPractice.InnerHtml = practiceMark.Mark.ToString("N");
+                    tdTxtPractice.InnerHtml = Function.NumberInWordsForScore(practiceMark.Mark);
+                }
+                else
+                {
                     tdPractice.InnerHtml = "-";
                     tdTxtPractice.InnerHtml = "-";
-                    tdAffective.InnerHtml = "-";
                 }
+
+                vClassStudentSubjectMark affectiveMark = lstMark.FirstOrDefault(p => p.CurriculumMarkTypeCode == "SMA_2006_SIKAP");
+                if (affectiveMark != null)
+                    tdAffective.InnerHtml = affectiveMark.DescriptionMark;
+                else
+                    tdAffective.InnerHtml = "-";
             }
         }
     }

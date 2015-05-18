@@ -5760,6 +5760,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumID;
+        private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
         private Int32? _TaskMarkTypeID;
         private Int32? _FinalMarkTypeID;
@@ -5785,6 +5786,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumID; }
             set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeCode", DataType = "String")]
+        public String CurriculumMarkTypeCode
+        {
+            get { return _CurriculumMarkTypeCode; }
+            set { _CurriculumMarkTypeCode = value; }
         }
         [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
         public String CurriculumMarkTypeName

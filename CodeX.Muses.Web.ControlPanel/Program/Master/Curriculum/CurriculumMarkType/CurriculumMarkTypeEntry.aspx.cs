@@ -34,6 +34,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             BindGridView();
 
+            Helper.SetControlEntrySetting(txtCurriculumMarkTypeCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCompetencyDescriptionType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCompetencyMarkType, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -96,6 +97,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void ControlToEntity(CurriculumMarkType entity)
         {
+            entity.CurriculumMarkTypeCode = txtCurriculumMarkTypeCode.Text;
             entity.CurriculumMarkTypeName = txtCurriculumMarkTypeName.Text;
             if (cboTaskMarkType.Value != null && cboTaskMarkType.Value.ToString() != "0")
                 entity.TaskMarkTypeID = Convert.ToInt32(cboTaskMarkType.Value);

@@ -13,6 +13,7 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
+                $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val(''); 
                 $('#<%=txtCurriculumMarkTypeName.ClientID %>').val('');
                 cboTaskMarkType.SetValue('');
                 cboFinalMarkType.SetValue('');
@@ -65,6 +66,7 @@
             var entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMarkTypeID);
+            $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val(entity.CurriculumMarkTypeCode); 
             $('#<%=txtCurriculumMarkTypeName.ClientID %>').val(entity.CurriculumMarkTypeName);
             cboTaskMarkType.SetValue(entity.TaskMarkTypeID);
             cboFinalMarkType.SetValue(entity.FinalMarkTypeID);
@@ -122,6 +124,10 @@
                                     <col style="width: 250px" />
                                 </colgroup>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
+                                    <td><asp:TextBox ID="txtCurriculumMarkTypeCode" runat="server" Width="100px" /></td>
+                                </tr> 
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtCurriculumMarkTypeName" runat="server" Width="200px" /></td>
                                 </tr>
@@ -176,6 +182,7 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
+                                <asp:BoundField DataField="CurriculumMarkTypeCode" HeaderText="Kode" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="CurriculumMarkTypeName" HeaderText="Nama" />
                                 <asp:BoundField DataField="TaskMarkTypeName" HeaderText="Format Nilai Tugas" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="FinalMarkTypeName" HeaderText="Format Nilai Akhir" HeaderStyle-Width="150px" />
@@ -188,6 +195,7 @@
                                         <div style='float:right;' class="divDetailDelete"></div>
                                         <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeID") %>" bindingfield="CurriculumMarkTypeID" />
+                                        <input type="hidden" value="<%#Eval("CurriculumMarkTypeCode") %>" bindingfield="CurriculumMarkTypeCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeName") %>" bindingfield="CurriculumMarkTypeName" />
                                         <input type="hidden" value="<%#Eval("TaskMarkTypeID") %>" bindingfield="TaskMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("FinalMarkTypeID") %>" bindingfield="FinalMarkTypeID" />
