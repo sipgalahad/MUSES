@@ -2571,6 +2571,7 @@ namespace CodeX.Data.Model
         private Int32 _PeriodSectionID;
         private String _ClassTaskCode;
         private Int32 _CurriculumMarkTypeID;
+        private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
         private Int32 _CurriculumMarkTypeDtID;
         private Int32 _MarkTypeID;
@@ -2578,6 +2579,7 @@ namespace CodeX.Data.Model
         private Decimal _MinValue;
         private Decimal _MaxValue;
         private String _CurriculumMarkTypeDtName;
+        private Boolean _IsExam;
         private Int16 _FinalMarkPercentage;
         private DateTime _TaskDate;
         private DateTime _StartDate;
@@ -2617,6 +2619,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeID; }
             set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeCode", DataType = "String")]
+        public String CurriculumMarkTypeCode
+        {
+            get { return _CurriculumMarkTypeCode; }
+            set { _CurriculumMarkTypeCode = value; }
         }
         [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
         public String CurriculumMarkTypeName
@@ -2659,6 +2667,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeDtName; }
             set { _CurriculumMarkTypeDtName = value; }
+        }
+        [Column(Name = "IsExam", DataType = "Boolean")]
+        public Boolean IsExam
+        {
+            get { return _IsExam; }
+            set { _IsExam = value; }
         }
         [Column(Name = "FinalMarkPercentage", DataType = "Int16")]
         public Int16 FinalMarkPercentage
