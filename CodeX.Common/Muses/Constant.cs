@@ -522,8 +522,7 @@ namespace CodeX.Common
             {
                 public const string STUDENT = "SM010100";
                 public const string SCHOOL_PERIOD = "SM010200";
-                public const string EXAM_SCHEDULE = "SM010300";
-                public const string SCHOLARSHIP = "SM010400";
+                public const string SCHOLARSHIP = "SM010300";
 
                 public const string PERIOD_ADMISSION = "SM020100";
 
@@ -551,6 +550,7 @@ namespace CodeX.Common
                 public const string SCHOOL_PERIOD_PAGE = "SM99010000";
                 public const string SP_SCHOOL_PERIOD_SCHEDULE = "SM99010101";
                 public const string SP_SCHOOL_PERIOD_SECTION = "SM99010102";
+                public const string SP_EXAM_SCHEDULE = "SM99010103";
                 public const string SP_SCHOOL_PERIOD_ADMISSION = "SM99010201";
                 public const string SP_ADMISSION_SELECTION = "SM99010202";
                 public const string SP_ADMISSION_FEE_COMP = "SM99010203";

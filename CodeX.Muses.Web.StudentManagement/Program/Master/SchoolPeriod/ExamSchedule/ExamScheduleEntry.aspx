@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true" 
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPSchoolPeriodPageTrxVisit.master" AutoEventWireup="true" 
     CodeBehind="ExamScheduleEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.ExamScheduleEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -29,7 +29,7 @@
 
             $('#<%=btnExamClassSchedule.ClientID %>').click(function () {
                 var id = $('#<%=hdnID.ClientID %>').val();
-                var url = ResolveUrl("~/Program/Master/ExamSchedule/ExamClassScheduleEntryCtl.ascx");
+                var url = ResolveUrl("~/Program/Master/SchoolPeriod/ExamSchedule/ExamClassScheduleEntryCtl.ascx");
                 openUserControlPopup(url, id, 'Jadwal', 1000, 550);
             });
 
@@ -53,7 +53,7 @@
             });
         });
 
-        function onAfterCustomClickSuccess(type) {
+        function onAfterCustomClickSuccess(type, retval) {
             if (type == 'approve') {
                 $('#<%=btnSave.ClientID %>').hide();
                 $('#<%=btnApprove.ClientID %>').hide();
@@ -62,6 +62,15 @@
             else if (type == 'reopen') {
                 $('#<%=btnSave.ClientID %>').show();
                 $('#<%=btnApprove.ClientID %>').show();
+                $('#<%=btnExamClassSchedule.ClientID %>').show();
+                hideWatermark();
+            }
+            else if (type == 'save') {
+                $('#<%=btnSave.ClientID %>').show();
+                $('#<%=btnApprove.ClientID %>').show();
+                $('#<%=btnExamClassSchedule.ClientID %>').show();
+                $('#<%=hdnID.ClientID %>').val(retval); 
+
                 hideWatermark();
             }
         }
@@ -92,7 +101,7 @@
 
         //#region Period Section
         function onGetPeriodSectionFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
+            var filterExpression = "SchoolPeriodID = " + $('#<%=hdnSchoolPeriodID.ClientID %>').val() + " AND <%=OnGetPeriodSectionFilterExpression() %>";
             return filterExpression;
         }
 
@@ -121,17 +130,17 @@
 
         //#region Class Type
         function onGetClassTypeFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
+            var filterExpression = "SchoolPeriodID = " + $('#<%=hdnSchoolPeriodID.ClientID %>').val() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
             return filterExpression;
         }
 
         function onTacClassTypeButtonSearchClick() {
             openSearchDialog('periodclasstype', onGetClassTypeFilterExpression(), function (value) {
-                var filterExpression = onGetClassTypeFilterExpression() + " AND ClassTypeCode = '" + value + "'";
+                var filterExpression = onGetClassTypeFilterExpression() + " AND CurriculumClassTypeCode = '" + value + "'";
                 Methods.getObject('GetvPeriodClassTypeList', filterExpression, function (result) {
                     if (result != null) {
                         tacClassType.setValue(result.PeriodClassTypeID);
-                        tacClassType.setText(result.ClassTypeName);
+                        tacClassType.setText(result.CurriculumClassTypeName);
                     }
                     else {
                         tacClassType.setValue('');
@@ -215,13 +224,13 @@
             });
         });
 
-        function onCboExaminationTypeValueChanged() {
+        function onCboCurriculumMarkTypeDtValueChanged() {
             loadData();
         }
 
         function loadData() {
-            if (tacPeriodSection.getValue() != '' && tacClassType.getValue() != '' && cboExaminationType.GetValue() != '') {
-                var filterExpression = "PeriodSectionID = " + tacPeriodSection.getValue() + " AND PeriodClassTypeID = " + tacClassType.getValue() + " AND GCExaminationType = '" + cboExaminationType.GetValue() + "'";
+            if (tacPeriodSection.getValue() != '' && tacClassType.getValue() != '' && cboCurriculumMarkTypeDt.GetValue() != '') {
+                var filterExpression = "PeriodSectionID = " + tacPeriodSection.getValue() + " AND PeriodClassTypeID = " + tacClassType.getValue() + " AND CurriculumMarkTypeDtID = " + cboCurriculumMarkTypeDt.GetValue();
                 Methods.getObject('GetExamScheduleHdList', filterExpression, function (result) {
                     if (result != null) {
                         $('#<%=hdnID.ClientID %>').val(result.ExamScheduleID);
@@ -267,20 +276,13 @@
     </style>
     <input type="hidden" id="hdnID" runat="server" />
     <input type="hidden" id="hdnSaveValue" runat="server" />
+    <input type="hidden" id="hdnSchoolPeriodID" runat="server" />
     <fieldset id="fsFilterGenerate">
         <table style="width:100%">
             <colgroup>
                 <col style="width:150px"/>
                 <col style="width:300px"/>
             </colgroup>
-            <tr>
-                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tahun Ajaran") %></label></td>
-                <td colspan="2">
-                    <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
-                        <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
-                    </dxe:ASPxComboBox> 
-                </td>
-            </tr>
             <tr>
                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
                 <td colspan="2">
@@ -304,8 +306,8 @@
             <tr>
                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Ujian")%></label></td>
                 <td colspan="2">
-                    <dxe:ASPxComboBox runat="server" ID="cboExaminationType" ClientInstanceName="cboExaminationType" Width="300px">
-                        <ClientSideEvents ValueChanged="function(s,e) { onCboExaminationTypeValueChanged(s); }" />
+                    <dxe:ASPxComboBox runat="server" ID="cboCurriculumMarkTypeDt" ClientInstanceName="cboCurriculumMarkTypeDt" Width="300px">
+                        <ClientSideEvents ValueChanged="function(s,e) { onCboCurriculumMarkTypeDtValueChanged(s); }" />
                     </dxe:ASPxComboBox>
                 </td>
             </tr>
@@ -346,12 +348,12 @@
                 <asp:Panel runat="server" ID="pnlView">
                     <table style="width:100%">
                         <tr>
-                            <td valign="top" style="width:500px;">
+                            <td valign="top" style="width:420px;">
                                 <asp:GridView ID="grdSubject" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdSubject_RowDataBound">
                                     <Columns>
                                         <asp:BoundField DataField="SubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                         <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" ItemStyle-CssClass="tdSubjectName" />
-                                        <asp:TemplateField HeaderText="Tanggal / Jam" HeaderStyle-Width="250px">
+                                        <asp:TemplateField HeaderText="Tanggal / Jam" HeaderStyle-Width="180px">
                                             <ItemTemplate>
                                                 <div class="divExamDateTime" id="divExamDateTime" runat="server"></div>
                                                 <div class="divExamDate" id="divExamDate" runat="server" style="display:none"></div>

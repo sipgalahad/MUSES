@@ -19,7 +19,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.EXAM_SCHEDULE;
+            return Constant.MenuCode.StudentManagement.SP_EXAM_SCHEDULE;
         }
         protected string OnGetRoomFilterExpression()
         {
@@ -48,16 +48,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl()
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
-            Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
-            SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
-            if (selectedSchoolPeriod == null)
-            {
-                cboSchoolPeriod.SelectedIndex = 0;
-                selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault();
-            }
-            else
-                cboSchoolPeriod.Value = selectedSchoolPeriod.SchoolPeriodID.ToString();
+            hdnSchoolPeriodID.Value = AppSession.SchoolPeriodID.ToString();
+            SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
 
             List<PeriodSection> lstPeriodSection = BusinessLayer.GetPeriodSectionList(string.Format("'{0}' BETWEEN StartDate AND EndDate", DateTime.Now.ToString("yyyyMMdd")));
             if (lstPeriodSection.Count > 0)
@@ -69,16 +61,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
             Methods.SetComboBoxField<DailySchedulePackage>(cboExamSchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
-            cboExamSchedulePackage.Value = selectedSchoolPeriod.ExamSchedulePackageID.ToString();
+            cboExamSchedulePackage.Value = entitySchoolPeriod.ExamSchedulePackageID.ToString();
+            
+            List<vCurriculumMarkTypeDt> lstCurriculumMarkTypeDt = BusinessLayer.GetvCurriculumMarkTypeDtList(string.Format("CurriculumID = {0} AND IsExam = 1 AND IsDeleted = 0", entitySchoolPeriod.CurriculumID));
+            Methods.SetComboBoxField<vCurriculumMarkTypeDt>(cboCurriculumMarkTypeDt, lstCurriculumMarkTypeDt, "cfCurriculumMarkTypeDtName", "CurriculumMarkTypeDtID");
+            //cboCurriculumMarkTypeDt.SelectedIndex = 0;
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0 AND TagProperty = '1'", Constant.StandardCode.TASK_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboExaminationType, lstSc, "StandardCodeName", "StandardCodeID");
-            //cboExaminationType.SelectedIndex = 0;
-
-            Helper.SetControlEntrySetting(cboSchoolPeriod, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
             Helper.SetControlEntrySetting(tacPeriodSection, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
             Helper.SetControlEntrySetting(tacClassType, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
-            Helper.SetControlEntrySetting(cboExaminationType, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
+            Helper.SetControlEntrySetting(cboCurriculumMarkTypeDt, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
             Helper.SetControlEntrySetting(cboExamSchedulePackage, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
             Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
             Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, true), "mpFilterGenerate");
@@ -203,10 +194,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entityHd.PeriodSectionID = Convert.ToInt32(tacPeriodSection.Value);
             entityHd.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entityHd.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
-            entityHd.GCExaminationType = cboExaminationType.Value.ToString();
+            entityHd.CurriculumMarkTypeDtID = Convert.ToInt32(cboCurriculumMarkTypeDt.Value);
         }
 
-        protected override bool OnCustomButtonClick(string type, ref string errMessage)
+        protected override bool OnCustomButtonClick(string type, ref string errMessage, ref string retval)
         {
             if (type == "save")
             {
@@ -272,6 +263,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                         entityDtDao.Update(entityDt);
                     }
+
+                    retval = entityHd.ExamScheduleID.ToString();
                     ctx.CommitTransaction();
                 }
                 catch (Exception ex)

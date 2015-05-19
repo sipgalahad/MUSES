@@ -170,8 +170,8 @@
     <Content Include="Program\StudentMark\StudentFinalMarkEntry.aspx" />
     <Content Include="Program\ClassList\SubjectPerClassList.aspx" />
     <Content Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx" />
-    <Content Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx" />
-    <Content Include="Program\Master\ExamSchedule\ExamClassScheduleEntryCtl.ascx" />
+    <Content Include="Program\Master\SchoolPeriod\ExamSchedule\ExamScheduleEntry.aspx" />
+    <Content Include="Program\Master\SchoolPeriod\ExamSchedule\ExamClassScheduleEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentResult\ProspectiveStudentResultList.aspx" />
     <Content Include="Program\Admission\ProspectiveStudentMark\ProspectiveStudentMarkEntry.aspx" />
@@ -967,18 +967,18 @@
     <Compile Include="Program\ClassMeeting\ClassTaskSummary\ClassTaskSummaryEntry.aspx.designer.cs">
       <DependentUpon>ClassTaskSummaryEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx.cs">
+    <Compile Include="Program\Master\SchoolPeriod\ExamSchedule\ExamScheduleEntry.aspx.cs">
       <DependentUpon>ExamScheduleEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ExamSchedule\ExamScheduleEntry.aspx.designer.cs">
+    <Compile Include="Program\Master\SchoolPeriod\ExamSchedule\ExamScheduleEntry.aspx.designer.cs">
       <DependentUpon>ExamScheduleEntry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Program\Master\ExamSchedule\ExamClassScheduleEntryCtl.ascx.cs">
+    <Compile Include="Program\Master\SchoolPeriod\ExamSchedule\ExamClassScheduleEntryCtl.ascx.cs">
       <DependentUpon>ExamClassScheduleEntryCtl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Program\Master\ExamSchedule\ExamClassScheduleEntryCtl.ascx.designer.cs">
+    <Compile Include="Program\Master\SchoolPeriod\ExamSchedule\ExamClassScheduleEntryCtl.ascx.designer.cs">
       <DependentUpon>ExamClassScheduleEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolPeriod\AdmissionSelection\AdmissionSelectionEntry.aspx.cs">

@@ -33,7 +33,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             hdnID.Value = param;
             vExamScheduleHd entityHd = BusinessLayer.GetvExamScheduleHdList(string.Format("ExamScheduleID = {0}", hdnID.Value)).FirstOrDefault();
-            txtHeaderText.Text = entityHd.ClassTypeName;
+            txtHeaderText.Text = entityHd.CurriculumClassTypeName;
 
             lstSchoolClass = BusinessLayer.GetvSchoolClassList(string.Format("PeriodClassTypeID = {0} AND IsDeleted = 0", entityHd.PeriodClassTypeID));
             rptHeader.DataSource = lstSchoolClass;

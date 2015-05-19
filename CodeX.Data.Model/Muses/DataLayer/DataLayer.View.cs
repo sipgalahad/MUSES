@@ -3510,6 +3510,63 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumMarkTypeDt
+    [Serializable]
+    [Table(Name = "vCurriculumMarkTypeDt")]
+    public partial class vCurriculumMarkTypeDt
+    {
+        private Int32 _CurriculumMarkTypeDtID;
+        private Int32 _CurriculumMarkTypeID;
+        private String _CurriculumMarkTypeName;
+        private Int32 _CurriculumID;
+        private String _CurriculumMarkTypeDtName;
+        private Boolean _IsExam;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "CurriculumMarkTypeDtID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeDtID
+        {
+            get { return _CurriculumMarkTypeDtID; }
+            set { _CurriculumMarkTypeDtID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
+        public String CurriculumMarkTypeName
+        {
+            get { return _CurriculumMarkTypeName; }
+            set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
+        {
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeDtName", DataType = "String")]
+        public String CurriculumMarkTypeDtName
+        {
+            get { return _CurriculumMarkTypeDtName; }
+            set { _CurriculumMarkTypeDtName = value; }
+        }
+        [Column(Name = "IsExam", DataType = "Boolean")]
+        public Boolean IsExam
+        {
+            get { return _IsExam; }
+            set { _IsExam = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vCurriculumMeetingPlan
     [Serializable]
     [Table(Name = "vCurriculumMeetingPlan")]
@@ -5579,12 +5636,12 @@ namespace CodeX.Data.Model
         private Int32 _ExamScheduleID;
         private Int32 _PeriodSectionID;
         private Int32 _PeriodClassTypeID;
-        private String _ClassTypeCode;
-        private String _ClassTypeName;
+        private String _CurriculumClassTypeCode;
+        private String _CurriculumClassTypeName;
         private DateTime _StartDate;
         private DateTime _EndDate;
         private Int32 _ExamSchedulePackageID;
-        private String _GCExaminationType;
+        private Int32 _CurriculumMarkTypeDtID;
         private String _GCTransactionStatus;
 
         [Column(Name = "ExamScheduleID", DataType = "Int32")]
@@ -5605,17 +5662,17 @@ namespace CodeX.Data.Model
             get { return _PeriodClassTypeID; }
             set { _PeriodClassTypeID = value; }
         }
-        [Column(Name = "ClassTypeCode", DataType = "String")]
-        public String ClassTypeCode
+        [Column(Name = "CurriculumClassTypeCode", DataType = "String")]
+        public String CurriculumClassTypeCode
         {
-            get { return _ClassTypeCode; }
-            set { _ClassTypeCode = value; }
+            get { return _CurriculumClassTypeCode; }
+            set { _CurriculumClassTypeCode = value; }
         }
-        [Column(Name = "ClassTypeName", DataType = "String")]
-        public String ClassTypeName
+        [Column(Name = "CurriculumClassTypeName", DataType = "String")]
+        public String CurriculumClassTypeName
         {
-            get { return _ClassTypeName; }
-            set { _ClassTypeName = value; }
+            get { return _CurriculumClassTypeName; }
+            set { _CurriculumClassTypeName = value; }
         }
         [Column(Name = "StartDate", DataType = "DateTime")]
         public DateTime StartDate
@@ -5635,11 +5692,11 @@ namespace CodeX.Data.Model
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
         }
-        [Column(Name = "GCExaminationType", DataType = "String")]
-        public String GCExaminationType
+        [Column(Name = "CurriculumMarkTypeDtID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeDtID
         {
-            get { return _GCExaminationType; }
-            set { _GCExaminationType = value; }
+            get { return _CurriculumMarkTypeDtID; }
+            set { _CurriculumMarkTypeDtID = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus

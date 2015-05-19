@@ -9354,7 +9354,7 @@ namespace CodeX.Data.Model
         private DateTime _StartDate;
         private DateTime _EndDate;
         private Int32 _ExamSchedulePackageID;
-        private String _GCExaminationType;
+        private Int32 _CurriculumMarkTypeDtID;
         private String _GCTransactionStatus;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -9397,11 +9397,11 @@ namespace CodeX.Data.Model
             get { return _ExamSchedulePackageID; }
             set { _ExamSchedulePackageID = value; }
         }
-        [Column(Name = "GCExaminationType", DataType = "String")]
-        public String GCExaminationType
+        [Column(Name = "CurriculumMarkTypeDtID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeDtID
         {
-            get { return _GCExaminationType; }
-            set { _GCExaminationType = value; }
+            get { return _CurriculumMarkTypeDtID; }
+            set { _CurriculumMarkTypeDtID = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus

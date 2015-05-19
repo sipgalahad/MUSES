@@ -149,6 +149,18 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCurriculumMarkTypeDt
+    public partial class vCurriculumMarkTypeDt
+    {
+        public String cfCurriculumMarkTypeDtName
+        {
+            get
+            {
+                return string.Format("{0} - {1}", _CurriculumMarkTypeName, _CurriculumMarkTypeDtName);
+            }
+        }
+    }
+    #endregion
     #region vFADepreciation
     public partial class vFADepreciation
     {

@@ -451,15 +451,15 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-  <!-- #Region Period School Type -->
-  <searchdialog type="periodclasstype" methodname="GetvPeriodClassTypeList" keyfieldname="ClassTypeCode" orderbyexpression="ClassTypeName ASC">
+  <!-- #Region Period Class Type -->
+  <searchdialog type="periodclasstype" methodname="GetvPeriodClassTypeList" keyfieldname="CurriculumClassTypeCode" orderbyexpression="CurriculumClassTypeName ASC">
     <gridcolumns>
-      <gridcolumn datafield="ClassTypeCode" headertext="Kode" width="50px" />
-      <gridcolumn datafield="ClassTypeName" headertext="Nama" width="300px" />
+      <gridcolumn datafield="CurriculumClassTypeCode" headertext="Kode" width="50px" />
+      <gridcolumn datafield="CurriculumClassTypeName" headertext="Nama" width="300px" />
     </gridcolumns>
     <intellisensetexts>
-      <intellisensetext datafield="ClassTypeName" headertext="Nama" description="" />
-      <intellisensetext datafield="ClassTypeCode" headertext="Kode" description="" />
+      <intellisensetext datafield="CurriculumClassTypeName" headertext="Nama" description="" />
+      <intellisensetext datafield="CurriculumClassTypeCode" headertext="Kode" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
