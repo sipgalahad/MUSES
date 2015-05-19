@@ -96,7 +96,7 @@
                 $('#<%=txtEndDate.ClientID %>').val('');
                 $('#<%=txtRemarks.ClientID %>').val('');
                 cboScheduleType.SetValue('');
-                cboTaskType.SetValue('');
+                cboCurriculumMarkTypeDt.SetValue('');
                 onCboScheduleTypeValueChanged();
                 $('#entryDetailContainer').show();
             });
@@ -138,7 +138,7 @@
             $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
             cboScheduleType.SetValue(entity.GCPeriodScheduleType);
-            cboTaskType.SetValue(entity.GCTaskType);
+            cboCurriculumMarkTypeDt.SetValue(entity.CurriculumMarkTypeDtID);
             onCboScheduleTypeValueChanged();
             $('#entryDetailContainer').show();
         });
@@ -243,7 +243,7 @@
                                             </tr>
                                             <tr id="trTaskType">
                                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Ujian")%></label></td>
-                                                <td><dxe:ASPxComboBox runat="server" ID="cboTaskType" ClientInstanceName="cboTaskType" Width="300px" /></td>
+                                                <td><dxe:ASPxComboBox runat="server" ID="cboCurriculumMarkTypeDt" ClientInstanceName="cboCurriculumMarkTypeDt" Width="300px" /></td>
                                             </tr>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai")%></label></td>
@@ -296,7 +296,7 @@
                                                     <input type="hidden" value="<%#Eval("StartDateInDatePickerFormat") %>" bindingfield="StartDateInDatePickerFormat" />
                                                     <input type="hidden" value="<%#Eval("EndDateInDatePickerFormat") %>" bindingfield="EndDateInDatePickerFormat" />
                                                     <input type="hidden" value="<%#Eval("GCPeriodScheduleType") %>" bindingfield="GCPeriodScheduleType" />
-                                                    <input type="hidden" value="<%#Eval("GCTaskType") %>" bindingfield="GCTaskType" />
+                                                    <input type="hidden" value="<%#Eval("CurriculumMarkTypeDtID") %>" bindingfield="CurriculumMarkTypeDtID" />
                                                     <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                                     <input type="hidden" value="<%# Eval("StartDate", "{0:yyyyMMdd}")%>" bindingfield="StartDateyyyyMMdd" />
                                                     <input type="hidden" value="<%# Eval("EndDate", "{0:yyyyMMdd}")%>" bindingfield="EndDateyyyyMMdd" />

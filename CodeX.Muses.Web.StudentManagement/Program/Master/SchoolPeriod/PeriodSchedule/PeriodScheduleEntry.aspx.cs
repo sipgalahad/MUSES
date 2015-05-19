@@ -27,8 +27,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            String filterExpression = string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE, Constant.StandardCode.TASK_TYPE);
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE));
             List<StandardCode> lstScheduleType = lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE).ToList();
             rptRemarks.DataSource = lstScheduleType;
             rptRemarks.DataBind();
@@ -44,7 +43,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
 
             Methods.SetComboBoxField<StandardCode>(cboScheduleType, lstScheduleType.Where(p => p.StandardCodeID != Constant.PeriodScheduleType.KBM).ToList(), "StandardCodeName", "StandardCodeID");
-            Methods.SetComboBoxField<StandardCode>(cboTaskType, lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.TASK_TYPE && p.TagProperty == "1").ToList(), "StandardCodeName", "StandardCodeID");
+
+            List<vCurriculumMarkTypeDt> lstCurriculumMarkTypeDt = BusinessLayer.GetvCurriculumMarkTypeDtList(string.Format("CurriculumID = {0} AND IsExam = 1 AND IsDeleted = 0", schoolPeriod.CurriculumID));
+            Methods.SetComboBoxField<vCurriculumMarkTypeDt>(cboCurriculumMarkTypeDt, lstCurriculumMarkTypeDt, "cfCurriculumMarkTypeDtName", "CurriculumMarkTypeDtID");
+
             IsAutoReInitControl = false;
             //chkShowAll.Checked = false;
 
@@ -55,7 +57,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(cboScheduleType, new ControlEntrySetting(true, true, true), "mpTrx");
-            Helper.SetControlEntrySetting(cboTaskType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboCurriculumMarkTypeDt, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -125,9 +127,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entity.PeriodScheduleName = txtPeriodScheduleName.Text;
             entity.GCPeriodScheduleType = cboScheduleType.Value.ToString();
             if (entity.GCPeriodScheduleType == Constant.PeriodScheduleType.INTERNAL_EXAM)
-                entity.GCTaskType = cboTaskType.Value.ToString();
+                entity.CurriculumMarkTypeDtID = Convert.ToInt32(cboCurriculumMarkTypeDt.Value);
             else
-                entity.GCTaskType = "";
+                entity.CurriculumMarkTypeDtID = null;
             entity.StartDate = Helper.GetDatePickerValue(txtStartDate.Text);
             entity.EndDate = Helper.GetDatePickerValue(txtEndDate.Text);
             entity.Remarks = txtRemarks.Text;

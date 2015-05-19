@@ -112,13 +112,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboScheduleType;
         
         /// <summary>
-        /// cboTaskType control.
+        /// cboCurriculumMarkTypeDt control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTaskType;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumMarkTypeDt;
         
         /// <summary>
         /// txtStartDate control.

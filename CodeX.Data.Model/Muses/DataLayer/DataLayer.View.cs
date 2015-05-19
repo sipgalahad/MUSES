@@ -13528,8 +13528,8 @@ namespace CodeX.Data.Model
         private Int32 _SchoolPeriodID;
         private String _GCPeriodScheduleType;
         private String _PeriodScheduleType;
-        private String _GCTaskType;
-        private String _TaskType;
+        private Int32 _CurriculumMarkTypeDtID;
+        private String _CurriculumMarkTypeDtName;
         private DateTime _StartDate;
         private DateTime _EndDate;
         private String _Remarks;
@@ -13571,17 +13571,17 @@ namespace CodeX.Data.Model
             get { return _PeriodScheduleType; }
             set { _PeriodScheduleType = value; }
         }
-        [Column(Name = "GCTaskType", DataType = "String")]
-        public String GCTaskType
+        [Column(Name = "CurriculumMarkTypeDtID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeDtID
         {
-            get { return _GCTaskType; }
-            set { _GCTaskType = value; }
+            get { return _CurriculumMarkTypeDtID; }
+            set { _CurriculumMarkTypeDtID = value; }
         }
-        [Column(Name = "TaskType", DataType = "String")]
-        public String TaskType
+        [Column(Name = "CurriculumMarkTypeDtName", DataType = "String")]
+        public String CurriculumMarkTypeDtName
         {
-            get { return _TaskType; }
-            set { _TaskType = value; }
+            get { return _CurriculumMarkTypeDtName; }
+            set { _CurriculumMarkTypeDtName = value; }
         }
         [Column(Name = "StartDate", DataType = "DateTime")]
         public DateTime StartDate
