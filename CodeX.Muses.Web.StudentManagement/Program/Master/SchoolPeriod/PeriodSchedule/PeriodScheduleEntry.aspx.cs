@@ -27,6 +27,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            Repeater rptClassType = (Repeater)ddeClassType.FindControl("rptClassType");
+            List<vPeriodClassType> lstClassType = BusinessLayer.GetvPeriodClassTypeList(string.Format("SchoolPeriodID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.SchoolPeriodID, Constant.ClassStudyType.REGULAR));
+            rptClassType.DataSource = lstClassType;
+            rptClassType.DataBind();
+
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE));
             List<StandardCode> lstScheduleType = lstStandardCode.Where(p => p.ParentID == Constant.StandardCode.SCHOOL_PERIOD_SCHEDULE_TYPE).ToList();
             rptRemarks.DataSource = lstScheduleType;
@@ -58,6 +63,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(txtEndDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(cboScheduleType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCurriculumMarkTypeDt, new ControlEntrySetting(true, true, true), "mpTrx");
+        }
+
+        protected void rptClassType_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                vPeriodClassType obj = (vPeriodClassType)e.Item.DataItem;
+                CheckBox chkClassType = (CheckBox)e.Item.FindControl("chkClassType");
+                chkClassType.Attributes.Add("classtypename", obj.CurriculumClassTypeName);
+                chkClassType.Attributes.Add("classtypeid", obj.PeriodClassTypeID.ToString());
+            }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -137,39 +153,95 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            PeriodScheduleDao entityDao = new PeriodScheduleDao(ctx);
+            PeriodScheduleClassTypeDao entityClassTypeDao = new PeriodScheduleClassTypeDao(ctx);
             try
             {
                 PeriodSchedule entity = new PeriodSchedule();
                 ControlToEntity(entity);
                 entity.SchoolPeriodID = AppSession.SchoolPeriodID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertPeriodSchedule(entity);
-                return true;
+                entityDao.Insert(entity);
+                entity.PeriodScheduleID = BusinessLayer.GetPeriodScheduleMaxID(ctx);
+
+                if (hdnLstClassTypeID.Value != "")
+                {
+                    string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
+                    foreach (string classTypeID in lstClassTypeID)
+                    {
+                        PeriodScheduleClassType entityClassType = new PeriodScheduleClassType();
+                        entityClassType.PeriodScheduleID = entity.PeriodScheduleID;
+                        entityClassType.PeriodClassTypeID = Convert.ToInt32(classTypeID);
+                        entityClassTypeDao.Insert(entityClassType);
+                    }
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            PeriodScheduleDao entityDao = new PeriodScheduleDao(ctx);
+            PeriodScheduleClassTypeDao entityClassTypeDao = new PeriodScheduleClassTypeDao(ctx);
             try
             {
                 PeriodSchedule entity = BusinessLayer.GetPeriodSchedule(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdatePeriodSchedule(entity);
-                return true;
+                entityDao.Update(entity);
+
+                List<PeriodScheduleClassType> lstEntityClassType = BusinessLayer.GetPeriodScheduleClassTypeList(string.Format("PeriodScheduleID = {0}", entity.PeriodScheduleID), ctx);
+                if (hdnLstClassTypeID.Value != "")
+                {
+                    string[] lstClassTypeID = hdnLstClassTypeID.Value.Split(',');
+                    foreach (string classTypeID in lstClassTypeID)
+                    {
+                        PeriodScheduleClassType entityClassType = lstEntityClassType.FirstOrDefault(p => p.PeriodClassTypeID.ToString() == classTypeID);
+                        if (entityClassType == null)
+                        {
+                            entityClassType = new PeriodScheduleClassType();
+                            entityClassType.PeriodScheduleID = entity.PeriodScheduleID;
+                            entityClassType.PeriodClassTypeID = Convert.ToInt32(classTypeID);
+                            entityClassTypeDao.Insert(entityClassType);
+                        }
+                        else
+                            lstEntityClassType.Remove(entityClassType);
+                    }
+                }
+                foreach (PeriodScheduleClassType entityClassType in lstEntityClassType)
+                {
+                    entityClassTypeDao.Delete(entityClassType.PeriodScheduleID, entityClassType.PeriodClassTypeID);
+                }
+                ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
                 Helper.InsertErrorLog(ex);
+                result = false;
                 errMessage = ex.Message;
-                return false;
+                ctx.RollBackTransaction();
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         private bool OnDeleteEntityDt(ref string errMessage)

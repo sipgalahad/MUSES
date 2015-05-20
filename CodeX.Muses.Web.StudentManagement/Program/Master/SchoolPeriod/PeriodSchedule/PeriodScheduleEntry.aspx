@@ -97,6 +97,13 @@
                 $('#<%=txtRemarks.ClientID %>').val('');
                 cboScheduleType.SetValue('');
                 cboCurriculumMarkTypeDt.SetValue('');
+
+                $('#<%=hdnLstClassTypeID.ClientID %>').val('');
+                ddeClassType.SetText('');
+                $('.chkClassType input:checked').each(function () {
+                    $(this).prop('checked', false);
+                });
+
                 onCboScheduleTypeValueChanged();
                 $('#entryDetailContainer').show();
             });
@@ -137,12 +144,47 @@
             $('#<%=txtStartDate.ClientID %>').val(entity.StartDateInDatePickerFormat);
             $('#<%=txtEndDate.ClientID %>').val(entity.EndDateInDatePickerFormat);
             $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
+
+            $('.chkClassType input:checked').each(function () {
+                $(this).prop('checked', false);
+            });
+
+            var lstClassTypeID = entity.ListPeriodClassTypeID.split(',');
+            for (var i = 0; i < lstClassTypeID.length; ++i) {
+                $('.chkClassType').each(function () {
+                    if ($(this).attr('classtypeid') == lstClassTypeID[i])
+                        $(this).find('input').prop('checked', true);
+                });
+            }
+            setDdeClassTypeText();
+
             cboScheduleType.SetValue(entity.GCPeriodScheduleType);
             cboCurriculumMarkTypeDt.SetValue(entity.CurriculumMarkTypeDtID);
             onCboScheduleTypeValueChanged();
             $('#entryDetailContainer').show();
         });
 
+        //#endregion
+
+        //#region Class Type
+        $('.chkClassType input').live('change', function () {
+            setDdeClassTypeText();
+        });
+
+        function setDdeClassTypeText() {
+            var lstClassTypeID = '';
+            var lstClassTypeName = '';
+            $('.chkClassType input:checked').each(function () {
+                if (lstClassTypeName != '') {
+                    lstClassTypeName += ', ';
+                    lstClassTypeID += ',';
+                }
+                lstClassTypeID += $(this).parent().attr('classtypeid');
+                lstClassTypeName += $(this).parent().attr('classtypename');
+            });
+            $('#<%=hdnLstClassTypeID.ClientID %>').val(lstClassTypeID);
+            ddeClassType.SetText(lstClassTypeName);
+        }
         //#endregion
 
         function onCbpProcesEndCallback(s) {
@@ -185,6 +227,7 @@
     <input type="hidden" id="hdnYear" runat="server" />
     <input type="hidden" id="hdnMaxDate" runat="server" />
     <input type="hidden" id="hdnMinDate" runat="server" />
+    <input type="hidden" id="hdnLstClassTypeID" value="" runat="server" />
     <table style="width:100%">
         <colgroup>
             <col style="width:250px" />
@@ -246,6 +289,22 @@
                                                 <td><dxe:ASPxComboBox runat="server" ID="cboCurriculumMarkTypeDt" ClientInstanceName="cboCurriculumMarkTypeDt" Width="300px" /></td>
                                             </tr>
                                             <tr>
+                                                <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Kelas")%></label></td>
+                                                <td>
+                                                    <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassType" ID="ddeClassType"
+                                                        Width="300px" runat="server" EnableAnimation="False">
+                                                        <DropDownWindowStyle BackColor="#EDEDED" />
+                                                        <DropDownWindowTemplate>
+                                                            <asp:Repeater ID="rptClassType" runat="server" OnItemDataBound="rptClassType_ItemDataBound">
+                                                                <ItemTemplate>
+                                                                    <asp:CheckBox ID="chkClassType" CssClass="chkClassType" runat="server"  /> <%#Eval("CurriculumClassTypeName")%><br />
+                                                                </ItemTemplate>
+                                                            </asp:Repeater>
+                                                        </DropDownWindowTemplate>
+                                                    </dxe:ASPxDropDownEdit>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Mulai")%></label></td>
                                                 <td><asp:TextBox ID="txtStartDate" CssClass="datepicker" Width="120px" runat="server" /></td>
                                             </tr>
@@ -284,6 +343,7 @@
                                             <asp:BoundField DataField="PeriodScheduleCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                             <asp:BoundField DataField="PeriodScheduleName" HeaderText="Nama"/>
                                             <asp:BoundField DataField="PeriodScheduleType" HeaderText="Tipe" HeaderStyle-Width="150px" />
+                                            <asp:BoundField DataField="ListPeriodClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="200px"/>
                                             <asp:BoundField DataField="StartDateInString" HeaderText="Tanggal Mulai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                             <asp:BoundField DataField="EndDateInString" HeaderText="Tanggal Selesai" HeaderStyle-Width="150px" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
@@ -300,6 +360,8 @@
                                                     <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                                     <input type="hidden" value="<%# Eval("StartDate", "{0:yyyyMMdd}")%>" bindingfield="StartDateyyyyMMdd" />
                                                     <input type="hidden" value="<%# Eval("EndDate", "{0:yyyyMMdd}")%>" bindingfield="EndDateyyyyMMdd" />
+                                                    <input type="hidden" value="<%#Eval("ListPeriodClassTypeID") %>" bindingfield="ListPeriodClassTypeID" />
+                                                    <input type="hidden" value="<%#Eval("ListPeriodClassTypeName") %>" bindingfield="ListPeriodClassTypeName" />
                                                     <input type="hidden" value="<%#Eval("cfGCPeriodScheduleType") %>" bindingfield="cfGCPeriodScheduleType" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>

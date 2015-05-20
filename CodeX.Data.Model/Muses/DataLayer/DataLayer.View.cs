@@ -13530,6 +13530,8 @@ namespace CodeX.Data.Model
         private String _PeriodScheduleType;
         private Int32 _CurriculumMarkTypeDtID;
         private String _CurriculumMarkTypeDtName;
+        private String _ListPeriodClassTypeID;
+        private String _ListPeriodClassTypeName;
         private DateTime _StartDate;
         private DateTime _EndDate;
         private String _Remarks;
@@ -13582,6 +13584,18 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeDtName; }
             set { _CurriculumMarkTypeDtName = value; }
+        }
+        [Column(Name = "ListPeriodClassTypeID", DataType = "String")]
+        public String ListPeriodClassTypeID
+        {
+            get { return _ListPeriodClassTypeID; }
+            set { _ListPeriodClassTypeID = value; }
+        }
+        [Column(Name = "ListPeriodClassTypeName", DataType = "String")]
+        public String ListPeriodClassTypeName
+        {
+            get { return _ListPeriodClassTypeName; }
+            set { _ListPeriodClassTypeName = value; }
         }
         [Column(Name = "StartDate", DataType = "DateTime")]
         public DateTime StartDate

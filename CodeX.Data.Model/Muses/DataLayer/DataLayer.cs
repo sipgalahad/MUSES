@@ -17290,6 +17290,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region PeriodScheduleClassType
+    [Serializable]
+    [Table(Name = "PeriodScheduleClassType")]
+    public class PeriodScheduleClassType : DbDataModel
+    {
+        private Int32 _PeriodScheduleID;
+        private Int32 _PeriodClassTypeID;
+
+        [Column(Name = "PeriodScheduleID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodScheduleID
+        {
+            get { return _PeriodScheduleID; }
+            set { _PeriodScheduleID = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+    }
+
+    public class PeriodScheduleClassTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(PeriodScheduleClassType));
+        private bool _isAuditLog = false;
+        private const string p_PeriodClassTypeID = "@p_PeriodClassTypeID";
+        private const string p_PeriodScheduleID = "@p_PeriodScheduleID";
+        public PeriodScheduleClassTypeDao() { }
+        public PeriodScheduleClassTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public PeriodScheduleClassType Get(Int32 PeriodScheduleID, Int32 PeriodClassTypeID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_PeriodClassTypeID, PeriodClassTypeID);
+            _ctx.Add(p_PeriodScheduleID, PeriodScheduleID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (PeriodScheduleClassType)_helper.DataRowToObject(row, new PeriodScheduleClassType());
+        }
+        public int Insert(PeriodScheduleClassType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(PeriodScheduleClassType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 PeriodScheduleID, Int32 PeriodClassTypeID)
+        {
+            PeriodScheduleClassType record;
+            if (_ctx.Transaction == null)
+                record = new PeriodScheduleClassTypeDao().Get(PeriodScheduleID, PeriodClassTypeID);
+            else
+                record = Get(PeriodScheduleID, PeriodClassTypeID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region PeriodSection
     [Serializable]
     [Table(Name = "PeriodSection")]

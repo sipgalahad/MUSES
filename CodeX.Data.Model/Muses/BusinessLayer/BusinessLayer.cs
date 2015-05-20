@@ -8348,6 +8348,79 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static Int32 GetPeriodScheduleMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodSchedule));
+                ctx.CommandText = helper.SelectMaxColumn("PeriodScheduleID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region PeriodScheduleClassType
+        public static PeriodScheduleClassType GetPeriodScheduleClassType(Int32 PeriodScheduleID, Int32 PeriodClassTypeID)
+        {
+            return new PeriodScheduleClassTypeDao().Get(PeriodScheduleID, PeriodClassTypeID);
+        }
+        public static int InsertPeriodScheduleClassType(PeriodScheduleClassType record)
+        {
+            return new PeriodScheduleClassTypeDao().Insert(record);
+        }
+        public static int UpdatePeriodScheduleClassType(PeriodScheduleClassType record)
+        {
+            return new PeriodScheduleClassTypeDao().Update(record);
+        }
+        public static int DeletePeriodScheduleClassType(Int32 PeriodScheduleID, Int32 PeriodClassTypeID)
+        {
+            return new PeriodScheduleClassTypeDao().Delete(PeriodScheduleID, PeriodClassTypeID);
+        }
+        public static List<PeriodScheduleClassType> GetPeriodScheduleClassTypeList(string filterExpression)
+        {
+            List<PeriodScheduleClassType> result = new List<PeriodScheduleClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodScheduleClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodScheduleClassType)helper.IDataReaderToObject(reader, new PeriodScheduleClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<PeriodScheduleClassType> GetPeriodScheduleClassTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<PeriodScheduleClassType> result = new List<PeriodScheduleClassType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PeriodScheduleClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PeriodScheduleClassType)helper.IDataReaderToObject(reader, new PeriodScheduleClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region PeriodSection
         public static PeriodSection GetPeriodSection(Int32 PeriodSectionID)
