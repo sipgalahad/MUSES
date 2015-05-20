@@ -5915,6 +5915,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region CurriculumMarkTypeClassStudyType
+    [Serializable]
+    [Table(Name = "CurriculumMarkTypeClassStudyType")]
+    public class CurriculumMarkTypeClassStudyType : DbDataModel
+    {
+        private Int32 _CurriculumMarkTypeID;
+        private String _GCClassStudyType;
+
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "GCClassStudyType", DataType = "String", IsPrimaryKey = true)]
+        public String GCClassStudyType
+        {
+            get { return _GCClassStudyType; }
+            set { _GCClassStudyType = value; }
+        }
+    }
+
+    public class CurriculumMarkTypeClassStudyTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(CurriculumMarkTypeClassStudyType));
+        private bool _isAuditLog = false;
+        private const string p_CurriculumMarkTypeID = "@p_CurriculumMarkTypeID";
+        private const string p_GCClassStudyType = "@p_GCClassStudyType";
+        public CurriculumMarkTypeClassStudyTypeDao() { }
+        public CurriculumMarkTypeClassStudyTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public CurriculumMarkTypeClassStudyType Get(Int32 CurriculumMarkTypeID, String GCClassStudyType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_CurriculumMarkTypeID, CurriculumMarkTypeID);
+            _ctx.Add(p_GCClassStudyType, GCClassStudyType);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (CurriculumMarkTypeClassStudyType)_helper.DataRowToObject(row, new CurriculumMarkTypeClassStudyType());
+        }
+        public int Insert(CurriculumMarkTypeClassStudyType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(CurriculumMarkTypeClassStudyType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 CurriculumMarkTypeID, String GCClassStudyType)
+        {
+            CurriculumMarkTypeClassStudyType record;
+            if (_ctx.Transaction == null)
+                record = new CurriculumMarkTypeClassStudyTypeDao().Get(CurriculumMarkTypeID, GCClassStudyType);
+            else
+                record = Get(CurriculumMarkTypeID, GCClassStudyType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region CurriculumMarkTypeDt
     [Serializable]
     [Table(Name = "CurriculumMarkTypeDt")]

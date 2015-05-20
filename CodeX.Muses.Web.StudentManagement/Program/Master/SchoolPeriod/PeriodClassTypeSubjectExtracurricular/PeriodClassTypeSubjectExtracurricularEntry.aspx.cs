@@ -28,7 +28,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(AppSession.SchoolPeriodID);
             hdnCurriculumID.Value = entitySchoolPeriod.CurriculumID.ToString();
 
-            List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsAllowTask = 1 AND IsDeleted = 0", entitySchoolPeriod.CurriculumID));
+            List<vCurriculumMarkTypeClassStudyType> lstMarkType = BusinessLayer.GetvCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsAllowTask = 1 AND IsDeleted = 0", entitySchoolPeriod.CurriculumID, Constant.ClassStudyType.EXTRACURRICULAR));
             rptFinalMarkFormula.DataSource = lstMarkType;
             rptFinalMarkFormula.DataBind();
 
@@ -47,7 +47,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
-                CurriculumMarkType entity = (CurriculumMarkType)e.Item.DataItem;
+                vCurriculumMarkTypeClassStudyType entity = (vCurriculumMarkTypeClassStudyType)e.Item.DataItem;
 
                 ASPxComboBox cboCurriculumFinalMarkFormulaID = (ASPxComboBox)e.Item.FindControl("cboCurriculumFinalMarkFormulaID");
                 cboCurriculumFinalMarkFormulaID.ClientInstanceName = string.Format("cboCurriculumFinalMarkFormulaID{0}", e.Item.ItemIndex);

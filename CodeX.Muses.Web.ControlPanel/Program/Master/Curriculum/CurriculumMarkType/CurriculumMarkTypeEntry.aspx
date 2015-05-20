@@ -22,6 +22,13 @@
                 $('#<%=chkIsShowCompetencyDescription.ClientID %>').prop('checked', false);
                 cboCompetencyDescriptionType.SetValue('');
                 cboCompetencyMarkType.SetValue('');
+
+                $('#<%=hdnLstClassStudyTypeID.ClientID %>').val('');
+                ddeClassStudyType.SetText('');
+                $('.chkClassStudyType input:checked').each(function () {
+                    $(this).prop('checked', false);
+                });
+
                 $('#<%=chkIsShowCompetencyDescription.ClientID %>').change();
                 $('#entryDetailContainer').show();
             });
@@ -48,6 +55,27 @@
                 }
             });
         });
+
+        //#region Class Study Type
+        $('.chkClassStudyType input').live('change', function () {
+            setDdeClassStudyTypeText();
+        });
+
+        function setDdeClassStudyTypeText() {
+            var lstClassStudyTypeID = '';
+            var lstClassStudyTypeName = '';
+            $('.chkClassStudyType input:checked').each(function () {
+                if (lstClassStudyTypeName != '') {
+                    lstClassStudyTypeName += ', ';
+                    lstClassStudyTypeID += ',';
+                }
+                lstClassStudyTypeID += $(this).parent().attr('gcclassstudytype');
+                lstClassStudyTypeName += $(this).parent().attr('classstudytype');
+            });
+            $('#<%=hdnLstClassStudyTypeID.ClientID %>').val(lstClassStudyTypeID);
+            ddeClassStudyType.SetText(lstClassStudyTypeName);
+        }
+        //#endregion
 
         //#region edit and delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
@@ -76,6 +104,19 @@
             cboCompetencyDescriptionType.SetValue(entity.GCCompetencyDescriptionType);
             cboCompetencyMarkType.SetValue(entity.CompetencyMarkTypeID);
             $('#<%=chkIsShowCompetencyDescription.ClientID %>').change();
+
+            $('.chkClassStudyType input:checked').each(function () {
+                $(this).prop('checked', false);
+            });
+
+            var lstGCClassStudyType = entity.ListGCClassStudyType.split(',');
+            for (var i = 0; i < lstGCClassStudyType.length; ++i) {
+                $('.chkClassStudyType').each(function () {
+                    if ($(this).attr('gcclassstudytype') == lstGCClassStudyType[i])
+                        $(this).find('input').prop('checked', true);
+                });
+            }
+            setDdeClassStudyTypeText();
             $('#entryDetailContainer').show();
         });
 
@@ -108,6 +149,7 @@
             openUserControlPopup(url, entity.CurriculumMarkTypeID, 'Detil', 800, 550);
         });
     </script>
+    <input type="hidden" id="hdnLstClassStudyTypeID" runat="server" />
     <div class="divTransactionEntry">
         <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
@@ -130,6 +172,22 @@
                                 <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox ID="txtCurriculumMarkTypeName" runat="server" Width="200px" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pelajaran")%></label></td>
+                                    <td>
+                                        <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassStudyType" ID="ddeClassStudyType"
+                                            Width="300px" runat="server" EnableAnimation="False">
+                                            <DropDownWindowStyle BackColor="#EDEDED" />
+                                            <DropDownWindowTemplate>
+                                                <asp:Repeater ID="rptClassStudyType" runat="server" OnItemDataBound="rptClassStudyType_ItemDataBound">
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkClassStudyType" CssClass="chkClassStudyType" runat="server"  /> <%#Eval("StandardCodeName")%><br />
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
+                                            </DropDownWindowTemplate>
+                                        </dxe:ASPxDropDownEdit>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Tugas")%></label></td>
@@ -200,6 +258,8 @@
                                         <input type="hidden" value="<%#Eval("TaskMarkTypeID") %>" bindingfield="TaskMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("FinalMarkTypeID") %>" bindingfield="FinalMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("PredicateMarkTypeID") %>" bindingfield="PredicateMarkTypeID" />
+                                        <input type="hidden" value="<%#Eval("ListGCClassStudyType") %>" bindingfield="ListGCClassStudyType" />
+                                        <input type="hidden" value="<%#Eval("ListClassStudyType") %>" bindingfield="ListClassStudyType" />
                                         <input type="hidden" value="<%#Eval("IsAllowTask") %>" bindingfield="IsAllowTask" />
                                         <input type="hidden" value="<%#Eval("IsShowCompetencyDescription") %>" bindingfield="IsShowCompetencyDescription" />
                                         <input type="hidden" value="<%#Eval("GCCompetencyDescriptionType") %>" bindingfield="GCCompetencyDescriptionType" />

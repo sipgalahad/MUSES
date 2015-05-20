@@ -1520,6 +1520,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vCurriculumMarkTypeClassStudyType
+        public static List<vCurriculumMarkTypeClassStudyType> GetvCurriculumMarkTypeClassStudyTypeList(string filterExpression)
+        {
+            List<vCurriculumMarkTypeClassStudyType> result = new List<vCurriculumMarkTypeClassStudyType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumMarkTypeClassStudyType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumMarkTypeClassStudyType)helper.IDataReaderToObject(reader, new vCurriculumMarkTypeClassStudyType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vCurriculumMarkTypeDt
         public static List<vCurriculumMarkTypeDt> GetvCurriculumMarkTypeDtList(string filterExpression)
         {

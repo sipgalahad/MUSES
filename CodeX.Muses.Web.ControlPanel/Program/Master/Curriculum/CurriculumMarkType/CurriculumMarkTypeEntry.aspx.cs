@@ -22,6 +22,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         }
         protected override void InitializeDataControl()
         {
+            Repeater rptClassStudyType = (Repeater)ddeClassStudyType.FindControl("rptClassStudyType");
+            List<StandardCode> lstClassStudyType = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.ClassStudyType.REGULAR, Constant.ClassStudyType.EXTRACURRICULAR));
+            rptClassStudyType.DataSource = lstClassStudyType;
+            rptClassStudyType.DataBind();
+
             List<MarkTypeHd> lstMark = BusinessLayer.GetMarkTypeHdList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<MarkTypeHd>(cboCompetencyMarkType, lstMark, "MarkTypeName", "MarkTypeID");
             lstMark.Insert(0, new MarkTypeHd { MarkTypeID = 0, MarkTypeName = "" });
@@ -38,6 +43,17 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCompetencyDescriptionType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCompetencyMarkType, new ControlEntrySetting(true, true, true), "mpTrx");
+        }
+
+        protected void rptClassStudyType_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                StandardCode obj = (StandardCode)e.Item.DataItem;
+                CheckBox chkClassStudyType = (CheckBox)e.Item.FindControl("chkClassStudyType");
+                chkClassStudyType.Attributes.Add("classstudytype", obj.StandardCodeName);
+                chkClassStudyType.Attributes.Add("gcclassstudytype", obj.StandardCodeID.ToString());
+            }
         }
 
         public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
@@ -130,6 +146,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             CurriculumMarkTypeDao entityDao = new CurriculumMarkTypeDao(ctx);
+            CurriculumMarkTypeClassStudyTypeDao entityClassStudyTypeDao = new CurriculumMarkTypeClassStudyTypeDao(ctx);
             try
             {
                 CurriculumMarkType entity = new CurriculumMarkType();
@@ -137,6 +154,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.CurriculumID = AppSession.CurriculumID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
+                entity.CurriculumMarkTypeID = BusinessLayer.GetCurriculumMarkTypeMaxID(ctx);
+
+                if (hdnLstClassStudyTypeID.Value != "")
+                {
+                    string[] lstClassStudyTypeID = hdnLstClassStudyTypeID.Value.Split(',');
+                    foreach (string GCClassStudyType in lstClassStudyTypeID)
+                    {
+                        CurriculumMarkTypeClassStudyType entityClassStudyType = new CurriculumMarkTypeClassStudyType();
+                        entityClassStudyType.CurriculumMarkTypeID = entity.CurriculumMarkTypeID;
+                        entityClassStudyType.GCClassStudyType = GCClassStudyType;
+                        entityClassStudyTypeDao.Insert(entityClassStudyType);
+                    }
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
@@ -158,12 +188,36 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             CurriculumMarkTypeDao entityDao = new CurriculumMarkTypeDao(ctx);
+            CurriculumMarkTypeClassStudyTypeDao entityClassStudyTypeDao = new CurriculumMarkTypeClassStudyTypeDao(ctx);
             try
             {
                 CurriculumMarkType entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entity);
+
+                List<CurriculumMarkTypeClassStudyType> lstEntityClassStudyType = BusinessLayer.GetCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumMarkTypeID = {0}", entity.CurriculumMarkTypeID), ctx);
+                if (hdnLstClassStudyTypeID.Value != "")
+                {
+                    string[] lstClassStudyTypeID = hdnLstClassStudyTypeID.Value.Split(',');
+                    foreach (string GCClassStudyType in lstClassStudyTypeID)
+                    {
+                        CurriculumMarkTypeClassStudyType entityClassStudyType = lstEntityClassStudyType.FirstOrDefault(p => p.GCClassStudyType == GCClassStudyType);
+                        if (entityClassStudyType == null)
+                        {
+                            entityClassStudyType = new CurriculumMarkTypeClassStudyType();
+                            entityClassStudyType.CurriculumMarkTypeID = entity.CurriculumMarkTypeID;
+                            entityClassStudyType.GCClassStudyType = GCClassStudyType;
+                            entityClassStudyTypeDao.Insert(entityClassStudyType);
+                        }
+                        else
+                            lstEntityClassStudyType.Remove(entityClassStudyType);
+                    }
+                }
+                foreach (CurriculumMarkTypeClassStudyType entityClassStudyType in lstEntityClassStudyType)
+                {
+                    entityClassStudyTypeDao.Delete(entityClassStudyType.CurriculumMarkTypeID, entityClassStudyType.GCClassStudyType);
+                }
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
