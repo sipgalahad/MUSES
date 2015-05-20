@@ -297,6 +297,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
                 return true;
             }
+            else if (type == "reopen")
+            {
+                try
+                {
+                    ExamScheduleHd entity = BusinessLayer.GetExamScheduleHd(Convert.ToInt32(hdnID.Value));
+                    entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    BusinessLayer.UpdateExamScheduleHd(entity);
+                }
+                catch (Exception ex)
+                {
+                    Helper.InsertErrorLog(ex);
+                    errMessage = ex.Message;
+                    return false;
+                }
+                return true;
+            }
             return false;
         }
     }

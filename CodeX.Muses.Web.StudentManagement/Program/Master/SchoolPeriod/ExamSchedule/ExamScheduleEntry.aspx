@@ -11,6 +11,7 @@
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
+    <li id="btnReopen" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/redo.png")%>' alt="" /><div><%=GetLabel("Reopen")%></div></li>
     <li id="btnApprove" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/set.png")%>' alt="" /><div><%=GetLabel("Approve")%></div></li>
     <li id="btnSave" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/save.png")%>' alt="" /><div><%=GetLabel("Save")%></div></li>
     <li id="btnExamClassSchedule" style="display:none" runat="server" CRUDMode="R"><img src='<%=ResolveUrl("~/Libs/Images/Icon/list.png")%>' alt="" /><div><%=GetLabel("Kelas")%></div></li>
@@ -42,7 +43,11 @@
             });
 
             $('#<%=btnApprove.ClientID %>').click(function () {
-                onCustomButtonClick('approve');                
+                onCustomButtonClick('approve');
+            });
+
+            $('#<%=btnReopen.ClientID %>').click(function () {
+                onCustomButtonClick('reopen');
             });
 
             $('#<%=btnSave.ClientID %>').click(function () {
@@ -57,18 +62,22 @@
             if (type == 'approve') {
                 $('#<%=btnSave.ClientID %>').hide();
                 $('#<%=btnApprove.ClientID %>').hide();
+                $('#<%=btnReopen.ClientID %>').hide();
+                $('#<%=btnExamClassSchedule.ClientID %>').show();
                 showWatermark('APPROVED');
             }
             else if (type == 'reopen') {
                 $('#<%=btnSave.ClientID %>').show();
                 $('#<%=btnApprove.ClientID %>').show();
                 $('#<%=btnExamClassSchedule.ClientID %>').show();
+                $('#<%=btnReopen.ClientID %>').hide();
                 hideWatermark();
             }
             else if (type == 'save') {
                 $('#<%=btnSave.ClientID %>').show();
                 $('#<%=btnApprove.ClientID %>').show();
                 $('#<%=btnExamClassSchedule.ClientID %>').show();
+                $('#<%=btnReopen.ClientID %>').hide();
                 $('#<%=hdnID.ClientID %>').val(retval); 
 
                 hideWatermark();
@@ -241,11 +250,13 @@
                         if (result.GCTransactionStatus == '<%=OnGetTransactionStatusApproved() %>') {
                             $('#<%=btnSave.ClientID %>').hide();
                             $('#<%=btnApprove.ClientID %>').hide();
+                            $('#<%=btnReopen.ClientID %>').show();
                             showWatermark('APPROVED');
                         }
                         else {
                             $('#<%=btnSave.ClientID %>').show();
                             $('#<%=btnApprove.ClientID %>').show();
+                            $('#<%=btnReopen.ClientID %>').hide();
                             hideWatermark();
                         }
                         cbpView.PerformCallback('refresh');
