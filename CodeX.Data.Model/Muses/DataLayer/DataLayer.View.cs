@@ -13623,6 +13623,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPeriodScheduleClassType
+    [Serializable]
+    [Table(Name = "vPeriodScheduleClassType")]
+    public partial class vPeriodScheduleClassType
+    {
+        private Int32 _PeriodScheduleID;
+        private String _GCPeriodScheduleType;
+        private String _PeriodScheduleType;
+        private Int32 _CurriculumMarkTypeDtID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _PeriodClassTypeID;
+        private String _CurriculumClassTypeName;
+
+        [Column(Name = "PeriodScheduleID", DataType = "Int32")]
+        public Int32 PeriodScheduleID
+        {
+            get { return _PeriodScheduleID; }
+            set { _PeriodScheduleID = value; }
+        }
+        [Column(Name = "GCPeriodScheduleType", DataType = "String")]
+        public String GCPeriodScheduleType
+        {
+            get { return _GCPeriodScheduleType; }
+            set { _GCPeriodScheduleType = value; }
+        }
+        [Column(Name = "PeriodScheduleType", DataType = "String")]
+        public String PeriodScheduleType
+        {
+            get { return _PeriodScheduleType; }
+            set { _PeriodScheduleType = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeDtID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeDtID
+        {
+            get { return _CurriculumMarkTypeDtID; }
+            set { _CurriculumMarkTypeDtID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "CurriculumClassTypeName", DataType = "String")]
+        public String CurriculumClassTypeName
+        {
+            get { return _CurriculumClassTypeName; }
+            set { _CurriculumClassTypeName = value; }
+        }
+    }
+    #endregion
     #region vPeriodSection
     [Serializable]
     [Table(Name = "vPeriodSection")]

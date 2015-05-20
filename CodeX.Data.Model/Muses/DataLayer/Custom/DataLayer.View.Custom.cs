@@ -819,6 +819,19 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vPeriodScheduleClassType
+    public partial class vPeriodScheduleClassType
+    {
+        public string StartDateInDatePickerFormat
+        {
+            get { return _StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+        public string EndDateInDatePickerFormat
+        {
+            get { return _EndDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT); }
+        }
+    }
+    #endregion
     #region vPeriodSection
     public partial class vPeriodSection
     {

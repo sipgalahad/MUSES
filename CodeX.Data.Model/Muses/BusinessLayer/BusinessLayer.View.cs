@@ -5344,6 +5344,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vPeriodScheduleClassType
+        public static List<vPeriodScheduleClassType> GetvPeriodScheduleClassTypeList(string filterExpression)
+        {
+            List<vPeriodScheduleClassType> result = new List<vPeriodScheduleClassType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodScheduleClassType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodScheduleClassType)helper.IDataReaderToObject(reader, new vPeriodScheduleClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vPeriodSection
         public static List<vPeriodSection> GetvPeriodSectionList(string filterExpression)
         {

@@ -261,13 +261,22 @@
                         }
                         cbpView.PerformCallback('refresh');
                     }
-                    else if ($('#<%=hdnID.ClientID %>').val() != '') {
-                        $('#<%=hdnID.ClientID %>').val('');
-                        $('#<%=btnExamClassSchedule.ClientID %>').hide();
-                        $('#<%=btnApprove.ClientID %>').hide();
-                        $('#<%=btnSave.ClientID %>').show();
-                        hideWatermark();
-                        cbpView.PerformCallback('refresh');
+                    else {
+                        var filterExpression = "PeriodClassTypeID = " + tacClassType.getValue() + " AND CurriculumMarkTypeDtID = " + cboCurriculumMarkTypeDt.GetValue();
+                        Methods.getObject('GetvPeriodScheduleClassTypeList', filterExpression, function (result) {
+                            if (result != null) {
+                                $('#<%=txtStartDate.ClientID %>').val(result.StartDateInDatePickerFormat);
+                                $('#<%=txtEndDate.ClientID %>').val(result.EndDateInDatePickerFormat);                                
+                            }
+                        });
+                        if ($('#<%=hdnID.ClientID %>').val() != '') {
+                            $('#<%=hdnID.ClientID %>').val('');
+                            $('#<%=btnExamClassSchedule.ClientID %>').hide();
+                            $('#<%=btnApprove.ClientID %>').hide();
+                            $('#<%=btnSave.ClientID %>').show();
+                            hideWatermark();
+                            cbpView.PerformCallback('refresh');
+                        }
                     }
                 });
             }
