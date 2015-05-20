@@ -21,6 +21,11 @@
                 tacTeacher.setText('');
                 tacSubjectCurriculum.setValue('');
                 tacSubjectCurriculum.setText('');
+
+                $('.chkIsCurriculumFinalMarkDefault input').each(function () {
+                    $(this).prop('checked', true);
+                    $(this).change();
+                });
                 $('#entryDetailContainer').show();
             });
 
@@ -29,8 +34,22 @@
             });
 
             $('#btnSave').click(function (evt) {
-                if (IsValid(evt, 'fsTrx', 'mpTrx'))
+                if (IsValid(evt, 'fsTrx', 'mpTrx')) {
+                    var result = '';
+                    $('.hdnCurriculumMarkTypeID').each(function () {
+                        $tr = $(this).parent();
+                        var idx = $tr.find('.hdnItemIndex').val();
+                        var cboCurriculumFinalMarkFormulaID = eval('cboCurriculumFinalMarkFormulaID' + idx);
+                        var formulaID = '';
+                        if (cboCurriculumFinalMarkFormulaID.GetValue() != null)
+                            formulaID = cboCurriculumFinalMarkFormulaID.GetValue();
+                        if (result != '')
+                            result += '|';
+                        result += $tr.find('.hdnCurriculumMarkTypeID').val() + ';' + formulaID;
+                    });
+                    $('#<%=hdnSaveValue.ClientID %>').val(result);
                     cbpProcess.PerformCallback('save');
+                }
             });
         });
 
@@ -57,10 +76,64 @@
             tacTeacher.setText(entity.TeacherName);
             tacSubjectCurriculum.setValue(entity.SubjectCurriculumID);
             tacSubjectCurriculum.setText(entity.SubjectCurriculumName);
-            $('#entryDetailContainer').show();
+
+            var filterExpression = "PeriodClassTypeSubjectID = " + entity.PeriodClassTypeSubjectID;
+            Methods.getListObject('GetPeriodClassTypeSubjectFinalMarkFormulaList', filterExpression, function (result) {
+                $('.hdnCurriculumMarkTypeID').each(function () {
+                    $tr = $(this).closest('tr');
+                    var idx = $tr.find('.hdnItemIndex').val();
+                    var cboCurriculumFinalMarkFormulaID = eval('cboCurriculumFinalMarkFormulaID' + idx);
+                    $chk = $tr.find('.chkIsCurriculumFinalMarkDefault input');
+                    var isFound = false;
+                    var curriculumMarkTypeID = $(this).val();
+                    for (var i = 0; i < result.length; ++i) {
+                        if (result[i].CurriculumMarkTypeID == curriculumMarkTypeID) {
+                            isFound = true;
+                            if (result[i].CurriculumFinalMarkFormulaID == null) {
+                                $chk.prop('checked', true);
+                                $chk.change();
+                            }
+                            else {
+                                $chk.prop('checked', false);
+                                $chk.change();
+                                cboCurriculumFinalMarkFormulaID.SetValue(result[i].CurriculumFinalMarkFormulaID);
+                            }
+                        }
+                    }
+                    if (!isFound) {
+                        $chk.prop('checked', true);
+                        $chk.change();
+                    }
+                });
+                $('#entryDetailContainer').show();
+            });
         });
 
         //#endregion
+
+        $('.btnCurriculumFinalMarkFormulaDt').live('change', function () {
+            $tr = $(this).closest('tr');
+            var idx = $tr.find('.hdnItemIndex').val();
+            var cboCurriculumFinalMarkFormulaID = eval('cboCurriculumFinalMarkFormulaID' + idx);
+            var id = cboCurriculumFinalMarkFormulaID.GetValue();
+            if (id != null && id != '') {
+                var url = ResolveUrl("~/Program/Master/SchoolPeriod/CurriculumFinalMarkFormulaDtCtl.ascx");
+                openUserControlPopup(url, id, 'Detil Formula', 900, 400);
+            }
+        });
+
+        $('.chkIsCurriculumFinalMarkDefault input').live('change', function () {
+            $tr = $(this).closest('tr');
+            var idx = $tr.find('.hdnItemIndex').val();
+            var cboCurriculumFinalMarkFormulaID = eval('cboCurriculumFinalMarkFormulaID' + idx);
+
+            if ($(this).is(':checked')) {
+                cboCurriculumFinalMarkFormulaID.SetEnabled(false);
+                cboCurriculumFinalMarkFormulaID.SetValue('');
+            }
+            else
+                cboCurriculumFinalMarkFormulaID.SetEnabled(true);
+        });
 
         //#region Subject
         function onGetSubjectFilterExpression() {
@@ -178,6 +251,7 @@
             hideLoadingPanel();
         }
     </script>
+    <input type="hidden" id="hdnSaveValue" runat="server" value="" />
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />
     <input type="hidden" value="" id="hdnSiteID" runat="server" />
     <table>
@@ -238,6 +312,23 @@
                                         </cdx:CodeXAutoCompleteTextBox>   
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan="3"><h4><%=GetLabel("Formula Nilai Rapor") %></h4></td>
+                                </tr>   
+                                <asp:Repeater ID="rptFinalMarkFormula" runat="server" OnItemDataBound="rptFinalMarkFormula_ItemDataBound">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td class="tdLabel"><label class="lblNormal"><%#Eval("CurriculumMarkTypeName")%></label></td>
+                                            <td>
+                                                <input type="hidden" class="hdnItemIndex" value='<%# Container.ItemIndex %>' />
+                                                <input type="hidden" class="hdnCurriculumMarkTypeID" value='<%#Eval("CurriculumMarkTypeID") %>' />
+                                                <dxe:ASPxComboBox ID="cboCurriculumFinalMarkFormulaID" runat="server" Width="100%" />
+                                            </td>
+                                            <td><input type="button" class="btnCurriculumFinalMarkFormulaDt btnMore" value="..." /></td>
+                                            <td><asp:CheckBox ID="chkIsCurriculumFinalMarkDefault" CssClass="chkIsCurriculumFinalMarkDefault" runat="server" /><%=GetLabel("Default") %></td>
+                                        </tr>  
+                                    </ItemTemplate>
+                                </asp:Repeater>    
                             </table>
                         </td>
                     </tr>

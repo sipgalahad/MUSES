@@ -13,6 +13,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class PeriodClassTypeExtracurricularEntry {
         
         /// <summary>
+        /// hdnSaveValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSaveValue;
+        
+        /// <summary>
         /// hdnEntryID control.
         /// </summary>
         /// <remarks>
@@ -38,6 +47,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNoOfClass;
+        
+        /// <summary>
+        /// rptFinalMarkFormula control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptFinalMarkFormula;
         
         /// <summary>
         /// cbpView control.

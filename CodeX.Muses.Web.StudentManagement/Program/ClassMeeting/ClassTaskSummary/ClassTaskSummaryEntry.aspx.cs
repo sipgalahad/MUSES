@@ -70,7 +70,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<SubjectCurriculumFinalMarkDescription> lstFinalMarkDescription = null;
         protected override void InitializeDataControl()
         {
-            tableWidth = 100;
+            tableWidth = 150;
             lstTaskCount = new List<CTaskCount>();
 
             vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
@@ -451,7 +451,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         if(studentFinalMark != null) txtFinalStudentMark.Text = studentFinalMark.Mark.ToString(); 
                         break;
                     case Constant.SubjectMarkType.OPTION:
-                        tableWidth += 60;
+                        tableWidth += 80;
                         txtFinalStudentMark.Style.Add("display", "none"); txtFinalStudentMarkDescription.Style.Add("display", "none");
                         List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == entity.FinalMarkTypeID).ToList();
                         Methods.SetComboBoxField<MarkTypeDt>(cboFinalStudentMarkOption, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
@@ -562,7 +562,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         tableWidth += 60; 
                         cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
                     case Constant.SubjectMarkType.OPTION:
-                        tableWidth += 60;
+                        tableWidth += 80;
                         divMark.Style.Add("display", "none"); 
                         txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
                         List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == markType.TaskMarkTypeID).ToList();

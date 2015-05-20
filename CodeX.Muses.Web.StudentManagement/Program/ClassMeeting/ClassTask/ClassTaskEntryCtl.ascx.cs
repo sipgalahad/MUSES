@@ -21,6 +21,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         public override void InitializeDataControl(string param)
         {
+            vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
+            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
+            hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
+            hdnSubjectID.Value = classSubject.SubjectID.ToString();
             if (param != "")
             {
                 IsAdd = false;
@@ -35,17 +40,13 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 SetControlProperties();
                 IsAdd = true;
             }
-            vClassMeeting classMeeting = BusinessLayer.GetvClassMeetingList(string.Format("ClassMeetingID = {0}", AppSession.ClassSubject.ClassMeetingID)).FirstOrDefault();
-            vClassSubject classSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            hdnSubjectCurriculumID.Value = classSubject.SubjectCurriculumID.ToString();
-            hdnClassMeetingID.Value = AppSession.ClassSubject.ClassMeetingID.ToString();
             //txtFinalMarkPercentage.Focus();       
         }
 
         protected void SetControlProperties()
         {
-            List<CurriculumMarkType> lstCurriculumMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID));
-            Methods.SetComboBoxField<CurriculumMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
+            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsAllowTask = 1 AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, hdnSubjectID.Value));
+            Methods.SetComboBoxField<vCurriculumSubjectMarkType>(cboLessonType, lstCurriculumMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
             cboLessonType.SelectedIndex = 0;
         }
 
