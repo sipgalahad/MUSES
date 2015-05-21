@@ -2736,9 +2736,13 @@ namespace CodeX.Data.Model
     public class vClassSubjectTaskIndicator
     {
         private Int32 _ClassSubjectTaskIndicatorID;
+        private Int32 _ClassSubjectID;
         private Int32 _ClassSubjectTaskID;
+        private String _ClassTaskCode;
+        private String _GCMarkType;
         private Int32 _SubjectIndicatorID;
         private String _SubjectIndicatorName;
+        private Boolean _IsDeleted;
 
         [Column(Name = "ClassSubjectTaskIndicatorID", DataType = "Int32")]
         public Int32 ClassSubjectTaskIndicatorID
@@ -2746,11 +2750,29 @@ namespace CodeX.Data.Model
             get { return _ClassSubjectTaskIndicatorID; }
             set { _ClassSubjectTaskIndicatorID = value; }
         }
+        [Column(Name = "ClassSubjectID", DataType = "Int32")]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
         [Column(Name = "ClassSubjectTaskID", DataType = "Int32")]
         public Int32 ClassSubjectTaskID
         {
             get { return _ClassSubjectTaskID; }
             set { _ClassSubjectTaskID = value; }
+        }
+        [Column(Name = "ClassTaskCode", DataType = "String")]
+        public String ClassTaskCode
+        {
+            get { return _ClassTaskCode; }
+            set { _ClassTaskCode = value; }
+        }
+        [Column(Name = "GCMarkType", DataType = "String")]
+        public String GCMarkType
+        {
+            get { return _GCMarkType; }
+            set { _GCMarkType = value; }
         }
         [Column(Name = "SubjectIndicatorID", DataType = "Int32")]
         public Int32 SubjectIndicatorID
@@ -2763,6 +2785,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectIndicatorName; }
             set { _SubjectIndicatorName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
         }
     }
     #endregion

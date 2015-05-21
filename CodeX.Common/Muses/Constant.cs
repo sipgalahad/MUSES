@@ -603,6 +603,7 @@ namespace CodeX.Common
                 public const string WS_STUDENT_MARK = "SM99040202";
                 public const string WS_SUBJECT_CURRICULUM_SYLLABUS = "SM99040203";
                 public const string WS_SUBJECT_CURRICULUM_MEETING_PLAN = "SM99040204";
+                public const string WS_STUDENT_MARK_PER_INDICATOR = "SM99040205";
 
                 public const string TEACHER_CLASS_SUBJECT_PAGE = "SM99050000";
                 public const string TCS_CLASS_TASK = "SM99050101";
