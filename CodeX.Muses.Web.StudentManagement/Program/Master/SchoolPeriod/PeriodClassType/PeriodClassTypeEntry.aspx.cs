@@ -36,7 +36,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<DailySchedulePackage>(cboDailySchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboDailySchedulePackage.SelectedIndex = 0;
 
-            List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("CurriculumID = {0} AND IsDeleted = 0", entitySchoolPeriod.CurriculumID));
             lstGradePromotionFormula.Insert(0, new GradePromotionFormulaHd { GradePromotionFormulaID = 0, GradePromotionFormulaName = "" });
             Methods.SetComboBoxField<GradePromotionFormulaHd>(cboGradePromotionFormula, lstGradePromotionFormula, "GradePromotionFormulaName", "GradePromotionFormulaID");
             cboGradePromotionFormula.SelectedIndex = 0;

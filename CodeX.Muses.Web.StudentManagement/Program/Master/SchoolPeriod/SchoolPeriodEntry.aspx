@@ -52,6 +52,7 @@
 
         function onCboCurriculumValueChanged() {
             cbpFinalMarkFormula.PerformCallback();
+            cboGradePromotionFormula.PerformCallback();
         }
 
         function onBeforeSaveRecord() {
@@ -124,7 +125,7 @@
                     </tr>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Formula Kenaikan Kelas")%></label></td>
-                        <td><dxe:ASPxComboBox runat="server" ID="cboGradePromotionFormula" ClientInstanceName="cboGradePromotionFormula" Width="300px" /></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboGradePromotionFormula" ClientInstanceName="cboGradePromotionFormula" Width="300px" OnCallback="cboGradePromotionFormula_Callback" /></td>
                         <td><input type="button" id="btnGradePromotionFormula" class="btnMore" value="..." /></td>
                     </tr>
                     <tr>

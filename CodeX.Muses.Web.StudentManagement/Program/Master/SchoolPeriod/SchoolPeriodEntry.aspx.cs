@@ -30,13 +30,27 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 SetControlProperties();
                 SchoolPeriod entity = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(ID));
                 EntityToControl(entity);
+                BindCboGradePromotionFormula(); 
             }
             else
             {
                 SetControlProperties();
+                BindCboGradePromotionFormula(); 
                 IsAdd = true;
             }
             txtSchoolPeriodCode.Focus();
+        }
+
+        protected void cboGradePromotionFormula_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            BindCboGradePromotionFormula();   
+        }
+
+        private void BindCboGradePromotionFormula()
+        {
+            List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("CurriculumID = {0} AND IsDeleted = 0", cboCurriculum.Value));
+            Methods.SetComboBoxField<GradePromotionFormulaHd>(cboGradePromotionFormula, lstGradePromotionFormula, "GradePromotionFormulaName", "GradePromotionFormulaID");
+            cboGradePromotionFormula.SelectedIndex = 0;            
         }
 
         protected override void SetControlProperties()
@@ -51,10 +65,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
             Methods.SetComboBoxField<DailySchedulePackage>(cboExamSchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboExamSchedulePackage.SelectedIndex = 0;
-
-            List<GradePromotionFormulaHd> lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
-            Methods.SetComboBoxField<GradePromotionFormulaHd>(cboGradePromotionFormula, lstGradePromotionFormula, "GradePromotionFormulaName", "GradePromotionFormulaID");
-            cboGradePromotionFormula.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()

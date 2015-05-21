@@ -322,7 +322,6 @@ namespace CodeX.Common
                 public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
                 public const string PERSONALITY = "CP010114";
-                public const string GRADE_PROMOTION_FORMULA = "CP010115";
                 public const string CURRICULUM = "CP010116";
                 public const string MARK_TYPE = "CP010117";
 
@@ -385,6 +384,7 @@ namespace CodeX.Common
                 public const string CR_CURRICULUM_EXTRACURRICULAR_CLASS_TYPE = "CP99020104";
                 public const string CR_CURRICULUM_MARK_TYPE = "CP99020201";
                 public const string CR_CURRICULUM_FINAL_MARK_FORMULA = "CP99020202";
+                public const string CR_GRADE_PROMOTION_FORMULA = "CP99020203";
                 public const string CR_CURRICULUM_SYLLABUS = "CP99020301";
                 public const string CR_CURRICULUM_MEETING_PLAN = "CP99020302";
                 public const string CR_CURRICULUM_SUBJECT_GROUP = "CP99020401";

@@ -12237,7 +12237,7 @@ namespace CodeX.Data.Model
         private String _GradePromotionFormulaDtName;
         private Boolean _IsCurrentGrade;
         private String _GCGrade;
-        private String _GCPeriodSection;
+        private Int32 _CurriculumSchoolPeriodSectionID;
         private Int16 _DisplayOrder;
         private Decimal _FinalMarkPercentage;
         private Boolean _IsDeleted;
@@ -12276,11 +12276,11 @@ namespace CodeX.Data.Model
             get { return _GCGrade; }
             set { _GCGrade = value; }
         }
-        [Column(Name = "GCPeriodSection", DataType = "String")]
-        public String GCPeriodSection
+        [Column(Name = "CurriculumSchoolPeriodSectionID", DataType = "Int32")]
+        public Int32 CurriculumSchoolPeriodSectionID
         {
-            get { return _GCPeriodSection; }
-            set { _GCPeriodSection = value; }
+            get { return _CurriculumSchoolPeriodSectionID; }
+            set { _CurriculumSchoolPeriodSectionID = value; }
         }
         [Column(Name = "DisplayOrder", DataType = "Int16")]
         public Int16 DisplayOrder
@@ -12374,7 +12374,7 @@ namespace CodeX.Data.Model
     public class GradePromotionFormulaHd : DbDataModel
     {
         private Int32 _GradePromotionFormulaID;
-        private String _SiteID;
+        private Int32 _CurriculumID;
         private String _GradePromotionFormulaCode;
         private String _GradePromotionFormulaName;
         private String _Remarks;
@@ -12390,11 +12390,11 @@ namespace CodeX.Data.Model
             get { return _GradePromotionFormulaID; }
             set { _GradePromotionFormulaID = value; }
         }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
+        [Column(Name = "CurriculumID", DataType = "Int32")]
+        public Int32 CurriculumID
         {
-            get { return _SiteID; }
-            set { _SiteID = value; }
+            get { return _CurriculumID; }
+            set { _CurriculumID = value; }
         }
         [Column(Name = "GradePromotionFormulaCode", DataType = "String")]
         public String GradePromotionFormulaCode

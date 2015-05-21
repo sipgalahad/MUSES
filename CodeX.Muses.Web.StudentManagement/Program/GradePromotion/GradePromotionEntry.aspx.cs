@@ -233,7 +233,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     //if (classStudentSubjectMark != null)
                     //    mark = classStudentSubjectMark.TheoryMark;
 
-                    finalMark = mark * lstGradePromotionFormula.FirstOrDefault(p => p.GCPeriodSection == periodSection.GCPeriodSection).FinalMarkPercentage / 100;
+                    finalMark = mark * lstGradePromotionFormula.FirstOrDefault(p => p.CurriculumSchoolPeriodSectionID == periodSection.CurriculumSchoolPeriodSectionID).FinalMarkPercentage / 100;
                 }
                 HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
                 if (finalMark < entitySubject.PassingGrade)
