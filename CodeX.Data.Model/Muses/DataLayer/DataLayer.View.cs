@@ -23444,6 +23444,7 @@ namespace CodeX.Data.Model
         private String _SubjectCurriculumSyllabusName;
         private Int32 _ParentID;
         private Int32 _ReferenceID;
+        private String _ReferenceName;
         private Int32 _CurriculumSchoolPeriodSectionID;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -23501,6 +23502,12 @@ namespace CodeX.Data.Model
         {
             get { return _ReferenceID; }
             set { _ReferenceID = value; }
+        }
+        [Column(Name = "ReferenceName", DataType = "String")]
+        public String ReferenceName
+        {
+            get { return _ReferenceName; }
+            set { _ReferenceName = value; }
         }
         [Column(Name = "CurriculumSchoolPeriodSectionID", DataType = "Int32")]
         public Int32 CurriculumSchoolPeriodSectionID

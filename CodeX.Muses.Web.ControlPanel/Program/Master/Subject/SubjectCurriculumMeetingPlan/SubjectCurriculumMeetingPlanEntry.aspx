@@ -290,12 +290,12 @@
     </script>
     <style type="text/css">
         #ulContainerSubjectCurriculum                           { position: absolute; left: 10px; right: 10px; margin: 0; padding: 0; height: 450px;white-space: nowrap; overflow-x: scroll; }
-        #ulContainerSubjectCurriculum li                        { padding: 5px; width: 450px; height: 400px; border-right: 1px solid #EAEAEA; display: inline-table; list-style-type: none; }
+        #ulContainerSubjectCurriculum li                        { padding: 5px; width: 450px; height: 400px; border-right: 1px solid #EAEAEA; display: inline-table; list-style-type: none; white-space: normal; }
         #ulContainerSubjectCurriculum li:first-child            { border-left: 1px solid #EAEAEA; }
         
-        .tblSubjectCurriculumMeetingPlan             { border-collapse:collapse; table-layout:fixed; width: 440px; }
+        .tblSubjectCurriculumSyllabus             { border-collapse:collapse; table-layout:fixed; width: 440px; }
         .tdName div,         
-        .tdReference div         { -ms-word-break: break-all;word-break: break-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 340px; white-space: nowrap }
+        .tdReference div         { -ms-word-break: keep-all;word-break: keep-all;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;max-width: 380px; }
     </style>
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server" />
