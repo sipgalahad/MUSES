@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPClassSubjectPageTrxVisit.master" AutoEventWireup="true" 
-    CodeBehind="StudentMarkPerIndicatorInformation.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.StudentMarkPerIndicatorInformation" %>
+    CodeBehind="StudentMarkPerIndicatorEntry.aspx.cs" Inherits="CodeX.Muses.Web.StudentManagement.Program.StudentMarkPerIndicatorEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -47,12 +47,14 @@
                     <ItemTemplate>
                         <asp:Repeater ID="rptHeader2Dt" runat="server">
                             <ItemTemplate>
-                                <th class="thCenter" style="width: 90px">
+                                <th class="thCenter" style="width: 80px">
                                     <input type="hidden" class="hdnClassSubjectTaskID" value='<%#Eval("ClassSubjectTaskID") %>' />
                                     <label class="lblTask lblLink"><%#Eval("ClassTaskCode")%></label><br />
                                 </th>
                             </ItemTemplate>
                         </asp:Repeater>
+                        <th class="thCenter" style="width: 80px"><%=GetLabel("Rata-Rata")%></th>
+                        <th class="thCenter" style="width: 80px"><%=GetLabel("Predikat")%></th>
                     </ItemTemplate>
                 </asp:Repeater>
             </tr>
@@ -82,6 +84,8 @@
                                         <td align="center" id="tdStudentMark" runat="server"></td>
                                     </ItemTemplate>
                                 </asp:Repeater>
+                                <td align="center" id="tdStudentAvgMark" runat="server"></td>
+                                <td align="center"><dxe:ASPxComboBox ID="cboCompetencyMarkType" runat="server" Width="90%" /></td>
                             </ItemTemplate>
                         </asp:Repeater>
                     </tr>

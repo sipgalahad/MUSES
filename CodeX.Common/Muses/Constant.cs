@@ -608,7 +608,8 @@ namespace CodeX.Common
                 public const string TEACHER_CLASS_SUBJECT_PAGE = "SM99050000";
                 public const string TCS_CLASS_TASK = "SM99050101";
                 public const string TCS_CLASS_TASK_SUMMARY = "SM99050102";
-                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050103";
+                public const string TSC_STUDENT_MARK_PER_INDICATOR = "SM99050103";
+                public const string TCS_CLASS_ATTENDANCE_SUMMARY = "SM99050104";
 
                 public const string TCS_ATTENDANCE_HISTORY = "SM99050201";
                 public const string TCS_STUDENT_MARK = "SM99050202";

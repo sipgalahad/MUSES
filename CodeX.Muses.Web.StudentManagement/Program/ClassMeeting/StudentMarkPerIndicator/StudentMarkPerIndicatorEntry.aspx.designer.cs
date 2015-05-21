@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class StudentMarkPerIndicatorInformation {
+    public partial class StudentMarkPerIndicatorEntry {
         
         /// <summary>
         /// hdnTableWidth control.

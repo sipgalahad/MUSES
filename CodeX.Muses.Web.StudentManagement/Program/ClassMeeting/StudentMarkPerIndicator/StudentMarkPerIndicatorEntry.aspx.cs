@@ -12,14 +12,15 @@ using CodeX.Data.Core.Dal;
 using CodeX.Common;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
+using DevExpress.Web.ASPxEditors;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class StudentMarkPerIndicatorInformation : BasePageTrx
+    public partial class StudentMarkPerIndicatorEntry : BasePageTrx
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.StudentManagement.WS_STUDENT_MARK_PER_INDICATOR;
+            return Constant.MenuCode.StudentManagement.TSC_STUDENT_MARK_PER_INDICATOR;
         }
 
         protected string OnGetTableViewWidth()
@@ -31,9 +32,45 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<vClassSubjectTaskIndicator> lstClassSubjectTaskIndicator = null;
         List<vClassSubjectTaskIndicator> lstIndicator = null;
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
+        List<MarkTypeDt> lstMarkTypeDt = null;
+        List<MarkTypeFormula> lstMarkTypeFormula = null;
         protected override void InitializeDataControl()
         {
             tableWidth = 150;
+
+            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
+            txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
+
+            List<vCurriculumSubjectMarkType> lstCurriculumMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("CurriculumID = {0} AND SubjectID = {1} AND IsDeleted = 0", AppSession.ClassSubject.CurriculumID, entityClassSubject.SubjectID));
+            string markTypeFormulaFilterExpression = "";
+            foreach (vCurriculumSubjectMarkType curriculumMarkType in lstCurriculumMarkType)
+            {
+                if (curriculumMarkType.GCCompetencyDescriptionType != Constant.CompetencyDescriptionType.SEMESTER)
+                {
+                    if (curriculumMarkType.CompetencyMarkTypeID > 0)
+                    {
+                        if (markTypeFormulaFilterExpression != "")
+                            markTypeFormulaFilterExpression += " OR ";
+                        markTypeFormulaFilterExpression += string.Format("(MarkTypeID = {0} AND FromMarkTypeID = {1})", curriculumMarkType.CompetencyMarkTypeID, curriculumMarkType.TaskMarkTypeID);
+                    }
+                }
+            }
+            if (markTypeFormulaFilterExpression != "")
+            {
+                lstMarkTypeFormula = BusinessLayer.GetMarkTypeFormulaList(string.Format("({0}) AND IsDeleted = 0", markTypeFormulaFilterExpression));
+                string sMarkTypeFormula = "";
+                foreach (MarkTypeFormula markTypeFormula in lstMarkTypeFormula)
+                {
+                    if (sMarkTypeFormula != "")
+                        sMarkTypeFormula += "|";
+                    sMarkTypeFormula += string.Format("{0};{1};{2};{3};{4};{5}", markTypeFormula.MarkTypeID, markTypeFormula.FromMarkTypeID, markTypeFormula.MinValue, markTypeFormula.MaxValue, markTypeFormula.FromMarkTypeDtID, markTypeFormula.ToMarkTypeDtID);
+                }
+                //hdnListMarkTypeFormula.Value = sMarkTypeFormula;
+            }
+            else
+                lstMarkTypeFormula = new List<MarkTypeFormula>();
+            string lstMarkTypeCompetencyID = string.Join(",", lstCurriculumMarkType.Select(p => p.CompetencyMarkTypeID).ToList());
+            lstMarkTypeDt = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID IN ({0}) AND IsDeleted = 0", lstMarkTypeCompetencyID));
 
             lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
             lstIndicator = (from p in lstClassSubjectTaskIndicator
@@ -43,9 +80,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptHeader2.DataBind();
             rptHeader1.DataSource = lstIndicator;
             rptHeader1.DataBind();
-
-            vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
-            txtPassingGrade.Text = entityClassSubject.PassingGrade.ToString();
             List<vClassStudent> lstStudent = BusinessLayer.GetvClassStudentList(string.Format("SchoolClassID = {0}", entityClassSubject.SchoolClassID));
 
             lstStudentMark = BusinessLayer.GetvClassStudentSubjectTaskMarkList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID));
@@ -62,7 +96,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 vClassSubjectTaskIndicator entity = (vClassSubjectTaskIndicator)e.Item.DataItem;
                 HtmlTableCell thIndicator = (HtmlTableCell)e.Item.FindControl("thIndicator");
-                thIndicator.ColSpan = lstClassSubjectTaskIndicator.Where(p => p.SubjectIndicatorName == entity.SubjectIndicatorName).Count();
+                int subjectCount = lstClassSubjectTaskIndicator.Where(p => p.SubjectIndicatorName == entity.SubjectIndicatorName).Count();
+                thIndicator.ColSpan = subjectCount + 2;
+                tableWidth += (80 * subjectCount) + (2 * 80);
             }
         }
 
@@ -92,9 +128,36 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vClassSubjectTaskIndicator entity = (vClassSubjectTaskIndicator)e.Item.DataItem;
+                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassStudent;
+
+                HtmlTableCell tdStudentAvgMark = (HtmlTableCell)e.Item.FindControl("tdStudentAvgMark");
+                
                 Repeater rptStudentMarkDt = (Repeater)e.Item.FindControl("rptStudentMarkDt");
-                rptStudentMarkDt.DataSource = lstClassSubjectTaskIndicator.Where(p => p.SubjectIndicatorName == entity.SubjectIndicatorName).ToList();
+                List<vClassSubjectTaskIndicator> lstSubjectIndicator = lstClassSubjectTaskIndicator.Where(p => p.SubjectIndicatorName == entity.SubjectIndicatorName).ToList();
+                rptStudentMarkDt.DataSource = lstSubjectIndicator;
                 rptStudentMarkDt.DataBind();
+
+                List<int> lstClassSubjectTaskID = new List<int>();
+                foreach (vClassSubjectTaskIndicator subjectIndicator in lstSubjectIndicator)
+                {
+                    lstClassSubjectTaskID.Add(subjectIndicator.ClassSubjectTaskID);
+                }
+                var selected = from u in lstStudentMark
+                               where lstClassSubjectTaskID.Contains(u.ClassSubjectTaskID) && u.StudentID == student.StudentID
+                               select u;
+                decimal avgMark = (selected.Sum(p => p.Mark) / lstSubjectIndicator.Count());
+                tdStudentAvgMark.InnerHtml = avgMark.ToString();
+
+                ASPxComboBox cboCompetencyMarkType = (ASPxComboBox)e.Item.FindControl("cboCompetencyMarkType");
+                Methods.SetComboBoxField<MarkTypeDt>(cboCompetencyMarkType, lstMarkTypeDt, "MarkTypeDtName", "MarkTypeDtID");
+                MarkTypeFormula formula = lstMarkTypeFormula.FirstOrDefault(p => p.MaxValue >= avgMark && p.MinValue <= avgMark);
+                if (formula != null)
+                    cboCompetencyMarkType.Value = formula.ToMarkTypeDtID.ToString();
+                //cboCompetencyMarkType.ClientSideEvents.ValueChanged = "function(s,e){ onCboCompetencyMarkTypeValueChanged(s, " + parentIndex + "," + e.Item.ItemIndex + ",'" + student.PreferredName + "'); }";
+
+                //TextBox txtCompetencyDescription = (TextBox)e.Item.FindControl("txtCompetencyDescription");
+                //cboCompetencyMarkType.ClientInstanceName = string.Format("cboCompetencyMarkType{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2"));
+                //txtCompetencyDescription.Attributes.Add("positiontag", string.Format("{0}{1}", parentIndex.ToString("D2"), e.Item.ItemIndex.ToString("D2")));
             }
         }
 
@@ -120,7 +183,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         case Constant.SubjectMarkType.TEXT: tdStudentMark.InnerHtml = studentMark.DescriptionMark; break;
                     }
                 }
-                tableWidth += 90;
             }
         }
 
