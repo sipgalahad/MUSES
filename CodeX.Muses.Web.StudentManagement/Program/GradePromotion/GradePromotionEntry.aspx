@@ -268,7 +268,7 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="ClassSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran" />
-                                                <asp:BoundField DataField="SubjectType" HeaderText="Tipe Pelajaran" HeaderStyle-Width="120px" />
+                                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Tipe Pelajaran" HeaderStyle-Width="120px" />
                                             </Columns>
                                             <EmptyDataTemplate>
                                                 <%=GetLabel("No Data To Display")%>
@@ -310,7 +310,7 @@
                                     <th rowspan="3" colspan="2"><%=GetLabel("Siswa") %></th>
                                     <asp:Repeater ID="rptColHeaderLevel1" runat="server" OnItemDataBound="rptColHeaderLevel1_ItemDataBound">
                                         <ItemTemplate>
-                                            <th class="thCenter" colspan="7" id="tdSubjectName" runat="server"><%#Eval("SubjectName") %></th>    
+                                            <th class="thCenter" style="width:90px" id="tdSubjectName" runat="server"><%#Eval("SubjectName") %></th>    
                                         </ItemTemplate>
                                     </asp:Repeater>
                                     <th rowspan="3" style="width:100px"><%=GetLabel("Naik Ke Kelas") %></th>
@@ -321,7 +321,7 @@
                                         <ItemTemplate>
                                             <asp:Repeater ID="rptColHeaderLevel2Dt" runat="server" OnItemDataBound="rptColHeaderLevel2Dt_ItemDataBound">
                                                 <ItemTemplate>
-                                                    <th class="thCenter" colspan="3" id="tdPeriodSection" runat="server"><%#Eval("PeriodSection") %></th>  
+                                                    <th class="thCenter" id="tdPeriodSection" runat="server"><%#Eval("PeriodSection") %></th>  
                                                 </ItemTemplate>
                                             </asp:Repeater>        
                                             <th class="thCenter" rowspan="2" style="width:60px" id="tdFinalMark" runat="server"><%=GetLabel("NPK") %></th>  
@@ -331,9 +331,15 @@
                                 <tr>
                                     <asp:Repeater ID="rptColHeaderLevel3" runat="server" OnItemDataBound="rptColHeaderLevel3_ItemDataBound">
                                         <ItemTemplate>
-                                            <th class="thCenter" style="width:60px" id="tdTheory" runat="server"><%=GetLabel("Peng") %></th>
-                                            <th class="thCenter" style="width:60px" id="tdPractice" runat="server"><%=GetLabel("Prak") %></th>
-                                            <th class="thCenter" style="width:60px" id="tdAffective" runat="server"><%=GetLabel("Sik") %></th>
+                                            <asp:Repeater ID="rptColHeaderLevel3Dt" runat="server" OnItemDataBound="rptColHeaderLevel3Dt_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <asp:Repeater ID="rptColHeaderLevel3Dt2" runat="server">
+                                                        <ItemTemplate>
+                                                            <th class="thCenter" style="width:90px"><%#Eval("CurriculumMarkTypeName") %></th>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </tr>
@@ -352,9 +358,11 @@
                                                 <ItemTemplate>
                                                     <asp:Repeater ID="rptStudentSubjectPeriodSection" runat="server" OnItemDataBound="rptStudentSubjectPeriodSection_ItemDataBound">
                                                         <ItemTemplate>
-                                                            <td align="center" id="tdTheoryMark" runat="server"></td>
-                                                            <td align="center" id="tdPracticeMark" runat="server"></td>
-                                                            <td align="center" id="tdAffectiveMark" runat="server"></td>
+                                                            <asp:Repeater ID="rptStudentSubjectMarkType" runat="server" OnItemDataBound="rptStudentSubjectMarkType_ItemDataBound">
+                                                                <ItemTemplate>
+                                                                    <td id="tdStudentMark" runat="server" style="width:60px" align="center"></td>
+                                                                </ItemTemplate>
+                                                            </asp:Repeater>
                                                         </ItemTemplate>
                                                     </asp:Repeater>
                                                     <td align="center" id="tdFinalMark" runat="server"></td>

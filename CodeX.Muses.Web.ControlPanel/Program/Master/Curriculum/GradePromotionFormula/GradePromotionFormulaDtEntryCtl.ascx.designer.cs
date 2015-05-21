@@ -76,6 +76,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCGrade;
         
         /// <summary>
+        /// cboCurriculumMarkType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboCurriculumMarkType;
+        
+        /// <summary>
         /// cboCurriculumSchoolPeriodSection control.
         /// </summary>
         /// <remarks>

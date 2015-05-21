@@ -18,6 +18,7 @@
             $('#<%=chkIsCurrentGrade.ClientID %>').change();
             cboGCGrade.SetValue('');
             cboCurriculumSchoolPeriodSection.SetValue('');
+            cboCurriculumMarkType.SetValue('');
             $('#<%=txtGradePromotionFormulaDtName.ClientID %>').val('');
 
             $('#entryDetailContainerPopup').show();
@@ -62,10 +63,11 @@
         $('#<%=txtDisplayOrder.ClientID %>').val(entity.DisplayOrder);
         cboGCGrade.SetValue(entity.GCGrade);
         cboCurriculumSchoolPeriodSection.SetValue(entity.CurriculumSchoolPeriodSectionID);
+        cboCurriculumMarkType.SetValue(entity.CurriculumMarkTypeID);
         $('#<%=chkIsCurrentGrade.ClientID %>').prop('checked', entity.IsCurrentGrade == 'True');
         $('#<%=chkIsCurrentGrade.ClientID %>').change();
         $('#<%=txtFinalMarkPercentage.ClientID %>').val(entity.FinalMarkPercentage);
-        $('#<%=txtGradePromotionFormulaDtName.ClientID %>').val(entity.GradePromotionFormulaDtName);
+        $('#<%=txtGradePromotionFormulaDtName.ClientID %>').val(entity.GradePromotionFormulaDtName);        
 
         $('#entryDetailContainerPopup').show();
     });
@@ -132,6 +134,10 @@
                         <td><dxe:ASPxComboBox ID="cboGCGrade" ClientInstanceName="cboGCGrade" runat="server" Width="150px" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Nilai")%></label></td>
+                        <td><dxe:ASPxComboBox ID="cboCurriculumMarkType" ClientInstanceName="cboCurriculumMarkType" runat="server" Width="150px" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester")%></label></td>
                         <td><dxe:ASPxComboBox ID="cboCurriculumSchoolPeriodSection" ClientInstanceName="cboCurriculumSchoolPeriodSection" runat="server" Width="150px" /></td>
                     </tr>
@@ -163,6 +169,7 @@
                             <asp:CheckBoxField DataField="IsCurrentGrade" HeaderText="Kelas Sekarang" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
                             <asp:BoundField DataField="Grade" HeaderText="Kelas / Tingkat" HeaderStyle-Width="150px" />
                             <asp:BoundField DataField="CurriculumSchoolPeriodSectionName" HeaderText="Semester"  HeaderStyle-Width="150px" />
+                            <asp:BoundField DataField="CurriculumMarkTypeName" HeaderText="Tipe Nilai"  HeaderStyle-Width="150px" />
                             <asp:BoundField DataField="FinalMarkPercentage" HeaderText="[%] Bobot Nilai Akhir" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
@@ -173,6 +180,7 @@
                                     <input type="hidden" value="<%#Eval("DisplayOrder") %>" bindingfield="DisplayOrder" />
                                     <input type="hidden" value="<%#Eval("IsCurrentGrade") %>" bindingfield="IsCurrentGrade" />
                                     <input type="hidden" value="<%#Eval("GCGrade") %>" bindingfield="GCGrade" />
+                                    <input type="hidden" value="<%#Eval("CurriculumMarkTypeID") %>" bindingfield="CurriculumMarkTypeID" />
                                     <input type="hidden" value="<%#Eval("CurriculumSchoolPeriodSectionID") %>" bindingfield="CurriculumSchoolPeriodSectionID" />
                                     <input type="hidden" value="<%#Eval("FinalMarkPercentage") %>" bindingfield="FinalMarkPercentage" />
                                 </ItemTemplate>

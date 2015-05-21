@@ -34,7 +34,7 @@
                 var id = cboGradePromotionFormula.GetValue();
                 if (id != null && id != '') {
                     var url = ResolveUrl("~/Program/Master/SchoolPeriod/GradePromotionFormulaDtCtl.ascx");
-                    openUserControlPopup(url, id, 'Detil Formula', 900, 400);
+                    openUserControlPopup(url, id, 'Detil Formula', 950, 400);
                 }
             });
         }

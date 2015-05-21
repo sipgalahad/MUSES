@@ -78,7 +78,7 @@
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
             var url = ResolveUrl("~/Program/Master/Curriculum/GradePromotionFormula/GradePromotionFormulaDtEntryCtl.ascx");
-            openUserControlPopup(url, entity.GradePromotionFormulaID, 'Detil Formula', 800, 550);
+            openUserControlPopup(url, entity.GradePromotionFormulaID, 'Detil Formula', 950, 550);
         });
     </script>
     <div class="divTransactionEntry">

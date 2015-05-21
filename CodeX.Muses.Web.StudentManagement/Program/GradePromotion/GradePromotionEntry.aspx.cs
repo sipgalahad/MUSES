@@ -68,33 +68,37 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         List<vPeriodClassType> lstPeriodClassType = null;
         List<GradePromotionFormulaDt> lstGradePromotionFormula = null;
-        List<ClassStudentSubjectMark> lstStudentSubjectMark = null;
+        List<vClassStudentSubjectMark> lstStudentSubjectMark = null;
         List<vPeriodSection> lstPeriodSection = null;
         List<vClassSubject> lstSubject = null;
+        List<vCurriculumSubjectMarkType> lstSubjectMarkType = null;
 
-        private void BindGridView(ref int TableWidth)
+        int TableWidth = 0;
+        private void BindGridView()
         {
             if (tacSchoolClass.Value != "")
             {
+                TableWidth += 850;
+
+                SchoolPeriod entitySchoolPeriod = BusinessLayer.GetSchoolPeriod(Convert.ToInt32(cboSchoolPeriod.Value));
+
                 if (hdnLstSubjectID.Value != "")
+                {
                     lstSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID IN ({0})", hdnLstSubjectID.Value));
+                    string lstSubjectID = string.Join(",", lstSubject.Select(p => p.SubjectID).ToList());
+                    lstSubjectMarkType = BusinessLayer.GetvCurriculumSubjectMarkTypeList(string.Format("SubjectID IN ({0}) AND CurriculumID = {1}", lstSubjectID, entitySchoolPeriod.CurriculumID));
+                }
                 else
+                {
                     lstSubject = new List<vClassSubject>();
+                    lstSubjectMarkType = new List<vCurriculumSubjectMarkType>();
+                }
                 lstPeriodSection = BusinessLayer.GetvPeriodSectionList(string.Format("SchoolPeriodID = {0} AND GCPeriodSectionStatus != '{1}'", cboSchoolPeriod.Value, Constant.SchoolPeriodStatus.VOID));
                 rptColHeaderLevel1.DataSource = lstSubject;
                 rptColHeaderLevel1.DataBind();
                 rptColHeaderLevel2.DataSource = lstSubject;
                 rptColHeaderLevel2.DataBind();
-
-                List<Variable> lstVariable = new List<Variable>();
-                foreach (vClassSubject subject in lstSubject)
-                {
-                    foreach (vPeriodSection periodSection in lstPeriodSection)
-                    {
-                        lstVariable.Add(new Variable());
-                    }
-                }
-                rptColHeaderLevel3.DataSource = lstVariable;
+                rptColHeaderLevel3.DataSource = lstSubject;
                 rptColHeaderLevel3.DataBind();
                 divContainerTable.Style.Remove("display");
             }
@@ -112,9 +116,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (lstSubject != null)
                 lstClassSubjectID = string.Join(",", lstSubject.Select(p => p.ClassSubjectID).ToList());
             if (lstStudentID != "" && lstClassSubjectID != "")
-                lstStudentSubjectMark = BusinessLayer.GetClassStudentSubjectMarkList(string.Format("StudentID IN ({0}) AND ClassSubjectID IN ({1})", lstStudentID, lstClassSubjectID));
+                lstStudentSubjectMark = BusinessLayer.GetvClassStudentSubjectMarkList(string.Format("StudentID IN ({0}) AND ClassSubjectID IN ({1})", lstStudentID, lstClassSubjectID));
             else
-                lstStudentSubjectMark = new List<ClassStudentSubjectMark>();
+                lstStudentSubjectMark = new List<vClassStudentSubjectMark>();
 
             if (hdnGradePromotionFormulaID.Value != "")
                 lstGradePromotionFormula = BusinessLayer.GetGradePromotionFormulaDtList(string.Format("GradePromotionFormulaID = {0} AND IsDeleted = 0", hdnGradePromotionFormulaID.Value));
@@ -122,22 +126,31 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstGradePromotionFormula = new List<GradePromotionFormulaDt>();
             rptStudent.DataSource = lstEntity;
             rptStudent.DataBind();
-
-            if (chkIsOnlyFinalMark.Checked)
-                TableWidth = (160 * lstSubject.Count) + 650;
-            else
-                TableWidth = (((60 * 3 * lstPeriodSection.Count) + 135) * lstSubject.Count) + 650;
         }
 
         protected void rptColHeaderLevel1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
+                vClassSubject entitySubject = (vClassSubject)e.Item.DataItem;
+                List<vCurriculumSubjectMarkType> lstMarkType = lstSubjectMarkType.Where(p => p.SubjectID == entitySubject.SubjectID).ToList();
                 HtmlTableCell tdSubjectName = (HtmlTableCell)e.Item.FindControl("tdSubjectName");
-                if (chkIsOnlyFinalMark.Checked)
-                    tdSubjectName.ColSpan = 1;
+
+                if (lstMarkType.Count == 0)
+                    tdSubjectName.Style.Add("display", "none");
                 else
-                    tdSubjectName.ColSpan = 7;
+                {
+                    if (chkIsOnlyFinalMark.Checked)
+                    {
+                        tdSubjectName.ColSpan = 1;
+                        TableWidth += 60;
+                    }
+                    else
+                    {
+                        tdSubjectName.ColSpan = lstPeriodSection.Count * lstMarkType.Count + 1;
+                        TableWidth += 60 + (90 * lstPeriodSection.Count * lstMarkType.Count);
+                    }
+                }
             }
         }
 
@@ -145,36 +158,23 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
+                vClassSubject entitySubject = (vClassSubject)e.Item.DataItem;
                 Repeater rptColHeaderLevel2Dt = (Repeater)e.Item.FindControl("rptColHeaderLevel2Dt");
                 rptColHeaderLevel2Dt.DataSource = lstPeriodSection;
                 rptColHeaderLevel2Dt.DataBind();
 
                 HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
+                
+                List<vCurriculumSubjectMarkType> lstMarkType = lstSubjectMarkType.Where(p => p.SubjectID == entitySubject.SubjectID).ToList();
+
                 if (chkIsOnlyFinalMark.Checked)
                     tdFinalMark.Style.Add("display", "none");
                 else
-                    tdFinalMark.Style.Remove("display");
-            }
-        }
-
-        protected void rptColHeaderLevel3_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
-            {
-                HtmlTableCell tdTheory = (HtmlTableCell)e.Item.FindControl("tdTheory");
-                HtmlTableCell tdPractice = (HtmlTableCell)e.Item.FindControl("tdPractice");
-                HtmlTableCell tdAffective = (HtmlTableCell)e.Item.FindControl("tdAffective");
-                if (chkIsOnlyFinalMark.Checked)
                 {
-                    tdTheory.Style.Add("display", "none");
-                    tdPractice.Style.Add("display", "none");
-                    tdAffective.Style.Add("display", "none");
-                }
-                else
-                {
-                    tdTheory.Style.Remove("display");
-                    tdPractice.Style.Remove("display");
-                    tdAffective.Style.Remove("display");
+                    if (lstMarkType.Count == 0)
+                        tdFinalMark.Style.Add("display", "none");
+                    else
+                        tdFinalMark.Style.Remove("display");
                 }
             }
         }
@@ -187,7 +187,42 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 if (chkIsOnlyFinalMark.Checked)
                     tdPeriodSection.Style.Add("display", "none");
                 else
-                    tdPeriodSection.Style.Remove("display");
+                {
+                    vClassSubject entitySubject = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassSubject;
+                    List<vCurriculumSubjectMarkType> lstMarkType = lstSubjectMarkType.Where(p => p.SubjectID == entitySubject.SubjectID).ToList();
+                    if (lstMarkType.Count > 0)
+                    {
+                        tdPeriodSection.Style.Remove("display");
+                        tdPeriodSection.ColSpan = lstMarkType.Count;
+                    }
+                    else
+                        tdPeriodSection.Style.Add("display", "none");
+                }
+            }
+        }
+
+        protected void rptColHeaderLevel3_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                Repeater rptColHeaderLevel3Dt = (Repeater)e.Item.FindControl("rptColHeaderLevel3Dt");
+                rptColHeaderLevel3Dt.DataSource = lstPeriodSection;
+                rptColHeaderLevel3Dt.DataBind();
+            }
+        }
+
+        protected void rptColHeaderLevel3Dt_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                if (!chkIsOnlyFinalMark.Checked)
+                {
+                    vClassSubject entitySubject = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassSubject;
+                    Repeater rptColHeaderLevel3Dt2 = (Repeater)e.Item.FindControl("rptColHeaderLevel3Dt2");
+                    List<vCurriculumSubjectMarkType> lstMarkType = lstSubjectMarkType.Where(p => p.SubjectID == entitySubject.SubjectID).ToList();
+                    rptColHeaderLevel3Dt2.DataSource = lstMarkType;
+                    rptColHeaderLevel3Dt2.DataBind();
+                }
             }
         }
 
@@ -226,15 +261,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 rptStudentSubjectPeriodSection.DataBind();
 
                 decimal finalMark = 0;
-                foreach (vPeriodSection periodSection in lstPeriodSection)
+                foreach (GradePromotionFormulaDt gradePromotionFormula in lstGradePromotionFormula)
                 {
                     decimal mark = 0;
-                    ClassStudentSubjectMark classStudentSubjectMark = lstStudentSubjectMark.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectID == entitySubject.ClassSubjectID && p.PeriodSectionID == periodSection.PeriodSectionID);
-                    //if (classStudentSubjectMark != null)
-                    //    mark = classStudentSubjectMark.TheoryMark;
-
-                    finalMark = mark * lstGradePromotionFormula.FirstOrDefault(p => p.CurriculumSchoolPeriodSectionID == periodSection.CurriculumSchoolPeriodSectionID).FinalMarkPercentage / 100;
+                    vClassStudentSubjectMark classStudentSubjectMark = lstStudentSubjectMark.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectID == entitySubject.ClassSubjectID && p.CurriculumSchoolPeriodSectionID == gradePromotionFormula.CurriculumSchoolPeriodSectionID && p.CurriculumMarkTypeID == gradePromotionFormula.CurriculumMarkTypeID);
+                    if (classStudentSubjectMark != null)
+                        mark = classStudentSubjectMark.Mark;
+                    finalMark = mark * gradePromotionFormula.FinalMarkPercentage / 100;
                 }
+                List<vCurriculumSubjectMarkType> lstMarkType = lstSubjectMarkType.Where(p => p.SubjectID == entitySubject.SubjectID).ToList();
                 HtmlTableCell tdFinalMark = (HtmlTableCell)e.Item.FindControl("tdFinalMark");
                 if (finalMark < entitySubject.PassingGrade)
                     tdFinalMark.Attributes.Add("class", "belowpassinggrade");                
@@ -243,6 +278,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     tdFinalMark.Style.Add("width", "150px");
                 else
                     tdFinalMark.Style.Remove("width");
+
+                if (lstMarkType.Count == 0)
+                    tdFinalMark.Style.Add("display", "none");
             }
         }
 
@@ -253,29 +291,31 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 vPeriodSection entityPeriodSection = (vPeriodSection)e.Item.DataItem;
                 vClassSubject entitySubject = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vClassSubject;
                 vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent.Parent.Parent).DataItem as vClassStudent;
-                ClassStudentSubjectMark mark = lstStudentSubjectMark.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectID == entitySubject.ClassSubjectID && p.PeriodSectionID == entityPeriodSection.PeriodSectionID);
-                HtmlTableCell tdTheoryMark = (HtmlTableCell)e.Item.FindControl("tdTheoryMark");
-                HtmlTableCell tdPracticeMark = (HtmlTableCell)e.Item.FindControl("tdPracticeMark");
-                HtmlTableCell tdAffectiveMark = (HtmlTableCell)e.Item.FindControl("tdAffectiveMark");
+
+                List<vCurriculumSubjectMarkType> lstMarkType = lstSubjectMarkType.Where(p => p.SubjectID == entitySubject.SubjectID).ToList();
+                if (!chkIsOnlyFinalMark.Checked)
+                {
+                    Repeater rptStudentSubjectMarkType = (Repeater)e.Item.FindControl("rptStudentSubjectMarkType");
+                    rptStudentSubjectMarkType.DataSource = lstMarkType;
+                    rptStudentSubjectMarkType.DataBind();
+                }
+            }
+        }
+
+        protected void rptStudentSubjectMarkType_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vCurriculumSubjectMarkType entityMarkType = (vCurriculumSubjectMarkType)e.Item.DataItem;
+                vPeriodSection entityPeriodSection = ((RepeaterItem)e.Item.Parent.Parent).DataItem as vPeriodSection;
+                vClassSubject entitySubject = ((RepeaterItem)e.Item.Parent.Parent.Parent.Parent).DataItem as vClassSubject;
+                vClassStudent student = ((RepeaterItem)e.Item.Parent.Parent.Parent.Parent.Parent.Parent).DataItem as vClassStudent;
+                vClassStudentSubjectMark mark = lstStudentSubjectMark.FirstOrDefault(p => p.StudentID == student.StudentID && p.ClassSubjectID == entitySubject.ClassSubjectID && p.PeriodSectionID == entityPeriodSection.PeriodSectionID && p.CurriculumMarkTypeID == entityMarkType.CurriculumMarkTypeID);
 
                 if (mark != null)
                 {
-                    //tdTheoryMark.InnerHtml = mark.TheoryMark.ToString();
-                    //tdPracticeMark.InnerHtml = mark.PracticeMark.ToString();
-                    //tdAffectiveMark.InnerHtml = mark.AffectiveMark.ToString();
-                }
-
-                if (chkIsOnlyFinalMark.Checked)
-                {
-                    tdTheoryMark.Style.Add("display", "none");
-                    tdPracticeMark.Style.Add("display", "none");
-                    tdAffectiveMark.Style.Add("display", "none");
-                }
-                else
-                {
-                    tdTheoryMark.Style.Remove("display");
-                    tdPracticeMark.Style.Remove("display");
-                    tdAffectiveMark.Style.Remove("display");
+                    HtmlTableCell tdStudentMark = (HtmlTableCell)e.Item.FindControl("tdStudentMark");
+                    tdStudentMark.InnerHtml = mark.Mark.ToString();
                 }
             }
         }
@@ -303,8 +343,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
-            int TableWidth = 0;
-            BindGridView(ref TableWidth);
+            TableWidth = 0;
+            BindGridView();
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpTableWidth"] = TableWidth;

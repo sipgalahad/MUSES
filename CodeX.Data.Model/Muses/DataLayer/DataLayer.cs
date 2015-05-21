@@ -12238,6 +12238,7 @@ namespace CodeX.Data.Model
         private Boolean _IsCurrentGrade;
         private String _GCGrade;
         private Int32 _CurriculumSchoolPeriodSectionID;
+        private Int32 _CurriculumMarkTypeID;
         private Int16 _DisplayOrder;
         private Decimal _FinalMarkPercentage;
         private Boolean _IsDeleted;
@@ -12281,6 +12282,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSchoolPeriodSectionID; }
             set { _CurriculumSchoolPeriodSectionID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
         }
         [Column(Name = "DisplayOrder", DataType = "Int16")]
         public Int16 DisplayOrder

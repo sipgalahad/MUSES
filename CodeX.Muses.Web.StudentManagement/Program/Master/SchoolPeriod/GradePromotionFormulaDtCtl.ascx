@@ -18,6 +18,7 @@
             <asp:CheckBoxField DataField="IsCurrentGrade" HeaderText="Kelas Sekarang" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="120px" />
             <asp:BoundField DataField="Grade" HeaderText="Kelas / Tingkat" HeaderStyle-Width="150px" />
             <asp:BoundField DataField="CurriculumSchoolPeriodSectionName" HeaderText="Semester"  HeaderStyle-Width="150px" />
+            <asp:BoundField DataField="CurriculumMarkTypeName" HeaderText="Tipe Nilai"  HeaderStyle-Width="150px" />
             <asp:BoundField DataField="FinalMarkPercentage" HeaderText="[%] Bobot Nilai Akhir" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderStyle-Width="150px" />
         </Columns>
         <EmptyDataTemplate>

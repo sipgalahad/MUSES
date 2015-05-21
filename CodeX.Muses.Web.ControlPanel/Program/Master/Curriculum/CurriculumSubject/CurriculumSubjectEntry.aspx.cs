@@ -49,7 +49,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             rptClassType.DataBind();
 
             Repeater rptMarkType = (Repeater)ddeMarkType.FindControl("rptMarkType");
-            List<CurriculumMarkType> lstMarkType = BusinessLayer.GetCurriculumMarkTypeList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
+            List<vCurriculumMarkTypeClassStudyType> lstMarkType = BusinessLayer.GetvCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, hdnGCClassStudyType.Value));
             rptMarkType.DataSource = lstMarkType;
             rptMarkType.DataBind();
 
@@ -73,7 +73,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                CurriculumMarkType obj = (CurriculumMarkType)e.Item.DataItem;
+                vCurriculumMarkTypeClassStudyType obj = (vCurriculumMarkTypeClassStudyType)e.Item.DataItem;
                 CheckBox chkMarkType = (CheckBox)e.Item.FindControl("chkMarkType");
                 chkMarkType.Attributes.Add("marktypename", obj.CurriculumMarkTypeName);
                 chkMarkType.Attributes.Add("marktypeid", obj.CurriculumMarkTypeID.ToString());

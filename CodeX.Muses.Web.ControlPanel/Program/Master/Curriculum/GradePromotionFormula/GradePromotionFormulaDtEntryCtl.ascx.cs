@@ -26,6 +26,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             List<CurriculumSchoolPeriodSection> lstPeriodSection = BusinessLayer.GetCurriculumSchoolPeriodSectionList(string.Format("CurriculumID = {0} AND IsDeleted = 0", AppSession.CurriculumID));
             Methods.SetComboBoxField<CurriculumSchoolPeriodSection>(cboCurriculumSchoolPeriodSection, lstPeriodSection, "CurriculumSchoolPeriodSectionName", "CurriculumSchoolPeriodSectionID");
 
+            List<vCurriculumMarkTypeClassStudyType> lstMarkType = BusinessLayer.GetvCurriculumMarkTypeClassStudyTypeList(string.Format("CurriculumID = {0} AND GCClassStudyType = '{1}' AND IsDeleted = 0", AppSession.CurriculumID, Constant.ClassStudyType.REGULAR));
+            Methods.SetComboBoxField<vCurriculumMarkTypeClassStudyType>(cboCurriculumMarkType, lstMarkType, "CurriculumMarkTypeName", "CurriculumMarkTypeID");
+
             List<vSchoolGrade> lstGrade = BusinessLayer.GetvSchoolGradeList(string.Format("GCSchoolType = '{0}'", GCSchoolType));
             lstGrade.Insert(0, new vSchoolGrade { GCGrade = "", Grade = "" });
             Methods.SetComboBoxField<vSchoolGrade>(cboGCGrade, lstGrade, "Grade", "GCGrade");
@@ -94,6 +97,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entity.GCGrade = null;
             entity.CurriculumSchoolPeriodSectionID = Convert.ToInt32(cboCurriculumSchoolPeriodSection.Value);
+            entity.CurriculumMarkTypeID = Convert.ToInt32(cboCurriculumMarkType.Value);
             entity.FinalMarkPercentage = Convert.ToDecimal(txtFinalMarkPercentage.Text);
             entity.GradePromotionFormulaDtName = txtGradePromotionFormulaDtName.Text;
         }

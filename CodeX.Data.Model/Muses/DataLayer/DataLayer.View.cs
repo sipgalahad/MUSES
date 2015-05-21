@@ -2328,6 +2328,7 @@ namespace CodeX.Data.Model
         private Int32 _ClassSubjectID;
         private Int32 _StudentID;
         private Int32 _PeriodSectionID;
+        private Int32 _CurriculumSchoolPeriodSectionID;
         private Int32 _CurriculumMarkTypeID;
         private String _CurriculumMarkTypeCode;
         private Decimal _Mark;
@@ -2357,6 +2358,12 @@ namespace CodeX.Data.Model
         {
             get { return _PeriodSectionID; }
             set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "CurriculumSchoolPeriodSectionID", DataType = "Int32")]
+        public Int32 CurriculumSchoolPeriodSectionID
+        {
+            get { return _CurriculumSchoolPeriodSectionID; }
+            set { _CurriculumSchoolPeriodSectionID = value; }
         }
         [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
         public Int32 CurriculumMarkTypeID
@@ -9652,6 +9659,8 @@ namespace CodeX.Data.Model
         private String _Grade;
         private Int32 _CurriculumSchoolPeriodSectionID;
         private String _CurriculumSchoolPeriodSectionName;
+        private Int32 _CurriculumMarkTypeID;
+        private String _CurriculumMarkTypeName;
         private Int16 _DisplayOrder;
         private Decimal _FinalMarkPercentage;
         private Boolean _IsDeleted;
@@ -9703,6 +9712,18 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumSchoolPeriodSectionName; }
             set { _CurriculumSchoolPeriodSectionName = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeName", DataType = "String")]
+        public String CurriculumMarkTypeName
+        {
+            get { return _CurriculumMarkTypeName; }
+            set { _CurriculumMarkTypeName = value; }
         }
         [Column(Name = "DisplayOrder", DataType = "Int16")]
         public Int16 DisplayOrder
