@@ -1663,6 +1663,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vCurriculumSubjectMarkType> GetvCurriculumSubjectMarkTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<vCurriculumSubjectMarkType> result = new List<vCurriculumSubjectMarkType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vCurriculumSubjectMarkType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vCurriculumSubjectMarkType)helper.IDataReaderToObject(reader, new vCurriculumSubjectMarkType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region vCurriculumSyllabus
         public static List<vCurriculumSyllabus> GetvCurriculumSyllabusList(string filterExpression)

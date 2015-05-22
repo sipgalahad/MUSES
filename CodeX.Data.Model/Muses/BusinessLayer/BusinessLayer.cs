@@ -1439,6 +1439,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region ClassStudentSubjectIndicatorMark
+        public static ClassStudentSubjectIndicatorMark GetClassStudentSubjectIndicatorMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID, String SubjectIndicatorName)
+        {
+            return new ClassStudentSubjectIndicatorMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID, SubjectIndicatorName);
+        }
+        public static int InsertClassStudentSubjectIndicatorMark(ClassStudentSubjectIndicatorMark record)
+        {
+            return new ClassStudentSubjectIndicatorMarkDao().Insert(record);
+        }
+        public static int UpdateClassStudentSubjectIndicatorMark(ClassStudentSubjectIndicatorMark record)
+        {
+            return new ClassStudentSubjectIndicatorMarkDao().Update(record);
+        }
+        public static int DeleteClassStudentSubjectIndicatorMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID, String SubjectIndicatorName)
+        {
+            return new ClassStudentSubjectIndicatorMarkDao().Delete(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID, SubjectIndicatorName);
+        }
+        public static List<ClassStudentSubjectIndicatorMark> GetClassStudentSubjectIndicatorMarkList(string filterExpression)
+        {
+            List<ClassStudentSubjectIndicatorMark> result = new List<ClassStudentSubjectIndicatorMark>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectIndicatorMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectIndicatorMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectIndicatorMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<ClassStudentSubjectIndicatorMark> GetClassStudentSubjectIndicatorMarkList(string filterExpression, IDbContext ctx)
+        {
+            List<ClassStudentSubjectIndicatorMark> result = new List<ClassStudentSubjectIndicatorMark>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ClassStudentSubjectIndicatorMark));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ClassStudentSubjectIndicatorMark)helper.IDataReaderToObject(reader, new ClassStudentSubjectIndicatorMark()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region ClassStudentSubjectMark
         public static ClassStudentSubjectMark GetClassStudentSubjectMark(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID)
         {

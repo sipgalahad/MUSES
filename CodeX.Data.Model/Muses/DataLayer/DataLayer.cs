@@ -3091,6 +3091,104 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ClassStudentSubjectIndicatorMark
+    [Serializable]
+    [Table(Name = "ClassStudentSubjectIndicatorMark")]
+    public class ClassStudentSubjectIndicatorMark : DbDataModel
+    {
+        private Int32 _ClassSubjectID;
+        private Int32 _StudentID;
+        private Int32 _PeriodSectionID;
+        private Int32 _CurriculumMarkTypeID;
+        private String _SubjectIndicatorName;
+        private Int32? _CompetencyMarkTypeDtID;
+
+        [Column(Name = "ClassSubjectID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 ClassSubjectID
+        {
+            get { return _ClassSubjectID; }
+            set { _ClassSubjectID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "PeriodSectionID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 PeriodSectionID
+        {
+            get { return _PeriodSectionID; }
+            set { _PeriodSectionID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
+        }
+        [Column(Name = "SubjectIndicatorName", DataType = "String", IsPrimaryKey = true)]
+        public String SubjectIndicatorName
+        {
+            get { return _SubjectIndicatorName; }
+            set { _SubjectIndicatorName = value; }
+        }
+        [Column(Name = "CompetencyMarkTypeDtID", DataType = "Int32", IsNullable = true)]
+        public Int32? CompetencyMarkTypeDtID
+        {
+            get { return _CompetencyMarkTypeDtID; }
+            set { _CompetencyMarkTypeDtID = value; }
+        }
+    }
+
+    public class ClassStudentSubjectIndicatorMarkDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ClassStudentSubjectIndicatorMark));
+        private bool _isAuditLog = false;
+        private const string p_ClassSubjectID = "@p_ClassSubjectID";
+        private const string p_CurriculumMarkTypeID = "@p_CurriculumMarkTypeID";
+        private const string p_PeriodSectionID = "@p_PeriodSectionID";
+        private const string p_StudentID = "@p_StudentID";
+        private const string p_SubjectIndicatorName = "@p_SubjectIndicatorName";
+        public ClassStudentSubjectIndicatorMarkDao() { }
+        public ClassStudentSubjectIndicatorMarkDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ClassStudentSubjectIndicatorMark Get(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID, String SubjectIndicatorName)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ClassSubjectID, ClassSubjectID);
+            _ctx.Add(p_CurriculumMarkTypeID, CurriculumMarkTypeID);
+            _ctx.Add(p_PeriodSectionID, PeriodSectionID);
+            _ctx.Add(p_StudentID, StudentID);
+            _ctx.Add(p_SubjectIndicatorName, SubjectIndicatorName);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ClassStudentSubjectIndicatorMark)_helper.DataRowToObject(row, new ClassStudentSubjectIndicatorMark());
+        }
+        public int Insert(ClassStudentSubjectIndicatorMark record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ClassStudentSubjectIndicatorMark record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ClassSubjectID, Int32 StudentID, Int32 PeriodSectionID, Int32 CurriculumMarkTypeID, String SubjectIndicatorName)
+        {
+            ClassStudentSubjectIndicatorMark record;
+            if (_ctx.Transaction == null)
+                record = new ClassStudentSubjectIndicatorMarkDao().Get(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID, SubjectIndicatorName);
+            else
+                record = Get(ClassSubjectID, StudentID, PeriodSectionID, CurriculumMarkTypeID, SubjectIndicatorName);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ClassStudentSubjectMark
     [Serializable]
     [Table(Name = "ClassStudentSubjectMark")]

@@ -2748,6 +2748,7 @@ namespace CodeX.Data.Model
         private String _ClassTaskCode;
         private String _GCMarkType;
         private Int32 _SubjectIndicatorID;
+        private Int32 _CurriculumMarkTypeID;
         private String _SubjectIndicatorName;
         private Boolean _IsDeleted;
 
@@ -2786,6 +2787,12 @@ namespace CodeX.Data.Model
         {
             get { return _SubjectIndicatorID; }
             set { _SubjectIndicatorID = value; }
+        }
+        [Column(Name = "CurriculumMarkTypeID", DataType = "Int32")]
+        public Int32 CurriculumMarkTypeID
+        {
+            get { return _CurriculumMarkTypeID; }
+            set { _CurriculumMarkTypeID = value; }
         }
         [Column(Name = "SubjectIndicatorName", DataType = "String")]
         public String SubjectIndicatorName
