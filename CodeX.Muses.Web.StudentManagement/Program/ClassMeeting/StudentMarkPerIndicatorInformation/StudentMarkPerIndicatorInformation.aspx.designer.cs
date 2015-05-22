@@ -13,6 +13,51 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
     public partial class StudentMarkPerIndicatorInformation {
         
         /// <summary>
+        /// hdnListSaveValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListSaveValue;
+        
+        /// <summary>
+        /// hdnListIndicatorName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnListIndicatorName;
+        
+        /// <summary>
+        /// hdnParentClassSubjectID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnParentClassSubjectID;
+        
+        /// <summary>
+        /// hdnLstMarkTypeDt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLstMarkTypeDt;
+        
+        /// <summary>
+        /// hdnSubjectID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubjectID;
+        
+        /// <summary>
         /// hdnTableWidth control.
         /// </summary>
         /// <remarks>
@@ -47,6 +92,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptHeader2;
+        
+        /// <summary>
+        /// rptHeader3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptHeader3;
         
         /// <summary>
         /// rptStudent control.
