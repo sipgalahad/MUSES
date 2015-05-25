@@ -49,15 +49,15 @@
             <col style="width: 180px" />
         </colgroup>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Tahun Ajaran") %></td>
+            <td class="tdLabel"<label class="lblMandatory">><%=GetLabel("Tahun Ajaran") %></label></td>
             <td><asp:TextBox runat="server" ID="txtCurrSchoolPeriod" ReadOnly="true" Width="200px" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Semester") %></td>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester") %></label></td>
             <td><asp:TextBox runat="server" ID="txtCurrPeriodSection" Enabled="true" ReadOnly="true" /></td>
         </tr>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Tahun Ajaran Selanjutnya") %></td>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tahun Ajaran Selanjutnya") %></label></td>
             <td>
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e){onCboSchoolPeriodChanged()}" />
@@ -65,7 +65,7 @@
             </td>
         </tr>
         <tr>
-            <td class="tdLabel"><%=GetLabel("Semester Selanjutnya")%></td>
+            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Semester Selanjutnya")%></label></td>
             <td><dxe:ASPxComboBox runat="server" ID="cboPeriodSection" ClientInstanceName="cboPeriodSection" Width="140px" /></td>
         </tr>
     </table>

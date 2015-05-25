@@ -26616,6 +26616,140 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region StudentMoveOut
+    [Serializable]
+    [Table(Name = "StudentMoveOut")]
+    public class StudentMoveOut : DbDataModel
+    {
+        private Int32 _StudentMoveOutID;
+        private Int32 _StudentID;
+        private DateTime _MoveOutDate;
+        private String _GCMoveOutReason;
+        private String _MoveOutReason;
+        private String _GCTransactionStatus;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "StudentMoveOutID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 StudentMoveOutID
+        {
+            get { return _StudentMoveOutID; }
+            set { _StudentMoveOutID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "MoveOutDate", DataType = "DateTime")]
+        public DateTime MoveOutDate
+        {
+            get { return _MoveOutDate; }
+            set { _MoveOutDate = value; }
+        }
+        [Column(Name = "GCMoveOutReason", DataType = "String")]
+        public String GCMoveOutReason
+        {
+            get { return _GCMoveOutReason; }
+            set { _GCMoveOutReason = value; }
+        }
+        [Column(Name = "MoveOutReason", DataType = "String", IsNullable = true)]
+        public String MoveOutReason
+        {
+            get { return _MoveOutReason; }
+            set { _MoveOutReason = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class StudentMoveOutDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(StudentMoveOut));
+        private bool _isAuditLog = false;
+        private const string p_StudentMoveOutID = "@p_StudentMoveOutID";
+        public StudentMoveOutDao() { }
+        public StudentMoveOutDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public StudentMoveOut Get(Int32 StudentMoveOutID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_StudentMoveOutID, StudentMoveOutID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (StudentMoveOut)_helper.DataRowToObject(row, new StudentMoveOut());
+        }
+        public int Insert(StudentMoveOut record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(StudentMoveOut record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 StudentMoveOutID)
+        {
+            StudentMoveOut record;
+            if (_ctx.Transaction == null)
+                record = new StudentMoveOutDao().Get(StudentMoveOutID);
+            else
+                record = Get(StudentMoveOutID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region StudentNote
     [Serializable]
     [Table(Name = "StudentNote")]

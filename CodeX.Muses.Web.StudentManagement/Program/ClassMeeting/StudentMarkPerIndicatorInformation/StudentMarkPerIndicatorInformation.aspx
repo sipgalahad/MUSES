@@ -28,7 +28,6 @@
     <input type="hidden" id="hdnListSaveValue" runat="server" />
     <input type="hidden" id="hdnListIndicatorName" runat="server" />
     <input type="hidden" id="hdnParentClassSubjectID" runat="server" />
-    <input type="hidden" id="hdnLstMarkTypeDt" runat="server" />
     <input type="hidden" id="hdnSubjectID" runat="server" />
     <input type="hidden" id="hdnTableWidth" runat="server" />
     <table cellspacing="0" cellpadding="0">

@@ -31,8 +31,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<vClassSubjectTaskIndicator> lstClassSubjectTaskIndicator = null;
         List<vClassSubjectTaskIndicator> lstIndicator = null;
         List<vClassStudentSubjectTaskMark> lstStudentMark = null;
-        List<MarkTypeDt> lstMarkTypeDt = null;
-        List<MarkTypeFormula> lstMarkTypeFormula = null;
 
         class CMarkTypeColSpan
         {
@@ -68,13 +66,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     }
                 }
             }
-            if (markTypeFormulaFilterExpression != "")
-                lstMarkTypeFormula = BusinessLayer.GetMarkTypeFormulaList(string.Format("({0}) AND IsDeleted = 0", markTypeFormulaFilterExpression));
-            else
-                lstMarkTypeFormula = new List<MarkTypeFormula>();
-            string lstMarkTypeCompetencyID = string.Join(",", lstCurriculumMarkType.Select(p => p.CompetencyMarkTypeID).ToList());
-            lstMarkTypeDt = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID IN ({0}) AND IsDeleted = 0", lstMarkTypeCompetencyID));
-            hdnLstMarkTypeDt.Value = string.Join("|", lstMarkTypeDt.Select(p => string.Format("{0};{1}", p.MarkTypeDtID, p.Remarks)));
 
             lstClassSubjectTaskIndicator = BusinessLayer.GetvClassSubjectTaskIndicatorList(string.Format("ClassSubjectID = {0} AND IsDeleted = 0", AppSession.ClassSubject.ClassSubjectID));
             lstIndicator = (from p in lstClassSubjectTaskIndicator

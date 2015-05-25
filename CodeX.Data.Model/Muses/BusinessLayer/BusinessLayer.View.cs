@@ -8942,6 +8942,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentMoveOut
+        public static List<vStudentMoveOut> GetvStudentMoveOutList(string filterExpression)
+        {
+            List<vStudentMoveOut> result = new List<vStudentMoveOut>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentMoveOut));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentMoveOut)helper.IDataReaderToObject(reader, new vStudentMoveOut()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentPastStudy
         public static List<vStudentPastStudy> GetvStudentPastStudyList(string filterExpression)
         {

@@ -23161,6 +23161,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentMoveOut
+    [Serializable]
+    [Table(Name = "vStudentMoveOut")]
+    public class vStudentMoveOut
+    {
+        private Int32 _StudentMoveOutID;
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+        private DateTime _MoveOutDate;
+        private String _GCMoveOutReason;
+        private String _MoveOutReason;
+        private String _GCTransactionStatus;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "StudentMoveOutID", DataType = "Int32")]
+        public Int32 StudentMoveOutID
+        {
+            get { return _StudentMoveOutID; }
+            set { _StudentMoveOutID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "MoveOutDate", DataType = "DateTime")]
+        public DateTime MoveOutDate
+        {
+            get { return _MoveOutDate; }
+            set { _MoveOutDate = value; }
+        }
+        [Column(Name = "GCMoveOutReason", DataType = "String")]
+        public String GCMoveOutReason
+        {
+            get { return _GCMoveOutReason; }
+            set { _GCMoveOutReason = value; }
+        }
+        [Column(Name = "MoveOutReason", DataType = "String")]
+        public String MoveOutReason
+        {
+            get { return _MoveOutReason; }
+            set { _MoveOutReason = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vStudentPastStudy
     [Serializable]
     [Table(Name = "vStudentPastStudy")]

@@ -12473,6 +12473,46 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentMoveOut
+        public static StudentMoveOut GetStudentMoveOut(Int32 StudentMoveOutID)
+        {
+            return new StudentMoveOutDao().Get(StudentMoveOutID);
+        }
+        public static int InsertStudentMoveOut(StudentMoveOut record)
+        {
+            return new StudentMoveOutDao().Insert(record);
+        }
+        public static int UpdateStudentMoveOut(StudentMoveOut record)
+        {
+            return new StudentMoveOutDao().Update(record);
+        }
+        public static int DeleteStudentMoveOut(Int32 StudentMoveOutID)
+        {
+            return new StudentMoveOutDao().Delete(StudentMoveOutID);
+        }
+        public static List<StudentMoveOut> GetStudentMoveOutList(string filterExpression)
+        {
+            List<StudentMoveOut> result = new List<StudentMoveOut>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentMoveOut));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentMoveOut)helper.IDataReaderToObject(reader, new StudentMoveOut()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region StudentNote
         public static StudentNote GetStudentNote(Int32 StudentNoteID)
         {

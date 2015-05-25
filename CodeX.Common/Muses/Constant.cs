@@ -64,7 +64,7 @@ namespace CodeX.Common
             public const string SCORE_GRADE = "MS022";
             public const string BANK_EXPORT_DATA_TYPE = "MS023";
             public const string SUBJECT_MARK_TYPE = "MS025";
-            public const string SUBJECT_MARK_OPTION = "MS026";
+            public const string STUDENT_MOVE_OUT_REASON = "MS026";
             public const string LESSON_TYPE = "MS027";
             public const string PERIOD_SECTION = "MS028";
             public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
@@ -83,6 +83,11 @@ namespace CodeX.Common
         public static class AbsenceReason
         {
             public const string OTHER = "MS032^999";
+        }
+
+        public static class StudentMoveOutReason
+        {
+            public const string OTHER = "MS026^999";
         }
 
         public static class CompetencyDescriptionType
@@ -539,6 +544,7 @@ namespace CodeX.Common
                 public const string TSB_TEACHER_SUBSTITUTION = "SM031001";
                 public const string TSB_TEACHER_SUBSTITUTION_PER_DATE = "SM031002";
                 public const string STUDENT_MARK_LEDGER = "SM031100";
+                public const string STUDENT_MOVE_OUT = "SM031200";
 
                 public const string SUBJECT = "SM110100";
                 public const string TEACHER_PERIOD_CLASS_TYPE_SUBJECT = "SM110200";
