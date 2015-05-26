@@ -100,6 +100,7 @@
     <Content Include="Program\Main.aspx" />
     <Content Include="Program\RemoteLogon.aspx" />
     <Content Include="Program\StudentManagement\ClassScheduleInfo.aspx" />
+    <Content Include="Program\StudentManagement\StudentStatisticInfo.aspx" />
     <Content Include="Program\StudentManagement\ExtracurricularScheduleInfo.aspx" />
     <Content Include="Program\StudentManagement\TeacherPICInfo.aspx" />
     <Content Include="Program\StudentManagement\TeacherScheduleInfo.aspx" />
@@ -351,6 +352,13 @@
     </Compile>
     <Compile Include="Program\StudentManagement\ClassScheduleInfo.aspx.designer.cs">
       <DependentUpon>ClassScheduleInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentStatisticInfo.aspx.cs">
+      <DependentUpon>StudentStatisticInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\StudentManagement\StudentStatisticInfo.aspx.designer.cs">
+      <DependentUpon>StudentStatisticInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\StudentManagement\ExtracurricularScheduleInfo.aspx.cs">
       <DependentUpon>ExtracurricularScheduleInfo.aspx</DependentUpon>

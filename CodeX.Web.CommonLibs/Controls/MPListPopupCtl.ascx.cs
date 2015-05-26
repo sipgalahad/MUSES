@@ -42,7 +42,11 @@ namespace CodeX.Web.CommonLibs.Program
             string pageTitle = ctl.OnGetPageTitle();
             if (pageTitle == "")
                 pageTitle = hdnPageTitle.Value;
-            Helper.ExportExcel(pageTitle, pageTitle, ctl.OnGetExportControl(), this);
+            bool isShowTitle = true;
+            Control controlHtml = ctl.OnGetExportControl(ref isShowTitle);
+            if (controlHtml == null)
+                controlHtml = ctl.OnGetExportControl();
+            Helper.ExportExcel(pageTitle, pageTitle, controlHtml, this, isShowTitle);
         }
     }
 }

@@ -948,6 +948,51 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vClassStudentRegistration
+        public static List<vClassStudentRegistration> GetvClassStudentRegistrationList(string filterExpression)
+        {
+            List<vClassStudentRegistration> result = new List<vClassStudentRegistration>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassStudentRegistration));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vClassStudentRegistration)helper.IDataReaderToObject(reader, new vClassStudentRegistration()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvClassStudentRegistrationRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vClassStudentRegistration));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vClassStudentSubjectMark
         public static List<vClassStudentSubjectMark> GetvClassStudentSubjectMarkList(string filterExpression)
         {
@@ -5277,6 +5322,54 @@ namespace CodeX.Data.Model
                 using (IDataReader reader = DaoBase.GetDataReader(ctx))
                     while (reader.Read())
                         result.Add((vPeriodClassType)helper.IDataReaderToObject(reader, new vPeriodClassType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPeriodClassTypeStudentPerGender
+        public static List<vPeriodClassTypeStudentPerGender> GetvPeriodClassTypeStudentPerGenderList(string filterExpression)
+        {
+            List<vPeriodClassTypeStudentPerGender> result = new List<vPeriodClassTypeStudentPerGender>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodClassTypeStudentPerGender));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodClassTypeStudentPerGender)helper.IDataReaderToObject(reader, new vPeriodClassTypeStudentPerGender()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vPeriodClassTypeStudentPerReligion
+        public static List<vPeriodClassTypeStudentPerReligion> GetvPeriodClassTypeStudentPerReligionList(string filterExpression)
+        {
+            List<vPeriodClassTypeStudentPerReligion> result = new List<vPeriodClassTypeStudentPerReligion>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPeriodClassTypeStudentPerReligion));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPeriodClassTypeStudentPerReligion)helper.IDataReaderToObject(reader, new vPeriodClassTypeStudentPerReligion()));
             }
             catch (Exception ex)
             {

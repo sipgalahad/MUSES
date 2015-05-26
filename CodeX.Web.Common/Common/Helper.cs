@@ -18,13 +18,16 @@ namespace CodeX.Web.Common
 {
     public partial class Helper
     {
-        public static void ExportExcel(string fileName, string title, Control exportControl, TemplateControl page)
+        public static void ExportExcel(string fileName, string title, Control exportControl, TemplateControl page, bool isShowTitle)
         {
             Control control = exportControl;
             HtmlGenericControl div = new HtmlGenericControl("DIV");
-            HtmlGenericControl h1Title = new HtmlGenericControl("h1");
-            h1Title.InnerHtml = title;
-            div.Controls.Add(h1Title);
+            if (isShowTitle)
+            {
+                HtmlGenericControl h1Title = new HtmlGenericControl("h1");
+                h1Title.InnerHtml = title;
+                div.Controls.Add(h1Title);
+            }
             div.Controls.Add(control);
 
             //Response.AddHeader("content-disposition", string.Format("attachment;filename=\"{0}.xls\"", hdnMenuCaption.Value));

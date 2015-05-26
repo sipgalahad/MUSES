@@ -2320,6 +2320,84 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vClassStudentRegistration
+    [Serializable]
+    [Table(Name = "vClassStudentRegistration")]
+    public class vClassStudentRegistration
+    {
+        private Int32 _SchoolClassID;
+        private Int32 _PeriodClassTypeID;
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+        private String _GCGender;
+        private String _GCClassStudentStatus;
+        private String _ClassStudentStatus;
+        private String _GCPeriodAdmissionType;
+        private DateTime _SchoolDate;
+
+        [Column(Name = "SchoolClassID", DataType = "Int32")]
+        public Int32 SchoolClassID
+        {
+            get { return _SchoolClassID; }
+            set { _SchoolClassID = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "GCClassStudentStatus", DataType = "String")]
+        public String GCClassStudentStatus
+        {
+            get { return _GCClassStudentStatus; }
+            set { _GCClassStudentStatus = value; }
+        }
+        [Column(Name = "ClassStudentStatus", DataType = "String")]
+        public String ClassStudentStatus
+        {
+            get { return _ClassStudentStatus; }
+            set { _ClassStudentStatus = value; }
+        }
+        [Column(Name = "GCPeriodAdmissionType", DataType = "String")]
+        public String GCPeriodAdmissionType
+        {
+            get { return _GCPeriodAdmissionType; }
+            set { _GCPeriodAdmissionType = value; }
+        }
+        [Column(Name = "SchoolDate", DataType = "DateTime")]
+        public DateTime SchoolDate
+        {
+            get { return _SchoolDate; }
+            set { _SchoolDate = value; }
+        }
+    }
+    #endregion
     #region vClassStudentSubjectMark
     [Serializable]
     [Table(Name = "vClassStudentSubjectMark")]
@@ -13407,6 +13485,64 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vPeriodClassTypeStudentPerGender
+    [Serializable]
+    [Table(Name = "vPeriodClassTypeStudentPerGender")]
+    public class vPeriodClassTypeStudentPerGender
+    {
+        private Int32 _PeriodClassTypeID;
+        private String _GCGender;
+        private Int32 _StudentCount;
+
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "StudentCount", DataType = "Int32")]
+        public Int32 StudentCount
+        {
+            get { return _StudentCount; }
+            set { _StudentCount = value; }
+        }
+    }
+    #endregion
+    #region vPeriodClassTypeStudentPerReligion
+    [Serializable]
+    [Table(Name = "vPeriodClassTypeStudentPerReligion")]
+    public class vPeriodClassTypeStudentPerReligion
+    {
+        private Int32 _PeriodClassTypeID;
+        private String _GCReligion;
+        private Int32 _StudentCount;
+
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
+        }
+        [Column(Name = "GCReligion", DataType = "String")]
+        public String GCReligion
+        {
+            get { return _GCReligion; }
+            set { _GCReligion = value; }
+        }
+        [Column(Name = "StudentCount", DataType = "Int32")]
+        public Int32 StudentCount
+        {
+            get { return _StudentCount; }
+            set { _StudentCount = value; }
         }
     }
     #endregion

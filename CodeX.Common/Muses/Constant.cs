@@ -462,6 +462,7 @@ namespace CodeX.Common
                 public const string CLASS_SCHEDULE_INFO = "IF010200";
                 public const string TEACHER_PIC_INFO = "IF010300";
                 public const string EXTRACURRICULAR_SCHEDULE_INFO = "IF010400";
+                public const string STUDENT_STATISTIC_INFO = "IF010500";
 
                 public const string STOCK_DETAIL_INFO = "IF020100";
 

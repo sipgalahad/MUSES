@@ -75,7 +75,7 @@
     <div id="openBottomBar"></div>        
     <div class="toolbarArea" id="toolbarArea">
         <ul id="ulMPListToolbar" runat="server">
-            <li id="btnMPListPrint" runat="server" CRUDMode="P"><img src='<%=ResolveUrl("~/Libs/Images/Icon/export.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Export")%></div></li>
+            <li id="btnMPListPrint" runat="server" CRUDMode="E"><img src='<%=ResolveUrl("~/Libs/Images/Icon/export.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Export")%></div></li>
             <asp:ContentPlaceHolder ID="plhToolbar" runat="server">                
             </asp:ContentPlaceHolder>
         </ul>

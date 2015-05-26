@@ -109,7 +109,11 @@ namespace CodeX.Muses.Web.Information.MasterPage
 
         protected void btnExport_Click(object sender, EventArgs e)
         {
-            Helper.ExportExcel(hdnMenuCaption.Value, hdnMenuCaption.Value, BasePageList.OnGetExportControl(), this);
+            bool isShowTitle = true;
+            Control controlHtml = BasePageList.OnGetExportControl(ref isShowTitle);
+            if (controlHtml == null)
+                controlHtml = BasePageList.OnGetExportControl();
+            Helper.ExportExcel(hdnMenuCaption.Value, hdnMenuCaption.Value, controlHtml, this, isShowTitle);
         }
     }
 }

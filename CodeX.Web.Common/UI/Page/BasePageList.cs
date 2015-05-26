@@ -152,6 +152,11 @@ namespace CodeX.Web.Common.UI
             return false;
         }
 
+        public virtual Control OnGetExportControl(ref bool isShowTitle)
+        {
+            return null;
+        }
+
         public virtual Control OnGetExportControl()
         {
             return null;

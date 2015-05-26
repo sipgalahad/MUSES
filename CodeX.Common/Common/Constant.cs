@@ -132,6 +132,12 @@ namespace CodeX.Common
             public const string DOWN_PAYMENT_RETURN = "X035^007";
         }
 
+        public static class Gender
+        {
+            public const string MALE = "0003^M";
+            public const string FEMALE = "0003^F";
+        }
+
         public static class PaymentType
         {
             public const string DOWN_PAYMENT = "X034^001";
