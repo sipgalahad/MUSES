@@ -130,19 +130,23 @@ namespace CodeX.Muses.Web.Information.Program
                 rptReligion.DataSource = lstRegion;
                 rptReligion.DataBind();
 
+                Repeater rptClassType2 = (Repeater)e.Item.FindControl("rptClassType2");
+                rptClassType2.DataSource = lstPeriodClassType;
+                rptClassType2.DataBind();
+
                 Repeater rptClassType = (Repeater)e.Item.FindControl("rptClassType");
                 rptClassType.DataSource = lstPeriodClassType;
                 rptClassType.DataBind();
 
-                HtmlTableCell tdClassCount = (HtmlTableCell)e.Item.FindControl("tdClassCount");
-                HtmlTableCell tdTotalStudentCount = (HtmlTableCell)e.Item.FindControl("tdTotalStudentCount");
-                HtmlTableCell tdTotalMaleCount = (HtmlTableCell)e.Item.FindControl("tdTotalMaleCount");
-                HtmlTableCell tdTotalFemaleCount = (HtmlTableCell)e.Item.FindControl("tdTotalFemaleCount");
+                HtmlGenericControl bClassCount = (HtmlGenericControl)e.Item.FindControl("bClassCount");
+                HtmlGenericControl bTotalStudentCount = (HtmlGenericControl)e.Item.FindControl("bTotalStudentCount");
+                HtmlGenericControl bTotalMaleCount = (HtmlGenericControl)e.Item.FindControl("bTotalMaleCount");
+                HtmlGenericControl bTotalFemaleCount = (HtmlGenericControl)e.Item.FindControl("bTotalFemaleCount");
 
-                tdClassCount.InnerHtml = lstPeriodClassType.Sum(p => p.NoOfClass).ToString();
-                tdTotalStudentCount.InnerHtml = (entityStudentGenderCount.MaleCount + entityStudentGenderCount.FemaleCount).ToString();
-                tdTotalMaleCount.InnerHtml = entityStudentGenderCount.MaleCount.ToString();
-                tdTotalFemaleCount.InnerHtml = entityStudentGenderCount.FemaleCount.ToString();
+                bClassCount.InnerHtml = lstPeriodClassType.Sum(p => p.NoOfClass).ToString();
+                bTotalStudentCount.InnerHtml = (entityStudentGenderCount.MaleCount + entityStudentGenderCount.FemaleCount).ToString();
+                bTotalMaleCount.InnerHtml = entityStudentGenderCount.MaleCount.ToString();
+                bTotalFemaleCount.InnerHtml = entityStudentGenderCount.FemaleCount.ToString();
 
                 Repeater rptReligionTotal = (Repeater)e.Item.FindControl("rptReligionTotal");
                 rptReligionTotal.DataSource = lstRegion;
@@ -155,8 +159,69 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 StandardCode entity = (StandardCode)e.Item.DataItem;
-                HtmlTableCell tdTotalReligionCount = (HtmlTableCell)e.Item.FindControl("tdTotalReligionCount");
-                tdTotalReligionCount.InnerHtml = lstStudentReligionCount.FirstOrDefault(p => p.GCReligion == entity.StandardCodeID).StudentCount.ToString();
+                HtmlGenericControl bTotalReligionCount = (HtmlGenericControl)e.Item.FindControl("bTotalReligionCount");
+                bTotalReligionCount.InnerHtml = lstStudentReligionCount.FirstOrDefault(p => p.GCReligion == entity.StandardCodeID).StudentCount.ToString();
+            }
+        }
+
+        protected void rptClassType2_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vPeriodClassType entity = (vPeriodClassType)e.Item.DataItem;
+                HtmlTableCell tdBeginStudentCount = (HtmlTableCell)e.Item.FindControl("tdBeginStudentCount");
+                HtmlTableCell tdBeginStudentMaleCount = (HtmlTableCell)e.Item.FindControl("tdBeginStudentMaleCount");
+                HtmlTableCell tdBeginStudentFemaleCount = (HtmlTableCell)e.Item.FindControl("tdBeginStudentFemaleCount");
+
+                HtmlTableCell tdInStudentCount = (HtmlTableCell)e.Item.FindControl("tdInStudentCount");
+                HtmlTableCell tdInStudentMaleCount = (HtmlTableCell)e.Item.FindControl("tdInStudentMaleCount");
+                HtmlTableCell tdInStudentFemaleCount = (HtmlTableCell)e.Item.FindControl("tdInStudentFemaleCount");
+
+                HtmlTableCell tdOutStudentCount = (HtmlTableCell)e.Item.FindControl("tdOutStudentCount");
+                HtmlTableCell tdOutStudentMaleCount = (HtmlTableCell)e.Item.FindControl("tdOutStudentMaleCount");
+                HtmlTableCell tdOutStudentFemaleCount = (HtmlTableCell)e.Item.FindControl("tdOutStudentFemaleCount");
+
+                HtmlTableCell tdEndStudentCount = (HtmlTableCell)e.Item.FindControl("tdEndStudentCount");
+                HtmlTableCell tdEndStudentMaleCount = (HtmlTableCell)e.Item.FindControl("tdEndStudentMaleCount");
+                HtmlTableCell tdEndStudentFemaleCount = (HtmlTableCell)e.Item.FindControl("tdEndStudentFemaleCount");
+
+                HtmlTableCell tdStudentMoveOutReason = (HtmlTableCell)e.Item.FindControl("tdStudentMoveOutReason"); 
+
+                lstClassStudentRegistrationPeriodType = lstClassStudentRegistrationPeriod.Where(p => p.PeriodClassTypeID == entity.PeriodClassTypeID).ToList();
+                lstStudentMoveOutPeriodType = lstStudentMoveOutPeriod.Where(p => p.PeriodClassTypeID == entity.PeriodClassTypeID).ToList();
+
+                int maleCount = 0;
+                int femaleCount = 0;
+                vPeriodClassTypeStudentPerGender entityMale = lstPeriodClassTypeStudentPerGender.FirstOrDefault(p => p.PeriodClassTypeID == entity.PeriodClassTypeID && p.GCGender == Constant.Gender.MALE);
+                vPeriodClassTypeStudentPerGender entityFemale = lstPeriodClassTypeStudentPerGender.FirstOrDefault(p => p.PeriodClassTypeID == entity.PeriodClassTypeID && p.GCGender == Constant.Gender.FEMALE);
+
+                int newStudentMale = lstClassStudentRegistrationPeriodType.Where(p => p.GCGender == Constant.Gender.MALE).Count();
+                int newStudentFemale = lstClassStudentRegistrationPeriodType.Where(p => p.GCGender == Constant.Gender.FEMALE).Count();
+                int studentMoveOutMale = lstStudentMoveOutPeriodType.Where(p => p.GCGender == Constant.Gender.MALE).Count();
+                int studentMoveOutFemale = lstStudentMoveOutPeriodType.Where(p => p.GCGender == Constant.Gender.FEMALE).Count();
+
+                if (entityMale != null)
+                    maleCount = entityMale.StudentCount;
+                if (entityFemale != null)
+                    femaleCount = entityFemale.StudentCount;
+
+                tdBeginStudentMaleCount.InnerHtml = maleCount.ToString();
+                tdBeginStudentFemaleCount.InnerHtml = femaleCount.ToString();
+                tdBeginStudentCount.InnerHtml = (maleCount + femaleCount).ToString();
+
+                tdInStudentMaleCount.InnerHtml = newStudentMale.ToString();
+                tdInStudentFemaleCount.InnerHtml = newStudentFemale.ToString();
+                tdInStudentCount.InnerHtml = (newStudentMale + newStudentFemale).ToString();
+
+                tdOutStudentMaleCount.InnerHtml = studentMoveOutMale.ToString();
+                tdOutStudentFemaleCount.InnerHtml = studentMoveOutFemale.ToString();
+                tdOutStudentCount.InnerHtml = (studentMoveOutMale + studentMoveOutFemale).ToString();
+
+                tdEndStudentMaleCount.InnerHtml = (maleCount + newStudentMale - studentMoveOutMale).ToString();
+                tdEndStudentFemaleCount.InnerHtml = (femaleCount + newStudentFemale - studentMoveOutFemale).ToString();
+                tdEndStudentCount.InnerHtml = ((maleCount + newStudentMale - studentMoveOutMale) + (femaleCount + newStudentFemale - studentMoveOutFemale)).ToString();
+
+                tdStudentMoveOutReason.InnerHtml = string.Join(",", lstStudentMoveOutPeriodType.Select(p => p.MoveOutReason).ToList());
             }
         }
 

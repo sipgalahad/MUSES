@@ -20,10 +20,17 @@
             cbpView.PerformCallback('refresh');
         }
 
+        $(function () {
+            onCbpViewEndCallback();
+        });
+
         function onCbpViewEndCallback() {
             $tempDiv = $('<div></div>');
             $tempDiv.html($('#divContainerView').html());
             $tempDiv.find('.divClassTypeInformation').each(function () {
+                $(this).attr('border', '1');
+            });
+            $tempDiv.find('.divClassTypeMutationInformation').each(function () {
                 $(this).attr('border', '1');
             });
             $('#<%=hdnExportControl.ClientID %>').val($tempDiv.html());
@@ -46,7 +53,7 @@
             </td>
         </tr>
     </table>
-    <div class="divTransactionEntry">
+    <div class="divTransactionEntry" style="width:1250px; height: 450px; overflow: scroll;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }" 
@@ -59,8 +66,8 @@
                         <div id="divContainerView">
                             <asp:Repeater ID="rptPeriod" runat="server" OnItemDataBound="rptPeriod_ItemDataBound">
                                 <ItemTemplate>
-                                    <table cellpadding="0" cellspacing="0" rules="all" style="margin-bottom: 10px;">
-                                        <td>
+                                    <table cellpadding="0" cellspacing="0" style="margin-bottom: 10px; width: 1700px;">
+                                        <td valign="top">
                                             <table cellpadding="0" cellspacing="0" rules="all" class="grdSelected grdBorder divClassTypeInformation">
                                                 <tr>
                                                     <th rowspan="3" style="width: 30px" class="thCenter"><%=GetLabel("NO") %></th>
@@ -101,18 +108,75 @@
                                                     </ItemTemplate>
                                                 </asp:Repeater>
                                                 <tr>
-                                                    <td colspan="2"><%=GetLabel("JUMLAH") %></td>
-                                                    <td class="thCenter" id="tdClassCount" runat="server"></td>
-                                                    <td class="thCenter" id="tdTotalStudentCount" runat="server"></td>
-                                                    <td class="thCenter" id="tdTotalMaleCount" runat="server"></td>
-                                                    <td class="thCenter" id="tdTotalFemaleCount" runat="server"></td>
+                                                    <td colspan="2"><b><%=GetLabel("JUMLAH") %></b></td>
+                                                    <td align="center"><b id="bClassCount" runat="server"></b></td>
+                                                    <td align="center"><b id="bTotalStudentCount" runat="server"></b></td>
+                                                    <td align="center"><b id="bTotalMaleCount" runat="server"></b></td>
+                                                    <td align="center"><b id="bTotalFemaleCount" runat="server"></b></td>
 
                                                     <asp:Repeater ID="rptReligionTotal" runat="server" OnItemDataBound="rptReligionTotal_ItemDataBound">
                                                         <ItemTemplate>
-                                                            <td class="thCenter" id="tdTotalReligionCount" runat="server"></td>    
+                                                            <td align="center"><b id="bTotalReligionCount" runat="server"></b></td>    
                                                         </ItemTemplate>
                                                     </asp:Repeater>                                               
                                                 </tr>
+                                            </table>
+                                        </td>
+                                        <td style="width:20px"></td>
+                                        <td valign="top">
+                                            <div style="height:20px; padding-top: 15px;"><%=GetLabel("CATATAN MUTASI SISWA :")%></div>
+                                            <table cellpadding="0" cellspacing="0" rules="all" class="grdSelected grdBorder divClassTypeMutationInformation">
+                                                <tr>
+                                                    <th rowspan="2" style="width: 30px" class="thCenter"><%=GetLabel("NO") %></th>
+                                                    <th rowspan="2" style="width: 80px"><%=GetLabel("KELAS") %></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("JML AWAL BLN")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("MUTASI MASUK")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("MUTASI KELUAR")%></th>
+                                                    <th colspan="3" class="thCenter"><%=GetLabel("JML AKHIR BLN")%></th>
+                                                    <th rowspan="2" style="width: 200px"><%=GetLabel("ALASAN MUTASI") %></th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("JML") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("L") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("P") %></th>
+
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("JML") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("L") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("P") %></th>
+
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("JML") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("L") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("P") %></th>
+
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("JML") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("L") %></th>
+                                                    <th class="thCenter" style="width: 40px"><%=GetLabel("P") %></th>
+                                                </tr>
+                                                <asp:Repeater ID="rptClassType2" runat="server" OnItemDataBound="rptClassType2_ItemDataBound">
+                                                    <ItemTemplate>
+                                                        <tr>
+                                                            <td align="center"><%# Container.ItemIndex + 1 %></td>
+                                                            <td><%#Eval("CurriculumClassTypeName") %></td>
+                                                            <td id="tdBeginStudentCount" runat="server" align="center"></td>
+                                                            <td id="tdBeginStudentMaleCount" runat="server" align="center"></td>
+                                                            <td id="tdBeginStudentFemaleCount" runat="server" align="center"></td>
+
+                                                            <td id="tdInStudentCount" runat="server" align="center"></td>
+                                                            <td id="tdInStudentMaleCount" runat="server" align="center"></td>
+                                                            <td id="tdInStudentFemaleCount" runat="server" align="center"></td>
+
+                                                            <td id="tdOutStudentCount" runat="server" align="center"></td>
+                                                            <td id="tdOutStudentMaleCount" runat="server" align="center"></td>
+                                                            <td id="tdOutStudentFemaleCount" runat="server" align="center"></td>
+
+                                                            <td id="tdEndStudentCount" runat="server" align="center"></td>
+                                                            <td id="tdEndStudentMaleCount" runat="server" align="center"></td>
+                                                            <td id="tdEndStudentFemaleCount" runat="server" align="center"></td>
+                                                            
+                                                            <td id="tdStudentMoveOutReason" runat="server"></td>
+                                                        </tr>
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
                                             </table>
                                         </td>
                                     </table>
