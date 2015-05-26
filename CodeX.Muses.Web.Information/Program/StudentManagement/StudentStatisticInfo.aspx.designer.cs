@@ -40,15 +40,6 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSchoolPeriod;
         
         /// <summary>
-        /// tacPeriodClassType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacPeriodClassType;
-        
-        /// <summary>
         /// cbpView control.
         /// </summary>
         /// <remarks>

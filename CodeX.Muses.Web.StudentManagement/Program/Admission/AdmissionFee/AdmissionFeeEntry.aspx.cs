@@ -223,7 +223,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 txtAdmissionFeeCompTransactionAmount.Text = (entity.TotalPaymentAmount - totalDiscountAmount).ToString();
 
                 TextBox txtDiscountPercentage = (TextBox)e.Item.FindControl("txtDiscountPercentage");
-                txtDiscountPercentage.Text = (totalDiscountAmount / entity.TotalPaymentAmount * 100).ToString("#,##0.00");
+                if (entity.TotalPaymentAmount != 0)
+                    txtDiscountPercentage.Text = (totalDiscountAmount / entity.TotalPaymentAmount * 100).ToString("#,##0.00");
+                else
+                    txtDiscountPercentage.Text = 0.ToString("#,##0.00");
 
                 rptViewDt.DataSource = lstEntity;
                 rptViewDt.DataBind();

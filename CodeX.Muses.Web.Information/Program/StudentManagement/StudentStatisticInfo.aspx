@@ -17,68 +17,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPMain" runat="server">
     <script type="text/javascript">
         function onCboSchoolPeriodValueChanged(s) {
-            tacPeriodClassType.setValue('');
-            tacPeriodClassType.setText('');
             cbpView.PerformCallback('refresh');
         }
-
-        //#region Period Class Type
-        function onGetPeriodClassTypeFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
-            return filterExpression;
-        }
-
-        function onTacPeriodClassTypeButtonSearchClick() {
-            openSearchDialog('periodclasstype', onGetPeriodClassTypeFilterExpression(), function (value) {
-                var filterExpression = onGetPeriodClassTypeFilterExpression() + " AND CurriculumClassTypeCode = '" + value + "'";
-                Methods.getObject('GetvPeriodClassTypeList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacPeriodClassType.setValue(result.PeriodClassTypeID);
-                        tacPeriodClassType.setText(result.CurriculumClassTypeName);
-                    }
-                    else {
-                        tacPeriodClassType.setValue('');
-                        tacPeriodClassType.setText('');
-                    }
-                    onTacPeriodClassTypeValueChanged();
-                });
-            });
-
-        }
-
-        function onTacPeriodClassTypeValueChanged() {
-            cbpView.PerformCallback('refresh');
-        }
-        //#endregion
-
-        //#region Class
-        function onGetClassFilterExpression() {
-            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND GCClassStudyType = '<%=OnGetClassStudyTypeRegular() %>' AND IsDeleted = 0";
-            return filterExpression;
-        }
-
-        function onTacClassButtonSearchClick() {
-            openSearchDialog('schoolclass', onGetClassFilterExpression(), function (value) {
-                var filterExpression = onGetClassFilterExpression() + " AND SchoolClassCode = '" + value + "'";
-                Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacSchoolClass.setValue(result.SchoolClassID);
-                        tacSchoolClass.setText(result.SchoolClassName);
-                    }
-                    else {
-                        tacSchoolClass.setValue('');
-                        tacSchoolClass.setText('');
-                    }
-                    onTacClassValueChanged();
-                });
-            });
-
-        }
-
-        function onTacClassValueChanged() {
-            cbpView.PerformCallback('refresh');
-        }
-        //#endregion
 
         function onCbpViewEndCallback() {
             $tempDiv = $('<div></div>');
@@ -103,16 +43,6 @@
                 <dxe:ASPxComboBox runat="server" ID="cboSchoolPeriod" ClientInstanceName="cboSchoolPeriod" Width="200px">
                     <ClientSideEvents ValueChanged="function(s,e) { onCboSchoolPeriodValueChanged(s); }" />
                 </dxe:ASPxComboBox>
-            </td>
-        </tr>
-        <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Kelas")%></label></td>
-            <td>
-                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacPeriodClassType" ClientInstanceName="tacPeriodClassType" MethodName="GetvPeriodClassTypeList" GetFilterExpressionFunction="onGetPeriodClassTypeFilterExpression"
-                    SearchFields="CurriculumClassTypeName,CurriculumClassTypeCode" TextField="PeriodClassTypeID" ValueField="SchoolClassID" SearchText="${CurriculumClassTypeName} (<b>${}</b>)" OrderByExpression="CurriculumClassTypeName">
-                    <ClientSideEvents ButtonSearchClick="function(){ onTacPeriodClassTypeButtonSearchClick(); }"
-                        ValueChanged="function(){ onTacPeriodClassTypeValueChanged(); }" />
-                </cdx:CodeXAutoCompleteTextBox>   
             </td>
         </tr>
     </table>
@@ -170,6 +100,19 @@
                                                         </tr>
                                                     </ItemTemplate>
                                                 </asp:Repeater>
+                                                <tr>
+                                                    <td colspan="2"><%=GetLabel("JUMLAH") %></td>
+                                                    <td class="thCenter" id="tdClassCount" runat="server"></td>
+                                                    <td class="thCenter" id="tdTotalStudentCount" runat="server"></td>
+                                                    <td class="thCenter" id="tdTotalMaleCount" runat="server"></td>
+                                                    <td class="thCenter" id="tdTotalFemaleCount" runat="server"></td>
+
+                                                    <asp:Repeater ID="rptReligionTotal" runat="server" OnItemDataBound="rptReligionTotal_ItemDataBound">
+                                                        <ItemTemplate>
+                                                            <td class="thCenter" id="tdTotalReligionCount" runat="server"></td>    
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>                                               
+                                                </tr>
                                             </table>
                                         </td>
                                     </table>

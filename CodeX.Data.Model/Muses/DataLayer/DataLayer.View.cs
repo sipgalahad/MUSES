@@ -2331,6 +2331,7 @@ namespace CodeX.Data.Model
         private String _StudentCode;
         private String _StudentName;
         private String _GCGender;
+        private String _GCReligion;
         private String _GCClassStudentStatus;
         private String _ClassStudentStatus;
         private String _GCPeriodAdmissionType;
@@ -2371,6 +2372,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCGender; }
             set { _GCGender = value; }
+        }
+        [Column(Name = "GCReligion", DataType = "String")]
+        public String GCReligion
+        {
+            get { return _GCReligion; }
+            set { _GCReligion = value; }
         }
         [Column(Name = "GCClassStudentStatus", DataType = "String")]
         public String GCClassStudentStatus
@@ -23306,6 +23313,9 @@ namespace CodeX.Data.Model
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
+        private String _GCGender;
+        private String _GCReligion;
+        private Int32 _PeriodClassTypeID;
         private DateTime _MoveOutDate;
         private String _GCMoveOutReason;
         private String _MoveOutReason;
@@ -23336,6 +23346,24 @@ namespace CodeX.Data.Model
         {
             get { return _StudentName; }
             set { _StudentName = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "GCReligion", DataType = "String")]
+        public String GCReligion
+        {
+            get { return _GCReligion; }
+            set { _GCReligion = value; }
+        }
+        [Column(Name = "PeriodClassTypeID", DataType = "Int32")]
+        public Int32 PeriodClassTypeID
+        {
+            get { return _PeriodClassTypeID; }
+            set { _PeriodClassTypeID = value; }
         }
         [Column(Name = "MoveOutDate", DataType = "DateTime")]
         public DateTime MoveOutDate
