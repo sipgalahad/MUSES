@@ -38,7 +38,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND StandardCodeID != '{1}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SCHOLARSHIP_TYPE, Constant.ScholarshipType.ADMISSION));
             Methods.SetComboBoxField<StandardCode>(cboScholarshipType, lstStandardCode, "StandardCodeName", "StandardCodeID");
 
-            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
             rptStudentFeeCompType.DataSource = lstComp;
             rptStudentFeeCompType.DataBind();
 
@@ -84,7 +84,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstScholarshipPeriodAdmission = BusinessLayer.GetScholarshipPeriodAdmissionList(string.Format("ScholarshipID IN ({0})", lstID));
                 if (lstComp == null)
                 {
-                    lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+                    lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
                 }
             }
             rptView.DataSource = lstEntity;

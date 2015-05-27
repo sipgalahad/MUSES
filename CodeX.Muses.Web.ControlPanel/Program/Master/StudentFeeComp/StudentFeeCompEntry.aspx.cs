@@ -92,7 +92,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         private void ControlToEntity(StudentFeeCompType entity)
         {
-            entity.SiteID = AppSession.UserLogin.SiteID;
             entity.StudentFeeCompTypeName = txtStudentFeeCompTypeName.Text;
             entity.ShortName = txtShortName.Text;
             entity.GCAdmissionPaymentPeriod = cboAdmissionPaymentPeriod.Value.ToString();
@@ -101,31 +100,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else entity.PaymentDate = null;
             if (cboAdmissionPaymentPeriod.Value.ToString() == Constant.AdmissionPaymentPeriod.TAHUNAN) entity.PaymentMonth = Convert.ToInt32(cboMonth.Value);
             else entity.PaymentMonth = null;
-        }
-
-        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-
-            //string FilterExpression = string.Format("BankCode = '{0}'", txtBankCode.Text);
-            //List<Bank> lst = BusinessLayer.GetBankList(FilterExpression);
-
-            //if (lst.Count > 0)
-            //    errMessage = " Bank With Code " + txtBankCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
-        }
-
-        protected override bool OnBeforeSaveEditRecord(ref string errMessage)
-        {
-            errMessage = string.Empty;
-            //string FilterExpression = string.Format("BankCode = '{0}' AND BankID != {1}", txtBankCode.Text, hdnID.Value);
-            //List<Bank> lst = BusinessLayer.GetBankList(FilterExpression);
-
-            //if (lst.Count > 0)
-            //    errMessage = " Bank With Code " + txtBankCode.Text + " is already exist!";
-
-            return (errMessage == string.Empty);
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -145,6 +119,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -168,6 +143,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

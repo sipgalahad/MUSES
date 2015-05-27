@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
-            List<StudentFeeCompType> lstFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            List<StudentFeeCompType> lstFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<StudentFeeCompType>(cboStudentFeeCompType, lstFeeCompType, "StudentFeeCompTypeName", "StudentFeeCompTypeID");
 
             BindGridView();

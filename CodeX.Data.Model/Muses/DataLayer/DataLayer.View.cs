@@ -2416,6 +2416,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumSchoolPeriodSectionID;
         private Int32 _CurriculumMarkTypeID;
         private String _CurriculumMarkTypeCode;
+        private String _GCStudentMarkGroup;
         private Decimal _Mark;
         private Int32 _MarkTypeDtID;
         private String _MarkTypeDtName;
@@ -2461,6 +2462,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeCode; }
             set { _CurriculumMarkTypeCode = value; }
+        }
+        [Column(Name = "GCStudentMarkGroup", DataType = "String")]
+        public String GCStudentMarkGroup
+        {
+            get { return _GCStudentMarkGroup; }
+            set { _GCStudentMarkGroup = value; }
         }
         [Column(Name = "Mark", DataType = "Decimal")]
         public Decimal Mark
@@ -3492,12 +3499,14 @@ namespace CodeX.Data.Model
     #region vCurriculumMarkType
     [Serializable]
     [Table(Name = "vCurriculumMarkType")]
-    public class vCurriculumMarkType
+    public partial class vCurriculumMarkType
     {
         private Int32 _CurriculumMarkTypeID;
         private Int32 _CurriculumID;
         private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
+        private String _GCStudentMarkGroup;
+        private String _StudentMarkGroup;
         private String _ListGCClassStudyType;
         private String _ListClassStudyType;
         private Int32 _TaskMarkTypeID;
@@ -3540,6 +3549,18 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeName; }
             set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "GCStudentMarkGroup", DataType = "String")]
+        public String GCStudentMarkGroup
+        {
+            get { return _GCStudentMarkGroup; }
+            set { _GCStudentMarkGroup = value; }
+        }
+        [Column(Name = "StudentMarkGroup", DataType = "String")]
+        public String StudentMarkGroup
+        {
+            get { return _StudentMarkGroup; }
+            set { _StudentMarkGroup = value; }
         }
         [Column(Name = "ListGCClassStudyType", DataType = "String")]
         public String ListGCClassStudyType
@@ -23077,7 +23098,6 @@ namespace CodeX.Data.Model
     public class vStudentFeeCompType
     {
         private Int32 _StudentFeeCompTypeID;
-        private String _SiteID;
         private String _StudentFeeCompTypeName;
         private String _GCAdmissionPaymentPeriod;
         private String _AdmissionPaymentPeriod;
@@ -23088,12 +23108,6 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeID; }
             set { _StudentFeeCompTypeID = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
         public String StudentFeeCompTypeName

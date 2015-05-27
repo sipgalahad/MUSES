@@ -34,13 +34,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Methods.SetComboBoxField<MarkTypeHd>(cboFinalMarkType, lstMark, "MarkTypeName", "MarkTypeID");
             Methods.SetComboBoxField<MarkTypeHd>(cboPredicateMarkType, lstMark, "MarkTypeName", "MarkTypeID");
 
-            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.COMPETENCY_DESCRIPTION_TYPE));
-            Methods.SetComboBoxField<StandardCode>(cboCompetencyDescriptionType, lstSc, "StandardCodeName", "StandardCodeID");
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.COMPETENCY_DESCRIPTION_TYPE, Constant.StandardCode.STUDENT_MARK_GROUP));
+            Methods.SetComboBoxField<StandardCode>(cboCompetencyDescriptionType, lstSc.Where(p => p.ParentID == Constant.StandardCode.COMPETENCY_DESCRIPTION_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField<StandardCode>(cboStudentMarkGroup, lstSc.Where(p => p.ParentID == Constant.StandardCode.STUDENT_MARK_GROUP).ToList(), "StandardCodeName", "StandardCodeID");
 
             BindGridView();
 
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeCode, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(txtCurriculumMarkTypeName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboStudentMarkGroup, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCompetencyDescriptionType, new ControlEntrySetting(true, true, true), "mpTrx");
             Helper.SetControlEntrySetting(cboCompetencyMarkType, new ControlEntrySetting(true, true, true), "mpTrx");
         }
@@ -115,6 +117,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.CurriculumMarkTypeCode = txtCurriculumMarkTypeCode.Text;
             entity.CurriculumMarkTypeName = txtCurriculumMarkTypeName.Text;
+            entity.GCStudentMarkGroup = cboStudentMarkGroup.Value.ToString();
             if (cboTaskMarkType.Value != null && cboTaskMarkType.Value.ToString() != "0")
                 entity.TaskMarkTypeID = Convert.ToInt32(cboTaskMarkType.Value);
             else

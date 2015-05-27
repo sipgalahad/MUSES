@@ -5860,6 +5860,7 @@ namespace CodeX.Data.Model
         private Int32 _CurriculumID;
         private String _CurriculumMarkTypeCode;
         private String _CurriculumMarkTypeName;
+        private String _GCStudentMarkGroup;
         private Int32? _TaskMarkTypeID;
         private Int32? _FinalMarkTypeID;
         private Int32? _PredicateMarkTypeID;
@@ -5896,6 +5897,12 @@ namespace CodeX.Data.Model
         {
             get { return _CurriculumMarkTypeName; }
             set { _CurriculumMarkTypeName = value; }
+        }
+        [Column(Name = "GCStudentMarkGroup", DataType = "String")]
+        public String GCStudentMarkGroup
+        {
+            get { return _GCStudentMarkGroup; }
+            set { _GCStudentMarkGroup = value; }
         }
         [Column(Name = "TaskMarkTypeID", DataType = "Int32", IsNullable = true)]
         public Int32? TaskMarkTypeID
@@ -26065,7 +26072,6 @@ namespace CodeX.Data.Model
     public class StudentFeeCompType : DbDataModel
     {
         private Int32 _StudentFeeCompTypeID;
-        private String _SiteID;
         private String _StudentFeeCompTypeName;
         private String _ShortName;
         private String _GCAdmissionPaymentPeriod;
@@ -26083,12 +26089,6 @@ namespace CodeX.Data.Model
         {
             get { return _StudentFeeCompTypeID; }
             set { _StudentFeeCompTypeID = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "StudentFeeCompTypeName", DataType = "String")]
         public String StudentFeeCompTypeName

@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<StudentFeeCompType> lstComp = null;
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod != '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
+            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("GCAdmissionPaymentPeriod != '{0}' AND IsDeleted = 0", Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
             rptStudentFeeCompTypeView.DataSource = lstComp;
             rptStudentFeeCompTypeView.DataBind();
 
@@ -99,7 +99,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             lstScholarship.Insert(0, sch);
 
             if (lstComp == null) 
-                lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod != '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
+                lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("GCAdmissionPaymentPeriod != '{0}' AND IsDeleted = 0", Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
             rptView.DataSource = lstEntity;
             rptView.DataBind();
         }

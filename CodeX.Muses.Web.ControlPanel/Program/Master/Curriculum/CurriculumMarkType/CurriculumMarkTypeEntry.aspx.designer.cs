@@ -49,6 +49,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program {
         protected global::System.Web.UI.WebControls.TextBox txtCurriculumMarkTypeName;
         
         /// <summary>
+        /// cboStudentMarkGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboStudentMarkGroup;
+        
+        /// <summary>
         /// ddeClassStudyType control.
         /// </summary>
         /// <remarks>

@@ -65,7 +65,7 @@ namespace CodeX.Common
             public const string BANK_EXPORT_DATA_TYPE = "MS023";
             public const string SUBJECT_MARK_TYPE = "MS025";
             public const string STUDENT_MOVE_OUT_REASON = "MS026";
-            public const string LESSON_TYPE = "MS027";
+            public const string STUDENT_MARK_GROUP = "MS027";
             public const string PERIOD_SECTION = "MS028";
             public const string SUBJECT_MEETING_PLAN_DT_TYPE = "MS029";
             public const string SUBJECT_BASIC_COMPETENCY_DT_TYPE = "MS030";
@@ -118,11 +118,11 @@ namespace CodeX.Common
             public const string TEXT = "MS025^003";
         }
 
-        public static class LessonType
+        public static class StudentMarkGroup
         {
             public const string THEORY = "MS027^001";
             public const string PRACTICE = "MS027^002";
-            public const string THEORY_PRACTICE = "MS027^003";
+            public const string AFFECTIVE = "MS027^003";
         }
 
         public static class AdmissionType

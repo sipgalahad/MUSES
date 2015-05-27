@@ -73,7 +73,7 @@ namespace CodeX.Muses.Web.Finance.Program
             if (tacSchoolClass.Value != "")
                 filterExpression = string.Format("StudentID IN (SELECT StudentID FROM Student WHERE SchoolClassID = {0} AND GCStudentStatus = '{1}' AND IsDeleted = 0) AND TransactionMonth = {2} AND TransactionYear = {3} AND GCAdmissionPaymentPeriod = '{4}' AND IsPaid = 0 AND IsDeleted = 0", tacSchoolClass.Value, Constant.StudentStatus.ACTIVE, cboMonth.Value, cboYear.Value, Constant.AdmissionPaymentPeriod.BULANAN);
             List<vStudentFee> lstEntity = BusinessLayer.GetvStudentFeeList(filterExpression);
-            lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND GCAdmissionPaymentPeriod = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.AdmissionPaymentPeriod.BULANAN));
+            lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("GCAdmissionPaymentPeriod = '{0}' AND IsDeleted = 0", Constant.AdmissionPaymentPeriod.BULANAN));
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

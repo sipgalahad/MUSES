@@ -76,6 +76,13 @@ namespace CodeX.Muses.Web.Information.Program
 
             lstSite = BusinessLayer.GetSiteList(String.Format("ParentID = '{0}' OR SiteID = '{0}'", AppSession.UserLogin.SiteID));
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
+
+            lstStudentReceive = new List<GetStudentReceiveSummary>();
+            foreach (Site site in lstSite)
+            {
+                List<GetStudentReceiveSummary> lstStudentReceive1 = BusinessLayer.GetStudentReceiveSummary(site.SiteID, Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value));
+                lstStudentReceive = lstStudentReceive.Concat(lstStudentReceive1).ToList();
+            }
             rptSite.DataSource = lstSite;
             rptSite.DataBind();
 
@@ -103,8 +110,6 @@ namespace CodeX.Muses.Web.Information.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 StudentFeeCompType entity = (StudentFeeCompType)e.Item.DataItem;
-
-                lstStudentReceive = BusinessLayer.GetStudentReceiveSummary(entity.SiteID, Convert.ToInt32(cboYear.Value), Convert.ToInt32(cboMonth.Value));
 
                 Repeater rptSiteDt1 = (Repeater)e.Item.FindControl("rptSiteDt1");
                 rptSiteDt1.DataSource = lstSite;

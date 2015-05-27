@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("SiteID = '{0}' AND IsDeleted = 0",AppSession.UserLogin.SiteID);
+            filterExpression += String.Format("IsDeleted = 0");
             return filterExpression;
         }
 

@@ -13,7 +13,7 @@
         $(function () {
             $('#divTransactionAdd').click(function (evt) {
                 $('#<%=hdnEntryID.ClientID %>').val('');
-                $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val(''); 
+                $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val('');
                 $('#<%=txtCurriculumMarkTypeName.ClientID %>').val('');
                 cboTaskMarkType.SetValue('');
                 cboFinalMarkType.SetValue('');
@@ -22,6 +22,7 @@
                 $('#<%=chkIsShowCompetencyDescription.ClientID %>').prop('checked', false);
                 cboCompetencyDescriptionType.SetValue('');
                 cboCompetencyMarkType.SetValue('');
+                cboStudentMarkGroup.SetValue('');
 
                 $('#<%=hdnLstClassStudyTypeID.ClientID %>').val('');
                 ddeClassStudyType.SetText('');
@@ -94,13 +95,14 @@
             var entity = rowToObject($row);
 
             $('#<%=hdnEntryID.ClientID %>').val(entity.CurriculumMarkTypeID);
-            $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val(entity.CurriculumMarkTypeCode); 
+            $('#<%=txtCurriculumMarkTypeCode.ClientID %>').val(entity.CurriculumMarkTypeCode);
             $('#<%=txtCurriculumMarkTypeName.ClientID %>').val(entity.CurriculumMarkTypeName);
+            cboStudentMarkGroup.SetValue(entity.GCStudentMarkGroup);
             cboTaskMarkType.SetValue(entity.TaskMarkTypeID);
             cboFinalMarkType.SetValue(entity.FinalMarkTypeID);
             cboPredicateMarkType.SetValue(entity.PredicateMarkTypeID);
-            $('#<%=chkIsAllowTask.ClientID %>').prop('checked', entity.IsAllowTask == 'True'); 
-            $('#<%=chkIsShowCompetencyDescription.ClientID %>').prop('checked', entity.IsShowCompetencyDescription == 'True'); 
+            $('#<%=chkIsAllowTask.ClientID %>').prop('checked', entity.IsAllowTask == 'True');
+            $('#<%=chkIsShowCompetencyDescription.ClientID %>').prop('checked', entity.IsShowCompetencyDescription == 'True');
             cboCompetencyDescriptionType.SetValue(entity.GCCompetencyDescriptionType);
             cboCompetencyMarkType.SetValue(entity.CompetencyMarkTypeID);
             $('#<%=chkIsShowCompetencyDescription.ClientID %>').change();
@@ -174,6 +176,10 @@
                                     <td><asp:TextBox ID="txtCurriculumMarkTypeName" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Nilai")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboStudentMarkGroup" ClientInstanceName="cboStudentMarkGroup" runat="server" Width="200px" /></td>
+                                </tr>
+                                <tr>
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pelajaran")%></label></td>
                                     <td>
                                         <dxe:ASPxDropDownEdit ClientInstanceName="ddeClassStudyType" ID="ddeClassStudyType"
@@ -190,20 +196,26 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Tugas")%></label></td>
+                                    <td colspan="2"><h4><%=GetLabel("Format Nilai") %></h4></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nilai Tugas")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboTaskMarkType" ClientInstanceName="cboTaskMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Nilai Rapor")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nilai Rapor")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboFinalMarkType" ClientInstanceName="cboFinalMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Format Predikat Akhir")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Predikat Akhir")%></label></td>
                                     <td><dxe:ASPxComboBox ID="cboPredicateMarkType" ClientInstanceName="cboPredicateMarkType" runat="server" Width="200px" /></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Allow Task")%></label></td>
                                     <td><asp:CheckBox ID="chkIsAllowTask" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><h4><%=GetLabel("Deskripsi Kompetensi")%></h4></td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Allow Deskripsi Kompetensi")%></label></td>
@@ -255,6 +267,7 @@
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeID") %>" bindingfield="CurriculumMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeCode") %>" bindingfield="CurriculumMarkTypeCode" />
                                         <input type="hidden" value="<%#Eval("CurriculumMarkTypeName") %>" bindingfield="CurriculumMarkTypeName" />
+                                        <input type="hidden" value="<%#Eval("GCStudentMarkGroup") %>" bindingfield="GCStudentMarkGroup" />
                                         <input type="hidden" value="<%#Eval("TaskMarkTypeID") %>" bindingfield="TaskMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("FinalMarkTypeID") %>" bindingfield="FinalMarkTypeID" />
                                         <input type="hidden" value="<%#Eval("PredicateMarkTypeID") %>" bindingfield="PredicateMarkTypeID" />

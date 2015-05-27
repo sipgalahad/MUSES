@@ -27,7 +27,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             rptClassType.DataSource = lstClassType;
             rptClassType.DataBind();
 
-            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
             rptStudentFeeCompType.DataSource = lstComp;
             rptStudentFeeCompType.DataBind();
 
@@ -79,7 +79,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 string lstID = string.Join(",", lstEntity.Select(p => p.CoverageTypeDtID).ToList());
                 lstCoverageTypeDtComp = BusinessLayer.GetCoverageTypeDtCompList(string.Format("CoverageTypeDtID IN ({0})", lstID));
                 if (lstComp == null)
-                    lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+                    lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
             }
             rptView.DataSource = lstEntity;
             rptView.DataBind();

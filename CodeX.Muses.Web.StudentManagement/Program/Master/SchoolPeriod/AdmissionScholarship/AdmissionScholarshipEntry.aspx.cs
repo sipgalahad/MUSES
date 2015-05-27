@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "- All -" });
             Methods.SetComboBoxField<StandardCode>(cboFromSchoolType, lstStandardCode, "StandardCodeName", "StandardCodeID");
 
-            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
             rptStudentFeeCompType.DataSource = lstComp;
             rptStudentFeeCompType.DataBind();
 
@@ -82,7 +82,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 lstScholarshipPeriodAdmission = BusinessLayer.GetScholarshipPeriodAdmissionList(string.Format("ScholarshipID IN ({0})", lstID));
                 if (lstComp == null)
                 {
-                    lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+                    lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
                     lstAdmission = BusinessLayer.GetPeriodAdmissionList(string.Format("SchoolPeriodID = {0} AND GCPeriodAdmissionStatus != '{1}'", AppSession.SchoolPeriodID, Constant.SchoolPeriodStatus.VOID));
                 }
             }

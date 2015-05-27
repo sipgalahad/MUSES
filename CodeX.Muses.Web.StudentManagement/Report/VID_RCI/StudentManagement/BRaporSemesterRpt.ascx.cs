@@ -193,7 +193,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 HtmlTableCell tdKompetensi = e.Item.FindControl("tdKompetensi") as HtmlTableCell;
-                vClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID && x.CurriculumMarkTypeCode == "SMA_2006_TEORI");
+                vClassStudentSubjectMark cs = lstNilai.FirstOrDefault(x => x.ClassSubjectID == entity.ClassSubjectID && x.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
                 if (cs != null) tdKompetensi.InnerHtml = cs.CompetencyDescription;
                 else tdKompetensi.InnerHtml = "-";
             }
@@ -213,7 +213,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlTableCell tdFinalScore = e.Item.FindControl("tdFinalScore") as HtmlTableCell;
                 HtmlTableCell tdAffective = e.Item.FindControl("tdAffective") as HtmlTableCell;
 
-                vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.CurriculumMarkTypeCode == "SMA_2006_TEORI");
+                vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
                 if (theoryMark != null && theoryMark.Mark > 0)
                 {
                     tdTheory.InnerHtml = theoryMark.Mark.ToString("N");
@@ -224,7 +224,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     tdTheory.InnerHtml = "-";
                     tdTxtTheory.InnerHtml = "-";
                 }
-                vClassStudentSubjectMark practiceMark = lstMark.FirstOrDefault(p => p.CurriculumMarkTypeCode == "SMA_2006_PRAKTIK");
+                vClassStudentSubjectMark practiceMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.PRACTICE);
                 if (practiceMark != null && practiceMark.Mark > 0)
                 {
                     tdPractice.InnerHtml = practiceMark.Mark.ToString("N");
@@ -236,7 +236,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     tdTxtPractice.InnerHtml = "-";
                 }
 
-                vClassStudentSubjectMark affectiveMark = lstMark.FirstOrDefault(p => p.CurriculumMarkTypeCode == "SMA_2006_SIKAP");
+                vClassStudentSubjectMark affectiveMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
                 if (affectiveMark != null)
                     tdAffective.InnerHtml = affectiveMark.DescriptionMark;
                 else
