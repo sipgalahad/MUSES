@@ -467,13 +467,13 @@ namespace CodeX.Common
                 public const string STOCK_DETAIL_INFO = "IF020100";
 
                 public const string AP_SUPPLIER_INFORMATION = "IF030100";
-                public const string AR_STUDENT_INFORMATION = "IF030200";
-                public const string AR_PROSPECTIVE_STUDENT_INFORMATION = "IF030300";
-                public const string AR_CUSTOMER_INFORMATION = "IF030400";
-                public const string STUDENT_FEE = "IF030500";
-                public const string TARIFF_INFORMATION = "IF030600";
-                public const string STUDENT_REVENUE_INFO = "IF030700";
-                public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030800";
+                public const string AR_STUDENT_INFORMATION = "IF030201";
+                public const string AR_PROSPECTIVE_STUDENT_INFORMATION = "IF030202";
+                public const string AR_CUSTOMER_INFORMATION = "IF030203";
+                public const string TARIFF_INFORMATION = "IF030300";
+                public const string STUDENT_FEE = "IF030401";                
+                public const string STUDENT_REVENUE_INFO = "IF030402";
+                public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030403";
 
                 public const string UNBALANCE_JOURNAL = "IF040100";
                 public const string BALANCE_INFORMATION = "IF040200";
