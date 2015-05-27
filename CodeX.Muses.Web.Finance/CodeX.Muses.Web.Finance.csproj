@@ -148,6 +148,7 @@
     <Content Include="Program\Transaction\DirectSales\DirectSalesEntry.aspx" />
     <Content Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesEntryDtCtl.ascx" />
     <Content Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesVoidList.aspx" />
+    <Content Include="Program\Transaction\StudentCoverageTransaction\CoverageTypeDtViewCtl.ascx" />
     <Content Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx" />
     <Content Include="Program\Process\StudentFeePenalty\StudentFeePenaltyEntry.aspx" />
     <Content Include="Web.config" />
@@ -703,6 +704,13 @@
     </Compile>
     <Compile Include="Program\Transaction\DirectSales\DirectSalesVoid\DirectSalesVoidList.aspx.designer.cs">
       <DependentUpon>DirectSalesVoidList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Transaction\StudentCoverageTransaction\CoverageTypeDtViewCtl.ascx.cs">
+      <DependentUpon>CoverageTypeDtViewCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Transaction\StudentCoverageTransaction\CoverageTypeDtViewCtl.ascx.designer.cs">
+      <DependentUpon>CoverageTypeDtViewCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Transaction\StudentCoverageTransaction\StudentCoverageTransactionEntry.aspx.cs">
       <DependentUpon>StudentCoverageTransactionEntry.aspx</DependentUpon>

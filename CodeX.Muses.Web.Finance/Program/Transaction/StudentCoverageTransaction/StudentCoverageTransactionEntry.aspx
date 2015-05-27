@@ -51,6 +51,14 @@
             }
             //#endregion
 
+            $('#btnCoverageTypeDt').click(function () {
+                var id = tacCoverageType.getValue();
+                if (id != '') {
+                    var url = ResolveUrl("~/Program/Transaction/StudentCoverageTransaction/CoverageTypeDtViewCtl.ascx");
+                    openUserControlPopup(url, id, 'Detail', 1250, 500);
+                }
+            });
+
             $('#divEntryDtAdd').click(function () {
                 $newTr = $('#tmplEntityDt').html().replace('script1', 'script').replace('script1', 'script');
                 $newTr = $newTr.replace(/\$\{idx}/g, idxStudent);
@@ -316,6 +324,13 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        $('.lnkCoverageType a').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var url = ResolveUrl("~/Program/Transaction/StudentCoverageTransaction/CoverageTypeDtViewCtl.ascx");
+            openUserControlPopup(url, entity.CoverageTypeID, 'Detail', 1250, 500);
+        });
     </script>    
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
     <input type="hidden" value="" id="hdnPageCount" runat="server" />
@@ -423,7 +438,7 @@
                                 <table id="tblEntryPopup">
                                     <colgroup>
                                         <col style="width:150px"/>
-                                        <col />
+                                        <col style="width:220px" />
                                     </colgroup>
                                     <tr>
                                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Coverage")%></label></td>
@@ -435,10 +450,11 @@
                                                     ValueChanged="function(){ onTacCoverageTypeValueChanged(); }" />
                                             </cdx:CodeXAutoCompleteTextBox>   
                                         </td>
+                                        <td><input type="button" id="btnCoverageTypeDt" class="btnMore" value="..." /></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;</td>
-                                        <td><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Member")%></span><br /></td>
+                                        <td colspan="2"><span class="divAdd" id="divEntryDtAdd"><%=GetLabel("Tambah Member")%></span><br /></td>
                                     </tr>
                                     <tr id="trSaveEntryPopup">
                                         <td> 
@@ -460,12 +476,12 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
-                                            <asp:BoundField DataField="CoverageTypeName" HeaderText="Tipe Coverage" HeaderStyle-Width="200px" />
+                                            <asp:HyperLinkField DataTextField="CoverageTypeName" HeaderText="Tipe Coverage" HeaderStyle-Width="200px" ItemStyle-CssClass="lnkCoverageType" />
                                             <asp:BoundField DataField="ListStudentName" HeaderText="Member" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
-                                                    <div style='float:right;' class="divDetailDelete"></div>
-                                                    <div style='float:right;margin-right:10px;' class="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                    <div style='float:right;<%# IsEditable() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                                    <div style='float:right;margin-right:10px;<%# IsEditable() == "0" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                     <input type="hidden" value="<%#Eval("CoverageTypeID") %>" bindingfield="CoverageTypeID" />
                                                     <input type="hidden" value="<%#Eval("CoverageTypeName") %>" bindingfield="CoverageTypeName" />
                                                     <input type="hidden" value="<%#Eval("ListStudentID") %>" bindingfield="ListStudentID" />
