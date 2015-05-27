@@ -14,23 +14,13 @@ using DevExpress.Web.ASPxEditors;
 using CodeX.Common;
 using System.Web.UI.HtmlControls;
 
-
 namespace CodeX.Muses.Web.Information.Program
 {
     public partial class StudentStatisticInfo : BasePageList
     {
-        protected int PageCount = 0;
-        protected int RowCount = 0;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;     
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Information.STUDENT_STATISTIC_INFO;
-        }
-
-        protected string OnGetClassStudyTypeRegular()
-        {
-            return Constant.ClassStudyType.REGULAR;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)

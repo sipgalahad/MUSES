@@ -15,7 +15,6 @@ using CodeX.Common;
 using System.Web.UI.HtmlControls;
 using System.Globalization;
 
-
 namespace CodeX.Muses.Web.Information.Program
 {
     public partial class StudentPaymentSummaryInformation : BasePageList
@@ -23,11 +22,6 @@ namespace CodeX.Muses.Web.Information.Program
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.Information.STUDENT_PAYMENT_SUMMARY_INFO;
-        }
-
-        protected string OnGetClassStudyTypeRegular()
-        {
-            return Constant.ClassStudyType.REGULAR;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)

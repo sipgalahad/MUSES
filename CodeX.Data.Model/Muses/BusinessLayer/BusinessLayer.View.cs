@@ -8570,6 +8570,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentCoverageTransactionDt
+        public static List<vStudentCoverageTransactionDt> GetvStudentCoverageTransactionDtList(string filterExpression)
+        {
+            List<vStudentCoverageTransactionDt> result = new List<vStudentCoverageTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentCoverageTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentCoverageTransactionDt)helper.IDataReaderToObject(reader, new vStudentCoverageTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentCoverageTransactionDtCustom
         public static List<vStudentCoverageTransactionDtCustom> GetvStudentCoverageTransactionDtCustomList(string filterExpression)
         {

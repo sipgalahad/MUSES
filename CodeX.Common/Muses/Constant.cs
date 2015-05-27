@@ -474,6 +474,7 @@ namespace CodeX.Common
                 public const string STUDENT_FEE = "IF030401";                
                 public const string STUDENT_REVENUE_INFO = "IF030402";
                 public const string STUDENT_PAYMENT_SUMMARY_INFO = "IF030403";
+                public const string STUDENT_COVERAGE_INFO = "IF030501";
 
                 public const string UNBALANCE_JOURNAL = "IF040100";
                 public const string BALANCE_INFORMATION = "IF040200";

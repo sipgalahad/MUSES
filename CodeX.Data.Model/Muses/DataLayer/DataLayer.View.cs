@@ -3134,6 +3134,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vCoverageTypeDtClassType
+    [Serializable]
+    [Table(Name = "vCoverageTypeDtClassType")]
+    public class vCoverageTypeDtClassType
+    {
+        private Int32 _CoverageTypeID;
+        private Int32 _CoverageTypeDtID;
+        private Int32 _ClassTypeID;
+
+        [Column(Name = "CoverageTypeID", DataType = "Int32")]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "CoverageTypeDtID", DataType = "Int32")]
+        public Int32 CoverageTypeDtID
+        {
+            get { return _CoverageTypeDtID; }
+            set { _CoverageTypeDtID = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+    }
+    #endregion
     #region vCreditCard
     [Serializable]
     [Table(Name = "vCreditCard")]
@@ -22348,6 +22377,84 @@ namespace CodeX.Data.Model
         {
             get { return _IsDeleted; }
             set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vStudentCoverageTransactionDt
+    [Serializable]
+    [Table(Name = "vStudentCoverageTransactionDt")]
+    public class vStudentCoverageTransactionDt
+    {
+        private Int32 _ID;
+        private Int32 _TransactionID;
+        private Int32 _CoverageTypeID;
+        private Int32 _CoverageTypeDtID;
+        private String _Remarks;
+        private Int32 _SchoolPeriodID;
+        private Int32 _ClassTypeID;
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "CoverageTypeID", DataType = "Int32")]
+        public Int32 CoverageTypeID
+        {
+            get { return _CoverageTypeID; }
+            set { _CoverageTypeID = value; }
+        }
+        [Column(Name = "CoverageTypeDtID", DataType = "Int32")]
+        public Int32 CoverageTypeDtID
+        {
+            get { return _CoverageTypeDtID; }
+            set { _CoverageTypeDtID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "SchoolPeriodID", DataType = "Int32")]
+        public Int32 SchoolPeriodID
+        {
+            get { return _SchoolPeriodID; }
+            set { _SchoolPeriodID = value; }
+        }
+        [Column(Name = "ClassTypeID", DataType = "Int32")]
+        public Int32 ClassTypeID
+        {
+            get { return _ClassTypeID; }
+            set { _ClassTypeID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
         }
     }
     #endregion
