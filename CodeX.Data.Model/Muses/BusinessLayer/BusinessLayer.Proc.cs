@@ -1156,6 +1156,36 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GetStudentReceiveSummary
+        public static List<GetStudentReceiveSummary> GetStudentReceiveSummary(String SiteID, Int32 year, Int32 month)
+        {
+            List<GetStudentReceiveSummary> result = new List<GetStudentReceiveSummary>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GetStudentReceiveSummary));
+                ctx.CommandText = "GetStudentReceiveSummary";
+                ctx.CommandType = CommandType.StoredProcedure;
+                //Add Parameter
+                ctx.Add("SiteID", SiteID);
+                ctx.Add("Month", month);
+                ctx.Add("Year", year);
+                //Get DataReader
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GetStudentReceiveSummary)helper.IDataReaderToObject(reader, new GetStudentReceiveSummary()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region GetStudentRevenue
         public static List<GetStudentRevenue> GetStudentRevenue(String SiteID, Int32 year, Int32 month)
         {

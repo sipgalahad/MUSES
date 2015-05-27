@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.Information.Program {
     
     
-    public partial class StudentRevenueInformation {
+    public partial class StudentPaymentSummaryInformation {
         
         /// <summary>
         /// hdnExportControl control.
@@ -94,15 +94,6 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTempPeriodText;
         
         /// <summary>
-        /// rptStudentFeeCompType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompType;
-        
-        /// <summary>
         /// rptSite control.
         /// </summary>
         /// <remarks>
@@ -112,21 +103,30 @@ namespace CodeX.Muses.Web.Information.Program {
         protected global::System.Web.UI.WebControls.Repeater rptSite;
         
         /// <summary>
-        /// tdTotalStudentCount control.
+        /// rptStudentFeeCompType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdTotalStudentCount;
+        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompType;
         
         /// <summary>
-        /// rptStudentFeeCompTypeGrandTotal control.
+        /// rptSiteGrandTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptStudentFeeCompTypeGrandTotal;
+        protected global::System.Web.UI.WebControls.Repeater rptSiteGrandTotal;
+        
+        /// <summary>
+        /// tdStudentFeeCompTypeGrandTotal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdStudentFeeCompTypeGrandTotal;
     }
 }

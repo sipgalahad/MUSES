@@ -71,11 +71,13 @@ namespace CodeX.Muses.Web.Information.Program
             public decimal TotalAmount { get; set; }
         }
         List<CStudentFeeCompTypeTotal> lstStudentFeeCompTypeTotal = null;
+        int totalStudentCount = 0;
 
         #region Bind Grid View
         private void BindGridView()
         {
             hdnTempPeriodText.Value = string.Format("BULAN {0} {1}", cboMonth.Text, cboYear.Value);
+            totalStudentCount = 0;
 
             lstStudentFeeCompType = BusinessLayer.GetStudentFeeCompTypeList(string.Format("IsDeleted = 0"));
             rptStudentFeeCompType.DataSource = lstStudentFeeCompType;
@@ -94,6 +96,11 @@ namespace CodeX.Muses.Web.Information.Program
 
             rptSite.DataSource = lstSite;
             rptSite.DataBind();
+
+            rptStudentFeeCompTypeGrandTotal.DataSource = lstStudentFeeCompType;
+            rptStudentFeeCompTypeGrandTotal.DataBind();
+
+            tdTotalStudentCount.InnerHtml = totalStudentCount.ToString();
         }
 
         protected void rptSite_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -102,6 +109,7 @@ namespace CodeX.Muses.Web.Information.Program
             {
                 Site entity = (Site)e.Item.DataItem;
                 int studentCount = BusinessLayer.GetStudentRowCount(string.Format("SiteID = '{0}' AND GCStudentStatus = '{1}' AND IsDeleted = 0", entity.SiteID, Constant.StudentStatus.ACTIVE));
+                totalStudentCount += studentCount;
                 HtmlTableCell tdStudentCount = (HtmlTableCell)e.Item.FindControl("tdStudentCount");
                 tdStudentCount.InnerHtml = studentCount.ToString();
 
@@ -177,6 +185,17 @@ namespace CodeX.Muses.Web.Information.Program
                 HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
                 CStudentFeeCompTypeTotal studentFeeCompTypeTotal = lstStudentFeeCompTypeTotal.FirstOrDefault(p => p.SiteID == site.SiteID && p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID);
                 tdStudentFeeCompTypeTotal.InnerHtml = studentFeeCompTypeTotal.TotalAmount.ToString("N");
+            }
+        }
+
+        protected void rptStudentFeeCompTypeGrandTotal_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                StudentFeeCompType entity = (StudentFeeCompType)e.Item.DataItem;
+
+                HtmlTableCell tdStudentFeeCompTypeTotal = (HtmlTableCell)e.Item.FindControl("tdStudentFeeCompTypeTotal");
+                tdStudentFeeCompTypeTotal.InnerHtml = lstStudentFeeCompTypeTotal.Where(p => p.StudentFeeCompTypeID == entity.StudentFeeCompTypeID).Sum(p => p.TotalAmount).ToString("N");
             }
         }
 

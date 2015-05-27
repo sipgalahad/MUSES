@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage/MPBaseContent.master"
-    AutoEventWireup="true" CodeBehind="StudentRevenueInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.StudentRevenueInformation" %>
+    AutoEventWireup="true" CodeBehind="StudentPaymentSummaryInformation.aspx.cs" Inherits="CodeX.Muses.Web.Information.Program.StudentPaymentSummaryInformation" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxPivotGrid.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPivotGrid" TagPrefix="dx" %>
@@ -27,7 +27,7 @@
         function onCbpViewEndCallback() {
             $tempDiv = $('<div></div>');
             $tempDiv.html($('#divContainerView').html());
-            $tempDiv.find('.tblStudentRevenueInformation').attr('border', '1');
+            $tempDiv.find('.tblStudentPaymentInformation').attr('border', '1');
             $('#<%=hdnExportControl.ClientID %>').val($tempDiv.html());
             $('#<%=hdnExportPeriodText.ClientID %>').val($('.hdnTempPeriodText').val());
             hideLoadingPanel();
@@ -64,60 +64,85 @@
                         position: relative; font-size: 0.95em;">
                         <input type="hidden" id="hdnTempPeriodText" class="hdnTempPeriodText" runat="server" />
                         <div id="divContainerView">
-                            <table cellpadding="0" cellspacing="0" class="grdSelected grdBorder tblStudentRevenueInformation">
+                            <table cellpadding="0" cellspacing="0" class="grdSelected grdBorder tblStudentPaymentInformation">
                                 <tr>
-                                    <th class="thCenter" style="width: 80px"><%=GetLabel("UNIT") %></th>
-                                    <th class="thCenter" style="width: 80px"><%=GetLabel("JUMLAH SISWA") %></th>
-                                    <th class="thCenter" style="width: 200px"><%=GetLabel("KETERANGAN") %></th>
-                                    <asp:Repeater ID="rptStudentFeeCompType" runat="server">
+                                    <th class="thCenter" colspan="2"><%=GetLabel("URAIAN") %></th>
+                                    <asp:Repeater ID="rptSite" runat="server">
                                         <ItemTemplate>
-                                            <th class="thCenter" style="width: 100px"><%#Eval("StudentFeeCompTypeName") %></th>
+                                            <th class="thCenter" style="width: 100px"><%#Eval("SiteName") %></th>
                                         </ItemTemplate>
                                     </asp:Repeater>
+                                    <th class="thCenter" style="width: 100px"><%=GetLabel("JUMLAH") %></th>
                                 </tr>
-                                <asp:Repeater ID="rptSite" runat="server" OnItemDataBound="rptSite_ItemDataBound">
+                                <asp:Repeater ID="rptStudentFeeCompType" runat="server" OnItemDataBound="rptStudentFeeCompType_ItemDataBound">
                                     <ItemTemplate>
                                         <tr>
-                                            <td align="center" valign="top" rowspan="2"><%#Eval("SiteName") %></td>
-                                            <td align="center" valign="top" rowspan="2" id="tdStudentCount" runat="server"></td>
-                                            <td valign="top">
-                                                <div class="divRemarks">Usek dibayar ortu</div>
-                                                <div class="divRemarks">Usek dibantu gereja (PSE)</div>
-                                                <div class="divRemarks">Murid Keluar</div>
-                                                <div class="divRemarks">Siswa masuk</div>
-                                                <div class="divRemarks">Beasiswa</div>
-                                            </td>
-                                            <asp:Repeater ID="rptStudentFeeCompTypeDt" runat="server" OnItemDataBound="rptStudentFeeCompTypeDt_ItemDataBound">
+                                            <td align="center" rowspan="5" valign="top" style="width:60px"><b><%# Container.ItemIndex + 1 %></b></td>
+                                            <td valign="top"><b><%#Eval("StudentFeeCompTypeName")%></b></td>
+                                            <asp:Repeater ID="rptSiteDt1" runat="server">
                                                 <ItemTemplate>
-                                                    <td align="right">
-                                                        <div class="divRemarks" id="divStudentAmount" runat="server">-</div>
-                                                        <div class="divRemarks" id="divPayerAmount" runat="server">-</div>
-                                                        <div class="divRemarks" id="divStudentMoveOut" runat="server">-</div>
-                                                        <div class="divRemarks" id="divProspectiveStudentAmount" runat="server">-</div>
-                                                        <div class="divRemarks" id="divScholarshipAmount" runat="server">-</div>                                                        
-                                                    </td>
+                                                    <td align="right">&nbsp;</td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
+                                            <td align="right">&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td><%=GetLabel("Pendapatan Seharusnya Diterima") %></td>
-                                            <asp:Repeater ID="rptStudentFeeCompTypeTotal" runat="server" OnItemDataBound="rptStudentFeeCompTypeTotal_ItemDataBound">
+                                            <td>Bulan Ini</td>
+                                            <asp:Repeater ID="rptSiteDt2" runat="server" OnItemDataBound="rptSiteDt2_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                            <td align="right" id="tdTotalThisMonth" runat="server"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Uang muka (bln yang akan datang)</td>
+                                            <asp:Repeater ID="rptSiteDt3" runat="server" OnItemDataBound="rptSiteDt3_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                            <td align="right" id="tdTotalDP" runat="server"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Siswa baru masuk</td>
+                                            <asp:Repeater ID="rptSiteDt4" runat="server" OnItemDataBound="rptSiteDt4_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                            <td align="right" id="tdTotalProspectiveStudent" runat="server"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Piutang</td>
+                                            <asp:Repeater ID="rptSiteDt5" runat="server" OnItemDataBound="rptSiteDt5_ItemDataBound">
+                                                <ItemTemplate>
+                                                    <td align="right" id="tdStudentReceiveAmount" runat="server"></td>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                            <td align="right" id="tdTotalAR" runat="server"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td><b><%=GetLabel("Total") %> <%#Eval("StudentFeeCompTypeName")%></b></td>
+                                            <asp:Repeater ID="rptSiteTotal" runat="server" OnItemDataBound="rptSiteTotal_ItemDataBound">
                                                 <ItemTemplate>
                                                     <td align="right" id="tdStudentFeeCompTypeTotal" runat="server"></td>
                                                 </ItemTemplate>
                                             </asp:Repeater>
+                                            <td align="right" id="tdTotalStudentFeeCompType" runat="server"></td>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
                                 <tr>
-                                    <td></td>
-                                    <td id="tdTotalStudentCount" runat="server" align="center"></td>
-                                    <td align="center"><%=GetLabel("Jumlah") %></td>
-                                    <asp:Repeater ID="rptStudentFeeCompTypeGrandTotal" runat="server" OnItemDataBound="rptStudentFeeCompTypeGrandTotal_ItemDataBound">
+                                    <td>&nbsp;</td>
+                                    <td><b><%=GetLabel("Total Seluruhnya") %></b></td>
+                                    <asp:Repeater ID="rptSiteGrandTotal" runat="server" OnItemDataBound="rptSiteGrandTotal_ItemDataBound">
                                         <ItemTemplate>
                                             <td align="right" id="tdStudentFeeCompTypeTotal" runat="server"></td>
                                         </ItemTemplate>
                                     </asp:Repeater>
+                                    <td align="right" id="tdStudentFeeCompTypeGrandTotal" runat="server"></td>
                                 </tr>
                             </table>
                         </div>
