@@ -94,6 +94,7 @@
     <Content Include="Program\Finance\ARCustomer\ARCustomerInformationDtCtl.ascx" />
     <Content Include="Program\Finance\ARCustomer\ARCustomerMovementInformationDtCtl.ascx" />
     <Content Include="Program\Finance\StudentFee\StudentFeeInformation.aspx" />
+    <Content Include="Program\Finance\StudentRevenue\StudentRevenueInformation.aspx" />
     <Content Include="Program\Finance\Tariff\TariffInformation.aspx" />
     <Content Include="Program\Inventory\StockDetailInfo.aspx" />
     <Content Include="Program\Inventory\StockDetailInfoDtCtl.ascx" />
@@ -310,6 +311,13 @@
     </Compile>
     <Compile Include="Program\Finance\StudentFee\StudentFeeInformation.aspx.designer.cs">
       <DependentUpon>StudentFeeInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Finance\StudentRevenue\StudentRevenueInformation.aspx.cs">
+      <DependentUpon>StudentRevenueInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Finance\StudentRevenue\StudentRevenueInformation.aspx.designer.cs">
+      <DependentUpon>StudentRevenueInformation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Finance\Tariff\TariffInformation.aspx.cs">
       <DependentUpon>TariffInformation.aspx</DependentUpon>

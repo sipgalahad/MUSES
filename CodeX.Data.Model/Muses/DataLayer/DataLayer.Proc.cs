@@ -1584,4 +1584,31 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GetStudentRevenue
+    public class GetStudentRevenue
+    {
+        private String _Code;
+        private Int32 _StudentFeeCompTypeID;
+        private Decimal _TotalAmount;
+
+        [Column(Name = "Code", DataType = "String")]
+        public String Code
+        {
+            get { return _Code; }
+            set { _Code = value; }
+        }
+        [Column(Name = "StudentFeeCompTypeID", DataType = "Int32")]
+        public Int32 StudentFeeCompTypeID
+        {
+            get { return _StudentFeeCompTypeID; }
+            set { _StudentFeeCompTypeID = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+    }
+    #endregion
 }
