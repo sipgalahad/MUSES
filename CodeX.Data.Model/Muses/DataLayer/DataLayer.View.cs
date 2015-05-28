@@ -23595,6 +23595,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentScholarshipTransactionDt
+    [Serializable]
+    [Table(Name = "vStudentScholarshipTransactionDt")]
+    public class vStudentScholarshipTransactionDt
+    {
+        private Int32 _ID;
+        private Int32 _TransactionID;
+        private String _GCTransactionStatus;
+        private String _Remarks;
+        private Int32 _ScholarshipID;
+        private Int32 _StudentID;
+        private String _StudentCode;
+        private String _StudentName;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "TransactionID", DataType = "Int32")]
+        public Int32 TransactionID
+        {
+            get { return _TransactionID; }
+            set { _TransactionID = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "ScholarshipID", DataType = "Int32")]
+        public Int32 ScholarshipID
+        {
+            get { return _ScholarshipID; }
+            set { _ScholarshipID = value; }
+        }
+        [Column(Name = "StudentID", DataType = "Int32")]
+        public Int32 StudentID
+        {
+            get { return _StudentID; }
+            set { _StudentID = value; }
+        }
+        [Column(Name = "StudentCode", DataType = "String")]
+        public String StudentCode
+        {
+            get { return _StudentCode; }
+            set { _StudentCode = value; }
+        }
+        [Column(Name = "StudentName", DataType = "String")]
+        public String StudentName
+        {
+            get { return _StudentName; }
+            set { _StudentName = value; }
+        }
+    }
+    #endregion
     #region vStudentScholarshipTransactionDtCustom
     [Serializable]
     [Table(Name = "vStudentScholarshipTransactionDtCustom")]

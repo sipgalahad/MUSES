@@ -9107,6 +9107,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentScholarshipTransactionDt
+        public static List<vStudentScholarshipTransactionDt> GetvStudentScholarshipTransactionDtList(string filterExpression)
+        {
+            List<vStudentScholarshipTransactionDt> result = new List<vStudentScholarshipTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentScholarshipTransactionDt)helper.IDataReaderToObject(reader, new vStudentScholarshipTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vStudentScholarshipTransactionDtCustom
         public static List<vStudentScholarshipTransactionDtCustom> GetvStudentScholarshipTransactionDtCustomList(string filterExpression)
         {
