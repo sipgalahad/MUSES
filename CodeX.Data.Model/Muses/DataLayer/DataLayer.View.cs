@@ -22387,6 +22387,9 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _TransactionID;
+        private DateTime _StartingDate;
+        private String _GCTransactionStatus;
+        private Int32 _BusinessPartnerID;
         private Int32 _CoverageTypeID;
         private Int32 _CoverageTypeDtID;
         private String _Remarks;
@@ -22407,6 +22410,24 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionID; }
             set { _TransactionID = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
         }
         [Column(Name = "CoverageTypeID", DataType = "Int32")]
         public Int32 CoverageTypeID
@@ -23602,6 +23623,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ID;
         private Int32 _TransactionID;
+        private DateTime _StartingDate;
         private String _GCTransactionStatus;
         private String _Remarks;
         private Int32 _ScholarshipID;
@@ -23620,6 +23642,12 @@ namespace CodeX.Data.Model
         {
             get { return _TransactionID; }
             set { _TransactionID = value; }
+        }
+        [Column(Name = "StartingDate", DataType = "DateTime")]
+        public DateTime StartingDate
+        {
+            get { return _StartingDate; }
+            set { _StartingDate = value; }
         }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus

@@ -30,10 +30,7 @@
                         result += '|';
                         lstStudentID += ',';
                     }
-                    cboScholarship = eval('cboScholarship' + idx);
                     var scholarshipID = 0;
-                    if (cboScholarship.GetValue() != null)
-                        scholarshipID = cboScholarship.GetValue();
                     param += id + ',' + scholarshipID;
 
                     var temp = '';
@@ -263,7 +260,6 @@
                         <th class="thCenter" colspan="2"><%#Eval("StudentFeeCompTypeName")%></th>
                     </ItemTemplate>
                 </asp:Repeater>      
-                <th style="width:120px" rowspan="2"><%=GetLabel("Beasiswa")%></th>
                 <th style="width:120px" rowspan="2"><%=GetLabel("Status")%></th>
             </tr>
             <tr> 
@@ -318,10 +314,7 @@
                                                 <asp:TextBox ID="txtNewCompValue" CssClass="txtNewCompValue txtCurrency" runat="server" Width="100%" />
                                             </td>
                                         </ItemTemplate>
-                                    </asp:Repeater>     
-                                    <td align="center">
-                                        <dxe:ASPxComboBox ID="cboScholarship" class="cboScholarship" Width="120px" runat="server" />
-                                    </td>
+                                    </asp:Repeater>  
                                     <td><%#Eval("ClassStudentStatus")%></td>
                                 </tr>
                             </ItemTemplate>

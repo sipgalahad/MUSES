@@ -78,14 +78,12 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             return filterExpression;
         }
 
-        List<Scholarship> lstScholarship = null;
         List<StudentFeeComp> lstStudentFeeComp = null;
         private void BindGridView()
         {
             string filterExpression = GetFilterExpression();
             List<vStudentCustom> lstEntity = BusinessLayer.GetvStudentCustomList(String.Format("{0} AND GCClassStudentStatus != '{1}' AND SchoolClassID IS NOT NULL", filterExpression, Constant.ClassStudentStatus.OPEN));
-            lstScholarship = BusinessLayer.GetScholarshipList(String.Format("SiteID = '{0}' AND GCScholarshipType != '{1}' AND IsDeleted = 0",AppSession.UserLogin.SiteID, Constant.ScholarshipType.ADMISSION));
-
+            
             if (lstEntity.Count > 0)
             {
                 string lstStudentID = string.Join(",", lstEntity.Select(p => p.StudentID).ToList());
@@ -93,10 +91,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             }
             else
                 lstStudentFeeComp = new List<StudentFeeComp>();
-            Scholarship sch = new Scholarship();
-            sch.ScholarshipID = 0;
-            sch.ScholarshipName = "";
-            lstScholarship.Insert(0, sch);
 
             if (lstComp == null) 
                 lstComp = BusinessLayer.GetStudentFeeCompTypeList(string.Format("GCAdmissionPaymentPeriod != '{0}' AND IsDeleted = 0", Constant.AdmissionPaymentPeriod.SEKALI_BAYAR));
@@ -108,9 +102,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
                 vStudentCustom entity = (vStudentCustom)e.Item.DataItem;
-                ASPxComboBox cboScholarship = e.Item.FindControl("cboScholarship") as ASPxComboBox;
-                cboScholarship.ClientInstanceName = string.Format("cboScholarship{0}", e.Item.ItemIndex);
-                Methods.SetComboBoxField(cboScholarship, lstScholarship, "ScholarshipName", "ScholarshipID");
 
                 Repeater rptViewDt = (Repeater)e.Item.FindControl("rptViewDt");
                 rptViewDt.DataSource = lstComp;

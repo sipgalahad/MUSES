@@ -66,6 +66,7 @@
                             <table cellpadding="0" cellspacing="0" class="grdSelected grdBorder tblView">
                                 <tr>
                                     <th style="width:220px" rowspan="3"><%=GetLabel("Siswa")%></th>       
+                                    <th style="width:120px" rowspan="3" class="thCenter"><%=GetLabel("Tgl Mulai")%></th>
                                     <th id="thFeeComp" runat="server" class="thCenter"><%=GetLabel("Komponen") %></th> 
                                     <th rowspan="3"><%=GetLabel("Keterangan")%></th>
                                 </tr>
@@ -88,6 +89,7 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td><%#Eval("StudentName") %></td>
+                                            <td align="center"><%#Eval("StartingDate", "{0:dd-MMM-yyyy}") %></td>
                                             <asp:Repeater ID="rptViewDt" runat="server">
                                                 <ItemTemplate>
                                                     <td class="thRight"><div><%#Eval("cfDiscountAmount") %></div></td>

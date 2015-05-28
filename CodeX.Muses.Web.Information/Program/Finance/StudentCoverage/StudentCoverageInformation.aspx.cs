@@ -55,7 +55,7 @@ namespace CodeX.Muses.Web.Information.Program
 
             thFeeComp.ColSpan = lstComp.Count * 3;
 
-            List<vStudentCoverageTransactionDt> lstStudent = BusinessLayer.GetvStudentCoverageTransactionDtList(string.Format("SchoolPeriodID = {0} AND BusinessPartnerID = {1}", cboSchoolPeriod.Value, cboCustomer.Value));
+            List<vStudentCoverageTransactionDt> lstStudent = BusinessLayer.GetvStudentCoverageTransactionDtList(string.Format("SchoolPeriodID = {0} AND BusinessPartnerID = {1} AND GCTransactionStatus = '{2}'", cboSchoolPeriod.Value, cboCustomer.Value, Constant.TransactionStatus.APPROVED));
             if (lstStudent.Count > 0)
             {
                 string lstID = string.Join(",", lstStudent.Select(p => p.CoverageTypeDtID).ToList());

@@ -224,11 +224,13 @@
                                                         <colgroup>
                                                             <col style="width:200px"/>
                                                             <col style="width:150px" />
+                                                            <col style="width:150px" />
                                                             <col style="width:80px" />
                                                         </colgroup>
                                                         <tr>
                                                             <th class="thCenter"><%=GetLabel("Periode") %></th>
                                                             <th class="thCenter"><%=GetLabel("Jatuh Tempo") %></th>
+                                                            <th class="thCenter"><%=GetLabel("Diskon") %></th>
                                                             <th class="thCenter"><%=GetLabel("Bayar") %></th>
                                                         </tr>
                                                     </HeaderTemplate>
@@ -237,6 +239,7 @@
                                                             <td class="keyField"><%#:Eval("StudentFeeID") %></td>
                                                             <td align="center"><%#:Eval("PaymentPeriod") %></td>
                                                             <td align="center"><input type="text" id="txtDueDate" readonly='readonly' class="txtDueDate datepicker required" value='<%#:Eval("DueDate","{0:dd-MM-yyyy}") %>' style="width:120px" /></td>
+                                                            <td align="center"><input type="text" id="txtDiscountAmount" readonly='readonly' class="txtDiscountAmount txtCurrency required" value='<%#:Eval("TotalDiscountAmount","{0:N}") %>' style="width:120px" /></td>
                                                             <td align="center"><asp:CheckBox ID="chkIsPaid" runat="server" Enabled="false" Checked='<%#Eval("IsPaid") %>' /></td>
                                                         </tr>
                                                     </ItemTemplate>

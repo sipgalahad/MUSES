@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.Information.Program
 
             thFeeComp.ColSpan = lstComp.Count * 2;
 
-            List<vStudentScholarshipTransactionDt> lstStudent = BusinessLayer.GetvStudentScholarshipTransactionDtList("");
+            List<vStudentScholarshipTransactionDt> lstStudent = BusinessLayer.GetvStudentScholarshipTransactionDtList(string.Format("GCTransactionStatus = '{0}'", Constant.TransactionStatus.APPROVED));
             if (lstStudent.Count > 0)
             {
                 string lstID = string.Join(",", lstStudent.Select(p => p.ScholarshipID).ToList());
