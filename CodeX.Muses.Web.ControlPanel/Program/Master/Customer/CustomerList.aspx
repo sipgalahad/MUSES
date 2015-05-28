@@ -62,18 +62,6 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
-
-        $('.lnkItem a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/Customer/CustomerItemEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Item', 900, 500);
-        });
-        $('.lnkMember a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
-            var url = ResolveUrl("~/Program/Master/Customer/CustomerMemberEntryCtl.ascx");
-            openUserControlPopup(url, id, 'Anggota', 900, 500);
-        });
-        
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -91,8 +79,6 @@
                                 <asp:BoundField DataField="BusinessPartnerCode" HeaderText="Kode Instansi" HeaderStyle-Width="100px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="BusinessPartnerName" HeaderText="Nama Instansi" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="ShortName" HeaderText="Nama Singkat"  HeaderStyle-Width="150px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:HyperLinkField HeaderText="Item" HeaderStyle-CssClass="thCenter" Text="Item" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkItem" HeaderStyle-Width="100px" />
-                                <asp:HyperLinkField HeaderText="Anggota" HeaderStyle-CssClass="thCenter" Text="Anggota" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkMember" HeaderStyle-Width="100px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

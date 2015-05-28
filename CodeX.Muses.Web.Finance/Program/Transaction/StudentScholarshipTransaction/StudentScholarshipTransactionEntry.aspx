@@ -429,7 +429,7 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
-                                            <asp:HyperLinkField DataTextField="ScholarshipName" HeaderText="Tipe Coverage" HeaderStyle-Width="200px" ItemStyle-CssClass="lnkScholarship" />
+                                            <asp:HyperLinkField DataTextField="ScholarshipName" HeaderText="Tipe Beasiswa" HeaderStyle-Width="200px" ItemStyle-CssClass="lnkScholarship" />
                                             <asp:BoundField DataField="ListStudentName" HeaderText="Member" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
