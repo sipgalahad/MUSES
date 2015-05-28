@@ -9107,6 +9107,186 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vStudentScholarshipTransactionDtCustom
+        public static List<vStudentScholarshipTransactionDtCustom> GetvStudentScholarshipTransactionDtCustomList(string filterExpression)
+        {
+            List<vStudentScholarshipTransactionDtCustom> result = new List<vStudentScholarshipTransactionDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionDtCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentScholarshipTransactionDtCustom)helper.IDataReaderToObject(reader, new vStudentScholarshipTransactionDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vStudentScholarshipTransactionDtCustom> GetvStudentScholarshipTransactionDtCustomList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentScholarshipTransactionDtCustom> result = new List<vStudentScholarshipTransactionDtCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionDtCustom));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentScholarshipTransactionDtCustom)helper.IDataReaderToObject(reader, new vStudentScholarshipTransactionDtCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentScholarshipTransactionDtCustomRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionDtCustom));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vStudentScholarshipTransactionHd
+        public static List<vStudentScholarshipTransactionHd> GetvStudentScholarshipTransactionHdList(string filterExpression)
+        {
+            List<vStudentScholarshipTransactionHd> result = new List<vStudentScholarshipTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentScholarshipTransactionHd)helper.IDataReaderToObject(reader, new vStudentScholarshipTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<vStudentScholarshipTransactionHd> GetvStudentScholarshipTransactionHdList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentScholarshipTransactionHd> result = new List<vStudentScholarshipTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression, numRows, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentScholarshipTransactionHd)helper.IDataReaderToObject(reader, new vStudentScholarshipTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentScholarshipTransactionHdRowCount(string filterExpression)
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionHd));
+                ctx.CommandText = helper.GetRowCount(filterExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetvStudentScholarshipTransactionHdRowIndex(string filterExpression, string keyValue, string orderByExpression = "")
+        {
+            Int32 result = 0;
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionHd));
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "TransactionNo", keyValue, orderByExpression);
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        public static vStudentScholarshipTransactionHd GetvStudentScholarshipTransactionHd(string filterExpression, int pageIndex, string orderByExpression = "")
+        {
+            List<vStudentScholarshipTransactionHd> result = new List<vStudentScholarshipTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vStudentScholarshipTransactionHd));
+                ctx.CommandText = helper.SelectByPageIndex(filterExpression, pageIndex, orderByExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vStudentScholarshipTransactionHd)helper.IDataReaderToObject(reader, new vStudentScholarshipTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            if (result.Count > 0)
+                return result[0];
+            return null;
+        }
+        #endregion
         #region vSubjectCurriculum
         public static List<vSubjectCurriculum> GetvSubjectCurriculumList(string filterExpression)
         {

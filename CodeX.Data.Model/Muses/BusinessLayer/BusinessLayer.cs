@@ -12653,6 +12653,119 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region StudentScholarshipTransactionDt
+        public static StudentScholarshipTransactionDt GetStudentScholarshipTransactionDt(Int32 ID)
+        {
+            return new StudentScholarshipTransactionDtDao().Get(ID);
+        }
+        public static int InsertStudentScholarshipTransactionDt(StudentScholarshipTransactionDt record)
+        {
+            return new StudentScholarshipTransactionDtDao().Insert(record);
+        }
+        public static int UpdateStudentScholarshipTransactionDt(StudentScholarshipTransactionDt record)
+        {
+            return new StudentScholarshipTransactionDtDao().Update(record);
+        }
+        public static int DeleteStudentScholarshipTransactionDt(Int32 ID)
+        {
+            return new StudentScholarshipTransactionDtDao().Delete(ID);
+        }
+        public static List<StudentScholarshipTransactionDt> GetStudentScholarshipTransactionDtList(string filterExpression)
+        {
+            List<StudentScholarshipTransactionDt> result = new List<StudentScholarshipTransactionDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentScholarshipTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentScholarshipTransactionDt)helper.IDataReaderToObject(reader, new StudentScholarshipTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<StudentScholarshipTransactionDt> GetStudentScholarshipTransactionDtList(string filterExpression, IDbContext ctx)
+        {
+            List<StudentScholarshipTransactionDt> result = new List<StudentScholarshipTransactionDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentScholarshipTransactionDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentScholarshipTransactionDt)helper.IDataReaderToObject(reader, new StudentScholarshipTransactionDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region StudentScholarshipTransactionHd
+        public static StudentScholarshipTransactionHd GetStudentScholarshipTransactionHd(Int32 TransactionID)
+        {
+            return new StudentScholarshipTransactionHdDao().Get(TransactionID);
+        }
+        public static int InsertStudentScholarshipTransactionHd(StudentScholarshipTransactionHd record)
+        {
+            return new StudentScholarshipTransactionHdDao().Insert(record);
+        }
+        public static int UpdateStudentScholarshipTransactionHd(StudentScholarshipTransactionHd record)
+        {
+            return new StudentScholarshipTransactionHdDao().Update(record);
+        }
+        public static int DeleteStudentScholarshipTransactionHd(Int32 TransactionID)
+        {
+            return new StudentScholarshipTransactionHdDao().Delete(TransactionID);
+        }
+        public static List<StudentScholarshipTransactionHd> GetStudentScholarshipTransactionHdList(string filterExpression)
+        {
+            List<StudentScholarshipTransactionHd> result = new List<StudentScholarshipTransactionHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentScholarshipTransactionHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((StudentScholarshipTransactionHd)helper.IDataReaderToObject(reader, new StudentScholarshipTransactionHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetStudentScholarshipTransactionHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(StudentScholarshipTransactionHd));
+                ctx.CommandText = helper.SelectMaxColumn("TransactionID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region Subject
         public static Subject GetSubject(Int32 SubjectID)
         {

@@ -14,13 +14,13 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
-    public partial class StudentCoverageTransactionEntry : BasePageTrx
+    public partial class StudentScholarshipTransactionEntry : BasePageTrx
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Finance.STUDENT_COVERAGE_TRANSACTION;
+            return Constant.MenuCode.Finance.STUDENT_SCHOLARSHIP_TRANSACTION;
         }
 
         #region Html Getter
@@ -43,7 +43,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
             BindGridView(1, true, ref PageCount, ref RowCount);
 
-            Helper.SetControlEntrySetting(tacCoverageType, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(tacScholarship, new ControlEntrySetting(true, true, true), "mpTrx");
         }
 
         protected override void OnControlEntrySetting()
@@ -52,7 +52,6 @@ namespace CodeX.Muses.Web.Finance.Program
             SetControlEntrySetting(txtTransactionNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtTransactionDate, new ControlEntrySetting(true, false, true, Constant.DefaultValueEntry.DATE_NOW));
             SetControlEntrySetting(txtStartingDate, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
-            SetControlEntrySetting(tacBusinessPartner, new ControlEntrySetting(true, false, true));
             
             SetControlEntrySetting(txtReferenceNo, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
@@ -79,25 +78,25 @@ namespace CodeX.Muses.Web.Finance.Program
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvStudentCoverageTransactionHdRowCount(filterExpression);
+            return BusinessLayer.GetvStudentScholarshipTransactionHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            vStudentCoverageTransactionHd entity = BusinessLayer.GetvStudentCoverageTransactionHd(filterExpression, PageIndex, "TransactionID DESC");
+            vStudentScholarshipTransactionHd entity = BusinessLayer.GetvStudentScholarshipTransactionHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = GetFilterExpression();
-            PageIndex = BusinessLayer.GetvStudentCoverageTransactionHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
-            vStudentCoverageTransactionHd entity = BusinessLayer.GetvStudentCoverageTransactionHd(filterExpression, PageIndex, "TransactionID DESC");
+            PageIndex = BusinessLayer.GetvStudentScholarshipTransactionHdRowIndex(filterExpression, keyValue, "TransactionID DESC");
+            vStudentScholarshipTransactionHd entity = BusinessLayer.GetvStudentScholarshipTransactionHd(filterExpression, PageIndex, "TransactionID DESC");
             EntityToControl(entity, ref isShowWatermark, ref watermarkText);
         }
 
-        private void EntityToControl(vStudentCoverageTransactionHd entity, ref bool isShowWatermark, ref string watermarkText)
+        private void EntityToControl(vStudentScholarshipTransactionHd entity, ref bool isShowWatermark, ref string watermarkText)
         {
             if (entity.GCTransactionStatus != Constant.TransactionStatus.OPEN)
             {
@@ -110,8 +109,6 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnTransactionID.Value = entity.TransactionID.ToString();
             txtTransactionNo.Text = entity.TransactionNo;
             txtTransactionDate.Text = entity.TransactionDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            tacBusinessPartner.Value = entity.BusinessPartnerID.ToString();
-            tacBusinessPartner.Text = entity.BusinessPartnerName;
             txtStartingDate.Text = entity.StartingDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtReferenceNo.Text = entity.ReferenceNo;
             txtRemarks.Text = entity.Remarks;
@@ -128,38 +125,37 @@ namespace CodeX.Muses.Web.Finance.Program
                 filterExpression = string.Format("TransactionID = {0}", hdnTransactionID.Value);
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvStudentCoverageTransactionDtCustomRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvStudentScholarshipTransactionDtCustomRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vStudentCoverageTransactionDtCustom> lstEntity = BusinessLayer.GetvStudentCoverageTransactionDtCustomList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vStudentScholarshipTransactionDtCustom> lstEntity = BusinessLayer.GetvStudentScholarshipTransactionDtCustomList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
         #endregion
 
         #region Save Header
-        public void SaveStudentCoverageTransactionHd(IDbContext ctx, ref int TransactionID)
+        public void SaveStudentScholarshipTransactionHd(IDbContext ctx, ref int TransactionID)
         {
-            StudentCoverageTransactionHdDao entityHdDao = new StudentCoverageTransactionHdDao(ctx);
+            StudentScholarshipTransactionHdDao entityHdDao = new StudentScholarshipTransactionHdDao(ctx);
             if (hdnTransactionID.Value == "0")
             {
-                StudentCoverageTransactionHd entityHd = new StudentCoverageTransactionHd();
+                StudentScholarshipTransactionHd entityHd = new StudentScholarshipTransactionHd();
                 entityHd.TransactionDate = Helper.GetDatePickerValue(txtTransactionDate.Text);
                 entityHd.StartingDate = Helper.GetDatePickerValue(txtStartingDate.Text);
-                entityHd.BusinessPartnerID = Convert.ToInt32(tacBusinessPartner.Value);
                 entityHd.ReferenceNo = txtReferenceNo.Text;
                 entityHd.Remarks = txtRemarks.Text;
 
-                entityHd.TransactionCode = Constant.TransactionCode.STUDENT_COVERAGE;
-                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.STUDENT_COVERAGE, entityHd.TransactionDate, ctx);
+                entityHd.TransactionCode = Constant.TransactionCode.STUDENT_SCHOLARSHIP;
+                entityHd.TransactionNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.STUDENT_SCHOLARSHIP, entityHd.TransactionDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                 ctx.CommandType = CommandType.Text;
                 ctx.Command.Parameters.Clear();
                 entityHd.CreatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Insert(entityHd);
-                TransactionID = BusinessLayer.GetStudentCoverageTransactionHdMaxID(ctx);
+                TransactionID = BusinessLayer.GetStudentScholarshipTransactionHdMaxID(ctx);
             }
             else
             {
@@ -174,7 +170,7 @@ namespace CodeX.Muses.Web.Finance.Program
             try
             {
                 int OrderID = 0;
-                SaveStudentCoverageTransactionHd(ctx, ref OrderID);
+                SaveStudentScholarshipTransactionHd(ctx, ref OrderID);
                 retval = OrderID.ToString();
                 ctx.CommitTransaction();
             }
@@ -196,12 +192,12 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             try
             {
-                StudentCoverageTransactionHd entityHd = BusinessLayer.GetStudentCoverageTransactionHd(Convert.ToInt32(hdnTransactionID.Value));
+                StudentScholarshipTransactionHd entityHd = BusinessLayer.GetStudentScholarshipTransactionHd(Convert.ToInt32(hdnTransactionID.Value));
                 entityHd.ReferenceNo = txtReferenceNo.Text;
                 entityHd.StartingDate = Helper.GetDatePickerValue(txtStartingDate.Text);
                 entityHd.Remarks = txtRemarks.Text;
                 entityHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateStudentCoverageTransactionHd(entityHd);
+                BusinessLayer.UpdateStudentScholarshipTransactionHd(entityHd);
                 return true;
             }
             catch (Exception ex)
@@ -216,11 +212,11 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionHdDao itemTransactionHdDao = new StudentCoverageTransactionHdDao(ctx);
-            StudentCoverageTransactionDtDao itemTransactionDtDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionHdDao itemTransactionHdDao = new StudentScholarshipTransactionHdDao(ctx);
+            StudentScholarshipTransactionDtDao itemTransactionDtDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
-                StudentCoverageTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                StudentScholarshipTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
                 itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                 itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 itemTransactionHdDao.Update(itemTransactionHd);
@@ -244,11 +240,11 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionHdDao itemTransactionHdDao = new StudentCoverageTransactionHdDao(ctx);
-            StudentCoverageTransactionDtDao itemTransactionDtDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionHdDao itemTransactionHdDao = new StudentScholarshipTransactionHdDao(ctx);
+            StudentScholarshipTransactionDtDao itemTransactionDtDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
-                StudentCoverageTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                StudentScholarshipTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
                 itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
                 itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 itemTransactionHdDao.Update(itemTransactionHd);
@@ -272,11 +268,11 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionHdDao itemTransactionHdDao = new StudentCoverageTransactionHdDao(ctx);
-            StudentCoverageTransactionDtDao itemTransactionDtDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionHdDao itemTransactionHdDao = new StudentScholarshipTransactionHdDao(ctx);
+            StudentScholarshipTransactionDtDao itemTransactionDtDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
-                StudentCoverageTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                StudentScholarshipTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
                 itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 itemTransactionHdDao.Update(itemTransactionHd);
@@ -300,11 +296,11 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionHdDao itemTransactionHdDao = new StudentCoverageTransactionHdDao(ctx);
-            StudentCoverageTransactionDtDao itemTransactionDtDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionHdDao itemTransactionHdDao = new StudentScholarshipTransactionHdDao(ctx);
+            StudentScholarshipTransactionDtDao itemTransactionDtDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
-                StudentCoverageTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
+                StudentScholarshipTransactionHd itemTransactionHd = itemTransactionHdDao.Get(Convert.ToInt32(hdnTransactionID.Value));
                 itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.VOID;
                 itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 itemTransactionHdDao.Update(itemTransactionHd);
@@ -370,17 +366,17 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionDtDao entityDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionDtDao entityDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
-                SaveStudentCoverageTransactionHd(ctx, ref TransactionID);
-                int coverageTypeID = Convert.ToInt32(hdnCoverageTypeID.Value);
+                SaveStudentScholarshipTransactionHd(ctx, ref TransactionID);
+                int scholarshipID = Convert.ToInt32(hdnScholarshipID.Value);
                 string[] lstStudentID = hdnStudentSave.Value.Split(',');
                 foreach (string studentID in lstStudentID)
                 {
-                    StudentCoverageTransactionDt entity = new StudentCoverageTransactionDt();
+                    StudentScholarshipTransactionDt entity = new StudentScholarshipTransactionDt();
                     entity.TransactionID = TransactionID;
-                    entity.CoverageTypeID = coverageTypeID;
+                    entity.ScholarshipID = scholarshipID;
                     entity.StudentID = Convert.ToInt32(studentID);
                     entityDao.Insert(entity);
                 }
@@ -404,24 +400,24 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionDtDao entityDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionDtDao entityDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
                 int TransactionID = Convert.ToInt32(hdnTransactionID.Value);
-                int coverageTypeID = Convert.ToInt32(hdnCoverageTypeID.Value);
+                int scholarshipID = Convert.ToInt32(hdnScholarshipID.Value);
 
-                List<StudentCoverageTransactionDt> lstEntityDt = BusinessLayer.GetStudentCoverageTransactionDtList(string.Format("TransactionID = {0} AND CoverageTypeID = {1}", TransactionID, coverageTypeID), ctx);
+                List<StudentScholarshipTransactionDt> lstEntityDt = BusinessLayer.GetStudentScholarshipTransactionDtList(string.Format("TransactionID = {0} AND ScholarshipID = {1}", TransactionID, scholarshipID), ctx);
                 if (hdnStudentSave.Value != "")
                 {
                     string[] lstStudentID = hdnStudentSave.Value.Split(',');
                     foreach (string studentID in lstStudentID)
                     {
-                        StudentCoverageTransactionDt entity = lstEntityDt.FirstOrDefault(p => p.StudentID == Convert.ToInt32(studentID));
+                        StudentScholarshipTransactionDt entity = lstEntityDt.FirstOrDefault(p => p.StudentID == Convert.ToInt32(studentID));
                         if (entity == null)
                         {
-                            entity = new StudentCoverageTransactionDt();
+                            entity = new StudentScholarshipTransactionDt();
                             entity.TransactionID = TransactionID;
-                            entity.CoverageTypeID = coverageTypeID;
+                            entity.ScholarshipID = scholarshipID;
                             entity.StudentID = Convert.ToInt32(studentID);
                             entityDao.Insert(entity);
                         }
@@ -430,7 +426,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     }
                 }
 
-                foreach (StudentCoverageTransactionDt entity in lstEntityDt)
+                foreach (StudentScholarshipTransactionDt entity in lstEntityDt)
                 {
                     entityDao.Delete(entity.ID);
                 }
@@ -454,13 +450,13 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            StudentCoverageTransactionDtDao entityDao = new StudentCoverageTransactionDtDao(ctx);
+            StudentScholarshipTransactionDtDao entityDao = new StudentScholarshipTransactionDtDao(ctx);
             try
             {
                 int TransactionID = Convert.ToInt32(hdnTransactionID.Value);
-                int coverageTypeID = Convert.ToInt32(hdnEntryID.Value);
-                List<StudentCoverageTransactionDt> lstEntityDt = BusinessLayer.GetStudentCoverageTransactionDtList(string.Format("TransactionID = {0} AND CoverageTypeID = {1}", TransactionID, coverageTypeID), ctx);
-                foreach (StudentCoverageTransactionDt entity in lstEntityDt)
+                int scholarshipID = Convert.ToInt32(hdnEntryID.Value);
+                List<StudentScholarshipTransactionDt> lstEntityDt = BusinessLayer.GetStudentScholarshipTransactionDtList(string.Format("TransactionID = {0} AND ScholarshipID = {1}", TransactionID, scholarshipID), ctx);
+                foreach (StudentScholarshipTransactionDt entity in lstEntityDt)
                 {
                     entityDao.Delete(entity.ID);
                 }

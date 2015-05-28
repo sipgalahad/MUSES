@@ -648,6 +648,16 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Scholarship -->
+  <searchdialog type="scholarship" methodname="GetScholarshipList" keyfieldname="ScholarshipID" orderbyexpression="ScholarshipName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="ScholarshipName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="ScholarshipName" headertext="Nama" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region School Class -->
   <searchdialog type="schoolclass" methodname="GetvSchoolClassList" keyfieldname="SchoolClassCode" orderbyexpression="SchoolClassName ASC">
     <gridcolumns>
@@ -722,6 +732,20 @@
   <!-- #EndRegion -->
   <!-- #Region Student Coverage Transaction -->
   <searchdialog type="studentcoveragetransactionhd" methodname="GetvStudentCoverageTransactionHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
+    <gridcolumns>
+      <gridcolumn datafield="TransactionNo" headertext="Transaction No" width="100px" />
+      <gridcolumn datafield="TransactionDateInString" headertext="Transaction Date" width="100px" horizontalalign="center" />
+      <gridcolumn datafield="BusinessPartnerName" headertext="Pembayar" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="TransactionNo" headertext="Transaction No" description="" />
+      <intellisensetext datafield="TransactionDateInString" headertext="Transaction Date" description="" />
+      <intellisensetext datafield="BusinessPartnerName" headertext="Pembayar" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Student Scholarship Transaction -->
+  <searchdialog type="studentscholarshiptransactionhd" methodname="GetvStudentScholarshipTransactionHdList" keyfieldname="TransactionNo" orderbyexpression="TransactionID DESC">
     <gridcolumns>
       <gridcolumn datafield="TransactionNo" headertext="Transaction No" width="100px" />
       <gridcolumn datafield="TransactionDateInString" headertext="Transaction Date" width="100px" horizontalalign="center" />
@@ -875,8 +899,6 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
-  
-  
   <!-- #Region User-->
   <searchdialog type="user" methodname="GetvUserList" keyfieldname="UserID">
     <gridcolums>

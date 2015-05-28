@@ -2027,6 +2027,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentScholarshipTransactionHd
+    public partial class vStudentScholarshipTransactionHd
+    {
+        public String TransactionDateInString
+        {
+            get { return _TransactionDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vSupplier
     public partial class vSupplier
     {

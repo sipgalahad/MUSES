@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true" 
-    CodeBehind="StudentCoverageTransactionEntry.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.StudentCoverageTransactionEntry" %>
+    CodeBehind="StudentScholarshipTransactionEntry.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.StudentScholarshipTransactionEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
@@ -29,14 +29,14 @@
             setDatePicker('<%=txtStartingDate.ClientID %>'); 
 
             //#region Transaction No
-            function onGetStudentCoverageTransactionFilterExpression() {
+            function onGetStudentScholarshipTransactionFilterExpression() {
                 var filterExpression = "<%=GetFilterExpression() %>";
                 return filterExpression;
             }
 
             $('#lblTransactionNo.lblLink').click(function () {
-                var filterExpression = onGetStudentCoverageTransactionFilterExpression();
-                openSearchDialog('studentcoveragetransactionhd', filterExpression, function (value) {
+                var filterExpression = onGetStudentScholarshipTransactionFilterExpression();
+                openSearchDialog('studentscholarshiptransactionhd', filterExpression, function (value) {
                     $('#<%=txtTransactionNo.ClientID %>').val(value);
                     onTxtTransactionNoChanged(value);
                 });
@@ -51,10 +51,10 @@
             }
             //#endregion
 
-            $('#btnCoverageTypeDt').click(function () {
-                var id = tacCoverageType.getValue();
+            $('#btnScholarshipDt').click(function () {
+                var id = tacScholarship.getValue();
                 if (id != '') {
-                    var url = ResolveUrl("~/Program/Transaction/StudentCoverageTransaction/CoverageTypeDtViewCtl.ascx");
+                    var url = ResolveUrl("~/Program/Transaction/StudentScholarshipTransaction/ScholarshipDtViewCtl.ascx");
                     openUserControlPopup(url, id, 'Detail', 1250, 500);
                 }
             });
@@ -75,11 +75,10 @@
             $('#divTransactionAdd').click(function (evt) {
                 if (IsValid(evt, 'fsMPEntry', 'mpEntry')) {
                     $('#<%=hdnEntryID.ClientID %>').val('');
-                    tacBusinessPartner.setEnabled(false);
-                    tacCoverageType.setEnabled(true);
-                    tacCoverageType.setValue('');
-                    tacCoverageType.setText('');
-                    $('#<%=hdnCoverageTypeID.ClientID %>').val('');
+                    tacScholarship.setEnabled(true);
+                    tacScholarship.setValue('');
+                    tacScholarship.setText('');
+                    $('#<%=hdnScholarshipID.ClientID %>').val('');
 
                     idxStudent = 0;
                     $('.trStudentDt').each(function () {
@@ -117,39 +116,13 @@
             });
         }
 
-        //#region Business Partner
-        function onGetBusinessPartnerFilterExpression() {
-            var filterExpression = "<%=OnGetBusinessPartnerFilterExpression() %>";
-            return filterExpression;
-        }
-
-        function onTacBusinessPartnerButtonSearchClick() {
-            openSearchDialog('businesspartners', onGetBusinessPartnerFilterExpression(), function (value) {
-                var filterExpression = onGetBusinessPartnerFilterExpression() + " AND BusinessPartnerCode = '" + value + "'";
-                Methods.getObject('GetBusinessPartnersList', filterExpression, function (result) {
-                    if (result != null) {
-                        tacBusinessPartner.setValue(result.BusinessPartnerID);
-                        tacBusinessPartner.setText(result.BusinessPartnerName);
-                    }
-                    else {
-                        tacBusinessPartner.setValue('');
-                        tacBusinessPartner.setText('');
-                    }
-                });
-            });
-        }
-
-        function onTacBusinessPartnerValueChanged() {
-        }
-        //#endregion
-
         //#region Edit & Delete
         $('#<%=grdView.ClientID %> .divDetailDelete').live('click', function () {
             $row = $(this).closest('tr');
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.CoverageTypeID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.ScholarshipID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -158,11 +131,11 @@
         $('#<%=grdView.ClientID %> .divDetailEdit').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            $('#<%=hdnEntryID.ClientID %>').val(entity.CoverageTypeID);
-            tacCoverageType.setEnabled(false);
-            tacCoverageType.setValue(entity.CoverageTypeID);
-            tacCoverageType.setText(entity.CoverageTypeName);
-            $('#<%=hdnCoverageTypeID.ClientID %>').val(entity.CoverageTypeID);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.ScholarshipID);
+            tacScholarship.setEnabled(false);
+            tacScholarship.setValue(entity.ScholarshipID);
+            tacScholarship.setText(entity.ScholarshipName);
+            $('#<%=hdnScholarshipID.ClientID %>').val(entity.ScholarshipID);
 
             idxStudent = 0;
             $('.trStudentDt').each(function () {
@@ -205,46 +178,34 @@
         }
         //#endregion
 
-        //#region Coverage Type
-        window.onGetCoverageTypeFilterExpression = function () {
+        //#region Scholarship
+        window.onGetScholarshipFilterExpression = function () {
             var filterExpression = "IsDeleted = 0";
             return filterExpression;
         }
 
-        function onTacCoverageTypeButtonSearchClick() {
-            openSearchDialog('coveragetype', onGetCoverageTypeFilterExpression(), function (value) {
-                var filterExpression = onGetCoverageTypeFilterExpression() + " AND CoverageTypeCode = '" + value + "'";
-                Methods.getObject('GetCoverageTypeList', filterExpression, function (result) {
+        function onTacScholarshipButtonSearchClick() {
+            openSearchDialog('scholarship', onGetScholarshipFilterExpression(), function (value) {
+                var filterExpression = onGetScholarshipFilterExpression() + " AND ScholarshipID = '" + value + "'";
+                Methods.getObject('GetScholarshipList', filterExpression, function (result) {
                     if (result != null) {
-                        tacCoverageType.setValue(result.CoverageTypeID);
-                        tacCoverageType.setText(result.CoverageTypeName);
-                        entityToControlCoverageType(result);
+                        tacScholarship.setValue(result.ScholarshipID);
+                        tacScholarship.setText(result.ScholarshipName);
+                        $('#<%=hdnScholarshipID.ClientID %>').val(result.ScholarshipID);
                     }
                     else {
-                        tacCoverageType.setValue('');
-                        tacCoverageType.setText('');
-                        entityToControlCoverageType(null);
+                        tacScholarship.setValue('');
+                        tacScholarship.setText('');
+                        $('#<%=hdnScholarshipID.ClientID %>').val('');
                     }
                 });
             });
 
         }
 
-        function onTacCoverageTypeValueChanged() {
-            var id = tacCoverageType.getValue();
-            if (id != '') {
-                var filterExpression = "CoverageTypeID = " + value;
-                Methods.getObject('GetCoverageTypeList', filterExpression, function (result) {
-                    entityToControlCoverageType(result);
-                });
-            }
-        }
-
-        function entityToControlCoverageType(result) {
-            if (result != null)
-                $('#<%=hdnCoverageTypeID.ClientID %>').val(result.CoverageTypeID);
-            else
-                $('#<%=hdnCoverageTypeID.ClientID %>').val('');
+        function onTacScholarshipValueChanged() {
+            var id = tacScholarship.getValue();
+            $('#<%=hdnScholarshipID.ClientID %>').val(id);
         }
         //#endregion
 
@@ -299,7 +260,7 @@
             if ($('#<%=hdnTransactionID.ClientID %>').val() == '0') {
                 $('#<%=hdnTransactionID.ClientID %>').val(TransactionID);
                 var filterExpression = 'TransactionID = ' + TransactionID;
-                Methods.getObject('GetStudentCoverageTransactionHdList', filterExpression, function (result) {
+                Methods.getObject('GetStudentScholarshipTransactionHdList', filterExpression, function (result) {
                     $('#<%=txtTransactionNo.ClientID %>').val(result.TransactionNo);
                 });
                 onAfterCustomSaveSuccess();
@@ -327,11 +288,11 @@
             }
         }
 
-        $('.lnkCoverageType a').live('click', function () {
+        $('.lnkScholarship a').live('click', function () {
             $row = $(this).closest('tr');
             var entity = rowToObject($row);
-            var url = ResolveUrl("~/Program/Transaction/StudentCoverageTransaction/CoverageTypeDtViewCtl.ascx");
-            openUserControlPopup(url, entity.CoverageTypeID, 'Detail', 1250, 500);
+            var url = ResolveUrl("~/Program/Transaction/StudentScholarshipTransaction/ScholarshipDtViewCtl.ascx");
+            openUserControlPopup(url, entity.ScholarshipID, 'Detail', 1250, 500);
         });
     </script>    
     <input type="hidden" value="" id="hdnTransactionID" runat="server" />
@@ -401,16 +362,6 @@
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Efektif")%></label></td>
                             <td><asp:TextBox ID="txtStartingDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
-                        <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Pemberi Beasiswa")%></label></td>
-                            <td>
-                                <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacBusinessPartner" ClientInstanceName="tacBusinessPartner" MethodName="GetBusinessPartnersList" GetFilterExpressionFunction="onGetBusinessPartnerFilterExpression"
-                                    SearchFields="BusinessPartnerName,BusinessPartnerCode" TextField="BusinessPartnerName" ValueField="BusinessPartnerID" SearchText="${BusinessPartnerName} (<b>${BusinessPartnerCode}</b>)" OrderByExpression="BusinessPartnerName">
-                                    <ClientSideEvents ButtonSearchClick="function(){ onTacBusinessPartnerButtonSearchClick(); }"
-                                        ValueChanged="function(){ onTacBusinessPartnerValueChanged(); }" />
-                                </cdx:CodeXAutoCompleteTextBox>   
-                            </td>
-                        </tr>
                     </table>
                 </td>
                 <td style="padding: 5px; vertical-align: top">
@@ -443,16 +394,16 @@
                                         <col style="width:220px" />
                                     </colgroup>
                                     <tr>
-                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Coverage")%></label></td>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Beasiswa")%></label></td>
                                         <td>
-                                            <input type="hidden" id="hdnCoverageTypeID" value="" runat="server" />
-                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacCoverageType" ClientInstanceName="tacCoverageType" MethodName="GetCoverageTypeList" GetFilterExpressionFunction="onGetCoverageTypeFilterExpression"
-                                                SearchFields="CoverageTypeName,CoverageTypeCode" TextField="CoverageTypeName" ValueField="CoverageTypeID" SearchText="${CoverageTypeName} (<b>${CoverageTypeCode}</b>)" OrderByExpression="CoverageTypeName">
-                                                <ClientSideEvents ButtonSearchClick="function(){ onTacCoverageTypeButtonSearchClick(); }"
-                                                    ValueChanged="function(){ onTacCoverageTypeValueChanged(); }" />
+                                            <input type="hidden" id="hdnScholarshipID" value="" runat="server" />
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacScholarship" ClientInstanceName="tacScholarship" MethodName="GetScholarshipList" GetFilterExpressionFunction="onGetScholarshipFilterExpression"
+                                                SearchFields="ScholarshipName" TextField="ScholarshipName" ValueField="ScholarshipID" SearchText="${ScholarshipName}" OrderByExpression="ScholarshipName">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacScholarshipButtonSearchClick(); }"
+                                                    ValueChanged="function(){ onTacScholarshipValueChanged(); }" />
                                             </cdx:CodeXAutoCompleteTextBox>   
                                         </td>
-                                        <td><input type="button" id="btnCoverageTypeDt" class="btnMore" value="..." /></td>
+                                        <td><input type="button" id="btnScholarshipDt" class="btnMore" value="..." /></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;</td>
@@ -478,14 +429,14 @@
                                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult"
                                         AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                         <Columns>
-                                            <asp:HyperLinkField DataTextField="CoverageTypeName" HeaderText="Tipe Coverage" HeaderStyle-Width="200px" ItemStyle-CssClass="lnkCoverageType" />
+                                            <asp:HyperLinkField DataTextField="ScholarshipName" HeaderText="Tipe Coverage" HeaderStyle-Width="200px" ItemStyle-CssClass="lnkScholarship" />
                                             <asp:BoundField DataField="ListStudentName" HeaderText="Member" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div style='float:right;<%# IsEditable() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
                                                     <div style='float:right;margin-right:10px;<%# IsEditable() == "0" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
-                                                    <input type="hidden" value="<%#Eval("CoverageTypeID") %>" bindingfield="CoverageTypeID" />
-                                                    <input type="hidden" value="<%#Eval("CoverageTypeName") %>" bindingfield="CoverageTypeName" />
+                                                    <input type="hidden" value="<%#Eval("ScholarshipID") %>" bindingfield="ScholarshipID" />
+                                                    <input type="hidden" value="<%#Eval("ScholarshipName") %>" bindingfield="ScholarshipName" />
                                                     <input type="hidden" value="<%#Eval("ListStudentID") %>" bindingfield="ListStudentID" />
                                                     <input type="hidden" value="<%#Eval("ListStudentName") %>" bindingfield="ListStudentName" />
                                                 </ItemTemplate>

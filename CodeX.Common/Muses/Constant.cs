@@ -424,6 +424,7 @@ namespace CodeX.Common
 
                 public const string DIRECT_SALES = "FN060100";
                 public const string STUDENT_COVERAGE_TRANSACTION = "FN060200";
+                public const string STUDENT_SCHOLARSHIP_TRANSACTION = "FN060300";
 
                 public const string GENERATE_AR_INVOICE_PROSPECTIVE_STUDENT = "FN070100";
                 public const string GENERATE_AR_INVOICE_STUDENT = "FN070200";
@@ -674,6 +675,7 @@ namespace CodeX.Common
             public const string AR_INVOICE_CUSTOMER = "5301";
             public const string AR_RECEIVE_CUSTOMER = "5302";
             public const string STUDENT_COVERAGE = "5401";
+            public const string STUDENT_SCHOLARSHIP = "5402";
             public const string DIRECT_SALES = "5501";
             public const string DIRECT_PAYMENT = "5502";
 
