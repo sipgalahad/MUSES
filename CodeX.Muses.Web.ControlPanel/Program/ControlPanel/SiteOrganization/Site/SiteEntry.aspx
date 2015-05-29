@@ -147,6 +147,10 @@
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telephone")%></label></td>
                         <td><asp:TextBox ID="txtTelephoneNo" Width="100%" runat="server" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Fax No")%></label></td>
+                        <td><asp:TextBox ID="txtFaxNo" Width="100%" runat="server" /></td>
+                    </tr>
                 </table>
             </td>
         </tr>

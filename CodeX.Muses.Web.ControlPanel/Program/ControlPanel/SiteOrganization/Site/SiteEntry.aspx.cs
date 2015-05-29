@@ -65,6 +65,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(hdnZipCode, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtZipCode, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtTelephoneNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtFaxNo, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(Site entity, vAddress entityAddress)
@@ -88,6 +89,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             hdnZipCode.Value = entityAddress.ZipCodeID.ToString();
             txtZipCode.Text = entityAddress.ZipCode;
             txtTelephoneNo.Text = entityAddress.PhoneNo1;
+            txtFaxNo.Text = entityAddress.FaxNo1;
         }
 
         private void ControlToEntity(Site entity, Address entityAddress)
@@ -108,6 +110,57 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entityAddress.ZipCode = Convert.ToInt32(hdnZipCode.Value);
             entityAddress.PhoneNo1 = txtTelephoneNo.Text;
+            entityAddress.FaxNo1 = txtFaxNo.Text;
+        }
+
+        protected override bool OnBeforeSaveAddRecord(ref string errMessage)
+        {
+            errMessage = string.Empty;
+
+            string FilterExpression = string.Format("SiteID = '{0}'", Request.Form[txtSiteID.UniqueID]);
+            List<Site> lst = BusinessLayer.GetSiteList(FilterExpression);
+
+            if (lst.Count > 0)
+                errMessage = "Site Code is already exist";
+
+            return (errMessage == string.Empty);
+        }
+
+        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            SiteDao entityDao = new SiteDao(ctx);
+            AddressDao entityAddressDao = new AddressDao(ctx);
+            try
+            {
+                Site entity = new Site();
+                Address entityAddress = new Address();
+                ControlToEntity(entity, entityAddress);
+
+                entity.SiteID = Request.Form[txtSiteID.UniqueID];
+                entityAddress.GCAddressType = Constant.AddressType.SITE;
+                entity.AddressID = entityAddress.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.SiteID);
+                entityAddressDao.Insert(entityAddress);
+
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDao.Insert(entity);
+
+                retval = entity.SiteID;
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnSaveEditRecord(ref string errMessage)
@@ -129,6 +182,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
