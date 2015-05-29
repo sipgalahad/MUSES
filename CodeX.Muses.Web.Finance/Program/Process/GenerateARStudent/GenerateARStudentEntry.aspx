@@ -107,11 +107,6 @@
             return $('#<%=hdnFilterExpression.ClientID %>').val();
         }
 
-        function onCbpViewEndCallback(s) {
-            setStudentImage();
-            hideLoadingPanel();
-        }
-
         function setStudentImage() {
             setTimeout(function () {
                 var imgUrlM = ResolveUrl("~/Libs/Images/patient_male.png");
@@ -303,6 +298,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="StudentCode" HeaderText="NIS" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="VirtualAccountNo" HeaderText="Nomor Bank Siswa" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="StudentName" HeaderText="Nama Siswa" />
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" HeaderText="Total Transaksi" ItemStyle-HorizontalAlign="Right">
                                     <ItemTemplate>

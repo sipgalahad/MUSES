@@ -231,7 +231,7 @@
                         EndCallback="function(s,e) { onCbpMeetingDetailEndCallback(s); }" />
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
-                            <div style="height: 415px; overflow-y: scroll; overflow-x: hidden; font-size: 12px;">
+                            <div style="height: 315px; overflow-y: scroll; overflow-x: hidden; font-size: 12px;">
                                 <div class="containerTblEntryContent">
                                     <fieldset id="fsMark">
                                         <table rules="all" cellspacing="0" style="width:100%" class="grdBorder grdSelected grdStudent">

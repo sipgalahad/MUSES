@@ -257,6 +257,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="RegistrationNo" HeaderText="No Pendaftaran" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="ProspectiveStudentCode" HeaderText="No Bank Siswa" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="ProspectiveStudentName" HeaderText="Nama Calon Siswa" />
                                 <asp:TemplateField HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" HeaderText="Total Transaksi" ItemStyle-HorizontalAlign="Right">
                                     <ItemTemplate>
