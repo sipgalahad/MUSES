@@ -26,28 +26,36 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 IsAdd = false;
                 String roleID = Request.QueryString["id"];
                 hdnID.Value = roleID;
+                SetControlProperties();
                 UserRole entity = BusinessLayer.GetUserRole(Convert.ToInt32(roleID));
                 EntityToControl(entity);
             }
             else
             {
+                SetControlProperties();
                 IsAdd = true;
             }
             txtRoleName.Focus();
+        }
+
+        protected override void SetControlProperties()
+        {
+            List<Module> lstModule = BusinessLayer.GetModuleList("IsVisible = 1");
+            Methods.SetComboBoxField<Module>(cboDefaultModule, lstModule, "ModuleName", "DefaultUrl");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtRoleName, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtDescription, new ControlEntrySetting(true, true, false));
-            SetControlEntrySetting(txtDefaultPageUrl, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboDefaultModule, new ControlEntrySetting(true, true, true));
         }
 
         private void EntityToControl(UserRole entity)
         {
             txtRoleName.Text = entity.RoleName;
             txtDescription.Text = entity.Description;
-            txtDefaultPageUrl.Text = entity.DefaultPageUrl;
+            cboDefaultModule.Value = entity.DefaultPageUrl;
         }
 
         private void ControlToEntity(UserRole entity)
@@ -55,7 +63,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.RoleName = txtRoleName.Text;
             entity.Description = txtDescription.Text;
             entity.LoweredRoleName = entity.RoleName.ToLower();
-            entity.DefaultPageUrl = txtDefaultPageUrl.Text;
+            entity.DefaultPageUrl = cboDefaultModule.Value.ToString();
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)
@@ -88,6 +96,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 result = false;
                 errMessage = ex.Message;
@@ -111,6 +120,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

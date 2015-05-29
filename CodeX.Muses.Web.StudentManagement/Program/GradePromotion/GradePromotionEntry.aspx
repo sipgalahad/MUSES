@@ -301,7 +301,7 @@
             <PanelCollection>
                 <dx:PanelContent ID="PanelContent1" runat="server">
                     <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
-                        <div style="width:1320px; overflow-x: auto;" id="divContainerTable" runat="server">
+                        <div style="width:1320px; height:300px; overflow: auto;" id="divContainerTable" runat="server">
                             <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
                                 <tr>
                                     <th rowspan="3" style="width:40px" class="thCenter">

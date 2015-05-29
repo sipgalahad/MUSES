@@ -66,9 +66,19 @@
         function onCboSchoolPeriodValueChanged(s) {
             tacPeriodSection.setValue('');
             tacPeriodSection.setText('');
-            tacSchoolClass.setValue('');
-            tacSchoolClass.setText('');
-            cbpView.PerformCallback('refresh');
+
+            var filterExpression = "SchoolPeriodID = " + cboSchoolPeriod.GetValue() + " AND TeacherID = " + $('#<%=hdnEmployeeID.ClientID %>').val() + " AND IsDeleted = 0";
+            Methods.getObject('GetvSchoolClassList', filterExpression, function (result) {
+                if (result != null) {
+                    $('#<%=hdnClassID.ClientID %>').val(result.SchoolClassID);
+                    $('#<%=txtClassName.ClientID %>').val(result.SchoolClassName);
+                }
+                else {
+                    $('#<%=hdnClassID.ClientID %>').val('');
+                    $('#<%=txtClassName.ClientID %>').val('');
+                }
+                cbpView.PerformCallback('refresh');
+            });
         }
 
         //#region Period Section
@@ -130,6 +140,7 @@
             </td>
         </tr>
     </table>
+    <input type="hidden" value="" id="hdnEmployeeID" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <div style="position: relative;">

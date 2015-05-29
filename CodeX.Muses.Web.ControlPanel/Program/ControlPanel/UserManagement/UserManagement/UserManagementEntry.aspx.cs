@@ -36,12 +36,19 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 vUser entity = BusinessLayer.GetvUserList(string.Format("UserID = {0}", userID))[0];
                 UserTagField entityTagField = BusinessLayer.GetUserTagField(entity.UserID);
                 EntityToControl(entity, entityTagField);
+                divCopyUser.Visible = false;
             }
             else
             {
                 IsAdd = true;
+                divCopyUser.Visible = true;
             }
             txtUserName.Focus();
+        }
+
+        public override void OnAddRecord()
+        {
+            divCopyUser.Visible = true;
         }
 
         protected override void OnControlEntrySetting()
@@ -56,6 +63,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtSecurityQuestion, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtSecurityAnswer, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(tacEmployee, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(tacCopyFromUser, new ControlEntrySetting(true, false, false));
         }
 
         protected override void OnReInitControl()
@@ -159,10 +167,69 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
                 retval = entityAttribute.UserID.ToString();
 
+                #region copyUser
+                if (tacCopyFromUser.Value != "")
+                {
+                    #region UserInRole
+                    List<UserInRole> entityUserInRoleFromlst = BusinessLayer.GetUserInRoleList(string.Format("UserID = {0}", tacCopyFromUser.Value));
+                    UserInRoleDao entityUserInRoleDao = new UserInRoleDao(ctx);
+                    foreach (UserInRole entityNew in entityUserInRoleFromlst)
+                    {
+                        entityNew.UserID = entityAttribute.UserID;
+                        entityUserInRoleDao.Insert(entityNew);
+                    }
+                    #endregion
+
+                    #region UserMenu
+                    List<UserMenu> entityUserMenuFromlst = BusinessLayer.GetUserMenuList(string.Format("UserID = {0}", tacCopyFromUser.Value));
+                    UserMenuDao entityUserMenuDao = new UserMenuDao(ctx);
+                    foreach (UserMenu entityNew in entityUserMenuFromlst)
+                    {
+                        entityNew.UserID = entityAttribute.UserID;
+                        entityNew.CreatedBy = AppSession.UserLogin.UserID;
+                        entityUserMenuDao.Insert(entityNew);
+                    }
+                    #endregion
+
+                    #region LoginAttribute
+                    List<UserLoginAttribute> entityUserLoginAttributeFromlst = BusinessLayer.GetUserLoginAttributeList(string.Format("UserID = {0}", tacCopyFromUser.Value));
+                    UserLoginAttributeDao entityUserLoginAttributeDao = new UserLoginAttributeDao(ctx);
+                    foreach (UserLoginAttribute entityNew in entityUserLoginAttributeFromlst)
+                    {
+                        entityNew.UserID = entityAttribute.UserID;
+                        entityUserLoginAttributeDao.Insert(entityNew);
+                    }
+                    #endregion
+
+                    //#region ServiceUnitUser
+                    //List<ServiceUnitUser> entityServiceUnitFromlst = BusinessLayer.GetServiceUnitUserList(string.Format("UserID = {0}", tacCopyFromUser.Value));
+                    //ServiceUnitUserDao entityServiceUnitUserDao = new ServiceUnitUserDao(ctx);
+                    //foreach (ServiceUnitUser entityNew in entityServiceUnitFromlst)
+                    //{
+                    //    entityNew.UserID = entityAttribute.UserID;
+                    //    entityNew.CreatedBy = AppSession.UserLogin.UserID;
+                    //    entityServiceUnitUserDao.Insert(entityNew);
+                    //}
+                    //#endregion
+
+                    #region LocationUser
+                    List<LocationUser> entityLocationUserFromlst = BusinessLayer.GetLocationUserList(string.Format("UserID = {0}", tacCopyFromUser.Value));
+                    LocationUserDao entityLocationUserDao = new LocationUserDao(ctx);
+                    foreach (LocationUser entityNew in entityLocationUserFromlst)
+                    {
+                        entityNew.UserID = entityAttribute.UserID;
+                        entityNew.CreatedBy = AppSession.UserLogin.UserID;
+                        entityLocationUserDao.Insert(entityNew);
+                    }
+                    #endregion
+                }
+                #endregion
+
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -199,6 +266,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

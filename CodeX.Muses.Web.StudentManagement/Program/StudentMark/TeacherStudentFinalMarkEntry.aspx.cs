@@ -31,7 +31,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
-            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}'", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID));
+            hdnEmployeeID.Value = AppSession.UserLogin.EmployeeID.ToString();
+
+            List<SchoolPeriod> lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(string.Format("SiteID = '{0}' AND GCSchoolPeriodStatus != '{1}' AND SchoolPeriodID IN (SELECT SchoolPeriodID FROM vSchoolClass WHERE TeacherID = {2} AND IsDeleted = 0)", AppSession.UserLogin.SiteID, Constant.SchoolPeriodStatus.VOID, AppSession.UserLogin.EmployeeID));
             Methods.SetComboBoxField<SchoolPeriod>(cboSchoolPeriod, lstSchoolPeriod, "SchoolPeriodName", "SchoolPeriodID");
             SchoolPeriod selectedSchoolPeriod = lstSchoolPeriod.FirstOrDefault(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now);
             if (selectedSchoolPeriod == null)
@@ -47,12 +49,15 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacPeriodSection.Text = periodSection.PeriodSectionName;
             }
 
-            List<vSchoolClass> lstSchoolClass = BusinessLayer.GetvSchoolClassList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
-            if (lstSchoolClass != null)
+            if (cboSchoolPeriod.Value != null)
             {
-                vSchoolClass schoolClass = lstSchoolClass.FirstOrDefault();
-                hdnClassID.Value = schoolClass.SchoolClassID.ToString();
-                txtClassName.Text = schoolClass.SchoolClassName;
+                List<vSchoolClass> lstSchoolClass = BusinessLayer.GetvSchoolClassList(string.Format("SchoolPeriodID = {0} AND TeacherID = {1} AND IsDeleted = 0", cboSchoolPeriod.Value, AppSession.UserLogin.EmployeeID));
+                if (lstSchoolClass != null)
+                {
+                    vSchoolClass schoolClass = lstSchoolClass.FirstOrDefault();
+                    hdnClassID.Value = schoolClass.SchoolClassID.ToString();
+                    txtClassName.Text = schoolClass.SchoolClassName;
+                }
             }
             BindGridView();
         }
