@@ -317,38 +317,39 @@ namespace CodeX.Common
             #region ControlPanel
             public static class ControlPanel
             {
-                public const string TEACHER = "CP010101";
-                public const string SCHOOL_UNIT = "CP010102";
-                public const string ROOM = "CP010103";
-                public const string SUBJECT = "CP010104";
-                public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010105";
-                public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
-                public const string PROSPECTIVE_STUDENT_FORM = "CP010107";
-                public const string TEACHER_MARK_TYPE_GROUP = "CP010110";
-                public const string EMPLOYEE = "CP010111";
-                public const string EXTRACURRICULAR_SUBJECT = "CP010113";
-                public const string PERSONALITY = "CP010114";
-                public const string CURRICULUM = "CP010116";
-                public const string MARK_TYPE = "CP010117";
+                public const string SCHOOL_UNIT = "CP010101";
+                public const string ROOM = "CP010102";
+                public const string SCHOOL_DAILY_SCHEDULE_TYPE = "CP010103";
+                public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010104";
+                public const string TEACHER = "CP010105";
+                public const string EMPLOYEE = "CP010106";
+                public const string TEACHER_MARK_TYPE_GROUP = "CP010107";
 
-                public const string ITEM_GROUP_MASTER = "CP010201";
-                public const string ITEM_PRODUCT = "CP010202";
-                public const string MANUFACTURER = "CP010203";
-                public const string PRODUCT_BRAND = "CP010204";
-                public const string LOCATION = "CP010205";
-                public const string LOCATION_PERMISSION = "CP010206";
-                public const string LOCATION_ITEM = "CP010207";
+                public const string SUBJECT = "CP010201";
+                public const string EXTRACURRICULAR_SUBJECT = "CP010202";
+                public const string PERSONALITY = "CP010203";
+                public const string MARK_TYPE = "CP010204";
+                public const string CURRICULUM = "CP010205";
+                public const string PROSPECTIVE_STUDENT_FORM = "CP010206";
 
-                public const string COVERAGE_TYPE = "CP010301";
-                public const string CUSTOMER = "CP010302";
-                public const string CUSTOMER_CONTRACT = "CP010303";
-                public const string SUPPLIER = "CP010304";
-                public const string TERM = "CP010305";
-                public const string BANK = "CP010306";
-                public const string EDC_MACHINE = "CP010307";
-                public const string CREDIT_CARD_FEE = "CP010308";
-                public const string MARKUP_MARGIN = "CP010309";
-                public const string STUDENT_FEE_COMP = "CP010310";
+                public const string ITEM_GROUP_MASTER = "CP010301";
+                public const string ITEM_PRODUCT = "CP010302";
+                public const string MANUFACTURER = "CP010303";
+                public const string PRODUCT_BRAND = "CP010304";
+                public const string LOCATION = "CP010305";
+                public const string LOCATION_PERMISSION = "CP010306";
+                public const string LOCATION_ITEM = "CP010307";
+
+                public const string COVERAGE_TYPE = "CP010401";
+                public const string CUSTOMER = "CP010402";
+                public const string CUSTOMER_CONTRACT = "CP010403";
+                public const string SUPPLIER = "CP010404";
+                public const string TERM = "CP010405";
+                public const string BANK = "CP010406";
+                public const string EDC_MACHINE = "CP010407";
+                public const string CREDIT_CARD_FEE = "CP010408";
+                public const string MARKUP_MARGIN = "CP010409";
+                public const string STUDENT_FEE_COMP = "CP010410";
 
                 public const string HOLIDAY = "CP010901";
 
