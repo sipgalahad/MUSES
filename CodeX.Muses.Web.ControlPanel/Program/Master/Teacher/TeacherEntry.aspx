@@ -13,6 +13,17 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $(function () {
+            //#region DOB
+            $('#<%=txtDOB.ClientID %>').change(function () {
+                var age = Methods.getAgeFromDatePickerFormat($(this).val());
+                $('#<%=txtAgeInYear.ClientID %>').val(age.years);
+                $('#<%=txtAgeInMonth.ClientID %>').val(age.months);
+                $('#<%=txtAgeInDay.ClientID %>').val(age.days);
+            });
+
+            setDatePicker('<%=txtDOB.ClientID %>');
+            //#endregion
+
             setDatePicker('<%=txtHiredDate.ClientID %>');
             setDatePicker('<%=txtTerminatedDate.ClientID %>');            
         });
@@ -130,7 +141,7 @@
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top" rowspan="2">
-                <h4 class="h4expanded"><%=GetLabel("Data Guru")%></h4>
+                <h4 class="h4expanded"><%=GetLabel("Data Pribadi")%></h4>
                 <div class="containerTblEntryContent">
                     <table class="tblEntryContent" style="width:100%">
                         <colgroup>
@@ -185,6 +196,35 @@
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Kelamin")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboGender" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
+                            <td><asp:TextBox ID="txtBirthPlace" Width="100%" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal Lahir")%></label></td>
+                            <td><asp:TextBox ID="txtDOB" Width="120px" runat="server" CssClass="datepicker" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Umur")%> (yyyy-MM-dd)</label></td>
+                            <td>
+                                <table style="width:100%" cellpadding="0" cellspacing="0">
+                                    <colgroup>
+                                        <col style="width:32%"/>
+                                        <col style="width:3px"/>
+                                        <col style="width:32%"/>
+                                        <col style="width:3px"/>
+                                        <col style="width:32%"/>
+                                    </colgroup>
+                                    <tr>
+                                        <td><asp:TextBox ID="txtAgeInYear" CssClass="number" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtAgeInMonth" CssClass="number" Width="100%" runat="server" /></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtAgeInDay" CssClass="number" Width="100%" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </div>

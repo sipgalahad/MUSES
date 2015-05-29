@@ -92,6 +92,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true));      
             SetControlEntrySetting(cboGCSuffix, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(tacRoom, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0));
+            SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0));
+            SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0));
             #endregion
 
             #region Data Karyawan
@@ -140,6 +144,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             tacRoom.Value = entity.RoomID.ToString();
             tacRoom.Text = entity.RoomName;
             cboGender.Value = entity.GCGender;
+            txtBirthPlace.Text = entity.CityOfBirth;
+            txtDOB.Text = entity.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
 
             #region Data Karyawan
@@ -206,6 +212,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             else
                 entityTeacher.RoomID = Convert.ToInt32(tacRoom.Value);
             entity.GCGender = cboGender.Value.ToString();
+            entity.CityOfBirth = txtBirthPlace.Text;
+            entity.DateOfBirth = Helper.GetDatePickerValue(txtDOB.Text);
             entity.Remarks = txtRemarks.Text;
 
             string suffix = cboGCSuffix.Value == null ? "" : cboGCSuffix.Text;

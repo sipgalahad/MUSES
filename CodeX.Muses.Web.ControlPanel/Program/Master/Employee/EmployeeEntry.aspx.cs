@@ -85,8 +85,12 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true));      
+            SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCSuffix, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true, Constant.DefaultValueEntry.DATE_NOW));
+            SetControlEntrySetting(txtAgeInDay, new ControlEntrySetting(false, false, true, 0));
+            SetControlEntrySetting(txtAgeInMonth, new ControlEntrySetting(false, false, true, 0));
+            SetControlEntrySetting(txtAgeInYear, new ControlEntrySetting(false, false, true, 0));
             #endregion
 
             #region Data Karyawan
@@ -133,6 +137,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtMiddleName.Text = entity.MiddleName;
             txtLastName.Text = entity.LastName;
             cboGender.Value = entity.GCGender;
+            txtBirthPlace.Text = entity.CityOfBirth;
+            txtDOB.Text = entity.DateOfBirth.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
 
             #region Data Karyawan
@@ -176,7 +182,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
         }
 
-        private void ControlToEntity(Employee entity, Employee entityEmployee, Address entityAddress)
+        private void ControlToEntity(Employee entity, Address entityAddress)
         {
             #region Personal Data
             if (cboGCSalutation.Value != null)
@@ -195,6 +201,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             entity.MiddleName = txtMiddleName.Text;
             entity.LastName = txtLastName.Text;
             entity.GCGender = cboGender.Value.ToString();
+            entity.CityOfBirth = txtBirthPlace.Text;
+            entity.DateOfBirth = Helper.GetDatePickerValue(txtDOB.Text);
             entity.Remarks = txtRemarks.Text;
 
             string suffix = cboGCSuffix.Value == null ? "" : cboGCSuffix.Text;
@@ -246,15 +254,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             IDbContext ctx = DbFactory.Configure(true);
             EmployeeDao entityDao = new EmployeeDao(ctx);
-            EmployeeDao entityEmployeeDao = new EmployeeDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
             bool result = false;
             try
             {
                 Employee entity = new Employee();
-                Employee entityEmployee = new Employee();
                 Address address = new Address();
-                ControlToEntity(entity, entityEmployee, address);
+                ControlToEntity(entity, address);
                 entity.GCEmployeeType = Constant.EmployeeType.OTHER;
                 entity.EmployeeCode = BusinessLayer.GenerateEmployeeCode(entity.GCDepartment, entity.HiredDate, ctx);
                 ctx.CommandType = CommandType.Text;
@@ -268,9 +274,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 address.GCAddressType = Constant.AddressType.EMPLOYEE;
                 entity.AddressID = address.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entity.EmployeeID);
                 addressDao.Insert(address);
-
-                entityEmployee.EmployeeID = entity.EmployeeID;
-                entityEmployeeDao.Insert(entityEmployee);
 
                 entityDao.Update(entity);
 
@@ -297,18 +300,15 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
             EmployeeDao entityDao = new EmployeeDao(ctx);
-            EmployeeDao entityEmployeeDao = new EmployeeDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
             try
             {
                 Employee entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
-                Employee entityEmployee = entityEmployeeDao.Get(entity.EmployeeID);
                 Address address = addressDao.Get(entity.AddressID);
-                ControlToEntity(entity, entityEmployee, address);
+                ControlToEntity(entity, address);
 
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                 addressDao.Update(address);
-                entityEmployeeDao.Update(entityEmployee);
                 entityDao.Update(entity);
                 ctx.CommitTransaction();
             }
