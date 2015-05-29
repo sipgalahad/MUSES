@@ -12,7 +12,7 @@ using CodeX.Common;
 
 namespace CodeX.Muses.Web.ControlPanel.Program
 {
-    public partial class TeacherList : BasePageList
+    public partial class EmployeeList : BasePageList
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.ControlPanel.TEACHER;
+            return Constant.MenuCode.ControlPanel.EMPLOYEE;
         }
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvTeacherRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvEmployeeRowIndex(filterExpression, keyValue) + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -42,8 +42,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         public override void SetFilterParameter(ref string[] fieldListText, ref string[] fieldListValue)
         {
-            fieldListText = new string[] { "Teacher Code", "Teacher Name" };
-            fieldListValue = new string[] { "TeacherCode", "TeacherName" };
+            fieldListText = new string[] { "Employee Code", "Employee Name" };
+            fieldListValue = new string[] { "EmployeeCode", "EmployeeName" };
         }
 
         private string GetFilterExpression()
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND GCEmployeeType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.EmployeeType.TEACHER);
+            filterExpression += string.Format("SiteID = '{0}' AND GCEmployeeType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.EmployeeType.OTHER);
             return filterExpression;
         }
 
@@ -60,11 +60,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = GetFilterExpression();
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetvTeacherRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvEmployeeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vTeacher> lstEntity = BusinessLayer.GetvTeacherList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vEmployee> lstEntity = BusinessLayer.GetvEmployeeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -96,7 +96,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override bool OnAddRecord(ref string url, ref string errMessage)
         {
-            url = ResolveUrl("~/Program/Master/Teacher/TeacherEntry.aspx");
+            url = ResolveUrl("~/Program/Master/Employee/EmployeeEntry.aspx");
             return true;
         }
 
@@ -104,7 +104,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             if (hdnID.Value.ToString() != "")
             {
-                url = ResolveUrl(string.Format("~/Program/Master/Teacher/TeacherEntry.aspx?id={0}", hdnID.Value));
+                url = ResolveUrl(string.Format("~/Program/Master/Employee/EmployeeEntry.aspx?id={0}", hdnID.Value));
                 return true;
             }
             return false;

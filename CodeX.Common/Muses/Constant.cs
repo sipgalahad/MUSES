@@ -207,6 +207,7 @@ namespace CodeX.Common
         public static class EmployeeType
         {
             public const string TEACHER = "X196^001";
+            public const string OTHER = "X196^999";
         }
 
         public static class BusinessObjectType
@@ -324,7 +325,7 @@ namespace CodeX.Common
                 public const string SCHOOL_DAILY_SCHEDULE_PACKAGE = "CP010106";
                 public const string PROSPECTIVE_STUDENT_FORM = "CP010107";
                 public const string TEACHER_MARK_TYPE_GROUP = "CP010110";
-                public const string TEACHER_MARK_TYPE_ITEM = "CP010111";
+                public const string EMPLOYEE = "CP010111";
                 public const string EXTRACURRICULAR_SUBJECT = "CP010113";
                 public const string PERSONALITY = "CP010114";
                 public const string CURRICULUM = "CP010116";

@@ -130,6 +130,8 @@
     <Content Include="Program\ControlPanel\UserManagement\UserRoles\UserRolesReportEntryCtl.ascx" />
     <Content Include="Program\Master\Bank\BankEntry.aspx" />
     <Content Include="Program\Master\Bank\BankList.aspx" />
+    <Content Include="Program\Master\Employee\EmployeeEntry.aspx" />
+    <Content Include="Program\Master\Employee\EmployeeList.aspx" />
     <Content Include="Program\Master\Curriculum\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx" />
     <Content Include="Program\Master\Curriculum\GradePromotionFormula\GradePromotionFormulaEntry.aspx" />
     <Content Include="Program\Master\Curriculum\CurriculumClassType\CurriculumClassTypeExtracurricularEntry.aspx" />
@@ -231,8 +233,6 @@
     <Content Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeItemEntryCtl.ascx" />
     <Content Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeGroupEntry.aspx" />
     <Content Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeGroupList.aspx" />
-    <Content Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemEntry.aspx" />
-    <Content Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemList.aspx" />
     <Content Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx" />
     <Content Include="Program\Master\Teacher\TeacherEntry.aspx" />
     <Content Include="Program\Master\Teacher\TeacherList.aspx" />
@@ -631,6 +631,20 @@
     </Compile>
     <Compile Include="Program\Master\Bank\BankList.aspx.designer.cs">
       <DependentUpon>BankList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Employee\EmployeeEntry.aspx.cs">
+      <DependentUpon>EmployeeEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Employee\EmployeeEntry.aspx.designer.cs">
+      <DependentUpon>EmployeeEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Employee\EmployeeList.aspx.cs">
+      <DependentUpon>EmployeeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Employee\EmployeeList.aspx.designer.cs">
+      <DependentUpon>EmployeeList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Curriculum\GradePromotionFormula\GradePromotionFormulaDtEntryCtl.ascx.cs">
       <DependentUpon>GradePromotionFormulaDtEntryCtl.ascx</DependentUpon>
@@ -1338,20 +1352,6 @@
     </Compile>
     <Compile Include="Program\Master\TeacherMarkTypeGroup\TeacherMarkTypeGroupList.aspx.designer.cs">
       <DependentUpon>TeacherMarkTypeGroupList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemEntry.aspx.cs">
-      <DependentUpon>TeacherMarkTypeItemEntry.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemEntry.aspx.designer.cs">
-      <DependentUpon>TeacherMarkTypeItemEntry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemList.aspx.cs">
-      <DependentUpon>TeacherMarkTypeItemList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Program\Master\TeacherMarkTypeItem\TeacherMarkTypeItemList.aspx.designer.cs">
-      <DependentUpon>TeacherMarkTypeItemList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\Teacher\TeacherSubjectEntryCtl.ascx.cs">
       <DependentUpon>TeacherSubjectEntryCtl.ascx</DependentUpon>
