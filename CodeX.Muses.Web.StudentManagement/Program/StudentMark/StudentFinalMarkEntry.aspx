@@ -138,7 +138,7 @@
         //#endregion
 
         function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
-            if (reportCode == "SM-00002" || reportCode == "SM-00003") {
+            if (reportCode == "SM-00002" || reportCode == "SM-00003" || reportCode == "SM-00004") {
                 filterExpression.text = cboSchoolPeriod.GetValue() + "|" + tacPeriodSection.getValue() + "|" + tacSchoolClass.getValue();
                 return true;
             }
