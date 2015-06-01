@@ -21,6 +21,10 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                         <td><asp:TextBox ID="txtRoomName" Width="300px" runat="server" /></td>
                     </tr>
+                    <tr>
+                        <td class="tdLabel"></td>
+                        <td><asp:CheckBox runat="server" ID="chkIsShared" Text="Is Shared" /></td>
+                    </tr>
                 </table>
             </td>
         </tr>

@@ -5760,6 +5760,7 @@ namespace CodeX.Data.Model
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _Name;
         private String _EmployeeName;
         private String _Initial;
         private String _GCGender;
@@ -5836,6 +5837,12 @@ namespace CodeX.Data.Model
         {
             get { return _LastName; }
             set { _LastName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
         }
         [Column(Name = "EmployeeName", DataType = "String")]
         public String EmployeeName
@@ -21010,6 +21017,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRoomSite
+    [Serializable]
+    [Table(Name = "vRoomSite")]
+    public class vRoomSite
+    {
+        private Int32 _RoomID;
+        private String _RoomCode;
+        private String _RoomName;
+        private String _SiteID;
+        private String _SiteName;
+
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomCode", DataType = "String")]
+        public String RoomCode
+        {
+            get { return _RoomCode; }
+            set { _RoomCode = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+    }
+    #endregion
     #region vSalesInvoiceDt
     [Serializable]
     [Table(Name = "vSalesInvoiceDt")]
@@ -26496,6 +26546,7 @@ namespace CodeX.Data.Model
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _Name;
         private String _TeacherName;
         private String _Initial;
         private String _GCGender;
@@ -26575,6 +26626,12 @@ namespace CodeX.Data.Model
         {
             get { return _LastName; }
             set { _LastName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
         }
         [Column(Name = "TeacherName", DataType = "String")]
         public String TeacherName

@@ -40,18 +40,21 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             SetControlEntrySetting(txtRoomCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRoomName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(chkIsShared, new ControlEntrySetting(true, true, false));
         }
 
         private void EntityToControl(Room entity)
         {
             txtRoomCode.Text = entity.RoomCode;
             txtRoomName.Text = entity.RoomName;
+            chkIsShared.Checked = entity.IsShared;
         }
 
         private void ControlToEntity(Room entity)
         {
             entity.RoomCode = txtRoomCode.Text;
             entity.RoomName = txtRoomName.Text;
+            entity.IsShared = chkIsShared.Checked;
         }
 
         protected override bool OnBeforeSaveAddRecord(ref string errMessage)

@@ -22738,6 +22738,7 @@ namespace CodeX.Data.Model
         private String _RoomCode;
         private String _RoomName;
         private String _SiteID;
+        private Boolean _IsShared;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -22767,6 +22768,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "IsShared", DataType = "Boolean")]
+        public Boolean IsShared
+        {
+            get { return _IsShared; }
+            set { _IsShared = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted
@@ -22837,6 +22844,70 @@ namespace CodeX.Data.Model
                 record = new RoomDao().Get(RoomID);
             else
                 record = Get(RoomID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
+    #region RoomSite
+    [Serializable]
+    [Table(Name = "RoomSite")]
+    public class RoomSite : DbDataModel
+    {
+        private Int32 _RoomID;
+        private String _SiteID;
+
+        [Column(Name = "RoomID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String", IsPrimaryKey = true)]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+    }
+
+    public class RoomSiteDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(RoomSite));
+        private bool _isAuditLog = false;
+        private const string p_RoomID = "@p_RoomID";
+        private const string p_SiteID = "@p_SiteID";
+        public RoomSiteDao() { }
+        public RoomSiteDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public RoomSite Get(Int32 RoomID, String SiteID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_RoomID, RoomID);
+            _ctx.Add(p_SiteID, SiteID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (RoomSite)_helper.DataRowToObject(row, new RoomSite());
+        }
+        public int Insert(RoomSite record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(RoomSite record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 RoomID, String SiteID)
+        {
+            RoomSite record;
+            if (_ctx.Transaction == null)
+                record = new RoomSiteDao().Get(RoomID, SiteID);
+            else
+                record = Get(RoomID, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

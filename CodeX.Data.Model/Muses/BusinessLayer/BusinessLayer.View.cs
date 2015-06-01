@@ -7840,6 +7840,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vRoomSite
+        public static List<vRoomSite> GetvRoomSiteList(string filterExpression)
+        {
+            List<vRoomSite> result = new List<vRoomSite>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vRoomSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vRoomSite)helper.IDataReaderToObject(reader, new vRoomSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vSalesInvoiceDt
         public static List<vSalesInvoiceDt> GetvSalesInvoiceDtList(string filterExpression)
         {
