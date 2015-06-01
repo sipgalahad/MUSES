@@ -210,6 +210,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.HoursIndex = hoursIndex;
                             entityDt.DayNumber = dayNumber;
                             entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                            if (entityDt.RoomID == 0)
+                                entityDt.RoomID = null;
                             entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
                             entityDt.CreatedBy = AppSession.UserLogin.UserID;
                             entityDtDao.Insert(entityDt);
@@ -217,6 +219,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         else
                         {
                             entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                            if (entityDt.RoomID == 0)
+                                entityDt.RoomID = null;
                             entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
                             entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                             entityDtDao.Update(entityDt);

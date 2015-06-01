@@ -59,7 +59,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 tacPeriodSection.Text = periodSection.PeriodSectionName;
             }
 
-            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<DailySchedulePackage>(cboExamSchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboExamSchedulePackage.Value = entitySchoolPeriod.ExamSchedulePackageID.ToString();
             

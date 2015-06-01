@@ -32,7 +32,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             rptFinalMarkFormula.DataSource = lstMarkType;
             rptFinalMarkFormula.DataBind();
 
-            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<DailySchedulePackage>(cboDailySchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboDailySchedulePackage.SelectedIndex = 0;
 

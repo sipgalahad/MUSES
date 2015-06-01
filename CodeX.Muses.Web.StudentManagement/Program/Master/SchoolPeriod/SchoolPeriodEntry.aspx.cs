@@ -59,7 +59,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField<Curriculum>(cboCurriculum, lstCurriculum, "CurriculumName", "CurriculumID");
             cboCurriculum.SelectedIndex = 0;
 
-            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            List<DailySchedulePackage> lstSchedule = BusinessLayer.GetDailySchedulePackageList(string.Format("IsDeleted = 0"));
             Methods.SetComboBoxField<DailySchedulePackage>(cboDailySchedulePackage, lstSchedule, "DailySchedulePackageName", "DailySchedulePackageID");
             cboDailySchedulePackage.SelectedIndex = 0;
 
