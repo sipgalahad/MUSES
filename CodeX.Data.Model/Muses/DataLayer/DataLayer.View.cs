@@ -5760,6 +5760,7 @@ namespace CodeX.Data.Model
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _Name;
         private String _EmployeeName;
         private String _Initial;
         private String _GCGender;
@@ -5836,6 +5837,12 @@ namespace CodeX.Data.Model
         {
             get { return _LastName; }
             set { _LastName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
         }
         [Column(Name = "EmployeeName", DataType = "String")]
         public String EmployeeName
@@ -26496,6 +26503,7 @@ namespace CodeX.Data.Model
         private String _FirstName;
         private String _MiddleName;
         private String _LastName;
+        private String _Name;
         private String _TeacherName;
         private String _Initial;
         private String _GCGender;
@@ -26575,6 +26583,12 @@ namespace CodeX.Data.Model
         {
             get { return _LastName; }
             set { _LastName = value; }
+        }
+        [Column(Name = "Name", DataType = "String")]
+        public String Name
+        {
+            get { return _Name; }
+            set { _Name = value; }
         }
         [Column(Name = "TeacherName", DataType = "String")]
         public String TeacherName

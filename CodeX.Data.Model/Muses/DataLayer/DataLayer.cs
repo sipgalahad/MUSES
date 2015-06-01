@@ -22738,6 +22738,7 @@ namespace CodeX.Data.Model
         private String _RoomCode;
         private String _RoomName;
         private String _SiteID;
+        private Boolean _IsShared;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
         private DateTime _CreatedDate;
@@ -22767,6 +22768,12 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "IsShared", DataType = "Boolean")]
+        public Boolean IsShared
+        {
+            get { return _IsShared; }
+            set { _IsShared = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

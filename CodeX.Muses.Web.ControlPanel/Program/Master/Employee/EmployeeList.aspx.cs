@@ -64,7 +64,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<vEmployee> lstEntity = BusinessLayer.GetvEmployeeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            List<vEmployee> lstEntity = BusinessLayer.GetvEmployeeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "Name ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

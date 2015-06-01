@@ -77,6 +77,7 @@
                                 <asp:BoundField DataField="RoomID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="RoomCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RoomName" HeaderText="Nama" />
+                                <asp:CheckBoxField DataField="IsShared" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderText="Shared" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
