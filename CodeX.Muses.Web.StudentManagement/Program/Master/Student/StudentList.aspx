@@ -70,6 +70,13 @@
             var url = ResolveUrl('~/Program/Master/Student/StudentPageLauncher.aspx?id=' + id);
             openWindowPopup(url, 'Student' + id, '1300', '650');
         });
+
+        function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
+            if (reportCode == "SM-00005") {
+                filterExpression.text = onGetCurrID();
+                return true;
+            }
+        }
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />

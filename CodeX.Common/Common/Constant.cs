@@ -154,6 +154,8 @@ namespace CodeX.Common
         {
             public const string FATHER = "0063^001";
             public const string MOTHER = "0063^002";
+            public const string KAKAK = "0063^003";
+            public const string ADIK = "0063^004";
         }
 
         public static class Religion
