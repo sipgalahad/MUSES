@@ -10851,6 +10851,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region RoomSite
+        public static RoomSite GetRoomSite(Int32 RoomID, String SiteID)
+        {
+            return new RoomSiteDao().Get(RoomID, SiteID);
+        }
+        public static int InsertRoomSite(RoomSite record)
+        {
+            return new RoomSiteDao().Insert(record);
+        }
+        public static int UpdateRoomSite(RoomSite record)
+        {
+            return new RoomSiteDao().Update(record);
+        }
+        public static int DeleteRoomSite(Int32 RoomID, String SiteID)
+        {
+            return new RoomSiteDao().Delete(RoomID, SiteID);
+        }
+        public static List<RoomSite> GetRoomSiteList(string filterExpression)
+        {
+            List<RoomSite> result = new List<RoomSite>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RoomSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RoomSite)helper.IDataReaderToObject(reader, new RoomSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<RoomSite> GetRoomSiteList(string filterExpression, IDbContext ctx)
+        {
+            List<RoomSite> result = new List<RoomSite>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(RoomSite));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((RoomSite)helper.IDataReaderToObject(reader, new RoomSite()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region SalesInvoiceDt
         public static SalesInvoiceDt GetSalesInvoiceDt(Int32 TransactionDtID)
         {

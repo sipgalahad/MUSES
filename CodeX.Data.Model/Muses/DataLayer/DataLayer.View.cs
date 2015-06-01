@@ -21017,6 +21017,49 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vRoomSite
+    [Serializable]
+    [Table(Name = "vRoomSite")]
+    public class vRoomSite
+    {
+        private Int32 _RoomID;
+        private String _RoomCode;
+        private String _RoomName;
+        private String _SiteID;
+        private String _SiteName;
+
+        [Column(Name = "RoomID", DataType = "Int32")]
+        public Int32 RoomID
+        {
+            get { return _RoomID; }
+            set { _RoomID = value; }
+        }
+        [Column(Name = "RoomCode", DataType = "String")]
+        public String RoomCode
+        {
+            get { return _RoomCode; }
+            set { _RoomCode = value; }
+        }
+        [Column(Name = "RoomName", DataType = "String")]
+        public String RoomName
+        {
+            get { return _RoomName; }
+            set { _RoomName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "SiteName", DataType = "String")]
+        public String SiteName
+        {
+            get { return _SiteName; }
+            set { _SiteName = value; }
+        }
+    }
+    #endregion
     #region vSalesInvoiceDt
     [Serializable]
     [Table(Name = "vSalesInvoiceDt")]

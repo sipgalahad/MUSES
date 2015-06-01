@@ -165,6 +165,7 @@
     <Content Include="Program\Master\CustomerContract\CustomerContractMemberEntryCtl.ascx" />
     <Content Include="Program\Master\Customer\CustomerEntry.aspx" />
     <Content Include="Program\Master\Customer\CustomerList.aspx" />
+    <Content Include="Program\Master\Room\RoomSiteEntryCtl.ascx" />
     <Content Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx" />
     <Content Include="Program\Master\SchoolType\ClassTypeExtracurricular\ClassTypeExtracurricularEntry.aspx" />
     <Content Include="Program\Master\SchoolType\SchoolSubject\SchoolSubjectEntry.aspx" />
@@ -876,6 +877,13 @@
     </Compile>
     <Compile Include="Program\Master\Customer\CustomerList.aspx.designer.cs">
       <DependentUpon>CustomerList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Master\Room\RoomSiteEntryCtl.ascx.cs">
+      <DependentUpon>RoomSiteEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Master\Room\RoomSiteEntryCtl.ascx.designer.cs">
+      <DependentUpon>RoomSiteEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Master\SchoolType\ClassType\ClassTypeEntry.aspx.cs">
       <DependentUpon>ClassTypeEntry.aspx</DependentUpon>

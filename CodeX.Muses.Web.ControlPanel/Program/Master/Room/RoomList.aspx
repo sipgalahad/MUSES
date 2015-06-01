@@ -61,6 +61,12 @@
                 $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
+
+        $('.lnkSite a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/Master/Room/RoomSiteEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Site', 900, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -78,6 +84,11 @@
                                 <asp:BoundField DataField="RoomCode" HeaderText="Kode" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="RoomName" HeaderText="Nama" />
                                 <asp:CheckBoxField DataField="IsShared" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderText="Shared" />
+                                <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkSite" HeaderText="Site" HeaderStyle-Width="80px">
+                                    <ItemTemplate>
+                                        <a <%# Eval("IsShared").ToString() == "False" ? "style='display:none'" : ""%>>Site</a>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>
