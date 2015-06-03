@@ -294,9 +294,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 homeAddressFather.City = txtFatherCity.Text;
                 homeAddressFather.GCState = tacFatherProvince.Value == "" ? null : string.Format("{0}^{1}", Constant.StandardCode.PROVINCE, tacFatherProvince.Value);
                 if (tacFatherZipCode.Value == "" || tacFatherZipCode.Value == "0")
-                    officeAddressFather.ZipCode = null;
+                    homeAddressFather.ZipCode = null;
                 else
-                    officeAddressFather.ZipCode = Convert.ToInt32(tacFatherZipCode.Value);
+                    homeAddressFather.ZipCode = Convert.ToInt32(tacFatherZipCode.Value);
                 homeAddressFather.PhoneNo1 = txtFatherTelephoneNo.Text;
             }
             #endregion
@@ -349,9 +349,9 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 homeAddressMother.City = txtMotherCity.Text;
                 homeAddressMother.GCState = tacMotherProvince.Value == "" ? null : string.Format("{0}^{1}", Constant.StandardCode.PROVINCE, tacMotherProvince.Value);
                 if (tacMotherZipCode.Value == "" || tacMotherZipCode.Value == "0")
-                    officeAddressMother.ZipCode = null;
+                    homeAddressMother.ZipCode = null;
                 else
-                    officeAddressMother.ZipCode = Convert.ToInt32(tacMotherZipCode.Value);
+                    homeAddressMother.ZipCode = Convert.ToInt32(tacMotherZipCode.Value);
                 homeAddressMother.PhoneNo1 = txtMotherTelephoneNo.Text;
             }
             #endregion

@@ -7,6 +7,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
+    Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhMPFrame" runat="server">
     <script type="text/javascript">
@@ -36,6 +38,37 @@
                 cboEducationLevel.SetValue('');
                 cboGender.SetValue('');
                 $('#entryDetailContainer').show();
+            });
+
+            $('#<%=chkIsTrusteeAddressSameWithStudent.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=txtTrusteeAddress.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtTrusteeCounty.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtTrusteeDistrict.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtTrusteeCity.ClientID %>').attr('readonly', 'readonly');
+                    tacTrusteeProvince.setEnabled(false);
+                    tacTrusteeZipCode.setEnabled(false);
+                    $('#<%=txtTrusteeTelephoneNo.ClientID %>').attr('readonly', 'readonly');
+
+                    $('#<%=txtTrusteeAddress.ClientID %>').val($('#<%=hdnStudentStreet.ClientID %>').val());
+                    $('#<%=txtTrusteeCounty.ClientID %>').val($('#<%=hdnStudentCounty.ClientID %>').val());
+                    $('#<%=txtTrusteeDistrict.ClientID %>').val($('#<%=hdnStudentDistrict.ClientID %>').val());
+                    $('#<%=txtTrusteeCity.ClientID %>').val($('#<%=txtTrusteeCity.ClientID %>').val());
+                    $('#<%=txtTrusteeTelephoneNo.ClientID %>').val($('#<%=hdnStudentTelephoneNo.ClientID %>').val());
+                    tacTrusteeProvince.setValue($('#<%=hdnStudentGCProvince.ClientID %>').val());
+                    tacTrusteeProvince.setText($('#<%=hdnStudentProvince.ClientID %>').val());
+                    tacTrusteeZipCode.setValue($('#<%=hdnStudentZipCodeID.ClientID %>').val());
+                    tacTrusteeZipCode.setText($('#<%=hdnStudentZipCode.ClientID %>').val());
+                }
+                else {
+                    $('#<%=txtTrusteeAddress.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtTrusteeCounty.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtTrusteeDistrict.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtTrusteeCity.ClientID %>').removeAttr('readonly');
+                    tacTrusteeProvince.setEnabled(true);
+                    tacTrusteeZipCode.setEnabled(true);
+                    $('#<%=txtTrusteeTelephoneNo.ClientID %>').removeAttr('readonly');
+                }
             });
 
             $('#btnCancel').click(function () {
@@ -101,8 +134,158 @@
                     cbpView.PerformCallback('refresh');
             }
         }
+
+        //#region Trustee Province
+        function onTacTrusteeProvinceButtonSearchClick() {
+            openSearchDialog('stdcode', onGetProvinceFilterExpression(), function (value) {
+                var filterExpression = onGetProvinceFilterExpression() + " AND StandardCodeID LIKE '%^" + value + "'";
+                Methods.getObject('GetStandardCodeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacTrusteeProvince.setValue(result.cfStandardCodeID);
+                        tacTrusteeProvince.setText(result.StandardCodeName);
+                    }
+                    else {
+                        tacTrusteeProvince.setValue('');
+                        tacTrusteeProvince.setText('');
+                    }
+                });
+            });
+        }
+
+        function onTacTrusteeProvinceValueChanged() {
+        }
+        //#endregion
+
+        //#region Trustee ZipCode
+        function onTacTrusteeZipCodeButtonSearchClick() {
+            openSearchDialog('zipcodes', onGetZipCodeFilterExpression(), function (value) {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacTrusteeZipCode.setValue(result.ID);
+                        tacTrusteeZipCode.setText(result.ZipCode);
+                        entityToControlZipCodeTrustee(result);
+                    }
+                    else {
+                        tacTrusteeZipCode.setValue('');
+                        tacTrusteeZipCode.setText('');
+                        entityToControlZipCodeTrustee(result);
+                    }
+                });
+            });
+        }
+
+        function entityToControlZipCodeTrustee(result) {
+            $('#<%=txtTrusteeAddress.ClientID %>').val(result.StreetName);
+            $('#<%=txtTrusteeCounty.ClientID %>').val(result.County);
+            $('#<%=txtTrusteeDistrict.ClientID %>').val(result.District);
+            $('#<%=txtTrusteeCity.ClientID %>').val(result.City);
+            var filterExpression = "StandardCodeID = '" + result.GCProvince + "'";
+            Methods.getObject('GetStandardCodeList', filterExpression, function (result1) {
+                if (result1 != null) {
+                    tacTrusteeProvince.setValue(result1.cfStandardCodeID);
+                    tacTrusteeProvince.setText(result1.StandardCodeName);
+                }
+                else {
+                    tacTrusteeProvince.setValue('');
+                    tacTrusteeProvince.setText('');
+                }
+            });
+        }
+
+        function onTacTrusteeZipCodeValueChanged() {
+            var id = tacTrusteeZipCode.getValue();
+            if (id != '') {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ID = '" + id + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    entityToControlZipCodeTrustee(result);
+                });
+            }
+        }
+        //#endregion
+
+        //#region TrusteeOffice Province
+        function onTacTrusteeOfficeProvinceButtonSearchClick() {
+            openSearchDialog('stdcode', onGetProvinceFilterExpression(), function (value) {
+                var filterExpression = onGetProvinceFilterExpression() + " AND StandardCodeID LIKE '%^" + value + "'";
+                Methods.getObject('GetStandardCodeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacTrusteeOfficeProvince.setValue(result.cfStandardCodeID);
+                        tacTrusteeOfficeProvince.setText(result.StandardCodeName);
+                    }
+                    else {
+                        tacTrusteeOfficeProvince.setValue('');
+                        tacTrusteeOfficeProvince.setText('');
+                    }
+                });
+            });
+        }
+
+        function onTacTrusteeOfficeProvinceValueChanged() {
+        }
+        //#endregion
+
+        //#region TrusteeOffice ZipCode
+        function onTacTrusteeOfficeZipCodeButtonSearchClick() {
+            openSearchDialog('zipcodes', onGetZipCodeFilterExpression(), function (value) {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacTrusteeOfficeZipCode.setValue(result.ID);
+                        tacTrusteeOfficeZipCode.setText(result.ZipCode);
+                        entityToControlZipCodeTrusteeOffice(result);
+                    }
+                    else {
+                        tacTrusteeOfficeZipCode.setValue('');
+                        tacTrusteeOfficeZipCode.setText('');
+                        entityToControlZipCodeTrusteeOffice(result);
+                    }
+                });
+            });
+        }
+
+        function entityToControlZipCodeTrusteeOffice(result) {
+            $('#<%=txtTrusteeOfficeAddress.ClientID %>').val(result.StreetName);
+            $('#<%=txtTrusteeOfficeCounty.ClientID %>').val(result.County);
+            $('#<%=txtTrusteeOfficeDistrict.ClientID %>').val(result.District);
+            $('#<%=txtTrusteeOfficeCity.ClientID %>').val(result.City);
+            var filterExpression = "StandardCodeID = '" + result.GCProvince + "'";
+            Methods.getObject('GetStandardCodeList', filterExpression, function (result1) {
+                if (result1 != null) {
+                    tacTrusteeOfficeProvince.setValue(result1.cfStandardCodeID);
+                    tacTrusteeOfficeProvince.setText(result1.StandardCodeName);
+                }
+                else {
+                    tacTrusteeOfficeProvince.setValue('');
+                    tacTrusteeOfficeProvince.setText('');
+                }
+            });
+        }
+
+        function onTacTrusteeOfficeZipCodeValueChanged() {
+            var id = tacTrusteeOfficeZipCode.getValue();
+            if (id != '') {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ID = '" + id + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    entityToControlZipCodeTrusteeOffice(result);
+                });
+            }
+        }
+        //#endregion
     </script>
     <input type="hidden" runat="server" id="hdnID" />
+    <input type="hidden" id="hdnHomeAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnOfficeAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnStudentAddressID" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentStreet" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentCounty" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentDistrict" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentCity" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentGCProvince" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentProvince" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentZipCodeID" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentZipCode" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentTelephoneNo" runat="server" value="0" />
     <div style="height: 410px; overflow-y:auto">
         <div class="divTransactionEntry">
             <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
@@ -117,7 +300,7 @@
                             <td valign="top">
                                 <table>
                                     <colgroup>
-                                        <col style="width: 160px" />
+                                        <col style="width: 180px" />
                                     </colgroup>
                                     <tr>
                                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Hubungan Keluarga")%></label></td>
@@ -161,7 +344,7 @@
                             <td valign="top">
                                 <table>
                                     <colgroup>
-                                        <col style="width: 160px" />
+                                        <col style="width: 180px" />
                                     </colgroup>
                                     <tr>
                                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tempat Lahir")%></label></td>
@@ -182,6 +365,124 @@
                                     <tr>
                                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendidikan Terakhir")%></label></td>
                                         <td><dxe:ASPxComboBox ID="cboEducationLevel" ClientInstanceName="cboEducationLevel" Width="120px" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <h4><%=GetLabel("Alamat Rumah")%></h4>
+                                <table class="tblEntryContent" style="width:100%">
+                                    <colgroup>
+                                        <col style="width:180px"/>
+                                    </colgroup>                             
+                                    <tr>
+                                        <td class="tdLabel">&nbsp;</td>
+                                        <td><asp:CheckBox ID="chkIsTrusteeAddressSameWithStudent" runat="server" /> <%=GetLabel("Sama Dengan Siswa") %></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Rumah")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Desa / Kelurahan")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeCounty" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kecamatan")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeDistrict" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kota")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeCity" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Provinsi")%></label></td>
+                                        <td>
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTrusteeProvince" ClientInstanceName="tacTrusteeProvince" MethodName="GetStandardCodeList" GetFilterExpressionFunction="onGetProvinceFilterExpression"
+                                                SearchFields="StandardCodeName" TextField="StandardCodeName" ValueField="StandardCodeID" SearchText="${StandardCodeName} (<b>${cfStandardCodeID}</b>)" OrderByExpression="StandardCodeName">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacTrusteeProvinceButtonSearchClick(); }"
+                                                    ValueChanged="function(){ onTacTrusteeProvinceValueChanged(); }" />
+                                            </cdx:CodeXAutoCompleteTextBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kode Pos")%></label></td>
+                                        <td>
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTrusteeZipCode" ClientInstanceName="tacTrusteeZipCode" MethodName="GetZipCodesList" GetFilterExpressionFunction="onGetZipCodeFilterExpression"
+                                                SearchFields="ZipCode" TextField="ZipCode" ValueField="ID" SearchText="${ZipCode}" OrderByExpression="ZipCode">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacTrusteeZipCodeButtonSearchClick(); }"
+                                                    ValueChanged="function(){ onTacTrusteeZipCodeValueChanged(); }" />
+                                            </cdx:CodeXAutoCompleteTextBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Rumah")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeTelephoneNo" Width="100%" runat="server" /></td>
+                                    </tr>     
+                                </table>
+                            </td>
+                            <td>
+                                <h4><%=GetLabel("Pekerjaan") %></h4>
+                                <table class="tblEntryContent" style="width:100%">
+                                    <colgroup>
+                                        <col style="width:180px"/>
+                                    </colgroup>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kantor")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeJobOffice" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pekerjaan")%></label></td>
+                                        <td><dxe:ASPxComboBox ID="cboTrusteeGCJob" Width="120px" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jabatan")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeOccupation" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendapatan Bulanan")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeSalary" CssClass="txtCurrency" Width="100px" runat="server" /></td>
+                                    </tr>                       
+                                    <tr>
+                                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Kantor")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeOfficeAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Desa / Kelurahan")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeOfficeCounty" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kecamatan")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeOfficeDistrict" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kota")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeOfficeCity" Width="100%" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Provinsi")%></label></td>
+                                        <td>
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTrusteeOfficeProvince" ClientInstanceName="tacTrusteeOfficeProvince" MethodName="GetStandardCodeList" GetFilterExpressionFunction="onGetProvinceFilterExpression"
+                                                SearchFields="StandardCodeName" TextField="StandardCodeName" ValueField="StandardCodeID" SearchText="${StandardCodeName} (<b>${cfStandardCodeID}</b>)" OrderByExpression="StandardCodeName">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacTrusteeOfficeProvinceButtonSearchClick(); }"
+                                                    ValueChanged="function(){ onTacTrusteeOfficeProvinceValueChanged(); }" />
+                                            </cdx:CodeXAutoCompleteTextBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kode Pos")%></label></td>
+                                        <td>
+                                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacTrusteeOfficeZipCode" ClientInstanceName="tacTrusteeOfficeZipCode" MethodName="GetZipCodesList" GetFilterExpressionFunction="onGetZipCodeFilterExpression"
+                                                SearchFields="ZipCode" TextField="ZipCode" ValueField="ID" SearchText="${ZipCode}" OrderByExpression="ZipCode">
+                                                <ClientSideEvents ButtonSearchClick="function(){ onTacTrusteeOfficeZipCodeButtonSearchClick(); }"
+                                                    ValueChanged="function(){ onTacTrusteeOfficeZipCodeValueChanged(); }" />
+                                            </cdx:CodeXAutoCompleteTextBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Kantor")%></label></td>
+                                        <td><asp:TextBox ID="txtTrusteeOfficeTelephoneNo" Width="100%" runat="server" /></td>
                                     </tr>
                                 </table>
                             </td>
