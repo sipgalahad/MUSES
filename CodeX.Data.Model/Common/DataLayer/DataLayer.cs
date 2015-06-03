@@ -701,6 +701,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region MenuClientType
+    [Serializable]
+    [Table(Name = "MenuClientType")]
+    public class MenuClientType : DbDataModel
+    {
+        private Int32 _MenuID;
+        private String _GCClientType;
+
+        [Column(Name = "MenuID", DataType = "Int32", IsPrimaryKey = true)]
+        public Int32 MenuID
+        {
+            get { return _MenuID; }
+            set { _MenuID = value; }
+        }
+        [Column(Name = "GCClientType", DataType = "String", IsPrimaryKey = true)]
+        public String GCClientType
+        {
+            get { return _GCClientType; }
+            set { _GCClientType = value; }
+        }
+    }
+
+    public class MenuClientTypeDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(MenuClientType));
+        private bool _isAuditLog = false;
+        private const string p_GCClientType = "@p_GCClientType";
+        private const string p_MenuID = "@p_MenuID";
+        public MenuClientTypeDao() { }
+        public MenuClientTypeDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public MenuClientType Get(Int32 MenuID, String GCClientType)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_GCClientType, GCClientType);
+            _ctx.Add(p_MenuID, MenuID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (MenuClientType)_helper.DataRowToObject(row, new MenuClientType());
+        }
+        public int Insert(MenuClientType record)
+        {
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(MenuClientType record)
+        {
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 MenuID, String GCClientType)
+        {
+            MenuClientType record;
+            if (_ctx.Transaction == null)
+                record = new MenuClientTypeDao().Get(MenuID, GCClientType);
+            else
+                record = Get(MenuID, GCClientType);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region MenuMaster
     [Serializable]
     [Table(Name = "Menu")]

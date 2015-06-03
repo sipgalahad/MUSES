@@ -68,6 +68,12 @@
             var url = ResolveUrl("~/Program/ControlPanel/SystemConfiguration/Menu/MenuReportEntryCtl.ascx");
             openUserControlPopup(url, id, 'Report', 700, 450);
         });
+
+        $('.lnkClientType a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html();
+            var url = ResolveUrl("~/Program/ControlPanel/SystemConfiguration/Menu/MenuClientTypeEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Client Type', 700, 450);
+        });
     </script>
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
     <input type="hidden" value="" id="hdnID" runat="server" />
@@ -95,6 +101,7 @@
                                 <asp:BoundField DataField="MenuCaption" HeaderText="Menu Caption" HeaderStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Ketarangan" />
                                 <asp:HyperLinkField HeaderText="Report" Text="Report" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="120px" />
+                                <asp:HyperLinkField HeaderText="Client Type" Text="Client Type" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkClientType" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

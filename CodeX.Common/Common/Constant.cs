@@ -119,6 +119,7 @@ namespace CodeX.Common
             public const string EMPLOYEE_OCCUPATION_LEVEL = "X195";
             public const string PREFIX_TYPE = "X302";
             public const string BANK_TRANSACTION_TYPE = "X305";
+            public const string CLIENT_TYPE = "X306";
         }
 
         public static class PaymentMethod

@@ -502,6 +502,35 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vMenuClientType
+    [Serializable]
+    [Table(Name = "vMenuClientType")]
+    public partial class vMenuClientType
+    {
+        private Int32 _MenuID;
+        private String _GCClientType;
+        private String _ClientType;
+
+        [Column(Name = "MenuID", DataType = "Int32")]
+        public Int32 MenuID
+        {
+            get { return _MenuID; }
+            set { _MenuID = value; }
+        }
+        [Column(Name = "GCClientType", DataType = "String")]
+        public String GCClientType
+        {
+            get { return _GCClientType; }
+            set { _GCClientType = value; }
+        }
+        [Column(Name = "ClientType", DataType = "String")]
+        public String ClientType
+        {
+            get { return _ClientType; }
+            set { _ClientType = value; }
+        }
+    }
+    #endregion
     #region vMenuReport
     [Serializable]
     [Table(Name = "vMenuReport")]

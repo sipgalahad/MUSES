@@ -116,6 +116,7 @@
     <Content Include="MasterPage\SubjectBannerDtCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx" />
+    <Content Include="Program\ControlPanel\SystemConfiguration\Menu\MenuClientTypeEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\Menu\MenuReportEntryCtl.ascx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationEntry.aspx" />
     <Content Include="Program\ControlPanel\SystemConfiguration\ReportConfiguration\ReportConfigurationList.aspx" />
@@ -534,6 +535,13 @@
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\LoginAttribute\LoginAttributeList.aspx.designer.cs">
       <DependentUpon>LoginAttributeList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuClientTypeEntryCtl.ascx.cs">
+      <DependentUpon>MenuClientTypeEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuClientTypeEntryCtl.ascx.designer.cs">
+      <DependentUpon>MenuClientTypeEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\ControlPanel\SystemConfiguration\Menu\MenuReportEntryCtl.ascx.cs">
       <DependentUpon>MenuReportEntryCtl.ascx</DependentUpon>

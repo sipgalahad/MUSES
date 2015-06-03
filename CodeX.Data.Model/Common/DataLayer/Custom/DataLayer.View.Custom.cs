@@ -8,6 +8,18 @@ using System.Web.Configuration;
 
 namespace CodeX.Data.Model
 {
+    #region vMenuClientType
+    public partial class vMenuClientType
+    {
+        public String cfGCClientType
+        {
+            get
+            {
+                return _GCClientType.Split('^')[1];
+            }
+        }
+    }
+    #endregion
     #region vSite
     public partial class vSite
     {
