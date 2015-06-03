@@ -24,6 +24,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         protected override void InitializeDataControl()
         {
             hdnIsAdd.Value = "1";
+            vStudent student = BusinessLayer.GetvStudentList(string.Format("StudentID = {0}", AppSession.StudentID)).FirstOrDefault();
+            hdnStudentAddressID.Value = student.AddressID.ToString();
+            hdnStudentStreet.Value = student.StreetName;
+            hdnStudentCounty.Value = student.County;
+            hdnStudentDistrict.Value = student.District;
+            hdnStudentCity.Value = student.City;
+            hdnStudentGCProvince.Value = student.GCState;
+            hdnStudentProvince.Value = student.State;
+            hdnStudentTelephoneNo.Value = student.PhoneNo1;
+            hdnStudentZipCodeID.Value = student.ZipCodeID.ToString();
+            hdnStudentZipCode.Value = student.ZipCode;
 
             SetControlProperties();
             List<vStudentFamily> lstEntity = BusinessLayer.GetvStudentFamilyList(string.Format("StudentID = {0} AND GCFamilyRelation IN ('{1}','{2}')", AppSession.StudentID, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER));
@@ -69,8 +80,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Methods.SetComboBoxField(cboMotherNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboMotherReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboMotherGCJob, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
-
-            hdnAddressPrefix.Value = BusinessLayer.GetStandardCode(Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY).TagProperty;
+            
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID IN ('{0}','{1}')", Constant.AddressType.STUDENT_FAMILY, Constant.AddressType.STUDENT_FAMILY_OFFICE));
+            hdnHomeAddressPrefix.Value = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.AddressType.STUDENT_FAMILY).TagProperty;
+            hdnOfficeAddressPrefix.Value = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.AddressType.STUDENT_FAMILY_OFFICE).TagProperty;
         }
 
         private void OnControlEntrySetting()
@@ -88,11 +101,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(cboFatherEducationLevel, new ControlEntrySetting(true, true, true), "mpEntry");
             #endregion
 
-            #region Father Company
-            Helper.SetControlEntrySetting(txtFatherJobOffice, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(cboFatherGCJob, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(txtFatherOccupation, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(txtFatherSalary, new ControlEntrySetting(true, true, false), "mpEntry");
+            #region Father Address
+            Helper.SetControlEntrySetting(chkIsFatherAddressSameWithStudent, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtFatherAddress, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtFatherCounty, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtFatherDistrict, new ControlEntrySetting(true, true, false), "mpEntry");
@@ -100,6 +110,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(tacFatherProvince, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(tacFatherZipCode, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtFatherTelephoneNo, new ControlEntrySetting(true, true, false), "mpEntry");
+            #endregion
+
+            #region Father Company
+            Helper.SetControlEntrySetting(txtFatherJobOffice, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(cboFatherGCJob, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherOccupation, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherSalary, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherOfficeAddress, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherOfficeCounty, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherOfficeDistrict, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherOfficeCity, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(tacFatherOfficeProvince, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(tacFatherOfficeZipCode, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtFatherOfficeTelephoneNo, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
 
             #region Mother Data
@@ -115,11 +139,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(cboMotherEducationLevel, new ControlEntrySetting(true, true, true), "mpEntry");
             #endregion
 
-            #region Mother Company
-            Helper.SetControlEntrySetting(txtMotherJobOffice, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(cboMotherGCJob, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(txtMotherOccupation, new ControlEntrySetting(true, true, false), "mpEntry");
-            Helper.SetControlEntrySetting(txtMotherSalary, new ControlEntrySetting(true, true, false), "mpEntry");
+            #region Mother Address
+            Helper.SetControlEntrySetting(chkIsMotherAddressSameWithStudent, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtMotherAddress, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtMotherCounty, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtMotherDistrict, new ControlEntrySetting(true, true, false), "mpEntry");
@@ -127,6 +148,20 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             Helper.SetControlEntrySetting(tacMotherProvince, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(tacMotherZipCode, new ControlEntrySetting(true, true, false), "mpEntry");
             Helper.SetControlEntrySetting(txtMotherTelephoneNo, new ControlEntrySetting(true, true, false), "mpEntry");
+            #endregion
+
+            #region Mother Company
+            Helper.SetControlEntrySetting(txtMotherJobOffice, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(cboMotherGCJob, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherOccupation, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherSalary, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherOfficeAddress, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherOfficeCounty, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherOfficeDistrict, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherOfficeCity, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(tacMotherOfficeProvince, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(tacMotherOfficeZipCode, new ControlEntrySetting(true, true, false), "mpEntry");
+            Helper.SetControlEntrySetting(txtMotherOfficeTelephoneNo, new ControlEntrySetting(true, true, false), "mpEntry");
             #endregion
         }
 
@@ -145,24 +180,40 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboFatherEducationLevel.Value = entityFather.GCEducationLevel;
             #endregion
 
+            #region Father Home Address
+            chkIsFatherAddressSameWithStudent.Checked = entityFather.IsHomeAddressSameWithStudent;
+            txtFatherAddress.Text = entityFather.HomeStreetName;
+            txtFatherCounty.Text = entityFather.HomeCounty; // Desa
+            txtFatherDistrict.Text = entityFather.HomeDistrict; //Kabupaten
+            txtFatherCity.Text = entityFather.HomeCity;
+            if (entityFather.HomeGCState != "")
+                tacFatherProvince.Value = entityFather.HomeGCState.Split('^')[1];
+            else
+                tacFatherProvince.Value = "";
+            tacFatherProvince.Text = entityFather.HomeState;
+            tacFatherZipCode.Value = entityFather.HomeZipCodeID.ToString();
+            tacFatherZipCode.Text = entityFather.HomeZipCode.ToString();
+            txtFatherTelephoneNo.Text = entityFather.HomePhoneNo1;
+            #endregion
+
             #region Father Office Address
             txtFatherJobOffice.Text = entityFather.CompanyName;
             cboFatherGCJob.Value = entityFather.GCJob;
             txtFatherOccupation.Text = entityFather.Occupation;
             txtFatherSalary.Text = entityFather.Salary.ToString();
 
-            txtFatherAddress.Text = entityFather.OfficeStreetName;
-            txtFatherCounty.Text = entityFather.OfficeCounty; // Desa
-            txtFatherDistrict.Text = entityFather.OfficeDistrict; //Kabupaten
-            txtFatherCity.Text = entityFather.OfficeCity;
+            txtFatherOfficeAddress.Text = entityFather.OfficeStreetName;
+            txtFatherOfficeCounty.Text = entityFather.OfficeCounty; // Desa
+            txtFatherOfficeDistrict.Text = entityFather.OfficeDistrict; //Kabupaten
+            txtFatherOfficeCity.Text = entityFather.OfficeCity;
             if (entityFather.OfficeGCState != "")
-                tacFatherProvince.Value = entityFather.OfficeGCState.Split('^')[1];
+                tacFatherOfficeProvince.Value = entityFather.OfficeGCState.Split('^')[1];
             else
-                tacFatherProvince.Value = "";
-            tacFatherProvince.Text = entityFather.OfficeState;
-            tacFatherZipCode.Value = entityFather.OfficeZipCodeID.ToString();
-            tacFatherZipCode.Text = entityFather.OfficeZipCode.ToString();
-            txtFatherTelephoneNo.Text = entityFather.OfficePhoneNo1;
+                tacFatherOfficeProvince.Value = "";
+            tacFatherOfficeProvince.Text = entityFather.OfficeState;
+            tacFatherOfficeZipCode.Value = entityFather.OfficeZipCodeID.ToString();
+            tacFatherOfficeZipCode.Text = entityFather.OfficeZipCode.ToString();
+            txtFatherOfficeTelephoneNo.Text = entityFather.OfficePhoneNo1;
             #endregion
 
             #region Mother
@@ -178,28 +229,44 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             cboMotherEducationLevel.Value = entityMother.GCEducationLevel;
             #endregion
 
+            #region Mother Home Address
+            chkIsMotherAddressSameWithStudent.Checked = entityMother.IsHomeAddressSameWithStudent;
+            txtMotherAddress.Text = entityMother.HomeStreetName;
+            txtMotherCounty.Text = entityMother.HomeCounty; // Desa
+            txtMotherDistrict.Text = entityMother.HomeDistrict; //Kabupaten
+            txtMotherCity.Text = entityMother.HomeCity;
+            if (entityMother.HomeGCState != "")
+                tacMotherProvince.Value = entityMother.HomeGCState.Split('^')[1];
+            else
+                tacMotherProvince.Value = "";
+            tacMotherProvince.Text = entityMother.HomeState;
+            tacMotherZipCode.Value = entityMother.HomeZipCodeID.ToString();
+            tacMotherZipCode.Text = entityMother.HomeZipCode.ToString();
+            txtMotherTelephoneNo.Text = entityMother.HomePhoneNo1;
+            #endregion
+
             #region Mother Office Address
             txtMotherJobOffice.Text = entityMother.CompanyName;
             cboMotherGCJob.Value = entityMother.GCJob;
             txtMotherOccupation.Text = entityMother.Occupation;
             txtMotherSalary.Text = entityMother.Salary.ToString();
 
-            txtMotherAddress.Text = entityMother.OfficeStreetName;
-            txtMotherCounty.Text = entityMother.OfficeCounty; // Desa
-            txtMotherDistrict.Text = entityMother.OfficeDistrict; //Kabupaten
-            txtMotherCity.Text = entityMother.OfficeCity;
+            txtMotherOfficeAddress.Text = entityMother.OfficeStreetName;
+            txtMotherOfficeCounty.Text = entityMother.OfficeCounty; // Desa
+            txtMotherOfficeDistrict.Text = entityMother.OfficeDistrict; //Kabupaten
+            txtMotherOfficeCity.Text = entityMother.OfficeCity;
             if (entityMother.OfficeGCState != "")
-                tacMotherProvince.Value = entityMother.OfficeGCState.Split('^')[1];
+                tacMotherOfficeProvince.Value = entityMother.OfficeGCState.Split('^')[1];
             else
-                tacMotherProvince.Value = "";
-            tacMotherProvince.Text = entityMother.OfficeState;
-            tacMotherZipCode.Value = entityMother.OfficeZipCodeID.ToString();
-            tacMotherZipCode.Text = entityMother.OfficeZipCode.ToString();
-            txtMotherTelephoneNo.Text = entityMother.OfficePhoneNo1;
+                tacMotherOfficeProvince.Value = "";
+            tacMotherOfficeProvince.Text = entityMother.OfficeState;
+            tacMotherOfficeZipCode.Value = entityMother.OfficeZipCodeID.ToString();
+            tacMotherOfficeZipCode.Text = entityMother.OfficeZipCode.ToString();
+            txtMotherOfficeTelephoneNo.Text = entityMother.OfficePhoneNo1;
             #endregion
         }
 
-        private void ControlToEntity(StudentFamily entityFather, StudentFamily entityMother, Address officeAddressFather, Address officeAddressMother)
+        private void ControlToEntity(StudentFamily entityFather, StudentFamily entityMother, Address homeAddressFather, Address homeAddressMother, Address officeAddressFather, Address officeAddressMother)
         {
             #region Father
             entityFather.GCSalutation = "";
@@ -221,22 +288,39 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entityFather.GCEducationLevel = cboFatherEducationLevel.Value.ToString();
             #endregion
 
+            #region Home
+            entityFather.IsHomeAddressSameWithStudent = chkIsFatherAddressSameWithStudent.Checked;
+            if (!entityFather.IsHomeAddressSameWithStudent)
+            {
+                homeAddressFather.StreetName = txtFatherAddress.Text;
+                homeAddressFather.County = txtFatherCounty.Text; // Desa
+                homeAddressFather.District = txtFatherDistrict.Text; //Kabupaten
+                homeAddressFather.City = txtFatherCity.Text;
+                homeAddressFather.GCState = tacFatherProvince.Value == "" ? null : string.Format("{0}^{1}", Constant.StandardCode.PROVINCE, tacFatherProvince.Value);
+                if (tacFatherZipCode.Value == "" || tacFatherZipCode.Value == "0")
+                    officeAddressFather.ZipCode = null;
+                else
+                    officeAddressFather.ZipCode = Convert.ToInt32(tacFatherZipCode.Value);
+                homeAddressFather.PhoneNo1 = txtFatherTelephoneNo.Text;
+            }
+            #endregion
+
             #region Office
             entityFather.CompanyName = txtFatherJobOffice.Text;
             entityFather.GCJob = cboFatherGCJob.Value == null ? "" : cboFatherGCJob.Value.ToString();
             entityFather.Occupation = txtFatherOccupation.Text;
             entityFather.Salary = txtFatherSalary.Text == "" ? 0 : Convert.ToDecimal(txtFatherSalary.Text);
 
-            officeAddressFather.StreetName = txtFatherAddress.Text;
-            officeAddressFather.County = txtFatherCounty.Text; // Desa
-            officeAddressFather.District = txtFatherDistrict.Text; //Kabupaten
-            officeAddressFather.City = txtFatherCity.Text;
+            officeAddressFather.StreetName = txtFatherOfficeAddress.Text;
+            officeAddressFather.County = txtFatherOfficeCounty.Text; // Desa
+            officeAddressFather.District = txtFatherOfficeDistrict.Text; //Kabupaten
+            officeAddressFather.City = txtFatherOfficeCity.Text;
             officeAddressFather.GCState = tacFatherProvince.Value == "" ? null : string.Format("{0}^{1}", Constant.StandardCode.PROVINCE, tacFatherProvince.Value);
             if (tacFatherZipCode.Value == "" || tacFatherZipCode.Value == "0")
                 officeAddressFather.ZipCode = null;
             else
                 officeAddressFather.ZipCode = Convert.ToInt32(tacFatherZipCode.Value);
-            officeAddressFather.PhoneNo1 = txtFatherTelephoneNo.Text;
+            officeAddressFather.PhoneNo1 = txtFatherOfficeTelephoneNo.Text;
             #endregion
 
             #region Mother
@@ -259,22 +343,39 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             entityMother.GCEducationLevel = cboMotherEducationLevel.Value.ToString();
             #endregion
 
+            #region Home
+            entityMother.IsHomeAddressSameWithStudent = chkIsMotherAddressSameWithStudent.Checked;
+            if (!entityMother.IsHomeAddressSameWithStudent)
+            {
+                homeAddressMother.StreetName = txtMotherAddress.Text;
+                homeAddressMother.County = txtMotherCounty.Text; // Desa
+                homeAddressMother.District = txtMotherDistrict.Text; //Kabupaten
+                homeAddressMother.City = txtMotherCity.Text;
+                homeAddressMother.GCState = tacMotherProvince.Value == "" ? null : string.Format("{0}^{1}", Constant.StandardCode.PROVINCE, tacMotherProvince.Value);
+                if (tacMotherZipCode.Value == "" || tacMotherZipCode.Value == "0")
+                    officeAddressMother.ZipCode = null;
+                else
+                    officeAddressMother.ZipCode = Convert.ToInt32(tacMotherZipCode.Value);
+                homeAddressMother.PhoneNo1 = txtMotherTelephoneNo.Text;
+            }
+            #endregion
+
             #region Office
             entityMother.CompanyName = txtMotherJobOffice.Text;
             entityMother.GCJob = cboMotherGCJob.Value == null ? "" : cboMotherGCJob.Value.ToString();
             entityMother.Occupation = txtMotherOccupation.Text;
             entityMother.Salary = txtMotherSalary.Text == "" ? 0 : Convert.ToDecimal(txtMotherSalary.Text);
 
-            officeAddressMother.StreetName = txtMotherAddress.Text;
-            officeAddressMother.County = txtMotherCounty.Text; // Desa
-            officeAddressMother.District = txtMotherDistrict.Text; //Kabupaten
-            officeAddressMother.City = txtMotherCity.Text;
+            officeAddressMother.StreetName = txtMotherOfficeAddress.Text;
+            officeAddressMother.County = txtMotherOfficeCounty.Text; // Desa
+            officeAddressMother.District = txtMotherOfficeDistrict.Text; //Kabupaten
+            officeAddressMother.City = txtMotherOfficeCity.Text;
             officeAddressMother.GCState = tacMotherProvince.Value == "" ? null : string.Format("{0}^{1}", Constant.StandardCode.PROVINCE, tacMotherProvince.Value);
             if (tacMotherZipCode.Value == "" || tacMotherZipCode.Value == "0")
                 officeAddressMother.ZipCode = null;
             else
                 officeAddressMother.ZipCode = Convert.ToInt32(tacMotherZipCode.Value);
-            officeAddressMother.PhoneNo1 = txtMotherTelephoneNo.Text;
+            officeAddressMother.PhoneNo1 = txtMotherOfficeTelephoneNo.Text;
             #endregion
         }
 
@@ -288,9 +389,11 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 StudentFamily entityFather = new StudentFamily();
                 StudentFamily entityMother = new StudentFamily();
+                Address homeAddressFather = new Address();
+                Address homeAddressMother = new Address();
                 Address officeAddressFather = new Address();
                 Address officeAddressMother = new Address();
-                ControlToEntity(entityFather, entityMother, officeAddressFather, officeAddressMother);
+                ControlToEntity(entityFather, entityMother, homeAddressFather, homeAddressMother, officeAddressFather, officeAddressMother);
 
                 entityFather.StudentID = AppSession.StudentID;
                 entityFather.GCGender = Constant.Gender.MALE;
@@ -300,9 +403,19 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityDao.Insert(entityFather);
 
                 entityFather.FamilyID = BusinessLayer.GetProspectiveStudentFamilyMaxID(ctx);
-                officeAddressFather.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
-                entityFather.OfficeAddressID = officeAddressFather.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entityFather.FamilyID);
+
+                homeAddressFather.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
+                homeAddressFather.AddressID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entityFather.FamilyID);
+                if (entityFather.IsHomeAddressSameWithStudent)
+                    entityFather.HomeAddressID = hdnStudentAddressID.Value;
+                else
+                    entityFather.HomeAddressID = homeAddressFather.AddressID;
+                addressDao.Insert(homeAddressFather);
+
+                officeAddressFather.GCAddressType = Constant.AddressType.STUDENT_FAMILY_OFFICE;
+                entityFather.OfficeAddressID = officeAddressFather.AddressID = string.Format("{0}{1}", hdnOfficeAddressPrefix.Value, entityFather.FamilyID);
                 addressDao.Insert(officeAddressFather);
+
                 entityDao.Update(entityFather);
 
                 addressDao.Insert(officeAddressMother);
@@ -313,10 +426,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 entityMother.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entityMother);
 
-                entityMother.FamilyID = BusinessLayer.GetProspectiveStudentFamilyMaxID(ctx);
-                officeAddressFather.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
-                entityMother.OfficeAddressID = officeAddressMother.AddressID = string.Format("{0}{1}", hdnAddressPrefix.Value, entityMother.FamilyID);
+                homeAddressMother.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
+                homeAddressMother.AddressID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entityMother.FamilyID);
+                if (entityMother.IsHomeAddressSameWithStudent)
+                    entityMother.HomeAddressID = hdnStudentAddressID.Value;
+                else
+                    entityMother.HomeAddressID = homeAddressMother.AddressID;
+                addressDao.Insert(homeAddressMother);
+
+                officeAddressMother.GCAddressType = Constant.AddressType.STUDENT_FAMILY_OFFICE;
+                entityMother.OfficeAddressID = officeAddressMother.AddressID = string.Format("{0}{1}", hdnOfficeAddressPrefix.Value, entityMother.FamilyID);
                 addressDao.Insert(officeAddressMother);
+
                 entityDao.Update(entityMother);
 
                 ctx.CommitTransaction();
@@ -343,20 +464,62 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             bool result = true;
             try
             {
+                bool isAddFatherAddress = false;
+                bool isAddMotherAddress = false;
+
                 List<StudentFamily> lstEntity = BusinessLayer.GetStudentFamilyList(string.Format("StudentID = {0} AND GCFamilyRelation IN ('{1}','{2}')", AppSession.StudentID, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER), ctx);
                 StudentFamily entityFather = lstEntity.FirstOrDefault(p => p.GCFamilyRelation == Constant.FamilyRelation.FATHER);
                 StudentFamily entityMother = lstEntity.FirstOrDefault(p => p.GCFamilyRelation == Constant.FamilyRelation.MOTHER);
 
-                List<Address> lstOfficeAddress = BusinessLayer.GetAddressList(string.Format("AddressID IN ('{0}','{1}')", entityFather.OfficeAddressID, entityMother.OfficeAddressID), ctx);
+                string homeAddressFatherID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entityFather.FamilyID);
+                string homeAddressMotherID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entityFather.FamilyID);
+
+                List<Address> lstOfficeAddress = BusinessLayer.GetAddressList(string.Format("AddressID IN ('{0}','{1}','{2}','{3}')", homeAddressFatherID, homeAddressMotherID, entityFather.OfficeAddressID, entityMother.OfficeAddressID), ctx);
+                Address homeAddressFather = lstOfficeAddress.FirstOrDefault(p => p.AddressID == homeAddressFatherID);
+                Address homeAddressMother = lstOfficeAddress.FirstOrDefault(p => p.AddressID == homeAddressMotherID);
                 Address officeAddressFather = lstOfficeAddress.FirstOrDefault(p => p.AddressID == entityFather.OfficeAddressID);
                 Address officeAddressMother = lstOfficeAddress.FirstOrDefault(p => p.AddressID == entityMother.OfficeAddressID);
 
-                ControlToEntity(entityFather, entityMother, officeAddressFather, officeAddressMother);
+                if (homeAddressFather == null)
+                {
+                    isAddFatherAddress = true;
+                    homeAddressFather.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
+                    homeAddressFather.AddressID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entityFather.FamilyID);
+                    addressDao.Insert(homeAddressFather);
+                }
 
+                if (homeAddressMother == null)
+                {
+                    isAddMotherAddress = true;
+                    homeAddressMother.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
+                    homeAddressMother.AddressID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entityMother.FamilyID);
+                    addressDao.Insert(homeAddressMother);
+                }
+
+                ControlToEntity(entityFather, entityMother, homeAddressFather, homeAddressMother, officeAddressFather, officeAddressMother);
+
+                if (isAddFatherAddress)
+                    addressDao.Insert(homeAddressFather);
+                else
+                    addressDao.Update(homeAddressFather);
+
+                if (isAddMotherAddress)
+                    addressDao.Insert(homeAddressMother);
+                else
+                    addressDao.Update(homeAddressMother);
+
+                if (entityFather.IsHomeAddressSameWithStudent)
+                    entityFather.HomeAddressID = hdnStudentAddressID.Value;
+                else
+                    entityFather.HomeAddressID = homeAddressFather.AddressID;
                 addressDao.Update(officeAddressFather);
                 entityFather.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entityFather);
 
+                if (entityMother.IsHomeAddressSameWithStudent)
+                    entityMother.HomeAddressID = hdnStudentAddressID.Value;
+                else
+                    entityMother.HomeAddressID = homeAddressMother.AddressID;
                 addressDao.Update(officeAddressMother);
                 entityMother.LastUpdatedBy = AppSession.UserLogin.UserID;
                 entityDao.Update(entityMother);

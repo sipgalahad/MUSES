@@ -18651,6 +18651,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _FamilyID;
         private Int32 _ProspectiveStudentID;
+        private Boolean _IsStudentTrustee;
         private String _GCFamilyRelation;
         private String _GCSalutation;
         private String _GCTitle;
@@ -18670,6 +18671,8 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsHomeAddressSameWithStudent;
+        private String _HomeAddressID;
         private String _OfficeAddressID;
         private String _EmailAddress;
         private String _MobilePhoneNo1;
@@ -18691,6 +18694,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "IsStudentTrustee", DataType = "Boolean")]
+        public Boolean IsStudentTrustee
+        {
+            get { return _IsStudentTrustee; }
+            set { _IsStudentTrustee = value; }
         }
         [Column(Name = "GCFamilyRelation", DataType = "String")]
         public String GCFamilyRelation
@@ -18805,6 +18814,18 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean")]
+        public Boolean IsHomeAddressSameWithStudent
+        {
+            get { return _IsHomeAddressSameWithStudent; }
+            set { _IsHomeAddressSameWithStudent = value; }
+        }
+        [Column(Name = "HomeAddressID", DataType = "String", IsNullable = true)]
+        public String HomeAddressID
+        {
+            get { return _HomeAddressID; }
+            set { _HomeAddressID = value; }
         }
         [Column(Name = "OfficeAddressID", DataType = "String", IsNullable = true)]
         public String OfficeAddressID
@@ -25511,6 +25532,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _FamilyID;
         private Int32 _StudentID;
+        private Boolean _IsStudentTrustee;
         private String _GCFamilyRelation;
         private String _GCSalutation;
         private String _GCTitle;
@@ -25530,6 +25552,8 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsHomeAddressSameWithStudent;
+        private String _HomeAddressID;
         private String _OfficeAddressID;
         private String _EmailAddress;
         private String _MobilePhoneNo1;
@@ -25551,6 +25575,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "IsStudentTrustee", DataType = "Boolean")]
+        public Boolean IsStudentTrustee
+        {
+            get { return _IsStudentTrustee; }
+            set { _IsStudentTrustee = value; }
         }
         [Column(Name = "GCFamilyRelation", DataType = "String")]
         public String GCFamilyRelation
@@ -25665,6 +25695,18 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean", IsNullable = true)]
+        public Boolean IsHomeAddressSameWithStudent
+        {
+            get { return _IsHomeAddressSameWithStudent; }
+            set { _IsHomeAddressSameWithStudent = value; }
+        }
+        [Column(Name = "HomeAddressID", DataType = "String", IsNullable = true)]
+        public String HomeAddressID
+        {
+            get { return _HomeAddressID; }
+            set { _HomeAddressID = value; }
         }
         [Column(Name = "OfficeAddressID", DataType = "String", IsNullable = true)]
         public String OfficeAddressID

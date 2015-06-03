@@ -96,12 +96,13 @@
     <div id="page-wrap" style="width:100%; text-align: center;">
 	    <ul class="stepmenu" id="ulProspectiveStudent">
 		    <li><a href="#" url="ProspectiveStudentDtEntry.aspx" class="disabled"><%=GetLabel("Data Pribadi")%></a></li>
-		    <li><a href="#" url="ProspectiveStudentParentDtEntry.aspx" class="disabled"><%=GetLabel("Orangtua / Wali")%></a></li>
+		    <li><a href="#" url="ProspectiveStudentParentDtEntry.aspx" class="disabled"><%=GetLabel("Orangtua")%></a></li>
+            <li><a href="#" url="ProspectiveStudentTrusteeDtEntry.aspx" class="disabled"><%=GetLabel("Wali")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentFamilyDtEntry.aspx" class="disabled"><%=GetLabel("Saudara Kandung")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentPastStudyDtEntry.aspx" class="disabled"><%=GetLabel("Riwayat Sekolah")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentAchievementDtEntry.aspx" class="disabled"><%=GetLabel("Prestasi")%></a></li>
 		    <li><a href="#" url="ProspectiveStudentRemarksDtEntry.aspx" class="disabled"><%=GetLabel("Keterangan Lain")%></a></li>
-		    <li><a href="#" url="ProspectiveStudentSurveyDtEntry.aspx" class="disabled"><%=GetLabel("Lembar Survei")%></a></li>
+		    <li style="display:none"><a href="#" url="ProspectiveStudentSurveyDtEntry.aspx" class="disabled"><%=GetLabel("Lembar Survei")%></a></li>
 	    </ul>
     </div>
 
