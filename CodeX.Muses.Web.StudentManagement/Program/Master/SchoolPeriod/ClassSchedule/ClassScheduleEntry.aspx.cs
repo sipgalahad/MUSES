@@ -162,7 +162,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     HtmlTableCell tdRoomID = (HtmlTableCell)e.Item.FindControl("tdRoomID");
                     tdValue.InnerHtml = entity.ClassSubjectID.ToString();
                     tdRoomID.InnerHtml = entity.RoomID.ToString();
-                    tdHtmlText.InnerHtml = string.Format("<div style='float:right' class='divDetailDelete'></div>{0}<br/><b>{1}</b><br/><label class='lblLink lblRoom'>{2}</label>", entity.SubjectName, entity.TeacherName, entity.RoomName);
+                    tdHtmlText.InnerHtml = string.Format("<div style='float:right' class='divDetailDelete'></div>{0}<br/><b>{1}</b><br/><label class='lblLink lblRoom'>{2}</label>", entity.SubjectName, entity.TeacherName, entity.RoomName == "" ? GetLabel("Pilih Ruangan") : entity.RoomName);
                 }
                 else
                 {
@@ -210,6 +210,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                             entityDt.HoursIndex = hoursIndex;
                             entityDt.DayNumber = dayNumber;
                             entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                            if (entityDt.RoomID == 0)
+                                entityDt.RoomID = null;
                             entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
                             entityDt.CreatedBy = AppSession.UserLogin.UserID;
                             entityDtDao.Insert(entityDt);
@@ -217,6 +219,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                         else
                         {
                             entityDt.RoomID = Convert.ToInt32(lstRoomID[ct]);
+                            if (entityDt.RoomID == 0)
+                                entityDt.RoomID = null;
                             entityDt.ClassSubjectID = Convert.ToInt16(lstClassSubjectID[ct]);
                             entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                             entityDtDao.Update(entityDt);

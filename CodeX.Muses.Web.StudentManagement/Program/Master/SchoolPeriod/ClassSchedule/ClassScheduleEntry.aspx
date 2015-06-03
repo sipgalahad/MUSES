@@ -58,7 +58,10 @@
                 $('#hdnSelectedTrValue').val(entity.ClassSubjectID);
                 $('#hdnSelectedTrTeacherID').val(entity.TeacherID);
                 $('#hdnSelectedTrRoomID').val(entity.RoomID);
-                $('#hdnSelectedTrRoomName').val(entity.RoomName);
+                if (entity.RoomID == '0')
+                    $('#hdnSelectedTrRoomName').val('Pilih Ruangan');
+                else
+                    $('#hdnSelectedTrRoomName').val(entity.RoomName);                
 
                 $('#tdSelectedSubject').html(entity.SubjectName);
                 $('#tdSelectedTeacher').html("<label class='lblLink' id='lblTeacher'>" + entity.TeacherName + "</label>");

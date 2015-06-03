@@ -228,7 +228,6 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             {
                 DailySchedulePackage entity = new DailySchedulePackage();
                 ControlToEntity(entity);
-                entity.SiteID = AppSession.UserLogin.SiteID;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
                 retval = BusinessLayer.GetDailySchedulePackageMaxID(ctx).ToString();

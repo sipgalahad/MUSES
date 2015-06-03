@@ -7363,7 +7363,6 @@ namespace CodeX.Data.Model
         private Int32 _DailySchedulePackageID;
         private String _DailySchedulePackageCode;
         private String _DailySchedulePackageName;
-        private String _SiteID;
         private Int32? _DailyScheduleTypeID1;
         private Int32? _DailyScheduleTypeID2;
         private Int32? _DailyScheduleTypeID3;
@@ -7393,12 +7392,6 @@ namespace CodeX.Data.Model
         {
             get { return _DailySchedulePackageName; }
             set { _DailySchedulePackageName = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "DailyScheduleTypeID1", DataType = "Int32", IsNullable = true)]
         public Int32? DailyScheduleTypeID1
@@ -7645,7 +7638,6 @@ namespace CodeX.Data.Model
         private Int32 _DailyScheduleTypeID;
         private String _DailyScheduleTypeCode;
         private String _DailyScheduleTypeName;
-        private String _SiteID;
         private String _Remarks;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -7670,12 +7662,6 @@ namespace CodeX.Data.Model
         {
             get { return _DailyScheduleTypeName; }
             set { _DailyScheduleTypeName = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks

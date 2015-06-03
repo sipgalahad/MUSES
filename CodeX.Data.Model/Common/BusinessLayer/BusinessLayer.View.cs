@@ -363,6 +363,30 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region vMenuClientType
+        public static List<vMenuClientType> GetvMenuClientTypeList(string filterExpression)
+        {
+            List<vMenuClientType> result = new List<vMenuClientType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vMenuClientType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vMenuClientType)helper.IDataReaderToObject(reader, new vMenuClientType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
         #region vMenuReport
         public static List<vMenuReport> GetvMenuReportList(string filterExpression)
         {

@@ -11,7 +11,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         $('.lnkSchedule').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.hdnDailySchedulePackageID').val();
             var url = ResolveUrl("~/Program/Master/SchoolPeriod/PeriodClassType/DailySchedulePackageDtCtl.ascx");
             openUserControlPopup(url, id, 'Jadwal', 1000, 550);
         });
@@ -44,6 +44,7 @@
                                 <asp:BoundField DataField="Major" HeaderText="Jurusan" HeaderStyle-Width="150px" />
                                 <asp:TemplateField HeaderText="Tipe Jadwal" HeaderStyle-Width="300px">
                                     <ItemTemplate>
+                                        <input type="hidden" class="hdnDailySchedulePackageID" value='<%#Eval("DailySchedulePackageID")%>' />
                                         <a class="lnkSchedule"><%#Eval("DailySchedulePackageName")%></a>
                                     </ItemTemplate>
                                 </asp:TemplateField>

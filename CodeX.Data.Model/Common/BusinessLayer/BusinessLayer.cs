@@ -468,6 +468,63 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region MenuClientType
+        public static MenuClientType GetMenuClientType(Int32 MenuID, String GCClientType)
+        {
+            return new MenuClientTypeDao().Get(MenuID, GCClientType);
+        }
+        public static int InsertMenuClientType(MenuClientType record)
+        {
+            return new MenuClientTypeDao().Insert(record);
+        }
+        public static int UpdateMenuClientType(MenuClientType record)
+        {
+            return new MenuClientTypeDao().Update(record);
+        }
+        public static int DeleteMenuClientType(Int32 MenuID, String GCClientType)
+        {
+            return new MenuClientTypeDao().Delete(MenuID, GCClientType);
+        }
+        public static List<MenuClientType> GetMenuClientTypeList(string filterExpression)
+        {
+            List<MenuClientType> result = new List<MenuClientType>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MenuClientType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MenuClientType)helper.IDataReaderToObject(reader, new MenuClientType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static List<MenuClientType> GetMenuClientTypeList(string filterExpression, IDbContext ctx)
+        {
+            List<MenuClientType> result = new List<MenuClientType>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(MenuClientType));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((MenuClientType)helper.IDataReaderToObject(reader, new MenuClientType()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region MenuMaster
         public static MenuMaster GetMenuMaster(Int32 MenuID)
         {
