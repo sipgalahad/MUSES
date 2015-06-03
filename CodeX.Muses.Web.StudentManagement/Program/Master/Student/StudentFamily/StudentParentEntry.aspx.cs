@@ -293,6 +293,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 ControlToEntity(entityFather, entityMother, officeAddressFather, officeAddressMother);
 
                 entityFather.StudentID = AppSession.StudentID;
+                entityFather.GCGender = Constant.Gender.MALE;
                 entityFather.GCFamilyRelation = Constant.FamilyRelation.FATHER;
                 entityFather.OfficeAddressID = null;
                 entityFather.CreatedBy = AppSession.UserLogin.UserID;
@@ -306,6 +307,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
                 addressDao.Insert(officeAddressMother);
                 entityMother.StudentID = AppSession.StudentID;
+                entityMother.GCGender = Constant.Gender.FEMALE;
                 entityMother.GCFamilyRelation = Constant.FamilyRelation.MOTHER;
                 entityMother.OfficeAddressID = null;
                 entityMother.CreatedBy = AppSession.UserLogin.UserID;

@@ -30,11 +30,13 @@
                     $('#<%=hdnSelectedValue.ClientID %>').val(param);
                     cbpProcess.PerformCallback('save');
                 }
-            })
+            });
 
             $('#<%=chkFilterIsPaid.ClientID %>').change(function () {
-                cbpView.PerformCallback('refresh');                
+                cbpView.PerformCallback('refresh');
             });
+
+            setDatePicker('<%=txtAcceptedDate.ClientID %>');
         })
 
         $('.chkAcceptAll input').live('click', function () {
@@ -57,7 +59,13 @@
     </script>
     <input type="hidden" id="hdnSelectedValue" runat="server" />
     <input type="hidden" id="hdnEntryID" runat="server"/>
-    <asp:CheckBox runat="server" ID="chkFilterIsPaid" /> <%=GetLabel("Tampilkan Hanya Yang Lunas") %>
+    <asp:CheckBox runat="server" ID="chkFilterIsPaid" /> <%=GetLabel("Tampilkan Hanya Yang Lunas") %><br />
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="width:120" class="tdLabel"><%=GetLabel("Tanggal Diterima") %></td>
+            <td><asp:TextBox ID="txtAcceptedDate" runat="server" Width="120px" CssClass="datepicker" /></td>
+        </tr>
+    </table>
     <div class="divTransactionEntry">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">

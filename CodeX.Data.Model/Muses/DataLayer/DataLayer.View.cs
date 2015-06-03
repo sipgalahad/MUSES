@@ -16342,6 +16342,8 @@ namespace CodeX.Data.Model
         private String _FamilyName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
+        private String _Gender;
         private String _GCSuffix;
         private String _GCReligion;
         private String _GCNationality;
@@ -16442,6 +16444,18 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "Gender", DataType = "String")]
+        public String Gender
+        {
+            get { return _Gender; }
+            set { _Gender = value; }
         }
         [Column(Name = "GCSuffix", DataType = "String")]
         public String GCSuffix
@@ -20235,6 +20249,7 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PhoneNo1;
         private String _PictureFileName;
+        private DateTime _AcceptedDate;
 
         [Column(Name = "RegistrationID", DataType = "Int32")]
         public Int32 RegistrationID
@@ -20571,6 +20586,12 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "AcceptedDate", DataType = "DateTime")]
+        public DateTime AcceptedDate
+        {
+            get { return _AcceptedDate; }
+            set { _AcceptedDate = value; }
         }
     }
     #endregion
@@ -23041,12 +23062,18 @@ namespace CodeX.Data.Model
         private String _FamilyName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
+        private String _Gender;
         private String _GCSuffix;
         private String _GCReligion;
+        private String _Religion;
         private String _GCNationality;
+        private String _Nationality;
         private String _GCEducationLevel;
+        private String _EducationLevel;
         private String _CompanyName;
         private String _GCJob;
+        private String _Job;
         private String _Occupation;
         private Decimal _Salary;
         private String _OfficeAddressID;
@@ -23142,6 +23169,18 @@ namespace CodeX.Data.Model
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
         }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "Gender", DataType = "String")]
+        public String Gender
+        {
+            get { return _Gender; }
+            set { _Gender = value; }
+        }
         [Column(Name = "GCSuffix", DataType = "String")]
         public String GCSuffix
         {
@@ -23154,17 +23193,35 @@ namespace CodeX.Data.Model
             get { return _GCReligion; }
             set { _GCReligion = value; }
         }
+        [Column(Name = "Religion", DataType = "String")]
+        public String Religion
+        {
+            get { return _Religion; }
+            set { _Religion = value; }
+        }
         [Column(Name = "GCNationality", DataType = "String")]
         public String GCNationality
         {
             get { return _GCNationality; }
             set { _GCNationality = value; }
         }
+        [Column(Name = "Nationality", DataType = "String")]
+        public String Nationality
+        {
+            get { return _Nationality; }
+            set { _Nationality = value; }
+        }
         [Column(Name = "GCEducationLevel", DataType = "String")]
         public String GCEducationLevel
         {
             get { return _GCEducationLevel; }
             set { _GCEducationLevel = value; }
+        }
+        [Column(Name = "EducationLevel", DataType = "String")]
+        public String EducationLevel
+        {
+            get { return _EducationLevel; }
+            set { _EducationLevel = value; }
         }
         [Column(Name = "CompanyName", DataType = "String")]
         public String CompanyName
@@ -23177,6 +23234,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCJob; }
             set { _GCJob = value; }
+        }
+        [Column(Name = "Job", DataType = "String")]
+        public String Job
+        {
+            get { return _Job; }
+            set { _Job = value; }
         }
         [Column(Name = "Occupation", DataType = "String")]
         public String Occupation

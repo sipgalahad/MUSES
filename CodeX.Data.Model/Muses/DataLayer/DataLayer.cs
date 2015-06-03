@@ -18644,6 +18644,266 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region ProspectiveStudentFamily
+    [Serializable]
+    [Table(Name = "ProspectiveStudentFamily")]
+    public class ProspectiveStudentFamily : DbDataModel
+    {
+        private Int32 _FamilyID;
+        private Int32 _ProspectiveStudentID;
+        private String _GCFamilyRelation;
+        private String _GCSalutation;
+        private String _GCTitle;
+        private String _FirstName;
+        private String _MiddleName;
+        private String _LastName;
+        private String _FullName;
+        private String _FamilyName;
+        private String _CityOfBirth;
+        private DateTime _DateOfBirth;
+        private String _GCGender;
+        private String _GCSuffix;
+        private String _GCReligion;
+        private String _GCNationality;
+        private String _GCEducationLevel;
+        private String _CompanyName;
+        private String _GCJob;
+        private String _Occupation;
+        private Decimal _Salary;
+        private String _OfficeAddressID;
+        private String _EmailAddress;
+        private String _MobilePhoneNo1;
+        private String _MobilePhoneNo2;
+        private Boolean _IsDeleted;
+        private Int32? _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "FamilyID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 FamilyID
+        {
+            get { return _FamilyID; }
+            set { _FamilyID = value; }
+        }
+        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
+        public Int32 ProspectiveStudentID
+        {
+            get { return _ProspectiveStudentID; }
+            set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "GCFamilyRelation", DataType = "String")]
+        public String GCFamilyRelation
+        {
+            get { return _GCFamilyRelation; }
+            set { _GCFamilyRelation = value; }
+        }
+        [Column(Name = "GCSalutation", DataType = "String", IsNullable = true)]
+        public String GCSalutation
+        {
+            get { return _GCSalutation; }
+            set { _GCSalutation = value; }
+        }
+        [Column(Name = "GCTitle", DataType = "String", IsNullable = true)]
+        public String GCTitle
+        {
+            get { return _GCTitle; }
+            set { _GCTitle = value; }
+        }
+        [Column(Name = "FirstName", DataType = "String", IsNullable = true)]
+        public String FirstName
+        {
+            get { return _FirstName; }
+            set { _FirstName = value; }
+        }
+        [Column(Name = "MiddleName", DataType = "String", IsNullable = true)]
+        public String MiddleName
+        {
+            get { return _MiddleName; }
+            set { _MiddleName = value; }
+        }
+        [Column(Name = "LastName", DataType = "String")]
+        public String LastName
+        {
+            get { return _LastName; }
+            set { _LastName = value; }
+        }
+        [Column(Name = "FullName", DataType = "String", IsNullable = true)]
+        public String FullName
+        {
+            get { return _FullName; }
+            set { _FullName = value; }
+        }
+        [Column(Name = "FamilyName", DataType = "String", IsNullable = true)]
+        public String FamilyName
+        {
+            get { return _FamilyName; }
+            set { _FamilyName = value; }
+        }
+        [Column(Name = "CityOfBirth", DataType = "String", IsNullable = true)]
+        public String CityOfBirth
+        {
+            get { return _CityOfBirth; }
+            set { _CityOfBirth = value; }
+        }
+        [Column(Name = "DateOfBirth", DataType = "DateTime", IsNullable = true)]
+        public DateTime DateOfBirth
+        {
+            get { return _DateOfBirth; }
+            set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String", IsNullable = true)]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
+        public String GCSuffix
+        {
+            get { return _GCSuffix; }
+            set { _GCSuffix = value; }
+        }
+        [Column(Name = "GCReligion", DataType = "String", IsNullable = true)]
+        public String GCReligion
+        {
+            get { return _GCReligion; }
+            set { _GCReligion = value; }
+        }
+        [Column(Name = "GCNationality", DataType = "String", IsNullable = true)]
+        public String GCNationality
+        {
+            get { return _GCNationality; }
+            set { _GCNationality = value; }
+        }
+        [Column(Name = "GCEducationLevel", DataType = "String", IsNullable = true)]
+        public String GCEducationLevel
+        {
+            get { return _GCEducationLevel; }
+            set { _GCEducationLevel = value; }
+        }
+        [Column(Name = "CompanyName", DataType = "String", IsNullable = true)]
+        public String CompanyName
+        {
+            get { return _CompanyName; }
+            set { _CompanyName = value; }
+        }
+        [Column(Name = "GCJob", DataType = "String", IsNullable = true)]
+        public String GCJob
+        {
+            get { return _GCJob; }
+            set { _GCJob = value; }
+        }
+        [Column(Name = "Occupation", DataType = "String", IsNullable = true)]
+        public String Occupation
+        {
+            get { return _Occupation; }
+            set { _Occupation = value; }
+        }
+        [Column(Name = "Salary", DataType = "Decimal", IsNullable = true)]
+        public Decimal Salary
+        {
+            get { return _Salary; }
+            set { _Salary = value; }
+        }
+        [Column(Name = "OfficeAddressID", DataType = "String", IsNullable = true)]
+        public String OfficeAddressID
+        {
+            get { return _OfficeAddressID; }
+            set { _OfficeAddressID = value; }
+        }
+        [Column(Name = "EmailAddress", DataType = "String", IsNullable = true)]
+        public String EmailAddress
+        {
+            get { return _EmailAddress; }
+            set { _EmailAddress = value; }
+        }
+        [Column(Name = "MobilePhoneNo1", DataType = "String", IsNullable = true)]
+        public String MobilePhoneNo1
+        {
+            get { return _MobilePhoneNo1; }
+            set { _MobilePhoneNo1 = value; }
+        }
+        [Column(Name = "MobilePhoneNo2", DataType = "String", IsNullable = true)]
+        public String MobilePhoneNo2
+        {
+            get { return _MobilePhoneNo2; }
+            set { _MobilePhoneNo2 = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class ProspectiveStudentFamilyDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentFamily));
+        private bool _isAuditLog = false;
+        private const string p_FamilyID = "@p_FamilyID";
+        public ProspectiveStudentFamilyDao() { }
+        public ProspectiveStudentFamilyDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public ProspectiveStudentFamily Get(Int32 FamilyID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_FamilyID, FamilyID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (ProspectiveStudentFamily)_helper.DataRowToObject(row, new ProspectiveStudentFamily());
+        }
+        public int Insert(ProspectiveStudentFamily record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(ProspectiveStudentFamily record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 FamilyID)
+        {
+            ProspectiveStudentFamily record;
+            if (_ctx.Transaction == null)
+                record = new ProspectiveStudentFamilyDao().Get(FamilyID);
+            else
+                record = Get(FamilyID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region ProspectiveStudentFolder
     [Serializable]
     [Table(Name = "ProspectiveStudentFolder")]
@@ -18931,259 +19191,6 @@ namespace CodeX.Data.Model
                 record = new ProspectiveStudentFormDao().Get(FormID);
             else
                 record = Get(FormID);
-            _helper.Delete(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-    }
-    #endregion
-    #region ProspectiveStudentFamily
-    [Serializable]
-    [Table(Name = "ProspectiveStudentFamily")]
-    public class ProspectiveStudentFamily : DbDataModel
-    {
-        private Int32 _FamilyID;
-        private Int32 _ProspectiveStudentID;
-        private String _GCFamilyRelation;
-        private String _GCSalutation;
-        private String _GCTitle;
-        private String _FirstName;
-        private String _MiddleName;
-        private String _LastName;
-        private String _FullName;
-        private String _FamilyName;
-        private String _CityOfBirth;
-        private DateTime _DateOfBirth;
-        private String _GCSuffix;
-        private String _GCReligion;
-        private String _GCNationality;
-        private String _GCEducationLevel;
-        private String _CompanyName;
-        private String _GCJob;
-        private String _Occupation;
-        private Decimal _Salary;
-        private String _OfficeAddressID;
-        private String _EmailAddress;
-        private String _MobilePhoneNo1;
-        private String _MobilePhoneNo2;
-        private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
-        private DateTime _CreatedDate;
-        private Int32? _LastUpdatedBy;
-        private DateTime _LastUpdatedDate;
-
-        [Column(Name = "FamilyID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
-        public Int32 FamilyID
-        {
-            get { return _FamilyID; }
-            set { _FamilyID = value; }
-        }
-        [Column(Name = "ProspectiveStudentID", DataType = "Int32")]
-        public Int32 ProspectiveStudentID
-        {
-            get { return _ProspectiveStudentID; }
-            set { _ProspectiveStudentID = value; }
-        }
-        [Column(Name = "GCFamilyRelation", DataType = "String")]
-        public String GCFamilyRelation
-        {
-            get { return _GCFamilyRelation; }
-            set { _GCFamilyRelation = value; }
-        }
-        [Column(Name = "GCSalutation", DataType = "String", IsNullable = true)]
-        public String GCSalutation
-        {
-            get { return _GCSalutation; }
-            set { _GCSalutation = value; }
-        }
-        [Column(Name = "GCTitle", DataType = "String", IsNullable = true)]
-        public String GCTitle
-        {
-            get { return _GCTitle; }
-            set { _GCTitle = value; }
-        }
-        [Column(Name = "FirstName", DataType = "String", IsNullable = true)]
-        public String FirstName
-        {
-            get { return _FirstName; }
-            set { _FirstName = value; }
-        }
-        [Column(Name = "MiddleName", DataType = "String", IsNullable = true)]
-        public String MiddleName
-        {
-            get { return _MiddleName; }
-            set { _MiddleName = value; }
-        }
-        [Column(Name = "LastName", DataType = "String")]
-        public String LastName
-        {
-            get { return _LastName; }
-            set { _LastName = value; }
-        }
-        [Column(Name = "FullName", DataType = "String", IsNullable = true)]
-        public String FullName
-        {
-            get { return _FullName; }
-            set { _FullName = value; }
-        }
-        [Column(Name = "FamilyName", DataType = "String", IsNullable = true)]
-        public String FamilyName
-        {
-            get { return _FamilyName; }
-            set { _FamilyName = value; }
-        }
-        [Column(Name = "CityOfBirth", DataType = "String", IsNullable = true)]
-        public String CityOfBirth
-        {
-            get { return _CityOfBirth; }
-            set { _CityOfBirth = value; }
-        }
-        [Column(Name = "DateOfBirth", DataType = "DateTime", IsNullable = true)]
-        public DateTime DateOfBirth
-        {
-            get { return _DateOfBirth; }
-            set { _DateOfBirth = value; }
-        }
-        [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
-        public String GCSuffix
-        {
-            get { return _GCSuffix; }
-            set { _GCSuffix = value; }
-        }
-        [Column(Name = "GCReligion", DataType = "String", IsNullable = true)]
-        public String GCReligion
-        {
-            get { return _GCReligion; }
-            set { _GCReligion = value; }
-        }
-        [Column(Name = "GCNationality", DataType = "String", IsNullable = true)]
-        public String GCNationality
-        {
-            get { return _GCNationality; }
-            set { _GCNationality = value; }
-        }
-        [Column(Name = "GCEducationLevel", DataType = "String", IsNullable = true)]
-        public String GCEducationLevel
-        {
-            get { return _GCEducationLevel; }
-            set { _GCEducationLevel = value; }
-        }
-        [Column(Name = "CompanyName", DataType = "String", IsNullable = true)]
-        public String CompanyName
-        {
-            get { return _CompanyName; }
-            set { _CompanyName = value; }
-        }
-        [Column(Name = "GCJob", DataType = "String", IsNullable = true)]
-        public String GCJob
-        {
-            get { return _GCJob; }
-            set { _GCJob = value; }
-        }
-        [Column(Name = "Occupation", DataType = "String", IsNullable = true)]
-        public String Occupation
-        {
-            get { return _Occupation; }
-            set { _Occupation = value; }
-        }
-        [Column(Name = "Salary", DataType = "Decimal", IsNullable = true)]
-        public Decimal Salary
-        {
-            get { return _Salary; }
-            set { _Salary = value; }
-        }
-        [Column(Name = "OfficeAddressID", DataType = "String", IsNullable = true)]
-        public String OfficeAddressID
-        {
-            get { return _OfficeAddressID; }
-            set { _OfficeAddressID = value; }
-        }
-        [Column(Name = "EmailAddress", DataType = "String", IsNullable = true)]
-        public String EmailAddress
-        {
-            get { return _EmailAddress; }
-            set { _EmailAddress = value; }
-        }
-        [Column(Name = "MobilePhoneNo1", DataType = "String", IsNullable = true)]
-        public String MobilePhoneNo1
-        {
-            get { return _MobilePhoneNo1; }
-            set { _MobilePhoneNo1 = value; }
-        }
-        [Column(Name = "MobilePhoneNo2", DataType = "String", IsNullable = true)]
-        public String MobilePhoneNo2
-        {
-            get { return _MobilePhoneNo2; }
-            set { _MobilePhoneNo2 = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
-        }
-        [Column(Name = "CreatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? CreatedBy
-        {
-            get { return _CreatedBy; }
-            set { _CreatedBy = value; }
-        }
-        [Column(Name = "CreatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime CreatedDate
-        {
-            get { return _CreatedDate; }
-            set { _CreatedDate = value; }
-        }
-        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? LastUpdatedBy
-        {
-            get { return _LastUpdatedBy; }
-            set { _LastUpdatedBy = value; }
-        }
-        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
-        public DateTime LastUpdatedDate
-        {
-            get { return _LastUpdatedDate; }
-            set { _LastUpdatedDate = value; }
-        }
-    }
-
-    public class ProspectiveStudentFamilyDao
-    {
-        private readonly IDbContext _ctx = DbFactory.Configure();
-        private readonly DbHelper _helper = new DbHelper(typeof(ProspectiveStudentFamily));
-        private bool _isAuditLog = false;
-        private const string p_FamilyID = "@p_FamilyID";
-        public ProspectiveStudentFamilyDao() { }
-        public ProspectiveStudentFamilyDao(IDbContext ctx)
-        {
-            _ctx = ctx;
-        }
-        public ProspectiveStudentFamily Get(Int32 FamilyID)
-        {
-            _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_FamilyID, FamilyID);
-            DataRow row = DaoBase.GetDataRow(_ctx);
-            return (row == null) ? null : (ProspectiveStudentFamily)_helper.DataRowToObject(row, new ProspectiveStudentFamily());
-        }
-        public int Insert(ProspectiveStudentFamily record)
-        {
-            record.CreatedDate = DateTime.Now;
-            _helper.Insert(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx);
-        }
-        public int Update(ProspectiveStudentFamily record)
-        {
-            record.LastUpdatedDate = DateTime.Now;
-            _helper.Update(_ctx, record, _isAuditLog);
-            return DaoBase.ExecuteNonQuery(_ctx, true);
-        }
-        public int Delete(Int32 FamilyID)
-        {
-            ProspectiveStudentFamily record;
-            if (_ctx.Transaction == null)
-                record = new ProspectiveStudentFamilyDao().Get(FamilyID);
-            else
-                record = Get(FamilyID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
@@ -22209,6 +22216,7 @@ namespace CodeX.Data.Model
         private Decimal _FinalMark;
         private Int32? _AdmissionFeeRuleID;
         private Int32? _PaymentID;
+        private DateTime _AcceptedDate;
         private String _Remarks;
         private String _GCRegistrationStatus;
         private Int32? _CreatedBy;
@@ -22299,6 +22307,12 @@ namespace CodeX.Data.Model
         {
             get { return _PaymentID; }
             set { _PaymentID = value; }
+        }
+        [Column(Name = "AcceptedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime AcceptedDate
+        {
+            get { return _AcceptedDate; }
+            set { _AcceptedDate = value; }
         }
         [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
         public String Remarks
@@ -25507,6 +25521,7 @@ namespace CodeX.Data.Model
         private String _FamilyName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
         private String _GCSuffix;
         private String _GCReligion;
         private String _GCNationality;
@@ -25596,6 +25611,12 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String", IsNullable = true)]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
         }
         [Column(Name = "GCSuffix", DataType = "String", IsNullable = true)]
         public String GCSuffix

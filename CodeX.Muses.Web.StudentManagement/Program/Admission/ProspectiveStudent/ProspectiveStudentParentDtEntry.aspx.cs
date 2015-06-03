@@ -289,6 +289,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Address officeAddressMother = new Address();
                 ControlToEntity(entityFather, entityMother, officeAddressFather, officeAddressMother);
 
+                entityFather.GCGender = Constant.Gender.MALE;
                 entityFather.ProspectiveStudentID = Convert.ToInt32(hdnID.Value);
                 entityFather.GCFamilyRelation = Constant.FamilyRelation.FATHER;
                 entityFather.OfficeAddressID = null;
@@ -301,6 +302,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 addressDao.Insert(officeAddressFather);
                 entityDao.Update(entityFather);
 
+                entityMother.GCGender = Constant.Gender.FEMALE;
                 entityMother.ProspectiveStudentID = Convert.ToInt32(hdnID.Value);
                 entityMother.GCFamilyRelation = Constant.FamilyRelation.MOTHER;
                 entityMother.OfficeAddressID = null;
