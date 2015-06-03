@@ -24,258 +24,258 @@
             <tr class="trReportBody">
                 <td valign="top">
                     <h3 style="font-weight:bold;">A. KETERANGAN PRIBADI</h3>
-                                                                                                                                                                                                                                                                                                                                                                                                        <div style="padding-left:10px;" id="divPersonal" runat="server">
-                    <table cellpadding='0' cellspacing='0'>
-                        <colgroup>
-                            <col width="20px;" />
-                            <col width="170px" />
-                            <col width="20px" />
-                            <col />
-                        </colgroup>
-                        <tr>
-		                    <td>1.</td>
-		                    <td>Nama Perserta didik</td>
-		                    <td></td>
-		                    <td></td>
-	                    </tr>
-	                    <tr>
-		                    <td></td>
-		                    <td>a. Lengkap</td>
-		                    <td>:</td>
-		                    <td>{Fullname}</td>
-	                    </tr>
-	                    <tr>
-		                    <td></td>
-		                    <td>b. Panggilan</td>
-		                    <td>:</td>
-		                    <td>{PreferredName}</td>
-	                    </tr>
-	                    <tr>
-		                    <td>2.</td>
-		                    <td>Jenis Kelamin</td>
-		                    <td>:</td>
-		                    <td>{Gender}</td>
-	                    </tr>
-	                    <tr>
-		                    <td>3.</td>
-		                    <td>Tempat Lahir</td>
-		                    <td>:</td>
-		                    <td>{CityOfBirth}</td>
-	                    </tr>
-                        <tr>
-		                    <td>4.</td>
-		                    <td>Tanggal Lahir</td>
-		                    <td>:</td>
-		                    <td>{DateOfBirth}</td>
-	                    </tr>
-                        <tr>
-		                    <td>5.</td>
-		                    <td>Agama</td>
-		                    <td>:</td>
-		                    <td>{Religion}</td>
-	                    </tr>
-                        <tr>
-		                    <td>6.</td>
-		                    <td>Kewarganegaraan</td>
-		                    <td>:</td>
-		                    <td>{Nationality}</td>
-	                    </tr>
-                        <tr>
-		                    <td>7.</td>
-		                    <td>Anak ke berapa</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>8.</td>
-		                    <td>Jumlah saudara kandung</td>
-		                    <td>:</td>
-		                    <td>{Sibling}</td>
-	                    </tr>
-                        <tr>
-		                    <td>9.</td>
-		                    <td>Jumlah saudara angkat</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>10.</td>
-		                    <td>Jumlah saudara angkat</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>11.</td>
-		                    <td>Anak yatim/piatu/yatim piatu</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>12.</td>
-		                    <td>Bahasa sehari-hari di rumah</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                    </table>
-                </div>
+                    <div style="padding-left:10px;" id="divPersonal" runat="server">
+                        <table cellpadding='0' cellspacing='0'>
+                            <colgroup>
+                                <col width="20px;" />
+                                <col width="170px" />
+                                <col width="20px" />
+                                <col />
+                            </colgroup>
+                            <tr>
+		                        <td>1.</td>
+		                        <td>Nama Perserta didik</td>
+		                        <td></td>
+		                        <td></td>
+	                        </tr>
+	                        <tr>
+		                        <td></td>
+		                        <td>a. Lengkap</td>
+		                        <td>:</td>
+		                        <td>{Fullname}</td>
+	                        </tr>
+	                        <tr>
+		                        <td></td>
+		                        <td>b. Panggilan</td>
+		                        <td>:</td>
+		                        <td>{PreferredName}</td>
+	                        </tr>
+	                        <tr>
+		                        <td>2.</td>
+		                        <td>Jenis Kelamin</td>
+		                        <td>:</td>
+		                        <td>{Gender}</td>
+	                        </tr>
+	                        <tr>
+		                        <td>3.</td>
+		                        <td>Tempat Lahir</td>
+		                        <td>:</td>
+		                        <td>{CityOfBirth}</td>
+	                        </tr>
+                            <tr>
+		                        <td>4.</td>
+		                        <td>Tanggal Lahir</td>
+		                        <td>:</td>
+		                        <td>{DateOfBirth}</td>
+	                        </tr>
+                            <tr>
+		                        <td>5.</td>
+		                        <td>Agama</td>
+		                        <td>:</td>
+		                        <td>{Religion}</td>
+	                        </tr>
+                            <tr>
+		                        <td>6.</td>
+		                        <td>Kewarganegaraan</td>
+		                        <td>:</td>
+		                        <td>{Nationality}</td>
+	                        </tr>
+                            <tr>
+		                        <td>7.</td>
+		                        <td>Anak ke berapa</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>8.</td>
+		                        <td>Jumlah saudara kandung</td>
+		                        <td>:</td>
+		                        <td>{Sibling}</td>
+	                        </tr>
+                            <tr>
+		                        <td>9.</td>
+		                        <td>Jumlah saudara angkat</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>10.</td>
+		                        <td>Jumlah saudara angkat</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>11.</td>
+		                        <td>Anak yatim/piatu/yatim piatu</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>12.</td>
+		                        <td>Bahasa sehari-hari di rumah</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                        </table>
+                    </div>
                 </td>
             </tr>
             <tr class="trReportBody">
                 <td valign="top">
                     <h3 style="font-weight:bold;">B. KETERANGAN TEMPAT TINGGAL</h3>
-                                                                                                                                                                                                                                                                                                                                            <div style="padding-left:10px;" id="divAddress" runat="server">
-                    <table cellpadding='0' cellspacing='0'>
-                        <colgroup>
-                            <col width="20px" />
-                            <col width="170px"/>
-                            <col width="20px"/>
-                            <col />
-                        </colgroup>
-                        <tr>
-		                    <td>13.</td>
-		                    <td>Alamat</td>
-		                    <td></td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td></td>
-		                    <td>a. Jalan/Gang</td>
-		                    <td>:</td>
-		                    <td>{StreetName}</td>
-	                    </tr>
-                        <tr>
-		                    <td></td>
-		                    <td>b. Nomor Rumah, RT/RW</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td></td>
-		                    <td>c. Kelurahan dan kecamatan</td>
-		                    <td>:</td>
-		                    <td>{District}</td>
-	                    </tr>
-                        <tr>
-		                    <td>14.</td>
-		                    <td>Nomor telepon rumah</td>
-		                    <td>:</td>
-		                    <td>{HomePhone}</td>
-	                    </tr>
-                        <tr>
-		                    <td>15.</td>
-		                    <td>Tempat tinggal tersebut adalah</td>
-		                    <td></td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td></td>
-		                    <td colspan="3">
-                                <table>
-                                    <tr>
-                                        <td style="border:1px solid; width:20px;"></td>
-                                        <td>Pada orang tua kandung</td>
-                                        <td>&nbsp;</td>
-                                        <td style="border:1px solid; width:20px;"></td>
-                                        <td>Asrama</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border:1px solid; width:20px;"></td>
-                                        <td>Pada saudara</td>
-                                        <td>&nbsp;</td>
-                                        <td style="border:1px solid; width:20px;"></td>
-                                        <td>Lain-lain</td>
-                                    </tr>
-                                </table>
-                            </td>
-	                    </tr>
-                        <tr>
-		                    <td>16.</td>
-		                    <td>Jarak dari tempat tinggal kesekolah</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>17.</td>
-		                    <td>Berkendaraan atau jalan kaki</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                    </table>
-                </div>
+                    <div style="padding-left:10px;" id="divAddress" runat="server">
+                        <table cellpadding='0' cellspacing='0'>
+                            <colgroup>
+                                <col width="20px" />
+                                <col width="170px"/>
+                                <col width="20px"/>
+                                <col />
+                            </colgroup>
+                            <tr>
+		                        <td>13.</td>
+		                        <td>Alamat</td>
+		                        <td></td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td></td>
+		                        <td>a. Jalan/Gang</td>
+		                        <td>:</td>
+		                        <td>{StreetName}</td>
+	                        </tr>
+                            <tr>
+		                        <td></td>
+		                        <td>b. Nomor Rumah, RT/RW</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td></td>
+		                        <td>c. Kelurahan dan kecamatan</td>
+		                        <td>:</td>
+		                        <td>{District}</td>
+	                        </tr>
+                            <tr>
+		                        <td>14.</td>
+		                        <td>Nomor telepon rumah</td>
+		                        <td>:</td>
+		                        <td>{HomePhone}</td>
+	                        </tr>
+                            <tr>
+		                        <td>15.</td>
+		                        <td>Tempat tinggal tersebut adalah</td>
+		                        <td></td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td></td>
+		                        <td colspan="3">
+                                    <table>
+                                        <tr>
+                                            <td style="border:1px solid; width:20px;"></td>
+                                            <td>Pada orang tua kandung</td>
+                                            <td>&nbsp;</td>
+                                            <td style="border:1px solid; width:20px;"></td>
+                                            <td>Asrama</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid; width:20px;"></td>
+                                            <td>Pada saudara</td>
+                                            <td>&nbsp;</td>
+                                            <td style="border:1px solid; width:20px;"></td>
+                                            <td>Lain-lain</td>
+                                        </tr>
+                                    </table>
+                                </td>
+	                        </tr>
+                            <tr>
+		                        <td>16.</td>
+		                        <td>Jarak dari tempat tinggal kesekolah</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>17.</td>
+		                        <td>Berkendaraan atau jalan kaki</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                        </table>
+                    </div>
                 </td>
             </tr>
             <tr class="trReportBody">
                 <td valign="top">
                     <h3 style="font-weight:bold;">C. KETERANGAN KESEHATAN</h3>
-                                                                                                                                                                                                                                                                                                    <div style="padding-left:10px;">
-                    <table cellpadding='0' cellspacing='0'>
-                        <colgroup>
-                            <col width="20px" />
-                            <col width="170px"/>
-                            <col width="20px"/>
-                            <col />
-                        </colgroup>
-                        <tr>
-		                    <td>18.</td>
-		                    <td>Berat badan</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>  
-                        <tr>
-		                    <td>19.</td>
-		                    <td>Tinggi badan</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>20.</td>
-		                    <td>Golongan darah</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                        <tr>
-		                    <td>21.</td>
-		                    <td colspan="3">Penyakit yang pernah diderita (misalnya:TBC, Cacar, dan lain-lain)</td>
-	                    </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="3">
-                                <table border="1" cellpadding='0' cellspacing='0'>
-                                    <colgroup>
-                                        <col width="20px"/>
-                                        <col width="120px"/>
-                                        <col width="50px"/>
-                                        <col width="50px"/>
-                                        <col width="70"/>
-                                        <col width="300px"/>
-                                    </colgroup>
-                                    <tr align="center">
-                                        <td align="left">No.</td>
-                                        <td>Jenis Penyakit</td>
-                                        <td>Kelas</td>
-                                        <td>Tahun</td>
-                                        <td>Lama Sakit</td>
-                                        <td>Keterangan</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-		                    <td>22.</td>
-		                    <td>Kelainan jasmani lainnya</td>
-		                    <td>:</td>
-		                    <td></td>
-	                    </tr>
-                    </table>
-                </div>
+                    <div style="padding-left:10px;">
+                        <table cellpadding='0' cellspacing='0'>
+                            <colgroup>
+                                <col width="20px" />
+                                <col width="170px"/>
+                                <col width="20px"/>
+                                <col />
+                            </colgroup>
+                            <tr>
+		                        <td>18.</td>
+		                        <td>Berat badan</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>  
+                            <tr>
+		                        <td>19.</td>
+		                        <td>Tinggi badan</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>20.</td>
+		                        <td>Golongan darah</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                            <tr>
+		                        <td>21.</td>
+		                        <td colspan="3">Penyakit yang pernah diderita (misalnya:TBC, Cacar, dan lain-lain)</td>
+	                        </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                    <table border="1" cellpadding='0' cellspacing='0'>
+                                        <colgroup>
+                                            <col width="20px"/>
+                                            <col width="120px"/>
+                                            <col width="50px"/>
+                                            <col width="50px"/>
+                                            <col width="70"/>
+                                            <col width="300px"/>
+                                        </colgroup>
+                                        <tr align="center">
+                                            <td align="left">No.</td>
+                                            <td>Jenis Penyakit</td>
+                                            <td>Kelas</td>
+                                            <td>Tahun</td>
+                                            <td>Lama Sakit</td>
+                                            <td>Keterangan</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+		                        <td>22.</td>
+		                        <td>Kelainan jasmani lainnya</td>
+		                        <td>:</td>
+		                        <td></td>
+	                        </tr>
+                        </table>
+                    </div>
                 </td>
             </tr>
             <tr class="trReportBody">

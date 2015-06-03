@@ -245,6 +245,7 @@
     <Content Include="Report\VID_RCI\StudentManagement\BSuratPenentuanPembayaranRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporMidSemesterRpt.ascx" />
     <Content Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx" />
+    <Content Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1496,6 +1497,13 @@
     </Compile>
     <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemesterRpt.ascx.designer.cs">
       <DependentUpon>BRaporSemesterRpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx.cs">
+      <DependentUpon>BRaporSemester2013Rpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Report\VID_RCI\StudentManagement\BRaporSemester2013Rpt.ascx.designer.cs">
+      <DependentUpon>BRaporSemester2013Rpt.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
