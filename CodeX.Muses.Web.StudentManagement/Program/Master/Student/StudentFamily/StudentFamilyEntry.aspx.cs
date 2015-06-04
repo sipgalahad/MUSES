@@ -57,7 +57,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("StudentID = {0} AND GCFamilyRelation NOT IN ('{1}','{2}') AND IsDeleted = 0", AppSession.StudentID, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER);
+            string filterExpression = string.Format("StudentID = {0} AND GCFamilyRelation NOT IN ('{1}','{2}') AND IsStudentTrustee = 0 AND IsDeleted = 0", AppSession.StudentID, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER);
             List<vStudentFamily> lstEntity = BusinessLayer.GetvStudentFamilyList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
