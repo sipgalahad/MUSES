@@ -16345,6 +16345,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _FamilyID;
         private Int32 _ProspectiveStudentID;
+        private Boolean _IsStudentTrustee;
         private String _GCFamilyRelation;
         private String _FamilyRelation;
         private String _GCSalutation;
@@ -16356,6 +16357,8 @@ namespace CodeX.Data.Model
         private String _FamilyName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
+        private String _Gender;
         private String _GCSuffix;
         private String _GCReligion;
         private String _GCNationality;
@@ -16364,6 +16367,17 @@ namespace CodeX.Data.Model
         private String _GCJob;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsHomeAddressSameWithStudent;
+        private String _HomeAddressID;
+        private String _HomeStreetName;
+        private String _HomeDistrict;
+        private String _HomeCity;
+        private String _HomeCounty;
+        private String _HomeGCState;
+        private String _HomeState;
+        private Int32 _HomeZipCodeID;
+        private String _HomeZipCode;
+        private String _HomePhoneNo1;
         private String _OfficeAddressID;
         private String _OfficeStreetName;
         private String _OfficeDistrict;
@@ -16390,6 +16404,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProspectiveStudentID; }
             set { _ProspectiveStudentID = value; }
+        }
+        [Column(Name = "IsStudentTrustee", DataType = "Boolean")]
+        public Boolean IsStudentTrustee
+        {
+            get { return _IsStudentTrustee; }
+            set { _IsStudentTrustee = value; }
         }
         [Column(Name = "GCFamilyRelation", DataType = "String")]
         public String GCFamilyRelation
@@ -16457,6 +16477,18 @@ namespace CodeX.Data.Model
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
         }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "Gender", DataType = "String")]
+        public String Gender
+        {
+            get { return _Gender; }
+            set { _Gender = value; }
+        }
         [Column(Name = "GCSuffix", DataType = "String")]
         public String GCSuffix
         {
@@ -16504,6 +16536,72 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean")]
+        public Boolean IsHomeAddressSameWithStudent
+        {
+            get { return _IsHomeAddressSameWithStudent; }
+            set { _IsHomeAddressSameWithStudent = value; }
+        }
+        [Column(Name = "HomeAddressID", DataType = "String")]
+        public String HomeAddressID
+        {
+            get { return _HomeAddressID; }
+            set { _HomeAddressID = value; }
+        }
+        [Column(Name = "HomeStreetName", DataType = "String")]
+        public String HomeStreetName
+        {
+            get { return _HomeStreetName; }
+            set { _HomeStreetName = value; }
+        }
+        [Column(Name = "HomeDistrict", DataType = "String")]
+        public String HomeDistrict
+        {
+            get { return _HomeDistrict; }
+            set { _HomeDistrict = value; }
+        }
+        [Column(Name = "HomeCity", DataType = "String")]
+        public String HomeCity
+        {
+            get { return _HomeCity; }
+            set { _HomeCity = value; }
+        }
+        [Column(Name = "HomeCounty", DataType = "String")]
+        public String HomeCounty
+        {
+            get { return _HomeCounty; }
+            set { _HomeCounty = value; }
+        }
+        [Column(Name = "HomeGCState", DataType = "String")]
+        public String HomeGCState
+        {
+            get { return _HomeGCState; }
+            set { _HomeGCState = value; }
+        }
+        [Column(Name = "HomeState", DataType = "String")]
+        public String HomeState
+        {
+            get { return _HomeState; }
+            set { _HomeState = value; }
+        }
+        [Column(Name = "HomeZipCodeID", DataType = "Int32")]
+        public Int32 HomeZipCodeID
+        {
+            get { return _HomeZipCodeID; }
+            set { _HomeZipCodeID = value; }
+        }
+        [Column(Name = "HomeZipCode", DataType = "String")]
+        public String HomeZipCode
+        {
+            get { return _HomeZipCode; }
+            set { _HomeZipCode = value; }
+        }
+        [Column(Name = "HomePhoneNo1", DataType = "String")]
+        public String HomePhoneNo1
+        {
+            get { return _HomePhoneNo1; }
+            set { _HomePhoneNo1 = value; }
         }
         [Column(Name = "OfficeAddressID", DataType = "String")]
         public String OfficeAddressID
@@ -20249,6 +20347,7 @@ namespace CodeX.Data.Model
         private String _MobilePhoneNo2;
         private String _PhoneNo1;
         private String _PictureFileName;
+        private DateTime _AcceptedDate;
 
         [Column(Name = "RegistrationID", DataType = "Int32")]
         public Int32 RegistrationID
@@ -20585,6 +20684,12 @@ namespace CodeX.Data.Model
         {
             get { return _PictureFileName; }
             set { _PictureFileName = value; }
+        }
+        [Column(Name = "AcceptedDate", DataType = "DateTime")]
+        public DateTime AcceptedDate
+        {
+            get { return _AcceptedDate; }
+            set { _AcceptedDate = value; }
         }
     }
     #endregion
@@ -23079,6 +23184,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _FamilyID;
         private Int32 _StudentID;
+        private Boolean _IsStudentTrustee;
         private String _GCFamilyRelation;
         private String _FamilyRelation;
         private String _GCSalutation;
@@ -23090,6 +23196,8 @@ namespace CodeX.Data.Model
         private String _FamilyName;
         private String _CityOfBirth;
         private DateTime _DateOfBirth;
+        private String _GCGender;
+        private String _Gender;
         private String _GCSuffix;
         private String _GCReligion;
         private String _Religion;
@@ -23102,6 +23210,17 @@ namespace CodeX.Data.Model
         private String _Job;
         private String _Occupation;
         private Decimal _Salary;
+        private Boolean _IsHomeAddressSameWithStudent;
+        private String _HomeAddressID;
+        private String _HomeStreetName;
+        private String _HomeDistrict;
+        private String _HomeCity;
+        private String _HomeCounty;
+        private String _HomeGCState;
+        private String _HomeState;
+        private Int32 _HomeZipCodeID;
+        private String _HomeZipCode;
+        private String _HomePhoneNo1;
         private String _OfficeAddressID;
         private String _OfficeStreetName;
         private String _OfficeDistrict;
@@ -23128,6 +23247,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentID; }
             set { _StudentID = value; }
+        }
+        [Column(Name = "IsStudentTrustee", DataType = "Boolean")]
+        public Boolean IsStudentTrustee
+        {
+            get { return _IsStudentTrustee; }
+            set { _IsStudentTrustee = value; }
         }
         [Column(Name = "GCFamilyRelation", DataType = "String")]
         public String GCFamilyRelation
@@ -23194,6 +23319,18 @@ namespace CodeX.Data.Model
         {
             get { return _DateOfBirth; }
             set { _DateOfBirth = value; }
+        }
+        [Column(Name = "GCGender", DataType = "String")]
+        public String GCGender
+        {
+            get { return _GCGender; }
+            set { _GCGender = value; }
+        }
+        [Column(Name = "Gender", DataType = "String")]
+        public String Gender
+        {
+            get { return _Gender; }
+            set { _Gender = value; }
         }
         [Column(Name = "GCSuffix", DataType = "String")]
         public String GCSuffix
@@ -23266,6 +23403,72 @@ namespace CodeX.Data.Model
         {
             get { return _Salary; }
             set { _Salary = value; }
+        }
+        [Column(Name = "IsHomeAddressSameWithStudent", DataType = "Boolean")]
+        public Boolean IsHomeAddressSameWithStudent
+        {
+            get { return _IsHomeAddressSameWithStudent; }
+            set { _IsHomeAddressSameWithStudent = value; }
+        }
+        [Column(Name = "HomeAddressID", DataType = "String")]
+        public String HomeAddressID
+        {
+            get { return _HomeAddressID; }
+            set { _HomeAddressID = value; }
+        }
+        [Column(Name = "HomeStreetName", DataType = "String")]
+        public String HomeStreetName
+        {
+            get { return _HomeStreetName; }
+            set { _HomeStreetName = value; }
+        }
+        [Column(Name = "HomeDistrict", DataType = "String")]
+        public String HomeDistrict
+        {
+            get { return _HomeDistrict; }
+            set { _HomeDistrict = value; }
+        }
+        [Column(Name = "HomeCity", DataType = "String")]
+        public String HomeCity
+        {
+            get { return _HomeCity; }
+            set { _HomeCity = value; }
+        }
+        [Column(Name = "HomeCounty", DataType = "String")]
+        public String HomeCounty
+        {
+            get { return _HomeCounty; }
+            set { _HomeCounty = value; }
+        }
+        [Column(Name = "HomeGCState", DataType = "String")]
+        public String HomeGCState
+        {
+            get { return _HomeGCState; }
+            set { _HomeGCState = value; }
+        }
+        [Column(Name = "HomeState", DataType = "String")]
+        public String HomeState
+        {
+            get { return _HomeState; }
+            set { _HomeState = value; }
+        }
+        [Column(Name = "HomeZipCodeID", DataType = "Int32")]
+        public Int32 HomeZipCodeID
+        {
+            get { return _HomeZipCodeID; }
+            set { _HomeZipCodeID = value; }
+        }
+        [Column(Name = "HomeZipCode", DataType = "String")]
+        public String HomeZipCode
+        {
+            get { return _HomeZipCode; }
+            set { _HomeZipCode = value; }
+        }
+        [Column(Name = "HomePhoneNo1", DataType = "String")]
+        public String HomePhoneNo1
+        {
+            get { return _HomePhoneNo1; }
+            set { _HomePhoneNo1 = value; }
         }
         [Column(Name = "OfficeAddressID", DataType = "String")]
         public String OfficeAddressID

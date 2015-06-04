@@ -34,6 +34,7 @@
                 cboNationality.SetValue('');
                 cboReligion.SetValue('');
                 cboEducationLevel.SetValue('');
+                cboGender.SetValue('');
                 $('#entryDetailContainer').show();
             });
 
@@ -75,6 +76,7 @@
             cboNationality.SetValue(entity.GCNationality);
             cboReligion.SetValue(entity.GCReligion);
             cboEducationLevel.SetValue(entity.GCEducationLevel);
+            cboGender.SetValue(entity.GCGender);
             $('#entryDetailContainer').show();
         });
 
@@ -150,6 +152,10 @@
                                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Gelar Belakang")%></label></td>
                                         <td><dxe:ASPxComboBox ID="cboSuffix" ClientInstanceName="cboSuffix" Width="100%" runat="server" /></td>
                                     </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jenis Kelamin")%></label></td>
+                                        <td><dxe:ASPxComboBox ID="cboGender" ClientInstanceName="cboGender" Width="100%" runat="server" /></td>
+                                    </tr>
                                 </table>
                             </td>
                             <td valign="top">
@@ -219,6 +225,7 @@
                                             <input type="hidden" value="<%#Eval("GCEducationLevel") %>" bindingfield="GCEducationLevel" />
                                             <input type="hidden" value="<%#Eval("CityOfBirth") %>" bindingfield="CityOfBirth" />
                                             <input type="hidden" value="<%#Eval("DateOfBirthInDatePickerFormat") %>" bindingfield="DateOfBirthInDatePickerFormat" />
+                                            <input type="hidden" value="<%#Eval("GCGender") %>" bindingfield="GCGender" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

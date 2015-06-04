@@ -228,6 +228,8 @@ namespace CodeX.Common
             public const string STUDENT_FAMILY = "X301^005";
             public const string PROSPECTIVE_STUDENT_FAMILY = "X301^006";
             public const string EMPLOYEE = "X301^007";
+            public const string STUDENT_FAMILY_OFFICE = "X301^007";
+            public const string PROSPECTIVE_STUDENT_FAMILY_OFFICE = "X301^008";
         }
         #endregion
 

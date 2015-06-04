@@ -26,6 +26,73 @@
             $('#btnPrev').click(function () {
                 parent.OnPrevButtonClick();
             });
+
+            $('#<%=chkIsFatherAddressSameWithStudent.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=txtFatherAddress.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtFatherCounty.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtFatherDistrict.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtFatherCity.ClientID %>').attr('readonly', 'readonly');
+                    tacFatherProvince.setEnabled(false);
+                    tacFatherZipCode.setEnabled(false);
+                    $('#<%=txtFatherTelephoneNo.ClientID %>').attr('readonly', 'readonly');
+
+                    $('#<%=txtFatherAddress.ClientID %>').val($('#<%=hdnStudentStreet.ClientID %>').val());
+                    $('#<%=txtFatherCounty.ClientID %>').val($('#<%=hdnStudentCounty.ClientID %>').val());
+                    $('#<%=txtFatherDistrict.ClientID %>').val($('#<%=hdnStudentDistrict.ClientID %>').val());
+                    $('#<%=txtFatherCity.ClientID %>').val($('#<%=txtFatherCity.ClientID %>').val());
+                    $('#<%=txtFatherTelephoneNo.ClientID %>').val($('#<%=hdnStudentTelephoneNo.ClientID %>').val());
+                    tacFatherProvince.setValue($('#<%=hdnStudentGCProvince.ClientID %>').val());
+                    tacFatherProvince.setText($('#<%=hdnStudentProvince.ClientID %>').val());
+                    tacFatherZipCode.setValue($('#<%=hdnStudentZipCodeID.ClientID %>').val());
+                    tacFatherZipCode.setText($('#<%=hdnStudentZipCode.ClientID %>').val());
+                }
+                else {
+                    $('#<%=txtFatherAddress.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtFatherCounty.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtFatherDistrict.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtFatherCity.ClientID %>').removeAttr('readonly');
+                    tacFatherProvince.setEnabled(true);
+                    tacFatherZipCode.setEnabled(true);
+                    $('#<%=txtFatherTelephoneNo.ClientID %>').removeAttr('readonly');
+                }
+            });
+
+            $('#<%=chkIsMotherAddressSameWithStudent.ClientID %>').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#<%=txtMotherAddress.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtMotherCounty.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtMotherDistrict.ClientID %>').attr('readonly', 'readonly');
+                    $('#<%=txtMotherCity.ClientID %>').attr('readonly', 'readonly');
+                    tacMotherProvince.setEnabled(false);
+                    tacMotherZipCode.setEnabled(false);
+                    $('#<%=txtMotherTelephoneNo.ClientID %>').attr('readonly', 'readonly');
+
+                    $('#<%=txtMotherAddress.ClientID %>').val($('#<%=hdnStudentStreet.ClientID %>').val());
+                    $('#<%=txtMotherCounty.ClientID %>').val($('#<%=hdnStudentCounty.ClientID %>').val());
+                    $('#<%=txtMotherDistrict.ClientID %>').val($('#<%=hdnStudentDistrict.ClientID %>').val());
+                    $('#<%=txtMotherCity.ClientID %>').val($('#<%=txtMotherCity.ClientID %>').val());
+                    $('#<%=txtMotherTelephoneNo.ClientID %>').val($('#<%=hdnStudentTelephoneNo.ClientID %>').val());
+                    tacMotherProvince.setValue($('#<%=hdnStudentGCProvince.ClientID %>').val());
+                    tacMotherProvince.setText($('#<%=hdnStudentProvince.ClientID %>').val());
+                    tacMotherZipCode.setValue($('#<%=hdnStudentZipCodeID.ClientID %>').val());
+                    tacMotherZipCode.setText($('#<%=hdnStudentZipCode.ClientID %>').val());
+                }
+                else {
+                    $('#<%=txtMotherAddress.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtMotherCounty.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtMotherDistrict.ClientID %>').removeAttr('readonly');
+                    $('#<%=txtMotherCity.ClientID %>').removeAttr('readonly');
+                    tacMotherProvince.setEnabled(true);
+                    tacMotherZipCode.setEnabled(true);
+                    $('#<%=txtMotherTelephoneNo.ClientID %>').removeAttr('readonly');
+                }
+            });
+
+            setTimeout(function () {
+                $('#<%=chkIsFatherAddressSameWithStudent.ClientID %>').change();
+                $('#<%=chkIsMotherAddressSameWithStudent.ClientID %>').change();
+            }, 500);
         });
 
         function onAfterSaveSuccess(retval) {
@@ -110,6 +177,75 @@
         }
         //#endregion
 
+        //#region FatherOffice Province
+        function onTacFatherOfficeProvinceButtonSearchClick() {
+            openSearchDialog('stdcode', onGetProvinceFilterExpression(), function (value) {
+                var filterExpression = onGetProvinceFilterExpression() + " AND StandardCodeID LIKE '%^" + value + "'";
+                Methods.getObject('GetStandardCodeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacFatherOfficeProvince.setValue(result.cfStandardCodeID);
+                        tacFatherOfficeProvince.setText(result.StandardCodeName);
+                    }
+                    else {
+                        tacFatherOfficeProvince.setValue('');
+                        tacFatherOfficeProvince.setText('');
+                    }
+                });
+            });
+        }
+
+        function onTacFatherOfficeProvinceValueChanged() {
+        }
+        //#endregion
+
+        //#region FatherOffice ZipCode
+        function onTacFatherOfficeZipCodeButtonSearchClick() {
+            openSearchDialog('zipcodes', onGetZipCodeFilterExpression(), function (value) {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacFatherOfficeZipCode.setValue(result.ID);
+                        tacFatherOfficeZipCode.setText(result.ZipCode);
+                        entityToControlZipCodeFatherOffice(result);
+                    }
+                    else {
+                        tacFatherOfficeZipCode.setValue('');
+                        tacFatherOfficeZipCode.setText('');
+                        entityToControlZipCodeFatherOffice(result);
+                    }
+                });
+            });
+        }
+
+        function entityToControlZipCodeFatherOffice(result) {
+            $('#<%=txtFatherOfficeAddress.ClientID %>').val(result.StreetName);
+            $('#<%=txtFatherOfficeCounty.ClientID %>').val(result.County);
+            $('#<%=txtFatherOfficeDistrict.ClientID %>').val(result.District);
+            $('#<%=txtFatherOfficeCity.ClientID %>').val(result.City);
+            var filterExpression = "StandardCodeID = '" + result.GCProvince + "'";
+            Methods.getObject('GetStandardCodeList', filterExpression, function (result1) {
+                if (result1 != null) {
+                    tacFatherOfficeProvince.setValue(result1.cfStandardCodeID);
+                    tacFatherOfficeProvince.setText(result1.StandardCodeName);
+                }
+                else {
+                    tacFatherOfficeProvince.setValue('');
+                    tacFatherOfficeProvince.setText('');
+                }
+            });
+        }
+
+        function onTacFatherOfficeZipCodeValueChanged() {
+            var id = tacFatherOfficeZipCode.getValue();
+            if (id != '') {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ID = '" + id + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    entityToControlZipCodeFatherOffice(result);
+                });
+            }
+        }
+        //#endregion
+
         //#region Mother Province
         function onTacMotherProvinceButtonSearchClick() {
             openSearchDialog('stdcode', onGetProvinceFilterExpression(), function (value) {
@@ -178,10 +314,90 @@
             }
         }
         //#endregion
+
+        //#region MotherOffice Province
+        function onTacMotherOfficeProvinceButtonSearchClick() {
+            openSearchDialog('stdcode', onGetProvinceFilterExpression(), function (value) {
+                var filterExpression = onGetProvinceFilterExpression() + " AND StandardCodeID LIKE '%^" + value + "'";
+                Methods.getObject('GetStandardCodeList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacMotherOfficeProvince.setValue(result.cfStandardCodeID);
+                        tacMotherOfficeProvince.setText(result.StandardCodeName);
+                    }
+                    else {
+                        tacMotherOfficeProvince.setValue('');
+                        tacMotherOfficeProvince.setText('');
+                    }
+                });
+            });
+        }
+
+        function onTacMotherOfficeProvinceValueChanged() {
+        }
+        //#endregion
+
+        //#region MotherOffice ZipCode
+        function onTacMotherOfficeZipCodeButtonSearchClick() {
+            openSearchDialog('zipcodes', onGetZipCodeFilterExpression(), function (value) {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ZipCode = '" + value + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacMotherOfficeZipCode.setValue(result.ID);
+                        tacMotherOfficeZipCode.setText(result.ZipCode);
+                        entityToControlZipCodeMotherOffice(result);
+                    }
+                    else {
+                        tacMotherOfficeZipCode.setValue('');
+                        tacMotherOfficeZipCode.setText('');
+                        entityToControlZipCodeMotherOffice(result);
+                    }
+                });
+            });
+        }
+
+        function entityToControlZipCodeMotherOffice(result) {
+            $('#<%=txtMotherOfficeAddress.ClientID %>').val(result.StreetName);
+            $('#<%=txtMotherOfficeCounty.ClientID %>').val(result.County);
+            $('#<%=txtMotherOfficeDistrict.ClientID %>').val(result.District);
+            $('#<%=txtMotherOfficeCity.ClientID %>').val(result.City);
+            var filterExpression = "StandardCodeID = '" + result.GCProvince + "'";
+            Methods.getObject('GetStandardCodeList', filterExpression, function (result1) {
+                if (result1 != null) {
+                    tacMotherOfficeProvince.setValue(result1.cfStandardCodeID);
+                    tacMotherOfficeProvince.setText(result1.StandardCodeName);
+                }
+                else {
+                    tacMotherOfficeProvince.setValue('');
+                    tacMotherOfficeProvince.setText('');
+                }
+            });
+        }
+
+        function onTacMotherOfficeZipCodeValueChanged() {
+            var id = tacMotherOfficeZipCode.getValue();
+            if (id != '') {
+                var filterExpression = onGetZipCodeFilterExpression() + " AND ID = '" + id + "'";
+                Methods.getObject('GetZipCodesList', filterExpression, function (result) {
+                    entityToControlZipCodeMotherOffice(result);
+                });
+            }
+        }
+        //#endregion
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
-    <input type="hidden" id="hdnAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnHomeAddressPrefix" runat="server" value="" />
+    <input type="hidden" id="hdnOfficeAddressPrefix" runat="server" value="" />
     <input type="hidden" id="hdnIsAdd" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentAddressID" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentStreet" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentCounty" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentDistrict" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentCity" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentGCProvince" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentProvince" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentZipCodeID" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentZipCode" runat="server" value="0" />
+    <input type="hidden" id="hdnStudentTelephoneNo" runat="server" value="0" />
     <div style="height: 405px; overflow-y:auto">
         <fieldset id="fsMPEntry">            
             <table class="tblContentArea" >
@@ -248,30 +464,18 @@
                             </table>
                         </div>
                         
-                        <h4 class="h4expanded"><%=GetLabel("Pekerjaan Ayah")%></h4>
+                        <h4 class="h4expanded"><%=GetLabel("Alamat Rumah")%></h4>
                         <div class="containerTblEntryContent">
                             <table class="tblEntryContent" style="width:100%">
                                 <colgroup>
                                     <col style="width:180px"/>
-                                </colgroup>
+                                </colgroup>                             
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kantor")%></label></td>
-                                    <td><asp:TextBox ID="txtFatherJobOffice" Width="100%" runat="server" /></td>
+                                    <td class="tdLabel">&nbsp;</td>
+                                    <td><asp:CheckBox ID="chkIsFatherAddressSameWithStudent" runat="server" /> <%=GetLabel("Sama Dengan Siswa") %></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pekerjaan")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboFatherGCJob" Width="120px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jabatan")%></label></td>
-                                    <td><asp:TextBox ID="txtFatherOccupation" Width="100%" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendapatan Bulanan")%></label></td>
-                                    <td><asp:TextBox ID="txtFatherSalary" CssClass="txtCurrency" Width="100px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Kantor")%></label></td>
+                                    <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Rumah")%></label></td>
                                     <td><asp:TextBox ID="txtFatherAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                                 </tr>
                                 <tr>
@@ -307,8 +511,73 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Kantor")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Rumah")%></label></td>
                                     <td><asp:TextBox ID="txtFatherTelephoneNo" Width="100%" runat="server" /></td>
+                                </tr>     
+                            </table>
+                        </div>
+                        
+                        <h4 class="h4expanded"><%=GetLabel("Pekerjaan Ayah")%></h4>
+                        <div class="containerTblEntryContent">
+                            <table class="tblEntryContent" style="width:100%">
+                                <colgroup>
+                                    <col style="width:180px"/>
+                                </colgroup>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kantor")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherJobOffice" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pekerjaan")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboFatherGCJob" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jabatan")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherOccupation" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendapatan Bulanan")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherSalary" CssClass="txtCurrency" Width="100px" runat="server" /></td>
+                                </tr>                       
+                                <tr>
+                                    <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Kantor")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherOfficeAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Desa / Kelurahan")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherOfficeCounty" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kecamatan")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherOfficeDistrict" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kota")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherOfficeCity" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Provinsi")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacFatherOfficeProvince" ClientInstanceName="tacFatherOfficeProvince" MethodName="GetStandardCodeList" GetFilterExpressionFunction="onGetProvinceFilterExpression"
+                                            SearchFields="StandardCodeName" TextField="StandardCodeName" ValueField="StandardCodeID" SearchText="${StandardCodeName} (<b>${cfStandardCodeID}</b>)" OrderByExpression="StandardCodeName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacFatherOfficeProvinceButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacFatherOfficeProvinceValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kode Pos")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacFatherOfficeZipCode" ClientInstanceName="tacFatherOfficeZipCode" MethodName="GetZipCodesList" GetFilterExpressionFunction="onGetZipCodeFilterExpression"
+                                            SearchFields="ZipCode" TextField="ZipCode" ValueField="ID" SearchText="${ZipCode}" OrderByExpression="ZipCode">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacFatherOfficeZipCodeButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacFatherOfficeZipCodeValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Kantor")%></label></td>
+                                    <td><asp:TextBox ID="txtFatherOfficeTelephoneNo" Width="100%" runat="server" /></td>
                                 </tr>
                             </table>
                         </div>
@@ -372,30 +641,18 @@
                             </table>
                         </div>
                         
-                        <h4 class="h4expanded"><%=GetLabel("Pekerjaan Ibu")%></h4>
+                        <h4 class="h4expanded"><%=GetLabel("Alamat Rumah")%></h4>
                         <div class="containerTblEntryContent">
                             <table class="tblEntryContent" style="width:100%">
                                 <colgroup>
                                     <col style="width:180px"/>
-                                </colgroup>
+                                </colgroup>                                 
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kantor")%></label></td>
-                                    <td><asp:TextBox ID="txtMotherJobOffice" Width="100%" runat="server" /></td>
+                                    <td class="tdLabel">&nbsp;</td>
+                                    <td><asp:CheckBox ID="chkIsMotherAddressSameWithStudent" runat="server" /> <%=GetLabel("Sama Dengan Siswa") %></td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pekerjaan")%></label></td>
-                                    <td><dxe:ASPxComboBox ID="cboMotherGCJob" Width="120px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jabatan")%></label></td>
-                                    <td><asp:TextBox ID="txtMotherOccupation" Width="100%" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendapatan Bulanan")%></label></td>
-                                    <td><asp:TextBox ID="txtMotherSalary" CssClass="txtCurrency" Width="100px" runat="server" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Kantor")%></label></td>
+                                    <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Rumah")%></label></td>
                                     <td><asp:TextBox ID="txtMotherAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
                                 </tr>
                                 <tr>
@@ -431,8 +688,73 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Kantor")%></label></td>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Rumah")%></label></td>
                                     <td><asp:TextBox ID="txtMotherTelephoneNo" Width="100%" runat="server" /></td>
+                                </tr>                        
+                            </table>
+                        </div>
+                        
+                        <h4 class="h4expanded"><%=GetLabel("Pekerjaan Ibu")%></h4>
+                        <div class="containerTblEntryContent">
+                            <table class="tblEntryContent" style="width:100%">
+                                <colgroup>
+                                    <col style="width:180px"/>
+                                </colgroup>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kantor")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherJobOffice" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pekerjaan")%></label></td>
+                                    <td><dxe:ASPxComboBox ID="cboMotherGCJob" Width="120px" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jabatan")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherOccupation" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Pendapatan Bulanan")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherSalary" CssClass="txtCurrency" Width="100px" runat="server" /></td>
+                                </tr>                       
+                                <tr>
+                                    <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Alamat Kantor")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherOfficeAddress" Width="100%" runat="server" TextMode="MultiLine" Rows="2" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Desa / Kelurahan")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherOfficeCounty" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kecamatan")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherOfficeDistrict" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kota")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherOfficeCity" Width="100%" runat="server" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Provinsi")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacMotherOfficeProvince" ClientInstanceName="tacMotherOfficeProvince" MethodName="GetStandardCodeList" GetFilterExpressionFunction="onGetProvinceFilterExpression"
+                                            SearchFields="StandardCodeName" TextField="StandardCodeName" ValueField="StandardCodeID" SearchText="${StandardCodeName} (<b>${cfStandardCodeID}</b>)" OrderByExpression="StandardCodeName">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacMotherOfficeProvinceButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacMotherOfficeProvinceValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Kode Pos")%></label></td>
+                                    <td>
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacMotherOfficeZipCode" ClientInstanceName="tacMotherOfficeZipCode" MethodName="GetZipCodesList" GetFilterExpressionFunction="onGetZipCodeFilterExpression"
+                                            SearchFields="ZipCode" TextField="ZipCode" ValueField="ID" SearchText="${ZipCode}" OrderByExpression="ZipCode">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacMotherOfficeZipCodeButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacMotherOfficeZipCodeValueChanged(); }" />
+                                        </cdx:CodeXAutoCompleteTextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Telepon Kantor")%></label></td>
+                                    <td><asp:TextBox ID="txtMotherOfficeTelephoneNo" Width="100%" runat="server" /></td>
                                 </tr>
                             </table>
                         </div>

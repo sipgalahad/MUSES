@@ -10,7 +10,7 @@
 namespace CodeX.Muses.Web.StudentManagement.Program {
     
     
-    public partial class ProspectiveStudentParentDtEntry {
+    public partial class ProspectiveStudentTrusteeDtEntry {
         
         /// <summary>
         /// hdnID control.
@@ -38,15 +38,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnOfficeAddressPrefix;
-        
-        /// <summary>
-        /// hdnIsAdd control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIsAdd;
         
         /// <summary>
         /// hdnStudentAddressID control.
@@ -139,534 +130,336 @@ namespace CodeX.Muses.Web.StudentManagement.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnStudentTelephoneNo;
         
         /// <summary>
-        /// cboFatherTitle control.
+        /// hdnEntryID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFatherTitle;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnEntryID;
         
         /// <summary>
-        /// txtFatherFirstName control.
+        /// cboFamilyRelation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherFirstName;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFamilyRelation;
         
         /// <summary>
-        /// txtFatherMiddleName control.
+        /// cboTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherMiddleName;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTitle;
         
         /// <summary>
-        /// txtFatherLastName control.
+        /// txtFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherLastName;
+        protected global::System.Web.UI.WebControls.TextBox txtFirstName;
         
         /// <summary>
-        /// cboFatherSuffix control.
+        /// txtMiddleName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFatherSuffix;
+        protected global::System.Web.UI.WebControls.TextBox txtMiddleName;
         
         /// <summary>
-        /// txtFatherBirthPlace control.
+        /// txtLastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherBirthPlace;
+        protected global::System.Web.UI.WebControls.TextBox txtLastName;
         
         /// <summary>
-        /// txtFatherDOB control.
+        /// cboSuffix control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherDOB;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboSuffix;
         
         /// <summary>
-        /// cboFatherNationality control.
+        /// cboGender control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFatherNationality;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGender;
         
         /// <summary>
-        /// cboFatherReligion control.
+        /// txtBirthPlace control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFatherReligion;
+        protected global::System.Web.UI.WebControls.TextBox txtBirthPlace;
         
         /// <summary>
-        /// cboFatherEducationLevel control.
+        /// txtDOB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFatherEducationLevel;
+        protected global::System.Web.UI.WebControls.TextBox txtDOB;
         
         /// <summary>
-        /// chkIsFatherAddressSameWithStudent control.
+        /// cboNationality control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsFatherAddressSameWithStudent;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboNationality;
         
         /// <summary>
-        /// txtFatherAddress control.
+        /// cboReligion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherAddress;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboReligion;
         
         /// <summary>
-        /// txtFatherCounty control.
+        /// cboEducationLevel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherCounty;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboEducationLevel;
         
         /// <summary>
-        /// txtFatherDistrict control.
+        /// chkIsTrusteeAddressSameWithStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherDistrict;
+        protected global::System.Web.UI.WebControls.CheckBox chkIsTrusteeAddressSameWithStudent;
         
         /// <summary>
-        /// txtFatherCity control.
+        /// txtTrusteeAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherCity;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeAddress;
         
         /// <summary>
-        /// tacFatherProvince control.
+        /// txtTrusteeCounty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacFatherProvince;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeCounty;
         
         /// <summary>
-        /// tacFatherZipCode control.
+        /// txtTrusteeDistrict control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacFatherZipCode;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeDistrict;
         
         /// <summary>
-        /// txtFatherTelephoneNo control.
+        /// txtTrusteeCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherTelephoneNo;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeCity;
         
         /// <summary>
-        /// txtFatherJobOffice control.
+        /// tacTrusteeProvince control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherJobOffice;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTrusteeProvince;
         
         /// <summary>
-        /// cboFatherGCJob control.
+        /// tacTrusteeZipCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboFatherGCJob;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTrusteeZipCode;
         
         /// <summary>
-        /// txtFatherOccupation control.
+        /// txtTrusteeTelephoneNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherOccupation;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeTelephoneNo;
         
         /// <summary>
-        /// txtFatherSalary control.
+        /// txtTrusteeJobOffice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherSalary;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeJobOffice;
         
         /// <summary>
-        /// txtFatherOfficeAddress control.
+        /// cboTrusteeGCJob control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherOfficeAddress;
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboTrusteeGCJob;
         
         /// <summary>
-        /// txtFatherOfficeCounty control.
+        /// txtTrusteeOccupation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherOfficeCounty;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeOccupation;
         
         /// <summary>
-        /// txtFatherOfficeDistrict control.
+        /// txtTrusteeSalary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherOfficeDistrict;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeSalary;
         
         /// <summary>
-        /// txtFatherOfficeCity control.
+        /// txtTrusteeOfficeAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherOfficeCity;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeOfficeAddress;
         
         /// <summary>
-        /// tacFatherOfficeProvince control.
+        /// txtTrusteeOfficeCounty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacFatherOfficeProvince;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeOfficeCounty;
         
         /// <summary>
-        /// tacFatherOfficeZipCode control.
+        /// txtTrusteeOfficeDistrict control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacFatherOfficeZipCode;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeOfficeDistrict;
         
         /// <summary>
-        /// txtFatherOfficeTelephoneNo control.
+        /// txtTrusteeOfficeCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFatherOfficeTelephoneNo;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeOfficeCity;
         
         /// <summary>
-        /// cboMotherTitle control.
+        /// tacTrusteeOfficeProvince control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMotherTitle;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTrusteeOfficeProvince;
         
         /// <summary>
-        /// txtMotherFirstName control.
+        /// tacTrusteeOfficeZipCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherFirstName;
+        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacTrusteeOfficeZipCode;
         
         /// <summary>
-        /// txtMotherMiddleName control.
+        /// txtTrusteeOfficeTelephoneNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherMiddleName;
+        protected global::System.Web.UI.WebControls.TextBox txtTrusteeOfficeTelephoneNo;
         
         /// <summary>
-        /// txtMotherLastName control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherLastName;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
-        /// cboMotherSuffix control.
+        /// PanelContent1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMotherSuffix;
+        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
         
         /// <summary>
-        /// txtMotherBirthPlace control.
+        /// pnlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherBirthPlace;
+        protected global::System.Web.UI.WebControls.Panel pnlView;
         
         /// <summary>
-        /// txtMotherDOB control.
+        /// grdView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherDOB;
+        protected global::System.Web.UI.WebControls.GridView grdView;
         
         /// <summary>
-        /// cboMotherNationality control.
+        /// cbpProcess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMotherNationality;
-        
-        /// <summary>
-        /// cboMotherReligion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMotherReligion;
-        
-        /// <summary>
-        /// cboMotherEducationLevel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMotherEducationLevel;
-        
-        /// <summary>
-        /// chkIsMotherAddressSameWithStudent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkIsMotherAddressSameWithStudent;
-        
-        /// <summary>
-        /// txtMotherAddress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherAddress;
-        
-        /// <summary>
-        /// txtMotherCounty control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherCounty;
-        
-        /// <summary>
-        /// txtMotherDistrict control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherDistrict;
-        
-        /// <summary>
-        /// txtMotherCity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherCity;
-        
-        /// <summary>
-        /// tacMotherProvince control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacMotherProvince;
-        
-        /// <summary>
-        /// tacMotherZipCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacMotherZipCode;
-        
-        /// <summary>
-        /// txtMotherTelephoneNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherTelephoneNo;
-        
-        /// <summary>
-        /// txtMotherJobOffice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherJobOffice;
-        
-        /// <summary>
-        /// cboMotherGCJob control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboMotherGCJob;
-        
-        /// <summary>
-        /// txtMotherOccupation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherOccupation;
-        
-        /// <summary>
-        /// txtMotherSalary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherSalary;
-        
-        /// <summary>
-        /// txtMotherOfficeAddress control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherOfficeAddress;
-        
-        /// <summary>
-        /// txtMotherOfficeCounty control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherOfficeCounty;
-        
-        /// <summary>
-        /// txtMotherOfficeDistrict control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherOfficeDistrict;
-        
-        /// <summary>
-        /// txtMotherOfficeCity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherOfficeCity;
-        
-        /// <summary>
-        /// tacMotherOfficeProvince control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacMotherOfficeProvince;
-        
-        /// <summary>
-        /// tacMotherOfficeZipCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::CodeX.Web.CustomControl.CodeXAutoCompleteTextBox tacMotherOfficeZipCode;
-        
-        /// <summary>
-        /// txtMotherOfficeTelephoneNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMotherOfficeTelephoneNo;
-        
-        /// <summary>
-        /// cbpMPEntryProcess control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpMPEntryProcess;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcess;
     }
 }

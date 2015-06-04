@@ -22,6 +22,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         }
         protected override void InitializeDataControl()
         {
+            txtAcceptedDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             BindGridView();
         }
 
@@ -86,7 +87,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             bool result = true;
             try
             {
-                BusinessLayer.ProcessProspectiveStudentAcceptance(hdnSelectedValue.Value, AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, ctx);
+                BusinessLayer.ProcessProspectiveStudentAcceptance(hdnSelectedValue.Value, Helper.GetDatePickerValue(txtAcceptedDate), AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, ctx);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
