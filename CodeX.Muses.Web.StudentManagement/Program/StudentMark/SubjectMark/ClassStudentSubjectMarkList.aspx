@@ -11,7 +11,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onBeforeRightPanelPrint(reportCode, filterExpression, errMessage) {
-            if (reportCode == "SM-00002" || reportCode == "SM-00003") {
+            if (reportCode == "SM-00002" || reportCode == "SM-00003" || reportCode == "SM-00004") {
                 filterExpression.text = "<%=GetFilterExpression() %>";
                 return true;
             }

@@ -82,7 +82,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 #region initialization
                 HtmlGenericControl divSchool = e.Item.FindControl("divSchool") as HtmlGenericControl;
                 HtmlGenericControl divPersonal = e.Item.FindControl("divPersonal") as HtmlGenericControl;
-                
+                HtmlGenericControl divRapor = e.Item.FindControl("divRapor") as HtmlGenericControl;
+
                 HtmlTableCell tdStudentName = e.Item.FindControl("tdStudentName") as HtmlTableCell;
                 HtmlTableCell tdNIS = e.Item.FindControl("tdNIS") as HtmlTableCell;
                 HtmlTableCell tdClass = e.Item.FindControl("tdClass") as HtmlTableCell;
@@ -103,20 +104,41 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlTableCell tdPermit = e.Item.FindControl("tdPermit") as HtmlTableCell;
                 HtmlTableCell tdAlpha = e.Item.FindControl("tdAlpha") as HtmlTableCell;
                 HtmlTableCell tdHeaderHasil = e.Item.FindControl("tdHeaderHasil") as HtmlTableCell;
+
+                HtmlTableCell tdAchStudentName = e.Item.FindControl("tdAchStudentName") as HtmlTableCell;
+                HtmlTableCell tdAchSchoolName  = e.Item.FindControl("tdAchSchoolName") as HtmlTableCell;
+                HtmlTableCell tdAchNIS = e.Item.FindControl("tdAchNIS") as HtmlTableCell;
+
+                HtmlTableCell tdFooterDateNow = e.Item.FindControl("tdFooterDateNow") as HtmlTableCell;
+                HtmlTableCell tdFooterStudentParent = e.Item.FindControl("tdFooterStudentParent") as HtmlTableCell;
+                HtmlTableCell tdFooterWali = e.Item.FindControl("tdFooterWali") as HtmlTableCell;
+
+                HtmlTableCell tdFooterDateNow1 = e.Item.FindControl("tdFooterDateNow1") as HtmlTableCell;
+                HtmlTableCell tdFooterStudentParent1 = e.Item.FindControl("tdFooterStudentParent1") as HtmlTableCell;
+                HtmlTableCell tdFooterWali1 = e.Item.FindControl("tdFooterWali1") as HtmlTableCell;
                 
                 Repeater rptCurriculumSubjectGroupName = e.Item.FindControl("rptCurriculumSubjectGroupName") as Repeater;
                 Repeater rptCurriculumSubjectGroupName1 = e.Item.FindControl("rptCurriculumSubjectGroupName1") as Repeater;
                 Repeater rptPersonality = e.Item.FindControl("rptPersonality") as Repeater;
                 Repeater rptOrganization = e.Item.FindControl("rptOrganization") as Repeater;
                 Repeater rptEskul = e.Item.FindControl("rptEskul") as Repeater;
-                
+                Repeater rptAchievement = e.Item.FindControl("rptAchievement") as Repeater;
                 #endregion
 
                 #region Personal Data
                 vStudent st = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}",StudentID))[0];
                 List<StudentPastStudy> lstSps = BusinessLayer.GetStudentPastStudyList(String.Format("StudentID = {0} AND IsDeleted = 0", StudentID));
-                
+                Registration reg = BusinessLayer.GetRegistrationList(String.Format("RegistrationID = {0}", st.RegistrationID))[0];
+
+                String raporHeader = divRapor.InnerHtml;
+                raporHeader = raporHeader.Replace("{StudentName}", st.StudentName);
+                raporHeader = raporHeader.Replace("{StudentNIS}", String.Format("{0} / {1}", st.StudentCode, st.NationalStudentNo));
+                divRapor.InnerHtml = raporHeader;
+
                 String personalText = divPersonal.InnerHtml;
+                tdAchStudentName.InnerHtml = st.StudentName;
+                tdAchNIS.InnerHtml = String.Format("{0} / {1}", st.StudentCode, st.NationalStudentNo);
+
                 personalText = personalText.Replace("{StudentName}", st.StudentName);
                 personalText = personalText.Replace("{NIS}", String.Format("{0} / {1}", st.StudentCode, st.NationalStudentNo));
                 personalText = personalText.Replace("{DOB}", String.Format("{0}, {1}",st.CityOfBirth, st.DateOfBirthInString));
@@ -126,6 +148,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 personalText = personalText.Replace("{City}", st.City);
                 personalText = personalText.Replace("{PhoneNo}", st.PhoneNo1);
                 personalText = personalText.Replace("{Grade}", st.Grade);
+                personalText = personalText.Replace("{AcceptedDate}", reg.AcceptedDate.ToString(Constant.FormatString.DATE_FORMAT));
                 if (lstSps.Count > 0)
                     personalText = personalText.Replace("{PastSchool}", lstSps[0].SchoolName);
                 else
@@ -137,8 +160,12 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 if (father != null)
                 {
                     personalText = personalText.Replace("{FatherName}", father.FullName);
+                    tdFooterStudentParent1.InnerHtml = tdFooterStudentParent.InnerHtml = father.FullName;
                     personalText = personalText.Replace("{FatherEducationLevel}", father.EducationLevel);
                     personalText = personalText.Replace("{FatherJob}", father.Job);
+                    personalText = personalText.Replace("{ParentAddress}", father.HomeStreetName);
+                    personalText = personalText.Replace("{ParentCity}", father.HomeCity);
+                    personalText = personalText.Replace("{ParentPhoneNo}", father.HomePhoneNo1);
                 }
                 else
                 {
@@ -150,22 +177,31 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 if (mother != null)
                 {
                     personalText = personalText.Replace("{MotherName}", mother.FullName);
+                    tdFooterStudentParent1.InnerHtml = tdFooterStudentParent.InnerHtml = mother.FullName;
                     personalText = personalText.Replace("{MotherEducationLevel}", mother.EducationLevel);
                     personalText = personalText.Replace("{MotherJob}", mother.Job);
+                    personalText = personalText.Replace("{ParentAddress}", mother.HomeStreetName);
+                    personalText = personalText.Replace("{ParentCity}", mother.HomeCity);
+                    personalText = personalText.Replace("{ParentPhoneNo}", mother.HomePhoneNo1);
                 }
                 else
                 {
                     personalText = personalText.Replace("{MotherName}", "-");
                     personalText = personalText.Replace("{MotherEducationLevel}", "-");
                     personalText = personalText.Replace("{MotherJob}", "-");
+                    personalText = personalText.Replace("{ParentAddress}", "-");
+                    personalText = personalText.Replace("{ParentCity}", "-");
+                    personalText = personalText.Replace("{ParentPhoneNo}", "-");
+                    tdFooterStudentParent1.InnerHtml = tdFooterStudentParent.InnerHtml = ".................................";
                 }
+
+                vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
+                personalText = personalText.Replace("{FooterDate.Now}", String.Format("{0}, {1}", site.State, DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT)));
+                tdFooterDateNow1.InnerHtml = tdFooterDateNow.InnerHtml = String.Format("{0}, {1}", site.State, DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT));
+                personalText = personalText.Replace("{Headmaster}", HeadMaster);
 
                 divPersonal.InnerHtml = personalText;
                 #endregion
-
-                //ClassStudentMark entityMark = lstClassStudentMark.FirstOrDefault(p => p.StudentID == StudentID);
-                //if (entityMark != null)
-                //    tdStudentRemarks.InnerHtml = entityMark.Remarks;
 
                 vClassStudent student = lstClassStudent.FirstOrDefault(x => x.StudentID == StudentID && x.GCClassStudyType == Constant.ClassStudyType.REGULAR);
                 tdStudentName1.InnerHtml = tdStudentName.InnerHtml = student.StudentName;
@@ -175,14 +211,13 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 tdPeriodSection1.InnerHtml = tdPeriodSection.InnerHtml = String.Format("{0}", ps.PeriodSectionName);
                 tdSchoolPeriod1.InnerHtml = tdSchoolPeriod.InnerHtml = student.SchoolPeriodName;
 
-                vSite site = BusinessLayer.GetvSiteList(String.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
-                tdSchoolName1.InnerHtml = tdSchoolName.InnerHtml = site.SiteName;
+                tdAchSchoolName.InnerHtml = tdSchoolName1.InnerHtml = tdSchoolName.InnerHtml = site.SiteName;
                 tdSchoolAddress1.InnerHtml = tdSchoolAddress.InnerHtml = String.Format("{0}<br/>{1}", site.StreetName, site.City);
 
                 #region School Data
                 String tempSchool = divSchool.InnerHtml;
                 tempSchool = tempSchool.Replace("{SchoolName}", site.SiteName);
-                tempSchool = tempSchool.Replace("{SchoolAddress}", String.Format("{0}<br/>Kode Pos : {1} Telepon : {2}", site.SiteName,site.ZipCode, site.PhoneNo1));
+                tempSchool = tempSchool.Replace("{SchoolAddress}", String.Format("{0}<br/>Kode Pos : {1} Telepon : {2}", site.StreetName,site.ZipCode, site.PhoneNo1));
                 tempSchool = tempSchool.Replace("{SchoolKelurahan}", site.District);
                 tempSchool = tempSchool.Replace("{SchoolKecamatan}", site.County);
                 tempSchool = tempSchool.Replace("{SchoolCity}", site.City);
@@ -205,13 +240,13 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
                     SubjectRowCount = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR).Count() + lstSubjectGroup.Count();
                     
-                    
-
                     rptPersonality.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.PERSONALITY);
                     rptPersonality.DataBind();
                 }
 
-                rptEskul.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.EXTRACURRICULAR);
+                List<vClassStudent> lstTempClassStudent = lstClassStudent.Where(x => x.GCClassStudyType == Constant.ClassStudyType.EXTRACURRICULAR && x.StudentID == StudentID).ToList();
+
+                rptEskul.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.EXTRACURRICULAR && lstTempClassStudent.Select(s => s.SchoolClassID).Contains(x.SchoolClassID));
                 rptEskul.DataBind();
 
                 List<Variable> lstOrganization = new List<Variable>();
@@ -233,12 +268,16 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 tdSick.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.SAKIT).Count());
                 tdPermit.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.IZIN).Count());
                 tdAlpha.InnerHtml = String.Format("{0} hari", csda.Where(x => x.GCAttendanceStatus == Constant.AttendanceStatus.ALPA).Count());
-                
+
+                List<StudentAchievement> achievement = BusinessLayer.GetStudentAchievementList(String.Format("IsDeleted = 0 AND StudentID = {0}", StudentID));
+                rptAchievement.DataSource = achievement;
+                rptAchievement.DataBind();
+
                 //String text = divPageFooter.InnerHtml;
                 //text = text.Replace("{Date.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_REPORT_FORMAT));
                 //text = text.Replace("{City}", site.City);
-                //vSchoolClass sc = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}", SchoolClassID))[0];
-                //text = text.Replace("{WaliKelas}", sc.TeacherName);
+                vSchoolClass sc = BusinessLayer.GetvSchoolClassList(String.Format("SchoolClassID = {0}", SchoolClassID))[0];
+                tdFooterWali1.InnerHtml = tdFooterWali.InnerHtml = sc.TeacherName;
                 //text = text.Replace("{Headmaster}", HeadMaster);
                 //divPageFooter.InnerHtml = text;
             }
@@ -255,7 +294,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 rptSubject.DataBind();
             }
         }
-
+        string remarks;
         protected void rptCurriculumSubjectGroupName1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
@@ -263,6 +302,9 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 CurriculumSubjectGroup entity = e.Item.DataItem as CurriculumSubjectGroup;
                 Repeater rptSubjectKompetensi = e.Item.FindControl("rptSubjectKompetensi") as Repeater;
 
+                List<vClassSubject> lstTemp = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.PERSONALITY).ToList();
+                List<vClassStudentSubjectMark> lstTempNilai = lstNilai.Where(x => lstTemp.Select(s => s.ClassSubjectID).Contains(x.ClassSubjectID)).ToList();
+                remarks = String.Format(",", lstTempNilai.Select(x => x.DescriptionMark));
                 rptSubjectKompetensi.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR && x.CurriculumSubjectGroupID == entity.CurriculumSubjectGroupID);
                 rptSubjectKompetensi.DataBind();
             }
@@ -310,6 +352,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 
                 List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == entity.ClassSubjectID).ToList();
+                HtmlTableCell tdTxtSubjectName = e.Item.FindControl("tdTxtSubjectName") as HtmlTableCell;
                 HtmlTableCell tdTheory = e.Item.FindControl("tdTheory") as HtmlTableCell;
                 HtmlTableCell tdTxtTheory = e.Item.FindControl("tdTxtTheory") as HtmlTableCell;
                 HtmlTableCell tdPractice = e.Item.FindControl("tdPractice") as HtmlTableCell;
@@ -322,6 +365,11 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     tdAttitude.RowSpan = SubjectRowCount;
                 else
                     tdAttitude.Style.Add("Display", "none");
+
+                tdTxtSubjectName.InnerHtml = String.Format("{0}<br/>Nama Guru : {1}",entity.SubjectName, entity.TeacherName);
+
+                if (tdAttitude.InnerHtml == "")
+                    tdAttitude.InnerHtml = remarks;
 
                 vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
                 if (theoryMark != null)

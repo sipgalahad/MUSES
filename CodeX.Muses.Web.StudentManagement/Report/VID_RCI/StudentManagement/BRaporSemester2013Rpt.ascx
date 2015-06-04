@@ -17,6 +17,9 @@
         .tblRapor1       { border-right:1px solid; border-bottom: 1px solid; margin-bottom:10px;}
         .tblRapor1 tr td { border-top: 1px solid; border-left:1px solid; padding:2px 0px 0px 5px; }
         
+        .tblSchoolData {}
+        .tblSchoolData tr td { padding:5px}
+        
         .tdScore { width:50px; }
         .divReportBody { height:887px; overflow-y:auto; }
     </style>
@@ -26,8 +29,25 @@
                 <ItemTemplate>
                     <tr class="trReportBody">
                         <td>
+                            <div class="divReportBody" style="text-align:center;" id="divRapor" runat="server">
+                                <h1>LAPORAN<br/>CAPAIAN KOMPETENSI PESERTA DIDIK<br/>SEKOLAH MENENGAH ATAS<br/>(SMA)</h1>
+                                <div style="height:200px;"></div>
+                                <h2>Nama Peserta Didik</h2>
+                                <div style="border:1px solid; width:500px; font-size:large; font-weight:bold; margin-left:120px; margin-bottom:7px;">{StudentName}</div>
+                                <div style="border:1px solid; width:500px; font-size:small; margin-left:120px; margin-bottom:200px;">{StudentNIS}</div>
+                                <div style="font-size:medium; font-weight:bold;">
+                                    KEMENTERIAN PENDIDIKAN DAN KEBUDAYAAN<br/>REPUBLIK INDONESIA
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="trReportBody">
+                        <td>
                             <div id="divSchool" runat="server" class="divReportBody">
-                                <table>
+                                <div style="text-align:center; font-size:small; font-weight:bold; margin-bottom:50px;">
+                                    LAPORAN<br/>CAPAIAN PESERTA DIDIK<br/>SEKOLAH MENENGAH ATAS<br/>(SMA)
+                                </div>
+                                <table cellpadding="0" cellspacing="0" class="tblSchoolData">
                                     <tr>
                                         <td>Nama Sekolah</td>
                                         <td align="center">:</td>
@@ -172,7 +192,7 @@
                                         <td></td>
                                         <td>Pada tanggal</td>
                                         <td align="center">:</td>
-                                        <td>{ReceivedDate}</td>
+                                        <td>{AcceptedDate}</td>
                                     </tr>
                                     <tr>
                                         <td>12.</td>
@@ -257,6 +277,27 @@
                                         <td>Pekerjaan Wali Peserta Didik</td>
                                         <td align="center">:</td>
                                         <td>{WaliJob}</td>
+                                    </tr>
+                                </table>
+                                <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;">
+                                    <colgroup>
+                                        <col width="50%" />
+                                        <col />
+                                    </colgroup>
+                                    <tr>
+                                        <td valign="top" align="center">
+                                            <div style="width:90px; height:120px; border:1px solid;">
+                                            
+                                            </div>
+                                        </td>
+                                        <td valign="top" align="center">
+                                            <table>
+                                                <tr><td>{FooterDate.Now}</td></tr>
+                                                <tr><td>Kepala Sekolah,</td></tr>
+                                                <tr><td style="height:50px;"></td></tr>
+                                                <tr><td>{Headmaster}</td></tr>
+                                            </table>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -352,7 +393,7 @@
                                                 <ItemTemplate>
                                                     <tr>
                                                         <td align="center" style="width:50px;"><%# Container.ItemIndex + 1 %></td>
-                                                        <td><%#:Eval("SubjectName") %></td>
+                                                        <td runat="server" id="tdTxtSubjectName"></td>
                                                         <td align="right" runat="server" id="tdTheory"></td>
                                                         <td runat="server" id="tdTxtTheory"></td>
                                                         <td align="right" runat="server" id="tdPractice"></td>
@@ -452,6 +493,27 @@
                                         <td style="border-right:1px solid; border-bottom:1px solid;" runat="server" id="tdAlpha" align="center"></td>
                                     </tr>
                                 </table>
+                                <div style="margin-top:600px;">
+                                    <table width="100%">
+                                        <colgroup>
+                                            <col width="33%" />
+                                            <col width="33%" />
+                                            <col />
+                                        </colgroup>
+                                        <tr>
+                                            <td>Mengetahui</td>
+                                            <td colspan="2" id="tdFooterDateNow" runat="server">{City}, {Date.Now}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Orang Tua/Wali,</td>
+                                            <td>Wali Kelas</td>
+                                        </tr>
+                                        <tr style="height:100px; vertical-align:bottom;">
+                                            <td id="tdFooterStudentParent" runat="server">{StudentParent}</td>
+                                            <td id="tdFooterWali" runat="server">{WaliKelas}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -556,7 +618,70 @@
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </table>
+                                <div>
+                                    <table width="100%">
+                                        <colgroup>
+                                            <col width="33%" />
+                                            <col width="33%" />
+                                            <col />
+                                        </colgroup>
+                                        <tr>
+                                            <td>Mengetahui</td>
+                                            <td id="tdFooterDateNow1" runat="server" colspan="2">{City}, {Date.Now}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Orang Tua/Wali,</td>
+                                            <td>Wali Kelas</td>
+                                        </tr>
+                                        <tr style="height:100px; vertical-align:bottom;">
+                                            <td id="tdFooterStudentParent1" runat="server">{StudentParent}</td>
+                                            <td id="tdFooterWali1" runat="server">{WaliKelas}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
+                        </td>
+                    </tr>
+                    <tr class="trReportBody">
+                        <td>
+                            <div style="text-align:center">
+                                <h3 style="font-weight:bold;">CATATAN PRESTASI YANG PERNAH DICAPAI</h3>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>Nama Peserta Didik</td>
+                                    <td>:</td>
+                                    <td runat="server" id="tdAchStudentName"></td>
+                                </tr>
+                                <tr>
+                                    <td>Nama Sekolah</td>
+                                    <td>:</td>
+                                    <td runat="server" id="tdAchSchoolName"></td>
+                                </tr>
+                                <tr>
+                                    <td>Nomor Induk / NISN</td>
+                                    <td>:</td>
+                                    <td runat="server" id="tdAchNIS"></td>
+                                </tr>
+                            </table>
+                            <table class="tblRapor" cellpadding="0" cellspacing="0" border="1">
+                                <colgroup>
+                                    <col width="20px"/>
+                                    <col width="300px"/>
+                                </colgroup>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Prestasi Yang Pernah Dicapai</td>
+                                </tr>
+                                <asp:Repeater runat="server" ID="rptAchievement">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td><%# Container.ItemIndex + 1 %></td>
+                                            <td><%#Eval("AchievementName") %></td>
+                                        </tr>    
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </table>
                         </td>
                     </tr>
                 </ItemTemplate>
