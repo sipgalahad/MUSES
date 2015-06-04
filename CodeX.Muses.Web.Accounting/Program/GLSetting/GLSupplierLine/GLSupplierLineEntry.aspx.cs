@@ -402,10 +402,13 @@ namespace CodeX.Muses.Web.Accounting.Program
                 supplierLineDao.Insert(entity);
                 entityDt.SupplierLineID = BusinessLayer.GetSupplierLineMaxID(ctx);
                 supplierLineDtDao.Insert(entityDt);
+                retval = entityDt.SupplierLineID.ToString();
+
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -437,6 +440,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 result = false;

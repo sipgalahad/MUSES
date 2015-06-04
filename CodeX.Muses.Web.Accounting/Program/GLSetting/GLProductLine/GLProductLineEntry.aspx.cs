@@ -628,10 +628,13 @@ namespace CodeX.Muses.Web.Accounting.Program
                 productLineDao.Insert(entity);
                 entityDt.ProductLineID = BusinessLayer.GetProductLineMaxID(ctx);
                 productLineDtDao.Insert(entityDt);
+
+                retval = entityDt.ProductLineID.ToString();
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -663,6 +666,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
                 result = false;

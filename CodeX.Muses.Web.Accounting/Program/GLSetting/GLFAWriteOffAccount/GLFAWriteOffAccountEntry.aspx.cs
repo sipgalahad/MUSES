@@ -26,12 +26,10 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             if (Request.QueryString.Count > 0)
             {
-                String[] param = Request.QueryString["id"].Split('|');
-                String ID = param[0];
                 IsAdd = false;
-                hdnID.Value = ID;
+                String[] param = Request.QueryString["id"].Split('|');
+                hdnID.Value = param[0];
                 vGLFAWriteOffAccount entity = BusinessLayer.GetvGLFAWriteOffAccountList(String.Format("ID = {0}", hdnID.Value))[0];
-
                 SetControlProperties();
                 EntityToControl(entity);
             }
@@ -44,7 +42,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsDeleted = 0 AND IsActive = 1", Constant.StandardCode.ASSET_SALES_TYPE, Constant.StandardCode.WRITE_OFF_TYPE);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ASSET_SALES_TYPE, Constant.StandardCode.WRITE_OFF_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
             List<Bank> lstBank = BusinessLayer.GetBankList("IsDeleted = 0");
             lstBank.Insert(0, new Bank { BankID = 0, BankName = "" });
@@ -131,22 +129,24 @@ namespace CodeX.Muses.Web.Accounting.Program
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
             IDbContext ctx = DbFactory.Configure(true);
-            GLFAWriteOffAccountDao GLFAWriteOffAccountDao = new GLFAWriteOffAccountDao(ctx);
-            bool result = true;
+            GLFAWriteOffAccountDao entityDao = new GLFAWriteOffAccountDao(ctx);
+            bool result = false;
             try
             {
                 GLFAWriteOffAccount entity = new GLFAWriteOffAccount();
                 ControlToEntity(entity);
-
-                entity.LastUpdatedBy = entity.CreatedBy = AppSession.UserLogin.UserID;
-                GLFAWriteOffAccountDao.Insert(entity);
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entityDao.Insert(entity);
+                retval = BusinessLayer.GetGLFAWriteOffAccountMaxID(ctx).ToString();
                 ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
-                errMessage = ex.Message;
                 result = false;
+                errMessage = ex.Message;
             }
             finally
             {
@@ -157,30 +157,20 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
-            IDbContext ctx = DbFactory.Configure(true);
-            GLFAWriteOffAccountDao GLFAWriteOffAccountDao = new GLFAWriteOffAccountDao(ctx);
-            bool result = true;
             try
             {
-                GLFAWriteOffAccount entity = GLFAWriteOffAccountDao.Get(Convert.ToInt32(hdnID.Value));
+                GLFAWriteOffAccount entity = BusinessLayer.GetGLFAWriteOffAccount(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-
-                GLFAWriteOffAccountDao.Update(entity);
-
-                ctx.CommitTransaction();
+                BusinessLayer.UpdateGLFAWriteOffAccount(entity);
+                return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                ctx.RollBackTransaction();
-                result = false;
+                return false;
             }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
         }
     }
 }

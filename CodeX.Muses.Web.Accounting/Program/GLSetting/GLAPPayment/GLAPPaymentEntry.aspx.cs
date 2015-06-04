@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxEditors;
 using System.Reflection;
 using System.Collections;
 using CodeX.Common;
+using CodeX.Data.Core.Dal;
 
 namespace CodeX.Muses.Web.Accounting.Program
 {
@@ -32,8 +33,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             {
                 IsAdd = false;
                 String[] param = Request.QueryString["id"].Split('|');
-                String ID = param[0]; 
-                hdnID.Value = ID;
+                hdnID.Value = param[0];
                 vGLAPPayment entity = BusinessLayer.GetvGLAPPaymentList(String.Format("ID = {0}", hdnID.Value))[0];
                 SetControlProperties();
                 EntityToControl(entity);
@@ -131,19 +131,31 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
         {
+            IDbContext ctx = DbFactory.Configure(true);
+            GLAPPaymentDao entityDao = new GLAPPaymentDao(ctx);
+            bool result = false;
             try
             {
                 GLAPPayment entity = new GLAPPayment();
                 ControlToEntity(entity);
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertGLAPPayment(entity);
-                return true;
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entityDao.Insert(entity);
+                retval = BusinessLayer.GetGLAPPaymentMaxID(ctx).ToString();
+                ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
                 errMessage = ex.Message;
-                return false;
             }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
 
         protected override bool OnSaveEditRecord(ref string errMessage)
@@ -158,6 +170,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }

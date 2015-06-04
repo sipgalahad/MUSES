@@ -27,9 +27,8 @@ namespace CodeX.Muses.Web.Accounting.Program
             if (Request.QueryString.Count > 0)
             {
                 String[] param = Request.QueryString["id"].Split('|');
-                String ID = param[0];
                 IsAdd = false;
-                hdnID.Value = ID;
+                hdnID.Value = param[0];
                 vGLAccountPayable entity = BusinessLayer.GetvGLAccountPayableList(String.Format("ID = {0}", hdnID.Value))[0];
 
                 SetControlProperties();
@@ -44,7 +43,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsDeleted = 0 AND IsActive = 1",Constant.StandardCode.ITEM_TYPE,Constant.StandardCode.GL_ACCOUNT_PAYABLE_TYPE);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.GL_ACCOUNT_PAYABLE_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
             Methods.SetComboBoxField(cboGCAccountPayableType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GL_ACCOUNT_PAYABLE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
@@ -125,13 +124,15 @@ namespace CodeX.Muses.Web.Accounting.Program
             {
                 GLAccountPayable entity = new GLAccountPayable();
                 ControlToEntity(entity);
-
-                entity.LastUpdatedBy = entity.CreatedBy = AppSession.UserLogin.UserID;
+                entity.CreatedBy = AppSession.UserLogin.UserID;
                 GLAccountPayableDao.Insert(entity);
+                retval = BusinessLayer.GetGLAccountPayableMaxID(ctx).ToString();
                 ctx.CommitTransaction();
+                result = true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -145,30 +146,20 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override bool OnSaveEditRecord(ref string errMessage)
         {
-            IDbContext ctx = DbFactory.Configure(true);
-            GLAccountPayableDao GLAccountPayableDao = new GLAccountPayableDao(ctx);
-            bool result = true;
             try
             {
-                GLAccountPayable entity = GLAccountPayableDao.Get(Convert.ToInt32(hdnID.Value));
+                GLAccountPayable entity = BusinessLayer.GetGLAccountPayable(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-
-                GLAccountPayableDao.Update(entity);
-
-                ctx.CommitTransaction();
+                BusinessLayer.UpdateGLAccountPayable(entity);
+                return true;
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
-                ctx.RollBackTransaction();
-                result = false;
+                return false;
             }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
         }
     }
 }

@@ -85,7 +85,7 @@ Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
                                 <asp:BoundField DataField="AccountPayableType" HeaderText="Akun Pembayaran" ItemStyle-Width="200px" />
                                 <asp:BoundField DataField="ItemType" HeaderText="Tipe" ItemStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
-                                <asp:HyperLinkField HeaderText="Detail" Text="Detail" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="150px" />
+                                <asp:HyperLinkField HeaderText="Detail" Text="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="150px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

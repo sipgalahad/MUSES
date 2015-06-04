@@ -61,7 +61,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             txtRemarks.Text = entity.Remarks;
 
             #region Pengaturan Perkiraan
-            #region
+            #region 
             hdnGLAccountID.Value = entity.GLAccount.ToString();
             txtGLAccountNo.Text = entity.GLAccountNo;
             txtGLAccountName.Text = entity.GLAccountName;
