@@ -37,6 +37,34 @@
                 cboReligion.SetValue('');
                 cboEducationLevel.SetValue('');
                 cboGender.SetValue('');
+
+                $('#<%=chkIsTrusteeAddressSameWithStudent.ClientID %>').prop('checked', false);
+                $('#<%=chkIsTrusteeAddressSameWithStudent.ClientID %>').change();
+                $('#<%=txtTrusteeAddress.ClientID %>').val('');
+                $('#<%=txtTrusteeCounty.ClientID %>').val('');
+                $('#<%=txtTrusteeDistrict.ClientID %>').val('');
+                $('#<%=txtTrusteeCity.ClientID %>').val('');
+                tacTrusteeProvince.setValue('');
+                tacTrusteeProvince.setText('');
+                tacTrusteeZipCode.setValue('');
+                tacTrusteeZipCode.setText('');
+                $('#<%=txtTrusteeTelephoneNo.ClientID %>').val('');
+
+                $('#<%=txtTrusteeJobOffice.ClientID %>').val('');
+                cboTrusteeGCJob.SetValue('');
+                $('#<%=txtTrusteeOccupation.ClientID %>').val('');
+                $('#<%=txtTrusteeSalary.ClientID %>').val('');
+
+                $('#<%=txtTrusteeOfficeAddress.ClientID %>').val('');
+                $('#<%=txtTrusteeOfficeCounty.ClientID %>').val('');
+                $('#<%=txtTrusteeOfficeDistrict.ClientID %>').val('');
+                $('#<%=txtTrusteeOfficeCity.ClientID %>').val('');
+                tacTrusteeOfficeProvince.setValue("");
+                tacTrusteeOfficeProvince.setText('');
+                tacTrusteeOfficeZipCode.setValue('');
+                tacTrusteeOfficeZipCode.setText('');
+                $('#<%=txtTrusteeOfficeTelephoneNo.ClientID %>').val('');
+
                 $('#entryDetailContainer').show();
             });
 
@@ -87,7 +115,7 @@
             showToastConfirmation('Are You Sure Want To Delete?', function (result) {
                 if (result) {
                     var entity = rowToObject($row);
-                    $('#<%=hdnEntryID.ClientID %>').val(entity.PeriodAdmissionID);
+                    $('#<%=hdnEntryID.ClientID %>').val(entity.FamilyID);
                     cbpProcess.PerformCallback('delete');
                 }
             });
@@ -104,12 +132,46 @@
             $('#<%=txtMiddleName.ClientID %>').val(entity.MiddleName);
             $('#<%=txtLastName.ClientID %>').val(entity.LastName);
             $('#<%=txtBirthPlace.ClientID %>').val(entity.CityOfBirth);
-            $('#<%=txtDOB.ClientID %>').val(entity.DateOfBirthInDatePickerFormat); 
+            $('#<%=txtDOB.ClientID %>').val(entity.DateOfBirthInDatePickerFormat);
             cboSuffix.SetValue(entity.GCSuffix);
             cboNationality.SetValue(entity.GCNationality);
             cboReligion.SetValue(entity.GCReligion);
             cboEducationLevel.SetValue(entity.GCEducationLevel);
             cboGender.SetValue(entity.GCGender);
+
+            $('#<%=chkIsTrusteeAddressSameWithStudent.ClientID %>').prop('checked', entity.IsHomeAddressSameWithStudent == 'True');
+            $('#<%=chkIsTrusteeAddressSameWithStudent.ClientID %>').change();
+            $('#<%=txtTrusteeAddress.ClientID %>').val(entity.HomeStreetName);
+            $('#<%=txtTrusteeCounty.ClientID %>').val(entity.HomeCounty);
+            $('#<%=txtTrusteeDistrict.ClientID %>').val(entity.HomeDistrict);
+            $('#<%=txtTrusteeCity.ClientID %>').val(entity.HomeCity);
+            if (entity.HomeGCState != "")
+                tacTrusteeProvince.setValue(entity.HomeGCState.split('^')[1]);
+            else
+                tacTrusteeProvince.setValue('');
+            tacTrusteeProvince.setText(entity.HomeState);
+            tacTrusteeZipCode.setValue(entity.HomeZipCodeID);
+            tacTrusteeZipCode.setText(entity.HomeZipCode);
+            $('#<%=txtTrusteeTelephoneNo.ClientID %>').val(entity.HomePhoneNo1);
+
+            $('#<%=txtTrusteeJobOffice.ClientID %>').val(entity.CompanyName);
+            cboTrusteeGCJob.SetValue(entity.GCJob);
+            $('#<%=txtTrusteeOccupation.ClientID %>').val(entity.Occupation);
+            $('#<%=txtTrusteeSalary.ClientID %>').val(entity.Salary);
+
+            $('#<%=txtTrusteeOfficeAddress.ClientID %>').val(entity.OfficeStreetName);
+            $('#<%=txtTrusteeOfficeCounty.ClientID %>').val(entity.OfficeCounty);
+            $('#<%=txtTrusteeOfficeDistrict.ClientID %>').val(entity.OfficeDistrict);
+            $('#<%=txtTrusteeOfficeCity.ClientID %>').val(entity.OfficeCity);
+            if (entity.OfficeGCState != "")
+                tacTrusteeOfficeProvince.setValue(entity.OfficeGCState.split('^')[1]);
+            else
+                tacTrusteeOfficeProvince.setValue("");
+            tacTrusteeOfficeProvince.setText(entity.OfficeState);
+            tacTrusteeOfficeZipCode.setValue(entity.OfficeZipCodeID);
+            tacTrusteeOfficeZipCode.setText(entity.OfficeZipCode);
+            $('#<%=txtTrusteeOfficeTelephoneNo.ClientID %>').val(entity.OfficePhoneNo1);
+
             $('#entryDetailContainer').show();
         });
 
@@ -133,6 +195,15 @@
                 else
                     cbpView.PerformCallback('refresh');
             }
+        }
+
+        function onGetProvinceFilterExpression() {
+            var filterExpression = "<%=OnGetProvinceFilterExpression() %>";
+            return filterExpression;
+        }
+        function onGetZipCodeFilterExpression() {
+            var filterExpression = "IsDeleted = 0";
+            return filterExpression;
         }
 
         //#region Trustee Province
@@ -434,7 +505,7 @@
                                     </tr>
                                     <tr>
                                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jenis Pekerjaan")%></label></td>
-                                        <td><dxe:ASPxComboBox ID="cboTrusteeGCJob" Width="120px" runat="server" /></td>
+                                        <td><dxe:ASPxComboBox ID="cboTrusteeGCJob" ClientInstanceName="cboTrusteeGCJob" Width="120px" runat="server" /></td>
                                     </tr>
                                     <tr>
                                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jabatan")%></label></td>
@@ -527,6 +598,32 @@
                                             <input type="hidden" value="<%#Eval("CityOfBirth") %>" bindingfield="CityOfBirth" />
                                             <input type="hidden" value="<%#Eval("DateOfBirthInDatePickerFormat") %>" bindingfield="DateOfBirthInDatePickerFormat" />
                                             <input type="hidden" value="<%#Eval("GCGender") %>" bindingfield="GCGender" />
+
+                                            <input type="hidden" value="<%#Eval("IsHomeAddressSameWithStudent") %>" bindingfield="IsHomeAddressSameWithStudent" />
+                                            <input type="hidden" value="<%#Eval("HomeStreetName") %>" bindingfield="HomeStreetName" />
+                                            <input type="hidden" value="<%#Eval("HomeCounty") %>" bindingfield="HomeCounty" />
+                                            <input type="hidden" value="<%#Eval("HomeDistrict") %>" bindingfield="HomeDistrict" />
+                                            <input type="hidden" value="<%#Eval("HomeCity") %>" bindingfield="HomeCity" />
+                                            <input type="hidden" value="<%#Eval("HomeGCState") %>" bindingfield="HomeGCState" />
+                                            <input type="hidden" value="<%#Eval("HomeState") %>" bindingfield="HomeState" />
+                                            <input type="hidden" value="<%#Eval("HomeZipCodeID") %>" bindingfield="HomeZipCodeID" />
+                                            <input type="hidden" value="<%#Eval("HomeZipCode") %>" bindingfield="HomeZipCode" />
+                                            <input type="hidden" value="<%#Eval("HomePhoneNo1") %>" bindingfield="HomePhoneNo1" />
+
+                                            <input type="hidden" value="<%#Eval("CompanyName") %>" bindingfield="CompanyName" />
+                                            <input type="hidden" value="<%#Eval("GCJob") %>" bindingfield="GCJob" />
+                                            <input type="hidden" value="<%#Eval("Occupation") %>" bindingfield="Occupation" />
+                                            <input type="hidden" value="<%#Eval("Salary") %>" bindingfield="Salary" />
+                                            
+                                            <input type="hidden" value="<%#Eval("OfficeStreetName") %>" bindingfield="OfficeStreetName" />
+                                            <input type="hidden" value="<%#Eval("OfficeCounty") %>" bindingfield="OfficeCounty" />
+                                            <input type="hidden" value="<%#Eval("OfficeDistrict") %>" bindingfield="OfficeDistrict" />
+                                            <input type="hidden" value="<%#Eval("OfficeCity") %>" bindingfield="OfficeCity" />
+                                            <input type="hidden" value="<%#Eval("OfficeGCState") %>" bindingfield="OfficeGCState" />
+                                            <input type="hidden" value="<%#Eval("OfficeState") %>" bindingfield="OfficeState" />
+                                            <input type="hidden" value="<%#Eval("OfficeZipCodeID") %>" bindingfield="OfficeZipCodeID" />
+                                            <input type="hidden" value="<%#Eval("OfficeZipCode") %>" bindingfield="OfficeZipCode" />
+                                            <input type="hidden" value="<%#Eval("OfficePhoneNo1") %>" bindingfield="OfficePhoneNo1" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

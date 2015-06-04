@@ -14,83 +14,87 @@ using DevExpress.Web.ASPxCallbackPanel;
 
 namespace CodeX.Muses.Web.StudentManagement.Program
 {
-    public partial class ProspectiveStudentTrusteeDtEntry : BasePage
+    public partial class StudentTrusteeEntry : BasePageTrx
     {
-        protected void Page_Load(object sender, EventArgs e)
+        public override string OnGetMenuCode()
         {
-            if (!Page.IsPostBack)
-            {
-                String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND StandardCodeID NOT IN ('{7}','{8}') AND IsActive = 1 AND IsDeleted = 0",
-                    Constant.StandardCode.EDUCATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.FAMILY_RELATION, Constant.StandardCode.GENDER, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER);
-                List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+            return Constant.MenuCode.StudentManagement.ST_STUDENT_TRUSTEE;
+        }
+        protected override void InitializeDataControl()
+        {
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}','{3}','{4}','{5}','{6}') AND StandardCodeID NOT IN ('{7}','{8}') AND IsActive = 1 AND IsDeleted = 0",
+                Constant.StandardCode.EDUCATION, Constant.StandardCode.SUFFIX, Constant.StandardCode.TITLE, Constant.StandardCode.NATIONALITY, Constant.StandardCode.RELIGION, Constant.StandardCode.FAMILY_RELATION, Constant.StandardCode.GENDER, Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER);
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
-                Methods.SetComboBoxField(cboEducationLevel, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.EDUCATION).ToList(), "StandardCodeName", "StandardCodeID");
-                Methods.SetComboBoxField(cboSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
-                Methods.SetComboBoxField(cboTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
-                Methods.SetComboBoxField(cboNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
-                Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
-                Methods.SetComboBoxField(cboFamilyRelation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.FAMILY_RELATION).ToList(), "StandardCodeName", "StandardCodeID");
-                Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboEducationLevel, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.EDUCATION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboSuffix, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.SUFFIX).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboTitle, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TITLE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboNationality, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.NATIONALITY).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboReligion, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.RELIGION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboFamilyRelation, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.FAMILY_RELATION).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboGender, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GENDER).ToList(), "StandardCodeName", "StandardCodeID");
 
-                List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID IN ('{0}','{1}')", Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY, Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY_OFFICE));
-                hdnHomeAddressPrefix.Value = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY).TagProperty;
-                hdnOfficeAddressPrefix.Value = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY_OFFICE).TagProperty;
+            List<StandardCode> lstSc = BusinessLayer.GetStandardCodeList(string.Format("StandardCodeID IN ('{0}','{1}')", Constant.AddressType.STUDENT_FAMILY, Constant.AddressType.STUDENT_FAMILY_OFFICE));
+            hdnHomeAddressPrefix.Value = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.AddressType.STUDENT_FAMILY).TagProperty;
+            hdnOfficeAddressPrefix.Value = lstSc.FirstOrDefault(p => p.StandardCodeID == Constant.AddressType.STUDENT_FAMILY_OFFICE).TagProperty;
 
-                String ID = Request.QueryString["id"];
-                vRegistration registration = BusinessLayer.GetvRegistrationList(string.Format("RegistrationID = {0}", ID)).FirstOrDefault();
-                hdnID.Value = registration.ProspectiveStudentID.ToString();
-                hdnStudentAddressID.Value = registration.AddressID.ToString();
-                hdnStudentStreet.Value = registration.StreetName;
-                hdnStudentCounty.Value = registration.County;
-                hdnStudentDistrict.Value = registration.District;
-                hdnStudentCity.Value = registration.City;
-                hdnStudentGCProvince.Value = registration.GCState;
-                hdnStudentProvince.Value = registration.State;
-                hdnStudentTelephoneNo.Value = registration.PhoneNo1;
-                hdnStudentZipCodeID.Value = registration.ZipCodeID.ToString();
-                hdnStudentZipCode.Value = registration.ZipCode;
-                BindGridView();
+            vStudent student = BusinessLayer.GetvStudentList(string.Format("StudentID = {0}", AppSession.StudentID)).FirstOrDefault();
+            hdnStudentAddressID.Value = student.AddressID.ToString();
+            hdnStudentStreet.Value = student.StreetName;
+            hdnStudentCounty.Value = student.County;
+            hdnStudentDistrict.Value = student.District;
+            hdnStudentCity.Value = student.City;
+            hdnStudentGCProvince.Value = student.GCState;
+            hdnStudentProvince.Value = student.State;
+            hdnStudentTelephoneNo.Value = student.PhoneNo1;
+            hdnStudentZipCodeID.Value = student.ZipCodeID.ToString();
+            hdnStudentZipCode.Value = student.ZipCode;
+            BindGridView();
 
-                #region  Data
-                Helper.SetControlEntrySetting(cboFamilyRelation, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(cboTitle, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true), "mpTrx");
-                Helper.SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, true), "mpTrx");
-                Helper.SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true), "mpTrx");
-                Helper.SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true), "mpTrx");
-                Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpTrx");
-                Helper.SetControlEntrySetting(cboEducationLevel, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true), "mpTrx");
-                #endregion
+            #region Personal Data
+            Helper.SetControlEntrySetting(cboFamilyRelation, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(cboTitle, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtFirstName, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtMiddleName, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtLastName, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtBirthPlace, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(txtDOB, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboSuffix, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(cboReligion, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboNationality, new ControlEntrySetting(true, true, true), "mpTrx");
+            Helper.SetControlEntrySetting(cboEducationLevel, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(cboGender, new ControlEntrySetting(true, true, true), "mpTrx");
+            #endregion
 
-                #region Trustee Address
-                Helper.SetControlEntrySetting(chkIsTrusteeAddressSameWithStudent, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeAddress, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeCounty, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeDistrict, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeCity, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(tacTrusteeProvince, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(tacTrusteeZipCode, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeTelephoneNo, new ControlEntrySetting(true, true, false), "mpTrx");
-                #endregion
+            #region Trustee Address
+            Helper.SetControlEntrySetting(chkIsTrusteeAddressSameWithStudent, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeAddress, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeCounty, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeDistrict, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeCity, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacTrusteeProvince, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacTrusteeZipCode, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeTelephoneNo, new ControlEntrySetting(true, true, false), "mpTrx");
+            #endregion
 
-                #region Trustee Company
-                Helper.SetControlEntrySetting(txtTrusteeJobOffice, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(cboTrusteeGCJob, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeOccupation, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeSalary, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeOfficeAddress, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeOfficeCounty, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeOfficeDistrict, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeOfficeCity, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(tacTrusteeOfficeProvince, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(tacTrusteeOfficeZipCode, new ControlEntrySetting(true, true, false), "mpTrx");
-                Helper.SetControlEntrySetting(txtTrusteeOfficeTelephoneNo, new ControlEntrySetting(true, true, false), "mpTrx");
-                #endregion
-            }
+            #region Trustee Company
+            Helper.SetControlEntrySetting(txtTrusteeJobOffice, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(cboTrusteeGCJob, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeOccupation, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeSalary, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeOfficeAddress, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeOfficeCounty, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeOfficeDistrict, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeOfficeCity, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacTrusteeOfficeProvince, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(tacTrusteeOfficeZipCode, new ControlEntrySetting(true, true, false), "mpTrx");
+            Helper.SetControlEntrySetting(txtTrusteeOfficeTelephoneNo, new ControlEntrySetting(true, true, false), "mpTrx");
+            #endregion
+        }
+
+        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
+        {
+            IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = false;
         }
 
         #region Html Getter
@@ -103,8 +107,8 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         #region Bind Grid View
         private void BindGridView()
         {
-            string filterExpression = string.Format("ProspectiveStudentID = {0} AND IsStudentTrustee = 1 AND IsDeleted = 0", hdnID.Value);
-            List<vProspectiveStudentFamily> lstEntity = BusinessLayer.GetvProspectiveStudentFamilyList(filterExpression);
+            string filterExpression = string.Format("StudentID = {0} AND IsStudentTrustee = 1 AND IsDeleted = 0", AppSession.StudentID);
+            List<vStudentFamily> lstEntity = BusinessLayer.GetvStudentFamilyList(filterExpression);
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -151,7 +155,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(ProspectiveStudentFamily entity, Address homeAddress, Address officeAddress)
+        private void ControlToEntity(StudentFamily entity, Address homeAddress, Address officeAddress)
         {
             entity.GCFamilyRelation = cboFamilyRelation.Value.ToString();
             entity.GCSalutation = "";
@@ -213,25 +217,25 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         private bool OnSaveAddRecordEntityDt(ref string errMessage)
         {
             IDbContext ctx = DbFactory.Configure(true);
-            ProspectiveStudentFamilyDao entityDao = new ProspectiveStudentFamilyDao(ctx);
+            StudentFamilyDao entityDao = new StudentFamilyDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
             bool result = true;
             try
             {
-                ProspectiveStudentFamily entity = new ProspectiveStudentFamily();
+                StudentFamily entity = new StudentFamily();
                 Address homeAddress = new Address();
                 Address officeAddress = new Address();
                 ControlToEntity(entity, homeAddress, officeAddress);
                 entity.IsStudentTrustee = true;
-                entity.ProspectiveStudentID = Convert.ToInt32(hdnID.Value);
+                entity.StudentID = AppSession.StudentID;
                 entity.OfficeAddressID = null;
                 entity.IsDeleted = false;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
 
-                entity.FamilyID = BusinessLayer.GetProspectiveStudentFamilyMaxID(ctx);
+                entity.FamilyID = BusinessLayer.GetStudentFamilyMaxID(ctx);
 
-                homeAddress.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY;
+                homeAddress.GCAddressType = Constant.AddressType.STUDENT_FAMILY;
                 homeAddress.AddressID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entity.FamilyID);
                 if (entity.IsHomeAddressSameWithStudent)
                     entity.HomeAddressID = hdnStudentAddressID.Value;
@@ -239,7 +243,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     entity.HomeAddressID = homeAddress.AddressID;
                 addressDao.Insert(homeAddress);
 
-                officeAddress.GCAddressType = Constant.AddressType.PROSPECTIVE_STUDENT_FAMILY_OFFICE;
+                officeAddress.GCAddressType = Constant.AddressType.STUDENT_FAMILY_OFFICE;
                 entity.OfficeAddressID = officeAddress.AddressID = string.Format("{0}{1}", hdnOfficeAddressPrefix.Value, entity.FamilyID);
                 addressDao.Insert(officeAddress);
 
@@ -258,18 +262,18 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             {
                 ctx.Close();
             }
-            return result;
+            return true;
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)
         {
             IDbContext ctx = DbFactory.Configure(true);
-            ProspectiveStudentFamilyDao entityDao = new ProspectiveStudentFamilyDao(ctx);
+            StudentFamilyDao entityDao = new StudentFamilyDao(ctx);
             AddressDao addressDao = new AddressDao(ctx);
             bool result = true;
             try
             {
-                ProspectiveStudentFamily entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
+                StudentFamily entity = entityDao.Get(Convert.ToInt32(hdnEntryID.Value));
                 string homeAddressID = string.Format("{0}{1}", hdnHomeAddressPrefix.Value, entity.FamilyID);
                 List<Address> lstOfficeAddress = BusinessLayer.GetAddressList(string.Format("AddressID IN ('{0}','{1}')", homeAddressID, entity.OfficeAddressID), ctx);
                 Address homeAddress = lstOfficeAddress.FirstOrDefault(p => p.AddressID == homeAddressID);
@@ -305,10 +309,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         {
             try
             {
-                ProspectiveStudentFamily entity = BusinessLayer.GetProspectiveStudentFamily(Convert.ToInt32(hdnEntryID.Value));
+                StudentFamily entity = BusinessLayer.GetStudentFamily(Convert.ToInt32(hdnEntryID.Value));
                 entity.IsDeleted = true;
                 entity.LastUpdatedDate = DateTime.Now;
-                BusinessLayer.UpdateProspectiveStudentFamily(entity);
+                BusinessLayer.UpdateStudentFamily(entity);
                 return true;
             }
             catch (Exception ex)

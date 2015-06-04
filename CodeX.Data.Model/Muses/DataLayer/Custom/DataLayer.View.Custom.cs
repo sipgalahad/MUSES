@@ -713,6 +713,22 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vJournalTemplateHd
+    public partial class vJournalTemplateHd
+    {
+        public String StatusDK
+        {
+            get
+            {
+                String result = "";
+                if (_TotalDebit < 100 && _TotalKredit < 100) result = String.Format("Debit dan Kredit tidak balance");
+                else if (_TotalDebit < 100) result = String.Format("Debit tidak balance");
+                else if (_TotalKredit < 100) result = String.Format("Kredit tidak balance");
+                return result;
+            }
+        }
+    }
+    #endregion
     #region vMarkTypeFormula
     public partial class vMarkTypeFormula
     {
