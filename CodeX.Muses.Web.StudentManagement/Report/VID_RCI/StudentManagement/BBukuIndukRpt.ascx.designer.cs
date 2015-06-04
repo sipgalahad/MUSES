@@ -31,6 +31,15 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReportBody;
         
         /// <summary>
+        /// divRBHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divRBHeader;
+        
+        /// <summary>
         /// divPersonal control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMedical;
+        
+        /// <summary>
+        /// divPastStudy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPastStudy;
         
         /// <summary>
         /// divParent control.
@@ -85,6 +103,42 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.WebControls.Repeater rptPersonality;
         
         /// <summary>
+        /// tdAchievemntArt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAchievemntArt;
+        
+        /// <summary>
+        /// tdAchievemntSport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAchievemntSport;
+        
+        /// <summary>
+        /// tdAchievemntOrg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAchievemntOrg;
+        
+        /// <summary>
+        /// tdAchievemntAcd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAchievemntAcd;
+        
+        /// <summary>
         /// rptAttendace control.
         /// </summary>
         /// <remarks>
@@ -92,6 +146,24 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptAttendace;
+        
+        /// <summary>
+        /// rptStudentProgress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptStudentProgress;
+        
+        /// <summary>
+        /// rptScholarship control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptScholarship;
         
         /// <summary>
         /// rptSchoolPeriod control.

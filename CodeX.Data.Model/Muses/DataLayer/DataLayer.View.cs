@@ -24244,7 +24244,7 @@ namespace CodeX.Data.Model
     #region vStudentScholarshipTransactionDt
     [Serializable]
     [Table(Name = "vStudentScholarshipTransactionDt")]
-    public class vStudentScholarshipTransactionDt
+    public partial class vStudentScholarshipTransactionDt
     {
         private Int32 _ID;
         private Int32 _TransactionID;
@@ -24252,6 +24252,7 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private String _Remarks;
         private Int32 _ScholarshipID;
+        private String _ScholarshipName;
         private Int32 _StudentID;
         private String _StudentCode;
         private String _StudentName;
@@ -24291,6 +24292,12 @@ namespace CodeX.Data.Model
         {
             get { return _ScholarshipID; }
             set { _ScholarshipID = value; }
+        }
+        [Column(Name = "ScholarshipName", DataType = "String")]
+        public String ScholarshipName
+        {
+            get { return _ScholarshipName; }
+            set { _ScholarshipName = value; }
         }
         [Column(Name = "StudentID", DataType = "Int32")]
         public Int32 StudentID
