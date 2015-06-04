@@ -114,7 +114,7 @@
 		                        <td>12.</td>
 		                        <td>Bahasa sehari-hari di rumah</td>
 		                        <td>:</td>
-		                        <td></td>
+		                        <td>{Language}</td>
 	                        </tr>
                         </table>
                     </div>
@@ -192,7 +192,7 @@
 		                        <td>16.</td>
 		                        <td>Jarak dari tempat tinggal kesekolah</td>
 		                        <td>:</td>
-		                        <td></td>
+		                        <td>{HomeDistance}</td>
 	                        </tr>
                             <tr>
 		                        <td>17.</td>
@@ -207,7 +207,7 @@
             <tr class="trReportBody">
                 <td valign="top">
                     <h3 style="font-weight:bold;">C. KETERANGAN KESEHATAN</h3>
-                    <div style="padding-left:10px;">
+                    <div style="padding-left:10px;" id="divMedical" runat="server">
                         <table cellpadding='0' cellspacing='0'>
                             <colgroup>
                                 <col width="20px" />
@@ -219,19 +219,19 @@
 		                        <td>18.</td>
 		                        <td>Berat badan</td>
 		                        <td>:</td>
-		                        <td></td>
+		                        <td>{StudentWeight}</td>
 	                        </tr>  
                             <tr>
 		                        <td>19.</td>
 		                        <td>Tinggi badan</td>
 		                        <td>:</td>
-		                        <td></td>
+		                        <td>{StudentHeight}</td>
 	                        </tr>
                             <tr>
 		                        <td>20.</td>
 		                        <td>Golongan darah</td>
 		                        <td>:</td>
-		                        <td></td>
+		                        <td>{BloodType}</td>
 	                        </tr>
                             <tr>
 		                        <td>21.</td>
@@ -735,45 +735,41 @@
                         <tr>
                             <td align="center" class="lblHeader">Komponen</td>
                             <td rowspan="3" colspan="2" align="center" class="lblHeader">Nilai SMP</td>
-                            <td colspan="8" align="center" class="lblHeader" id="tdTahunAjaran" runat="server">{TahunAjaranMulai}</td>
-                            <td colspan="8" align="center" class="lblHeader" id="tdTahunAjaran1" runat="server">{TahunAjaranMulai1}</td>
+                            <asp:Repeater runat="server" ID="rptSchoolPeriod" OnItemDataBound="rptSchoolPeriod_ItemDataBound">
+                                <ItemTemplate>
+                                    <td colspan="8" align="center" class="lblHeader"><%#Eval("SchoolPeriodName") %></td>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </tr>
                         <tr>
                             <td align="center" class="lblHeader">Kelas</td>
-                            <td colspan="8" align="center" class="lblHeader">{Grade1}/{Kelas1}</td>
-                            <td colspan="8" align="center" class="lblHeader">{Grade2}/{Kelas2}</td>
+                            <asp:Repeater runat="server" ID="rptSchoolPeriod1">
+                                <ItemTemplate>
+                                    <td colspan="8" align="center" class="lblHeader">{Grade1}/{Kelas1}</td>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </tr>
                         <tr>
                             <td align="center" class="lblHeader">Nilai</td>
-                            <td align="center" class="lblHeader">KKM</td>
-                            <td colspan="3" align="center" class="lblHeader">SMT-1</td>
-                            <td align="center" class="lblHeader">KKM</td>
-                            <td colspan="3" align="center" class="lblHeader">SMT-2</td>
-                            <td align="center" class="lblHeader">KKM</td>
-                            <td colspan="3" align="center" class="lblHeader">SMT-1</td>
-                            <td align="center" class="lblHeader">KKM</td>
-                            <td colspan="3" align="center" class="lblHeader">SMT-2</td>
+                            <asp:Repeater runat="server" ID="rptPeriodSection">
+                                <ItemTemplate>
+                                    <td align="center" class="lblHeader">KKM</td>
+                                    <td colspan="3" align="center" class="lblHeader"><%#Eval("PeriodSectionName") %></td>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </tr>
                         <tr>
                             <td align="center" class="lblHeader">Aspek</td>
                             <td align="center" class="lblHeader">Stl</td>
                             <td align="center" class="lblHeader">UP<br/>MP</td>
-                            <td align="center" class="lblHeader"></td>
-                            <td align="center" class="lblHeader">K</td>
-                            <td align="center" class="lblHeader">P</td>
-                            <td align="center" class="lblHeader">A</td>
-                            <td align="center" class="lblHeader"></td>
-                            <td align="center" class="lblHeader">K</td>
-                            <td align="center" class="lblHeader">P</td>
-                            <td align="center" class="lblHeader">A</td>
-                            <td align="center" class="lblHeader"></td>
-                            <td align="center" class="lblHeader">K</td>
-                            <td align="center" class="lblHeader">P</td>
-                            <td align="center" class="lblHeader">A</td>
-                            <td align="center" class="lblHeader"></td>
-                            <td align="center" class="lblHeader">K</td>
-                            <td align="center" class="lblHeader">P</td>
-                            <td align="center" class="lblHeader">A</td>
+                            <asp:Repeater runat="server" ID="rptPeriodSection1">
+                                <ItemTemplate>
+                                    <td align="center" class="lblHeader"></td>
+                                    <td align="center" class="lblHeader">K</td>
+                                    <td align="center" class="lblHeader">P</td>
+                                    <td align="center" class="lblHeader">A</td>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </tr>
                         <asp:Repeater runat="server" ID="rptSubject" OnItemDataBound="rptSubject_ItemDataBound">
                             <ItemTemplate>

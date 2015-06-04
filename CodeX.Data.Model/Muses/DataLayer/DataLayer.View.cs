@@ -15972,7 +15972,9 @@ namespace CodeX.Data.Model
         private String _PhoneNo1;
         private String _PictureFileName;
         private String _GCBloodType;
+        private String _BloodType;
         private String _GCLanguage;
+        private String _Language;
         private Decimal _HomeDistance;
         private String _MedicalHistory;
 
@@ -16198,11 +16200,23 @@ namespace CodeX.Data.Model
             get { return _GCBloodType; }
             set { _GCBloodType = value; }
         }
+        [Column(Name = "BloodType", DataType = "String")]
+        public String BloodType
+        {
+            get { return _BloodType; }
+            set { _BloodType = value; }
+        }
         [Column(Name = "GCLanguage", DataType = "String")]
         public String GCLanguage
         {
             get { return _GCLanguage; }
             set { _GCLanguage = value; }
+        }
+        [Column(Name = "Language", DataType = "String")]
+        public String Language
+        {
+            get { return _Language; }
+            set { _Language = value; }
         }
         [Column(Name = "HomeDistance", DataType = "Decimal")]
         public Decimal HomeDistance
@@ -22310,6 +22324,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _StudentID;
         private String _StudentCode;
+        private Int32 _RegistrationID;
         private String _NationalStudentNo;
         private String _VirtualAccountNo;
         private String _SiteID;
@@ -22368,6 +22383,12 @@ namespace CodeX.Data.Model
         {
             get { return _StudentCode; }
             set { _StudentCode = value; }
+        }
+        [Column(Name = "RegistrationID", DataType = "Int32")]
+        public Int32 RegistrationID
+        {
+            get { return _RegistrationID; }
+            set { _RegistrationID = value; }
         }
         [Column(Name = "NationalStudentNo", DataType = "String")]
         public String NationalStudentNo

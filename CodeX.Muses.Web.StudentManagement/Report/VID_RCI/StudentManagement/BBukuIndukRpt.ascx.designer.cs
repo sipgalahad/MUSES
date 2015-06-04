@@ -49,6 +49,15 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAddress;
         
         /// <summary>
+        /// divMedical control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMedical;
+        
+        /// <summary>
         /// divParent control.
         /// </summary>
         /// <remarks>
@@ -85,13 +94,40 @@ namespace CodeX.Muses.Web.StudentManagement.Report {
         protected global::System.Web.UI.WebControls.Repeater rptAttendace;
         
         /// <summary>
-        /// tdTahunAjaran1 control.
+        /// rptSchoolPeriod control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdTahunAjaran1;
+        protected global::System.Web.UI.WebControls.Repeater rptSchoolPeriod;
+        
+        /// <summary>
+        /// rptSchoolPeriod1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptSchoolPeriod1;
+        
+        /// <summary>
+        /// rptPeriodSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPeriodSection;
+        
+        /// <summary>
+        /// rptPeriodSection1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPeriodSection1;
         
         /// <summary>
         /// rptSubject control.

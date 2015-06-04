@@ -20,15 +20,18 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         private Int32 StudentID = 0;
         private Int32 ClassSubjectID = 0;
 
-        List<vClassSubjectTask> lstClassSubjectTask = null;
+        List<vClassSubject> lstClassSubject = null;
+        List<SchoolPeriod> lstSchoolPeriod = null;
         List<PeriodSection> lstPeriodSection = null;
+        
+        List<vClassSubjectTask> lstClassSubjectTask = null;
         List<vClassStudentSubjectMark> lstNilai = null;
         List<OrganizationHd> lstOrganizationHd = new List<OrganizationHd>();
         List<vOrganizationDt> lstOrganizationDt = new List<vOrganizationDt>();
         List<vOrganizationDtStudent> lstOrganizationDtStudent = new List<vOrganizationDtStudent>();
         List<vClassStudent> lstClassStudent = new List<vClassStudent>();
         List<ClassStudentMark> lstClassStudentMark = null;
-        List<vClassSubject> lstClassSubject = null;
+        
         List<StandardCode> lstStandardCode = null;
 
         String lstClassSubjectID = "";
@@ -64,22 +67,33 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             //    lstClassStudentMark = BusinessLayer.GetClassStudentMarkList(string.Format("SchoolClassID = {0} AND PeriodSectionID = {1}", SchoolClassID, PeriodSectionID));
             //    lstPeriodSection = BusinessLayer.GetPeriodSectionList(String.Format("SchoolPeriodID = {0} AND GCPeriodSectionStatus != '{0}'", SchoolPeriodID,Constant.SchoolPeriodStatus.VOID));
             //}
-            
-            //String lstSchoolClassID = String.Join(",", lstClassStudent.GroupBy(s => s.SchoolClassID).Select(x => x.Key));
-            //lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolPeriodID = {0} AND SchoolClassID IN ({1}) AND IsDeleted = 0 AND ParentID IS NULL", SchoolPeriodID, lstSchoolClassID));
-            //lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
-            //lstOrganizationHd = BusinessLayer.GetOrganizationHdList(string.Format("SchoolPeriodID = {0} AND IsAllStudentAsMember = 1 AND IsDeleted = 0", SchoolPeriodID));
 
             //rptStudent.DataSource = lstStudentID;
             //rptStudent.DataBind();
             #endregion
 
             StudentID = Convert.ToInt32(param[0]);
+            
+            lstClassStudent = BusinessLayer.GetvClassStudentList(String.Format("StudentID = {0} OR (GCClassStudyType = '{1}' AND StudentID = {0})", param[0], Constant.ClassStudyType.EXTRACURRICULAR));
+
+            String lstSchoolClassID = String.Join(",", lstClassStudent.GroupBy(s => s.SchoolClassID).Select(x => x.Key));
+            lstClassSubject = BusinessLayer.GetvClassSubjectList(String.Format("SchoolClassID IN ({0}) AND IsDeleted = 0 AND ParentID IS NULL", lstSchoolClassID));
+            lstClassSubjectID = String.Join(",", lstClassSubject.Select(x => x.ClassSubjectID));
+
+            lstSchoolPeriod = BusinessLayer.GetSchoolPeriodList(String.Format("SchoolPeriodID IN ({0})", String.Join(",", lstClassSubject.Select(x => x.SchoolPeriodID))));
+            lstPeriodSection = BusinessLayer.GetPeriodSectionList(String.Format("SchoolPeriodID IN ({0}) AND GCPeriodSectionStatus != '{0}'", String.Join(",",lstSchoolPeriod.Select(x => x.SchoolPeriodID)), Constant.SchoolPeriodStatus.VOID));
+
+            Int32 MaxSchoolPeriodID = lstClassSubject.Select(x => x.SchoolPeriodID).Max();
+            Int32 MaxPeriodSectionID = lstClassSubject.Where(x => x.SchoolPeriodID == MaxSchoolPeriodID).Select(s => s.PeriodSectionID).Max();
+            
+            //lstOrganizationHd = BusinessLayer.GetOrganizationHdList(string.Format("SchoolPeriodID = {0} AND IsAllStudentAsMember = 1 AND IsDeleted = 0", SchoolPeriodID));
 
             #region Personal
             vStudent st = BusinessLayer.GetvStudentList(String.Format("StudentID = {0}", StudentID))[0];
             lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID IN ('{0}','{1}','{2}','{3}','{4}')", Constant.StandardCode.GENDER, Constant.StandardCode.RELIGION,
                 Constant.StandardCode.NATIONALITY, Constant.StandardCode.FAMILY_RELATION, Constant.StandardCode.EDUCATION));
+            
+            vProspectiveStudent ps = BusinessLayer.GetvProspectiveStudentList(String.Format("ProspectiveStudentID IN (SELECT ProspectiveStudentID FROM Registration WHERE RegistrationID = {0})", st.RegistrationID))[0];
 
             string text = divPersonal.InnerHtml;
             text = text.Replace("{Fullname}", st.StudentName);
@@ -87,9 +101,10 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             text = text.Replace("{Gender}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == st.GCGender).StandardCodeName);
             text = text.Replace("{CityOfBirth}", st.CityOfBirth);
             text = text.Replace("{DateOfBirth}", st.DateOfBirth.ToString(Constant.FormatString.DATE_FORMAT));
-            text = text.Replace("{Religion}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == st.GCReligion).StandardCodeName);
-            text = text.Replace("{Nationality}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == st.GCNationality).StandardCodeName);
-
+            text = text.Replace("{Religion}", st.Religion);
+            text = text.Replace("{Nationality}", st.Nationality);
+            text = text.Replace("{Language}", ps.Language);
+            
             List<StudentFamily> lstFamily = BusinessLayer.GetStudentFamilyList(String.Format("StudentID = {0}", StudentID));
             int sibling = lstFamily.Where(x => x.GCFamilyRelation == Constant.FamilyRelation.KAKAK || x.GCFamilyRelation == Constant.FamilyRelation.ADIK).Count();
             if (sibling != 0)
@@ -104,7 +119,14 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             text = text.Replace("{StreetName}", st.StreetName);
             text = text.Replace("{District}", st.District);
             text = text.Replace("{HomePhone}", st.PhoneNo1);
+            text = text.Replace("{HomeDistance}", ps.HomeDistance.ToString());
             divAddress.InnerHtml = text;
+            #endregion
+
+            #region KESEHATAN
+            text = divMedical.InnerHtml;
+            text = text.Replace("{BloodType}", ps.BloodType);
+            divMedical.InnerHtml = text;
             #endregion
 
             #region KETERANGAN ORANG TUA
@@ -211,7 +233,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             #region INTELEGENSI DAN KEGEMARAN
             if (lstClassSubjectID != "")
             {
-                rptPersonality.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.PERSONALITY);
+                rptPersonality.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.PERSONALITY && x.PeriodSectionID == MaxPeriodSectionID && x.PeriodSectionID == MaxPeriodSectionID);
                 rptPersonality.DataBind();
             }
             #endregion
@@ -227,13 +249,31 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             #region PRESTASI BELAJAR
             if (lstClassSubjectID != "")
             {
+                rptSchoolPeriod.DataSource = lstSchoolPeriod;
+                rptSchoolPeriod.DataBind();
+                
+                rptSchoolPeriod1.DataSource = lstSchoolPeriod;
+                rptSchoolPeriod1.DataBind();
+
                 rptSubject.DataSource = lstClassSubject.Where(x => x.SubjectGCClassStudyType == Constant.ClassStudyType.REGULAR);
                 rptSubject.DataBind();
             }
             #endregion
         }
-        HtmlTableCell tdTahunAjaran = null;
 
+        protected void rptSchoolPeriod_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if(e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
+            {
+                SchoolPeriod sp = e.Item.DataItem as SchoolPeriod;
+                rptPeriodSection.DataSource = lstPeriodSection.Where(x => x.SchoolPeriodID == sp.SchoolPeriodID);
+                rptPeriodSection.DataBind();
+
+                rptPeriodSection1.DataSource = lstPeriodSection.Where(x => x.SchoolPeriodID == sp.SchoolPeriodID);
+                rptPeriodSection1.DataBind();
+            }
+        }
+        
         protected void rptStudent_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
@@ -246,7 +286,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 HtmlGenericControl divParent = (HtmlGenericControl)e.Item.FindControl("divParent");
                 HtmlGenericControl divWali = (HtmlGenericControl)e.Item.FindControl("divWali");
 
-                tdTahunAjaran = (HtmlTableCell)e.Item.FindControl("tdTahunAjaran");
+                //tdTahunAjaran = (HtmlTableCell)e.Item.FindControl("tdTahunAjaran");
 
                 Repeater rptPersonality = (Repeater)e.Item.FindControl("rptPersonality");
                 Repeater rptAttendace = (Repeater)e.Item.FindControl("rptAttendace");
@@ -295,22 +335,24 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         }
         
         decimal passingGrade = 0;
+        Int32 SubjectID = 0;
         protected void rptSubject_ItemDataBound(object sender, RepeaterItemEventArgs e) 
         {
             if (e.Item.ItemType == System.Web.UI.WebControls.ListItemType.AlternatingItem || e.Item.ItemType == System.Web.UI.WebControls.ListItemType.Item)
             {
                 vClassSubject entity = e.Item.DataItem as vClassSubject;
                 vClassStudent classStudent = lstClassStudent.FirstOrDefault(x => x.StudentID == StudentID);
-                
+
+                //HtmlTableCell tdTahunAjaran = e.Item.FindControl("tdTahunAjaran") as HtmlTableCell;
                 Repeater rptSbjPerPeriod = e.Item.FindControl("rptSbjPerPeriod") as Repeater;
 
                 if (classStudent != null) 
                 {
-                    tdTahunAjaran.InnerHtml = classStudent.SchoolPeriodName;
+                    //tdTahunAjaran.InnerHtml = classStudent.SchoolPeriodName;
                     //tdClass.InnerHtml = String.Format("{0}", classStudent.SchoolClassName);
                 }
 
-                ClassSubjectID = entity.ClassSubjectID;
+                SubjectID = entity.SubjectID;
                 passingGrade = entity.PassingGrade;
 
                 rptSbjPerPeriod.DataSource = lstPeriodSection;
@@ -321,22 +363,22 @@ namespace CodeX.Muses.Web.StudentManagement.Report
         protected void rptSbjPerPeriod_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             PeriodSection ps = e.Item.DataItem as PeriodSection;
+            vClassSubject cs = lstClassSubject.FirstOrDefault(x => x.SubjectID == SubjectID && x.PeriodSectionID == ps.PeriodSectionID);
 
-            lstNilai = BusinessLayer.GetvClassStudentSubjectMarkList(String.Format("StudentID = {0} AND PeriodSectionID = {1}", StudentID, ps.PeriodSectionID)).ToList();
-
-            List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == ClassSubjectID).ToList();
+            lstNilai = BusinessLayer.GetvClassStudentSubjectMarkList(String.Format("StudentID = {0} AND PeriodSectionID = {1} AND ClassSubjectID = {2}", StudentID, ps.PeriodSectionID)).ToList();
+            //List<vClassStudentSubjectMark> lstMark = lstNilai.Where(x => x.ClassSubjectID == ClassSubjectID).ToList();
 
             HtmlTableCell tdPassingGrade = e.Item.FindControl("tdPassingGrade") as HtmlTableCell;
             HtmlTableCell tdTheory = e.Item.FindControl("tdTheory") as HtmlTableCell;
             HtmlTableCell tdPractice = e.Item.FindControl("tdPractice") as HtmlTableCell;
             HtmlTableCell tdAffective = e.Item.FindControl("tdAffective") as HtmlTableCell;
 
-            if (passingGrade != 0)
-                tdPassingGrade.InnerHtml = passingGrade.ToString("N");
+            if (cs != null)
+                tdPassingGrade.InnerHtml = cs.PassingGrade.ToString("N");
             else
                 tdPassingGrade.InnerHtml = "-";
 
-            vClassStudentSubjectMark theoryMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
+            vClassStudentSubjectMark theoryMark = lstNilai.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.THEORY);
             if (theoryMark != null && theoryMark.Mark > 0)
             {
                 tdTheory.InnerHtml = theoryMark.Mark.ToString("N");
@@ -345,7 +387,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             {
                 tdTheory.InnerHtml = "-";
             }
-            vClassStudentSubjectMark practiceMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.PRACTICE);
+            vClassStudentSubjectMark practiceMark = lstNilai.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.PRACTICE);
             if (practiceMark != null && practiceMark.Mark > 0)
             {
                 tdPractice.InnerHtml = practiceMark.Mark.ToString("N");
@@ -355,7 +397,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 tdPractice.InnerHtml = "-";
             }
 
-            vClassStudentSubjectMark affectiveMark = lstMark.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
+            vClassStudentSubjectMark affectiveMark = lstNilai.FirstOrDefault(p => p.GCStudentMarkGroup == Constant.StudentMarkGroup.AFFECTIVE);
             if (affectiveMark != null)
                 tdAffective.InnerHtml = affectiveMark.DescriptionMark;
             else
