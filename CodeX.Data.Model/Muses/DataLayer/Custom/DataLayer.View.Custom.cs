@@ -2082,6 +2082,20 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vStudentScholarshipTransactionDt
+    public partial class vStudentScholarshipTransactionDt
+    {
+        public String StartingDateInString
+        {
+            get { return _StartingDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+
+        public String StartingDateInYear 
+        {
+            get { return _StartingDate.ToString("yyyy"); }
+        }
+    }
+    #endregion
     #region vSupplier
     public partial class vSupplier
     {

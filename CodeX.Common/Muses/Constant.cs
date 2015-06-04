@@ -80,9 +80,26 @@ namespace CodeX.Common
             public const string ACTIVE = "MS006^001";
         }
 
+        public static class AchievementType
+        {
+            public const string AKADEMIS = "MS019^001";
+            public const string KESENIAN = "MS019^002";
+            public const string OLAHRAGA = "MS019^003";
+        }
+
         public static class AbsenceReason
         {
             public const string OTHER = "MS032^999";
+        }
+
+        public static class SchoolTypeName 
+        { 
+            public const string TK = "MS010^001";
+            public const string SD = "MS010^002";
+            public const string SMP = "MS010^003";
+            public const string SMA = "MS010^004";
+            public const string UNIVERSITAS = "MS010^005";
+            public const string NON_FORMAL = "MS010^009";
         }
 
         public static class StudentMoveOutReason
