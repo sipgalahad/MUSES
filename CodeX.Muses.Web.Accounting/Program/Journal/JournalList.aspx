@@ -130,7 +130,7 @@
             $tr = $(this).closest('tr');
             var id = $tr.find('.keyField').html();
             var url = ResolveUrl("~/Program/Journal/JournalListDtCtl.ascx");
-            openUserControlPopup(url, id, 'Detail Transaksi Jurnal', 1000, 520);
+            openUserControlPopup(url, id, 'Detail Transaksi Jurnal', 1200, 520);
         });
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {

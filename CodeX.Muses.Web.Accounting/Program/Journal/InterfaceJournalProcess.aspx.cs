@@ -11,12 +11,15 @@ using CodeX.Data.Core.Dal;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Data;
 using CodeX.Common;
+using System.Web.UI.HtmlControls;
 
 namespace CodeX.Muses.Web.Accounting.Program
 {
     public partial class InterfaceJournalProcess : BasePageTrx
     {
         protected int PageCount = 1;
+        protected int RowCount = 1;
+        protected int RowCountPerPage = 1;
         protected int CurrPage = 1;
         public override string OnGetMenuCode()
         {
@@ -31,7 +34,8 @@ namespace CodeX.Muses.Web.Accounting.Program
         protected int minDate = -1;
         protected override void InitializeDataControl()
         {
-            txtFromJournalDate.Text = DateTime.Today.AddDays(-7).ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            hdnDefaultFromJournalDate.Value = BusinessLayer.GetSiteParameter(AppSession.UserLogin.SiteID, Constant.SiteParameter.DEFAULT_INTERFACE_JOURNAL_START_DATE).ParameterValue;
+
             txtToJournalDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
             vGLTransactionHd entity = BusinessLayer.GetvGLTransactionHd(string.Format("TransactionCode = '{0}'", Constant.TransactionCode.JOURNAL_MEMORIAL_IKHTISAR), 0, "JournalDate DESC");
@@ -44,10 +48,12 @@ namespace CodeX.Muses.Web.Accounting.Program
             Methods.SetRadioButtonListField<StandardCode>(rblJournalGroup, lstStandardCode, "StandardCodeName", "StandardCodeID");
             rblJournalGroup.SelectedIndex = 0;
 
-            BindGridView(CurrPage, true, ref PageCount);
+            RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
+            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
-        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
+        List<vGLTransactionHdPerTransactionCode> lstMaxJournalDate = null;
+        private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
             string filterExpression = "";
             string GCJournalGroup = rblJournalGroup.SelectedValue;
@@ -62,31 +68,52 @@ namespace CodeX.Muses.Web.Accounting.Program
 
             if (isCountPageCount)
             {
-                int rowCount = BusinessLayer.GetTransactionTypeRowCount(filterExpression);
+                rowCount = BusinessLayer.GetTransactionTypeRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
             List<TransactionType> lstEntity = BusinessLayer.GetTransactionTypeList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex);
+            string lstTransactionCode = string.Join(",", lstEntity.Select(p => string.Format("'{0}'", p.TransactionCode)).ToList());
+            lstMaxJournalDate = BusinessLayer.GetvGLTransactionHdPerTransactionCodeList(string.Format("TransactionCode IN ({0})", lstTransactionCode));
+
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
+
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                TransactionType entity = (TransactionType)e.Row.DataItem;
+                vGLTransactionHdPerTransactionCode maxJournalDate = lstMaxJournalDate.FirstOrDefault(p => p.TransactionCode == entity.TransactionCode);
+                HtmlInputHidden hdnLastJournalDate = (HtmlInputHidden)e.Row.FindControl("hdnLastJournalDate");
+                if (maxJournalDate != null)
+                {
+                    HtmlGenericControl divLastJournalDate = (HtmlGenericControl)e.Row.FindControl("divLastJournalDate");
+                    hdnLastJournalDate.Value = divLastJournalDate.InnerHtml = maxJournalDate.MaxJournalDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                }
+                else
+                    hdnLastJournalDate.Value = hdnDefaultFromJournalDate.Value;
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             int pageCount = 1;
+            int rowCount = 1;
             string result = "";
             if (e.Parameter != null && e.Parameter != "")
             {
                 string[] param = e.Parameter.Split('|');
                 if (param[0] == "changepage")
                 {
-                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount);
+                    BindGridView(Convert.ToInt32(param[1]), false, ref pageCount, ref rowCount);
                     result = "changepage";
                 }
                 else // refresh
                 {
-                    BindGridView(1, true, ref pageCount);
-                    result = "refresh|" + pageCount;
+                    BindGridView(1, true, ref pageCount, ref rowCount);
+                    result = string.Format("refresh|{0}|{1}", pageCount, rowCount);
                 }
             }
 
@@ -99,7 +126,7 @@ namespace CodeX.Muses.Web.Accounting.Program
             try
             {
                 string transactionCode = hdnID.Value;
-                DateTime fromJournalDate =  Helper.GetDatePickerValue(txtFromJournalDate);
+                DateTime fromJournalDate = Helper.GetDatePickerValue(hdnFromJournalDate.Value);
                 DateTime toJournalDate =  Helper.GetDatePickerValue(txtToJournalDate);
                 bool isAllowSave = true;
                 if (hdnLastPostingDate.Value != "")

@@ -9480,6 +9480,28 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLTransactionHdPerTransactionCode
+    [Serializable]
+    [Table(Name = "vGLTransactionHdPerTransactionCode")]
+    public class vGLTransactionHdPerTransactionCode
+    {
+        private String _TransactionCode;
+        private DateTime _MaxJournalDate;
+
+        [Column(Name = "TransactionCode", DataType = "String")]
+        public String TransactionCode
+        {
+            get { return _TransactionCode; }
+            set { _TransactionCode = value; }
+        }
+        [Column(Name = "MaxJournalDate", DataType = "DateTime")]
+        public DateTime MaxJournalDate
+        {
+            get { return _MaxJournalDate; }
+            set { _MaxJournalDate = value; }
+        }
+    }
+    #endregion
     #region vGLWarehouseProductLineAccount
     [Serializable]
     [Table(Name = "vGLWarehouseProductLineAccount")]

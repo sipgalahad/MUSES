@@ -19,17 +19,12 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
             var grd = new customGridView();
             grd.init('<%=grdView.ClientID %>', '<%=hdnID.ClientID %>', '<%=pnlView.ClientID %>', cbpView, 'paging');
 
-            setDatePicker('<%=txtFromJournalDate.ClientID %>');
-            $('#<%=txtFromJournalDate.ClientID %>').datepicker('option', 'maxDate', '0');
-
             setDatePicker('<%=txtToJournalDate.ClientID %>');
-            $('#<%=txtToJournalDate.ClientID %>').datepicker('option', 'maxDate', '0');
+            $('#<%=txtToJournalDate.ClientID %>').datepicker('option', 'maxDate', '-1');
 
             var minDate = parseInt('<%=minDate %>');
-            if (minDate > -1) {
-                $('#<%=txtFromJournalDate.ClientID %>').datepicker('option', 'minDate', '-' + minDate);    
-                $('#<%=txtToJournalDate.ClientID %>').datepicker('option', 'minDate', '-' + minDate);    
-            }
+            if (minDate > -1)
+                $('#<%=txtToJournalDate.ClientID %>').datepicker('option', 'minDate', '-' + minDate);
 
             $("#<%=rblJournalGroup.ClientID%> input").change(function () {
                 cbpView.PerformCallback('refresh');
@@ -49,10 +44,14 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
 
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
+        var rowCount = parseInt('<%=RowCount %>');
+        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
         var currPage = parseInt('<%=CurrPage %>');
         $(function () {
+            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
             setPaging($("#paging"), pageCount, function (page) {
                 cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
             }, null, currPage);
         });
 
@@ -62,11 +61,16 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
+                var rowCount = parseInt(param[2]);
                 if (pageCount > 0)
                     $('#<%=grdView.ClientID %> tr:eq(1)').click();
+                else
+                    $('#<%=hdnID.ClientID %>').val('');
 
+                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
                     cbpView.PerformCallback('changepage|' + page);
+                    setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
             }
             else
@@ -82,29 +86,18 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" value="" id="hdnLastPostingDate" runat="server" />
+    <input type="hidden" value="" id="hdnFromJournalDate" runat="server" />
+    <input type="hidden" value="" id="hdnDefaultFromJournalDate" runat="server" />
     <style type="text/css">
         .rblJournalGroup input[type="radio"]            { margin-left: 40px; margin-right: 1px; }
     </style>
     <table class="tblContentArea">
         <colgroup>
-            <col style="width: 80px" />
+            <col style="width: 200px" />
         </colgroup>
         <tr>
-            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal")%></label></td>
-            <td>
-                <table cellpadding="0" cellspacing="0">
-                    <colgroup>
-                        <col style="width:145px"/>
-                        <col style="width:3px"/>
-                        <col style="width:145px"/>
-                    </colgroup>
-                    <tr>
-                        <td><asp:TextBox ID="txtFromJournalDate" Width="120px" CssClass="datepicker" runat="server" /></td>
-                        <td><%=GetLabel("s/d") %></td>
-                        <td><asp:TextBox ID="txtToJournalDate" Width="120px" CssClass="datepicker" runat="server" /></td>
-                    </tr>
-                </table>
-            </td>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Proses s/d tanggal")%></label></td>
+            <td><asp:TextBox ID="txtToJournalDate" Width="120px" CssClass="datepicker" runat="server" /></td>
         </tr>
         <tr>
             <td colspan="2">
@@ -121,10 +114,16 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
                         <PanelCollection>
                             <dx:PanelContent ID="PanelContent1" runat="server">
                                 <asp:Panel runat="server" ID="pnlView" CssClass="pnlContainerGrid">
-                                    <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                                    <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                         <Columns>
                                             <asp:BoundField DataField="TransactionCode" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="TransactionName" HeaderText="Transaksi" />
+                                            <asp:TemplateField HeaderStyle-Width="180px" HeaderStyle-CssClass="thCenter" HeaderText="Tanggal Terakhir Proses" ItemStyle-HorizontalAlign="Center">
+                                                <ItemTemplate>
+                                                    <div id="divLastJournalDate" class="divLastJournalDate" runat="server"></div>
+                                                    <input type="hidden" id="hdnLastJournalDate" class="hdnLastJournalDate" runat="server" />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:HyperLinkField HeaderText="Lihat Setting" Text="Lihat Setting" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkViewSetting" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="120px" />
                                         </Columns>
                                         <EmptyDataTemplate>
@@ -136,6 +135,7 @@ CodeBehind="InterfaceJournalProcess.aspx.cs" Inherits="CodeX.Muses.Web.Accountin
                         </PanelCollection>
                     </dxcp:ASPxCallbackPanel>    
                     <div class="containerPaging">
+                        <div class="divInformationNumEntries" id="informationNumEntries"></div>
                         <div class="wrapperPaging">
                             <div id="paging"></div>
                         </div>

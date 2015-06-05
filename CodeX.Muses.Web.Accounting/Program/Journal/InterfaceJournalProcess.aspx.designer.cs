@@ -40,13 +40,22 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnLastPostingDate;
         
         /// <summary>
-        /// txtFromJournalDate control.
+        /// hdnFromJournalDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFromJournalDate;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFromJournalDate;
+        
+        /// <summary>
+        /// hdnDefaultFromJournalDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDefaultFromJournalDate;
         
         /// <summary>
         /// txtToJournalDate control.

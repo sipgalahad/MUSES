@@ -3209,7 +3209,7 @@ namespace CodeX.Data.Model
             try
             {
                 DbHelper helper = new DbHelper(typeof(vGLSetting));
-                ctx.CommandText = helper.GetRowIndex(filterExpression, "ID", keyValue, orderByExpression);
+                ctx.CommandText = helper.GetRowIndex(filterExpression, "GLSettingCode", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
             }
@@ -3447,6 +3447,30 @@ namespace CodeX.Data.Model
             if (result.Count > 0)
                 return result[0];
             return null;
+        }
+        #endregion
+        #region vGLTransactionHdPerTransactionCode
+        public static List<vGLTransactionHdPerTransactionCode> GetvGLTransactionHdPerTransactionCodeList(string filterExpression)
+        {
+            List<vGLTransactionHdPerTransactionCode> result = new List<vGLTransactionHdPerTransactionCode>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vGLTransactionHdPerTransactionCode));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vGLTransactionHdPerTransactionCode)helper.IDataReaderToObject(reader, new vGLTransactionHdPerTransactionCode()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
         #endregion
         #region vGLWarehouseProductLineAccount
