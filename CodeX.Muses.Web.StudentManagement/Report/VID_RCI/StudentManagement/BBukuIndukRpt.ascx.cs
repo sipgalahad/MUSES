@@ -70,7 +70,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
             text = text.Replace("{Nationality}", st.Nationality);
             text = text.Replace("{Language}", ps.Language);
             
-            List<StudentFamily> lstFamily = BusinessLayer.GetStudentFamilyList(String.Format("StudentID = {0}", StudentID));
+            List<vStudentFamily> lstFamily = BusinessLayer.GetvStudentFamilyList(String.Format("StudentID = {0}", StudentID));
             int sibling = lstFamily.Where(x => x.GCFamilyRelation == Constant.FamilyRelation.KAKAK || x.GCFamilyRelation == Constant.FamilyRelation.ADIK).Count();
             if (sibling != 0)
                 text = text.Replace("{Sibling}", sibling.ToString());
@@ -116,8 +116,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
             #region KETERANGAN ORANG TUA
             text = divParent.InnerHtml;
-            StudentFamily father = lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.FATHER);
-            StudentFamily mother = lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.MOTHER);
+            vStudentFamily father = lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.FATHER);
+            vStudentFamily mother = lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.MOTHER);
 
             if (father != null)
             {
@@ -127,7 +127,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{FatherEducationLevel}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == father.GCEducationLevel).StandardCodeName);
                 text = text.Replace("{FatherJob}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == father.GCJob).StandardCodeName);
                 text = text.Replace("{FatherSalary}", father.Salary.ToString("N"));
-                //text = text.Replace("{FatherAddress}", "-");
+                text = text.Replace("{FatherAddress}", father.HomeStreetName);
             }
             else
             {
@@ -148,7 +148,7 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{MotherEducationLevel}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == mother.GCEducationLevel).StandardCodeName);
                 text = text.Replace("{MotherJob}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == mother.GCJob).StandardCodeName);
                 text = text.Replace("{MotherSalary}", mother.Salary.ToString("N"));
-                //text = text.Replace("{MotherAddress}", "-");
+                text = text.Replace("{MotherAddress}", mother.HomeStreetName);
             }
             else
             {
@@ -165,8 +165,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
 
             #region KETERANGAN WALI
             text = divWali.InnerHtml;
-            StudentFamily WaliP = null;// lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.UNCLE);
-            StudentFamily WaliW = null;// lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.AUNT);
+            vStudentFamily WaliP = lstFamily.FirstOrDefault(x => x.IsStudentTrustee == true && x.GCGender == Constant.Gender.MALE);
+            vStudentFamily WaliW = lstFamily.FirstOrDefault(x => x.IsStudentTrustee == true && x.GCGender == Constant.Gender.FEMALE);
 
             if (WaliP != null)
             {
@@ -176,8 +176,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{WaliPEducationLevel}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == WaliP.GCEducationLevel).StandardCodeName);
                 text = text.Replace("{WaliPJob}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == WaliP.GCJob).StandardCodeName);
                 text = text.Replace("{WaliPSalary}", WaliP.Salary.ToString("N"));
-                //text = text.Replace("{WaliPAddress}", "-");
-                //text = text.Replace("{WaliPRelationship}", "-");
+                text = text.Replace("{WaliPAddress}", WaliP.HomeStreetName);
+                text = text.Replace("{WaliPRelationship}", WaliP.FamilyRelation);
             }
             else
             {
@@ -198,8 +198,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 text = text.Replace("{WaliWEducationLevel}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == WaliW.GCEducationLevel).StandardCodeName);
                 text = text.Replace("{WaliWJob}", lstStandardCode.FirstOrDefault(x => x.StandardCodeID == WaliW.GCJob).StandardCodeName);
                 text = text.Replace("{WaliWSalary}", WaliW.Salary.ToString("N"));
-                //text = text.Replace("{WaliPAddress}", "-");
-                //text = text.Replace("{WaliWRelationship}", WaliW.Salary.ToString("N"));
+                text = text.Replace("{WaliPAddress}", WaliW.HomeStreetName);
+                text = text.Replace("{WaliWRelationship}", WaliW.FamilyRelation);
             }
             else
             {

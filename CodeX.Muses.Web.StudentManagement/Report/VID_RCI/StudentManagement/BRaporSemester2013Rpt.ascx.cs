@@ -157,6 +157,8 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                 List<vStudentFamily> lstFamily = BusinessLayer.GetvStudentFamilyList(String.Format("StudentID = {0} AND GCFamilyRelation IN ('{0}','{1}') ", StudentID,Constant.FamilyRelation.FATHER, Constant.FamilyRelation.MOTHER));
                 vStudentFamily father = lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.FATHER);
                 vStudentFamily mother = lstFamily.FirstOrDefault(x => x.GCFamilyRelation == Constant.FamilyRelation.MOTHER);
+                vStudentFamily trustee = lstFamily.FirstOrDefault(x => x.IsStudentTrustee == true);
+
                 if (father != null)
                 {
                     personalText = personalText.Replace("{FatherName}", father.FullName);
@@ -192,6 +194,24 @@ namespace CodeX.Muses.Web.StudentManagement.Report
                     personalText = personalText.Replace("{ParentAddress}", "-");
                     personalText = personalText.Replace("{ParentCity}", "-");
                     personalText = personalText.Replace("{ParentPhoneNo}", "-");
+                }
+
+                if (trustee != null) 
+                {
+                    personalText = personalText.Replace("{WaliName}", trustee.FullName);
+                    tdFooterStudentParent1.InnerHtml = tdFooterStudentParent.InnerHtml = trustee.FullName;
+                    personalText = personalText.Replace("{WaliJob}", trustee.Job);
+                    personalText = personalText.Replace("{WaliAddress}", trustee.HomeStreetName);
+                    personalText = personalText.Replace("{WaliCity}", trustee.HomeCity);
+                    personalText = personalText.Replace("{WaliPhoneNo}", trustee.HomePhoneNo1);
+                }
+                else
+                {
+                    personalText = personalText.Replace("{WaliName}", "-");
+                    personalText = personalText.Replace("{WaliJob}", "-");
+                    personalText = personalText.Replace("{WaliAddress}", "-");
+                    personalText = personalText.Replace("{WaliCity}", "-");
+                    personalText = personalText.Replace("{WaliPhoneNo}", "-");
                     tdFooterStudentParent1.InnerHtml = tdFooterStudentParent.InnerHtml = ".................................";
                 }
 
