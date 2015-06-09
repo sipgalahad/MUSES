@@ -164,8 +164,8 @@ namespace CodeX.Muses.Web.Finance.Program
             BindGridView(1, true, ref PageCount, false);
             decimal total = entity.TotalTransactionAmount;
             hdnTotalAmountBeforeDP.Value = total.ToString();
-            decimal totalDP = entity.TotalDownPaymentAmount;
-            total -= totalDP;
+            //decimal totalDP = entity.TotalDownPaymentAmount;
+            //total -= totalDP;
             hdnTotalAmount.Value = total.ToString();
 
             hdnTransactionStatus.Value = entity.GCTransactionStatus;
@@ -466,7 +466,7 @@ namespace CodeX.Muses.Web.Finance.Program
             entityDt.CreditNoteAmount = Convert.ToDecimal(Request.Form[txtCreditNote.UniqueID]);
             entityDt.ReferenceNo = txtInvoiceNo.Text;
             entityDt.ReferenceDate = Helper.GetDatePickerValue(txtInvoiceDate.Text);
-            entityDt.LineAmount = entityDt.TransactionAmount - entityDt.DiscountAmount - entityDt.FinalDiscountAmount + entityDt.VATAmount + entityDt.PPH23Amount + entityDt.PPH25Amount + entityDt.StampAmount + entityDt.ChargesAmount - entityDt.CreditNoteAmount;
+            entityDt.LineAmount = entityDt.TransactionAmount - entityDt.DiscountAmount - entityDt.FinalDiscountAmount + entityDt.VATAmount + entityDt.PPH23Amount + entityDt.PPH25Amount + entityDt.StampAmount + entityDt.ChargesAmount - entityDt.DownPaymentAmount - entityDt.CreditNoteAmount;
         }
 
         private bool OnSaveAddRecordEntityDt(ref string errMessage, ref int PurchaseInvoiceID)

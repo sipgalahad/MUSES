@@ -26,14 +26,16 @@ namespace CodeX.Muses.Web.Finance.Program
 
         public override void InitializeDataControl(string param)
         {
-            hdnPurchaseInvoiceID.Value = param;
+            string[] temp = param.Split('|');
+            hdnPurchaseInvoiceID.Value = temp[0];
+            hdnGCItemType.Value = temp[1];
             BindGridView(1, true, ref PageCount);
         }
 
         #region Bind Grid
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}','{2}') AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED);
+            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}','{2}') AND GCItemType = '{3}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvPurchaseReceiveCreditRowCount(filterExpression);
@@ -107,7 +109,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 entityDt.ReferenceNo = purchaseReceiveCredit.ReferenceNo;
                 entityDt.ReferenceDate = purchaseReceiveCredit.ReferenceDate;
                 entityDt.VATAmount = purchaseReceiveCredit.VATAmount;
-                entityDt.LineAmount = entityDt.TransactionAmount - entityDt.DiscountAmount - entityDt.FinalDiscountAmount + entityDt.VATAmount + entityDt.PPH23Amount + entityDt.PPH25Amount + entityDt.StampAmount + entityDt.ChargesAmount - entityDt.CreditNoteAmount;
+                entityDt.LineAmount = entityDt.TransactionAmount - entityDt.DiscountAmount - entityDt.FinalDiscountAmount + entityDt.VATAmount + entityDt.PPH23Amount + entityDt.PPH25Amount + entityDt.StampAmount + entityDt.ChargesAmount - entityDt.DownPaymentAmount - entityDt.CreditNoteAmount;
                 lstEntityDt.Add(entityDt);
             }
         }

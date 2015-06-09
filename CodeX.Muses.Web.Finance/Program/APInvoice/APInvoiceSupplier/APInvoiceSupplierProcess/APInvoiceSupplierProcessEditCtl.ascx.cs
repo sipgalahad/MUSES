@@ -56,6 +56,7 @@ namespace CodeX.Muses.Web.Finance.Program
             txtTransactionAmount.Text = entity.TransactionAmount.ToString();
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
+            txtCharges.Text = entity.ChargesAmount.ToString();
 
             BindGridView();
         }
@@ -165,7 +166,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseInvoiceDt.StampAmount = purchaseReceiveHd.StampAmount;
                 purchaseInvoiceDt.TransactionAmount = purchaseReceiveHd.TransactionAmount;
                 purchaseInvoiceDt.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
-                purchaseInvoiceDt.LineAmount = purchaseInvoiceDt.TransactionAmount - purchaseInvoiceDt.DiscountAmount - purchaseInvoiceDt.FinalDiscountAmount + purchaseInvoiceDt.VATAmount + purchaseInvoiceDt.PPH23Amount + purchaseInvoiceDt.PPH25Amount + purchaseInvoiceDt.StampAmount + purchaseInvoiceDt.ChargesAmount - purchaseInvoiceDt.CreditNoteAmount;
+                purchaseInvoiceDt.LineAmount = purchaseInvoiceDt.TransactionAmount - purchaseInvoiceDt.DiscountAmount - purchaseInvoiceDt.FinalDiscountAmount + purchaseInvoiceDt.VATAmount + purchaseInvoiceDt.PPH23Amount + purchaseInvoiceDt.PPH25Amount + purchaseInvoiceDt.StampAmount + purchaseInvoiceDt.ChargesAmount - purchaseInvoiceDt.DownPaymentAmount - purchaseInvoiceDt.CreditNoteAmount;
                 purchaseInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseInvoiceDtDao.Update(purchaseInvoiceDt);
 

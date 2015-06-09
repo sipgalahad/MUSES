@@ -18213,6 +18213,8 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _SupplierCode;
         private String _SupplierName;
+        private Int32 _LocationID;
+        private String _GCItemType;
         private String _PurchaseReceiveNo;
         private DateTime _ReceivedDate;
         private Decimal _TransactionAmount;
@@ -18254,6 +18256,18 @@ namespace CodeX.Data.Model
         {
             get { return _SupplierName; }
             set { _SupplierName = value; }
+        }
+        [Column(Name = "LocationID", DataType = "Int32")]
+        public Int32 LocationID
+        {
+            get { return _LocationID; }
+            set { _LocationID = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
         [Column(Name = "PurchaseReceiveNo", DataType = "String")]
         public String PurchaseReceiveNo
@@ -18709,6 +18723,7 @@ namespace CodeX.Data.Model
         private Int32 _LocationID;
         private String _LocationCode;
         private String _LocationName;
+        private String _GCItemType;
         private Int32 _SupplierID;
         private String _SupplierCode;
         private String _SupplierName;
@@ -18788,6 +18803,12 @@ namespace CodeX.Data.Model
         {
             get { return _LocationName; }
             set { _LocationName = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
         [Column(Name = "SupplierID", DataType = "Int32")]
         public Int32 SupplierID
