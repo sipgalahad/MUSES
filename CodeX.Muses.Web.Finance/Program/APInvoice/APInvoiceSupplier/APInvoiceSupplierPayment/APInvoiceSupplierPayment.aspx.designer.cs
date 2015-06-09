@@ -67,6 +67,15 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPaymentNo;
         
         /// <summary>
+        /// cboItemType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboItemType;
+        
+        /// <summary>
         /// txtPaymentDate control.
         /// </summary>
         /// <remarks>
@@ -166,13 +175,13 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtReferenceDate;
         
         /// <summary>
-        /// cbpProcessDetail control.
+        /// cbpView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpProcessDetail;
+        protected global::DevExpress.Web.ASPxCallbackPanel.ASPxCallbackPanel cbpView;
         
         /// <summary>
         /// PanelContent1 control.

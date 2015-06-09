@@ -17820,13 +17820,14 @@ namespace CodeX.Data.Model
     #region vPurchaseInvoiceHd
     [Serializable]
     [Table(Name = "vPurchaseInvoiceHd")]
-    public partial class vPurchaseInvoiceHd : DbDataModel
+    public partial class vPurchaseInvoiceHd
     {
         private Int32 _PurchaseInvoiceID;
         private DateTime _PurchaseInvoiceDate;
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private String _GCItemType;
         private String _PurchaseInvoiceNo;
         private String _SupplierInvoiceNo;
         private DateTime _SupplierInvoiceDate;
@@ -17850,12 +17851,12 @@ namespace CodeX.Data.Model
         private String _Remarks;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
-        private String _TransactionStatusWatermark;
         private Boolean _IsVerified;
-        private Int32? _VerifiedBy;
+        private Int32 _VerifiedBy;
         private DateTime _VerifiedDate;
+        private String _TransactionStatusWatermark;
 
-        [Column(Name = "PurchaseInvoiceID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        [Column(Name = "PurchaseInvoiceID", DataType = "Int32")]
         public Int32 PurchaseInvoiceID
         {
             get { return _PurchaseInvoiceID; }
@@ -17885,6 +17886,12 @@ namespace CodeX.Data.Model
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
         }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
+        }
         [Column(Name = "PurchaseInvoiceNo", DataType = "String")]
         public String PurchaseInvoiceNo
         {
@@ -17903,13 +17910,13 @@ namespace CodeX.Data.Model
             get { return _SupplierInvoiceDate; }
             set { _SupplierInvoiceDate = value; }
         }
-        [Column(Name = "TaxInvoiceNo", DataType = "String", IsNullable = true)]
+        [Column(Name = "TaxInvoiceNo", DataType = "String")]
         public String TaxInvoiceNo
         {
             get { return _TaxInvoiceNo; }
             set { _TaxInvoiceNo = value; }
         }
-        [Column(Name = "TaxInvoiceDate", DataType = "DateTime", IsNullable = true)]
+        [Column(Name = "TaxInvoiceDate", DataType = "DateTime")]
         public DateTime TaxInvoiceDate
         {
             get { return _TaxInvoiceDate; }
@@ -18005,7 +18012,7 @@ namespace CodeX.Data.Model
             get { return _PaymentAmount; }
             set { _PaymentAmount = value; }
         }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
             get { return _Remarks; }
@@ -18023,29 +18030,29 @@ namespace CodeX.Data.Model
             get { return _TransactionStatus; }
             set { _TransactionStatus = value; }
         }
-        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
-        public String TransactionStatusWatermark
-        {
-            get { return _TransactionStatusWatermark; }
-            set { _TransactionStatusWatermark = value; }
-        }
         [Column(Name = "IsVerified", DataType = "Boolean")]
         public Boolean IsVerified
         {
             get { return _IsVerified; }
             set { _IsVerified = value; }
         }
-        [Column(Name = "VerifiedBy", DataType = "Int32", IsNullable = true)]
-        public Int32? VerifiedBy
+        [Column(Name = "VerifiedBy", DataType = "Int32")]
+        public Int32 VerifiedBy
         {
             get { return _VerifiedBy; }
             set { _VerifiedBy = value; }
         }
-        [Column(Name = "VerifiedDate", DataType = "DateTime", IsNullable = true)]
+        [Column(Name = "VerifiedDate", DataType = "DateTime")]
         public DateTime VerifiedDate
         {
             get { return _VerifiedDate; }
             set { _VerifiedDate = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
         }
     }
     #endregion
@@ -26211,7 +26218,7 @@ namespace CodeX.Data.Model
     #region vSupplierPaymentHd
     [Serializable]
     [Table(Name = "vSupplierPaymentHd")]
-    public partial class vSupplierPaymentHd : DbDataModel
+    public partial class vSupplierPaymentHd
     {
         private Int32 _SupplierPaymentID;
         private String _SupplierPaymentNo;
@@ -26219,6 +26226,7 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
+        private String _GCItemType;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private String _GCCurrencyCode;
@@ -26226,7 +26234,7 @@ namespace CodeX.Data.Model
         private Decimal _CurrencyRate;
         private String _GCSupplierPaymentMethod;
         private String _PaymentMethod;
-        private Int32? _BankID;
+        private Int32 _BankID;
         private String _BankReferenceNo;
         private String _Remarks;
         private String _GCTransactionStatus;
@@ -26237,6 +26245,18 @@ namespace CodeX.Data.Model
         {
             get { return _SupplierPaymentID; }
             set { _SupplierPaymentID = value; }
+        }
+        [Column(Name = "SupplierPaymentNo", DataType = "String")]
+        public String SupplierPaymentNo
+        {
+            get { return _SupplierPaymentNo; }
+            set { _SupplierPaymentNo = value; }
+        }
+        [Column(Name = "PaymentDate", DataType = "DateTime")]
+        public DateTime PaymentDate
+        {
+            get { return _PaymentDate; }
+            set { _PaymentDate = value; }
         }
         [Column(Name = "BusinessPartnerID", DataType = "Int32")]
         public Int32 BusinessPartnerID
@@ -26256,25 +26276,19 @@ namespace CodeX.Data.Model
             get { return _BusinessPartnerName; }
             set { _BusinessPartnerName = value; }
         }
-        [Column(Name = "SupplierPaymentNo", DataType = "String")]
-        public String SupplierPaymentNo
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
         {
-            get { return _SupplierPaymentNo; }
-            set { _SupplierPaymentNo = value; }
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
-        [Column(Name = "PaymentDate", DataType = "DateTime")]
-        public DateTime PaymentDate
-        {
-            get { return _PaymentDate; }
-            set { _PaymentDate = value; }
-        }
-        [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
+        [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
         {
             get { return _ReferenceNo; }
             set { _ReferenceNo = value; }
         }
-        [Column(Name = "ReferenceDate", DataType = "DateTime", IsNullable = true)]
+        [Column(Name = "ReferenceDate", DataType = "DateTime")]
         public DateTime ReferenceDate
         {
             get { return _ReferenceDate; }
@@ -26310,19 +26324,19 @@ namespace CodeX.Data.Model
             get { return _PaymentMethod; }
             set { _PaymentMethod = value; }
         }
-        [Column(Name = "BankID", DataType = "Int32", IsNullable = true)]
-        public Int32? BankID
+        [Column(Name = "BankID", DataType = "Int32")]
+        public Int32 BankID
         {
             get { return _BankID; }
             set { _BankID = value; }
         }
-        [Column(Name = "BankReferenceNo", DataType = "String", IsNullable = true)]
+        [Column(Name = "BankReferenceNo", DataType = "String")]
         public String BankReferenceNo
         {
             get { return _BankReferenceNo; }
             set { _BankReferenceNo = value; }
         }
-        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        [Column(Name = "Remarks", DataType = "String")]
         public String Remarks
         {
             get { return _Remarks; }

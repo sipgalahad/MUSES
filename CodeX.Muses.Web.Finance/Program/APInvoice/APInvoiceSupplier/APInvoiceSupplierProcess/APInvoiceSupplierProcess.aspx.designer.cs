@@ -157,6 +157,15 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPurchaseInvoiceNo;
         
         /// <summary>
+        /// cboItemType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboItemType;
+        
+        /// <summary>
         /// cboCurrency control.
         /// </summary>
         /// <remarks>

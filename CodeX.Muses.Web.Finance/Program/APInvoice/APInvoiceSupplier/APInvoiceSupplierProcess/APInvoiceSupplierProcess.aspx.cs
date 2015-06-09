@@ -53,8 +53,10 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CURRENCY_CODE));
-            List<Term> listTerm = BusinessLayer.GetTermList(string.Format("IsDeleted = 0"));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.CURRENCY_CODE));
+            Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            cboItemType.SelectedIndex = 0;
+
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboCurrency.SelectedIndex = 0;
         }
@@ -80,6 +82,7 @@ namespace CodeX.Muses.Web.Finance.Program
             SetControlEntrySetting(txtChargesPI, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(txtGrandTotalPI, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtFinalDIscountPI, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(cboItemType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboCurrency, new ControlEntrySetting(true, false, true));
         }
 
@@ -143,6 +146,7 @@ namespace CodeX.Muses.Web.Finance.Program
             txtTaxInvoiceDate.Text = entity.TaxInvoiceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtDueDate.Text = entity.DueDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboCurrency.Value = entity.GCCurrencyCode;
+            cboItemType.Value = entity.GCItemType;
             txtKurs.Text = entity.CurrencyRate.ToString();
             txtRemarks.Text = entity.Remarks;
 
@@ -205,6 +209,7 @@ namespace CodeX.Muses.Web.Finance.Program
             entityHd.TaxInvoiceDate = Helper.GetDatePickerValue(txtTaxInvoiceDate.Text);
             entityHd.DueDate = Helper.GetDatePickerValue(txtDueDate.Text);
 
+            entityHd.GCItemType = cboItemType.Value.ToString();
             entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
             entityHd.GCChargesType = "X157^001";
             entityHd.ChargesAmount = Convert.ToDecimal(txtChargesPI.Text);

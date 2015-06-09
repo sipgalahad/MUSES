@@ -365,6 +365,10 @@
                             <td class="tdLabel"><label id="lblPurchaseInvoiceNo" class="lblLink"><%=GetLabel("No. Invoice")%></label></td>
                             <td><asp:TextBox ID="txtPurchaseInvoiceNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Item")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboItemType" ClientInstanceName="cboItemType" Width="250px" runat="server" /></td>
+                        </tr>
                         <tr style="display:none">
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Uang")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboCurrency" ClientInstanceName="cboCurrency" Width="250px" runat="server" /></td>

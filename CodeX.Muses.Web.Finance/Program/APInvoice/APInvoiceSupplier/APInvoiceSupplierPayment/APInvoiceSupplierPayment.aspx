@@ -158,6 +158,14 @@
                             <td><asp:TextBox ID="txtPaymentNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Item")%></label></td>
+                            <td>
+                                <dxe:ASPxComboBox ID="cboItemType" ClientInstanceName="cboItemType" Width="250px" runat="server">
+                                    <ClientSideEvents ValueChanged="function(s,e) { cbpView.PerformCallback('refresh'); }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><%=GetLabel("Tanggal") %></td>
                             <td style="padding-right: 1px; width: 140px"><asp:TextBox ID="txtPaymentDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                         </tr>
@@ -212,8 +220,8 @@
             <tr>
                 <td colspan="2">
                     <div style="position:relative;" id="divView">
-                        <dxcp:ASPxCallbackPanel ID="cbpProcessDetail" runat="server" Width="100%" ClientInstanceName="cbpProcessDetail"
-                            ShowLoadingPanel="false">
+                        <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
+                            ShowLoadingPanel="false" OnCallback="cbpView_Callback">
                             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
                                 EndCallback="function(s,e){ hideLoadingPanel(); }" />
                             <PanelCollection>

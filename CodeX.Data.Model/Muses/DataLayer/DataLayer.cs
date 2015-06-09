@@ -19646,6 +19646,7 @@ namespace CodeX.Data.Model
         private Int32 _PurchaseInvoiceID;
         private DateTime _PurchaseInvoiceDate;
         private Int32 _BusinessPartnerID;
+        private String _GCItemType;
         private String _PurchaseInvoiceNo;
         private String _SupplierInvoiceNo;
         private DateTime _SupplierInvoiceDate;
@@ -19695,6 +19696,12 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
         [Column(Name = "PurchaseInvoiceNo", DataType = "String")]
         public String PurchaseInvoiceNo
@@ -29356,6 +29363,7 @@ namespace CodeX.Data.Model
         private String _SupplierPaymentNo;
         private DateTime _PaymentDate;
         private Int32 _BusinessPartnerID;
+        private String _GCItemType;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private String _GCCurrencyCode;
@@ -29367,7 +29375,7 @@ namespace CodeX.Data.Model
         private String _GCTransactionStatus;
         private String _GCVoidReason;
         private String _VoidReason;
-        private Int32? _CreatedBy;
+        private Int32 _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
@@ -29395,6 +29403,12 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "GCItemType", DataType = "String")]
+        public String GCItemType
+        {
+            get { return _GCItemType; }
+            set { _GCItemType = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String", IsNullable = true)]
         public String ReferenceNo
@@ -29463,7 +29477,7 @@ namespace CodeX.Data.Model
             set { _VoidReason = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32")]
-        public Int32? CreatedBy
+        public Int32 CreatedBy
         {
             get { return _CreatedBy; }
             set { _CreatedBy = value; }

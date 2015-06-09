@@ -52,11 +52,13 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.SUPPLIER_PAYMENT_METHOD));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.SUPPLIER_PAYMENT_METHOD, Constant.StandardCode.ITEM_TYPE));
             List<Bank> listBank = BusinessLayer.GetBankList(string.Format("IsDeleted = 0"));
+            Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.SUPPLIER_PAYMENT_METHOD).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<Bank>(cboBank, listBank, "BankName", "BankID");
+            cboItemType.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -64,6 +66,7 @@ namespace CodeX.Muses.Web.Finance.Program
             SetControlEntrySetting(hdnSupplierPaymentID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtKurs, new ControlEntrySetting(true, true, true, "1.00"));
             SetControlEntrySetting(cboCurrency, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboItemType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(hdnIsAdd, new ControlEntrySetting(false, false, false, "1"));
             SetControlEntrySetting(cboPaymentMethod, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtPaymentDate, new ControlEntrySetting(true, false, false, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
@@ -113,6 +116,7 @@ namespace CodeX.Muses.Web.Finance.Program
             txtPaymentDate.Text = entity.PaymentDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
             cboPaymentMethod.Value = entity.GCSupplierPaymentMethod;
+            cboItemType.Value = entity.GCItemType;
             txtReferenceNo.Text = entity.ReferenceNo;
             txtReferenceDate.Text = entity.ReferenceDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboCurrency.Value = entity.GCCurrencyCode;
@@ -153,7 +157,7 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 if (hdnSupplierPaymentID.Value != "" && hdnSupplierPaymentID.Value != "0")
                 {
-                    filterExpression = string.Format("SupplierPaymentID = {0} AND BusinessPartnerID = {1} AND IsVerified = 1", hdnSupplierPaymentID.Value, AppSession.BusinessPartnerID);
+                    filterExpression = string.Format("SupplierPaymentID = {0} AND BusinessPartnerID = {1} AND GCItemType = '{2}' AND IsVerified = 1", hdnSupplierPaymentID.Value, AppSession.BusinessPartnerID, cboItemType.Value);
                     List<vPurchaseInvoiceHdPayment> lstEntity = BusinessLayer.GetvPurchaseInvoiceHdPaymentList(filterExpression);
                     grdView.DataSource = lstEntity;
                     grdView.DataBind();
@@ -161,7 +165,7 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             else
             {
-                filterExpression = string.Format("IsVerified = 1 AND BusinessPartnerID = {0}", AppSession.BusinessPartnerID);
+                filterExpression = string.Format("BusinessPartnerID = {0} AND GCItemType = '{1}' AND IsVerified = 1", AppSession.BusinessPartnerID, cboItemType.Value);
                 List<vPurchaseInvoiceHd> lst = BusinessLayer.GetvPurchaseInvoiceHdList(filterExpression);
                 lvwView.DataSource = lst.Where(p => p.CustomSisaHutang > 0);
                 lvwView.DataBind();
@@ -202,6 +206,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 SupplierPaymentHd entityHd = new SupplierPaymentHd();
                 entityHd.PaymentDate = Helper.GetDatePickerValue(txtPaymentDate.Text);
                 entityHd.ReferenceDate = Helper.GetDatePickerValue(txtReferenceDate.Text);
+                entityHd.GCItemType = cboItemType.Value.ToString();
 
                 entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
                 entityHd.BusinessPartnerID = AppSession.BusinessPartnerID;
