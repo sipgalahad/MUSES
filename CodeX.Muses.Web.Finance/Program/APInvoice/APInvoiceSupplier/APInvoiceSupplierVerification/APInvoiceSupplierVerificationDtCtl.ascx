@@ -116,6 +116,54 @@
                         <div id="pagingPopup"></div>
                     </div>
                 </div> 
+                <table style="width: 350px; float:right;">
+                    <colgroup>
+                        <col style="width: 200px" />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <td class="tdLabel"  style="text-align:right"><label class="lblNormal"><%=GetLabel("Total Penerimaan")%></label></td>
+                        <td><asp:TextBox ID="txtTotalAmount" CssClass="txtCurrency" ReadOnly="true" Width="100%" runat="server" hiddenVal="0" /></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="tdLabel" style="text-align:right;"><label class="lblNormal"><%=GetLabel("Diskon Final")%></label></td>                                                                    
+                                    <td><asp:TextBox class= "txtFinalDiscountPIPctg txtCurrency" ReadOnly="true" ID="txtFinalDiscountPIPctg" Width="60px" runat="server" hiddenVal="0"/> %</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td><asp:TextBox ID="txtFinalDIscountPI" CssClass="txtCurrency" ReadOnly="true" Width="100%" runat="server" hiddenVal="0"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel" style="text-align:right;"><asp:CheckBox ID="chkPPN" Enabled="false" runat="server" />&nbsp;<%=GetLabel("PPN")%></td>
+                        <td><asp:TextBox ID="txtPPNPI" CssClass="txtCurrency" Width="100%" ReadOnly="true" runat="server" hiddenVal="0"/></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="tdLabel" style="text-align:right;"><label class="lblNormal"><%=GetLabel("PPH")%></label></td>
+                                    <td><asp:TextBox class= "txtPPHPIPctg txtCurrency" ID="txtPPHPIPctg" ReadOnly="true" Width="60px" runat="server" hiddenVal="0"/> %</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td><asp:TextBox ID="txtPPHPI" CssClass="txtCurrency" Width="100%" ReadOnly="true" runat="server" hiddenVal="0"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel" style="text-align:right;"><label class="lblNormal"><%=GetLabel("Ongkos Kirim")%></label></td>
+                        <td><asp:TextBox ID="txtChargesPI" CssClass="txtCurrency" Width="100%" ReadOnly="true" runat="server" hiddenVal="0"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel" style="text-align:right;"><label class="lblNormal"><%=GetLabel("Materai")%></label></td>
+                        <td><asp:TextBox ID="txtStampPI" CssClass="txtCurrency" Width="100%" ReadOnly="true" runat="server" hiddenVal="0"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel" style="text-align:right"><label class="lblNormal"><%=GetLabel("Total Faktur")%></label></td>
+                        <td><asp:TextBox ID="txtGrandTotalPI" CssClass="txtCurrency" ReadOnly="true" Width="100%" runat="server" hiddenVal="0" /></td>
+                    </tr>
+                </table>
             </div>
         </td>
     </tr>

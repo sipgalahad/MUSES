@@ -25,6 +25,19 @@ namespace CodeX.Muses.Web.Finance.Program
 
             PurchaseInvoiceHd entity = BusinessLayer.GetPurchaseInvoiceHd(Convert.ToInt32(hdnPurchaseInvoiceID.Value));
             txtPurchaseInvoiceNo.Text = entity.PurchaseInvoiceNo;
+            txtTotalAmount.Text = entity.TotalTransactionAmount.ToString("N");
+            txtGrandTotalPI.Text = entity.TotalNetTransactionAmount.ToString("N");
+            txtChargesPI.Text = entity.ChargesAmount.ToString("N");
+            txtFinalDiscountPIPctg.Text = entity.FinalDiscount.ToString("N");
+
+            decimal finalDiscount = (entity.TotalTransactionAmount * entity.FinalDiscount) / 100;
+            decimal totalAfterDisc = entity.TotalTransactionAmount - finalDiscount;
+            txtFinalDIscountPI.Text = finalDiscount.ToString("N");
+            txtStampPI.Text = entity.StampAmount.ToString("N");
+            txtPPHPIPctg.Text = entity.PPHPercentage.ToString();
+            txtPPHPI.Text = (finalDiscount * entity.PPHPercentage / 100).ToString("N");
+            txtPPNPI.Text = (finalDiscount * entity.VATPercentage / 100).ToString("N");
+            chkPPN.Checked = entity.VATPercentage > 0;
 
             RowCountPerPage = Constant.GridViewPageSize.GRID_POPUP;
             BindGridView(1, true, ref PageCount, ref RowCount);

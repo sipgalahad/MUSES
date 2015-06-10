@@ -157,7 +157,7 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 if (hdnSupplierPaymentID.Value != "" && hdnSupplierPaymentID.Value != "0")
                 {
-                    filterExpression = string.Format("SupplierPaymentID = {0} AND BusinessPartnerID = {1} AND GCItemType = '{2}' AND IsVerified = 1", hdnSupplierPaymentID.Value, AppSession.BusinessPartnerID, cboItemType.Value);
+                    filterExpression = string.Format("SupplierPaymentID = {0} AND BusinessPartnerID = {1} AND IsVerified = 1", hdnSupplierPaymentID.Value, AppSession.BusinessPartnerID);
                     List<vPurchaseInvoiceHdPayment> lstEntity = BusinessLayer.GetvPurchaseInvoiceHdPaymentList(filterExpression);
                     grdView.DataSource = lstEntity;
                     grdView.DataBind();

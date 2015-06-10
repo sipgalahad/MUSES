@@ -138,7 +138,7 @@
             $tr = $(this).closest('tr');
             var id = $tr.find('.keyField').val();
             var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierVerification/APInvoiceSupplierVerificationDtCtl.ascx");
-            openUserControlPopup(url, id, 'Detail Information', 1100, 400);
+            openUserControlPopup(url, id, 'Detail Information', 1100, 600);
         });
             
     </script> 

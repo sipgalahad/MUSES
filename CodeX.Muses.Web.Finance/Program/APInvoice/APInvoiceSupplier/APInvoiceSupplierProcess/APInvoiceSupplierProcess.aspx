@@ -243,7 +243,7 @@
             var PPH = parseFloat($('#<%=txtPPHPI.ClientID %>').attr('hiddenVal'));
             var materai = parseFloat($('#<%=txtStampPI.ClientID %>').attr('hiddenVal'));
             var ongkos = parseFloat($('#<%=txtChargesPI.ClientID %>').attr('hiddenVal'));
-            var totalHarga = totalTrans - (Discount + PPH + materai + ongkos) + PPN;
+            var totalHarga = totalTrans - Discount + PPN + PPH + materai + ongkos;
             $('#<%=txtGrandTotalPI.ClientID %>').val(totalHarga).trigger('changeValue');
         }
 
