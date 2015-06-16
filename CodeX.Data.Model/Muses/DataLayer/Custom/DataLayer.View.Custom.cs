@@ -1603,6 +1603,13 @@ namespace CodeX.Data.Model
     #region vPurchaseReturnDt
     public partial class vPurchaseReturnDt
     {
+        public String CustomQuantityItemUnit
+        {
+            get
+            {
+                return string.Format("{0} {1}", _Quantity, _ItemUnit);
+            }
+        }
         public Decimal DiscountAmount
         {
             get

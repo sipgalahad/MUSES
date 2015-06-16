@@ -184,8 +184,6 @@ namespace CodeX.Muses.Web.Finance.Program
                     PurchaseInvoiceHd entity = BusinessLayer.GetPurchaseInvoiceHd(Convert.ToInt32(hdnPurchaseInvoiceID.Value));
                     decimal total = entity.TotalTransactionAmount;
                     hdnTotalAmountBeforeDP.Value = total.ToString();
-                    decimal totalDP = entity.TotalDownPaymentAmount;
-                    total -= totalDP;
                     hdnTotalAmount.Value = total.ToString();
                 }
             }

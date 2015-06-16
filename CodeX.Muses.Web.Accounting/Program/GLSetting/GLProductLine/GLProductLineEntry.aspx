@@ -1439,7 +1439,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblCOGS"><%=GetLabel("COA Persediaan (PPN)")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink" id="lblCOGS"><%=GetLabel("COA HPP")%></label></td>
                                     <td>
                                         <input type="hidden" id="hdnCOGSID" runat="server" />
                                         <input type="hidden" id="hdnCOGSSubLedgerID" runat="server" />

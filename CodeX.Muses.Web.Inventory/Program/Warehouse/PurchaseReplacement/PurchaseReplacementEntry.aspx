@@ -12,6 +12,7 @@
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
     <input type="hidden" value="" id="hdnRecordFilterExpression" runat="server" />
 </asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
@@ -165,6 +166,17 @@
                     $('#<%=txtOldItemGroupCode.ClientID %>').removeAttr('readonly');
                     $('#<%=txtOldItemCode.ClientID %>').removeAttr('readonly');
 
+                    $('#<%=hdnOldItemID.ClientID %>').val('');
+                    $('#<%=txtOldItemCode.ClientID %>').val('');
+                    $('#<%=txtOldItemName.ClientID %>').val('');
+
+                    $('#<%=txtOldQuantity.ClientID %>').val('');
+                    $('#<%=txtOldItemUnit.ClientID %>').val('');
+                    $('#<%=txtOldConversion.ClientID %>').val('');
+
+                    $('#<%=txtPrice.ClientID %>').val(0).trigger('changeValue');
+                    $('#<%=txtPricePerUnit.ClientID %>').val('');
+
                     $('#<%=txtQuantity.ClientID %>').val('1');
                     $('#<%=hdnEntryID.ClientID %>').val('');
                     $('#<%=hdnItemID.ClientID %>').val('');
@@ -175,7 +187,7 @@
                     cboItemUnit.SetValue('');
                     $('#<%=txtConversion.ClientID %>').val('');
 
-                    $('#containerEntry').show();
+                    $('#entryDetailContainer').show();
                 }
             });
 
@@ -262,7 +274,7 @@
             //#endregion
 
             $('#btnCancel').click(function () {
-                $('#containerEntry').hide();
+                $('#entryDetailContainer').hide();
             });
 
             $('#btnSave').click(function (evt) {
@@ -281,7 +293,7 @@
 
             //#region Item
             function getOldItemFilterExpression() {
-                var filterExpression = "PurchaseReturnID = " + $('#<%=hdnPurchaseReturnID.ClientID %>').val() + " AND GCItemDetailStatus != '<%=GetTransactionStatusVoid() %>'";                
+                var filterExpression = "PurchaseReturnID = " + $('#<%=hdnPurchaseReturnID.ClientID %>').val() + " AND GCItemDetailStatus != '<%=GetTransactionStatusVoid() %>'";
                 return filterExpression;
             }
 
@@ -312,7 +324,7 @@
                         $('#<%=txtOldConversion.ClientID %>').val("1 " + result.ItemUnit + " = " + result.ConversionFactor + " " + result.BaseUnit);
 
                         $('#<%=txtPrice.ClientID %>').val(result.UnitPrice).trigger('changeValue');
-                        $('#<%=txtPricePerUnit.ClientID %>').val('per ' + result.ItemUnit); 
+                        $('#<%=txtPricePerUnit.ClientID %>').val('per ' + result.ItemUnit);
                     }
                     else {
                         $('#<%=hdnOldItemID.ClientID %>').val('');
@@ -324,7 +336,7 @@
                         $('#<%=txtOldConversion.ClientID %>').val('');
 
                         $('#<%=txtPrice.ClientID %>').val(0).trigger('changeValue');
-                        $('#<%=txtPricePerUnit.ClientID %>').val(''); 
+                        $('#<%=txtPricePerUnit.ClientID %>').val('');
                     }
                 });
             }
@@ -450,7 +462,7 @@
             $('#<%=txtOldItemUnit.ClientID %>').val(entity.FromItemUnit);
             $('#<%=txtOldConversion.ClientID %>').val("1 " + entity.FromItemUnit + " = " + entity.FromConversionFactor + " " + entity.FromBaseUnit);
             $('#<%=txtPrice.ClientID %>').val(entity.FromUnitPrice).trigger('changeValue');
-            $('#<%=txtPricePerUnit.ClientID %>').val('per ' + entity.FromItemUnit); 
+            $('#<%=txtPricePerUnit.ClientID %>').val('per ' + entity.FromItemUnit);
 
             $('#<%=hdnItemID.ClientID %>').val(entity.ToItemID);
             $('#<%=txtItemCode.ClientID %>').val(entity.ToItemCode);
@@ -463,10 +475,10 @@
             $('#<%=txtQuantity.ClientID %>').val(entity.Quantity);
 
             cboItemUnit.PerformCallback();
-            $('#containerEntry').show();
+            $('#entryDetailContainer').show();
         });
         //#endregion
-        
+
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var purchaseReplacementID = $('#<%=hdnPurchaseReplacementID.ClientID %>').val();
             if (purchaseReplacementID == '' || purchaseReplacementID == '0') {
@@ -573,7 +585,7 @@
                         <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                             <fieldset id="fsTrx" style="margin: 0">
                                 <input type="hidden" value="" id="hdnEntryID" runat="server" />
-                                <table style="width: 100%" class="tblEntryDetail">
+                                <table style="width: 100%">
                                     <colgroup>
                                         <col style="width: 50%" />
                                     </colgroup>
@@ -742,9 +754,10 @@
                                         <Columns>
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="FromItemName1" HeaderText="Barang Lama"  />
-                                            <asp:BoundField DataField="CustomQuantityItemUnit" HeaderText="Jumlah" HeaderStyle-Width="180px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="CustomQuantityItemUnit" HeaderText="Jumlah" HeaderStyle-Width="180px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
+                                            <asp:TemplateField HeaderStyle-Width="10px" />
                                             <asp:BoundField DataField="ToItemName1" HeaderText="Barang Baru"  />
-                                            <asp:BoundField DataField="CustomFromQuantityItemUnit" HeaderText="Jumlah" HeaderStyle-Width="180px" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                            <asp:BoundField DataField="CustomFromQuantityItemUnit" HeaderText="Jumlah" HeaderStyle-Width="180px" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                                 <ItemTemplate>
                                                     <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
