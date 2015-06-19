@@ -76,6 +76,15 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnVATPercentage;
         
         /// <summary>
+        /// hdnPurchaseReturnAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnPurchaseReturnAmount;
+        
+        /// <summary>
         /// hdnCreditNoteID control.
         /// </summary>
         /// <remarks>

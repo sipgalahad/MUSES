@@ -90,16 +90,19 @@
                     if (result != null) {
                         $('#<%=hdnPurchaseReturnID.ClientID %>').val(result.PurchaseReturnID);
                         $('#<%=txtCNAmount.ClientID %>').val(result.TotalNetTransactionAmount).trigger('changeValue');
+                        $('#<%=hdnPurchaseReturnAmount.ClientID %>').val(result.TotalNetTransactionAmount);
                         if ($('#<%=hdnSupplierID.ClientID %>').val() == '') {
                             $('#<%=hdnSupplierID.ClientID %>').val(result.BusinessPartnerID);
                             $('#<%=txtSupplierCode.ClientID %>').val(result.BusinessPartnerCode);
                             $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
                         }
                         $('#<%=chkPPN.ClientID %>').prop('checked', result.IsIncludeVAT);
+
                     }
                     else {
                         $('#<%=hdnPurchaseReturnID.ClientID %>').val('');
                         $('#<%=txtPurchaseReturnNo.ClientID %>').val('');
+                        $('#<%=hdnPurchaseReturnAmount.ClientID %>').val('0');
                         $('#<%=txtCNAmount.ClientID %>').val('0').trigger('changeValue');
                         $('#<%=chkPPN.ClientID %>').prop('checked', false);
                     }
@@ -133,6 +136,7 @@
             <td style="padding: 5px; vertical-align: top">
                 <input type="hidden" id="hdnCreditNoteID" value="0" runat="server" />
                 <input type="hidden" id="hdnVATPercentage" value="0" runat="server" />
+                <input type="hidden" id="hdnPurchaseReturnAmount" value="0" runat="server" />
                 <table class="tblEntryContent" style="width: 100%">
                     <colgroup>
                         <col style="width: 30%" />

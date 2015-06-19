@@ -28769,6 +28769,7 @@ namespace CodeX.Data.Model
         private Int32 _BusinessPartnerID;
         private Int32 _PurchaseReturnID;
         private String _GCCreditNoteType;
+        private Decimal _PurchaseReturnAmount;
         private Decimal _CNAmount;
         private Boolean _IsIncludeVAT;
         private Decimal _VATPercentage;
@@ -28815,6 +28816,12 @@ namespace CodeX.Data.Model
         {
             get { return _GCCreditNoteType; }
             set { _GCCreditNoteType = value; }
+        }
+        [Column(Name = "PurchaseReturnAmount", DataType = "Decimal")]
+        public Decimal PurchaseReturnAmount
+        {
+            get { return _PurchaseReturnAmount; }
+            set { _PurchaseReturnAmount = value; }
         }
         [Column(Name = "CNAmount", DataType = "Decimal")]
         public Decimal CNAmount

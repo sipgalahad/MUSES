@@ -153,7 +153,7 @@ namespace CodeX.Muses.Web.Finance.Program
                     HtmlInputHidden hdnReturnQuantity = (HtmlInputHidden)e.Item.FindControl("hdnReturnQuantity");
                     HtmlTableCell tdReturnQuantity = (HtmlTableCell)e.Item.FindControl("tdReturnQuantity");
                     TextBox txtReturnLineAmount = (TextBox)e.Item.FindControl("txtReturnLineAmount");
-                    
+
                     hdnPurchaseReturnDtID.Value = entityReturn.ID.ToString();
                     tdReturnQuantity.InnerHtml = entityReturn.Quantity.ToString();
                     hdnReturnQuantity.Value = entityReturn.Quantity.ToString();
@@ -281,6 +281,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 entity.VATPercentage = 0;
                             entity.GCCreditNoteType = cboCreditNoteType.Value.ToString();
                             entity.CNAmount = CNAmount = Convert.ToDecimal(Request.Form[txtCNAmount.UniqueID]);
+                            entity.PurchaseReturnAmount = purchaseReturnHd.TotalNetTransactionAmount;
                             entity.Remarks = "";
                             entity.CreditNoteNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.SUPPLIER_CREDIT_NOTE, entity.CreditNoteDate, ctx);
                             ctx.CommandType = CommandType.Text;
@@ -310,6 +311,7 @@ namespace CodeX.Muses.Web.Finance.Program
                                 entity.VATPercentage = 0;
                             entity.GCCreditNoteType = cboCreditNoteType.Value.ToString();
                             entity.CNAmount = CNAmount = Convert.ToDecimal(Request.Form[txtCNAmount.UniqueID]);
+                            entity.PurchaseReturnAmount = purchaseReturnHd.TotalNetTransactionAmount;
                             entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                             entity.LastUpdatedBy = AppSession.UserLogin.UserID;
                             entityHdDao.Update(entity);

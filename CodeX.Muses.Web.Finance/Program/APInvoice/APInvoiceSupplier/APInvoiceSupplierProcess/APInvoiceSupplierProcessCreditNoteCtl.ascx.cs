@@ -37,6 +37,7 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnPurchaseReturnID.Value = entityReturnHd.PurchaseReturnID.ToString();
             txtPurchaseReturnNo.Text = entityReturnHd.PurchaseReturnNo;
             chkPPN.Checked = entityReturnHd.IsIncludeVAT;
+            hdnPurchaseReturnAmount.Value = entityReturnHd.TotalNetTransactionAmount.ToString();
 
             SupplierCreditNote entityCreditNote = BusinessLayer.GetSupplierCreditNoteList(string.Format("PurchaseReturnID = {0}", entityInvoiceDt.PurchaseReturnID)).FirstOrDefault();
             if (entityCreditNote == null)
@@ -67,6 +68,7 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             entity.GCCreditNoteType = cboGCCreditNoteType.Value.ToString();
             entity.CNAmount = Convert.ToDecimal(txtCNAmount.Text);
+            entity.PurchaseReturnAmount = Convert.ToDecimal(hdnPurchaseReturnAmount.Value);
             entity.Remarks = txtRemarks.Text;
         }
 

@@ -24,6 +24,7 @@
 <input type="hidden" id="hdnDateTo" runat="server" />
 <input type="hidden" id="hdnPurchaseReceiveID" runat="server" />
 <input type="hidden" id="hdnVATPercentage" runat="server" />
+<input type="hidden" id="hdnPurchaseReturnAmount" runat="server" />
 
 <div style="max-height: 440px; overflow-y: auto" id="containerPopup">
     <table style="width:100%">

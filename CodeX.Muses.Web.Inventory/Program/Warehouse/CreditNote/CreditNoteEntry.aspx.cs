@@ -106,6 +106,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnPurchaseReturnID.Value = entity.PurchaseReturnID.ToString();
             txtPurchaseReturnNo.Text = entity.PurchaseReturnNo;
             cboGCCreditNoteType.Value = entity.GCCreditNoteType;
+            hdnPurchaseReturnAmount.Value = entity.PurchaseReturnAmount.ToString();
             txtCNAmount.Text = entity.CNAmount.ToString();
             chkPPN.Checked = entity.IsIncludeVAT;
             txtRemarks.Text = entity.Remarks;
@@ -120,6 +121,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entity.PurchaseReturnID = Convert.ToInt32(hdnPurchaseReturnID.Value);
             entity.GCCreditNoteType = cboGCCreditNoteType.Value.ToString();
             entity.CNAmount = Convert.ToDecimal(txtCNAmount.Text);
+            entity.PurchaseReturnAmount = Convert.ToDecimal(hdnPurchaseReturnAmount.Value);
             entity.IsIncludeVAT = chkPPN.Checked;
             if (entity.IsIncludeVAT)
                 entity.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
