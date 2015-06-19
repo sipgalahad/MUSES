@@ -778,6 +778,96 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.TextBox txtARCreditNoteGLAccountName;
         
         /// <summary>
+        /// hdnAPVarianceID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceID;
+        
+        /// <summary>
+        /// hdnAPVarianceSubLedgerID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceSubLedgerID;
+        
+        /// <summary>
+        /// hdnAPVarianceSearchDialogTypeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceSearchDialogTypeName;
+        
+        /// <summary>
+        /// hdnAPVarianceIDFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceIDFieldName;
+        
+        /// <summary>
+        /// hdnAPVarianceCodeFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceCodeFieldName;
+        
+        /// <summary>
+        /// hdnAPVarianceDisplayFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceDisplayFieldName;
+        
+        /// <summary>
+        /// hdnAPVarianceMethodName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceMethodName;
+        
+        /// <summary>
+        /// hdnAPVarianceFilterExpression control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceFilterExpression;
+        
+        /// <summary>
+        /// txtAPVarianceGLAccountNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAPVarianceGLAccountNo;
+        
+        /// <summary>
+        /// txtAPVarianceGLAccountName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAPVarianceGLAccountName;
+        
+        /// <summary>
         /// lblAPSubLedger control.
         /// </summary>
         /// <remarks>
@@ -1064,5 +1154,41 @@ namespace CodeX.Muses.Web.Accounting.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtARCreditNoteSubLedgerName;
+        
+        /// <summary>
+        /// lblAPVarianceSubLedger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAPVarianceSubLedger;
+        
+        /// <summary>
+        /// hdnAPVarianceSubLedger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAPVarianceSubLedger;
+        
+        /// <summary>
+        /// txtAPVarianceSubLedgerCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAPVarianceSubLedgerCode;
+        
+        /// <summary>
+        /// txtAPVarianceSubLedgerName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAPVarianceSubLedgerName;
     }
 }

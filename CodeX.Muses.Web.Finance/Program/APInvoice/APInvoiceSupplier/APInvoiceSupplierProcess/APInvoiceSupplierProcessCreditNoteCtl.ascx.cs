@@ -132,6 +132,11 @@ namespace CodeX.Muses.Web.Finance.Program
             try
             {
                 SupplierCreditNote entity = entityHdDao.Get(Convert.ToInt32(hdnCreditNoteID.Value));
+                entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityHdDao.Update(entity);
+
+                entity = entityHdDao.Get(Convert.ToInt32(hdnCreditNoteID.Value));
                 ControlToEntity(entity);
                 entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;

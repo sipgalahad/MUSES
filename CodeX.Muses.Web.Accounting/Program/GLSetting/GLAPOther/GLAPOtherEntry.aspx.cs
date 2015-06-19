@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CodeX.Web.Common.UI;
+using CodeX.Web.Common;
+using CodeX.Data.Model;
+using DevExpress.Web.ASPxEditors;
+using System.Reflection;
+using System.Collections;
+using CodeX.Common;
+using CodeX.Data.Core.Dal;
+
+namespace CodeX.Muses.Web.Accounting.Program
+{
+    public partial class GLAPOtherEntry : BasePageEntry
+    {
+        public override string OnGetMenuCode()
+        {
+            return Constant.MenuCode.Accounting.GL_AP_OTHER;
+        }
+
+        protected override void InitializeDataControl()
+        {
+            if (Request.QueryString.Count > 0)
+            {
+                IsAdd = false;
+                String[] param = Request.QueryString["id"].Split('|');
+                hdnID.Value = param[0];
+                vGLAPOther entity = BusinessLayer.GetvGLAPOtherList(String.Format("ID = {0}", hdnID.Value))[0];
+                EntityToControl(entity);
+            }
+            else
+            {
+                SetControlProperties();
+                IsAdd = true;
+            }
+
+            txtGLAccount1Code.Focus();
+        }
+
+        protected override void OnControlEntrySetting()
+        {
+            SetControlEntrySetting(txtAPOtherCode, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtAPOtherName, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
+            
+            #region Pengaturan Perkiraan untuk Aktiva Tetap
+            SetControlEntrySetting(hdnGLAccount1ID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnSearchDialogTypeName1, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnSubLedgerID1, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtGLAccount1Code, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtGLAccount1Name, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(lblSubLedgerDt1, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnSubLedgerDt1ID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtSubLedgerDt1Code, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtSubLedgerDt1Name, new ControlEntrySetting(false, false, false));
+            #endregion
+        }
+
+        private void EntityToControl(vGLAPOther entity)
+        {
+            txtAPOtherCode.Text = entity.APOtherCode;
+            txtAPOtherName.Text = entity.APOtherName;
+            txtNotes.Text = entity.Remarks;
+            
+            #region Pengaturan Perkiraan untuk Aktiva Tetap
+            #region GL Account 1
+            hdnGLAccount1ID.Value = entity.GLAccount.ToString();
+            txtGLAccount1Code.Text = entity.GLAccountNo;
+            txtGLAccount1Name.Text = entity.GLAccountName;
+
+            hdnSubLedgerID1.Value = entity.SubLedgerID.ToString();
+            hdnSearchDialogTypeName1.Value = entity.SearchDialogTypeName;
+            hdnIDFieldName1.Value = entity.IDFieldName;
+            hdnCodeFieldName1.Value = entity.CodeFieldName;
+            hdnDisplayFieldName1.Value = entity.DisplayFieldName;
+            hdnMethodName1.Value = entity.MethodName;
+            hdnFilterExpression1.Value = entity.FilterExpression;
+
+            hdnSubLedgerDt1ID.Value = entity.SubLedger.ToString();
+            txtSubLedgerDt1Code.Text = entity.SubLedgerCode;
+            txtSubLedgerDt1Name.Text = entity.SubLedgerName;
+            #endregion
+            #endregion
+        }
+
+        private void ControlToEntity(GLAPOther entity)
+        {
+            entity.APOtherCode = txtAPOtherCode.Text;
+            entity.APOtherName = txtAPOtherName.Text;
+            entity.Remarks = txtNotes.Text;
+
+            #region Pengaturan Perkiraan untuk Aktiva Tetap
+            #region GL Account 1
+            entity.GLAccount = Convert.ToInt32(hdnGLAccount1ID.Value);
+            if (hdnSubLedgerDt1ID.Value != "" && hdnSubLedgerDt1ID.Value != "0")
+                entity.SubLedger = Convert.ToInt32(hdnSubLedgerDt1ID.Value);
+            else
+                entity.SubLedger = null;
+            #endregion
+            #endregion
+        }
+
+        protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
+        {
+            IDbContext ctx = DbFactory.Configure(true);
+            GLAPOtherDao entityDao = new GLAPOtherDao(ctx);
+            bool result = false;
+            try
+            {
+                GLAPOther entity = new GLAPOther();
+                ControlToEntity(entity);
+                entity.CreatedBy = AppSession.UserLogin.UserID;
+                entityDao.Insert(entity);
+                retval = BusinessLayer.GetGLAPOtherMaxID(ctx).ToString();
+                ctx.CommitTransaction();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                ctx.RollBackTransaction();
+                result = false;
+                errMessage = ex.Message;
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnSaveEditRecord(ref string errMessage)
+        {
+            try
+            {
+                GLAPOther entity = BusinessLayer.GetGLAPOther(Convert.ToInt32(hdnID.Value));
+                ControlToEntity(entity);
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                BusinessLayer.UpdateGLAPOther(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                return false;
+            }
+        }
+    }
+}

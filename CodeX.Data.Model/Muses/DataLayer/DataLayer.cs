@@ -11201,6 +11201,133 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region GLAPOther
+    [Serializable]
+    [Table(Name = "GLAPOther")]
+    public class GLAPOther : DbDataModel
+    {
+        private Int32 _ID;
+        private String _APOtherCode;
+        private String _APOtherName;
+        private Int32 _GLAccount;
+        private Int32? _SubLedger;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32? _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "ID", DataType = "Int32", IsPrimaryKey = true, IsIdentity = true)]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "APOtherCode", DataType = "String")]
+        public String APOtherCode
+        {
+            get { return _APOtherCode; }
+            set { _APOtherCode = value; }
+        }
+        [Column(Name = "APOtherName", DataType = "String")]
+        public String APOtherName
+        {
+            get { return _APOtherName; }
+            set { _APOtherName = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String", IsNullable = true)]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32", IsNullable = true)]
+        public Int32? LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime", IsNullable = true)]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+
+    public class GLAPOtherDao
+    {
+        private readonly IDbContext _ctx = DbFactory.Configure();
+        private readonly DbHelper _helper = new DbHelper(typeof(GLAPOther));
+        private bool _isAuditLog = false;
+        private const string p_ID = "@p_ID";
+        public GLAPOtherDao() { }
+        public GLAPOtherDao(IDbContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public GLAPOther Get(Int32 ID)
+        {
+            _ctx.CommandText = _helper.GetRecord();
+            _ctx.Add(p_ID, ID);
+            DataRow row = DaoBase.GetDataRow(_ctx);
+            return (row == null) ? null : (GLAPOther)_helper.DataRowToObject(row, new GLAPOther());
+        }
+        public int Insert(GLAPOther record)
+        {
+            record.CreatedDate = DateTime.Now;
+            _helper.Insert(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+        public int Update(GLAPOther record)
+        {
+            record.LastUpdatedDate = DateTime.Now;
+            _helper.Update(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx, true);
+        }
+        public int Delete(Int32 ID)
+        {
+            GLAPOther record;
+            if (_ctx.Transaction == null)
+                record = new GLAPOtherDao().Get(ID);
+            else
+                record = Get(ID);
+            _helper.Delete(_ctx, record, _isAuditLog);
+            return DaoBase.ExecuteNonQuery(_ctx);
+        }
+    }
+    #endregion
     #region GLAPPayment
     [Serializable]
     [Table(Name = "GLAPPayment")]
@@ -19359,6 +19486,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _PurchaseInvoiceID;
         private Int32? _PurchaseReceiveID;
+        private Int32? _GLAPOtherID;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
         private Decimal _TransactionAmount;
@@ -19374,7 +19502,7 @@ namespace CodeX.Data.Model
         private Decimal _LineAmount;
         private Decimal _PaymentAmount;
         private Boolean _IsDeleted;
-        private Int32? _CreatedBy;
+        private Int32 _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
         private DateTime _LastUpdatedDate;
@@ -19396,6 +19524,12 @@ namespace CodeX.Data.Model
         {
             get { return _PurchaseReceiveID; }
             set { _PurchaseReceiveID = value; }
+        }
+        [Column(Name = "GLAPOtherID", DataType = "Int32", IsNullable = true)]
+        public Int32? GLAPOtherID
+        {
+            get { return _GLAPOtherID; }
+            set { _GLAPOtherID = value; }
         }
         [Column(Name = "ReferenceNo", DataType = "String")]
         public String ReferenceNo
@@ -19488,7 +19622,7 @@ namespace CodeX.Data.Model
             set { _IsDeleted = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32")]
-        public Int32? CreatedBy
+        public Int32 CreatedBy
         {
             get { return _CreatedBy; }
             set { _CreatedBy = value; }
@@ -29070,6 +29204,8 @@ namespace CodeX.Data.Model
         private Int32? _ARPurchaseReturnSubLedger;
         private Int32? _ARCreditNote;
         private Int32? _ARCreditNoteSubLedger;
+        private Int32? _APVariance;
+        private Int32? _APVarianceSubLedger;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
         private Int32? _LastUpdatedBy;
@@ -29182,6 +29318,18 @@ namespace CodeX.Data.Model
         {
             get { return _ARCreditNoteSubLedger; }
             set { _ARCreditNoteSubLedger = value; }
+        }
+        [Column(Name = "APVariance", DataType = "Int32", IsNullable = true)]
+        public Int32? APVariance
+        {
+            get { return _APVariance; }
+            set { _APVariance = value; }
+        }
+        [Column(Name = "APVarianceSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? APVarianceSubLedger
+        {
+            get { return _APVarianceSubLedger; }
+            set { _APVarianceSubLedger = value; }
         }
         [Column(Name = "CreatedBy", DataType = "Int32")]
         public Int32 CreatedBy

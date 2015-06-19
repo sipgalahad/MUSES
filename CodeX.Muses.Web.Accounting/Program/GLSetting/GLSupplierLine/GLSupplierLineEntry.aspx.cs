@@ -137,6 +137,16 @@ namespace CodeX.Muses.Web.Accounting.Program
             SetControlEntrySetting(hdnARCreditNoteSubLedger, new ControlEntrySetting(true, true));
             SetControlEntrySetting(txtARCreditNoteSubLedgerCode, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtARCreditNoteSubLedgerName, new ControlEntrySetting(false, false, false));
+
+            SetControlEntrySetting(hdnAPVarianceID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnAPVarianceSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnAPVarianceSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtAPVarianceGLAccountNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtAPVarianceGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblAPVarianceSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnAPVarianceSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtAPVarianceSubLedgerCode, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtAPVarianceSubLedgerName, new ControlEntrySetting(false, false, false));
             #endregion
         }
 
@@ -283,6 +293,22 @@ namespace CodeX.Muses.Web.Accounting.Program
             txtARCreditNoteSubLedgerName.Text = entityDt.ARCreditNoteSubLedgerName.ToString();
             #endregion
 
+            #region APVariance
+            hdnAPVarianceID.Value = entityDt.APVariance.ToString();
+            txtAPVarianceGLAccountNo.Text = entityDt.APVarianceGLAccountNo;
+            txtAPVarianceGLAccountName.Text = entityDt.APVarianceGLAccountName;
+            hdnAPVarianceSubLedgerID.Value = entityDt.APVarianceSubLedgerID.ToString();
+            hdnAPVarianceSearchDialogTypeName.Value = entityDt.APVarianceSearchDialogTypeName;
+            hdnAPVarianceIDFieldName.Value = entityDt.APVarianceIDFieldName;
+            hdnAPVarianceCodeFieldName.Value = entityDt.APVarianceCodeFieldName;
+            hdnAPVarianceDisplayFieldName.Value = entityDt.APVarianceDisplayFieldName;
+            hdnAPVarianceMethodName.Value = entityDt.APVarianceMethodName;
+            hdnAPVarianceFilterExpression.Value = entityDt.APVarianceFilterExpression;
+
+            hdnAPVarianceSubLedger.Value = entityDt.APVarianceSubLedger.ToString();
+            txtAPVarianceSubLedgerCode.Text = entityDt.APVarianceSubLedgerCode.ToString();
+            txtAPVarianceSubLedgerName.Text = entityDt.APVarianceSubLedgerName.ToString();
+            #endregion
             #endregion
         }
 
@@ -381,6 +407,17 @@ namespace CodeX.Muses.Web.Accounting.Program
                 entityDt.ARCreditNoteSubLedger = Convert.ToInt32(hdnARCreditNoteSubLedger.Value);
             else
                 entityDt.ARCreditNoteSubLedger = null;
+            #endregion
+
+            #region APVariance
+            if (hdnAPVarianceID.Value != "" && hdnAPVarianceID.Value != "0")
+                entityDt.APVariance = Convert.ToInt32(hdnAPVarianceID.Value);
+            else
+                entityDt.APVariance = null;
+            if (hdnAPVarianceSubLedger.Value != "" && hdnAPVarianceSubLedger.Value != "0")
+                entityDt.APVarianceSubLedger = Convert.ToInt32(hdnAPVarianceSubLedger.Value);
+            else
+                entityDt.APVarianceSubLedger = null;
             #endregion
             #endregion
         }

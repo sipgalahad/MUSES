@@ -56,15 +56,87 @@ namespace CodeX.Muses.Web.Finance.Program
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
+            PurchaseReturnHd entityReturn = BusinessLayer.GetPurchaseReturnHdList(String.Format("PurchaseReceiveID = {0} AND GCTransactionStatus != '{1}'", entity.PurchaseReceiveID, Constant.TransactionStatus.VOID)).FirstOrDefault();
+            if (entityReturn != null)
+            {
+                hdnPurchaseReturnID.Value = entityReturn.PurchaseReturnID.ToString();
+                txtPurchaseReturnNo.Text = entityReturn.PurchaseReturnNo;
+                txtPurchaseReturnDate.Text = entityReturn.ReturnDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                txtReturnTransactionAmount.Text = entityReturn.TransactionAmount.ToString();
+                chkReturnPPN.Checked = entityReturn.IsIncludeVAT;
+
+                if (entityReturn.GCPurchaseReturnType == Constant.PurchaseReturnType.CREDIT_NOTE)
+                {
+                    string filterExpression = string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_CREDIT_NOTE_TYPE);
+                    List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+                    Methods.SetComboBoxField<StandardCode>(cboCreditNoteType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+                    SupplierCreditNote entityCreditNote = BusinessLayer.GetSupplierCreditNoteList(string.Format("PurchaseReturnID = {0}", entityReturn.PurchaseReturnID)).FirstOrDefault();
+                    if (entityCreditNote != null)
+                    {
+                        cboCreditNoteType.Value = entityCreditNote.GCCreditNoteType;
+                        txtCNAmount.Text = entityCreditNote.CNAmount.ToString();
+                    }
+                    else
+                    {
+                        txtCNAmount.Text = entityReturn.TotalNetTransactionAmount.ToString();
+                        cboCreditNoteType.SelectedIndex = 0;
+                    }
+                }
+                else
+                {
+                    trCreditNoteAmount.Style.Add("display", "none");
+                    trCreditNoteType.Style.Add("display", "none");
+                }
+            }
+            else
+            {
+                hdnPurchaseReturnID.Value = "";
+                //trPurchaseReturnNo.Style.Add("display", "none");
+                //trPurchaseReturnDate.Style.Add("display", "none");
+                //divPurchaseReturnFooter.Style.Add("display", "none");
+                trCreditNoteAmount.Style.Add("display", "none");
+                trCreditNoteType.Style.Add("display", "none");
+            }
+
             BindGridView();
         }
 
         private void BindGridView()
         {
+            if (hdnPurchaseReturnID.Value != "")
+            {
+                string filterExpressionReturn = string.Format("PurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReturnID.Value, Constant.TransactionStatus.VOID);
+                lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionReturn);
+            }
+            else
+                lstPurchaseReturnDt = new List<PurchaseReturnDt>();
             string filterExpression = string.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReceiveID.Value, Constant.TransactionStatus.VOID);
             List<vPurchaseReceiveDt> lstEntity = BusinessLayer.GetvPurchaseReceiveDtList(filterExpression);
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
+        }
+
+        List<PurchaseReturnDt> lstPurchaseReturnDt = null;
+        protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                vPurchaseReceiveDt entity = (vPurchaseReceiveDt)e.Item.DataItem;
+                CheckBox chkIsBonus = (CheckBox)e.Item.FindControl("chkIsBonus");
+                chkIsBonus.Checked = entity.IsBonusItem;
+
+                PurchaseReturnDt entityReturn = lstPurchaseReturnDt.FirstOrDefault(p => p.ItemID == entity.ItemID);
+                if (entityReturn != null)
+                {
+                    HtmlTableCell tdReturnQuantity = (HtmlTableCell)e.Item.FindControl("tdReturnQuantity");
+                    HtmlTableCell tdReturnLineAmount = (HtmlTableCell)e.Item.FindControl("tdReturnLineAmount");
+
+                    tdReturnQuantity.InnerHtml = entityReturn.Quantity.ToString();
+                    tdReturnLineAmount.InnerHtml = entityReturn.LineAmount.ToString("N");
+                }
+
+            }
         }
 
         protected void cbpPopupView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

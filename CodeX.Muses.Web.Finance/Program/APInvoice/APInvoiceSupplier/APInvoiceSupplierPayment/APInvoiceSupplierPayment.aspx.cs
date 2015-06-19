@@ -37,7 +37,6 @@ namespace CodeX.Muses.Web.Finance.Program
             Helper.SetControlEntrySetting(txtReferenceDate, new ControlEntrySetting(true, false, false), "mpEntry");
 
             txtPaymentDate.Text = txtReferenceDate.Text = DateTime.Today.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            BindGridView();
         }
 
         public override void OnAddRecord()
@@ -59,6 +58,7 @@ namespace CodeX.Muses.Web.Finance.Program
             Methods.SetComboBoxField<StandardCode>(cboPaymentMethod, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.SUPPLIER_PAYMENT_METHOD).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<Bank>(cboBank, listBank, "BankName", "BankID");
             cboItemType.SelectedIndex = 0;
+            BindGridView();
         }
 
         protected override void OnControlEntrySetting()

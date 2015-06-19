@@ -99,13 +99,28 @@
         });
         $('#<%=txtTransactionAmount.ClientID %>').val(total).trigger('changeValue');
         $('#<%=txtFinalDiscountPercentage.ClientID %>').change();
+
+
+        var qty = parseFloat($tr.find('.hdnReturnQuantity').val());
+        var discountAmount1 = parseFloat($tr.find('.txtDiscountPercentage1').val()) * (qty * unitPrice) / 100;
+        var discountAmount2 = parseFloat($tr.find('.txtDiscountPercentage2').val()) * ((qty * unitPrice) - discountAmount1) / 100;
+        var subTotal = (qty * unitPrice) - discountAmount1 - discountAmount2;
+        $tr.find('.txtReturnLineAmount').val(subTotal).trigger('changeValue');
+        var total = 0;
+        $('.txtReturnLineAmount').each(function () {
+            total += parseFloat($(this).attr('hiddenVal'));
+        });
+        $('#<%=txtReturnTransactionAmount.ClientID %>').val(total).trigger('changeValue');
+        calculateReturnTotal(false);
     }
     //#endregion
 
     setDatePicker('<%=txtPurchaseReceiveDate.ClientID %>');
 
     $('#<%=chkPPN.ClientID %>').change(function () {
+        $('#<%=chkReturnPPN.ClientID %>').prop('checked', $(this).is(':checked'));
         calculateTotal();
+        calculateReturnTotal(false);
     });
 
     $('#<%=txtDP.ClientID %>').change(function () {
@@ -134,6 +149,7 @@
     });
 
     calculateTotal();
+    calculateReturnTotal(true);
 
     function calculateTotal() {
         var totalKotor = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
@@ -159,6 +175,22 @@
         $('#<%=txtTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
     }
 
+    function calculateReturnTotal(isLoad) {
+        var totalKotor = parseFloat($('#<%=txtReturnTransactionAmount.ClientID %>').attr('hiddenVal'));
+        if ($('#<%=chkReturnPPN.ClientID %>').is(':checked')) {
+            var temp = parseFloat($('#<%=txtReturnTransactionAmount.ClientID %>').attr('hiddenVal'));
+            var PPN = VATPercentage / 100 * parseFloat(temp);
+            $('#<%=txtReturnPPN.ClientID %>').val(PPN).trigger('changeValue');
+        }
+        else
+            $('#<%=txtReturnPPN.ClientID %>').val('0').trigger('changeValue');
+        var PPN = parseFloat($('#<%=txtReturnPPN.ClientID %>').attr('hiddenVal'));
+        var totalHarga = totalKotor + PPN;
+        $('#<%=txtReturnTotalNetTransactionAmount.ClientID %>').val(totalHarga).trigger('changeValue');
+        if (!isLoad)
+            $('#<%=txtCNAmount.ClientID %>').val(totalHarga).trigger('changeValue');
+    }
+
     function onBeforeSaveRecord(errMessage) {
         var result = '';
         var lstID = '';
@@ -170,11 +202,13 @@
             var discountPercentage2 = parseFloat($(this).find('.txtDiscountPercentage2').attr('hiddenVal'));
             var discountAmount2 = parseFloat($(this).find('.txtDiscountAmount2').attr('hiddenVal'));
             var lineAmount = parseFloat($(this).find('.txtLineAmount').attr('hiddenVal'));
+            var returnID = parseFloat($(this).find('.hdnPurchaseReturnDtID').val());
+            var returnLineAmount = parseFloat($(this).find('.txtReturnLineAmount').attr('hiddenVal'));
             if (result != '') {
                 result += "|";
                 lstID += ',';
             }
-            result += id + ';' + unitPrice + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + lineAmount;
+            result += id + ';' + unitPrice + ';' + discountPercentage1 + ';' + discountAmount1 + ';' + discountPercentage2 + ';' + discountAmount2 + ';' + lineAmount + ';' + returnID + ';' + returnLineAmount;
             lstID += id;
         });
 
@@ -184,6 +218,9 @@
     }
 </script>
 <input type="hidden" id="hdnID" runat="server" />
+<input type="hidden" id="hdnPurchaseReturnID" runat="server" />
+<input type="hidden" id="hdnGCPurchaseReturnType" runat="server" />
+<input type="hidden" id="hdnCreditNoteID" runat="server" />
 <input type="hidden" id="hdnItemID" runat="server" />
 <input type="hidden" id="hdnLocationID" runat="server" />
 <input type="hidden" id="hdnDateFrom" runat="server" />
@@ -196,6 +233,10 @@
 
 <div style="max-height: 440px; overflow-y: auto" id="containerPopup">
     <table style="width:100%">
+        <colgroup>
+            <col style="width:450px"/>
+            <col style="width:400px"/>
+        </colgroup>
         <tr>
             <td style="padding: 5px; vertical-align: top">
                 <table class="tblEntryContent">
@@ -232,12 +273,12 @@
             <td style="padding: 5px; vertical-align: top">
                 <table class="tblEntryContent" style="width: 100%">
                     <colgroup>
-                        <col style="width: 30%" />
+                        <col style="width: 150px" />
                         <col />
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Waktu Pembayaran")%></label></td>
-                        <td><dxe:ASPxComboBox ID="cboTerm" ClientInstanceName="cboTerm" Width="300px" runat="server" /></td>
+                        <td><dxe:ASPxComboBox ID="cboTerm" ClientInstanceName="cboTerm" Width="200px" runat="server" /></td>
                     </tr>
                     <tr style="display: none">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Uang")%></label></td>
@@ -247,11 +288,30 @@
                         <td class="tdLabel"><%=GetLabel("Nilai Kurs (Rp)") %></td>
                         <td><asp:TextBox ID="txtKurs" Width="120px" runat="server" /></td>
                     </tr>
+                    <tr id="trPurchaseReturnNo" runat="server">
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("No Retur")%></label></td>
+                        <td><asp:TextBox ID="txtPurchaseReturnNo" ReadOnly="true" Width="200px" runat="server" /></td>
+                    </tr>  
+                    <tr id="trPurchaseReturnDate" runat="server">
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tgl Retur")%></label></td>
+                        <td><asp:TextBox ID="txtPurchaseReturnDate" ReadOnly="true" Width="120px" CssClass="datepicker" runat="server" /></td>
+                    </tr>  
+                </table>
+            </td>
+            <td style="padding: 5px; vertical-align: top">
+                <table style="width: 100%;">
+                    <colgroup>
+                        <col style="width: 70px" />
+                    </colgroup>
+                    <tr>
+                        <td class="tdLabel" style="vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
+                        <td><asp:TextBox ID="txtNotes" Width="100%" runat="server" TextMode="MultiLine" Rows="5" /></td>
+                    </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="3">
                 <div style="position: relative;">
                     <dxcp:ASPxCallbackPanel ID="cbpPopupView" runat="server" Width="100%" ClientInstanceName="cbpPopupView"
                         ShowLoadingPanel="false" OnCallback="cbpPopupView_Callback">
@@ -266,19 +326,21 @@
                                                     <th rowspan="2" style="width:30px" align="center"><%=GetLabel("Bonus")%></th>
                                                     <th rowspan="2" style="width:60px"><%=GetLabel("Kode Item")%></th>
                                                     <th rowspan="2"><%=GetLabel("Nama Item")%></th>
-                                                    <th rowspan="2" class="thCenter" style="width:130px"><%=GetLabel("Harga Satuan")%></th>
+                                                    <th rowspan="2" class="thCenter" style="width:120px"><%=GetLabel("Harga Satuan")%></th>
                                                     <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Diterima")%></th>
+                                                    <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Diretur")%></th>
                                                     <th colspan="2" class="thCenter"><%=GetLabel("DISKON 1")%></th>
                                                     <th colspan="2" class="thCenter"><%=GetLabel("DISKON 2")%></th>
-                                                    <th rowspan="2" class="thCenter" style="width:95px"><%=GetLabel("Total")%></th>  
+                                                    <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Total (Sebelum Retur)")%></th>
+                                                    <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Total Retur")%></th>   
                                                     <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Penerima")%></th>                                                
                                                 </tr>
                                                 <tr>
-                                                    <th style="width:60px" class="thCenter"><%=GetLabel("[%]")%></th>
-                                                    <th style="width:95px" class="thCenter"><%=GetLabel("Jumlah")%></th>
+                                                    <th style="width:40px" class="thCenter"><%=GetLabel("[%]")%></th>
+                                                    <th style="width:70px" class="thCenter"><%=GetLabel("Jumlah")%></th>
 
-                                                    <th style="width:60px" class="thCenter"><%=GetLabel("[%]")%></th>
-                                                    <th style="width:95px" class="thCenter"><%=GetLabel("Jumlah")%></th>
+                                                    <th style="width:40px" class="thCenter"><%=GetLabel("[%]")%></th>
+                                                    <th style="width:70px" class="thCenter"><%=GetLabel("Jumlah")%></th>
                                                 </tr>
                                                 <tr class="trEmpty">
                                                     <td colspan="16">
@@ -293,19 +355,21 @@
                                                     <th rowspan="2" style="width:30px" align="center"><%=GetLabel("Bonus")%></th>
                                                     <th rowspan="2" style="width:60px"><%=GetLabel("Kode Item")%></th>
                                                     <th rowspan="2"><%=GetLabel("Nama Item")%></th>
-                                                    <th rowspan="2" class="thCenter" style="width:130px"><%=GetLabel("Harga Satuan")%></th>
+                                                    <th rowspan="2" class="thCenter" style="width:120px"><%=GetLabel("Harga Satuan")%></th>
                                                     <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Diterima")%></th>
+                                                    <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Diretur")%></th>
                                                     <th colspan="2" class="thCenter"><%=GetLabel("DISKON 1")%></th>
                                                     <th colspan="2" class="thCenter"><%=GetLabel("DISKON 2")%></th>
-                                                    <th rowspan="2" class="thCenter" style="width:95px"><%=GetLabel("Total")%></th>  
+                                                    <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Total (Sebelum Retur)")%></th>
+                                                    <th rowspan="2" class="thCenter" style="width:80px"><%=GetLabel("Total Retur")%></th>   
                                                     <th rowspan="2" class="thCenter" style="width:70px"><%=GetLabel("Penerima")%></th>                                                
                                                 </tr>
                                                 <tr>
-                                                    <th style="width:60px" class="thCenter"><%=GetLabel("[%]")%></th>
-                                                    <th style="width:95px" class="thCenter"><%=GetLabel("Jumlah")%></th>
+                                                    <th style="width:40px" class="thCenter"><%=GetLabel("[%]")%></th>
+                                                    <th style="width:70px" class="thCenter"><%=GetLabel("Jumlah")%></th>
 
-                                                    <th style="width:60px" class="thCenter"><%=GetLabel("[%]")%></th>
-                                                    <th style="width:95px" class="thCenter"><%=GetLabel("Jumlah")%></th>
+                                                    <th style="width:40px" class="thCenter"><%=GetLabel("[%]")%></th>
+                                                    <th style="width:70px" class="thCenter"><%=GetLabel("Jumlah")%></th>
                                                 </tr>
                                                 <tr runat="server" id="itemPlaceholder" ></tr>
                                             </table>
@@ -341,11 +405,26 @@
                                                         </tr>
                                                     </table>  
                                                 </td>
+                                                <td>
+                                                    <input type="hidden" class="hdnPurchaseReturnDtID" id="hdnPurchaseReturnDtID" runat="server" value='0' />
+                                                    <input type="hidden" class="hdnReturnQuantity" id="hdnReturnQuantity" runat="server" value='0' />
+                                                    <table cellpadding="0" cellspacing="0" style="width:100%">
+                                                        <colgroup>
+                                                            <col />
+                                                            <col style="width:40px" />
+                                                        </colgroup>
+                                                        <tr>
+                                                            <td class="lblReadOnlyText" align="right" id="tdReturnQuantity" runat="server">0</td>
+                                                            <td>&nbsp<%# Eval("ItemUnit")%></td>
+                                                        </tr>
+                                                    </table>  
+                                                </td>
                                                 <td align="center"><asp:TextBox ID="txtDiscountPercentage1" runat="server" Width="100%" CssClass="txtCurrency txtDiscountPercentage1"/></td>
                                                 <td align="center"><asp:TextBox ID="txtDiscountAmount1" runat="server" Width="100%" CssClass="txtCurrency txtDiscountAmount1"/></td>
                                                 <td align="center"><asp:TextBox ID="txtDiscountPercentage2" runat="server" Width="100%" CssClass="txtCurrency txtDiscountPercentage2"/></td>
                                                 <td align="center"><asp:TextBox ID="txtDiscountAmount2" runat="server" Width="100%" CssClass="txtCurrency txtDiscountAmount2"/></td>
                                                 <td align="center"><asp:TextBox ID="txtLineAmount" ReadOnly="true" runat="server" Width="100%" CssClass="txtCurrency txtLineAmount"/></td>
+                                                <td align="center"><asp:TextBox ID="txtReturnLineAmount" ReadOnly="true" runat="server" Width="100%" CssClass="txtCurrency txtReturnLineAmount"/></td>
                                                 <td><%# Eval("Username")%></td>
                                             </tr>
                                         </ItemTemplate>
@@ -365,20 +444,46 @@
                     </colgroup>
                     <tr>
                         <td valign="top">
-                            <table style="width: 100%;">
-                                <colgroup>
-                                    <col style="width: 100px" />
-                                </colgroup>
-                                <tr>
-                                    <td class="tdLabel" style="width: 120px; vertical-align: top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
-                                    <td><asp:TextBox ID="txtNotes" Width="300px" runat="server" TextMode="MultiLine" Rows="5" /></td>
-                                </tr>
-                            </table>
+                            <div id="divPurchaseReturnFooter" runat="server">
+                                <h4><%=GetLabel("Informasi Retur") %></h4>
+                                <table style="width: 100%;">
+                                    <colgroup>
+                                        <col style="width: 180px" />
+                                        <col style="width: 10px" />
+                                    </colgroup>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jumlah Nilai Retur")%></label></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtReturnTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("PPN")%> (<%=GetVATPercentageLabel()%>%)</label></td>
+                                        <td align="right"><asp:CheckBox ID="chkReturnPPN" Enabled="false" runat="server" /></td>
+                                        <td><asp:TextBox ID="txtReturnPPN" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Total Nilai Retur")%></label></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtReturnTotalNetTransactionAmount" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
+                                    </tr>
+                                    <tr id="trCreditNoteType" runat="server">
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tipe Nota Kredit")%></label></td>
+                                        <td>&nbsp;</td>
+                                        <td><dxe:ASPxComboBox ID="cboCreditNoteType"  Width="180px" runat="server" /></td>
+                                    </tr>
+                                    <tr id="trCreditNoteAmount" runat="server">
+                                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Nilai Nota Kredit")%></label></td>
+                                        <td>&nbsp;</td>
+                                        <td><asp:TextBox ID="txtCNAmount" CssClass="txtCurrency" Width="180px" runat="server" /></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </td>
                         <td>
                             &nbsp;
                         </td>
                         <td valign="top">
+                            <h4><%=GetLabel("Informasi Penerimaan Barang") %></h4>
                             <table style="width: 100%;">
                                 <colgroup>
                                     <col style="width: 180px" />

@@ -5497,6 +5497,62 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region GLAPOther
+        public static GLAPOther GetGLAPOther(Int32 ID)
+        {
+            return new GLAPOtherDao().Get(ID);
+        }
+        public static int InsertGLAPOther(GLAPOther record)
+        {
+            return new GLAPOtherDao().Insert(record);
+        }
+        public static int UpdateGLAPOther(GLAPOther record)
+        {
+            return new GLAPOtherDao().Update(record);
+        }
+        public static int DeleteGLAPOther(Int32 ID)
+        {
+            return new GLAPOtherDao().Delete(ID);
+        }
+        public static List<GLAPOther> GetGLAPOtherList(string filterExpression)
+        {
+            List<GLAPOther> result = new List<GLAPOther>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLAPOther));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((GLAPOther)helper.IDataReaderToObject(reader, new GLAPOther()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetGLAPOtherMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(GLAPOther));
+                ctx.CommandText = helper.SelectMaxColumn("ID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region GLAPPayment
         public static GLAPPayment GetGLAPPayment(Int32 ID)
         {
@@ -10371,6 +10427,23 @@ namespace CodeX.Data.Model
             finally
             {
                 ctx.Close();
+            }
+            return result;
+        }
+        public static List<PurchaseReturnDt> GetPurchaseReturnDtList(string filterExpression, IDbContext ctx)
+        {
+            List<PurchaseReturnDt> result = new List<PurchaseReturnDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(PurchaseReturnDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((PurchaseReturnDt)helper.IDataReaderToObject(reader, new PurchaseReturnDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
             return result;
         }

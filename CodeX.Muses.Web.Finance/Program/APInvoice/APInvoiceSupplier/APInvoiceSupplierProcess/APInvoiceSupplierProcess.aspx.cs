@@ -30,6 +30,7 @@ namespace CodeX.Muses.Web.Finance.Program
             hdnPPNPctg.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
 
             BindGridView(1, true, ref PageCount, false);
+            Helper.SetControlEntrySetting(cboGLAPOther, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtDueDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtInvoiceDate, new ControlEntrySetting(true, true, false), "mpTrx");
             Helper.SetControlEntrySetting(txtPurchaseInvoiceDate, new ControlEntrySetting(true, true, false), "mpTrx");
@@ -59,6 +60,10 @@ namespace CodeX.Muses.Web.Finance.Program
 
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboCurrency.SelectedIndex = 0;
+
+            List<GLAPOther> lstGLAPOther = BusinessLayer.GetGLAPOtherList("IsDeleted = 0");
+            Methods.SetComboBoxField<GLAPOther>(cboGLAPOther, lstGLAPOther, "APOtherName", "ID");
+            cboGLAPOther.SelectedIndex = 0;
         }
 
         protected override void OnControlEntrySetting()
@@ -383,6 +388,99 @@ namespace CodeX.Muses.Web.Finance.Program
             return result;
         }
 
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+
+            IDbContext ctx = DbFactory.Configure(true);
+            PurchaseInvoiceHdDao entityDao = new PurchaseInvoiceHdDao(ctx);
+            PurchaseReceiveHdDao purchaseHdDao = new PurchaseReceiveHdDao(ctx);
+            PurchaseReceiveDtDao purchaseDtDao = new PurchaseReceiveDtDao(ctx);
+            ItemPlanningDao itemPlanningDao = new ItemPlanningDao(ctx);
+            try
+            {
+                PurchaseInvoiceHd entity = BusinessLayer.GetPurchaseInvoiceHd(Convert.ToInt32(hdnPurchaseInvoiceID.Value));
+                entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                entityDao.Update(entity);
+
+                List<PurchaseReceiveHd> lstPurchaseReceiveHd = BusinessLayer.GetPurchaseReceiveHdList(String.Format("PurchaseReceiveID IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseInvoiceID = {0} AND IsDeleted = 0) AND GCTransactionStatus = '{1}'", entity.PurchaseInvoiceID, Constant.TransactionStatus.APPROVED), ctx);
+                foreach (PurchaseReceiveHd purchaseReceiveHd in lstPurchaseReceiveHd)
+                {
+                    purchaseReceiveHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                    purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseHdDao.Update(purchaseReceiveHd);
+                }
+                string lstPurchaseReceiveID = string.Join(",", lstPurchaseReceiveHd.Select(p => p.PurchaseReceiveID).ToList());
+                if (lstPurchaseReceiveID != "")
+                {
+                    List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(String.Format("PurchaseReceiveID IN ({0}) AND GCItemDetailStatus != '{1}'", lstPurchaseReceiveID, Constant.TransactionStatus.VOID), ctx);
+                    String lstItemID = String.Join(",", lstPurchaseReceiveDt.Select(p => p.ItemID).ToList());
+
+                    string filterExpression = String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID);
+                    List<ItemPlanning> lstItemPlanning = BusinessLayer.GetItemPlanningList(filterExpression, ctx);
+                    filterExpression = String.Format("SiteID = '{0}' AND ItemID IN ({1}) AND LocationIsDeleted = 0 AND IsDeleted = 0", AppSession.UserLogin.SiteID, lstItemID);
+                    List<vItemBalance> lstItemBalance = BusinessLayer.GetvItemBalanceList(filterExpression, ctx);
+
+                    foreach (PurchaseReceiveDt purchaseDt in lstPurchaseReceiveDt)
+                    {
+                        purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                        purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        //ItemPlanning entityItemPlanning = lstItemPlanning.Where(x => x.ItemID == purchaseDt.ItemID).FirstOrDefault();
+
+                        //decimal purchaseUnitPrice = purchaseDt.UnitPrice;
+                        //decimal unitPrice = 0;
+                        //if (hdnIsDiscountAppliedToAveragePrice.Value == "1")
+                        //{
+                        //    decimal discountAmount1 = (purchaseUnitPrice * purchaseDt.DiscountPercentage1) / 100;
+                        //    decimal discountAmount2 = ((purchaseUnitPrice - discountAmount1) * purchaseDt.DiscountPercentage2) / 100;
+                        //    purchaseUnitPrice = purchaseUnitPrice - (discountAmount1 + discountAmount2);
+                        //}
+
+                        //unitPrice = purchaseUnitPrice / purchaseDt.ConversionFactor;
+                        //if (hdnIsDiscountAppliedToUnitPrice.Value == "1")
+                        //{
+                        //    decimal discountAmount1 = (unitPrice * purchaseDt.DiscountPercentage1) / 100;
+                        //    decimal discountAmount2 = ((unitPrice - discountAmount1) * purchaseDt.DiscountPercentage2) / 100;
+                        //    unitPrice = unitPrice - (discountAmount1 + discountAmount2);
+                        //}
+
+                        //if (entityItemPlanning.LastPurchasePrice < unitPrice)
+                        //{
+                        //    entityItemPlanning.LastPurchasePrice = unitPrice;
+                        //    entityItemPlanning.UnitPrice = unitPrice;
+                        //    entityItemPlanning.PurchaseUnitPrice = purchaseUnitPrice;
+                        //}
+
+                        //entityItemPlanning.LastBusinessPartnerID = entity.BusinessPartnerID;
+                        //entityItemPlanning.LastPurchaseDiscount = purchaseDt.DiscountPercentage1;
+
+                        //decimal qtyEnd = lstItemBalance.Where(p => p.ItemID == purchaseDt.ItemID).Sum(p => p.QuantityEND);
+                        //decimal tempQty = (qtyEnd + (purchaseDt.Quantity * purchaseDt.ConversionFactor));
+                        //if (tempQty > 0)
+                        //    entityItemPlanning.AveragePrice = ((entityItemPlanning.AveragePrice * qtyEnd) + (purchaseUnitPrice * purchaseDt.Quantity)) / tempQty;
+                        //else
+                        //    entityItemPlanning.AveragePrice = 0;
+
+                        //entityItemPlanning.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        //itemPlanningDao.Update(entityItemPlanning);
+                        purchaseDtDao.Update(purchaseDt);
+                    }
+                }
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
         #endregion
 
         #region callBack Trigger
@@ -453,6 +551,7 @@ namespace CodeX.Muses.Web.Finance.Program
 
         private void ControlToEntity(PurchaseInvoiceDt entityDt)
         {
+            entityDt.GLAPOtherID = Convert.ToInt32(cboGLAPOther.Value);
             entityDt.TransactionAmount = Convert.ToDecimal(Request.Form[txtTransactionAmount.UniqueID]);
             entityDt.FinalDiscountAmount = Convert.ToDecimal(Request.Form[txtDiscountAmount.UniqueID]);
             entityDt.VATAmount = Convert.ToDecimal(Request.Form[txtVAT.UniqueID]);

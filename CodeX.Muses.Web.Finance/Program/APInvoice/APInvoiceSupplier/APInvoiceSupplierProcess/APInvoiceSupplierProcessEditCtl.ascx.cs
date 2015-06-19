@@ -11,6 +11,7 @@ using DevExpress.Web.ASPxCallbackPanel;
 using System.Web.UI.HtmlControls;
 using CodeX.Data.Core.Dal;
 using CodeX.Common;
+using System.Data;
 
 namespace CodeX.Muses.Web.Finance.Program
 {
@@ -58,17 +59,73 @@ namespace CodeX.Muses.Web.Finance.Program
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
             txtCharges.Text = entity.ChargesAmount.ToString();
 
+            PurchaseReturnHd entityReturn = BusinessLayer.GetPurchaseReturnHdList(String.Format("PurchaseReceiveID = {0} AND GCTransactionStatus != '{1}'", entity.PurchaseReceiveID, Constant.TransactionStatus.VOID)).FirstOrDefault();
+            if (entityReturn != null)
+            {
+                hdnPurchaseReturnID.Value = entityReturn.PurchaseReturnID.ToString();
+                txtPurchaseReturnNo.Text = entityReturn.PurchaseReturnNo;
+                txtPurchaseReturnDate.Text = entityReturn.ReturnDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                txtReturnTransactionAmount.Text = entityReturn.TransactionAmount.ToString();
+                chkReturnPPN.Checked = entityReturn.IsIncludeVAT;
+
+                hdnGCPurchaseReturnType.Value = Constant.PurchaseReturnType.CREDIT_NOTE;
+                if (entityReturn.GCPurchaseReturnType == Constant.PurchaseReturnType.CREDIT_NOTE)
+                {
+                    string filterExpression = string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_CREDIT_NOTE_TYPE);
+                    List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
+                    Methods.SetComboBoxField<StandardCode>(cboCreditNoteType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+                    SupplierCreditNote entityCreditNote = BusinessLayer.GetSupplierCreditNoteList(string.Format("PurchaseReturnID = {0}", entityReturn.PurchaseReturnID)).FirstOrDefault();
+                    if (entityCreditNote != null)
+                    {
+                        hdnCreditNoteID.Value = entityCreditNote.CreditNoteID.ToString();
+                        cboCreditNoteType.Value = entityCreditNote.GCCreditNoteType;
+                        txtCNAmount.Text = entityCreditNote.CNAmount.ToString();
+                    }
+                    else
+                    {
+                        txtCNAmount.Text = entityReturn.TotalNetTransactionAmount.ToString();
+                        cboCreditNoteType.SelectedIndex = 0;
+                        hdnCreditNoteID.Value = "";
+                    }
+                }
+                else
+                {
+                    hdnCreditNoteID.Value = "";
+                    trCreditNoteAmount.Style.Add("display", "none");
+                    trCreditNoteType.Style.Add("display", "none");
+                }
+            }
+            else
+            {
+                hdnGCPurchaseReturnType.Value = "";
+                hdnPurchaseReturnID.Value = "";
+                //trPurchaseReturnNo.Style.Add("display", "none");
+                //trPurchaseReturnDate.Style.Add("display", "none");
+                //divPurchaseReturnFooter.Style.Add("display", "none");
+                trCreditNoteAmount.Style.Add("display", "none");
+                trCreditNoteType.Style.Add("display", "none");
+            }
+
             BindGridView();
         }
 
         private void BindGridView()
         {
+            if (hdnPurchaseReturnID.Value != "")
+            {
+                string filterExpressionReturn = string.Format("PurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReturnID.Value, Constant.TransactionStatus.VOID);
+                lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionReturn);
+            }
+            else
+                lstPurchaseReturnDt = new List<PurchaseReturnDt>();
             string filterExpression = string.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReceiveID.Value, Constant.TransactionStatus.VOID);
             List<vPurchaseReceiveDt> lstEntity = BusinessLayer.GetvPurchaseReceiveDtList(filterExpression);
             lvwView.DataSource = lstEntity;
             lvwView.DataBind();
         }
 
+        List<PurchaseReturnDt> lstPurchaseReturnDt = null;
         protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -88,6 +145,21 @@ namespace CodeX.Muses.Web.Finance.Program
                 txtDiscountPercentage2.Text = entity.DiscountPercentage2.ToString();
                 txtDiscountAmount2.Text = entity.DiscountAmount2.ToString();
                 txtLineAmount.Text = entity.LineAmount.ToString();
+
+                PurchaseReturnDt entityReturn = lstPurchaseReturnDt.FirstOrDefault(p => p.ItemID == entity.ItemID);
+                if (entityReturn != null)
+                {
+                    HtmlInputHidden hdnPurchaseReturnDtID = (HtmlInputHidden)e.Item.FindControl("hdnPurchaseReturnDtID");
+                    HtmlInputHidden hdnReturnQuantity = (HtmlInputHidden)e.Item.FindControl("hdnReturnQuantity");
+                    HtmlTableCell tdReturnQuantity = (HtmlTableCell)e.Item.FindControl("tdReturnQuantity");
+                    TextBox txtReturnLineAmount = (TextBox)e.Item.FindControl("txtReturnLineAmount");
+                    
+                    hdnPurchaseReturnDtID.Value = entityReturn.ID.ToString();
+                    tdReturnQuantity.InnerHtml = entityReturn.Quantity.ToString();
+                    hdnReturnQuantity.Value = entityReturn.Quantity.ToString();
+                    txtReturnLineAmount.Text = entityReturn.LineAmount.ToString();
+                }
+
             }
         }
 
@@ -103,15 +175,28 @@ namespace CodeX.Muses.Web.Finance.Program
             PurchaseInvoiceDtDao purchaseInvoiceDtDao = new PurchaseInvoiceDtDao(ctx);
             PurchaseReceiveHdDao purchaseReceiveHdDao = new PurchaseReceiveHdDao(ctx);
             PurchaseReceiveDtDao purchaseReceiveDtDao = new PurchaseReceiveDtDao(ctx);
+            PurchaseReturnHdDao purchaseReturnHdDao = new PurchaseReturnHdDao(ctx);
+            PurchaseReturnDtDao purchaseReturnDtDao = new PurchaseReturnDtDao(ctx);
+            SupplierCreditNoteDao entityHdDao = new SupplierCreditNoteDao(ctx);
 
             string[] lstSaveValue = hdnSaveValue.Value.Split('|');
             try
             {
                 string tempGCTransactionStatus = "";
+                string tempReturnGCTransactionStatus = "";
                 PurchaseReceiveHd purchaseReceiveHd = purchaseReceiveHdDao.Get(Convert.ToInt32(hdnPurchaseReceiveID.Value));
                 tempGCTransactionStatus = purchaseReceiveHd.GCTransactionStatus;
                 purchaseReceiveHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
+
+                PurchaseReturnHd purchaseReturnHd = null;
+                if (hdnPurchaseReturnID.Value != "")
+                {
+                    purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPurchaseReturnID.Value));
+                    tempReturnGCTransactionStatus = purchaseReturnHd.GCTransactionStatus;
+                    purchaseReturnHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                    purchaseReturnHdDao.Update(purchaseReturnHd);
+                }
 
                 purchaseReceiveHd = purchaseReceiveHdDao.Get(Convert.ToInt32(hdnPurchaseReceiveID.Value));
                 purchaseReceiveHd.ReferenceNo = txtReferenceNo.Text;
@@ -134,6 +219,11 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseReceiveHd.TotalNetTransactionAmount = purchaseReceiveHd.TransactionAmount + purchaseReceiveHd.VATAmount - purchaseReceiveHd.FinalDiscountAmount + purchaseReceiveHd.StampAmount + purchaseReceiveHd.ChargesAmount - purchaseReceiveHd.DownPaymentAmount;
 
                 List<PurchaseReceiveDt> lstPurchaseReceiveDt = BusinessLayer.GetPurchaseReceiveDtList(string.Format("ID IN ({0})", hdnLstID.Value), ctx);
+                List<PurchaseReturnDt> lstPurchaseReturnDt = null;
+                if (hdnPurchaseReturnID.Value != "")
+                    lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(string.Format("PurchaseReturnID = {0} AND GCItemDetailStatus != '{1}'", hdnPurchaseReturnID.Value, Constant.TransactionStatus.VOID), ctx);
+                else
+                    lstPurchaseReturnDt = new List<PurchaseReturnDt>();
                 foreach (string saveValue in lstSaveValue)
                 {
                     string[] temp = saveValue.Split(';');
@@ -146,6 +236,19 @@ namespace CodeX.Muses.Web.Finance.Program
                     purchaseReceiveDt.LineAmount = Convert.ToDecimal(temp[6]);
                     purchaseReceiveDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     purchaseReceiveDtDao.Update(purchaseReceiveDt);
+
+                    PurchaseReturnDt purchaseReturnDt = lstPurchaseReturnDt.FirstOrDefault(p => p.ID == Convert.ToInt32(temp[7]));
+                    if (purchaseReturnDt != null)
+                    {
+                        purchaseReturnDt.UnitPrice = Convert.ToDecimal(temp[1]);
+                        purchaseReturnDt.DiscountPercentage1 = Convert.ToDecimal(temp[2]);
+                        purchaseReturnDt.DiscountAmount1 = (purchaseReturnDt.Quantity * purchaseReturnDt.UnitPrice) * purchaseReturnDt.DiscountPercentage1 / 100;
+                        purchaseReturnDt.DiscountPercentage2 = Convert.ToDecimal(temp[4]);
+                        purchaseReturnDt.DiscountAmount1 = ((purchaseReturnDt.Quantity * purchaseReturnDt.UnitPrice) - purchaseReturnDt.DiscountAmount1) * purchaseReturnDt.DiscountPercentage2 / 100;
+                        purchaseReturnDt.LineAmount = Convert.ToDecimal(temp[8]);
+                        purchaseReturnDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                        purchaseReturnDtDao.Update(purchaseReturnDt);
+                    }
                 }
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
 
@@ -154,6 +257,65 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseReceiveHd.GCTransactionStatus = tempGCTransactionStatus;
                 purchaseReceiveHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseReceiveHdDao.Update(purchaseReceiveHd);
+
+                decimal CNAmount = 0;
+                if (hdnPurchaseReturnID.Value != "")
+                {
+                    purchaseReturnHd = purchaseReturnHdDao.Get(Convert.ToInt32(hdnPurchaseReturnID.Value));
+                    purchaseReturnHd.GCTransactionStatus = tempGCTransactionStatus;
+                    purchaseReturnHd.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    purchaseReturnHdDao.Update(purchaseReturnHd);
+
+                    if (hdnGCPurchaseReturnType.Value == Constant.PurchaseReturnType.CREDIT_NOTE)
+                    {
+                        if (hdnCreditNoteID.Value == "")
+                        {
+                            SupplierCreditNote entity = new SupplierCreditNote();
+                            entity.CreditNoteDate = purchaseReturnHd.ReturnDate;
+                            entity.BusinessPartnerID = purchaseReturnHd.BusinessPartnerID;
+                            entity.PurchaseReturnID = Convert.ToInt32(hdnPurchaseReturnID.Value);
+                            entity.IsIncludeVAT = chkPPN.Checked;
+                            if (entity.IsIncludeVAT)
+                                entity.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
+                            else
+                                entity.VATPercentage = 0;
+                            entity.GCCreditNoteType = cboCreditNoteType.Value.ToString();
+                            entity.CNAmount = CNAmount = Convert.ToDecimal(Request.Form[txtCNAmount.UniqueID]);
+                            entity.Remarks = "";
+                            entity.CreditNoteNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.SUPPLIER_CREDIT_NOTE, entity.CreditNoteDate, ctx);
+                            ctx.CommandType = CommandType.Text;
+                            ctx.Command.Parameters.Clear();
+                            entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                            entity.CreatedBy = AppSession.UserLogin.UserID;
+                            entityHdDao.Insert(entity);
+                            int creditNoteID = BusinessLayer.GetSupplierCreditNoteMaxID(ctx);
+
+                            entity = entityHdDao.Get(creditNoteID);
+                            entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                            entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityHdDao.Update(entity);
+                        }
+                        else
+                        {
+                            SupplierCreditNote entity = entityHdDao.Get(Convert.ToInt32(hdnCreditNoteID.Value));
+                            entity.GCTransactionStatus = Constant.TransactionStatus.OPEN;
+                            entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityHdDao.Update(entity);
+
+                            entity = entityHdDao.Get(Convert.ToInt32(hdnCreditNoteID.Value));
+                            entity.IsIncludeVAT = chkPPN.Checked;
+                            if (entity.IsIncludeVAT)
+                                entity.VATPercentage = Convert.ToDecimal(hdnVATPercentage.Value);
+                            else
+                                entity.VATPercentage = 0;
+                            entity.GCCreditNoteType = cboCreditNoteType.Value.ToString();
+                            entity.CNAmount = CNAmount = Convert.ToDecimal(Request.Form[txtCNAmount.UniqueID]);
+                            entity.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
+                            entity.LastUpdatedBy = AppSession.UserLogin.UserID;
+                            entityHdDao.Update(entity);
+                        }
+                    }
+                }
 
                 PurchaseInvoiceDt purchaseInvoiceDt = purchaseInvoiceDtDao.Get(Convert.ToInt32(hdnID.Value));
                 purchaseInvoiceDt.ReferenceNo = purchaseReceiveHd.ReferenceNo;
@@ -166,6 +328,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 purchaseInvoiceDt.StampAmount = purchaseReceiveHd.StampAmount;
                 purchaseInvoiceDt.TransactionAmount = purchaseReceiveHd.TransactionAmount;
                 purchaseInvoiceDt.VATAmount = Convert.ToDecimal(Request.Form[txtPPN.UniqueID]);
+                purchaseInvoiceDt.CreditNoteAmount = CNAmount;
                 purchaseInvoiceDt.LineAmount = purchaseInvoiceDt.TransactionAmount - purchaseInvoiceDt.DiscountAmount - purchaseInvoiceDt.FinalDiscountAmount + purchaseInvoiceDt.VATAmount + purchaseInvoiceDt.PPH23Amount + purchaseInvoiceDt.PPH25Amount + purchaseInvoiceDt.StampAmount + purchaseInvoiceDt.ChargesAmount - purchaseInvoiceDt.DownPaymentAmount - purchaseInvoiceDt.CreditNoteAmount;
                 purchaseInvoiceDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 purchaseInvoiceDtDao.Update(purchaseInvoiceDt);

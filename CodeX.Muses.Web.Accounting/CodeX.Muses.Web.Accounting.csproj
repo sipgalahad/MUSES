@@ -105,6 +105,8 @@
     <Content Include="Program\Budgeting\COABudget\COABudgetMonthList.aspx" />
     <Content Include="Program\GLSetting\GLAccountPayable\GLAccountPayableEntry.aspx" />
     <Content Include="Program\GLSetting\GLAccountPayable\GLAccountPayableList.aspx" />
+    <Content Include="Program\GLSetting\GLAPOther\GLAPOtherEntry.aspx" />
+    <Content Include="Program\GLSetting\GLAPOther\GLAPOtherList.aspx" />
     <Content Include="Program\GLSetting\GLAPPayment\GLAPPaymentEntry.aspx" />
     <Content Include="Program\GLSetting\GLAPPayment\GLAPPaymentList.aspx" />
     <Content Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountEntry.aspx" />
@@ -368,6 +370,20 @@
     </Compile>
     <Compile Include="Program\GLSetting\GLAccountPayable\GLAccountPayableList.aspx.designer.cs">
       <DependentUpon>GLAccountPayableList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPOther\GLAPOtherEntry.aspx.cs">
+      <DependentUpon>GLAPOtherEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPOther\GLAPOtherEntry.aspx.designer.cs">
+      <DependentUpon>GLAPOtherEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPOther\GLAPOtherList.aspx.cs">
+      <DependentUpon>GLAPOtherList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLAPOther\GLAPOtherList.aspx.designer.cs">
+      <DependentUpon>GLAPOtherList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\GLSetting\GLAPPayment\GLAPPaymentEntry.aspx.cs">
       <DependentUpon>GLAPPaymentEntry.aspx</DependentUpon>

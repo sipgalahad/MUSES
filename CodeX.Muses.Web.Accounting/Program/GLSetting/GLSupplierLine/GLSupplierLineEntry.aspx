@@ -765,6 +765,100 @@
             }
             //#endregion
 
+            //#region APVariance
+            $('#lblAPVariance.lblLink').click(function () {
+                openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
+                    $('#<%=txtAPVarianceGLAccountNo.ClientID %>').val(value);
+                    onTxtAPVarianceGLAccountCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtAPVarianceGLAccountNo.ClientID %>').change(function () {
+                onTxtAPVarianceGLAccountCodeChanged($(this).val());
+            });
+
+            function onTxtAPVarianceGLAccountCodeChanged(value) {
+                var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
+                Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnAPVarianceID.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtAPVarianceGLAccountName.ClientID %>').val(result.GLAccountName);
+                        $('#<%=hdnAPVarianceSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnAPVarianceSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnAPVarianceIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnAPVarianceCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnAPVarianceDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnAPVarianceMethodName.ClientID %>').val(result.MethodName);
+                        $('#<%=hdnAPVarianceFilterExpression.ClientID %>').val(result.FilterExpression);
+                        onAPVarianceSubLedgerIDChanged();
+                    }
+                    else {
+                        $('#<%=hdnAPVarianceID.ClientID %>').val('');
+                        $('#<%=txtAPVarianceGLAccountName.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceMethodName.ClientID %>').val('');
+                        $('#<%=hdnAPVarianceFilterExpression.ClientID %>').val('');
+                    }
+
+                    $('#<%=hdnAPVarianceSubLedger.ClientID %>').val('');
+                    $('#<%=txtAPVarianceSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtAPVarianceSubLedgerName.ClientID %>').val('');
+                });
+            }
+
+            function onAPVarianceSubLedgerIDChanged() {
+                if ($('#<%=hdnAPVarianceSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnAPVarianceSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblAPVarianceSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtAPVarianceSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#<%=lblAPVarianceSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtAPVarianceSubLedgerCode.ClientID %>').removeAttr('readonly');
+                }
+            }
+            //#endregion
+
+            //#region APVariance Sub Ledger
+            function onGetAPVarianceSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnAPVarianceFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnAPVarianceSubLedgerID.ClientID %>').val());
+                return filterExpression;
+            }
+
+            $('#<%=lblAPVarianceSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnAPVarianceSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnAPVarianceSearchDialogTypeName.ClientID %>').val(), onGetAPVarianceSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtAPVarianceSubLedgerCode.ClientID %>').val(value);
+                        onTxtAPVarianceSubLedgerCodeChanged(value);
+                    });
+                }
+            });
+
+            $('#<%=txtAPVarianceSubLedgerCode.ClientID %>').change(function () {
+                onTxtAPVarianceSubLedgerCodeChanged($(this).val());
+            });
+
+            function onTxtAPVarianceSubLedgerCodeChanged(value) {
+                if ($('#<%=hdnAPVarianceSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetAPVarianceSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnAPVarianceCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnAPVarianceMethodName.ClientID %>').val(), filterExpression, function (result) {
+                        if (result != null) {
+                            $('#<%=hdnAPVarianceSubLedger.ClientID %>').val(result[$('#<%=hdnAPVarianceIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtAPVarianceSubLedgerName.ClientID %>').val(result[$('#<%=hdnAPVarianceDisplayFieldName.ClientID %>').val()]);
+                        }
+                        else {
+                            $('#<%=hdnAPVarianceSubLedger.ClientID %>').val('');
+                            $('#<%=txtAPVarianceSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtAPVarianceSubLedgerName.ClientID %>').val('');
+                        }
+                    });
+                }
+            }
+            //#endregion
+
             onAPSubLedgerIDChanged();
             onAPInProcessSubLedgerIDChanged();
             onAPDiscountSubLedgerIDChanged();
@@ -773,6 +867,7 @@
             onAPChargeSubLedgerIDChanged();
             onARPurchaseReturnSubLedgerIDChanged();
             onARCreditNoteSubLedgerIDChanged();
+            onAPVarianceSubLedgerIDChanged();
         }
 
         function onBeforeGoToListPage(mapForm) {
@@ -1018,6 +1113,31 @@
                                         </table>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblLink" id="lblAPVariance"><%=GetLabel("Selisih Hutang")%></label></td>
+                                    <td>
+                                        <input type="hidden" id="hdnAPVarianceID" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceMethodName" runat="server" />
+                                        <input type="hidden" id="hdnAPVarianceFilterExpression" runat="server" />
+                                        <table style="width:100%" cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width:30%"/>
+                                                <col style="width:3px"/>
+                                                <col/>
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox runat="server" ID="txtAPVarianceGLAccountNo" Width="100%" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox runat="server" ID="txtAPVarianceGLAccountName" Width="100%" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                         <td>
@@ -1162,6 +1282,24 @@
                                                 <td><asp:TextBox runat="server" ID="txtARCreditNoteSubLedgerCode" Width="100%" /></td>
                                                 <td>&nbsp;</td>
                                                 <td><asp:TextBox runat="server" ID="txtARCreditNoteSubLedgerName" Width="100%" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblAPVarianceSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td>
+                                        <input type="hidden" id="hdnAPVarianceSubLedger" runat="server" />
+                                        <table style="width:100%" cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width:30%"/>
+                                                <col style="width:3px"/>
+                                                <col/>
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox runat="server" ID="txtAPVarianceSubLedgerCode" Width="100%" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox runat="server" ID="txtAPVarianceSubLedgerName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>

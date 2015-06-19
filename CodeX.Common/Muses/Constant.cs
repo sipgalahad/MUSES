@@ -297,6 +297,7 @@ namespace CodeX.Common
                 public const string GL_SETTING = "AC020100";
                 public const string GL_PRODUCT_LINE = "AC020201";
                 public const string GL_SUPPLIER_LINE = "AC020202";
+                public const string GL_AP_OTHER = "AC020203";
                 public const string GL_WAREHOUSE_PRODUCT_LINE_ACCOUNT = "AC020310";
                 public const string GL_AP_PAYMENT = "AC020321";
                 public const string GL_ACCOUNT_PAYABLE = "AC020322";

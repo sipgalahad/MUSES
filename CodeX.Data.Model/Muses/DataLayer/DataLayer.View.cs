@@ -8233,6 +8233,140 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vGLAPOther
+    [Serializable]
+    [Table(Name = "vGLAPOther")]
+    public class vGLAPOther
+    {
+        private Int32 _ID;
+        private String _APOtherCode;
+        private String _APOtherName;
+        private Int32 _GLAccount;
+        private String _GLAccountNo;
+        private String _GLAccountName;
+        private Int32 _SubLedgerID;
+        private String _SearchDialogTypeName;
+        private String _IDFieldName;
+        private String _CodeFieldName;
+        private String _DisplayFieldName;
+        private String _MethodName;
+        private String _FilterExpression;
+        private Int32 _SubLedger;
+        private String _SubLedgerCode;
+        private String _SubLedgerName;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ID", DataType = "Int32")]
+        public Int32 ID
+        {
+            get { return _ID; }
+            set { _ID = value; }
+        }
+        [Column(Name = "APOtherCode", DataType = "String")]
+        public String APOtherCode
+        {
+            get { return _APOtherCode; }
+            set { _APOtherCode = value; }
+        }
+        [Column(Name = "APOtherName", DataType = "String")]
+        public String APOtherName
+        {
+            get { return _APOtherName; }
+            set { _APOtherName = value; }
+        }
+        [Column(Name = "GLAccount", DataType = "Int32")]
+        public Int32 GLAccount
+        {
+            get { return _GLAccount; }
+            set { _GLAccount = value; }
+        }
+        [Column(Name = "GLAccountNo", DataType = "String")]
+        public String GLAccountNo
+        {
+            get { return _GLAccountNo; }
+            set { _GLAccountNo = value; }
+        }
+        [Column(Name = "GLAccountName", DataType = "String")]
+        public String GLAccountName
+        {
+            get { return _GLAccountName; }
+            set { _GLAccountName = value; }
+        }
+        [Column(Name = "SubLedgerID", DataType = "Int32")]
+        public Int32 SubLedgerID
+        {
+            get { return _SubLedgerID; }
+            set { _SubLedgerID = value; }
+        }
+        [Column(Name = "SearchDialogTypeName", DataType = "String")]
+        public String SearchDialogTypeName
+        {
+            get { return _SearchDialogTypeName; }
+            set { _SearchDialogTypeName = value; }
+        }
+        [Column(Name = "IDFieldName", DataType = "String")]
+        public String IDFieldName
+        {
+            get { return _IDFieldName; }
+            set { _IDFieldName = value; }
+        }
+        [Column(Name = "CodeFieldName", DataType = "String")]
+        public String CodeFieldName
+        {
+            get { return _CodeFieldName; }
+            set { _CodeFieldName = value; }
+        }
+        [Column(Name = "DisplayFieldName", DataType = "String")]
+        public String DisplayFieldName
+        {
+            get { return _DisplayFieldName; }
+            set { _DisplayFieldName = value; }
+        }
+        [Column(Name = "MethodName", DataType = "String")]
+        public String MethodName
+        {
+            get { return _MethodName; }
+            set { _MethodName = value; }
+        }
+        [Column(Name = "FilterExpression", DataType = "String")]
+        public String FilterExpression
+        {
+            get { return _FilterExpression; }
+            set { _FilterExpression = value; }
+        }
+        [Column(Name = "SubLedger", DataType = "Int32")]
+        public Int32 SubLedger
+        {
+            get { return _SubLedger; }
+            set { _SubLedger = value; }
+        }
+        [Column(Name = "SubLedgerCode", DataType = "String")]
+        public String SubLedgerCode
+        {
+            get { return _SubLedgerCode; }
+            set { _SubLedgerCode = value; }
+        }
+        [Column(Name = "SubLedgerName", DataType = "String")]
+        public String SubLedgerName
+        {
+            get { return _SubLedgerName; }
+            set { _SubLedgerName = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
     #region vGLAPPayment
     [Serializable]
     [Table(Name = "vGLAPPayment")]
@@ -17623,11 +17757,16 @@ namespace CodeX.Data.Model
         private String _PurchaseInvoiceNo;
         private Int32 _PurchaseReceiveID;
         private String _PurchaseReceiveNo;
+        private Int32 _GLAPOtherID;
+        private String _APOtherCode;
+        private String _APOtherName;
         private DateTime _PurchaseInvoiceDate;
         private DateTime _ReceivedDate;
         private DateTime _PaymentDueDate;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
+        private Int32 _BusinessPartnerID;
+        private String _BusinessPartnerCode;
         private String _BusinessPartnerName;
         private Decimal _TransactionAmount;
         private Decimal _DiscountAmount;
@@ -17639,12 +17778,12 @@ namespace CodeX.Data.Model
         private Decimal _StampAmount;
         private Decimal _CreditNoteAmount;
         private Decimal _DownPaymentAmount;
+        private Boolean _IsDeleted;
         private String _GCTransactionStatus;
         private String _TransactionStatus;
         private Int32 _PurchaseReturnID;
         private Decimal _LineAmount;
         private Boolean _IsHasCreditNote;
-        private Boolean _IsDeleted;
         private String _CreatedByUserName;
 
         [Column(Name = "ID", DataType = "Int32")]
@@ -17677,6 +17816,24 @@ namespace CodeX.Data.Model
             get { return _PurchaseReceiveNo; }
             set { _PurchaseReceiveNo = value; }
         }
+        [Column(Name = "GLAPOtherID", DataType = "Int32")]
+        public Int32 GLAPOtherID
+        {
+            get { return _GLAPOtherID; }
+            set { _GLAPOtherID = value; }
+        }
+        [Column(Name = "APOtherCode", DataType = "String")]
+        public String APOtherCode
+        {
+            get { return _APOtherCode; }
+            set { _APOtherCode = value; }
+        }
+        [Column(Name = "APOtherName", DataType = "String")]
+        public String APOtherName
+        {
+            get { return _APOtherName; }
+            set { _APOtherName = value; }
+        }
         [Column(Name = "PurchaseInvoiceDate", DataType = "DateTime")]
         public DateTime PurchaseInvoiceDate
         {
@@ -17706,6 +17863,18 @@ namespace CodeX.Data.Model
         {
             get { return _ReferenceDate; }
             set { _ReferenceDate = value; }
+        }
+        [Column(Name = "BusinessPartnerID", DataType = "Int32")]
+        public Int32 BusinessPartnerID
+        {
+            get { return _BusinessPartnerID; }
+            set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "BusinessPartnerCode", DataType = "String")]
+        public String BusinessPartnerCode
+        {
+            get { return _BusinessPartnerCode; }
+            set { _BusinessPartnerCode = value; }
         }
         [Column(Name = "BusinessPartnerName", DataType = "String")]
         public String BusinessPartnerName
@@ -17773,6 +17942,12 @@ namespace CodeX.Data.Model
             get { return _DownPaymentAmount; }
             set { _DownPaymentAmount = value; }
         }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
         [Column(Name = "GCTransactionStatus", DataType = "String")]
         public String GCTransactionStatus
         {
@@ -17802,12 +17977,6 @@ namespace CodeX.Data.Model
         {
             get { return _IsHasCreditNote; }
             set { _IsHasCreditNote = value; }
-        }
-        [Column(Name = "IsDeleted", DataType = "Boolean")]
-        public Boolean IsDeleted
-        {
-            get { return _IsDeleted; }
-            set { _IsDeleted = value; }
         }
         [Column(Name = "CreatedByUserName", DataType = "String")]
         public String CreatedByUserName
@@ -25597,6 +25766,19 @@ namespace CodeX.Data.Model
         private Int32 _ARCreditNoteSubLedger;
         private String _ARCreditNoteSubLedgerCode;
         private String _ARCreditNoteSubLedgerName;
+        private Int32 _APVariance;
+        private String _APVarianceGLAccountNo;
+        private String _APVarianceGLAccountName;
+        private Int32 _APVarianceSubLedgerID;
+        private String _APVarianceSearchDialogTypeName;
+        private String _APVarianceIDFieldName;
+        private String _APVarianceCodeFieldName;
+        private String _APVarianceDisplayFieldName;
+        private String _APVarianceMethodName;
+        private String _APVarianceFilterExpression;
+        private Int32 _APVarianceSubLedger;
+        private String _APVarianceSubLedgerCode;
+        private String _APVarianceSubLedgerName;
 
         [Column(Name = "SupplierLineID", DataType = "Int32")]
         public Int32 SupplierLineID
@@ -26233,6 +26415,84 @@ namespace CodeX.Data.Model
         {
             get { return _ARCreditNoteSubLedgerName; }
             set { _ARCreditNoteSubLedgerName = value; }
+        }
+        [Column(Name = "APVariance", DataType = "Int32")]
+        public Int32 APVariance
+        {
+            get { return _APVariance; }
+            set { _APVariance = value; }
+        }
+        [Column(Name = "APVarianceGLAccountNo", DataType = "String")]
+        public String APVarianceGLAccountNo
+        {
+            get { return _APVarianceGLAccountNo; }
+            set { _APVarianceGLAccountNo = value; }
+        }
+        [Column(Name = "APVarianceGLAccountName", DataType = "String")]
+        public String APVarianceGLAccountName
+        {
+            get { return _APVarianceGLAccountName; }
+            set { _APVarianceGLAccountName = value; }
+        }
+        [Column(Name = "APVarianceSubLedgerID", DataType = "Int32")]
+        public Int32 APVarianceSubLedgerID
+        {
+            get { return _APVarianceSubLedgerID; }
+            set { _APVarianceSubLedgerID = value; }
+        }
+        [Column(Name = "APVarianceSearchDialogTypeName", DataType = "String")]
+        public String APVarianceSearchDialogTypeName
+        {
+            get { return _APVarianceSearchDialogTypeName; }
+            set { _APVarianceSearchDialogTypeName = value; }
+        }
+        [Column(Name = "APVarianceIDFieldName", DataType = "String")]
+        public String APVarianceIDFieldName
+        {
+            get { return _APVarianceIDFieldName; }
+            set { _APVarianceIDFieldName = value; }
+        }
+        [Column(Name = "APVarianceCodeFieldName", DataType = "String")]
+        public String APVarianceCodeFieldName
+        {
+            get { return _APVarianceCodeFieldName; }
+            set { _APVarianceCodeFieldName = value; }
+        }
+        [Column(Name = "APVarianceDisplayFieldName", DataType = "String")]
+        public String APVarianceDisplayFieldName
+        {
+            get { return _APVarianceDisplayFieldName; }
+            set { _APVarianceDisplayFieldName = value; }
+        }
+        [Column(Name = "APVarianceMethodName", DataType = "String")]
+        public String APVarianceMethodName
+        {
+            get { return _APVarianceMethodName; }
+            set { _APVarianceMethodName = value; }
+        }
+        [Column(Name = "APVarianceFilterExpression", DataType = "String")]
+        public String APVarianceFilterExpression
+        {
+            get { return _APVarianceFilterExpression; }
+            set { _APVarianceFilterExpression = value; }
+        }
+        [Column(Name = "APVarianceSubLedger", DataType = "Int32")]
+        public Int32 APVarianceSubLedger
+        {
+            get { return _APVarianceSubLedger; }
+            set { _APVarianceSubLedger = value; }
+        }
+        [Column(Name = "APVarianceSubLedgerCode", DataType = "String")]
+        public String APVarianceSubLedgerCode
+        {
+            get { return _APVarianceSubLedgerCode; }
+            set { _APVarianceSubLedgerCode = value; }
+        }
+        [Column(Name = "APVarianceSubLedgerName", DataType = "String")]
+        public String APVarianceSubLedgerName
+        {
+            get { return _APVarianceSubLedgerName; }
+            set { _APVarianceSubLedgerName = value; }
         }
     }
     #endregion

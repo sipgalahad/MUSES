@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPSupplierPageTrxVisit.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage/MPSupplierPageTrx.master" AutoEventWireup="true"
     CodeBehind="APInvoiceSupplierProcess.aspx.cs" Inherits="CodeX.Muses.Web.Finance.Program.APInvoiceSupplierProcess" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
@@ -50,6 +50,7 @@
                     $('#<%=txtTransactionAmount.ClientID %>').removeAttr('readonly');
                     $('#<%=txtDiscountAmount.ClientID %>').removeAttr('readonly');
 
+                    cboGLAPOther.SetValue('');
                     $('#<%=txtTransactionAmount.ClientID %>').val('').trigger('changeValue');
                     $('#<%=hdnEntryID.ClientID %>').val('');
                     $('#<%=txtInvoiceNo.ClientID %>').val('');
@@ -175,10 +176,11 @@
             if (entity.PurchaseReceiveNo != "") {
                 var id = entity.ID + '|' + entity.PurchaseReceiveID;
                 var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessEditCtl.ascx");
-                openUserControlPopup(url, id, 'Detail Information', 1200, 600);
+                openUserControlPopup(url, id, 'Ubah Penerimaan Pembelian', 1250, 600);
             }
             else {
                 $('#<%=hdnEntryID.ClientID %>').val(entity.ID);
+                cboGLAPOther.SetValue(entity.GLAPOtherID);
                 $('#<%=txtPurchaseRcvNo.ClientID %>').val(entity.PurchaseReceiveNo);
                 $('#<%=txtInvoiceNo.ClientID %>').val(entity.ReferenceNo);
                 $('#<%=txtTransactionAmount.ClientID %>').val(entity.TransactionAmount).trigger('changeValue');
@@ -320,7 +322,7 @@
             var id = entity.ID + '|' + entity.PurchaseReceiveID;
 
             var url = ResolveUrl("~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessDtCtl.ascx");
-            openUserControlPopup(url, id, 'Detail Information', 1200, 600);
+            openUserControlPopup(url, id, 'Detail Penerimaan Pembelian', 1250, 600);
         });
 
         $('.lblCreditNote.lblLink').die('click');
@@ -371,7 +373,7 @@
                         </tr>
                         <tr style="display:none">
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Mata Uang")%></label></td>
-                            <td><dxe:ASPxComboBox ID="cboCurrency" ClientInstanceName="cboCurrency" Width="250px" runat="server" /></td>
+                            <td><dxe:ASPxComboBox ID="cboCurrency" ClientInstanceName="cboCurrency" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><%=GetLabel("Tanggal Proses") %></td>
@@ -434,27 +436,31 @@
                                                     <col style="width:150px" />
                                                 </colgroup>
                                                 <tr>
-                                                    <td><%=GetLabel("No. BPB") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe") %></label></td>
+                                                    <td><dxe:ASPxComboBox id="cboGLAPOther" ClientInstanceName="cboGLAPOther" runat="server" Width="150px" /></td>
+                                                </tr>
+                                                <tr style="display:none">
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No. BPB") %></label></td>
                                                     <td><asp:TextBox id="txtPurchaseRcvNo" runat="server" Width="150px" ReadOnly="true"/></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("No. Faktur/Kirim") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("No. Faktur/Kirim") %></label></td>
                                                     <td><asp:TextBox id="txtInvoiceNo" runat="server" Width="150px" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Tanggal") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal") %></label></td>
                                                     <td><asp:TextBox ID="txtInvoiceDate" Width="120px" CssClass="datepicker" runat="server" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Jumlah") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah") %></label></td>
                                                     <td><asp:TextBox id="txtTransactionAmount" runat="server" Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr style="display:none">
-                                                    <td><%=GetLabel("Diskon Per Item") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Diskon Per Item") %></label></td>
                                                     <td><asp:TextBox id="txtDiscTransAmount" runat="server"  Width="150px" ReadOnly="true" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Diskon Final") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Diskon Final") %></label></td>
                                                     <td><asp:TextBox id="txtDiscountAmount" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                             </table>
@@ -465,31 +471,31 @@
                                                     <col style="width:150px" />
                                                 </colgroup>
                                                 <tr>
-                                                    <td><%=GetLabel("PPN") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("PPN") %></label></td>
                                                     <td><asp:TextBox id="txtVAT" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr style="display:none">
-                                                    <td><%=GetLabel("PPh23") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("PPh23") %></label></td>
                                                     <td><asp:TextBox id="txtPPh23" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr style="display:none">
-                                                    <td><%=GetLabel("PPh25") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("PPh25") %></label></td>
                                                     <td><asp:TextBox id="txtPPh25" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Materai") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Materai") %></label></td>
                                                     <td><asp:TextBox id="txtStampAmount" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Ongkos Kirim") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Ongkos Kirim") %></label></td>
                                                     <td><asp:TextBox id="txtChargesAmount" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Uang Muka") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Uang Muka") %></label></td>
                                                     <td><asp:TextBox id="txtDownPayment" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><%=GetLabel("Nota Kredit") %></td>
+                                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nota Kredit") %></label></td>
                                                     <td><asp:TextBox id="txtCreditNote" runat="server"  Width="150px" CssClass="txtCurrency" /></td>
                                                 </tr>
                                             </table>
@@ -545,7 +551,9 @@
                                                     <td align="right"><%#Eval("StampAmount", "{0:N}")%></td>
                                                     <td align="right"><%#Eval("ChargesAmount", "{0:N}")%></td>
                                                     <td align="right"><%#Eval("DownPaymentAmount", "{0:N}")%></td>
-                                                    <td align="right"><label <%#Eval("IsHasCreditNote").ToString() == "True" ? "class='lblCreditNote lblLink'" : "" %> ><%#Eval("CreditNoteAmount", "{0:N}")%></label></td>
+                                                    <td align="right"><img height="14" title="<%=GetLabel("Ada Nota Kredit Yang Belum Diproses") %>" src='<%= ResolveUrl("~/Libs/Images/Button/warning.png")%>' alt='' <%#Eval("IsHasCreditNote").ToString() == "True" && Convert.ToDecimal(Eval("CreditNoteAmount")) == 0 ? "" : "style='display:none'" %> />
+                                                        <%#Eval("CreditNoteAmount", "{0:N}")%>
+                                                    </td>
                                                     <td align="right"><%#Eval("LineAmount", "{0:N}")%></td>
                                                     <td>
                                                         <div style='float:right;<%=IsEditable().ToString() == "0" ? "display:none" : "" %>' class="divDetailDelete"></div>
@@ -553,6 +561,7 @@
                                                         <input type="hidden" bindingfield="PurchaseInvoiceID" value='<%# Eval("PurchaseInvoiceID")%>' />
                                                         <input type="hidden" bindingfield="PurchaseReceiveID" value='<%# Eval("PurchaseReceiveID")%>' />
                                                         <input type="hidden" bindingfield="PurchaseReceiveNo" value='<%# Eval("PurchaseReceiveNo")%>' />
+                                                        <input type="hidden" bindingfield="GLAPOtherID" value='<%# Eval("GLAPOtherID")%>' />
                                                         <input type="hidden" bindingfield="ReferenceNo" value='<%# Eval("ReferenceNo")%>' />
                                                         <input type="hidden" bindingfield="ReferenceDate" value='<%# Eval("ReferenceDateInString")%>' />
                                                         <input type="hidden" bindingfield="VATAmount" value='<%# Eval("VATAmount")%>' />

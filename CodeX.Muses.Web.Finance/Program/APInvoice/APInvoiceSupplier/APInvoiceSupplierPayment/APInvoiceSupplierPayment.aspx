@@ -60,8 +60,9 @@
 
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
-            $('.txtTotalToBeVerified').val(0).trigger('changeValue');
-            var param = s.cpResult.split('|');
+            $('.txtPembayaran').each(function () {
+                $(this).trigger('changeValue');
+            });
         }
 
         function onCboPaymentMethodValueChanged(evt) {
@@ -223,7 +224,7 @@
                         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
                             ShowLoadingPanel="false" OnCallback="cbpView_Callback">
                             <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                                EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                                EndCallback="function(s,e){ onCbpViewEndCallback(s); }" />
                             <PanelCollection>
                                 <dx:PanelContent ID="PanelContent1" runat="server">
                                     <asp:Panel runat="server" ID="panel1" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
