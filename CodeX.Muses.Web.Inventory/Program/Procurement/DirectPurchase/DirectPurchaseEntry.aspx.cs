@@ -67,7 +67,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         }
         protected string OnGetFilterExpressionItemProduct()
         {
-            return string.Format("IsDeleted = 0");
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
         }
         protected string OnGetFilterExpressionSupplier()
         {
@@ -187,7 +187,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = "1 = 0";
             if (hdnDirectPurchaseID.Value != "" && hdnDirectPurchaseID.Value != "0")
                 filterExpression = string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID);
-
+            
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetvDirectPurchaseDtRowCount(filterExpression);
@@ -374,7 +374,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 entity.GCTransactionStatus = Constant.TransactionStatus.VOID;
                 List<DirectPurchaseDt> lstEntity = BusinessLayer.GetDirectPurchaseDtList(string.Format("DirectPurchaseID = {0} AND GCItemDetailStatus != '{1}'", hdnDirectPurchaseID.Value, Constant.TransactionStatus.VOID), ctx);
                 foreach (DirectPurchaseDt entityDt in lstEntity)
-                {
+                {                    
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     directPurchaseDtDao.Update(entityDt);
@@ -448,7 +448,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityDt.UnitPrice = Convert.ToDecimal(txtPrice.Text);
             entityDt.DiscountPercentage = Convert.ToDecimal(txtDiscountPercentage.Text);
             entityDt.DiscountAmount = Convert.ToDecimal(txtDiscountAmount.Text);
-            entityDt.IsControlExpired = false;
+            entityDt.IsControlExpired = false; 
             entityDt.LineAmount = Convert.ToDecimal(Request.Form[txtLineAmount.UniqueID]);
         }
 
@@ -480,7 +480,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 ctx.Close();
             }
             return result;
-
+            
         }
 
         private bool OnSaveEditRecordEntityDt(ref string errMessage)

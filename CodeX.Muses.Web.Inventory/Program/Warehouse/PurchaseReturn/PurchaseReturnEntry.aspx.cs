@@ -44,7 +44,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
 
-            SetControlProperties();
+            SetControlProperties(); 
             decimal tempTransactionAmount = -1;
             BindGridView(1, true, ref PageCount, ref RowCount, ref tempTransactionAmount);
             Helper.SetControlEntrySetting(txtQuantity, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -75,11 +75,11 @@ namespace CodeX.Muses.Web.Inventory.Program
             SetControlEntrySetting(hdnPRID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(txtPurchaseReturnDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
             SetControlEntrySetting(lblSupplier, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true, ""));
-            SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true, ""));
+            SetControlEntrySetting(txtSupplierCode, new ControlEntrySetting(true, false, true,""));
+            SetControlEntrySetting(txtSupplierName, new ControlEntrySetting(false, false, true,""));
             SetControlEntrySetting(hdnPurchaseReceiveID, new ControlEntrySetting(false, false, false, "0"));
             SetControlEntrySetting(lblPurchaseReceiveNo, new ControlEntrySetting(true, false));
-            SetControlEntrySetting(txtPurchaseReceiveNo, new ControlEntrySetting(true, false, true, ""));
+            SetControlEntrySetting(txtPurchaseReceiveNo, new ControlEntrySetting(true, false, true,""));
 
             SetControlEntrySetting(lblLocation, new ControlEntrySetting(false, false));
             SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(false, false, true));

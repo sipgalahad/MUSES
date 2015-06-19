@@ -27,7 +27,7 @@
         });
 
         $('.chkItem input').each(function () {
-            $(this).change();
+           $(this).change();
         });
     });
 
@@ -43,7 +43,7 @@
     function getCheckedItem() {
         var lstSelectedItem = '';
         var lstSelectedQtyRetur = '';
-
+        
         $('.chkItem input').each(function () {
             if ($(this).is(':checked')) {
                 $tr = $(this).closest('tr');
@@ -58,7 +58,7 @@
             }
         });
         $('#<%=hdnSelectedItem.ClientID %>').val(lstSelectedItem);
-        $('#<%=hdnSelectedQtyRetur.ClientID %>').val(lstSelectedQtyRetur);
+        $('#<%=hdnSelectedQtyRetur.ClientID %>').val(lstSelectedQtyRetur); 
     }
 
     $('#chkSelectAllItem').die('change');

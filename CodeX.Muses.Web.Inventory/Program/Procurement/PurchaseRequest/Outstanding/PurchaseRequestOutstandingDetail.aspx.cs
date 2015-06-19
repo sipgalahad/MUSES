@@ -233,7 +233,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.LocationID = Convert.ToInt32(hdnLocationIDFrom.Value);
             entityHd.DownPaymentAmount = Convert.ToDecimal(0.00);
             entityHd.TotalNetTransactionAmount = entityHd.TransactionAmount + entityHd.VATAmount - entityHd.FinalDiscountAmount - entityHd.DownPaymentAmount;
-
+            
             entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
             ctx.CommandType = CommandType.Text;
             ctx.Command.Parameters.Clear();

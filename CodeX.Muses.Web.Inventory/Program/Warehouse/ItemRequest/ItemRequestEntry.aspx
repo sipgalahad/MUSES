@@ -641,7 +641,7 @@
                                             <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                             <asp:BoundField DataField="ItemName1" HeaderText="Nama Item" />
                                             <asp:BoundField DataField="CustomItemUnit" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderText="Diminta" HeaderStyle-Width="150px" />
-                                            <asp:BoundField DataField="BaseUnit" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Center" HeaderText="Satuan Dasar" HeaderStyle-Width="150px" />
+                                            <asp:BoundField DataField="BaseUnit" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderText="Satuan Dasar" HeaderStyle-Width="150px" />
                                             <asp:BoundField DataField="CustomConversion" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" HeaderText="Konversi" />
                                             <asp:BoundField DataField="CustomItemRequest" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" HeaderText="Total Diminta" HeaderStyle-Width="150px" />
                                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">

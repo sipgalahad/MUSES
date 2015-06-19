@@ -184,6 +184,10 @@
                                 $('#<%=hdnUnitPrice.ClientID %>').val(result2.Price);
                                 $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
                                 $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
+
+                                var qty = parseFloat($('#<%=txtQuantity.ClientID %>').val());
+                                var discountAmount = qty * result2.Price * result2.Discount / 100;
+                                $('#<%=txtDiscountAmount.ClientID %>').val(discountAmount).trigger('changeValue');
                             }
                             else {
                                 $('#<%=txtDiscountPercentage.ClientID %>').val('0');
@@ -235,7 +239,12 @@
             });
 
             $('#btnCancel').click(function () {
+                var lineAmount = parseFloat($('#<%=txtLineAmount.ClientID %>').attr('hiddenVal'));
+                var transactionAmount = parseFloat($('#<%=txtTransactionAmount.ClientID %>').attr('hiddenVal'));
+                transactionAmount = transactionAmount - lineAmount + editedLineAmount;
+                $('#<%=txtTransactionAmount.ClientID %>').val(transactionAmount).trigger('changeValue');
                 $('#entryDetailContainer').hide();
+                calculateTotal();
             });
 
             $('#btnSave').click(function (evt) {
@@ -300,7 +309,7 @@
             $('#<%=txtFinalDiscountAmount.ClientID %>').change(function () {
                 $(this).blur();
                 calculateTotal();
-            });
+            });           
 
             $('.txtCurrency').each(function () {
                 $(this).trigger('changeValue');
@@ -398,9 +407,9 @@
 
         //#region cboItemUnit
         function onCboItemUnitEndCallBack() {
-            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '')
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') 
                 cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
-            else
+            else 
                 cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
             onCboItemUnitChanged();
         }
@@ -454,7 +463,7 @@
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
-
+            
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
                 if (param[1] == 'fail')
@@ -477,7 +486,7 @@
         //#region Paging
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
-
+            
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
@@ -497,7 +506,7 @@
         //#endregion
 
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
-
+           
         }
     </script>
     <input type="hidden" value="" id="hdnDirectPurchaseID" runat="server" />
@@ -730,7 +739,7 @@
                                             AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                                             <Columns>
                                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                                <asp:BoundField DataField="ItemName1" HeaderText="Item Name" HeaderStyle-Width="300px" />
+                                                <asp:BoundField DataField="ItemName1" HeaderText="Item Name" />
                                                 <asp:TemplateField HeaderText="Jumlah Pembelian" HeaderStyle-Width="200px" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" >
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0">
@@ -752,7 +761,7 @@
                                                         </table>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" />
+                                                <asp:BoundField DataField="CustomConversion" HeaderText="Konversi" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="200px" />
                                                 <asp:BoundField DataField="DiscountAmount" HeaderText="Diskon" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="150px" DataFormatString="{0:N}" />
                                                 <asp:BoundField DataField="LineAmount" HeaderText="SubTotal" ItemStyle-HorizontalAlign="Right" HeaderStyle-CssClass="thRight" HeaderStyle-Width="150px" DataFormatString="{0:N}" />
                                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">

@@ -209,7 +209,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             if (hdnDirectPurchaseReturnID.Value == "0")
             {
                 DirectPurchaseReturnHd entityHd = new DirectPurchaseReturnHd();
-                ControlToEntity(entityHd);
+                ControlToEntity(entityHd);                
                 entityHd.DirectPurchaseReturnNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.DIRECT_PURCHASE_RETURN, entityHd.ReturnDate, ctx);
                 entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;
@@ -432,7 +432,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             }
             return result;
         }
-
+       
         #endregion
 
         #region callBack Trigger

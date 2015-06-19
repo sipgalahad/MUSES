@@ -558,7 +558,7 @@
                                         <td valign="top">
                                             <table style="width: 100%">
                                                 <colgroup>
-                                                    <col style="width: 100px" />
+                                                    <col style="width: 120px" />
                                                 </colgroup>
                                                 <tr>
                                                     <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>

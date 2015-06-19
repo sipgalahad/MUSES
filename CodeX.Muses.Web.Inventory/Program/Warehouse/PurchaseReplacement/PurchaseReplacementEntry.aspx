@@ -12,7 +12,6 @@
     <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
     <input type="hidden" value="" id="hdnRecordFilterExpression" runat="server" />
 </asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
         function onLoad() {
@@ -175,7 +174,7 @@
                     $('#<%=txtOldConversion.ClientID %>').val('');
 
                     $('#<%=txtPrice.ClientID %>').val(0).trigger('changeValue');
-                    $('#<%=txtPricePerUnit.ClientID %>').val('');
+                    $('#<%=txtPricePerUnit.ClientID %>').val(''); 
 
                     $('#<%=txtQuantity.ClientID %>').val('1');
                     $('#<%=hdnEntryID.ClientID %>').val('');
@@ -293,7 +292,7 @@
 
             //#region Item
             function getOldItemFilterExpression() {
-                var filterExpression = "PurchaseReturnID = " + $('#<%=hdnPurchaseReturnID.ClientID %>').val() + " AND GCItemDetailStatus != '<%=GetTransactionStatusVoid() %>'";
+                var filterExpression = "PurchaseReturnID = " + $('#<%=hdnPurchaseReturnID.ClientID %>').val() + " AND GCItemDetailStatus != '<%=GetTransactionStatusVoid() %>'";                
                 return filterExpression;
             }
 
@@ -324,7 +323,7 @@
                         $('#<%=txtOldConversion.ClientID %>').val("1 " + result.ItemUnit + " = " + result.ConversionFactor + " " + result.BaseUnit);
 
                         $('#<%=txtPrice.ClientID %>').val(result.UnitPrice).trigger('changeValue');
-                        $('#<%=txtPricePerUnit.ClientID %>').val('per ' + result.ItemUnit);
+                        $('#<%=txtPricePerUnit.ClientID %>').val('per ' + result.ItemUnit); 
                     }
                     else {
                         $('#<%=hdnOldItemID.ClientID %>').val('');
@@ -336,7 +335,7 @@
                         $('#<%=txtOldConversion.ClientID %>').val('');
 
                         $('#<%=txtPrice.ClientID %>').val(0).trigger('changeValue');
-                        $('#<%=txtPricePerUnit.ClientID %>').val('');
+                        $('#<%=txtPricePerUnit.ClientID %>').val(''); 
                     }
                 });
             }
@@ -462,7 +461,7 @@
             $('#<%=txtOldItemUnit.ClientID %>').val(entity.FromItemUnit);
             $('#<%=txtOldConversion.ClientID %>').val("1 " + entity.FromItemUnit + " = " + entity.FromConversionFactor + " " + entity.FromBaseUnit);
             $('#<%=txtPrice.ClientID %>').val(entity.FromUnitPrice).trigger('changeValue');
-            $('#<%=txtPricePerUnit.ClientID %>').val('per ' + entity.FromItemUnit);
+            $('#<%=txtPricePerUnit.ClientID %>').val('per ' + entity.FromItemUnit); 
 
             $('#<%=hdnItemID.ClientID %>').val(entity.ToItemID);
             $('#<%=txtItemCode.ClientID %>').val(entity.ToItemCode);
@@ -478,7 +477,7 @@
             $('#entryDetailContainer').show();
         });
         //#endregion
-
+        
         function onBeforeRightPanelPrint(code, filterExpression, errMessage) {
             var purchaseReplacementID = $('#<%=hdnPurchaseReplacementID.ClientID %>').val();
             if (purchaseReplacementID == '' || purchaseReplacementID == '0') {

@@ -129,6 +129,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                     if (entityPurchaseOrderDt == null)
                     {
                         entityPurchaseOrderDt = new PurchaseOrderDt();
+                        //entityPurchaseOrderDt.PurchaseRequestID = entityPurchaseReqDt.PurchaseRequestID;
                         entityPurchaseOrderDt.ItemID = entityPurchaseReqDt.ItemID;
                         entityPurchaseOrderDt.Quantity = Convert.ToDecimal(entityCPurchaseReqDt.QtyPO);
                         entityPurchaseOrderDt.GCPurchaseUnit = entityCPurchaseReqDt.GCPurchaseUnit;

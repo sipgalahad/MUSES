@@ -69,7 +69,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 int PRID = 0;
                 string purchaseReturnNo = "";
                 DetailPage.SavePurchaseReturnHd(ctx, ref PRID, ref purchaseReturnNo);
-
+                
                 string[] lstSelectedItem = hdnSelectedItem.Value.Split(',');
                 string[] lstSelectedQty = hdnSelectedQtyRetur.Value.Split(',');
                 List<DirectPurchaseDt> lstDirectPurchaseDt = BusinessLayer.GetDirectPurchaseDtList(string.Format("ID IN ({0})", hdnSelectedItem.Value), ctx);

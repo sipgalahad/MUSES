@@ -159,7 +159,7 @@
                         $('#<%=txtDiscountPercentage1.ClientID %>').val(result.DiscountPercentage1);
                         $('#<%=txtDiscountPercentage2.ClientID %>').val(result.DiscountPercentage2);
                         $('#<%=txtDiscountPercentage1.ClientID %>').change();
-
+                        
                         $('#<%=txtReceivedQty.ClientID %>').val(result.Quantity);
                         $('#<%=txtReceivedUnit.ClientID %>').val(result.ItemUnit);
 
@@ -219,7 +219,9 @@
                         $('#<%=txtSupplierCode.ClientID %>').val(result.SupplierCode);
                         $('#<%=txtSupplierName.ClientID %>').val(result.SupplierName);
                         $('#<%=txtReferenceNo.ClientID %>').val(result.ReferenceNo);
+                        $('#<%=chkPPN.ClientID %>').prop('checked', result.IsIncludeVAT);
                         $('#<%=txtReferenceDate.ClientID %>').val(Methods.getJSONDateValue(result.ReferenceDate));
+                        $('#<%=chkPPN.ClientID %>').change();
                     }
                     else {
                         $('#<%=hdnPurchaseReceiveID.ClientID %>').val('0');
@@ -273,7 +275,7 @@
             });
 
             $('#<%=txtQuantity.ClientID %>').change(function () {
-                calculateSubTotal();
+                $('#<%=txtDiscountPercentage1.ClientID %>').change();
             });
 
             $('#<%=txtDiscountPercentage1.ClientID %>').change(function () {
@@ -814,7 +816,7 @@
                                                                 <col style="width: 250px" />
                                                             </colgroup>
                                                             <tr>
-                                                                <td><asp:TextBox ID="txtPrice" CssClass="txtCurrency" Width="100%" runat="server" /></td>
+                                                                <td><asp:TextBox ID="txtPrice" ReadOnly="true" CssClass="txtCurrency" Width="100%" runat="server" /></td>
                                                                 <td>&nbsp;</td>
                                                                 <td><asp:TextBox ID="txtBaseUnit" ReadOnly="true" Width="100%" runat="server" /></td>
                                                             </tr>
@@ -831,9 +833,9 @@
                                                                 <col style="width: 200px" />
                                                             </colgroup>
                                                             <tr>
-                                                                <td><asp:TextBox ID="txtDiscountPercentage1" value="0" CssClass="number" Width="100%" runat="server" /></td>
+                                                                <td><asp:TextBox ID="txtDiscountPercentage1" ReadOnly="true" value="0" CssClass="number" Width="100%" runat="server" /></td>
                                                                 <td>&nbsp;[%]&nbsp;</td>
-                                                                <td><asp:TextBox ID="txtDiscountAmount1" CssClass="txtCurrency" Width="100%" runat="server" /></td>
+                                                                <td><asp:TextBox ID="txtDiscountAmount1" ReadOnly="true" CssClass="txtCurrency" Width="100%" runat="server" /></td>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -848,9 +850,9 @@
                                                                 <col style="width: 200px" />
                                                             </colgroup>
                                                             <tr>
-                                                                <td><asp:TextBox ID="txtDiscountPercentage2" value="0" CssClass="number" Width="100%" runat="server" /></td>
+                                                                <td><asp:TextBox ID="txtDiscountPercentage2" ReadOnly="true" value="0" CssClass="number" Width="100%" runat="server" /></td>
                                                                 <td>&nbsp;[%]&nbsp;</td>
-                                                                <td><asp:TextBox ID="txtDiscountAmount2" CssClass="txtCurrency" Width="100%" runat="server" /></td>
+                                                                <td><asp:TextBox ID="txtDiscountAmount2" ReadOnly="true" CssClass="txtCurrency" Width="100%" runat="server" /></td>
                                                             </tr>
                                                         </table>
                                                     </td>
@@ -990,7 +992,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="tdLabel"><label class="lblNormal"><%=GetLabel("PPN")%> (<%=GetVATPercentageLabel()%>%)</label></td>
-                                                <td align="right"><asp:CheckBox ID="chkPPN" runat="server" /></td>
+                                                <td align="right"><asp:CheckBox Enabled="false" ID="chkPPN" runat="server" /></td>
                                                 <td><asp:TextBox ID="txtPPN" CssClass="txtCurrency" ReadOnly="true" Width="180px" runat="server" /></td>
                                             </tr>
                                             <tr>

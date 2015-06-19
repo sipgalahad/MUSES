@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeX.Muses.Web.Inventory.Program {
+namespace CodeX.Ottimo.Web.Inventory.Program {
     
     
-    public partial class ItemRequestOutstandingList {
+    public partial class PurchaseReceiveVoidList {
         
         /// <summary>
-        /// btnItemRequestHdItem control.
+        /// btnStockAdjustmentDecline control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnItemRequestHdItem;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl btnStockAdjustmentDecline;
         
         /// <summary>
         /// hdnParam control.
