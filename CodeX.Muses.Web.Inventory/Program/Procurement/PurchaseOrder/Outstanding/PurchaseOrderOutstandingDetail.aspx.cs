@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int RowCountPerPage = 1;
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Inventory.PURCHASE_ORDER;
+            return Constant.MenuCode.Inventory.APPROVED_PURCHASE_ORDER;
         }
         protected string GetVATPercentageLabel()
         {

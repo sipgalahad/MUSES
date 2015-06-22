@@ -189,7 +189,7 @@
 
             //#region Purchase Receive No
             function onGetPurchaseReceiveFilterExpression() {
-                var filterExpression = "PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM vPurchaseInvoiceDt WHERE IsDeleted = 0 AND GCTransactionStatus != 'X121^999' AND PurchaseReceiveID IS NOT NULL) AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseReturnHd WHERE GCTransactionStatus != 'X121^999') AND GCTransactionStatus = 'X121^003'";
+                var filterExpression = "<%=OnGetPurchaseReceiveFilterExpression() %>";
                 if ($('#<%=hdnSupplierID.ClientID %>').val() != "")
                     filterExpression += " AND SupplierID = " + $('#<%=hdnSupplierID.ClientID %>').val();
                 return filterExpression;

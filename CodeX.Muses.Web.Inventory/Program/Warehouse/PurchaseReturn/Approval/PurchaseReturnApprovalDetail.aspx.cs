@@ -22,7 +22,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Inventory.PURCHASE_RETURN;
+            return Constant.MenuCode.Inventory.PURCHASE_RETURN_APPROVAL;
         }
 
         public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)
@@ -123,13 +123,13 @@ namespace CodeX.Muses.Web.Inventory.Program
             try
             {
                 string filterExpressionSetDefaultDt = String.Format("PurchaseReturnID = {0} AND GCItemDetailStatus <> '{1}'", hdnPurchaseReturnID.Value, Constant.TransactionStatus.VOID);
-                List<PurchaseReturnDt> lstPurchaseReturnDtSetDefault = BusinessLayer.GetPurchaseReturnDtList(filterExpressionSetDefaultDt);
+                List<PurchaseReturnDt> lstPurchaseReturnDtSetDefault = BusinessLayer.GetPurchaseReturnDtList(filterExpressionSetDefaultDt, ctx);
 
                 List<PurchaseReturnDt> lstPurchaseReturnDt = null;
                  if (hdnSelectedMember.Value != "")
                 {
                     string filterExpressionPurchaseReturnDt = String.Format("ID IN ({0})", hdnSelectedMember.Value.Substring(1));
-                    lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnDt);
+                    lstPurchaseReturnDt = BusinessLayer.GetPurchaseReturnDtList(filterExpressionPurchaseReturnDt, ctx);
                 }
 
                 foreach (PurchaseReturnDt purchaseDt in lstPurchaseReturnDtSetDefault)

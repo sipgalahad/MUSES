@@ -97,7 +97,7 @@
                             $('#<%=txtSupplierName.ClientID %>').val(result.BusinessPartnerName);
                         }
                         $('#<%=chkPPN.ClientID %>').prop('checked', result.IsIncludeVAT);
-
+                        
                     }
                     else {
                         $('#<%=hdnPurchaseReturnID.ClientID %>').val('');

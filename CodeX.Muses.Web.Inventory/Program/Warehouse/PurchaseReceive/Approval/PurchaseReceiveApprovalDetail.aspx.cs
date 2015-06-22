@@ -20,7 +20,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Inventory.PURCHASE_RECEIVE;
+            return Constant.MenuCode.Inventory.PURCHASE_RECEIVE_APPROVAL;
         }
 
         public override void SetCRUDMode(ref bool IsAllowAdd, ref bool IsAllowEdit, ref bool IsAllowDelete)

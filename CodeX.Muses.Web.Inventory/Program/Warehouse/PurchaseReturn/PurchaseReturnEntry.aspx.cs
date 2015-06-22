@@ -37,6 +37,10 @@ namespace CodeX.Muses.Web.Inventory.Program
         {
             return string.Format("GCBusinessPartnerType = '{0}' AND IsDeleted = 0", Constant.BusinessObjectType.SUPPLIER);
         }
+        protected string OnGetPurchaseReceiveFilterExpression()
+        {
+            return string.Format("TransactionCode = '{0}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM vPurchaseInvoiceDt WHERE IsDeleted = 0 AND GCTransactionStatus != '{1}' AND PurchaseReceiveID IS NOT NULL) AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseReturnHd WHERE GCTransactionStatus != '{1}') AND GCTransactionStatus = '{2}'", Constant.TransactionCode.PURCHASE_RECEIVE, Constant.TransactionStatus.VOID, Constant.TransactionStatus.APPROVED);
+        }
         #endregion
 
         protected override void InitializeDataControl()

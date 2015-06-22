@@ -98,8 +98,8 @@ namespace CodeX.Muses.Web.Inventory.Program
                 try
                 {
                     string filterExpressionPurchaseOrderHd = String.Format("PurchaseOrderID IN ({0})", hdnParam.Value);
-                    
-                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPurchaseOrderHd);
+
+                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPurchaseOrderHd, ctx);
                     foreach (PurchaseOrderHd purchaseHd in lstPurchaseOrderHd)
                     {
                         purchaseHd.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
@@ -108,7 +108,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                     }
 
-                    List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(filterExpressionPurchaseOrderHd);
+                    List<PurchaseOrderDt> lstPurchaseOrderDt = BusinessLayer.GetPurchaseOrderDtList(filterExpressionPurchaseOrderHd, ctx);
                     foreach (PurchaseOrderDt purchaseDt in lstPurchaseOrderDt)
                     {
                         purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;

@@ -140,7 +140,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     string filterExpressionPOHd = String.Format("PurchaseOrderID = {0}", hdnID.Value);
 
-                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPOHd);
+                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPOHd, ctx);
                     foreach (PurchaseOrderHd POHd in lstPurchaseOrderHd)
                     {
                         POHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
@@ -174,7 +174,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     string filterExpressionPOHd = String.Format("PurchaseOrderID = {0}", hdnID.Value);
 
-                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPOHd);
+                    List<PurchaseOrderHd> lstPurchaseOrderHd = BusinessLayer.GetPurchaseOrderHdList(filterExpressionPOHd, ctx);
                     foreach (PurchaseOrderHd POHd in lstPurchaseOrderHd)
                     {
                         POHd.GCTransactionStatus = Constant.TransactionStatus.CLOSED;
@@ -192,7 +192,8 @@ namespace CodeX.Muses.Web.Inventory.Program
 
                     PurchaseOrderHd entityHd = new PurchaseOrderHd();
                     CopyToEntityHd(entityHd, lstPurchaseOrderHd[0]);
-                    entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(Constant.TransactionCode.PURCHASE_ORDER, entityHd.OrderDate, ctx);
+                    entityHd.TransactionCode = Constant.TransactionCode.PURCHASE_ORDER;
+                    entityHd.PurchaseOrderNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.OrderDate, ctx);
                     entityHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
 
                     ctx.CommandType = CommandType.Text;

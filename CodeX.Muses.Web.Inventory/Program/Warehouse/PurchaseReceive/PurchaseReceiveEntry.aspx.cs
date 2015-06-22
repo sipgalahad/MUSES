@@ -374,7 +374,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 if (hdnNeedConfirmation.Value == "1")
                 {
                     filterExpression = string.Format("PurchaseReceiveID = {0}", hdnPRID.Value);
-                    List<vPurchaseOrderDtOutStanding> lstEntity = BusinessLayer.GetvPurchaseOrderDtOutStandingList(filterExpression);
+                    List<vPurchaseOrderDtOutStanding> lstEntity = BusinessLayer.GetvPurchaseOrderDtOutStandingList(filterExpression, ctx);
                     if (lstEntity.Count > 0)
                     {
                         foreach (vPurchaseOrderDtOutStanding temp in lstEntity)
@@ -476,7 +476,7 @@ namespace CodeX.Muses.Web.Inventory.Program
                 {
                     bool flag = true;
                     String filterExpression = string.Format("PurchaseReceiveID = {0} AND GCItemDetailStatus != '{1}'", hdnPRID.Value, Constant.TransactionStatus.VOID);
-                    List<vPurchaseOrderDtOutStanding> lstEntity = BusinessLayer.GetvPurchaseOrderDtOutStandingList(filterExpression);
+                    List<vPurchaseOrderDtOutStanding> lstEntity = BusinessLayer.GetvPurchaseOrderDtOutStandingList(filterExpression, ctx);
                     if (lstEntity.Count > 0)
                     {
                         foreach (vPurchaseOrderDtOutStanding temp in lstEntity)

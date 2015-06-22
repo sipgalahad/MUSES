@@ -104,6 +104,22 @@
       <Link>SharedLibs\Service\MethodService.asmx</Link>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx" />
+    <Content Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalList.aspx" />
+    <Content Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderAddFromReceiveCtl.ascx" />
+    <Content Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderEntry.aspx" />
+    <Content Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderQtyOnOrderCtl.ascx" />
+    <Content Include="Program\Consignment\ConsignmentOrder\Outstanding\ConsignmentOrderOutstandingDetail.aspx" />
+    <Content Include="Program\Consignment\ConsignmentOrder\Outstanding\ConsignmentOrderOutstandingList.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReceive\Approval\ConsignmentReceiveApprovalDetail.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReceive\Approval\ConsignmentReceiveApprovalList.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReceive\Confirmation\ConsignmentReceiveConfirmationDetail.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReceive\Confirmation\ConsignmentReceiveConfirmationList.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReceive\ConsignmentReceiveDetailCtl.ascx" />
+    <Content Include="Program\Consignment\ConsignmentReceive\ConsignmentReceiveEntry.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalDetail.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalList.aspx" />
+    <Content Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntry.aspx" />
     <Content Include="Program\Procurement\DirectPurchase\DirectPurchaseReturnEntryPicksCtl.ascx" />
@@ -367,6 +383,118 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx.cs">
+      <DependentUpon>ConsignmentOrderApprovalDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalDetail.aspx.designer.cs">
+      <DependentUpon>ConsignmentOrderApprovalDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalList.aspx.cs">
+      <DependentUpon>ConsignmentOrderApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Approval\ConsignmentOrderApprovalList.aspx.designer.cs">
+      <DependentUpon>ConsignmentOrderApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderAddFromReceiveCtl.ascx.cs">
+      <DependentUpon>ConsignmentOrderAddFromReceiveCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderAddFromReceiveCtl.ascx.designer.cs">
+      <DependentUpon>ConsignmentOrderAddFromReceiveCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderEntry.aspx.cs">
+      <DependentUpon>ConsignmentOrderEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderEntry.aspx.designer.cs">
+      <DependentUpon>ConsignmentOrderEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderQtyOnOrderCtl.ascx.cs">
+      <DependentUpon>ConsignmentOrderQtyOnOrderCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\ConsignmentOrderQtyOnOrderCtl.ascx.designer.cs">
+      <DependentUpon>ConsignmentOrderQtyOnOrderCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Outstanding\ConsignmentOrderOutstandingDetail.aspx.cs">
+      <DependentUpon>ConsignmentOrderOutstandingDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Outstanding\ConsignmentOrderOutstandingDetail.aspx.designer.cs">
+      <DependentUpon>ConsignmentOrderOutstandingDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Outstanding\ConsignmentOrderOutstandingList.aspx.cs">
+      <DependentUpon>ConsignmentOrderOutstandingList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentOrder\Outstanding\ConsignmentOrderOutstandingList.aspx.designer.cs">
+      <DependentUpon>ConsignmentOrderOutstandingList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Approval\ConsignmentReceiveApprovalDetail.aspx.cs">
+      <DependentUpon>ConsignmentReceiveApprovalDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Approval\ConsignmentReceiveApprovalDetail.aspx.designer.cs">
+      <DependentUpon>ConsignmentReceiveApprovalDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Approval\ConsignmentReceiveApprovalList.aspx.cs">
+      <DependentUpon>ConsignmentReceiveApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Approval\ConsignmentReceiveApprovalList.aspx.designer.cs">
+      <DependentUpon>ConsignmentReceiveApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Confirmation\ConsignmentReceiveConfirmationDetail.aspx.cs">
+      <DependentUpon>ConsignmentReceiveConfirmationDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Confirmation\ConsignmentReceiveConfirmationDetail.aspx.designer.cs">
+      <DependentUpon>ConsignmentReceiveConfirmationDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Confirmation\ConsignmentReceiveConfirmationList.aspx.cs">
+      <DependentUpon>ConsignmentReceiveConfirmationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\Confirmation\ConsignmentReceiveConfirmationList.aspx.designer.cs">
+      <DependentUpon>ConsignmentReceiveConfirmationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\ConsignmentReceiveDetailCtl.ascx.cs">
+      <DependentUpon>ConsignmentReceiveDetailCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\ConsignmentReceiveDetailCtl.ascx.designer.cs">
+      <DependentUpon>ConsignmentReceiveDetailCtl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\ConsignmentReceiveEntry.aspx.cs">
+      <DependentUpon>ConsignmentReceiveEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReceive\ConsignmentReceiveEntry.aspx.designer.cs">
+      <DependentUpon>ConsignmentReceiveEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalDetail.aspx.cs">
+      <DependentUpon>ConsignmentReturnApprovalDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalDetail.aspx.designer.cs">
+      <DependentUpon>ConsignmentReturnApprovalDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalList.aspx.cs">
+      <DependentUpon>ConsignmentReturnApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReturn\Approval\ConsignmentReturnApprovalList.aspx.designer.cs">
+      <DependentUpon>ConsignmentReturnApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx.cs">
+      <DependentUpon>ConsignmentReturnEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Consignment\ConsignmentReturn\ConsignmentReturnEntry.aspx.designer.cs">
+      <DependentUpon>ConsignmentReturnEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Procurement\DirectPurchase\DirectPurchaseEntry.aspx.cs">
       <DependentUpon>DirectPurchaseEntry.aspx</DependentUpon>

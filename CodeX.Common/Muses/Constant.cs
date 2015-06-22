@@ -536,16 +536,28 @@ namespace CodeX.Common
                 public const string ITEM_PRODUCTION = "IM030504";
                 public const string STOCK_TAKING = "IM030505";
 
-                public const string ITEM_REQUEST_APPROVAL = "IM040100";
-                public const string PURCHASE_REQUEST_APPROVAL = "IM040200";
-                public const string PURCHASE_ORDER_APPROVAL = "IM040300";
-                public const string PURCHASE_RECEIVE_APPROVAL = "IM040400";
-                public const string ITEM_DISTRIBUTION_APPROVAL = "IM040500";
-                public const string PURCHASE_RECEIVE_CONFIRMED = "IM040600";
-                public const string PURCHASE_RETURN_APPROVAL = "IM040700";
-                public const string ITEM_ADJUSTMENT_APPROVAL = "IM040800";
-                public const string ITEM_CONSUMPTION_APPROVAL = "IM040900";
-                public const string PURCHASE_RECEIVE_VOID = "IM041000";
+                public const string CONSIGNMENT_ORDER = "IM040101";
+                public const string APPROVED_CONSIGNMENT_ORDER = "IM040102";
+                public const string CONSIGNMENT_RECEIVE = "IM040200";
+                public const string CONSIGNMENT_RETURN = "IM040300";
+
+                public const string ITEM_REQUEST_APPROVAL = "IM070101";
+                public const string ITEM_DISTRIBUTION_APPROVAL = "IM070102";
+                public const string ITEM_ADJUSTMENT_APPROVAL = "IM070103";
+                public const string ITEM_CONSUMPTION_APPROVAL = "IM070104";
+                public const string PURCHASE_RECEIVE_CONFIRMED = "IM070105";
+                public const string PURCHASE_RECEIVE_APPROVAL = "IM070106";
+                public const string PURCHASE_RETURN_APPROVAL = "IM070107";
+                public const string PURCHASE_RECEIVE_VOID = "IM070108";
+                public const string PURCHASE_RETURN_VOID = "IM070109";
+
+                public const string PURCHASE_REQUEST_APPROVAL = "IM070201";
+                public const string PURCHASE_ORDER_APPROVAL = "IM070202";
+
+                public const string CONSIGNMENT_ORDER_APPROVAL = "IM070301";
+                public const string CONSIGNMENT_RECEIVE_CONFIRMED = "IM070302";
+                public const string CONSIGNMENT_RECEIVE_APPROVAL = "IM070303";
+                public const string CONSIGNMENT_RETURN_APPROVAL = "IM070304";
 
                 public const string REPORT = "IM090000";
             }
@@ -692,6 +704,9 @@ namespace CodeX.Common
             public const string PRODUCTION_PROCESS = "4209";
             public const string STOCK_TAKING = "4210";
             public const string PURCHASE_RETURN_REPLACEMENT = "4211";
+            public const string CONSIGNMENT_ORDER = "4213";
+            public const string CONSIGNMENT_RECEIVE = "4214";
+            public const string CONSIGNMENT_RETURN = "4215";
 
             public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
             public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";

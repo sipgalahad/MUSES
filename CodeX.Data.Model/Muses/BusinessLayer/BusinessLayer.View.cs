@@ -6600,6 +6600,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vPurchaseOrderDtOutStanding> GetvPurchaseOrderDtOutStandingList(string filterExpression, IDbContext ctx)
+        {
+            List<vPurchaseOrderDtOutStanding> result = new List<vPurchaseOrderDtOutStanding>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseOrderDtOutStanding));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseOrderDtOutStanding)helper.IDataReaderToObject(reader, new vPurchaseOrderDtOutStanding()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static Int32 GetvPurchaseOrderDtOutStandingRowCount(string filterExpression)
         {
             Int32 result = 0;
@@ -7135,6 +7152,30 @@ namespace CodeX.Data.Model
             if (result.Count > 0)
                 return result[0];
             return null;
+        }
+        #endregion
+        #region vPurchaseReceivePOCustom
+        public static List<vPurchaseReceivePOCustom> GetvPurchaseReceivePOCustomList(string filterExpression)
+        {
+            List<vPurchaseReceivePOCustom> result = new List<vPurchaseReceivePOCustom>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vPurchaseReceivePOCustom));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vPurchaseReceivePOCustom)helper.IDataReaderToObject(reader, new vPurchaseReceivePOCustom()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
         }
         #endregion
         #region vPurchaseReplacementDt
