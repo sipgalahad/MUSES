@@ -56,7 +56,7 @@ namespace CodeX.Muses.Web.Finance.Program
             txtFinalDiscountPercentage.Text = entity.FinalDiscountPercentage.ToString();
             txtFinalDiscountAmount.Text = entity.FinalDiscountAmount.ToString();
 
-            PurchaseReturnHd entityReturn = BusinessLayer.GetPurchaseReturnHdList(String.Format("PurchaseReceiveID = {0} AND GCTransactionStatus != '{1}'", entity.PurchaseReceiveID, Constant.TransactionStatus.VOID)).FirstOrDefault();
+            vPurchaseReturnHd entityReturn = BusinessLayer.GetvPurchaseReturnHdList(String.Format("PurchaseReceiveID = {0} AND GCTransactionStatus != '{1}'", entity.PurchaseReceiveID, Constant.TransactionStatus.VOID)).FirstOrDefault();
             if (entityReturn != null)
             {
                 hdnPurchaseReturnID.Value = entityReturn.PurchaseReturnID.ToString();
@@ -64,6 +64,7 @@ namespace CodeX.Muses.Web.Finance.Program
                 txtPurchaseReturnDate.Text = entityReturn.ReturnDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
                 txtReturnTransactionAmount.Text = entityReturn.TransactionAmount.ToString();
                 chkReturnPPN.Checked = entityReturn.IsIncludeVAT;
+                txtPurchaseReturnType.Text = entityReturn.PurchaseReturnType;
 
                 if (entityReturn.GCPurchaseReturnType == Constant.PurchaseReturnType.CREDIT_NOTE)
                 {

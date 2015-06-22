@@ -193,6 +193,24 @@ namespace CodeX.Muses.Web.Finance.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPurchaseReturnDate;
         
         /// <summary>
+        /// trPurchaseReturnType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trPurchaseReturnType;
+        
+        /// <summary>
+        /// txtPurchaseReturnType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPurchaseReturnType;
+        
+        /// <summary>
         /// txtNotes control.
         /// </summary>
         /// <remarks>

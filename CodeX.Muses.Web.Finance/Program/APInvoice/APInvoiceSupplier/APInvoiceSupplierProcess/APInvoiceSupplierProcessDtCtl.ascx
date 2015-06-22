@@ -110,6 +110,10 @@
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tgl Retur")%></label></td>
                         <td><asp:TextBox ID="txtPurchaseReturnDate" ReadOnly="true" Width="120px" CssClass="datepicker" runat="server" /></td>
                     </tr>  
+                    <tr id="trPurchaseReturnType" runat="server">
+                        <td class="tdLabel"><%=GetLabel("Tipe Retur") %></td>
+                        <td><asp:TextBox ID="txtPurchaseReturnType" Width="200px" ReadOnly="true" runat="server" /></td>
+                    </tr>
                 </table>
             </td>
             <td style="padding: 5px; vertical-align: top">
