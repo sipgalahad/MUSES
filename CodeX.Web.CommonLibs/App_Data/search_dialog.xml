@@ -694,6 +694,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Site Accounting -->
+  <searchdialog type="siteaccounting" methodname="GetvSiteList" keyfieldname="Initial" istreeview="1">
+    <gridcolumns>
+      <gridcolumn datafield="Initial" headertext="Kode" width="100px" />
+      <gridcolumn datafield="SiteName" headertext="Nama" width="300px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="SiteName" headertext="Nama" description="" />
+      <intellisensetext datafield="Initial" headertext="Kode" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Standard Code -->
   <searchdialog type="stdcode" methodname="GetStandardCodeList" keyfieldname="cfStandardCodeID">
     <gridcolumns>

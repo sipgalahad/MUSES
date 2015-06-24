@@ -11,7 +11,7 @@
     <field fieldname="UnitPrice" headertext="Harga" width="15" fieldtype="currency"/>
     <field fieldname="DiscountPercentage1" headertext="Disc 1" width="10" fieldtype="currency"/>
     <field fieldname="DiscountPercentage2" headertext="Disc 2" width="10" fieldtype="currency"/>
-    <field fieldname="CustomSubTotal" headertext="Total" width="15" fieldtype="currency"/>
+    <field fieldname="LineAmount" headertext="Total" width="15" fieldtype="currency"/>
   </fields>
   <headertemplate>
     <![CDATA[

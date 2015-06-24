@@ -66,7 +66,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             tdSchoolDay5.Style.Add("width", string.Format("{0}%", width));
             tdSchoolDay6.Style.Add("width", string.Format("{0}%", width));
 
-            List<DailyScheduleTypeHd> lstEntityHd = BusinessLayer.GetDailyScheduleTypeHdList(string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID));
+            List<DailyScheduleTypeHd> lstEntityHd = BusinessLayer.GetDailyScheduleTypeHdList(string.Format("IsDeleted = 0"));
             lstEntityHd.Insert(0, new DailyScheduleTypeHd { DailyScheduleTypeID = 0, DailyScheduleTypeName = "" });
             Methods.SetComboBoxField<DailyScheduleTypeHd>(cboScheduleType1, lstEntityHd, "DailyScheduleTypeName", "DailyScheduleTypeID");
             Methods.SetComboBoxField<DailyScheduleTypeHd>(cboScheduleType2, lstEntityHd, "DailyScheduleTypeName", "DailyScheduleTypeID");

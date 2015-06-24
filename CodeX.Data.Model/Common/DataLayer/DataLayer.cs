@@ -1931,6 +1931,7 @@ namespace CodeX.Data.Model
         private String _GCOperatingGroup;
         private String _ShortName;
         private String _Initial;
+        private Int32 _ReferenceID;
         private String _LicenseNo;
         private String _AddressID;
         private Int32? _LastUpdatedBy;
@@ -1977,6 +1978,12 @@ namespace CodeX.Data.Model
         {
             get { return _Initial; }
             set { _Initial = value; }
+        }
+        [Column(Name = "ReferenceID", DataType = "Int32")]
+        public Int32 ReferenceID
+        {
+            get { return _ReferenceID; }
+            set { _ReferenceID = value; }
         }
         [Column(Name = "LicenseNo", DataType = "String", IsNullable = true)]
         public String LicenseNo
