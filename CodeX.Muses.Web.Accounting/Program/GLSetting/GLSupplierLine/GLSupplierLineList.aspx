@@ -67,6 +67,18 @@ Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
         function onCboSupplierTypeValueChanged(s) {
             cbpView.PerformCallback('refresh');
         }
+
+        $('.lnkNonConsignment a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|<%=OnGetPurchaseTypeNonConsignment() %>';
+            var url = ResolveUrl("~/Program/GLSetting/GLSupplierLine/GLSupplierLineDtEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Non Konsinyasi', 1100, 500);
+        });
+
+        $('.lnkConsignment a').live('click', function () {
+            var id = $(this).closest('tr').find('.keyField').html() + '|<%=OnGetPurchaseTypeConsignment() %>';
+            var url = ResolveUrl("~/Program/GLSetting/GLSupplierLine/GLSupplierLineDtEntryCtl.ascx");
+            openUserControlPopup(url, id, 'Konsinyasi', 1100, 500);
+        });
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
@@ -94,6 +106,8 @@ Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
                                 <asp:BoundField DataField="SupplierLineCode" HeaderText="Code" ItemStyle-Width="100px" />
                                 <asp:BoundField DataField="SupplierLineName" HeaderText="Name" ItemStyle-Width="300px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
+                                <asp:HyperLinkField HeaderText="Non Konsinyasi" Text="Non Konsinyasi" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkNonConsignment" />
+                                <asp:HyperLinkField HeaderText="Konsinyasi" Text="Konsinyasi" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkConsignment" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("No Data To Display")%>

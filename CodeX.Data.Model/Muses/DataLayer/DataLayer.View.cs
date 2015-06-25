@@ -14699,6 +14699,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _ProductLineID;
         private String _SiteID;
+        private String _GCPurchaseType;
+        private String _PurchaseType;
         private Int32 _Inventory;
         private String _InventoryGLAccountNo;
         private String _InventoryGLAccountName;
@@ -14907,6 +14909,18 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
+        }
+        [Column(Name = "PurchaseType", DataType = "String")]
+        public String PurchaseType
+        {
+            get { return _PurchaseType; }
+            set { _PurchaseType = value; }
         }
         [Column(Name = "Inventory", DataType = "Int32")]
         public Int32 Inventory
@@ -25761,6 +25775,8 @@ namespace CodeX.Data.Model
     {
         private Int32 _SupplierLineID;
         private String _SiteID;
+        private String _GCPurchaseType;
+        private String _PurchaseType;
         private Int32 _AP;
         private String _APGLAccountNo;
         private String _APGLAccountName;
@@ -25890,6 +25906,18 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
+        }
+        [Column(Name = "PurchaseType", DataType = "String")]
+        public String PurchaseType
+        {
+            get { return _PurchaseType; }
+            set { _PurchaseType = value; }
         }
         [Column(Name = "AP", DataType = "Int32")]
         public Int32 AP

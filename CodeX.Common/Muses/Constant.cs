@@ -81,6 +81,12 @@ namespace CodeX.Common
             public const string ACTIVE = "MS006^001";
         }
 
+        public static class PurchaseType
+        {
+            public const string NON_CONSIGNMENT = "X307^001";
+            public const string CONSIGNMENT = "X307^002";
+        }
+
         public static class AchievementType
         {
             public const string AKADEMIS = "MS019^001";

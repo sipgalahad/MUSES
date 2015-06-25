@@ -8971,9 +8971,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ProductLineDt
-        public static ProductLineDt GetProductLineDt(Int32 ProductLineID, String SiteID)
+        public static ProductLineDt GetProductLineDt(Int32 ProductLineID, String SiteID, String GCPurchaseType)
         {
-            return new ProductLineDtDao().Get(ProductLineID, SiteID);
+            return new ProductLineDtDao().Get(ProductLineID, SiteID, GCPurchaseType);
         }
         public static int InsertProductLineDt(ProductLineDt record)
         {
@@ -8983,9 +8983,9 @@ namespace CodeX.Data.Model
         {
             return new ProductLineDtDao().Update(record);
         }
-        public static int DeleteProductLineDt(Int32 ProductLineID, String SiteID)
+        public static int DeleteProductLineDt(Int32 ProductLineID, String SiteID, String GCPurchaseType)
         {
-            return new ProductLineDtDao().Delete(ProductLineID, SiteID);
+            return new ProductLineDtDao().Delete(ProductLineID, SiteID, GCPurchaseType);
         }
         public static List<ProductLineDt> GetProductLineDtList(string filterExpression)
         {
@@ -13863,9 +13863,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region SupplierLineDt
-        public static SupplierLineDt GetSupplierLineDt(Int32 SupplierLineID, String SiteID)
+        public static SupplierLineDt GetSupplierLineDt(Int32 SupplierLineID, String SiteID, String GCPurchaseType)
         {
-            return new SupplierLineDtDao().Get(SupplierLineID, SiteID);
+            return new SupplierLineDtDao().Get(SupplierLineID, SiteID, GCPurchaseType);
         }
         public static int InsertSupplierLineDt(SupplierLineDt record)
         {
@@ -13875,9 +13875,9 @@ namespace CodeX.Data.Model
         {
             return new SupplierLineDtDao().Update(record);
         }
-        public static int DeleteSupplierLineDt(Int32 SupplierLineID, String SiteID)
+        public static int DeleteSupplierLineDt(Int32 SupplierLineID, String SiteID, String GCPurchaseType)
         {
-            return new SupplierLineDtDao().Delete(SupplierLineID, SiteID);
+            return new SupplierLineDtDao().Delete(SupplierLineID, SiteID, GCPurchaseType);
         }
         public static List<SupplierLineDt> GetSupplierLineDtList(string filterExpression)
         {

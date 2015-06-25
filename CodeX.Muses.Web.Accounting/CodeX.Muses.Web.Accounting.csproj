@@ -111,10 +111,12 @@
     <Content Include="Program\GLSetting\GLAPPayment\GLAPPaymentList.aspx" />
     <Content Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountEntry.aspx" />
     <Content Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountList.aspx" />
+    <Content Include="Program\GLSetting\GLProductLine\GLProductLineDtEntryCtl.ascx" />
     <Content Include="Program\GLSetting\GLProductLine\GLProductLineEntry.aspx" />
     <Content Include="Program\GLSetting\GLProductLine\GLProductLineList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingList.aspx" />
     <Content Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx" />
+    <Content Include="Program\GLSetting\GLSupplierLine\GLSupplierLineDtEntryCtl.ascx" />
     <Content Include="Program\GLSetting\GLSupplierLine\GLSupplierLineEntry.aspx" />
     <Content Include="Program\GLSetting\GLSupplierLine\GLSupplierLineList.aspx" />
     <Content Include="Program\GLSetting\GLWarehouseProductLineAccount\GLWarehouseProductLineAccountEntry.aspx" />
@@ -413,6 +415,13 @@
     <Compile Include="Program\GLSetting\GLFAWriteOffAccount\GLFAWriteOffAccountList.aspx.designer.cs">
       <DependentUpon>GLFAWriteOffAccountList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Program\GLSetting\GLProductLine\GLProductLineDtEntryCtl.ascx.cs">
+      <DependentUpon>GLProductLineDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLProductLine\GLProductLineDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>GLProductLineDtEntryCtl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Program\GLSetting\GLProductLine\GLProductLineEntry.aspx.cs">
       <DependentUpon>GLProductLineEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -440,6 +449,13 @@
     </Compile>
     <Compile Include="Program\GLSetting\GLSetting\GLSettingEntry.aspx.designer.cs">
       <DependentUpon>GLSettingEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLSupplierLine\GLSupplierLineDtEntryCtl.ascx.cs">
+      <DependentUpon>GLSupplierLineDtEntryCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\GLSetting\GLSupplierLine\GLSupplierLineDtEntryCtl.ascx.designer.cs">
+      <DependentUpon>GLSupplierLineDtEntryCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\GLSetting\GLSupplierLine\GLSupplierLineEntry.aspx.cs">
       <DependentUpon>GLSupplierLineEntry.aspx</DependentUpon>

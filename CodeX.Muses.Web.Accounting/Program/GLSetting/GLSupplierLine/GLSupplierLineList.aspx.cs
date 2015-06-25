@@ -23,6 +23,15 @@ namespace CodeX.Muses.Web.Accounting.Program
             return Constant.MenuCode.Accounting.GL_SUPPLIER_LINE;
         }
 
+        protected string OnGetPurchaseTypeNonConsignment()
+        {
+            return Constant.PurchaseType.NON_CONSIGNMENT;
+        }
+        protected string OnGetPurchaseTypeConsignment()
+        {
+            return Constant.PurchaseType.CONSIGNMENT;
+        }
+
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
             List<StandardCode> lstItemType = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.SUPPLIER_TYPE));
