@@ -83,7 +83,8 @@ Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
                             <Columns>
                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="AccountPayableType" HeaderText="Akun Pembayaran" ItemStyle-Width="200px" />
-                                <asp:BoundField DataField="ItemType" HeaderText="Tipe" ItemStyle-Width="300px" />
+                                <asp:BoundField DataField="ItemType" HeaderText="Tipe" ItemStyle-Width="200px" />
+                                <asp:BoundField DataField="PurchaseType" HeaderText="Tipe Pembelian" ItemStyle-Width="200px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
                                 <asp:HyperLinkField HeaderText="Detail" Text="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="150px" />
                             </Columns>

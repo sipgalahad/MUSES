@@ -76,6 +76,15 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCItemType;
         
         /// <summary>
+        /// cboGCPurchaseType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxEditors.ASPxComboBox cboGCPurchaseType;
+        
+        /// <summary>
         /// txtNotes control.
         /// </summary>
         /// <remarks>
@@ -85,454 +94,634 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.TextBox txtNotes;
         
         /// <summary>
-        /// hdnGLAccount1ID control.
+        /// hdnInventoryID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGLAccount1ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryID;
         
         /// <summary>
-        /// hdnSubLedgerID1 control.
+        /// hdnInventorySubLedgerID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerID1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventorySubLedgerID;
         
         /// <summary>
-        /// hdnSearchDialogTypeName1 control.
+        /// hdnInventorySearchDialogTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSearchDialogTypeName1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventorySearchDialogTypeName;
         
         /// <summary>
-        /// hdnIDFieldName1 control.
+        /// hdnInventoryIDFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIDFieldName1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryIDFieldName;
         
         /// <summary>
-        /// hdnCodeFieldName1 control.
+        /// hdnInventoryCodeFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCodeFieldName1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryCodeFieldName;
         
         /// <summary>
-        /// hdnDisplayFieldName1 control.
+        /// hdnInventoryDisplayFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDisplayFieldName1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDisplayFieldName;
         
         /// <summary>
-        /// hdnMethodName1 control.
+        /// hdnInventoryMethodName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMethodName1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryMethodName;
         
         /// <summary>
-        /// hdnFilterExpression1 control.
+        /// hdnInventoryFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryFilterExpression;
         
         /// <summary>
-        /// txtGLAccount1Code control.
+        /// txtInventoryGLAccountNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount1Code;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryGLAccountNo;
         
         /// <summary>
-        /// txtGLAccount1Name control.
+        /// txtInventoryGLAccountName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount1Name;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryGLAccountName;
         
         /// <summary>
-        /// hdnGLAccount4ID control.
+        /// hdnInventoryVATID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGLAccount4ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATID;
         
         /// <summary>
-        /// hdnSubLedgerID4 control.
+        /// hdnInventoryVATSubLedgerID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerID4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATSubLedgerID;
         
         /// <summary>
-        /// hdnSearchDialogTypeName4 control.
+        /// hdnInventoryVATSearchDialogTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSearchDialogTypeName4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATSearchDialogTypeName;
         
         /// <summary>
-        /// hdnIDFieldName4 control.
+        /// hdnInventoryVATIDFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIDFieldName4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATIDFieldName;
         
         /// <summary>
-        /// hdnCodeFieldName4 control.
+        /// hdnInventoryVATCodeFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCodeFieldName4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATCodeFieldName;
         
         /// <summary>
-        /// hdnDisplayFieldName4 control.
+        /// hdnInventoryVATDisplayFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDisplayFieldName4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATDisplayFieldName;
         
         /// <summary>
-        /// hdnMethodName4 control.
+        /// hdnInventoryVATMethodName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMethodName4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATMethodName;
         
         /// <summary>
-        /// hdnFilterExpression4 control.
+        /// hdnInventoryVATFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression4;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATFilterExpression;
         
         /// <summary>
-        /// txtGLAccount4Code control.
+        /// txtInventoryVATGLAccountNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount4Code;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryVATGLAccountNo;
         
         /// <summary>
-        /// txtGLAccount4Name control.
+        /// txtInventoryVATGLAccountName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount4Name;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryVATGLAccountName;
         
         /// <summary>
-        /// hdnGLAccount5ID control.
+        /// hdnInventoryDiscountID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGLAccount5ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountID;
         
         /// <summary>
-        /// hdnSubLedgerID5 control.
+        /// hdnInventoryDiscountSubLedgerID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerID5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountSubLedgerID;
         
         /// <summary>
-        /// hdnSearchDialogTypeName5 control.
+        /// hdnInventoryDiscountSearchDialogTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSearchDialogTypeName5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountSearchDialogTypeName;
         
         /// <summary>
-        /// hdnIDFieldName5 control.
+        /// hdnInventoryDiscountIDFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIDFieldName5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountIDFieldName;
         
         /// <summary>
-        /// hdnCodeFieldName5 control.
+        /// hdnInventoryDiscountCodeFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCodeFieldName5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountCodeFieldName;
         
         /// <summary>
-        /// hdnDisplayFieldName5 control.
+        /// hdnInventoryDiscountDisplayFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDisplayFieldName5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountDisplayFieldName;
         
         /// <summary>
-        /// hdnMethodName5 control.
+        /// hdnInventoryDiscountMethodName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMethodName5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountMethodName;
         
         /// <summary>
-        /// hdnFilterExpression5 control.
+        /// hdnInventoryDiscountFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression5;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountFilterExpression;
         
         /// <summary>
-        /// txtGLAccount5Code control.
+        /// txtInventoryDiscountGLAccountNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount5Code;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryDiscountGLAccountNo;
         
         /// <summary>
-        /// txtGLAccount5Name control.
+        /// txtInventoryDiscountGLAccountName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount5Name;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryDiscountGLAccountName;
         
         /// <summary>
-        /// hdnGLAccount2ID control.
+        /// hdnCOGSID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGLAccount2ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSID;
         
         /// <summary>
-        /// hdnSubLedgerID2 control.
+        /// hdnCOGSSubLedgerID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerID2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSSubLedgerID;
         
         /// <summary>
-        /// hdnSearchDialogTypeName2 control.
+        /// hdnCOGSSearchDialogTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSearchDialogTypeName2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSSearchDialogTypeName;
         
         /// <summary>
-        /// hdnIDFieldName2 control.
+        /// hdnCOGSIDFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIDFieldName2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSIDFieldName;
         
         /// <summary>
-        /// hdnCodeFieldName2 control.
+        /// hdnCOGSCodeFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCodeFieldName2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSCodeFieldName;
         
         /// <summary>
-        /// hdnDisplayFieldName2 control.
+        /// hdnCOGSDisplayFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDisplayFieldName2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSDisplayFieldName;
         
         /// <summary>
-        /// hdnMethodName2 control.
+        /// hdnCOGSMethodName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMethodName2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSMethodName;
         
         /// <summary>
-        /// hdnFilterExpression2 control.
+        /// hdnCOGSFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression2;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSFilterExpression;
         
         /// <summary>
-        /// txtGLAccount2Code control.
+        /// txtCOGSGLAccountNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount2Code;
+        protected global::System.Web.UI.WebControls.TextBox txtCOGSGLAccountNo;
         
         /// <summary>
-        /// txtGLAccount2Name control.
+        /// txtCOGSGLAccountName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount2Name;
+        protected global::System.Web.UI.WebControls.TextBox txtCOGSGLAccountName;
         
         /// <summary>
-        /// hdnGLAccount3ID control.
+        /// hdnConsumption control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGLAccount3ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumption;
         
         /// <summary>
-        /// hdnSubLedgerID3 control.
+        /// hdnConsumptionSubLedgerID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerID3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionSubLedgerID;
         
         /// <summary>
-        /// hdnSearchDialogTypeName3 control.
+        /// hdnConsumptionSearchDialogTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSearchDialogTypeName3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionSearchDialogTypeName;
         
         /// <summary>
-        /// hdnIDFieldName3 control.
+        /// hdnConsumptionIDFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnIDFieldName3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionIDFieldName;
         
         /// <summary>
-        /// hdnCodeFieldName3 control.
+        /// hdnConsumptionCodeFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCodeFieldName3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionCodeFieldName;
         
         /// <summary>
-        /// hdnDisplayFieldName3 control.
+        /// hdnConsumptionDisplayFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnDisplayFieldName3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionDisplayFieldName;
         
         /// <summary>
-        /// hdnMethodName3 control.
+        /// hdnConsumptionMethodName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnMethodName3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionMethodName;
         
         /// <summary>
-        /// hdnFilterExpression3 control.
+        /// hdnConsumptionFilterExpression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnFilterExpression3;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionFilterExpression;
         
         /// <summary>
-        /// txtGLAccount3Code control.
+        /// txtConsumptionGLAccountNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount3Code;
+        protected global::System.Web.UI.WebControls.TextBox txtConsumptionGLAccountNo;
         
         /// <summary>
-        /// txtGLAccount3Name control.
+        /// txtConsumptionGLAccountName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGLAccount3Name;
+        protected global::System.Web.UI.WebControls.TextBox txtConsumptionGLAccountName;
+        
+        /// <summary>
+        /// hdnAdjustmentIN control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentIN;
+        
+        /// <summary>
+        /// hdnAdjustmentINSubLedgerID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINSubLedgerID;
+        
+        /// <summary>
+        /// hdnAdjustmentINSearchDialogTypeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINSearchDialogTypeName;
+        
+        /// <summary>
+        /// hdnAdjustmentINIDFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINIDFieldName;
+        
+        /// <summary>
+        /// hdnAdjustmentINCodeFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINCodeFieldName;
+        
+        /// <summary>
+        /// hdnAdjustmentINDisplayFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINDisplayFieldName;
+        
+        /// <summary>
+        /// hdnAdjustmentINMethodName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINMethodName;
+        
+        /// <summary>
+        /// hdnAdjustmentINFilterExpression control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINFilterExpression;
+        
+        /// <summary>
+        /// txtAdjustmentINGLAccountNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentINGLAccountNo;
+        
+        /// <summary>
+        /// txtAdjustmentINGLAccountName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentINGLAccountName;
+        
+        /// <summary>
+        /// hdnAdjustmentOUT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUT;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTSubLedgerID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTSubLedgerID;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTSearchDialogTypeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTSearchDialogTypeName;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTIDFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTIDFieldName;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTCodeFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTCodeFieldName;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTDisplayFieldName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTDisplayFieldName;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTMethodName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTMethodName;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTFilterExpression control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTFilterExpression;
+        
+        /// <summary>
+        /// txtAdjustmentOUTGLAccountNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentOUTGLAccountNo;
+        
+        /// <summary>
+        /// txtAdjustmentOUTGLAccountName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentOUTGLAccountName;
         
         /// <summary>
         /// hdnPurchasePriceVariantID control.
@@ -625,184 +814,256 @@ namespace CodeX.Muses.Web.Accounting.Program {
         protected global::System.Web.UI.WebControls.TextBox txtPurchasePriceVariantGLAccountName;
         
         /// <summary>
-        /// lblSubLedgerDt1 control.
+        /// lblInventorySubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSubLedgerDt1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInventorySubLedger;
         
         /// <summary>
-        /// hdnSubLedgerDt1ID control.
+        /// hdnInventorySubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerDt1ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventorySubLedger;
         
         /// <summary>
-        /// txtSubLedgerDt1Code control.
+        /// txtInventorySubLedgerCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt1Code;
+        protected global::System.Web.UI.WebControls.TextBox txtInventorySubLedgerCode;
         
         /// <summary>
-        /// txtSubLedgerDt1Name control.
+        /// txtInventorySubLedgerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt1Name;
+        protected global::System.Web.UI.WebControls.TextBox txtInventorySubLedgerName;
         
         /// <summary>
-        /// lblSubLedgerDt4 control.
+        /// lblInventoryVATSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSubLedgerDt4;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInventoryVATSubLedger;
         
         /// <summary>
-        /// hdnSubLedgerDt4ID control.
+        /// hdnInventoryVATSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerDt4ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryVATSubLedger;
         
         /// <summary>
-        /// txtSubLedgerDt4Code control.
+        /// txtInventoryVATSubLedgerCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt4Code;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryVATSubLedgerCode;
         
         /// <summary>
-        /// txtSubLedgerDt4Name control.
+        /// txtInventoryVATSubLedgerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt4Name;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryVATSubLedgerName;
         
         /// <summary>
-        /// lblSubLedgerDt5 control.
+        /// lblInventoryDiscountSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSubLedgerDt5;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblInventoryDiscountSubLedger;
         
         /// <summary>
-        /// hdnSubLedgerDt5ID control.
+        /// hdnInventoryDiscountSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerDt5ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnInventoryDiscountSubLedger;
         
         /// <summary>
-        /// txtSubLedgerDt5Code control.
+        /// txtInventoryDiscountSubLedgerCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt5Code;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryDiscountSubLedgerCode;
         
         /// <summary>
-        /// txtSubLedgerDt5Name control.
+        /// txtInventoryDiscountSubLedgerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt5Name;
+        protected global::System.Web.UI.WebControls.TextBox txtInventoryDiscountSubLedgerName;
         
         /// <summary>
-        /// lblSubLedgerDt2 control.
+        /// lblCOGSSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSubLedgerDt2;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCOGSSubLedger;
         
         /// <summary>
-        /// hdnSubLedgerDt2ID control.
+        /// hdnCOGSSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerDt2ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnCOGSSubLedger;
         
         /// <summary>
-        /// txtSubLedgerDt2Code control.
+        /// txtCOGSSubLedgerCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt2Code;
+        protected global::System.Web.UI.WebControls.TextBox txtCOGSSubLedgerCode;
         
         /// <summary>
-        /// txtSubLedgerDt2Name control.
+        /// txtCOGSSubLedgerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt2Name;
+        protected global::System.Web.UI.WebControls.TextBox txtCOGSSubLedgerName;
         
         /// <summary>
-        /// lblSubLedgerDt3 control.
+        /// lblConsumptionSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblSubLedgerDt3;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblConsumptionSubLedger;
         
         /// <summary>
-        /// hdnSubLedgerDt3ID control.
+        /// hdnConsumptionSubLedger control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnSubLedgerDt3ID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnConsumptionSubLedger;
         
         /// <summary>
-        /// txtSubLedgerDt3Code control.
+        /// txtConsumptionSubLedgerCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt3Code;
+        protected global::System.Web.UI.WebControls.TextBox txtConsumptionSubLedgerCode;
         
         /// <summary>
-        /// txtSubLedgerDt3Name control.
+        /// txtConsumptionSubLedgerName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSubLedgerDt3Name;
+        protected global::System.Web.UI.WebControls.TextBox txtConsumptionSubLedgerName;
+        
+        /// <summary>
+        /// lblAdjustmentINSubLedger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAdjustmentINSubLedger;
+        
+        /// <summary>
+        /// hdnAdjustmentINSubLedger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentINSubLedger;
+        
+        /// <summary>
+        /// txtAdjustmentINSubLedgerCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentINSubLedgerCode;
+        
+        /// <summary>
+        /// txtAdjustmentINSubLedgerName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentINSubLedgerName;
+        
+        /// <summary>
+        /// lblAdjustmentOUTSubLedger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAdjustmentOUTSubLedger;
+        
+        /// <summary>
+        /// hdnAdjustmentOUTSubLedger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnAdjustmentOUTSubLedger;
+        
+        /// <summary>
+        /// txtAdjustmentOUTSubLedgerCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentOUTSubLedgerCode;
+        
+        /// <summary>
+        /// txtAdjustmentOUTSubLedgerName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAdjustmentOUTSubLedgerName;
         
         /// <summary>
         /// lblPurchasePriceVariantSubLedger control.

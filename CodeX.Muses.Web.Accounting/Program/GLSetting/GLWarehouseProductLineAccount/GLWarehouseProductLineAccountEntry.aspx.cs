@@ -44,9 +44,11 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID = '{0}' AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.PURCHASE_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
-            Methods.SetComboBoxField(cboGCItemType, lstStandardCode, "StandardCodeName", "StandardCodeID");
+
+            Methods.SetComboBoxField(cboGCItemType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.ITEM_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboGCPurchaseType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.PURCHASE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
@@ -55,63 +57,84 @@ namespace CodeX.Muses.Web.Accounting.Program
             SetControlEntrySetting(txtProductLineCode, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(txtProductLineName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(cboGCItemType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboGCPurchaseType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
-            SetControlEntrySetting(hdnGLAccount1ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSearchDialogTypeName1, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSubLedgerID1, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtGLAccount1Code, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtGLAccount1Name, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(lblSubLedgerDt1, new ControlEntrySetting(false, false));
-            SetControlEntrySetting(hdnSubLedgerDt1ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtSubLedgerDt1Code, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtSubLedgerDt1Name, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnInventoryID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnInventorySearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnInventorySubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtInventoryGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtInventoryGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblInventorySubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnInventorySubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtInventorySubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtInventorySubLedgerName, new ControlEntrySetting(false, false, false));
 
-            SetControlEntrySetting(hdnGLAccount2ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSearchDialogTypeName2, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSubLedgerID2, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtGLAccount2Code, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtGLAccount2Name, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(lblSubLedgerDt2, new ControlEntrySetting(false, false));
-            SetControlEntrySetting(hdnSubLedgerDt2ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtSubLedgerDt2Code, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtSubLedgerDt2Name, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnCOGSID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnCOGSSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnCOGSSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtCOGSGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtCOGSGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblCOGSSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnCOGSSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtCOGSSubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtCOGSSubLedgerName, new ControlEntrySetting(false, false, false));
 
-            SetControlEntrySetting(hdnGLAccount3ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSearchDialogTypeName3, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSubLedgerID3, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtGLAccount3Code, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtGLAccount3Name, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(lblSubLedgerDt3, new ControlEntrySetting(false, false));
-            SetControlEntrySetting(hdnSubLedgerDt3ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtSubLedgerDt3Code, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtSubLedgerDt3Name, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnConsumption, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnConsumptionSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnConsumptionSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtConsumptionGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtConsumptionGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblConsumptionSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnConsumptionSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtConsumptionSubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtConsumptionSubLedgerName, new ControlEntrySetting(false, false, false));
 
-            SetControlEntrySetting(hdnGLAccount4ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSearchDialogTypeName4, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSubLedgerID4, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtGLAccount4Code, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtGLAccount4Name, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(lblSubLedgerDt4, new ControlEntrySetting(false, false));
-            SetControlEntrySetting(hdnSubLedgerDt4ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtSubLedgerDt4Code, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtSubLedgerDt4Name, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnAdjustmentIN, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnAdjustmentINSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnAdjustmentINSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtAdjustmentINGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtAdjustmentINGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblAdjustmentINSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnAdjustmentINSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtAdjustmentINSubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtAdjustmentINSubLedgerName, new ControlEntrySetting(false, false, false));
 
-            SetControlEntrySetting(hdnGLAccount5ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSearchDialogTypeName5, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(hdnSubLedgerID5, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtGLAccount5Code, new ControlEntrySetting(true, true, true));
-            SetControlEntrySetting(txtGLAccount5Name, new ControlEntrySetting(false, false, false));
-            SetControlEntrySetting(lblSubLedgerDt5, new ControlEntrySetting(false, false));
-            SetControlEntrySetting(hdnSubLedgerDt5ID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtSubLedgerDt5Code, new ControlEntrySetting(false, false, true));
-            SetControlEntrySetting(txtSubLedgerDt5Name, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(hdnAdjustmentOUT, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnAdjustmentOUTSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnAdjustmentOUTSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtAdjustmentOUTGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtAdjustmentOUTGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblAdjustmentOUTSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnAdjustmentOUTSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtAdjustmentOUTSubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtAdjustmentOUTSubLedgerName, new ControlEntrySetting(false, false, false));
+
+            SetControlEntrySetting(hdnInventoryVATID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnInventoryVATSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnInventoryVATSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtInventoryVATGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtInventoryVATGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblInventoryVATSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnInventoryVATSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtInventoryVATSubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtInventoryVATSubLedgerName, new ControlEntrySetting(false, false, false));
+
+            SetControlEntrySetting(hdnInventoryDiscountID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnInventoryDiscountSearchDialogTypeName, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(hdnInventoryDiscountSubLedgerID, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtInventoryDiscountGLAccountNo, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(txtInventoryDiscountGLAccountName, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(lblInventoryDiscountSubLedger, new ControlEntrySetting(false, false));
+            SetControlEntrySetting(hdnInventoryDiscountSubLedger, new ControlEntrySetting(true, true));
+            SetControlEntrySetting(txtInventoryDiscountSubLedgerCode, new ControlEntrySetting(false, false, true));
+            SetControlEntrySetting(txtInventoryDiscountSubLedgerName, new ControlEntrySetting(false, false, false));
 
             SetControlEntrySetting(hdnPurchasePriceVariantID, new ControlEntrySetting(true, true));
             SetControlEntrySetting(hdnPurchasePriceVariantSearchDialogTypeName, new ControlEntrySetting(true, true));
             SetControlEntrySetting(hdnPurchasePriceVariantSubLedgerID, new ControlEntrySetting(true, true));
-            SetControlEntrySetting(txtPurchasePriceVariantGLAccountNo, new ControlEntrySetting(true, true, false));
+            SetControlEntrySetting(txtPurchasePriceVariantGLAccountNo, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtPurchasePriceVariantGLAccountName, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(lblPurchasePriceVariantSubLedger, new ControlEntrySetting(false, false));
             SetControlEntrySetting(hdnPurchasePriceVariantSubLedger, new ControlEntrySetting(true, true));
@@ -126,97 +149,134 @@ namespace CodeX.Muses.Web.Accounting.Program
             txtProductLineCode.Text = entity.ProductLineCode;
             txtProductLineName.Text = entity.ProductLineName;
             cboGCItemType.Value = entity.GCItemType;
+            cboGCPurchaseType.Value = entity.GCPurchaseType;
             txtNotes.Text = entity.Remarks;
             
             #region Pengaturan Perkiraan untuk Aktiva Tetap
-            #region GL Account 1
-            hdnGLAccount1ID.Value = entity.Inventory.ToString();
-            txtGLAccount1Code.Text = entity.InventoryGLAccountNo;
-            txtGLAccount1Name.Text = entity.InventoryGLAccountName;
+            #region Inventory
+            hdnInventoryID.Value = entity.Inventory.ToString();
+            txtInventoryGLAccountNo.Text = entity.InventoryGLAccountNo;
+            txtInventoryGLAccountName.Text = entity.InventoryGLAccountName;
 
-            hdnSubLedgerID1.Value = entity.InventorySubLedgerID.ToString();
-            hdnSearchDialogTypeName1.Value = entity.InventorySearchDialogTypeName;
-            hdnIDFieldName1.Value = entity.InventoryIDFieldName;
-            hdnCodeFieldName1.Value = entity.InventoryCodeFieldName;
-            hdnDisplayFieldName1.Value = entity.InventoryDisplayFieldName;
-            hdnMethodName1.Value = entity.InventoryMethodName;
-            hdnFilterExpression1.Value = entity.InventoryFilterExpression;
+            hdnInventorySubLedgerID.Value = entity.InventorySubLedgerID.ToString();
+            hdnInventorySearchDialogTypeName.Value = entity.InventorySearchDialogTypeName;
+            hdnInventoryIDFieldName.Value = entity.InventoryIDFieldName;
+            hdnInventoryCodeFieldName.Value = entity.InventoryCodeFieldName;
+            hdnInventoryDisplayFieldName.Value = entity.InventoryDisplayFieldName;
+            hdnInventoryMethodName.Value = entity.InventoryMethodName;
+            hdnInventoryFilterExpression.Value = entity.InventoryFilterExpression;
 
-            hdnSubLedgerDt1ID.Value = entity.InventorySubLedger.ToString();
-            txtSubLedgerDt1Code.Text = entity.InventorySubLedgerCode;
-            txtSubLedgerDt1Name.Text = entity.InventorySubLedgerName;
+            hdnInventorySubLedger.Value = entity.InventorySubLedger.ToString();
+            txtInventorySubLedgerCode.Text = entity.InventorySubLedgerCode;
+            txtInventorySubLedgerName.Text = entity.InventorySubLedgerName;
             #endregion
 
-            #region GL Account 2
-            hdnGLAccount2ID.Value = entity.COGS.ToString();
-            txtGLAccount2Code.Text = entity.COGSGLAccountNo;
-            txtGLAccount2Name.Text = entity.COGSGLAccountName;
+            #region Inventory VAT
+            hdnInventoryVATID.Value = entity.InventoryVAT.ToString();
+            txtInventoryVATGLAccountNo.Text = entity.InventoryVATGLAccountNo;
+            txtInventoryVATGLAccountName.Text = entity.InventoryVATGLAccountName;
 
-            hdnSubLedgerID2.Value = entity.COGSSubLedgerID.ToString();
-            hdnSearchDialogTypeName2.Value = entity.COGSSearchDialogTypeName;
-            hdnIDFieldName2.Value = entity.COGSIDFieldName;
-            hdnCodeFieldName2.Value = entity.COGSCodeFieldName;
-            hdnDisplayFieldName2.Value = entity.COGSDisplayFieldName;
-            hdnMethodName2.Value = entity.COGSMethodName;
-            hdnFilterExpression2.Value = entity.COGSFilterExpression;
+            hdnInventoryVATSubLedgerID.Value = entity.InventoryVATSubLedgerID.ToString();
+            hdnInventoryVATSearchDialogTypeName.Value = entity.InventoryVATSearchDialogTypeName;
+            hdnInventoryVATIDFieldName.Value = entity.InventoryVATIDFieldName;
+            hdnInventoryVATCodeFieldName.Value = entity.InventoryVATCodeFieldName;
+            hdnInventoryVATDisplayFieldName.Value = entity.InventoryVATDisplayFieldName;
+            hdnInventoryVATMethodName.Value = entity.InventoryVATMethodName;
+            hdnInventoryVATFilterExpression.Value = entity.InventoryVATFilterExpression;
 
-            hdnSubLedgerDt2ID.Value = entity.COGSSubLedger.ToString();
-            txtSubLedgerDt2Code.Text = entity.COGSSubLedgerCode;
-            txtSubLedgerDt2Name.Text = entity.COGSSubLedgerName;
+            hdnInventoryVATSubLedger.Value = entity.InventoryVATSubLedger.ToString();
+            txtInventoryVATSubLedgerCode.Text = entity.InventoryVATSubLedgerCode;
+            txtInventoryVATSubLedgerName.Text = entity.InventoryVATSubLedgerName;
             #endregion
 
-            #region GL Account 3
-            hdnGLAccount3ID.Value = entity.Consumption.ToString();
-            txtGLAccount3Code.Text = entity.ConsumptionGLAccountNo;
-            txtGLAccount3Name.Text = entity.ConsumptionGLAccountName;
+            #region Inventory Discount
+            hdnInventoryDiscountID.Value = entity.InventoryDiscount.ToString();
+            txtInventoryDiscountGLAccountNo.Text = entity.InventoryDiscountGLAccountNo;
+            txtInventoryDiscountGLAccountName.Text = entity.InventoryDiscountGLAccountName;
 
-            hdnSubLedgerID3.Value = entity.ConsumptionSubLedgerID.ToString();
-            hdnSearchDialogTypeName3.Value = entity.ConsumptionSearchDialogTypeName;
-            hdnIDFieldName3.Value = entity.ConsumptionIDFieldName;
-            hdnCodeFieldName3.Value = entity.ConsumptionCodeFieldName;
-            hdnDisplayFieldName3.Value = entity.ConsumptionDisplayFieldName;
-            hdnMethodName3.Value = entity.ConsumptionMethodName;
-            hdnFilterExpression3.Value = entity.ConsumptionFilterExpression;
+            hdnInventoryDiscountSubLedgerID.Value = entity.InventoryDiscountSubLedgerID.ToString();
+            hdnInventoryDiscountSearchDialogTypeName.Value = entity.InventoryDiscountSearchDialogTypeName;
+            hdnInventoryDiscountIDFieldName.Value = entity.InventoryDiscountIDFieldName;
+            hdnInventoryDiscountCodeFieldName.Value = entity.InventoryDiscountCodeFieldName;
+            hdnInventoryDiscountDisplayFieldName.Value = entity.InventoryDiscountDisplayFieldName;
+            hdnInventoryDiscountMethodName.Value = entity.InventoryDiscountMethodName;
+            hdnInventoryDiscountFilterExpression.Value = entity.InventoryDiscountFilterExpression;
 
-            hdnSubLedgerDt3ID.Value = entity.ConsumptionSubLedger.ToString();
-            txtSubLedgerDt3Code.Text = entity.ConsumptionSubLedgerCode;
-            txtSubLedgerDt3Name.Text = entity.ConsumptionSubLedgerName;
+            hdnInventoryDiscountSubLedger.Value = entity.InventoryDiscountSubLedger.ToString();
+            txtInventoryDiscountSubLedgerCode.Text = entity.InventoryDiscountSubLedgerCode;
+            txtInventoryDiscountSubLedgerName.Text = entity.InventoryDiscountSubLedgerName;
             #endregion
 
-            #region GL Account 4
-            hdnGLAccount4ID.Value = entity.InventoryVAT.ToString();
-            txtGLAccount4Code.Text = entity.InventoryVATGLAccountNo;
-            txtGLAccount4Name.Text = entity.InventoryVATGLAccountName;
+            #region COGS
+            hdnCOGSID.Value = entity.COGS.ToString();
+            txtCOGSGLAccountNo.Text = entity.COGSGLAccountNo;
+            txtCOGSGLAccountName.Text = entity.COGSGLAccountName;
 
-            hdnSubLedgerID4.Value = entity.InventoryVATSubLedgerID.ToString();
-            hdnSearchDialogTypeName4.Value = entity.InventoryVATSearchDialogTypeName;
-            hdnIDFieldName4.Value = entity.InventoryVATIDFieldName;
-            hdnCodeFieldName4.Value = entity.InventoryVATCodeFieldName;
-            hdnDisplayFieldName4.Value = entity.InventoryVATDisplayFieldName;
-            hdnMethodName4.Value = entity.InventoryVATMethodName;
-            hdnFilterExpression4.Value = entity.InventoryVATFilterExpression;
+            hdnCOGSSubLedgerID.Value = entity.COGSSubLedgerID.ToString();
+            hdnCOGSSearchDialogTypeName.Value = entity.COGSSearchDialogTypeName;
+            hdnCOGSIDFieldName.Value = entity.COGSIDFieldName;
+            hdnCOGSCodeFieldName.Value = entity.COGSCodeFieldName;
+            hdnCOGSDisplayFieldName.Value = entity.COGSDisplayFieldName;
+            hdnCOGSMethodName.Value = entity.COGSMethodName;
+            hdnCOGSFilterExpression.Value = entity.COGSFilterExpression;
 
-            hdnSubLedgerDt4ID.Value = entity.InventoryVATSubLedger.ToString();
-            txtSubLedgerDt4Code.Text = entity.InventoryVATSubLedgerCode;
-            txtSubLedgerDt4Name.Text = entity.InventoryVATSubLedgerName;
+            hdnCOGSSubLedger.Value = entity.COGSSubLedger.ToString();
+            txtCOGSSubLedgerCode.Text = entity.COGSSubLedgerCode;
+            txtCOGSSubLedgerName.Text = entity.COGSSubLedgerName;
             #endregion
 
-            #region GL Account 5
-            hdnGLAccount5ID.Value = entity.InventoryDiscount.ToString();
-            txtGLAccount5Code.Text = entity.InventoryDiscountGLAccountNo;
-            txtGLAccount5Name.Text = entity.InventoryDiscountGLAccountName;
+            #region Consumption
+            hdnConsumption.Value = entity.Consumption.ToString();
+            txtConsumptionGLAccountNo.Text = entity.ConsumptionGLAccountNo;
+            txtConsumptionGLAccountName.Text = entity.ConsumptionGLAccountName;
 
-            hdnSubLedgerID5.Value = entity.InventoryDiscountSubLedgerID.ToString();
-            hdnSearchDialogTypeName5.Value = entity.InventoryDiscountSearchDialogTypeName;
-            hdnIDFieldName5.Value = entity.InventoryDiscountIDFieldName;
-            hdnCodeFieldName5.Value = entity.InventoryDiscountCodeFieldName;
-            hdnDisplayFieldName5.Value = entity.InventoryDiscountDisplayFieldName;
-            hdnMethodName5.Value = entity.InventoryDiscountMethodName;
-            hdnFilterExpression5.Value = entity.InventoryDiscountFilterExpression;
+            hdnConsumptionSubLedgerID.Value = entity.ConsumptionSubLedgerID.ToString();
+            hdnConsumptionSearchDialogTypeName.Value = entity.ConsumptionSearchDialogTypeName;
+            hdnConsumptionIDFieldName.Value = entity.ConsumptionIDFieldName;
+            hdnConsumptionCodeFieldName.Value = entity.ConsumptionCodeFieldName;
+            hdnConsumptionDisplayFieldName.Value = entity.ConsumptionDisplayFieldName;
+            hdnConsumptionMethodName.Value = entity.ConsumptionMethodName;
+            hdnConsumptionFilterExpression.Value = entity.ConsumptionFilterExpression;
 
-            hdnSubLedgerDt5ID.Value = entity.InventoryDiscountSubLedger.ToString();
-            txtSubLedgerDt5Code.Text = entity.InventoryDiscountSubLedgerCode;
-            txtSubLedgerDt5Name.Text = entity.InventoryDiscountSubLedgerName;
+            hdnConsumptionSubLedger.Value = entity.ConsumptionSubLedger.ToString();
+            txtConsumptionSubLedgerCode.Text = entity.ConsumptionSubLedgerCode;
+            txtConsumptionSubLedgerName.Text = entity.ConsumptionSubLedgerName;
+            #endregion
+
+            #region AdjustmentIN
+            hdnAdjustmentIN.Value = entity.AdjustmentIN.ToString();
+            txtAdjustmentINGLAccountNo.Text = entity.AdjustmentINGLAccountNo;
+            txtAdjustmentINGLAccountName.Text = entity.AdjustmentINGLAccountName;
+
+            hdnAdjustmentINSubLedgerID.Value = entity.AdjustmentINSubLedgerID.ToString();
+            hdnAdjustmentINSearchDialogTypeName.Value = entity.AdjustmentINSearchDialogTypeName;
+            hdnAdjustmentINIDFieldName.Value = entity.AdjustmentINIDFieldName;
+            hdnAdjustmentINCodeFieldName.Value = entity.AdjustmentINCodeFieldName;
+            hdnAdjustmentINDisplayFieldName.Value = entity.AdjustmentINDisplayFieldName;
+            hdnAdjustmentINMethodName.Value = entity.AdjustmentINMethodName;
+            hdnAdjustmentINFilterExpression.Value = entity.AdjustmentINFilterExpression;
+
+            hdnAdjustmentINSubLedger.Value = entity.AdjustmentINSubLedger.ToString();
+            txtAdjustmentINSubLedgerCode.Text = entity.AdjustmentINSubLedgerCode;
+            txtAdjustmentINSubLedgerName.Text = entity.AdjustmentINSubLedgerName;
+            #endregion
+
+            #region AdjustmentOUT
+            hdnAdjustmentOUT.Value = entity.AdjustmentOUT.ToString();
+            txtAdjustmentOUTGLAccountNo.Text = entity.AdjustmentOUTGLAccountNo;
+            txtAdjustmentOUTGLAccountName.Text = entity.AdjustmentOUTGLAccountName;
+
+            hdnAdjustmentOUTSubLedgerID.Value = entity.AdjustmentOUTSubLedgerID.ToString();
+            hdnAdjustmentOUTSearchDialogTypeName.Value = entity.AdjustmentOUTSearchDialogTypeName;
+            hdnAdjustmentOUTIDFieldName.Value = entity.AdjustmentOUTIDFieldName;
+            hdnAdjustmentOUTCodeFieldName.Value = entity.AdjustmentOUTCodeFieldName;
+            hdnAdjustmentOUTDisplayFieldName.Value = entity.AdjustmentOUTDisplayFieldName;
+            hdnAdjustmentOUTMethodName.Value = entity.AdjustmentOUTMethodName;
+            hdnAdjustmentOUTFilterExpression.Value = entity.AdjustmentOUTFilterExpression;
+
+            hdnAdjustmentOUTSubLedger.Value = entity.AdjustmentOUTSubLedger.ToString();
+            txtAdjustmentOUTSubLedgerCode.Text = entity.AdjustmentOUTSubLedgerCode;
+            txtAdjustmentOUTSubLedgerName.Text = entity.AdjustmentOUTSubLedgerName;
             #endregion
 
             #region PurchasePriceVariant
@@ -242,45 +302,62 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             entity.Remarks = txtNotes.Text;
             entity.GCItemType = cboGCItemType.Value.ToString();
+            entity.GCPurchaseType = cboGCPurchaseType.Value.ToString();
             entity.ProductLineID = Convert.ToInt32(hdnProductLineID.Value);
 
             #region Pengaturan Perkiraan untuk Aktiva Tetap
-            #region GL Account 1
-            entity.Inventory = Convert.ToInt32(hdnGLAccount1ID.Value);
-            if (hdnSubLedgerDt1ID.Value != "" && hdnSubLedgerDt1ID.Value != "0")
-                entity.InventorySubLedger = Convert.ToInt32(hdnSubLedgerDt1ID.Value);
+            #region Inventory
+            entity.Inventory = Convert.ToInt32(hdnInventoryID.Value);
+            if (hdnInventorySubLedger.Value != "" && hdnInventorySubLedger.Value != "0")
+                entity.InventorySubLedger = Convert.ToInt32(hdnInventorySubLedger.Value);
             else
                 entity.InventorySubLedger = null;
             #endregion
 
-            #region GL Account 2
-            entity.COGS = Convert.ToInt32(hdnGLAccount2ID.Value);
-            if (hdnSubLedgerDt2ID.Value != "" && hdnSubLedgerDt2ID.Value != "0")
-                entity.COGSSubLedger = Convert.ToInt32(hdnSubLedgerDt2ID.Value);
+            #region COGS
+            entity.COGS = Convert.ToInt32(hdnCOGSID.Value);
+            if (hdnCOGSSubLedger.Value != "" && hdnCOGSSubLedger.Value != "0")
+                entity.COGSSubLedger = Convert.ToInt32(hdnCOGSSubLedger.Value);
             else
                 entity.COGSSubLedger = null;
             #endregion
 
-            #region GL Account 3
-            entity.Consumption = Convert.ToInt32(hdnGLAccount3ID.Value);
-            if (hdnSubLedgerDt3ID.Value != "" && hdnSubLedgerDt3ID.Value != "0")
-                entity.ConsumptionSubLedger = Convert.ToInt32(hdnSubLedgerDt3ID.Value);
+            #region Consumption
+            entity.Consumption = Convert.ToInt32(hdnConsumption.Value);
+            if (hdnConsumptionSubLedger.Value != "" && hdnConsumptionSubLedger.Value != "0")
+                entity.ConsumptionSubLedger = Convert.ToInt32(hdnConsumptionSubLedger.Value);
             else
                 entity.ConsumptionSubLedger = null;
             #endregion
 
-            #region GL Account 4
-            entity.InventoryVAT = Convert.ToInt32(hdnGLAccount4ID.Value);
-            if (hdnSubLedgerDt4ID.Value != "" && hdnSubLedgerDt4ID.Value != "0")
-                entity.InventoryVATSubLedger = Convert.ToInt32(hdnSubLedgerDt4ID.Value);
+            #region AdjustmentIN
+            entity.AdjustmentIN = Convert.ToInt32(hdnAdjustmentIN.Value);
+            if (hdnAdjustmentINSubLedger.Value != "" && hdnAdjustmentINSubLedger.Value != "0")
+                entity.AdjustmentINSubLedger = Convert.ToInt32(hdnAdjustmentINSubLedger.Value);
+            else
+                entity.AdjustmentINSubLedger = null;
+            #endregion
+
+            #region AdjustmentOUT
+            entity.AdjustmentOUT = Convert.ToInt32(hdnAdjustmentOUT.Value);
+            if (hdnAdjustmentOUTSubLedger.Value != "" && hdnAdjustmentOUTSubLedger.Value != "0")
+                entity.AdjustmentOUTSubLedger = Convert.ToInt32(hdnAdjustmentOUTSubLedger.Value);
+            else
+                entity.AdjustmentOUTSubLedger = null;
+            #endregion
+
+            #region InventoryVAT
+            entity.InventoryVAT = Convert.ToInt32(hdnInventoryVATID.Value);
+            if (hdnInventoryVATSubLedger.Value != "" && hdnInventoryVATSubLedger.Value != "0")
+                entity.InventoryVATSubLedger = Convert.ToInt32(hdnInventoryVATSubLedger.Value);
             else
                 entity.InventoryVATSubLedger = null;
             #endregion
 
-            #region GL Account 5
-            entity.InventoryDiscount = Convert.ToInt32(hdnGLAccount5ID.Value);
-            if (hdnSubLedgerDt5ID.Value != "" && hdnSubLedgerDt5ID.Value != "0")
-                entity.InventoryDiscountSubLedger = Convert.ToInt32(hdnSubLedgerDt5ID.Value);
+            #region InventoryDiscount
+            entity.InventoryDiscount = Convert.ToInt32(hdnInventoryDiscountID.Value);
+            if (hdnInventoryDiscountSubLedger.Value != "" && hdnInventoryDiscountSubLedger.Value != "0")
+                entity.InventoryDiscountSubLedger = Convert.ToInt32(hdnInventoryDiscountSubLedger.Value);
             else
                 entity.InventoryDiscountSubLedger = null;
             #endregion

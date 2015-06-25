@@ -13,480 +13,672 @@
                 return filterExpression;
             }
             
-            //#region GL Account 1
-            $('#lblGLAccount1.lblLink').click(function () {
+            //#region Inventory
+            $('#lblInventory.lblLink').click(function () {
                 openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
-                    $('#<%=txtGLAccount1Code.ClientID %>').val(value);
-                    onTxtGLAccount1CodeChanged(value);
+                    $('#<%=txtInventoryGLAccountNo.ClientID %>').val(value);
+                    onTxtInventoryGLAccountCodeChanged(value);
                 });
             });
 
-            $('#<%=txtGLAccount1Code.ClientID %>').change(function () {
-                onTxtGLAccount1CodeChanged($(this).val());
+            $('#<%=txtInventoryGLAccountNo.ClientID %>').change(function () {
+                onTxtInventoryGLAccountCodeChanged($(this).val());
             });
 
-            function onTxtGLAccount1CodeChanged(value) {
+            function onTxtInventoryGLAccountCodeChanged(value) {
                 var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
                 Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnGLAccount1ID.ClientID %>').val(result.GLAccountID);
-                        $('#<%=txtGLAccount1Name.ClientID %>').val(result.GLAccountName);
+                        $('#<%=hdnInventoryID.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtInventoryGLAccountName.ClientID %>').val(result.GLAccountName);
 
-                        $('#<%=hdnSubLedgerID1.ClientID %>').val(result.SubLedgerID);
-                        $('#<%=hdnSearchDialogTypeName1.ClientID %>').val(result.SearchDialogTypeName);
-                        $('#<%=hdnFilterExpression1.ClientID %>').val(result.FilterExpression);
-                        $('#<%=hdnIDFieldName1.ClientID %>').val(result.IDFieldName);
-                        $('#<%=hdnCodeFieldName1.ClientID %>').val(result.CodeFieldName);
-                        $('#<%=hdnDisplayFieldName1.ClientID %>').val(result.DisplayFieldName);
-                        $('#<%=hdnMethodName1.ClientID %>').val(result.MethodName);
+                        $('#<%=hdnInventorySubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnInventorySearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnInventoryFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnInventoryIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnInventoryCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnInventoryDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnInventoryMethodName.ClientID %>').val(result.MethodName);
                     }
                     else {
-                        $('#<%=hdnGLAccount1ID.ClientID %>').val('');
-                        $('#<%=txtGLAccount1Code.ClientID %>').val('');
-                        $('#<%=txtGLAccount1Name.ClientID %>').val('');
+                        $('#<%=hdnInventoryID.ClientID %>').val('');
+                        $('#<%=txtInventoryGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtInventoryGLAccountName.ClientID %>').val('');
 
-                        $('#<%=hdnSubLedgerID1.ClientID %>').val('');
-                        $('#<%=hdnSearchDialogTypeName1.ClientID %>').val('');
-                        $('#<%=hdnFilterExpression1.ClientID %>').val('');
-                        $('#<%=hdnIDFieldName1.ClientID %>').val('');
-                        $('#<%=hdnCodeFieldName1.ClientID %>').val('');
-                        $('#<%=hdnDisplayFieldName1.ClientID %>').val('');
-                        $('#<%=hdnMethodName1.ClientID %>').val('');
+                        $('#<%=hdnInventorySubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnInventorySearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnInventoryFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnInventoryIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryMethodName.ClientID %>').val('');
                     }
-                    onSubLedgerID1Changed();
-                    $('#<%=hdnSubLedgerDt1ID.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt1Code.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt1Name.ClientID %>').val('');
+                    onInventorySubLedgerIDChanged();
+                    $('#<%=hdnInventorySubLedger.ClientID %>').val('');
+                    $('#<%=txtInventorySubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtInventorySubLedgerName.ClientID %>').val('');
                 });
             }
 
-            function onSubLedgerID1Changed() {
-                if ($('#<%=hdnSubLedgerID1.ClientID %>').val() == '0' || $('#<%=hdnSubLedgerID1.ClientID %>').val() == '') {
-                    $('#<%=lblSubLedgerDt1.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=txtSubLedgerDt1Code.ClientID %>').attr('readonly', 'readonly');
+            function onInventorySubLedgerIDChanged() {
+                if ($('#<%=hdnInventorySubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnInventorySubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblInventorySubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtInventorySubLedgerCode.ClientID %>').attr('readonly', 'readonly');
                 }
                 else {
-                    $('#<%=lblSubLedgerDt1.ClientID %>').attr('class', 'lblLink');
-                    $('#<%=txtSubLedgerDt1Code.ClientID %>').removeAttr('readonly');
+                    $('#<%=lblInventorySubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtInventorySubLedgerCode.ClientID %>').removeAttr('readonly');
                 }
             }
             //#endregion
 
-            //#region Sub Ledger 1
-            function onGetSubLedgerDt1FilterExpression() {
-                var filterExpression = $('#<%=hdnFilterExpression1.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnSubLedgerID1.ClientID %>').val());
+            //#region Inventory Sub Ledger
+            function onGetInventorySubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnInventoryFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnInventorySubLedgerID.ClientID %>').val());
                 return filterExpression;
             }
 
-            $('#<%=lblSubLedgerDt1.ClientID %>').click(function () {
-                if ($('#<%=hdnSearchDialogTypeName1.ClientID %>').val() != '') {
-                    openSearchDialog($('#<%=hdnSearchDialogTypeName1.ClientID %>').val(), onGetSubLedgerDt1FilterExpression(), function (value) {
-                        $('#<%=txtSubLedgerDt1Code.ClientID %>').val(value);
-                        onTxtSubLedgerDt1CodeChanged(value);
+            $('#<%=lblInventorySubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnInventorySearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnInventorySearchDialogTypeName.ClientID %>').val(), onGetInventorySubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtInventorySubLedgerCode.ClientID %>').val(value);
+                        onTxtInventorySubLedgerDtCodeChanged(value);
                     });
                 }
             });
 
-            $('#<%=txtSubLedgerDt1Code.ClientID %>').change(function () {
-                onTxtSubLedgerDt1CodeChanged($(this).val());
+            $('#<%=txtInventorySubLedgerCode.ClientID %>').change(function () {
+                onTxtInventorySubLedgerDtCodeChanged($(this).val());
             });
 
-            function onTxtSubLedgerDt1CodeChanged(value) {
-                if ($('#<%=hdnSearchDialogTypeName1.ClientID %>').val() != '') {
-                    var filterExpression = onGetSubLedgerDt1FilterExpression() + " AND " + $('#<%=hdnCodeFieldName1.ClientID %>').val() + " = '" + value + "'";
-                    Methods.getObject($('#<%=hdnMethodName1.ClientID %>').val(), filterExpression, function (result) {
+            function onTxtInventorySubLedgerDtCodeChanged(value) {
+                if ($('#<%=hdnInventorySearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetInventorySubLedgerDtFilterExpression() + " AND " + $('#<%=hdnInventoryCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnInventoryMethodName.ClientID %>').val(), filterExpression, function (result) {
                         if (result != null) {
-                            $('#<%=hdnSubLedgerDt1ID.ClientID %>').val(result[$('#<%=hdnIDFieldName1.ClientID %>').val()]);
-                            $('#<%=txtSubLedgerDt1Name.ClientID %>').val(result[$('#<%=hdnDisplayFieldName1.ClientID %>').val()]);
+                            $('#<%=hdnInventorySubLedger.ClientID %>').val(result[$('#<%=hdnInventoryIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtInventorySubLedgerName.ClientID %>').val(result[$('#<%=hdnInventoryDisplayFieldName.ClientID %>').val()]);
                         }
                         else {
-                            $('#<%=hdnSubLedgerDt1ID.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt1Code.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt1Name.ClientID %>').val('');
+                            $('#<%=hdnInventorySubLedger.ClientID %>').val('');
+                            $('#<%=txtInventorySubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtInventorySubLedgerName.ClientID %>').val('');
                         }
                     });
                 }
             }
             //#endregion
 
-            //#region GL Account 2
-            $('#lblGLAccount2.lblLink').click(function () {
+            //#region COGS
+            $('#lblCOGS.lblLink').click(function () {
                 openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
-                    $('#<%=txtGLAccount2Code.ClientID %>').val(value);
-                    onTxtGLAccount2CodeChanged(value);
+                    $('#<%=txtCOGSGLAccountNo.ClientID %>').val(value);
+                    onTxtCOGSGLAccountCodeChanged(value);
                 });
             });
 
-            $('#<%=txtGLAccount2Code.ClientID %>').change(function () {
-                onTxtGLAccount2CodeChanged($(this).val());
+            $('#<%=txtCOGSGLAccountNo.ClientID %>').change(function () {
+                onTxtCOGSGLAccountCodeChanged($(this).val());
             });
 
-            function onTxtGLAccount2CodeChanged(value) {
+            function onTxtCOGSGLAccountCodeChanged(value) {
                 var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
                 Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnGLAccount2ID.ClientID %>').val(result.GLAccountID);
-                        $('#<%=txtGLAccount2Name.ClientID %>').val(result.GLAccountName);
+                        $('#<%=hdnCOGSID.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtCOGSGLAccountName.ClientID %>').val(result.GLAccountName);
 
-                        $('#<%=hdnSubLedgerID2.ClientID %>').val(result.SubLedgerID);
-                        $('#<%=hdnSearchDialogTypeName2.ClientID %>').val(result.SearchDialogTypeName);
-                        $('#<%=hdnFilterExpression2.ClientID %>').val(result.FilterExpression);
-                        $('#<%=hdnIDFieldName2.ClientID %>').val(result.IDFieldName);
-                        $('#<%=hdnCodeFieldName2.ClientID %>').val(result.CodeFieldName);
-                        $('#<%=hdnDisplayFieldName2.ClientID %>').val(result.DisplayFieldName);
-                        $('#<%=hdnMethodName2.ClientID %>').val(result.MethodName);
+                        $('#<%=hdnCOGSSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnCOGSSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnCOGSFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnCOGSIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnCOGSCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnCOGSDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnCOGSMethodName.ClientID %>').val(result.MethodName);
                     }
                     else {
-                        $('#<%=hdnGLAccount2ID.ClientID %>').val('');
-                        $('#<%=txtGLAccount2Code.ClientID %>').val('');
-                        $('#<%=txtGLAccount2Name.ClientID %>').val('');
+                        $('#<%=hdnCOGSID.ClientID %>').val('');
+                        $('#<%=txtCOGSGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtCOGSGLAccountName.ClientID %>').val('');
 
-                        $('#<%=hdnSubLedgerID2.ClientID %>').val('');
-                        $('#<%=hdnSearchDialogTypeName2.ClientID %>').val('');
-                        $('#<%=hdnFilterExpression2.ClientID %>').val('');
-                        $('#<%=hdnIDFieldName2.ClientID %>').val('');
-                        $('#<%=hdnCodeFieldName2.ClientID %>').val('');
-                        $('#<%=hdnDisplayFieldName2.ClientID %>').val('');
-                        $('#<%=hdnMethodName2.ClientID %>').val('');
+                        $('#<%=hdnCOGSSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnCOGSSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnCOGSFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnCOGSIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnCOGSCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnCOGSDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnCOGSMethodName.ClientID %>').val('');
                     }
-                    onSubLedgerID2Changed();
-                    $('#<%=hdnSubLedgerDt2ID.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt2Code.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt2Name.ClientID %>').val('');
+                    onCOGSSubLedgerIDChanged();
+                    $('#<%=hdnCOGSSubLedger.ClientID %>').val('');
+                    $('#<%=txtCOGSSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtCOGSSubLedgerName.ClientID %>').val('');
                 });
             }
 
-            function onSubLedgerID2Changed() {
-                if ($('#<%=hdnSubLedgerID2.ClientID %>').val() == '0' || $('#<%=hdnSubLedgerID2.ClientID %>').val() == '') {
-                    $('#<%=lblSubLedgerDt2.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=txtSubLedgerDt2Code.ClientID %>').attr('readonly', 'readonly');
+            function onCOGSSubLedgerIDChanged() {
+                if ($('#<%=hdnCOGSSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnCOGSSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblCOGSSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtCOGSSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
                 }
                 else {
-                    $('#<%=lblSubLedgerDt2.ClientID %>').attr('class', 'lblLink');
-                    $('#<%=txtSubLedgerDt2Code.ClientID %>').removeAttr('readonly');
+                    $('#<%=lblCOGSSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtCOGSSubLedgerCode.ClientID %>').removeAttr('readonly');
                 }
             }
             //#endregion
 
-            //#region Sub Ledger 2
-            function onGetSubLedgerDt2FilterExpression() {
-                var filterExpression = $('#<%=hdnFilterExpression2.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnSubLedgerID2.ClientID %>').val());
+            //#region COGS Sub Ledger
+            function onGetCOGSSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnCOGSFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnCOGSSubLedgerID.ClientID %>').val());
                 return filterExpression;
             }
 
-            $('#<%=lblSubLedgerDt2.ClientID %>').click(function () {
-                if ($('#<%=hdnSearchDialogTypeName2.ClientID %>').val() != '') {
-                    openSearchDialog($('#<%=hdnSearchDialogTypeName2.ClientID %>').val(), onGetSubLedgerDt2FilterExpression(), function (value) {
-                        $('#<%=txtSubLedgerDt2Code.ClientID %>').val(value);
-                        onTxtSubLedgerDt2CodeChanged(value);
+            $('#<%=lblCOGSSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnCOGSSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnCOGSSearchDialogTypeName.ClientID %>').val(), onGetCOGSSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtCOGSSubLedgerCode.ClientID %>').val(value);
+                        onTxtCOGSSubLedgerDtCodeChanged(value);
                     });
                 }
             });
 
-            $('#<%=txtSubLedgerDt2Code.ClientID %>').change(function () {
-                onTxtSubLedgerDt2CodeChanged($(this).val());
+            $('#<%=txtCOGSSubLedgerCode.ClientID %>').change(function () {
+                onTxtCOGSSubLedgerDtCodeChanged($(this).val());
             });
 
-            function onTxtSubLedgerDt2CodeChanged(value) {
-                if ($('#<%=hdnSearchDialogTypeName2.ClientID %>').val() != '') {
-                    var filterExpression = onGetSubLedgerDt2FilterExpression() + " AND " + $('#<%=hdnCodeFieldName2.ClientID %>').val() + " = '" + value + "'";
-                    Methods.getObject($('#<%=hdnMethodName2.ClientID %>').val(), filterExpression, function (result) {
+            function onTxtCOGSSubLedgerDtCodeChanged(value) {
+                if ($('#<%=hdnCOGSSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetCOGSSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnCOGSCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnCOGSMethodName.ClientID %>').val(), filterExpression, function (result) {
                         if (result != null) {
-                            $('#<%=hdnSubLedgerDt2ID.ClientID %>').val(result[$('#<%=hdnIDFieldName2.ClientID %>').val()]);
-                            $('#<%=txtSubLedgerDt2Name.ClientID %>').val(result[$('#<%=hdnDisplayFieldName2.ClientID %>').val()]);
+                            $('#<%=hdnCOGSSubLedger.ClientID %>').val(result[$('#<%=hdnCOGSIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtCOGSSubLedgerName.ClientID %>').val(result[$('#<%=hdnCOGSDisplayFieldName.ClientID %>').val()]);
                         }
                         else {
-                            $('#<%=hdnSubLedgerDt2ID.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt2Code.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt2Name.ClientID %>').val('');
+                            $('#<%=hdnCOGSSubLedger.ClientID %>').val('');
+                            $('#<%=txtCOGSSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtCOGSSubLedgerName.ClientID %>').val('');
                         }
                     });
                 }
             }
             //#endregion
 
-            //#region GL Account 3
-            $('#lblGLAccount3.lblLink').click(function () {
+            //#region Consumption
+            $('#lblConsumption.lblLink').click(function () {
                 openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
-                    $('#<%=txtGLAccount3Code.ClientID %>').val(value);
-                    onTxtGLAccount3CodeChanged(value);
+                    $('#<%=txtConsumptionGLAccountNo.ClientID %>').val(value);
+                    onTxtConsumptionGLAccountCodeChanged(value);
                 });
             });
 
-            $('#<%=txtGLAccount3Code.ClientID %>').change(function () {
-                onTxtGLAccount3CodeChanged($(this).val());
+            $('#<%=txtConsumptionGLAccountNo.ClientID %>').change(function () {
+                onTxtConsumptionGLAccountCodeChanged($(this).val());
             });
 
-            function onTxtGLAccount3CodeChanged(value) {
+            function onTxtConsumptionGLAccountCodeChanged(value) {
                 var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
                 Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnGLAccount3ID.ClientID %>').val(result.GLAccountID);
-                        $('#<%=txtGLAccount3Name.ClientID %>').val(result.GLAccountName);
+                        $('#<%=hdnConsumption.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtConsumptionGLAccountName.ClientID %>').val(result.GLAccountName);
 
-                        $('#<%=hdnSubLedgerID3.ClientID %>').val(result.SubLedgerID);
-                        $('#<%=hdnSearchDialogTypeName3.ClientID %>').val(result.SearchDialogTypeName);
-                        $('#<%=hdnFilterExpression3.ClientID %>').val(result.FilterExpression);
-                        $('#<%=hdnIDFieldName3.ClientID %>').val(result.IDFieldName);
-                        $('#<%=hdnCodeFieldName3.ClientID %>').val(result.CodeFieldName);
-                        $('#<%=hdnDisplayFieldName3.ClientID %>').val(result.DisplayFieldName);
-                        $('#<%=hdnMethodName3.ClientID %>').val(result.MethodName);
+                        $('#<%=hdnConsumptionSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnConsumptionSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnConsumptionFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnConsumptionIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnConsumptionCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnConsumptionDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnConsumptionMethodName.ClientID %>').val(result.MethodName);
                     }
                     else {
-                        $('#<%=hdnGLAccount3ID.ClientID %>').val('');
-                        $('#<%=txtGLAccount3Code.ClientID %>').val('');
-                        $('#<%=txtGLAccount3Name.ClientID %>').val('');
+                        $('#<%=hdnConsumption.ClientID %>').val('');
+                        $('#<%=txtConsumptionGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtConsumptionGLAccountName.ClientID %>').val('');
 
-                        $('#<%=hdnSubLedgerID3.ClientID %>').val('');
-                        $('#<%=hdnSearchDialogTypeName3.ClientID %>').val('');
-                        $('#<%=hdnFilterExpression3.ClientID %>').val('');
-                        $('#<%=hdnIDFieldName3.ClientID %>').val('');
-                        $('#<%=hdnCodeFieldName3.ClientID %>').val('');
-                        $('#<%=hdnDisplayFieldName3.ClientID %>').val('');
-                        $('#<%=hdnMethodName3.ClientID %>').val('');
+                        $('#<%=hdnConsumptionSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnConsumptionSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnConsumptionFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnConsumptionIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnConsumptionCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnConsumptionDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnConsumptionMethodName.ClientID %>').val('');
                     }
-                    onSubLedgerID3Changed();
-                    $('#<%=hdnSubLedgerDt3ID.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt3Code.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt3Name.ClientID %>').val('');
+                    onConsumptionSubLedgerIDChanged();
+                    $('#<%=hdnConsumptionSubLedger.ClientID %>').val('');
+                    $('#<%=txtConsumptionSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtConsumptionSubLedgerName.ClientID %>').val('');
                 });
             }
 
-            function onSubLedgerID3Changed() {
-                if ($('#<%=hdnSubLedgerID3.ClientID %>').val() == '0' || $('#<%=hdnSubLedgerID3.ClientID %>').val() == '') {
-                    $('#<%=lblSubLedgerDt3.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=txtSubLedgerDt3Code.ClientID %>').attr('readonly', 'readonly');
+            function onConsumptionSubLedgerIDChanged() {
+                if ($('#<%=hdnConsumptionSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnConsumptionSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblConsumptionSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtConsumptionSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
                 }
                 else {
-                    $('#<%=lblSubLedgerDt3.ClientID %>').attr('class', 'lblLink');
-                    $('#<%=txtSubLedgerDt3Code.ClientID %>').removeAttr('readonly');
+                    $('#<%=lblConsumptionSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtConsumptionSubLedgerCode.ClientID %>').removeAttr('readonly');
                 }
             }
             //#endregion
 
-            //#region Sub Ledger 3
-            function onGetSubLedgerDt3FilterExpression() {
-                var filterExpression = $('#<%=hdnFilterExpression3.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnSubLedgerID3.ClientID %>').val());
+            //#region Consumption Sub Ledger
+            function onGetConsumptionSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnConsumptionFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnConsumptionSubLedgerID.ClientID %>').val());
                 return filterExpression;
             }
 
-            $('#<%=lblSubLedgerDt3.ClientID %>').click(function () {
-                if ($('#<%=hdnSearchDialogTypeName3.ClientID %>').val() != '') {
-                    openSearchDialog($('#<%=hdnSearchDialogTypeName3.ClientID %>').val(), onGetSubLedgerDt3FilterExpression(), function (value) {
-                        $('#<%=txtSubLedgerDt3Code.ClientID %>').val(value);
-                        onTxtSubLedgerDt3CodeChanged(value);
+            $('#<%=lblConsumptionSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnConsumptionSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnConsumptionSearchDialogTypeName.ClientID %>').val(), onGetConsumptionSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtConsumptionSubLedgerCode.ClientID %>').val(value);
+                        onTxtConsumptionSubLedgerDtCodeChanged(value);
                     });
                 }
             });
 
-            $('#<%=txtSubLedgerDt3Code.ClientID %>').change(function () {
-                onTxtSubLedgerDt3CodeChanged($(this).val());
+            $('#<%=txtConsumptionSubLedgerCode.ClientID %>').change(function () {
+                onTxtConsumptionSubLedgerDtCodeChanged($(this).val());
             });
 
-            function onTxtSubLedgerDt3CodeChanged(value) {
-                if ($('#<%=hdnSearchDialogTypeName3.ClientID %>').val() != '') {
-                    var filterExpression = onGetSubLedgerDt3FilterExpression() + " AND " + $('#<%=hdnCodeFieldName3.ClientID %>').val() + " = '" + value + "'";
-                    Methods.getObject($('#<%=hdnMethodName3.ClientID %>').val(), filterExpression, function (result) {
+            function onTxtConsumptionSubLedgerDtCodeChanged(value) {
+                if ($('#<%=hdnConsumptionSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetConsumptionSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnConsumptionCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnConsumptionMethodName.ClientID %>').val(), filterExpression, function (result) {
                         if (result != null) {
-                            $('#<%=hdnSubLedgerDt3ID.ClientID %>').val(result[$('#<%=hdnIDFieldName3.ClientID %>').val()]);
-                            $('#<%=txtSubLedgerDt3Name.ClientID %>').val(result[$('#<%=hdnDisplayFieldName3.ClientID %>').val()]);
+                            $('#<%=hdnConsumptionSubLedger.ClientID %>').val(result[$('#<%=hdnConsumptionIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtConsumptionSubLedgerName.ClientID %>').val(result[$('#<%=hdnConsumptionDisplayFieldName.ClientID %>').val()]);
                         }
                         else {
-                            $('#<%=hdnSubLedgerDt3ID.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt3Code.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt3Name.ClientID %>').val('');
+                            $('#<%=hdnConsumptionSubLedger.ClientID %>').val('');
+                            $('#<%=txtConsumptionSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtConsumptionSubLedgerName.ClientID %>').val('');
                         }
                     });
                 }
             }
             //#endregion
 
-            //#region GL Account 4
-            $('#lblGLAccount4.lblLink').click(function () {
+            //#region AdjustmentIN
+            $('#lblAdjustmentIN.lblLink').click(function () {
                 openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
-                    $('#<%=txtGLAccount4Code.ClientID %>').val(value);
-                    onTxtGLAccount4CodeChanged(value);
+                    $('#<%=txtAdjustmentINGLAccountNo.ClientID %>').val(value);
+                    onTxtAdjustmentINGLAccountCodeChanged(value);
                 });
             });
 
-            $('#<%=txtGLAccount4Code.ClientID %>').change(function () {
-                onTxtGLAccount4CodeChanged($(this).val());
+            $('#<%=txtAdjustmentINGLAccountNo.ClientID %>').change(function () {
+                onTxtAdjustmentINGLAccountCodeChanged($(this).val());
             });
 
-            function onTxtGLAccount4CodeChanged(value) {
+            function onTxtAdjustmentINGLAccountCodeChanged(value) {
                 var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
                 Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnGLAccount4ID.ClientID %>').val(result.GLAccountID);
-                        $('#<%=txtGLAccount4Name.ClientID %>').val(result.GLAccountName);
+                        $('#<%=hdnAdjustmentIN.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtAdjustmentINGLAccountName.ClientID %>').val(result.GLAccountName);
 
-                        $('#<%=hdnSubLedgerID4.ClientID %>').val(result.SubLedgerID);
-                        $('#<%=hdnSearchDialogTypeName4.ClientID %>').val(result.SearchDialogTypeName);
-                        $('#<%=hdnFilterExpression4.ClientID %>').val(result.FilterExpression);
-                        $('#<%=hdnIDFieldName4.ClientID %>').val(result.IDFieldName);
-                        $('#<%=hdnCodeFieldName4.ClientID %>').val(result.CodeFieldName);
-                        $('#<%=hdnDisplayFieldName4.ClientID %>').val(result.DisplayFieldName);
-                        $('#<%=hdnMethodName4.ClientID %>').val(result.MethodName);
+                        $('#<%=hdnAdjustmentINSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnAdjustmentINSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnAdjustmentINFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnAdjustmentINIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnAdjustmentINCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnAdjustmentINDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnAdjustmentINMethodName.ClientID %>').val(result.MethodName);
                     }
                     else {
-                        $('#<%=hdnGLAccount4ID.ClientID %>').val('');
-                        $('#<%=txtGLAccount4Code.ClientID %>').val('');
-                        $('#<%=txtGLAccount4Name.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentIN.ClientID %>').val('');
+                        $('#<%=txtAdjustmentINGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtAdjustmentINGLAccountName.ClientID %>').val('');
 
-                        $('#<%=hdnSubLedgerID4.ClientID %>').val('');
-                        $('#<%=hdnSearchDialogTypeName4.ClientID %>').val('');
-                        $('#<%=hdnFilterExpression4.ClientID %>').val('');
-                        $('#<%=hdnIDFieldName4.ClientID %>').val('');
-                        $('#<%=hdnCodeFieldName4.ClientID %>').val('');
-                        $('#<%=hdnDisplayFieldName4.ClientID %>').val('');
-                        $('#<%=hdnMethodName4.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentINMethodName.ClientID %>').val('');
                     }
-                    onSubLedgerID4Changed();
-                    $('#<%=hdnSubLedgerDt4ID.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt4Code.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt4Name.ClientID %>').val('');
+                    onAdjustmentINSubLedgerIDChanged();
+                    $('#<%=hdnAdjustmentINSubLedger.ClientID %>').val('');
+                    $('#<%=txtAdjustmentINSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtAdjustmentINSubLedgerName.ClientID %>').val('');
                 });
             }
 
-            function onSubLedgerID4Changed() {
-                if ($('#<%=hdnSubLedgerID4.ClientID %>').val() == '0' || $('#<%=hdnSubLedgerID4.ClientID %>').val() == '') {
-                    $('#<%=lblSubLedgerDt4.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=txtSubLedgerDt4Code.ClientID %>').attr('readonly', 'readonly');
+            function onAdjustmentINSubLedgerIDChanged() {
+                if ($('#<%=hdnAdjustmentINSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnAdjustmentINSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblAdjustmentINSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtAdjustmentINSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
                 }
                 else {
-                    $('#<%=lblSubLedgerDt4.ClientID %>').attr('class', 'lblLink');
-                    $('#<%=txtSubLedgerDt4Code.ClientID %>').removeAttr('readonly');
+                    $('#<%=lblAdjustmentINSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtAdjustmentINSubLedgerCode.ClientID %>').removeAttr('readonly');
                 }
             }
             //#endregion
 
-            //#region Sub Ledger 4
-            function onGetSubLedgerDt4FilterExpression() {
-                var filterExpression = $('#<%=hdnFilterExpression4.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnSubLedgerID4.ClientID %>').val());
+            //#region AdjustmentIN Sub Ledger
+            function onGetAdjustmentINSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnAdjustmentINFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnAdjustmentINSubLedgerID.ClientID %>').val());
                 return filterExpression;
             }
 
-            $('#<%=lblSubLedgerDt4.ClientID %>').click(function () {
-                if ($('#<%=hdnSearchDialogTypeName4.ClientID %>').val() != '') {
-                    openSearchDialog($('#<%=hdnSearchDialogTypeName4.ClientID %>').val(), onGetSubLedgerDt4FilterExpression(), function (value) {
-                        $('#<%=txtSubLedgerDt4Code.ClientID %>').val(value);
+            $('#<%=lblAdjustmentINSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnAdjustmentINSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnAdjustmentINSearchDialogTypeName.ClientID %>').val(), onGetAdjustmentINSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtAdjustmentINSubLedgerCode.ClientID %>').val(value);
+                        onTxtAdjustmentINSubLedgerDtCodeChanged(value);
+                    });
+                }
+            });
+
+            $('#<%=txtAdjustmentINSubLedgerCode.ClientID %>').change(function () {
+                onTxtAdjustmentINSubLedgerDtCodeChanged($(this).val());
+            });
+
+            function onTxtAdjustmentINSubLedgerDtCodeChanged(value) {
+                if ($('#<%=hdnAdjustmentINSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetAdjustmentINSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnAdjustmentINCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnAdjustmentINMethodName.ClientID %>').val(), filterExpression, function (result) {
+                        if (result != null) {
+                            $('#<%=hdnAdjustmentINSubLedger.ClientID %>').val(result[$('#<%=hdnAdjustmentINIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtAdjustmentINSubLedgerName.ClientID %>').val(result[$('#<%=hdnAdjustmentINDisplayFieldName.ClientID %>').val()]);
+                        }
+                        else {
+                            $('#<%=hdnAdjustmentINSubLedger.ClientID %>').val('');
+                            $('#<%=txtAdjustmentINSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtAdjustmentINSubLedgerName.ClientID %>').val('');
+                        }
+                    });
+                }
+            }
+            //#endregion
+
+            //#region AdjustmentOUT
+            $('#lblAdjustmentOUT.lblLink').click(function () {
+                openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
+                    $('#<%=txtAdjustmentOUTGLAccountNo.ClientID %>').val(value);
+                    onTxtAdjustmentOUTGLAccountCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtAdjustmentOUTGLAccountNo.ClientID %>').change(function () {
+                onTxtAdjustmentOUTGLAccountCodeChanged($(this).val());
+            });
+
+            function onTxtAdjustmentOUTGLAccountCodeChanged(value) {
+                var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
+                Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnAdjustmentOUT.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtAdjustmentOUTGLAccountName.ClientID %>').val(result.GLAccountName);
+
+                        $('#<%=hdnAdjustmentOUTSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnAdjustmentOUTSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnAdjustmentOUTFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnAdjustmentOUTIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnAdjustmentOUTCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnAdjustmentOUTDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnAdjustmentOUTMethodName.ClientID %>').val(result.MethodName);
+                    }
+                    else {
+                        $('#<%=hdnAdjustmentOUT.ClientID %>').val('');
+                        $('#<%=txtAdjustmentOUTGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtAdjustmentOUTGLAccountName.ClientID %>').val('');
+
+                        $('#<%=hdnAdjustmentOUTSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentOUTSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentOUTFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentOUTIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentOUTCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentOUTDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnAdjustmentOUTMethodName.ClientID %>').val('');
+                    }
+                    onAdjustmentOUTSubLedgerIDChanged();
+                    $('#<%=hdnAdjustmentOUTSubLedger.ClientID %>').val('');
+                    $('#<%=txtAdjustmentOUTSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtAdjustmentOUTSubLedgerName.ClientID %>').val('');
+                });
+            }
+
+            function onAdjustmentOUTSubLedgerIDChanged() {
+                if ($('#<%=hdnAdjustmentOUTSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnAdjustmentOUTSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblAdjustmentOUTSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtAdjustmentOUTSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#<%=lblAdjustmentOUTSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtAdjustmentOUTSubLedgerCode.ClientID %>').removeAttr('readonly');
+                }
+            }
+            //#endregion
+
+            //#region AdjustmentOUT Sub Ledger
+            function onGetAdjustmentOUTSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnAdjustmentOUTFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnAdjustmentOUTSubLedgerID.ClientID %>').val());
+                return filterExpression;
+            }
+
+            $('#<%=lblAdjustmentOUTSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnAdjustmentOUTSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnAdjustmentOUTSearchDialogTypeName.ClientID %>').val(), onGetAdjustmentOUTSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtAdjustmentOUTSubLedgerCode.ClientID %>').val(value);
+                        onTxtAdjustmentOUTSubLedgerDtCodeChanged(value);
+                    });
+                }
+            });
+
+            $('#<%=txtAdjustmentOUTSubLedgerCode.ClientID %>').change(function () {
+                onTxtAdjustmentOUTSubLedgerDtCodeChanged($(this).val());
+            });
+
+            function onTxtAdjustmentOUTSubLedgerDtCodeChanged(value) {
+                if ($('#<%=hdnAdjustmentOUTSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetAdjustmentOUTSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnAdjustmentOUTCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnAdjustmentOUTMethodName.ClientID %>').val(), filterExpression, function (result) {
+                        if (result != null) {
+                            $('#<%=hdnAdjustmentOUTSubLedger.ClientID %>').val(result[$('#<%=hdnAdjustmentOUTIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtAdjustmentOUTSubLedgerName.ClientID %>').val(result[$('#<%=hdnAdjustmentOUTDisplayFieldName.ClientID %>').val()]);
+                        }
+                        else {
+                            $('#<%=hdnAdjustmentOUTSubLedger.ClientID %>').val('');
+                            $('#<%=txtAdjustmentOUTSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtAdjustmentOUTSubLedgerName.ClientID %>').val('');
+                        }
+                    });
+                }
+            }
+            //#endregion
+
+            //#region InventoryVAT
+            $('#lblInventoryVAT.lblLink').click(function () {
+                openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
+                    $('#<%=txtInventoryVATGLAccountNo.ClientID %>').val(value);
+                    onTxtInventoryVATGLAccountCodeChanged(value);
+                });
+            });
+
+            $('#<%=txtInventoryVATGLAccountNo.ClientID %>').change(function () {
+                onTxtInventoryVATGLAccountCodeChanged($(this).val());
+            });
+
+            function onTxtInventoryVATGLAccountCodeChanged(value) {
+                var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
+                Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
+                    if (result != null) {
+                        $('#<%=hdnInventoryVATID.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtInventoryVATGLAccountName.ClientID %>').val(result.GLAccountName);
+
+                        $('#<%=hdnInventoryVATSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnInventoryVATSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnInventoryVATFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnInventoryVATIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnInventoryVATCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnInventoryVATDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnInventoryVATMethodName.ClientID %>').val(result.MethodName);
+                    }
+                    else {
+                        $('#<%=hdnInventoryVATID.ClientID %>').val('');
+                        $('#<%=txtInventoryVATGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtInventoryVATGLAccountName.ClientID %>').val('');
+
+                        $('#<%=hdnInventoryVATSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnInventoryVATSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnInventoryVATFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnInventoryVATIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryVATCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryVATDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryVATMethodName.ClientID %>').val('');
+                    }
+                    onInventoryVATSubLedgerIDChanged();
+                    $('#<%=hdnInventoryVATSubLedger.ClientID %>').val('');
+                    $('#<%=txtInventoryVATSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtInventoryVATSubLedgerName.ClientID %>').val('');
+                });
+            }
+
+            function onInventoryVATSubLedgerIDChanged() {
+                if ($('#<%=hdnInventoryVATSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnInventoryVATSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblInventoryVATSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtInventoryVATSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
+                }
+                else {
+                    $('#<%=lblInventoryVATSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtInventoryVATSubLedgerCode.ClientID %>').removeAttr('readonly');
+                }
+            }
+            //#endregion
+
+            //#region InventoryVAT Sub Ledger
+            function onGetInventoryVATSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnInventoryVATFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnInventoryVATSubLedgerID.ClientID %>').val());
+                return filterExpression;
+            }
+
+            $('#<%=lblInventoryVATSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnInventoryVATSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnInventoryVATSearchDialogTypeName.ClientID %>').val(), onGetInventoryVATSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtInventoryVATSubLedgerCode.ClientID %>').val(value);
                         onTxtSubLedgerDt4CodeChanged(value);
                     });
                 }
             });
 
-            $('#<%=txtSubLedgerDt4Code.ClientID %>').change(function () {
+            $('#<%=txtInventoryVATSubLedgerCode.ClientID %>').change(function () {
                 onTxtSubLedgerDt4CodeChanged($(this).val());
             });
 
             function onTxtSubLedgerDt4CodeChanged(value) {
-                if ($('#<%=hdnSearchDialogTypeName4.ClientID %>').val() != '') {
-                    var filterExpression = onGetSubLedgerDt4FilterExpression() + " AND " + $('#<%=hdnCodeFieldName4.ClientID %>').val() + " = '" + value + "'";
-                    Methods.getObject($('#<%=hdnMethodName4.ClientID %>').val(), filterExpression, function (result) {
+                if ($('#<%=hdnInventoryVATSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetInventoryVATSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnInventoryVATCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnInventoryVATMethodName.ClientID %>').val(), filterExpression, function (result) {
                         if (result != null) {
-                            $('#<%=hdnSubLedgerDt4ID.ClientID %>').val(result[$('#<%=hdnIDFieldName4.ClientID %>').val()]);
-                            $('#<%=txtSubLedgerDt4Name.ClientID %>').val(result[$('#<%=hdnDisplayFieldName4.ClientID %>').val()]);
+                            $('#<%=hdnInventoryVATSubLedger.ClientID %>').val(result[$('#<%=hdnInventoryVATIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtInventoryVATSubLedgerName.ClientID %>').val(result[$('#<%=hdnInventoryVATDisplayFieldName.ClientID %>').val()]);
                         }
                         else {
-                            $('#<%=hdnSubLedgerDt4ID.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt4Code.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt4Name.ClientID %>').val('');
+                            $('#<%=hdnInventoryVATSubLedger.ClientID %>').val('');
+                            $('#<%=txtInventoryVATSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtInventoryVATSubLedgerName.ClientID %>').val('');
                         }
                     });
                 }
             }
             //#endregion
 
-            //#region GL Account 5
-            $('#lblGLAccount5.lblLink').click(function () {
+            //#region InventoryDiscount
+            $('#lblInventoryDiscount.lblLink').click(function () {
                 openSearchDialog('chartofaccount', onGetGLAccountFilterExpression(), function (value) {
-                    $('#<%=txtGLAccount5Code.ClientID %>').val(value);
-                    onTxtGLAccount5CodeChanged(value);
+                    $('#<%=txtInventoryDiscountGLAccountNo.ClientID %>').val(value);
+                    onTxtInventoryDiscountGLAccountCodeChanged(value);
                 });
             });
 
-            $('#<%=txtGLAccount5Code.ClientID %>').change(function () {
-                onTxtGLAccount5CodeChanged($(this).val());
+            $('#<%=txtInventoryDiscountGLAccountNo.ClientID %>').change(function () {
+                onTxtInventoryDiscountGLAccountCodeChanged($(this).val());
             });
 
-            function onTxtGLAccount5CodeChanged(value) {
+            function onTxtInventoryDiscountGLAccountCodeChanged(value) {
                 var filterExpression = onGetGLAccountFilterExpression() + " AND GLAccountNo = '" + value + "'";
                 Methods.getObject('GetvChartOfAccountList', filterExpression, function (result) {
                     if (result != null) {
-                        $('#<%=hdnGLAccount5ID.ClientID %>').val(result.GLAccountID);
-                        $('#<%=txtGLAccount5Name.ClientID %>').val(result.GLAccountName);
+                        $('#<%=hdnInventoryDiscountID.ClientID %>').val(result.GLAccountID);
+                        $('#<%=txtInventoryDiscountGLAccountName.ClientID %>').val(result.GLAccountName);
 
-                        $('#<%=hdnSubLedgerID5.ClientID %>').val(result.SubLedgerID);
-                        $('#<%=hdnSearchDialogTypeName5.ClientID %>').val(result.SearchDialogTypeName);
-                        $('#<%=hdnFilterExpression5.ClientID %>').val(result.FilterExpression);
-                        $('#<%=hdnIDFieldName5.ClientID %>').val(result.IDFieldName);
-                        $('#<%=hdnCodeFieldName5.ClientID %>').val(result.CodeFieldName);
-                        $('#<%=hdnDisplayFieldName5.ClientID %>').val(result.DisplayFieldName);
-                        $('#<%=hdnMethodName5.ClientID %>').val(result.MethodName);
+                        $('#<%=hdnInventoryDiscountSubLedgerID.ClientID %>').val(result.SubLedgerID);
+                        $('#<%=hdnInventoryDiscountSearchDialogTypeName.ClientID %>').val(result.SearchDialogTypeName);
+                        $('#<%=hdnInventoryDiscountFilterExpression.ClientID %>').val(result.FilterExpression);
+                        $('#<%=hdnInventoryDiscountIDFieldName.ClientID %>').val(result.IDFieldName);
+                        $('#<%=hdnInventoryDiscountCodeFieldName.ClientID %>').val(result.CodeFieldName);
+                        $('#<%=hdnInventoryDiscountDisplayFieldName.ClientID %>').val(result.DisplayFieldName);
+                        $('#<%=hdnInventoryDiscountMethodName.ClientID %>').val(result.MethodName);
                     }
                     else {
-                        $('#<%=hdnGLAccount5ID.ClientID %>').val('');
-                        $('#<%=txtGLAccount5Code.ClientID %>').val('');
-                        $('#<%=txtGLAccount5Name.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountID.ClientID %>').val('');
+                        $('#<%=txtInventoryDiscountGLAccountNo.ClientID %>').val('');
+                        $('#<%=txtInventoryDiscountGLAccountName.ClientID %>').val('');
 
-                        $('#<%=hdnSubLedgerID5.ClientID %>').val('');
-                        $('#<%=hdnSearchDialogTypeName5.ClientID %>').val('');
-                        $('#<%=hdnFilterExpression5.ClientID %>').val('');
-                        $('#<%=hdnIDFieldName5.ClientID %>').val('');
-                        $('#<%=hdnCodeFieldName5.ClientID %>').val('');
-                        $('#<%=hdnDisplayFieldName5.ClientID %>').val('');
-                        $('#<%=hdnMethodName5.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountSubLedgerID.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountSearchDialogTypeName.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountFilterExpression.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountIDFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountCodeFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountDisplayFieldName.ClientID %>').val('');
+                        $('#<%=hdnInventoryDiscountMethodName.ClientID %>').val('');
                     }
-                    onSubLedgerID5Changed();
-                    $('#<%=hdnSubLedgerDt5ID.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt5Code.ClientID %>').val('');
-                    $('#<%=txtSubLedgerDt5Name.ClientID %>').val('');
+                    onInventoryDiscountSubLedgerIDChanged();
+                    $('#<%=hdnInventoryDiscountSubLedger.ClientID %>').val('');
+                    $('#<%=txtInventoryDiscountSubLedgerCode.ClientID %>').val('');
+                    $('#<%=txtInventoryDiscountSubLedgerName.ClientID %>').val('');
                 });
             }
 
-            function onSubLedgerID5Changed() {
-                if ($('#<%=hdnSubLedgerID5.ClientID %>').val() == '0' || $('#<%=hdnSubLedgerID5.ClientID %>').val() == '') {
-                    $('#<%=lblSubLedgerDt5.ClientID %>').attr('class', 'lblDisabled');
-                    $('#<%=txtSubLedgerDt5Code.ClientID %>').attr('readonly', 'readonly');
+            function onInventoryDiscountSubLedgerIDChanged() {
+                if ($('#<%=hdnInventoryDiscountSubLedgerID.ClientID %>').val() == '0' || $('#<%=hdnInventoryDiscountSubLedgerID.ClientID %>').val() == '') {
+                    $('#<%=lblInventoryDiscountSubLedger.ClientID %>').attr('class', 'lblDisabled');
+                    $('#<%=txtInventoryDiscountSubLedgerCode.ClientID %>').attr('readonly', 'readonly');
                 }
                 else {
-                    $('#<%=lblSubLedgerDt5.ClientID %>').attr('class', 'lblLink');
-                    $('#<%=txtSubLedgerDt5Code.ClientID %>').removeAttr('readonly');
+                    $('#<%=lblInventoryDiscountSubLedger.ClientID %>').attr('class', 'lblLink');
+                    $('#<%=txtInventoryDiscountSubLedgerCode.ClientID %>').removeAttr('readonly');
                 }
             }
             //#endregion
 
-            //#region Sub Ledger 5
-            function onGetSubLedgerDt5FilterExpression() {
-                var filterExpression = $('#<%=hdnFilterExpression5.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnSubLedgerID5.ClientID %>').val());
+            //#region InventoryDiscount Sub Ledger
+            function onGetInventoryDiscountSubLedgerDtFilterExpression() {
+                var filterExpression = $('#<%=hdnInventoryDiscountFilterExpression.ClientID %>').val().replace('@SubLedgerID', $('#<%=hdnInventoryDiscountSubLedgerID.ClientID %>').val());
                 return filterExpression;
             }
 
-            $('#<%=lblSubLedgerDt5.ClientID %>').click(function () {
-                if ($('#<%=hdnSearchDialogTypeName5.ClientID %>').val() != '') {
-                    openSearchDialog($('#<%=hdnSearchDialogTypeName5.ClientID %>').val(), onGetSubLedgerDt5FilterExpression(), function (value) {
-                        $('#<%=txtSubLedgerDt5Code.ClientID %>').val(value);
+            $('#<%=lblInventoryDiscountSubLedger.ClientID %>').click(function () {
+                if ($('#<%=hdnInventoryDiscountSearchDialogTypeName.ClientID %>').val() != '') {
+                    openSearchDialog($('#<%=hdnInventoryDiscountSearchDialogTypeName.ClientID %>').val(), onGetInventoryDiscountSubLedgerDtFilterExpression(), function (value) {
+                        $('#<%=txtInventoryDiscountSubLedgerCode.ClientID %>').val(value);
                         onTxtSubLedgerDt5CodeChanged(value);
                     });
                 }
             });
 
-            $('#<%=txtSubLedgerDt5Code.ClientID %>').change(function () {
+            $('#<%=txtInventoryDiscountSubLedgerCode.ClientID %>').change(function () {
                 onTxtSubLedgerDt5CodeChanged($(this).val());
             });
 
             function onTxtSubLedgerDt5CodeChanged(value) {
-                if ($('#<%=hdnSearchDialogTypeName5.ClientID %>').val() != '') {
-                    var filterExpression = onGetSubLedgerDt5FilterExpression() + " AND " + $('#<%=hdnCodeFieldName5.ClientID %>').val() + " = '" + value + "'";
-                    Methods.getObject($('#<%=hdnMethodName5.ClientID %>').val(), filterExpression, function (result) {
+                if ($('#<%=hdnInventoryDiscountSearchDialogTypeName.ClientID %>').val() != '') {
+                    var filterExpression = onGetInventoryDiscountSubLedgerDtFilterExpression() + " AND " + $('#<%=hdnInventoryDiscountCodeFieldName.ClientID %>').val() + " = '" + value + "'";
+                    Methods.getObject($('#<%=hdnInventoryDiscountMethodName.ClientID %>').val(), filterExpression, function (result) {
                         if (result != null) {
-                            $('#<%=hdnSubLedgerDt5ID.ClientID %>').val(result[$('#<%=hdnIDFieldName5.ClientID %>').val()]);
-                            $('#<%=txtSubLedgerDt5Name.ClientID %>').val(result[$('#<%=hdnDisplayFieldName5.ClientID %>').val()]);
+                            $('#<%=hdnInventoryDiscountSubLedger.ClientID %>').val(result[$('#<%=hdnInventoryDiscountIDFieldName.ClientID %>').val()]);
+                            $('#<%=txtInventoryDiscountSubLedgerName.ClientID %>').val(result[$('#<%=hdnInventoryDiscountDisplayFieldName.ClientID %>').val()]);
                         }
                         else {
-                            $('#<%=hdnSubLedgerDt5ID.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt5Code.ClientID %>').val('');
-                            $('#<%=txtSubLedgerDt5Name.ClientID %>').val('');
+                            $('#<%=hdnInventoryDiscountSubLedger.ClientID %>').val('');
+                            $('#<%=txtInventoryDiscountSubLedgerCode.ClientID %>').val('');
+                            $('#<%=txtInventoryDiscountSubLedgerName.ClientID %>').val('');
                         }
                     });
                 }
@@ -586,7 +778,7 @@
             }
             //#endregion
 
-            //#region Site Service Unit
+            //#region Product Line
             function onGetProductLineFilterExpression() {
                 var filterExpression = "IsDeleted = 0";
                 return filterExpression;
@@ -619,11 +811,13 @@
             }
             //#endregion
 
-            onSubLedgerID1Changed();
-            onSubLedgerID2Changed();
-            onSubLedgerID3Changed();
-            onSubLedgerID4Changed();
-            onSubLedgerID5Changed();
+            onInventorySubLedgerIDChanged();
+            onCOGSSubLedgerIDChanged();
+            onConsumptionSubLedgerIDChanged();
+            onAdjustmentINSubLedgerIDChanged();
+            onAdjustmentOUTSubLedgerIDChanged();
+            onInventoryVATSubLedgerIDChanged();
+            onInventoryDiscountSubLedgerIDChanged();
             onPurchasePriceVariantSubLedgerIDChanged();
         }
     </script>
@@ -637,7 +831,7 @@
             <td style="padding:5px;vertical-align:top">
                 <table class="tblEntryContent" style="width:50%">
                     <colgroup>
-                        <col style="width:30%"/>
+                        <col style="width:240px"/>
                     </colgroup>
                     <tr runat="server" id="trSiteServiceUnit">
                         <td class="tdLabel" valign="top" style="padding-top:5px"><label class="lblMandatory lblLink" id="lblProductLine"><%=GetLabel("Product Line")%></label></td>
@@ -662,6 +856,10 @@
                         <td><dxe:ASPxComboBox ID="cboGCItemType" runat="server" Width="300px" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pembelian")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboGCPurchaseType" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel" valign="top" style="padding-top:5px"><label><%=GetLabel("Notes")%></label></td>
                         <td><asp:TextBox ID="txtNotes" Width="300px" runat="server" TextMode="MultiLine" /></td>
                     </tr>
@@ -678,19 +876,19 @@
                         <td>
                             <table width="100%">
                                 <colgroup>
-                                    <col width="190px" />
+                                    <col width="240px" />
                                 </colgroup>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblGLAccount1"><%=GetLabel("COA Persediaan")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblInventory"><%=GetLabel("COA Persediaan")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnGLAccount1ID" runat="server" />
-                                        <input type="hidden" id="hdnSubLedgerID1" runat="server" />
-                                        <input type="hidden" id="hdnSearchDialogTypeName1" runat="server" />
-                                        <input type="hidden" id="hdnIDFieldName1" runat="server" />
-                                        <input type="hidden" id="hdnCodeFieldName1" runat="server" />
-                                        <input type="hidden" id="hdnDisplayFieldName1" runat="server" />
-                                        <input type="hidden" id="hdnMethodName1" runat="server" />
-                                        <input type="hidden" id="hdnFilterExpression1" runat="server" />
+                                        <input type="hidden" id="hdnInventoryID" runat="server" />
+                                        <input type="hidden" id="hdnInventorySubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnInventorySearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryMethodName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryFilterExpression" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -698,24 +896,24 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount1Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryGLAccountNo" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount1Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryGLAccountName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblGLAccount4"><%=GetLabel("COA Persediaan (PPN)")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblInventoryVAT"><%=GetLabel("COA Persediaan (PPN)")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnGLAccount4ID" runat="server" />
-                                        <input type="hidden" id="hdnSubLedgerID4" runat="server" />
-                                        <input type="hidden" id="hdnSearchDialogTypeName4" runat="server" />
-                                        <input type="hidden" id="hdnIDFieldName4" runat="server" />
-                                        <input type="hidden" id="hdnCodeFieldName4" runat="server" />
-                                        <input type="hidden" id="hdnDisplayFieldName4" runat="server" />
-                                        <input type="hidden" id="hdnMethodName4" runat="server" />
-                                        <input type="hidden" id="hdnFilterExpression4" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATID" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATMethodName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATFilterExpression" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -723,24 +921,24 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount4Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryVATGLAccountNo" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount4Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryVATGLAccountName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblGLAccount5"><%=GetLabel("COA Persediaan (Diskon)")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblInventoryDiscount"><%=GetLabel("COA Persediaan (Diskon)")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnGLAccount5ID" runat="server" />
-                                        <input type="hidden" id="hdnSubLedgerID5" runat="server" />
-                                        <input type="hidden" id="hdnSearchDialogTypeName5" runat="server" />
-                                        <input type="hidden" id="hdnIDFieldName5" runat="server" />
-                                        <input type="hidden" id="hdnCodeFieldName5" runat="server" />
-                                        <input type="hidden" id="hdnDisplayFieldName5" runat="server" />
-                                        <input type="hidden" id="hdnMethodName5" runat="server" />
-                                        <input type="hidden" id="hdnFilterExpression5" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountID" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountMethodName" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountFilterExpression" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -748,24 +946,24 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount5Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryDiscountGLAccountNo" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount5Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryDiscountGLAccountName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblGLAccount2"><%=GetLabel("COA HPP")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblCOGS"><%=GetLabel("COA HPP")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnGLAccount2ID" runat="server" />
-                                        <input type="hidden" id="hdnSubLedgerID2" runat="server" />
-                                        <input type="hidden" id="hdnSearchDialogTypeName2" runat="server" />
-                                        <input type="hidden" id="hdnIDFieldName2" runat="server" />
-                                        <input type="hidden" id="hdnCodeFieldName2" runat="server" />
-                                        <input type="hidden" id="hdnDisplayFieldName2" runat="server" />
-                                        <input type="hidden" id="hdnMethodName2" runat="server" />
-                                        <input type="hidden" id="hdnFilterExpression2" runat="server" />
+                                        <input type="hidden" id="hdnCOGSID" runat="server" />
+                                        <input type="hidden" id="hdnCOGSSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnCOGSSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnCOGSIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnCOGSCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnCOGSDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnCOGSMethodName" runat="server" />
+                                        <input type="hidden" id="hdnCOGSFilterExpression" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -773,24 +971,24 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount2Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtCOGSGLAccountNo" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount2Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtCOGSGLAccountName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblGLAccount3"><%=GetLabel("COA Biaya")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblConsumption"><%=GetLabel("COA Pemakaian")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnGLAccount3ID" runat="server" />
-                                        <input type="hidden" id="hdnSubLedgerID3" runat="server" />
-                                        <input type="hidden" id="hdnSearchDialogTypeName3" runat="server" />
-                                        <input type="hidden" id="hdnIDFieldName3" runat="server" />
-                                        <input type="hidden" id="hdnCodeFieldName3" runat="server" />
-                                        <input type="hidden" id="hdnDisplayFieldName3" runat="server" />
-                                        <input type="hidden" id="hdnMethodName3" runat="server" />
-                                        <input type="hidden" id="hdnFilterExpression3" runat="server" />
+                                        <input type="hidden" id="hdnConsumption" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionMethodName" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionFilterExpression" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -798,15 +996,65 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount3Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtConsumptionGLAccountNo" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtGLAccount3Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtConsumptionGLAccountName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblPurchasePriceVariant"><%=GetLabel("COA Perubahan Harga")%></label></td>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblAdjustmentIN"><%=GetLabel("COA Selisih Persediaan (IN)")%></label></td>
+                                    <td>
+                                        <input type="hidden" id="hdnAdjustmentIN" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINMethodName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentINFilterExpression" runat="server" />
+                                        <table style="width:100%" cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width:30%"/>
+                                                <col style="width:3px"/>
+                                                <col/>
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentINGLAccountNo" Width="100%" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentINGLAccountName" Width="100%" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblAdjustmentOUT"><%=GetLabel("COA Selisih Persediaan (OUT)")%></label></td>
+                                    <td>
+                                        <input type="hidden" id="hdnAdjustmentOUT" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTSubLedgerID" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTSearchDialogTypeName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTIDFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTCodeFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTDisplayFieldName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTMethodName" runat="server" />
+                                        <input type="hidden" id="hdnAdjustmentOUTFilterExpression" runat="server" />
+                                        <table style="width:100%" cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width:30%"/>
+                                                <col style="width:3px"/>
+                                                <col/>
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentOUTGLAccountNo" Width="100%" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentOUTGLAccountName" Width="100%" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblLink lblMandatory" id="lblPurchasePriceVariant"><%=GetLabel("COA Perubahan Harga")%></label></td>
                                     <td>
                                         <input type="hidden" id="hdnPurchasePriceVariantID" runat="server" />
                                         <input type="hidden" id="hdnPurchasePriceVariantSubLedgerID" runat="server" />
@@ -835,9 +1083,9 @@
                         <td>
                             <table width="100%">
                                 <tr>
-                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblSubLedgerDt1"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblInventorySubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnSubLedgerDt1ID" runat="server" />
+                                        <input type="hidden" id="hdnInventorySubLedger" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -845,17 +1093,17 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt1Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventorySubLedgerCode" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt1Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventorySubLedgerName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblSubLedgerDt4"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblInventoryVATSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnSubLedgerDt4ID" runat="server" />
+                                        <input type="hidden" id="hdnInventoryVATSubLedger" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -863,17 +1111,17 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt4Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryVATSubLedgerCode" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt4Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryVATSubLedgerName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblSubLedgerDt5"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblInventoryDiscountSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnSubLedgerDt5ID" runat="server" />
+                                        <input type="hidden" id="hdnInventoryDiscountSubLedger" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -881,17 +1129,17 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt5Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryDiscountSubLedgerCode" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt5Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtInventoryDiscountSubLedgerName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblSubLedgerDt2"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblCOGSSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnSubLedgerDt2ID" runat="server" />
+                                        <input type="hidden" id="hdnCOGSSubLedger" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -899,17 +1147,17 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt2Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtCOGSSubLedgerCode" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt2Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtCOGSSubLedgerName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblSubLedgerDt3"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblConsumptionSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
                                     <td>
-                                        <input type="hidden" id="hdnSubLedgerDt3ID" runat="server" />
+                                        <input type="hidden" id="hdnConsumptionSubLedger" runat="server" />
                                         <table style="width:100%" cellpadding="0" cellspacing="0">
                                             <colgroup>
                                                 <col style="width:30%"/>
@@ -917,9 +1165,45 @@
                                                 <col/>
                                             </colgroup>
                                             <tr>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt3Code" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtConsumptionSubLedgerCode" Width="100%" /></td>
                                                 <td>&nbsp;</td>
-                                                <td><asp:TextBox runat="server" ID="txtSubLedgerDt3Name" Width="100%" /></td>
+                                                <td><asp:TextBox runat="server" ID="txtConsumptionSubLedgerName" Width="100%" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblAdjustmentINSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td>
+                                        <input type="hidden" id="hdnAdjustmentINSubLedger" runat="server" />
+                                        <table style="width:100%" cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width:30%"/>
+                                                <col style="width:3px"/>
+                                                <col/>
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentINSubLedgerCode" Width="100%" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentINSubLedgerName" Width="100%" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblDisabled" runat="server" id="lblAdjustmentOUTSubLedger"><%=GetLabel("Sub Perkiraan")%></label></td>
+                                    <td>
+                                        <input type="hidden" id="hdnAdjustmentOUTSubLedger" runat="server" />
+                                        <table style="width:100%" cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width:30%"/>
+                                                <col style="width:3px"/>
+                                                <col/>
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentOUTSubLedgerCode" Width="100%" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox runat="server" ID="txtAdjustmentOUTSubLedgerName" Width="100%" /></td>
                                             </tr>
                                         </table>
                                     </td>

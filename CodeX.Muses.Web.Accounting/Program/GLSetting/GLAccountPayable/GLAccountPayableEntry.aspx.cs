@@ -43,17 +43,19 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override void SetControlProperties()
         {
-            String filterExpression = String.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.GL_ACCOUNT_PAYABLE_TYPE);
+            String filterExpression = String.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.GL_ACCOUNT_PAYABLE_TYPE, Constant.StandardCode.PURCHASE_TYPE);
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(filterExpression);
 
             Methods.SetComboBoxField(cboGCAccountPayableType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.GL_ACCOUNT_PAYABLE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField(cboGCItemType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.ITEM_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
+            Methods.SetComboBoxField(cboGCPurchaseType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.PURCHASE_TYPE).ToList(), "StandardCodeName", "StandardCodeID");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(cboGCAccountPayableType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboGCItemType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboGCPurchaseType, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
 
             #region Pengaturan Perkiraan
@@ -73,6 +75,7 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             cboGCAccountPayableType.Text = entity.GCAccountPayableType;
             cboGCItemType.Text = entity.GCItemType;
+            cboGCPurchaseType.Text = entity.GCPurchaseType;
             txtNotes.Text = entity.Remarks;
 
             #region Pengaturan Perkiraan
@@ -99,14 +102,12 @@ namespace CodeX.Muses.Web.Accounting.Program
         {
             entity.GCAccountPayableType = cboGCAccountPayableType.Value.ToString();
             entity.GCItemType = cboGCItemType.Value.ToString();
+            entity.GCPurchaseType = cboGCPurchaseType.Value.ToString();
             entity.Remarks = txtNotes.Text;
             
             #region Pengaturan Perkiraan
             #region AP
-            if (hdnAPID.Value != "" && hdnAPID.Value != "0")
-                entity.GLAccount = Convert.ToInt32(hdnAPID.Value);
-            else
-                entity.GLAccount = null;
+            entity.GLAccount = Convert.ToInt32(hdnAPID.Value);
             if (hdnAPSubLedger.Value != "" && hdnAPSubLedger.Value != "0")
                 entity.SubLedger = Convert.ToInt32(hdnAPSubLedger.Value);
             else

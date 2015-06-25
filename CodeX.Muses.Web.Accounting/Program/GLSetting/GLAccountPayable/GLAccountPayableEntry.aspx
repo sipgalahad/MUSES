@@ -131,6 +131,10 @@
                         <td><dxe:ASPxComboBox runat="server" ID="cboGCItemType" /></td>
                     </tr>
                     <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pembelian")%></label></td>
+                        <td><dxe:ASPxComboBox runat="server" ID="cboGCPurchaseType" /></td>
+                    </tr>
+                    <tr>
                         <td class="tdLabel" valign="top" style="padding-top:5px"><label><%=GetLabel("Keterangan")%></label></td>
                         <td><asp:TextBox ID="txtNotes" Width="300px" runat="server" TextMode="MultiLine" /></td>
                     </tr>

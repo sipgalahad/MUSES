@@ -1448,7 +1448,7 @@
             <td style="padding:5px;vertical-align:top">
                 <table class="tblEntryContent" style="width:50%">
                     <colgroup>
-                        <col style="width:30%"/>
+                        <col style="width:240px"/>
                     </colgroup>
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Code")%></label></td>
@@ -1475,7 +1475,7 @@
                         <td>
                             <table width="100%">
                                 <colgroup>
-                                    <col width="190px" />
+                                    <col width="240px" />
                                 </colgroup>
                                 <tr>
                                     <td class="tdLabel"><label class="lblLink" id="lblInventory"><%=GetLabel("COA Persediaan")%></label></td>

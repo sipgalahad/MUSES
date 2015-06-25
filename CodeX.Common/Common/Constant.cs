@@ -120,6 +120,7 @@ namespace CodeX.Common
             public const string PREFIX_TYPE = "X302";
             public const string BANK_TRANSACTION_TYPE = "X305";
             public const string CLIENT_TYPE = "X306";
+            public const string PURCHASE_TYPE = "X307";
         }
 
         public static class PaymentMethod

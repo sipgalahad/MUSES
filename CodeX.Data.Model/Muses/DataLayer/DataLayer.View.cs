@@ -8095,6 +8095,8 @@ namespace CodeX.Data.Model
         private String _AccountPayableType;
         private String _GCItemType;
         private String _ItemType;
+        private String _GCPurchaseType;
+        private String _PurchaseType;
         private Int32 _GLAccount;
         private String _GLAccountNo;
         private String _GLAccountName;
@@ -8140,6 +8142,18 @@ namespace CodeX.Data.Model
         {
             get { return _ItemType; }
             set { _ItemType = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
+        }
+        [Column(Name = "PurchaseType", DataType = "String")]
+        public String PurchaseType
+        {
+            get { return _PurchaseType; }
+            set { _PurchaseType = value; }
         }
         [Column(Name = "GLAccount", DataType = "Int32")]
         public Int32 GLAccount
@@ -9644,6 +9658,8 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private String _GCItemType;
         private String _ItemType;
+        private String _GCPurchaseType;
+        private String _PurchaseType;
         private Int32 _ProductLineID;
         private String _ProductLineCode;
         private String _ProductLineName;
@@ -9712,6 +9728,32 @@ namespace CodeX.Data.Model
         private Int32 _ConsumptionSubLedger;
         private String _ConsumptionSubLedgerCode;
         private String _ConsumptionSubLedgerName;
+        private Int32 _AdjustmentIN;
+        private String _AdjustmentINGLAccountNo;
+        private String _AdjustmentINGLAccountName;
+        private Int32 _AdjustmentINSubLedgerID;
+        private String _AdjustmentINSearchDialogTypeName;
+        private String _AdjustmentINIDFieldName;
+        private String _AdjustmentINCodeFieldName;
+        private String _AdjustmentINDisplayFieldName;
+        private String _AdjustmentINMethodName;
+        private String _AdjustmentINFilterExpression;
+        private Int32 _AdjustmentINSubLedger;
+        private String _AdjustmentINSubLedgerCode;
+        private String _AdjustmentINSubLedgerName;
+        private Int32 _AdjustmentOUT;
+        private String _AdjustmentOUTGLAccountNo;
+        private String _AdjustmentOUTGLAccountName;
+        private Int32 _AdjustmentOUTSubLedgerID;
+        private String _AdjustmentOUTSearchDialogTypeName;
+        private String _AdjustmentOUTIDFieldName;
+        private String _AdjustmentOUTCodeFieldName;
+        private String _AdjustmentOUTDisplayFieldName;
+        private String _AdjustmentOUTMethodName;
+        private String _AdjustmentOUTFilterExpression;
+        private Int32 _AdjustmentOUTSubLedger;
+        private String _AdjustmentOUTSubLedgerCode;
+        private String _AdjustmentOUTSubLedgerName;
         private Int32 _PurchasePriceVariant;
         private String _PurchasePriceVariantGLAccountNo;
         private String _PurchasePriceVariantGLAccountName;
@@ -9745,6 +9787,18 @@ namespace CodeX.Data.Model
         {
             get { return _ItemType; }
             set { _ItemType = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
+        }
+        [Column(Name = "PurchaseType", DataType = "String")]
+        public String PurchaseType
+        {
+            get { return _PurchaseType; }
+            set { _PurchaseType = value; }
         }
         [Column(Name = "ProductLineID", DataType = "Int32")]
         public Int32 ProductLineID
@@ -10153,6 +10207,162 @@ namespace CodeX.Data.Model
         {
             get { return _ConsumptionSubLedgerName; }
             set { _ConsumptionSubLedgerName = value; }
+        }
+        [Column(Name = "AdjustmentIN", DataType = "Int32")]
+        public Int32 AdjustmentIN
+        {
+            get { return _AdjustmentIN; }
+            set { _AdjustmentIN = value; }
+        }
+        [Column(Name = "AdjustmentINGLAccountNo", DataType = "String")]
+        public String AdjustmentINGLAccountNo
+        {
+            get { return _AdjustmentINGLAccountNo; }
+            set { _AdjustmentINGLAccountNo = value; }
+        }
+        [Column(Name = "AdjustmentINGLAccountName", DataType = "String")]
+        public String AdjustmentINGLAccountName
+        {
+            get { return _AdjustmentINGLAccountName; }
+            set { _AdjustmentINGLAccountName = value; }
+        }
+        [Column(Name = "AdjustmentINSubLedgerID", DataType = "Int32")]
+        public Int32 AdjustmentINSubLedgerID
+        {
+            get { return _AdjustmentINSubLedgerID; }
+            set { _AdjustmentINSubLedgerID = value; }
+        }
+        [Column(Name = "AdjustmentINSearchDialogTypeName", DataType = "String")]
+        public String AdjustmentINSearchDialogTypeName
+        {
+            get { return _AdjustmentINSearchDialogTypeName; }
+            set { _AdjustmentINSearchDialogTypeName = value; }
+        }
+        [Column(Name = "AdjustmentINIDFieldName", DataType = "String")]
+        public String AdjustmentINIDFieldName
+        {
+            get { return _AdjustmentINIDFieldName; }
+            set { _AdjustmentINIDFieldName = value; }
+        }
+        [Column(Name = "AdjustmentINCodeFieldName", DataType = "String")]
+        public String AdjustmentINCodeFieldName
+        {
+            get { return _AdjustmentINCodeFieldName; }
+            set { _AdjustmentINCodeFieldName = value; }
+        }
+        [Column(Name = "AdjustmentINDisplayFieldName", DataType = "String")]
+        public String AdjustmentINDisplayFieldName
+        {
+            get { return _AdjustmentINDisplayFieldName; }
+            set { _AdjustmentINDisplayFieldName = value; }
+        }
+        [Column(Name = "AdjustmentINMethodName", DataType = "String")]
+        public String AdjustmentINMethodName
+        {
+            get { return _AdjustmentINMethodName; }
+            set { _AdjustmentINMethodName = value; }
+        }
+        [Column(Name = "AdjustmentINFilterExpression", DataType = "String")]
+        public String AdjustmentINFilterExpression
+        {
+            get { return _AdjustmentINFilterExpression; }
+            set { _AdjustmentINFilterExpression = value; }
+        }
+        [Column(Name = "AdjustmentINSubLedger", DataType = "Int32")]
+        public Int32 AdjustmentINSubLedger
+        {
+            get { return _AdjustmentINSubLedger; }
+            set { _AdjustmentINSubLedger = value; }
+        }
+        [Column(Name = "AdjustmentINSubLedgerCode", DataType = "String")]
+        public String AdjustmentINSubLedgerCode
+        {
+            get { return _AdjustmentINSubLedgerCode; }
+            set { _AdjustmentINSubLedgerCode = value; }
+        }
+        [Column(Name = "AdjustmentINSubLedgerName", DataType = "String")]
+        public String AdjustmentINSubLedgerName
+        {
+            get { return _AdjustmentINSubLedgerName; }
+            set { _AdjustmentINSubLedgerName = value; }
+        }
+        [Column(Name = "AdjustmentOUT", DataType = "Int32")]
+        public Int32 AdjustmentOUT
+        {
+            get { return _AdjustmentOUT; }
+            set { _AdjustmentOUT = value; }
+        }
+        [Column(Name = "AdjustmentOUTGLAccountNo", DataType = "String")]
+        public String AdjustmentOUTGLAccountNo
+        {
+            get { return _AdjustmentOUTGLAccountNo; }
+            set { _AdjustmentOUTGLAccountNo = value; }
+        }
+        [Column(Name = "AdjustmentOUTGLAccountName", DataType = "String")]
+        public String AdjustmentOUTGLAccountName
+        {
+            get { return _AdjustmentOUTGLAccountName; }
+            set { _AdjustmentOUTGLAccountName = value; }
+        }
+        [Column(Name = "AdjustmentOUTSubLedgerID", DataType = "Int32")]
+        public Int32 AdjustmentOUTSubLedgerID
+        {
+            get { return _AdjustmentOUTSubLedgerID; }
+            set { _AdjustmentOUTSubLedgerID = value; }
+        }
+        [Column(Name = "AdjustmentOUTSearchDialogTypeName", DataType = "String")]
+        public String AdjustmentOUTSearchDialogTypeName
+        {
+            get { return _AdjustmentOUTSearchDialogTypeName; }
+            set { _AdjustmentOUTSearchDialogTypeName = value; }
+        }
+        [Column(Name = "AdjustmentOUTIDFieldName", DataType = "String")]
+        public String AdjustmentOUTIDFieldName
+        {
+            get { return _AdjustmentOUTIDFieldName; }
+            set { _AdjustmentOUTIDFieldName = value; }
+        }
+        [Column(Name = "AdjustmentOUTCodeFieldName", DataType = "String")]
+        public String AdjustmentOUTCodeFieldName
+        {
+            get { return _AdjustmentOUTCodeFieldName; }
+            set { _AdjustmentOUTCodeFieldName = value; }
+        }
+        [Column(Name = "AdjustmentOUTDisplayFieldName", DataType = "String")]
+        public String AdjustmentOUTDisplayFieldName
+        {
+            get { return _AdjustmentOUTDisplayFieldName; }
+            set { _AdjustmentOUTDisplayFieldName = value; }
+        }
+        [Column(Name = "AdjustmentOUTMethodName", DataType = "String")]
+        public String AdjustmentOUTMethodName
+        {
+            get { return _AdjustmentOUTMethodName; }
+            set { _AdjustmentOUTMethodName = value; }
+        }
+        [Column(Name = "AdjustmentOUTFilterExpression", DataType = "String")]
+        public String AdjustmentOUTFilterExpression
+        {
+            get { return _AdjustmentOUTFilterExpression; }
+            set { _AdjustmentOUTFilterExpression = value; }
+        }
+        [Column(Name = "AdjustmentOUTSubLedger", DataType = "Int32")]
+        public Int32 AdjustmentOUTSubLedger
+        {
+            get { return _AdjustmentOUTSubLedger; }
+            set { _AdjustmentOUTSubLedger = value; }
+        }
+        [Column(Name = "AdjustmentOUTSubLedgerCode", DataType = "String")]
+        public String AdjustmentOUTSubLedgerCode
+        {
+            get { return _AdjustmentOUTSubLedgerCode; }
+            set { _AdjustmentOUTSubLedgerCode = value; }
+        }
+        [Column(Name = "AdjustmentOUTSubLedgerName", DataType = "String")]
+        public String AdjustmentOUTSubLedgerName
+        {
+            get { return _AdjustmentOUTSubLedgerName; }
+            set { _AdjustmentOUTSubLedgerName = value; }
         }
         [Column(Name = "PurchasePriceVariant", DataType = "Int32")]
         public Int32 PurchasePriceVariant

@@ -11018,7 +11018,8 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private String _GCAccountPayableType;
         private String _GCItemType;
-        private Int32? _GLAccount;
+        private String _GCPurchaseType;
+        private Int32 _GLAccount;
         private Int32? _SubLedger;
         private String _Remarks;
         private Boolean _IsDeleted;
@@ -11045,8 +11046,14 @@ namespace CodeX.Data.Model
             get { return _GCItemType; }
             set { _GCItemType = value; }
         }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
+        }
         [Column(Name = "GLAccount", DataType = "Int32")]
-        public Int32? GLAccount
+        public Int32 GLAccount
         {
             get { return _GLAccount; }
             set { _GLAccount = value; }
@@ -12194,6 +12201,7 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private String _GCItemType;
         private Int32 _ProductLineID;
+        private String _GCPurchaseType;
         private Int32 _Inventory;
         private Int32? _InventorySubLedger;
         private Int32 _InventoryVAT;
@@ -12204,6 +12212,10 @@ namespace CodeX.Data.Model
         private Int32? _COGSSubLedger;
         private Int32 _Consumption;
         private Int32? _ConsumptionSubLedger;
+        private Int32 _AdjustmentIN;
+        private Int32? _AdjustmentINSubLedger;
+        private Int32 _AdjustmentOUT;
+        private Int32? _AdjustmentOUTSubLedger;
         private Int32 _PurchasePriceVariant;
         private Int32? _PurchasePriceVariantSubLedger;
         private String _Remarks;
@@ -12230,6 +12242,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProductLineID; }
             set { _ProductLineID = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
         }
         [Column(Name = "Inventory", DataType = "Int32")]
         public Int32 Inventory
@@ -12290,6 +12308,30 @@ namespace CodeX.Data.Model
         {
             get { return _ConsumptionSubLedger; }
             set { _ConsumptionSubLedger = value; }
+        }
+        [Column(Name = "AdjustmentIN", DataType = "Int32")]
+        public Int32 AdjustmentIN
+        {
+            get { return _AdjustmentIN; }
+            set { _AdjustmentIN = value; }
+        }
+        [Column(Name = "AdjustmentINSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? AdjustmentINSubLedger
+        {
+            get { return _AdjustmentINSubLedger; }
+            set { _AdjustmentINSubLedger = value; }
+        }
+        [Column(Name = "AdjustmentOUT", DataType = "Int32")]
+        public Int32 AdjustmentOUT
+        {
+            get { return _AdjustmentOUT; }
+            set { _AdjustmentOUT = value; }
+        }
+        [Column(Name = "AdjustmentOUTSubLedger", DataType = "Int32", IsNullable = true)]
+        public Int32? AdjustmentOUTSubLedger
+        {
+            get { return _AdjustmentOUTSubLedger; }
+            set { _AdjustmentOUTSubLedger = value; }
         }
         [Column(Name = "PurchasePriceVariant", DataType = "Int32")]
         public Int32 PurchasePriceVariant
@@ -12361,11 +12403,13 @@ namespace CodeX.Data.Model
         }
         public int Insert(GLWarehouseProductLineAccount record)
         {
+            record.CreatedDate = DateTime.Now;
             _helper.Insert(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }
         public int Update(GLWarehouseProductLineAccount record)
         {
+            record.LastUpdatedDate = DateTime.Now;
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
