@@ -72,7 +72,7 @@
             $('#divCopyPurchaseReceive').click(function () {
                 if (IsValid(null, 'fsMPEntry', 'mpEntry')) {
                     showLoadingPanel();
-                    var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val() + '|' + cboItemType.GetValue();
+                    var id = $('#<%=hdnPurchaseInvoiceID.ClientID %>').val() + '|' + cboItemType.GetValue() + '|' + cboPurchaseType.GetValue();
                     var url = ResolveUrl('~/Program/APInvoice/APInvoiceSupplier/APInvoiceSupplierProcess/APInvoiceSupplierProcessCtl.ascx');
                     openUserControlPopup(url, id, 'Pilih Penerimaan Pembelian', 1000, 600);
                 }
@@ -366,6 +366,10 @@
                         <tr>
                             <td class="tdLabel"><label id="lblPurchaseInvoiceNo" class="lblLink"><%=GetLabel("No. Invoice")%></label></td>
                             <td><asp:TextBox ID="txtPurchaseInvoiceNo" Width="150px" ReadOnly="true" runat="server" /></td>
+                        </tr>
+                        <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pembelian")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboPurchaseType" ClientInstanceName="cboPurchaseType" Width="120px" runat="server" /></td>
                         </tr>
                         <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Item")%></label></td>

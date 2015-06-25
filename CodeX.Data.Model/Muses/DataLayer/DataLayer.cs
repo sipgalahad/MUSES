@@ -19833,6 +19833,7 @@ namespace CodeX.Data.Model
         private Int32 _PurchaseInvoiceID;
         private DateTime _PurchaseInvoiceDate;
         private Int32 _BusinessPartnerID;
+        private String _GCPurchaseType;
         private String _GCItemType;
         private String _PurchaseInvoiceNo;
         private String _SupplierInvoiceNo;
@@ -19883,6 +19884,12 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
         }
         [Column(Name = "GCItemType", DataType = "String")]
         public String GCItemType
@@ -29580,6 +29587,7 @@ namespace CodeX.Data.Model
         private String _SupplierPaymentNo;
         private DateTime _PaymentDate;
         private Int32 _BusinessPartnerID;
+        private String _GCPurchaseType;
         private String _GCItemType;
         private String _ReferenceNo;
         private DateTime _ReferenceDate;
@@ -29620,6 +29628,12 @@ namespace CodeX.Data.Model
         {
             get { return _BusinessPartnerID; }
             set { _BusinessPartnerID = value; }
+        }
+        [Column(Name = "GCPurchaseType", DataType = "String")]
+        public String GCPurchaseType
+        {
+            get { return _GCPurchaseType; }
+            set { _GCPurchaseType = value; }
         }
         [Column(Name = "GCItemType", DataType = "String")]
         public String GCItemType

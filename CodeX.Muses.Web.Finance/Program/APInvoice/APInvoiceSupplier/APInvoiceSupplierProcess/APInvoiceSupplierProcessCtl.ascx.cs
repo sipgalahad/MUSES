@@ -29,13 +29,19 @@ namespace CodeX.Muses.Web.Finance.Program
             string[] temp = param.Split('|');
             hdnPurchaseInvoiceID.Value = temp[0];
             hdnGCItemType.Value = temp[1];
+            hdnGCPurchaseType.Value = temp[2];
             BindGridView(1, true, ref PageCount);
         }
 
         #region Bind Grid
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount)
         {
-            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}','{2}') AND GCItemType = '{3}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value);
+            string transactionCode = "";
+            if (hdnGCPurchaseType.Value == Constant.PurchaseType.CONSIGNMENT)
+                transactionCode = Constant.TransactionCode.CONSIGNMENT_RECEIVE;
+            else
+                transactionCode = Constant.TransactionCode.PURCHASE_RECEIVE;
+            string filterExpression = string.Format("BusinessPartnerID = {0} AND GCTransactionStatus IN ('{1}','{2}') AND GCItemType = '{3}' AND TransactionCode = '{4}' AND PurchaseReceiveID NOT IN (SELECT PurchaseReceiveID FROM PurchaseInvoiceDt WHERE PurchaseReceiveID IS NOT NULL AND IsDeleted = 0)", AppSession.BusinessPartnerID, Constant.TransactionStatus.APPROVED, Constant.TransactionStatus.PROCESSED, hdnGCItemType.Value, transactionCode);
             if (isCountPageCount)
             {
                 int rowCount = BusinessLayer.GetvPurchaseReceiveCreditRowCount(filterExpression);

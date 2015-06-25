@@ -159,6 +159,14 @@
                             <td><asp:TextBox ID="txtPaymentNo" Width="150px" ReadOnly="true" runat="server" /></td>
                         </tr>
                         <tr>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Pembelian")%></label></td>
+                            <td>
+                                <dxe:ASPxComboBox ID="cboPurchaseType" ClientInstanceName="cboPurchaseType" Width="250px" runat="server">
+                                    <ClientSideEvents ValueChanged="function(s,e) { cbpView.PerformCallback('refresh'); }" />
+                                </dxe:ASPxComboBox>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe Item")%></label></td>
                             <td>
                                 <dxe:ASPxComboBox ID="cboItemType" ClientInstanceName="cboItemType" Width="250px" runat="server">

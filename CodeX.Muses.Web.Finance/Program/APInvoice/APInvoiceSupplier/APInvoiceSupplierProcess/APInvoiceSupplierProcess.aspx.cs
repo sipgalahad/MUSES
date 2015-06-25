@@ -54,12 +54,15 @@ namespace CodeX.Muses.Web.Finance.Program
 
         protected override void SetControlProperties()
         {
-            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.CURRENCY_CODE));
+            List<StandardCode> listStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}','{1}','{2}') AND IsActive = 1 AND IsDeleted = 0", Constant.StandardCode.ITEM_TYPE, Constant.StandardCode.CURRENCY_CODE, Constant.StandardCode.PURCHASE_TYPE));
             Methods.SetComboBoxField<StandardCode>(cboItemType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.ITEM_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboItemType.SelectedIndex = 0;
 
             Methods.SetComboBoxField<StandardCode>(cboCurrency, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.CURRENCY_CODE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
             cboCurrency.SelectedIndex = 0;
+
+            Methods.SetComboBoxField<StandardCode>(cboPurchaseType, listStandardCode.Where(p => p.ParentID == Constant.StandardCode.PURCHASE_TYPE).ToList<StandardCode>(), "StandardCodeName", "StandardCodeID");
+            cboPurchaseType.SelectedIndex = 0;
 
             List<GLAPOther> lstGLAPOther = BusinessLayer.GetGLAPOtherList("IsDeleted = 0");
             Methods.SetComboBoxField<GLAPOther>(cboGLAPOther, lstGLAPOther, "APOtherName", "ID");
@@ -88,6 +91,7 @@ namespace CodeX.Muses.Web.Finance.Program
             SetControlEntrySetting(txtGrandTotalPI, new ControlEntrySetting(false, false, false));
             SetControlEntrySetting(txtFinalDIscountPI, new ControlEntrySetting(true, true, false));
             SetControlEntrySetting(cboItemType, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(cboPurchaseType, new ControlEntrySetting(true, false, true));
             SetControlEntrySetting(cboCurrency, new ControlEntrySetting(true, false, true));
         }
 
@@ -152,6 +156,7 @@ namespace CodeX.Muses.Web.Finance.Program
             txtDueDate.Text = entity.DueDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             cboCurrency.Value = entity.GCCurrencyCode;
             cboItemType.Value = entity.GCItemType;
+            cboPurchaseType.Value = entity.GCPurchaseType;
             txtKurs.Text = entity.CurrencyRate.ToString();
             txtRemarks.Text = entity.Remarks;
 
@@ -213,6 +218,7 @@ namespace CodeX.Muses.Web.Finance.Program
             entityHd.DueDate = Helper.GetDatePickerValue(txtDueDate.Text);
 
             entityHd.GCItemType = cboItemType.Value.ToString();
+            entityHd.GCPurchaseType = cboPurchaseType.Value.ToString();
             entityHd.GCCurrencyCode = cboCurrency.Value.ToString();
             entityHd.GCChargesType = "X157^001";
             entityHd.ChargesAmount = Convert.ToDecimal(txtChargesPI.Text);

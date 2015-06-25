@@ -77,6 +77,7 @@
     <input type="hidden" id="hdnLabResultID" value="" runat="server" />
     <input type="hidden" id="hdnTransactionID" value="" runat="server" />
     <input type="hidden" id="hdnGCItemType" value="" runat="server" />
+    <input type="hidden" id="hdnGCPurchaseType" value="" runat="server" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width:100%"/>
