@@ -1438,7 +1438,6 @@
 </script>
 
 <input type="hidden" id="hdnProductLineID" runat="server" />
-<input type="hidden" id="hdnGCPurchaseType" runat="server" />
 <div style="padding:10px;">
     <table class="tblContentArea">
         <colgroup>
@@ -1457,10 +1456,6 @@
                     <tr>
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Name")%></label></td>
                         <td><asp:TextBox ID="txtProductLineName" ReadOnly="true" Width="300px" runat="server" /></td>
-                    </tr>
-                    <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tipe")%></label></td>
-                        <td><asp:TextBox ID="txtPurchaseType" ReadOnly="true" Width="300px" runat="server" /></td>
                     </tr>
                 </table>
             </td>

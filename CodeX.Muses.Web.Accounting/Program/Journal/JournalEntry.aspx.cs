@@ -238,7 +238,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 short i = 1;
                 foreach (string saveParam in lstSaveParam)
                 {
-                    string[] param = saveParam.Split(',');
+                    string[] param = saveParam.Split(';');
                     GLTransactionDt entityDt = new GLTransactionDt();
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                     entityDt.GLTransactionID = GLTransactionID;
@@ -301,7 +301,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 short i = 1;
                 foreach (string saveParam in lstSaveParam)
                 {
-                    string[] param = saveParam.Split(',');
+                    string[] param = saveParam.Split(';');
 
                     int transactionDtID = Convert.ToInt32(param[0]);
                     if (transactionDtID > 0)

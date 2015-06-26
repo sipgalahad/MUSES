@@ -82,8 +82,7 @@ Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="ID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="ItemType" HeaderText="Tipe Item" HeaderStyle-Width="150px" />
-                                <asp:BoundField DataField="PurchaseType" HeaderText="Tipe Pembelian" ItemStyle-Width="200px" />
+                                <asp:BoundField DataField="ItemType" HeaderText="Tipe Item" HeaderStyle-Width="200px" />
                                 <asp:BoundField DataField="ProductLineName" HeaderText="Product Line" HeaderStyle-Width="150px" />
                                 <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
                                 <asp:HyperLinkField HeaderText="Detail" Text="Detail" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkDetail" HeaderStyle-Width="150px" />

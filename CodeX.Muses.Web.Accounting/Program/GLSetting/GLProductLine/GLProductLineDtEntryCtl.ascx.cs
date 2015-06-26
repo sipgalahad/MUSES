@@ -22,9 +22,8 @@ namespace CodeX.Web.Accounting.Program
             IsAdd = true;
             string[] temp = param.Split('|');
             hdnProductLineID.Value = temp[0];
-            hdnGCPurchaseType.Value = temp[1];
 
-            vProductLineDt supplierLineDt = BusinessLayer.GetvProductLineDtList(string.Format("ProductLineID = {0} AND SiteID = '{1}' AND GCPurchaseType = '{2}'", hdnProductLineID.Value, AppSession.UserLogin.SiteID, hdnGCPurchaseType.Value)).FirstOrDefault();
+            vProductLineDt supplierLineDt = BusinessLayer.GetvProductLineDtList(string.Format("ProductLineID = {0} AND SiteID = '{1}'", hdnProductLineID.Value, AppSession.UserLogin.SiteID)).FirstOrDefault();
             if (supplierLineDt != null)
             {
                 IsAdd = false;
@@ -36,7 +35,6 @@ namespace CodeX.Web.Accounting.Program
             ProductLine supplierLine = BusinessLayer.GetProductLine(Convert.ToInt32(hdnProductLineID.Value));
             txtProductLineCode.Text = supplierLine.ProductLineCode;
             txtProductLineName.Text = supplierLine.ProductLineName;
-            txtPurchaseType.Text = BusinessLayer.GetStandardCode(hdnGCPurchaseType.Value).StandardCodeName;
             //txtTemplateCode.Focus();
         }
 
@@ -638,7 +636,6 @@ namespace CodeX.Web.Accounting.Program
                 ProductLineDt entityDt = new ProductLineDt();
                 ControlToEntity(entityDt);
                 entityDt.SiteID = AppSession.UserLogin.SiteID;
-                entityDt.GCPurchaseType = hdnGCPurchaseType.Value;
                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
                 supplierLineDtDao.Insert(entityDt);
                 ctx.CommitTransaction();
@@ -665,7 +662,7 @@ namespace CodeX.Web.Accounting.Program
             bool result = false;
             try
             {
-                ProductLineDt entityDt = supplierLineDtDao.Get(Convert.ToInt32(hdnProductLineID.Value), AppSession.UserLogin.SiteID, hdnGCPurchaseType.Value);
+                ProductLineDt entityDt = supplierLineDtDao.Get(Convert.ToInt32(hdnProductLineID.Value), AppSession.UserLogin.SiteID);
                 ControlToEntity(entityDt);
                 entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                 supplierLineDtDao.Update(entityDt);

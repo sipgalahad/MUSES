@@ -12201,7 +12201,6 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private String _GCItemType;
         private Int32 _ProductLineID;
-        private String _GCPurchaseType;
         private Int32 _Inventory;
         private Int32? _InventorySubLedger;
         private Int32 _InventoryVAT;
@@ -12242,12 +12241,6 @@ namespace CodeX.Data.Model
         {
             get { return _ProductLineID; }
             set { _ProductLineID = value; }
-        }
-        [Column(Name = "GCPurchaseType", DataType = "String")]
-        public String GCPurchaseType
-        {
-            get { return _GCPurchaseType; }
-            set { _GCPurchaseType = value; }
         }
         [Column(Name = "Inventory", DataType = "Int32")]
         public Int32 Inventory
@@ -18075,7 +18068,6 @@ namespace CodeX.Data.Model
     {
         private Int32 _ProductLineID;
         private String _SiteID;
-        private String _GCPurchaseType;
         private Int32? _Inventory;
         private Int32? _InventorySubLedger;
         private Int32? _InventoryVAT;
@@ -18123,12 +18115,6 @@ namespace CodeX.Data.Model
         {
             get { return _SiteID; }
             set { _SiteID = value; }
-        }
-        [Column(Name = "GCPurchaseType", DataType = "String", IsPrimaryKey = true)]
-        public String GCPurchaseType
-        {
-            get { return _GCPurchaseType; }
-            set { _GCPurchaseType = value; }
         }
         [Column(Name = "Inventory", DataType = "Int32", IsNullable = true)]
         public Int32? Inventory
@@ -18347,7 +18333,6 @@ namespace CodeX.Data.Model
         private readonly IDbContext _ctx = DbFactory.Configure();
         private readonly DbHelper _helper = new DbHelper(typeof(ProductLineDt));
         private bool _isAuditLog = false;
-        private const string p_GCPurchaseType = "@p_GCPurchaseType";
         private const string p_ProductLineID = "@p_ProductLineID";
         private const string p_SiteID = "@p_SiteID";
         public ProductLineDtDao() { }
@@ -18355,10 +18340,9 @@ namespace CodeX.Data.Model
         {
             _ctx = ctx;
         }
-        public ProductLineDt Get(Int32 ProductLineID, String SiteID, String GCPurchaseType)
+        public ProductLineDt Get(Int32 ProductLineID, String SiteID)
         {
             _ctx.CommandText = _helper.GetRecord();
-            _ctx.Add(p_GCPurchaseType, GCPurchaseType);
             _ctx.Add(p_ProductLineID, ProductLineID);
             _ctx.Add(p_SiteID, SiteID);
             DataRow row = DaoBase.GetDataRow(_ctx);
@@ -18376,13 +18360,13 @@ namespace CodeX.Data.Model
             _helper.Update(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx, true);
         }
-        public int Delete(Int32 ProductLineID, String SiteID, String GCPurchaseType)
+        public int Delete(Int32 ProductLineID, String SiteID)
         {
             ProductLineDt record;
             if (_ctx.Transaction == null)
-                record = new ProductLineDtDao().Get(ProductLineID, SiteID, GCPurchaseType);
+                record = new ProductLineDtDao().Get(ProductLineID, SiteID);
             else
-                record = Get(ProductLineID, SiteID, GCPurchaseType);
+                record = Get(ProductLineID, SiteID);
             _helper.Delete(_ctx, record, _isAuditLog);
             return DaoBase.ExecuteNonQuery(_ctx);
         }

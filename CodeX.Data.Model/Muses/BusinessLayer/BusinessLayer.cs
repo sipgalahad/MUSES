@@ -8971,9 +8971,9 @@ namespace CodeX.Data.Model
         }
         #endregion
         #region ProductLineDt
-        public static ProductLineDt GetProductLineDt(Int32 ProductLineID, String SiteID, String GCPurchaseType)
+        public static ProductLineDt GetProductLineDt(Int32 ProductLineID, String SiteID)
         {
-            return new ProductLineDtDao().Get(ProductLineID, SiteID, GCPurchaseType);
+            return new ProductLineDtDao().Get(ProductLineID, SiteID);
         }
         public static int InsertProductLineDt(ProductLineDt record)
         {
@@ -8983,9 +8983,9 @@ namespace CodeX.Data.Model
         {
             return new ProductLineDtDao().Update(record);
         }
-        public static int DeleteProductLineDt(Int32 ProductLineID, String SiteID, String GCPurchaseType)
+        public static int DeleteProductLineDt(Int32 ProductLineID, String SiteID)
         {
-            return new ProductLineDtDao().Delete(ProductLineID, SiteID, GCPurchaseType);
+            return new ProductLineDtDao().Delete(ProductLineID, SiteID);
         }
         public static List<ProductLineDt> GetProductLineDtList(string filterExpression)
         {

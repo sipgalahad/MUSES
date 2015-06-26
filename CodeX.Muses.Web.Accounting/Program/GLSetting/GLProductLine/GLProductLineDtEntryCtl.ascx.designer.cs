@@ -22,15 +22,6 @@ namespace CodeX.Web.Accounting.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnProductLineID;
         
         /// <summary>
-        /// hdnGCPurchaseType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnGCPurchaseType;
-        
-        /// <summary>
         /// txtProductLineCode control.
         /// </summary>
         /// <remarks>
@@ -47,15 +38,6 @@ namespace CodeX.Web.Accounting.Program {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtProductLineName;
-        
-        /// <summary>
-        /// txtPurchaseType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPurchaseType;
         
         /// <summary>
         /// hdnInventoryID control.

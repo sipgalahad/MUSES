@@ -624,7 +624,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.J
 
                     if (transactionDtID != '0') {
                         if (lstTransactionDtID != '')
-                            lstTransactionDtID += ',';
+                            lstTransactionDtID += ';';
                         lstTransactionDtID += transactionDtID;
                     }
 
