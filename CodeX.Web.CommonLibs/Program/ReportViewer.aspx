@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>VIDA</title>
+    <title>OTTIMO</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 </head>
 <body>
@@ -57,16 +57,6 @@
                 $('#<%=hdnExportExcel.ClientID %>').val($div.html());
 
                 processOverflowDiv1(1);
-
-                var pageCount = $('.pageFooter').length;
-                $('.pageFooter').each(function () {
-                    $(this).html($(this).html().replace('[TotalPageCount]', pageCount));
-                });
-
-                for (var i = 1; i <= pageCount; ++i) {
-                    $('#cboJumpPage').append($("<option></option>").text(i));
-                }
-                $('#txtTotalPage').val(pageCount);
             });
 
             function processOverflowDiv1(idx) {
@@ -117,13 +107,27 @@
                             //loop
                         }
                     }
-                    containerp2.insertAfter(p1.parent().parent());
-                    processOverflowDiv1(idx + 1);
+
+                    setTimeout(function () {
+                        containerp2.insertAfter(p1.parent().parent());
+                        processOverflowDiv1(idx + 1);
+                    }, 0);
+                }
+                else {
+                    var pageCount = $('.pageFooter').length;
+                    $('.pageFooter').each(function () {
+                        $(this).html($(this).html().replace('[TotalPageCount]', pageCount));
+                    });
+
+                    for (var i = 1; i <= pageCount; ++i) {
+                        $('#cboJumpPage').append($("<option></option>").text(i));
+                    }
+                    $('#txtTotalPage').val(pageCount);
                 }
             }
 
             $(function () {
-                $('#btnExportExcel').click(function () {
+                $('#imgExportExcel').click(function () {
                     $('#<%=btnExport.ClientID%>').click();
                 });
                 $('#imgPrint').click(function () {

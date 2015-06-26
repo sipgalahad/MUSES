@@ -624,13 +624,13 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.J
 
                     if (transactionDtID != '0') {
                         if (lstTransactionDtID != '')
-                            lstTransactionDtID += ';';
+                            lstTransactionDtID += ',';
                         lstTransactionDtID += transactionDtID;
                     }
 
                     if (saveParam != '')
                         saveParam += '|';
-                    saveParam += transactionDtID + ',' + glAccountID + ',' + subLedgerID + ',' + remarks + ',' + debit + ',' + kredit + ',' + documentNo;
+                    saveParam += transactionDtID + ';' + glAccountID + ';' + subLedgerID + ';' + remarks + ';' + debit + ';' + kredit + ';' + documentNo;
                 }
             });
 

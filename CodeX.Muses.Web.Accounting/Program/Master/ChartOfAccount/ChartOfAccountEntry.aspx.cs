@@ -52,7 +52,7 @@ namespace CodeX.Muses.Web.Accounting.Program
 
         protected override void OnControlEntrySetting()
         {
-            SetControlEntrySetting(txtGLAccountNo, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtGLAccountNo, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtGLAccountName, new ControlEntrySetting(true, true, true));
             
             SetControlEntrySetting(hdnParentAccountID, new ControlEntrySetting(true, true));

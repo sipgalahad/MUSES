@@ -70,7 +70,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
         List<SubjectCurriculumFinalMarkDescription> lstFinalMarkDescription = null;
         protected override void InitializeDataControl()
         {
-            tableWidth = 150;
+            tableWidth = 500;
             lstTaskCount = new List<CTaskCount>();
 
             vClassSubject entityClassSubject = BusinessLayer.GetvClassSubjectList(string.Format("ClassSubjectID = {0}", AppSession.ClassSubject.ClassSubjectID)).FirstOrDefault();
@@ -135,7 +135,10 @@ namespace CodeX.Muses.Web.StudentManagement.Program
             string lstMarkTypeCompetencyID = string.Join(",", lstCurriculumMarkType.Select(p => p.CompetencyMarkTypeID).ToList());
             lstMarkTypeDt = BusinessLayer.GetMarkTypeDtList(string.Format("MarkTypeID IN ({0},{1},{2},{3}) AND IsDeleted = 0", lstMarkTypeTaskID, lstMarkTypeFinalID, lstMarkTypePredicateID, lstMarkTypeCompetencyID));
             if (lstCurriculumMarkTypeDesc.Count > 0)
+            {
                 thDesc.ColSpan = lstCurriculumMarkTypeDesc.Count * 2;
+                tableWidth += 280;
+            }
             else
                 thDesc.Style.Add("display", "none");
 
@@ -276,6 +279,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                     HtmlTableCell thPredicateMark = (HtmlTableCell)e.Item.FindControl("thPredicateMark");
                     thPredicateMark.Style.Add("display", "none");
                 }
+
+                HtmlTableCell thFinalMark = (HtmlTableCell)e.Item.FindControl("thFinalMark");
+                int width = 0;
+                switch (entity.FinalGCMarkType)
+                {
+                    case Constant.SubjectMarkType.NUMBER: width = 60; break;
+                    case Constant.SubjectMarkType.OPTION: width = 80; break;
+                    case Constant.SubjectMarkType.TEXT: width = 390; break;
+                }
+                thFinalMark.Style.Add("width", string.Format("{0}px", width));
+                tableWidth += width;
             }
         }
         protected void rptHeaderMarkType2Dt_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -348,6 +362,26 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 }
             }
         }
+
+        protected void rptHeaderMarkType3Dt2_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                vClassSubjectTask entity = (vClassSubjectTask)e.Item.DataItem;
+                vCurriculumSubjectMarkType markType = ((RepeaterItem)((RepeaterItem)e.Item.Parent.Parent).Parent.Parent).DataItem as vCurriculumSubjectMarkType;
+
+                HtmlTableCell thTaskCode = (HtmlTableCell)e.Item.FindControl("thTaskCode");
+                int width = 0;
+                switch (markType.TaskGCMarkType)
+                {
+                    case Constant.SubjectMarkType.NUMBER: width = 100; break;
+                    case Constant.SubjectMarkType.OPTION: width = 80; break;
+                    case Constant.SubjectMarkType.TEXT: width = 390; break;
+                }
+                thTaskCode.Attributes.Add("style", string.Format("width:{0}px", width));
+                tableWidth += width;
+            }
+        }
         #endregion
 
         #region Repeater Student
@@ -397,8 +431,6 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 Methods.SetComboBoxField<MarkTypeDt>(cboCompetencyMarkType, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
                 cboCompetencyMarkType.ClientSideEvents.ValueChanged = "function(s,e){ onCboCompetencyMarkTypeValueChanged(s, " + parentIndex + "," + e.Item.ItemIndex + ",'" + student.PreferredName + "'); }";
 
-                tableWidth += 280;
-
                 if (studentFinalMark != null)
                 {
                     cboCompetencyMarkType.Value = studentFinalMark.CompetencyMarkTypeDtID.ToString();
@@ -445,20 +477,17 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 switch (entity.FinalGCMarkType)
                 {
                     case Constant.SubjectMarkType.NUMBER:
-                        tableWidth += 60;
                         cboFinalStudentMarkOption.ClientVisible = false; 
                         txtFinalStudentMarkDescription.Style.Add("display", "none"); 
                         if(studentFinalMark != null) txtFinalStudentMark.Text = studentFinalMark.Mark.ToString(); 
                         break;
                     case Constant.SubjectMarkType.OPTION:
-                        tableWidth += 80;
                         txtFinalStudentMark.Style.Add("display", "none"); txtFinalStudentMarkDescription.Style.Add("display", "none");
                         List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == entity.FinalMarkTypeID).ToList();
                         Methods.SetComboBoxField<MarkTypeDt>(cboFinalStudentMarkOption, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
                         if (studentFinalMark != null) cboFinalStudentMarkOption.Value = studentFinalMark.MarkTypeDtID.ToString();
                         break;
                     case Constant.SubjectMarkType.TEXT:
-                        tableWidth += 395;
                         cboFinalStudentMarkOption.ClientVisible = false; 
                         txtFinalStudentMark.Style.Add("display", "none"); 
                         if(studentFinalMark != null) txtFinalStudentMarkDescription.Text = studentFinalMark.DescriptionMark.ToString(); break;
@@ -559,17 +588,14 @@ namespace CodeX.Muses.Web.StudentManagement.Program
                 switch (markType.TaskGCMarkType)
                 {
                     case Constant.SubjectMarkType.NUMBER:
-                        tableWidth += 60; 
                         cboStudentMarkOption.ClientVisible = false; txtStudentMarkDescription.Style.Add("display", "none"); break;
                     case Constant.SubjectMarkType.OPTION:
-                        tableWidth += 80;
                         divMark.Style.Add("display", "none"); 
                         txtStudentMark.Style.Add("display", "none"); txtStudentMarkDescription.Style.Add("display", "none");
                         List<MarkTypeDt> lstMarkTypeDt1 = lstMarkTypeDt.Where(p => p.MarkTypeID == markType.TaskMarkTypeID).ToList();
                         Methods.SetComboBoxField<MarkTypeDt>(cboStudentMarkOption, lstMarkTypeDt1, "MarkTypeDtName", "MarkTypeDtID");
                         break;
                     case Constant.SubjectMarkType.TEXT:
-                        tableWidth += 390; 
                         divMark.Style.Add("display", "none"); cboStudentMarkOption.ClientVisible = false; txtStudentMark.Style.Add("display", "none"); break;
                 }
                 HtmlGenericControl bIsRemedial = (HtmlGenericControl)e.Item.FindControl("bIsRemedial");

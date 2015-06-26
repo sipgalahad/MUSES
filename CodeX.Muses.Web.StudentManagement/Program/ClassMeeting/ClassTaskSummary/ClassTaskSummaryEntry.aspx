@@ -379,7 +379,7 @@
             <td><asp:TextBox ID="txtPassingGrade" runat="server" Width="100px" CssClass="number" ReadOnly="true" /></td>
         </tr>
     </table>
-    <div style="width:1250px; overflow-x: auto;">
+    <div style="width:1250px; overflow-x: auto; max-height:420px; overflow-y:auto;">
         <table rules="all" cellspacing="0" class="grdBorder grdSelected grdStudent" id="tblView">
             <tr>
                 <th rowspan="3" style="width:300px"><%=GetLabel("Siswa") %></th>
@@ -404,7 +404,7 @@
                             <%=GetLabel("Total") %><br />
                             <span id="spnTotalPercentage" runat="server"></span> [%]
                         </th>
-                        <th id="thFinalMark" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor") %></th>
+                        <th id="thFinalMark" runat="server" rowspan="2" style="background-color: #FF8837;" class="thCenter"><%=GetLabel("Nilai Rapor") %></th>
                         <th id="thPredicateMark" runat="server" rowspan="2" style="width:90px; background-color: #FF8837;" class="thCenter"><%=GetLabel("Predikat") %></th>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -419,9 +419,9 @@
                     <ItemTemplate> 
                         <asp:Repeater ID="rptHeaderMarkType3Dt1" runat="server" OnItemDataBound="rptHeaderMarkType3Dt1_ItemDataBound">
                             <ItemTemplate>
-                                <asp:Repeater ID="rptHeaderMarkType3Dt2" runat="server">
+                                <asp:Repeater ID="rptHeaderMarkType3Dt2" runat="server" OnItemDataBound="rptHeaderMarkType3Dt2_ItemDataBound">
                                     <ItemTemplate>
-                                        <th class="thCenter" style="width:90px">
+                                        <th class="thCenter" runat="server" id="thTaskCode">
                                             <label class="lblTask lblLink"><%#Eval("ClassTaskCode")%></label><br />
                                             <input type="hidden" value='<%#Eval("ClassSubjectTaskID")%>' class="hdnClassSubjectTaskID" />
                                             <input type="text" value='<%#Eval("FinalMarkPercentage")%>' style="width:30px" class="number txtFinalMarkPercentage" formuladtid='<%#DataBinder.Eval(Container,"Parent.Parent.DataItem.CurriculumFinalMarkFormulaDtID")%>' />[%]
@@ -500,7 +500,7 @@
                                     <input type="hidden" class="hdnPredicateGCMarkType" value='<%# Eval("PredicateGCMarkType") %>' />
                                     <input type="hidden" class="hdnIsAllowTask" value='<%# Eval("IsAllowTask") %>' />
                                     <input type="hidden" class="hdnGCCompetencyDescriptionType" value='<%# Eval("GCCompetencyDescriptionType") %>' />
-                                    <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="80px" />
+                                    <asp:TextBox ID="txtFinalStudentMark" CssClass="txtFinalStudentMark number" Text="-" runat="server" Width="60px" />
                                     <dxe:ASPxComboBox ID="cboFinalStudentMarkOption" Width="80px" runat="server" />
                                     <asp:TextBox ID="txtFinalStudentMarkDescription" runat="server" CssClass="txtFinalStudentMarkDescription" Text="" Width="390px" />                         
                                 </td>
