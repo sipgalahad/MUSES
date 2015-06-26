@@ -113,6 +113,17 @@
         function onCbpViewEndCallback() {
             hideLoadingPanel();
         }
+
+        $('.lblSubjectCurriculumID.lblLink').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+
+            var id = entity.SubjectCurriculumID;
+            if (id != null && id != '') {
+                var url = ResolveUrl('~/Program/Master/Subject/SubjectPageLauncher.aspx?id=' + entity.SubjectID + '|' + $('#<%=hdnGCSchoolType.ClientID %>').val() + '|' + id);
+                openWindowPopup(url, 'Subject', '1300', '650');
+            }
+        });
     </script>
     <input type="hidden" value="" id="hdnCurriculumID" runat="server" />   
     <input type="hidden" value="" id="hdnGCSchoolType" runat="server" />    
@@ -203,8 +214,12 @@
                                 <asp:BoundField DataField="PeriodClassTypeSubjectID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="CurriculumClassTypeName" HeaderText="Tipe Kelas" HeaderStyle-Width="280px" />
                                 <asp:BoundField DataField="SubjectName" HeaderText="Mata Pelajaran"/>
-                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="200px" />
-                                <asp:BoundField DataField="SubjectCurriculumName" HeaderText="Jenis Kurikulum" HeaderStyle-Width="200px" />
+                                <asp:BoundField DataField="CurriculumSubjectGroupName" HeaderText="Jenis Pelajaran" HeaderStyle-Width="200px" />                                
+                                <asp:TemplateField HeaderStyle-Width="200px" HeaderText="Jenis Kurikulum">
+                                    <ItemTemplate>
+                                        <label class="lblLink lblSubjectCurriculumID"><%#Eval("SubjectCurriculumName")%></label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="NoMeetingHoursInWeek" HeaderText="Jam Pertemuan" HeaderStyle-Width="100px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:BoundField DataField="PassingGrade" HeaderText="KKM" HeaderStyle-Width="80px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                                 <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
