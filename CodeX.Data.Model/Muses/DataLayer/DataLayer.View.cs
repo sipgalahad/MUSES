@@ -28627,4 +28627,1528 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+
+    #region Project Management
+    #region vActivityHistory
+    [Serializable]
+    [Table(Name = "vActivityHistory")]
+    public partial class vActivityHistory
+    {
+        private Int32 _HistoryID;
+        private Int32 _UserID;
+        private String _Username;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+        private DateTime _CreatedDate;
+
+        [Column(Name = "HistoryID", DataType = "Int32")]
+        public Int32 HistoryID
+        {
+            get { return _HistoryID; }
+            set { _HistoryID = value; }
+        }
+        [Column(Name = "UserID", DataType = "Int32")]
+        public Int32 UserID
+        {
+            get { return _UserID; }
+            set { _UserID = value; }
+        }
+        [Column(Name = "Username", DataType = "String")]
+        public String Username
+        {
+            get { return _Username; }
+            set { _Username = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+    }
+    #endregion
+    #region vBudgetRequestDt
+    [Serializable]
+    [Table(Name = "vBudgetRequestDt")]
+    public partial class vBudgetRequestDt
+    {
+        private Int32 _BudgetRequestDtID;
+        private Int32 _BudgetRequestID;
+        private Int32 _BudgetID;
+        private String _BudgetCode;
+        private String _BudgetName;
+        private String _BudgetRemarks;
+        private String _ListFund;
+        private Decimal _ProposedAmount;
+        private Decimal _RealizationAmount;
+        private Decimal _RequestAmount;
+        private String _GCTransactionStatus;
+        private Boolean _IsDeleted;
+        private String _Remarks;
+
+        [Column(Name = "BudgetRequestDtID", DataType = "Int32")]
+        public Int32 BudgetRequestDtID
+        {
+            get { return _BudgetRequestDtID; }
+            set { _BudgetRequestDtID = value; }
+        }
+        [Column(Name = "BudgetRequestID", DataType = "Int32")]
+        public Int32 BudgetRequestID
+        {
+            get { return _BudgetRequestID; }
+            set { _BudgetRequestID = value; }
+        }
+        [Column(Name = "BudgetID", DataType = "Int32")]
+        public Int32 BudgetID
+        {
+            get { return _BudgetID; }
+            set { _BudgetID = value; }
+        }
+        [Column(Name = "BudgetCode", DataType = "String")]
+        public String BudgetCode
+        {
+            get { return _BudgetCode; }
+            set { _BudgetCode = value; }
+        }
+        [Column(Name = "BudgetName", DataType = "String")]
+        public String BudgetName
+        {
+            get { return _BudgetName; }
+            set { _BudgetName = value; }
+        }
+        [Column(Name = "BudgetRemarks", DataType = "String")]
+        public String BudgetRemarks
+        {
+            get { return _BudgetRemarks; }
+            set { _BudgetRemarks = value; }
+        }
+        [Column(Name = "ListFund", DataType = "String")]
+        public String ListFund
+        {
+            get { return _ListFund; }
+            set { _ListFund = value; }
+        }
+        [Column(Name = "ProposedAmount", DataType = "Decimal")]
+        public Decimal ProposedAmount
+        {
+            get { return _ProposedAmount; }
+            set { _ProposedAmount = value; }
+        }
+        [Column(Name = "RealizationAmount", DataType = "Decimal")]
+        public Decimal RealizationAmount
+        {
+            get { return _RealizationAmount; }
+            set { _RealizationAmount = value; }
+        }
+        [Column(Name = "RequestAmount", DataType = "Decimal")]
+        public Decimal RequestAmount
+        {
+            get { return _RequestAmount; }
+            set { _RequestAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vBudgetRequestHd
+    [Serializable]
+    [Table(Name = "vBudgetRequestHd")]
+    public partial class vBudgetRequestHd
+    {
+        private Int32 _BudgetRequestID;
+        private String _BudgetRequestNo;
+        private DateTime _RequestDate;
+        private Int32 _ProjectID;
+        private Int32 _TeamDtID;
+        private String _Position;
+        private String _Remarks;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+
+        [Column(Name = "BudgetRequestID", DataType = "Int32")]
+        public Int32 BudgetRequestID
+        {
+            get { return _BudgetRequestID; }
+            set { _BudgetRequestID = value; }
+        }
+        [Column(Name = "BudgetRequestNo", DataType = "String")]
+        public String BudgetRequestNo
+        {
+            get { return _BudgetRequestNo; }
+            set { _BudgetRequestNo = value; }
+        }
+        [Column(Name = "RequestDate", DataType = "DateTime")]
+        public DateTime RequestDate
+        {
+            get { return _RequestDate; }
+            set { _RequestDate = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "TeamDtID", DataType = "Int32")]
+        public Int32 TeamDtID
+        {
+            get { return _TeamDtID; }
+            set { _TeamDtID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+    }
+    #endregion
+    #region vMemberTask
+    [Serializable]
+    [Table(Name = "vMemberTask")]
+    public class vMemberTask
+    {
+        private Int32 _ProjectTaskID;
+        private String _ProjectTaskCode;
+        private String _ProjectTaskName;
+        private Int32 _AssigneeID;
+        private String _EmployeeName;
+        private String _Position;
+        private Boolean _IsAllowChangeStatus;
+        private String _GCProjectTaskStatus;
+
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskCode", DataType = "String")]
+        public String ProjectTaskCode
+        {
+            get { return _ProjectTaskCode; }
+            set { _ProjectTaskCode = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "AssigneeID", DataType = "Int32")]
+        public Int32 AssigneeID
+        {
+            get { return _AssigneeID; }
+            set { _AssigneeID = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "IsAllowChangeStatus", DataType = "Boolean")]
+        public Boolean IsAllowChangeStatus
+        {
+            get { return _IsAllowChangeStatus; }
+            set { _IsAllowChangeStatus = value; }
+        }
+        [Column(Name = "GCProjectTaskStatus", DataType = "String")]
+        public String GCProjectTaskStatus
+        {
+            get { return _GCProjectTaskStatus; }
+            set { _GCProjectTaskStatus = value; }
+        }
+    }
+    #endregion
+    #region vTeamDt
+    [Serializable]
+    [Table(Name = "vTeamDt")]
+    public class vTeamDt
+    {
+        private Int32 _TeamDtID;
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private String _Position;
+        private Int16 _DisplayOrder;
+        private Int32 _ReportTo;
+        private String _ReportToPosition;
+        private Int32 _ReportToCoordinatorID;
+        private String _ReportToEmployeeName;
+        private Boolean _IsHeader;
+        private Int32 _EmployeeCoordinatorID;
+        private String _EmployeeCoordinatorCode;
+        private String _EmployeeCoordinatorName;
+        private String _ListEmployeeID;
+        private String _ListEmployeeID1;
+        private String _ListEmployeeName;
+        private String _Downline;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TeamDtID", DataType = "Int32")]
+        public Int32 TeamDtID
+        {
+            get { return _TeamDtID; }
+            set { _TeamDtID = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "DisplayOrder", DataType = "Int16")]
+        public Int16 DisplayOrder
+        {
+            get { return _DisplayOrder; }
+            set { _DisplayOrder = value; }
+        }
+        [Column(Name = "ReportTo", DataType = "Int32")]
+        public Int32 ReportTo
+        {
+            get { return _ReportTo; }
+            set { _ReportTo = value; }
+        }
+        [Column(Name = "ReportToPosition", DataType = "String")]
+        public String ReportToPosition
+        {
+            get { return _ReportToPosition; }
+            set { _ReportToPosition = value; }
+        }
+        [Column(Name = "ReportToCoordinatorID", DataType = "Int32")]
+        public Int32 ReportToCoordinatorID
+        {
+            get { return _ReportToCoordinatorID; }
+            set { _ReportToCoordinatorID = value; }
+        }
+        [Column(Name = "ReportToEmployeeName", DataType = "String")]
+        public String ReportToEmployeeName
+        {
+            get { return _ReportToEmployeeName; }
+            set { _ReportToEmployeeName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorID", DataType = "Int32")]
+        public Int32 EmployeeCoordinatorID
+        {
+            get { return _EmployeeCoordinatorID; }
+            set { _EmployeeCoordinatorID = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorCode", DataType = "String")]
+        public String EmployeeCoordinatorCode
+        {
+            get { return _EmployeeCoordinatorCode; }
+            set { _EmployeeCoordinatorCode = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorName", DataType = "String")]
+        public String EmployeeCoordinatorName
+        {
+            get { return _EmployeeCoordinatorName; }
+            set { _EmployeeCoordinatorName = value; }
+        }
+        [Column(Name = "ListEmployeeID", DataType = "String")]
+        public String ListEmployeeID
+        {
+            get { return _ListEmployeeID; }
+            set { _ListEmployeeID = value; }
+        }
+        [Column(Name = "ListEmployeeID1", DataType = "String")]
+        public String ListEmployeeID1
+        {
+            get { return _ListEmployeeID1; }
+            set { _ListEmployeeID1 = value; }
+        }
+        [Column(Name = "ListEmployeeName", DataType = "String")]
+        public String ListEmployeeName
+        {
+            get { return _ListEmployeeName; }
+            set { _ListEmployeeName = value; }
+        }
+        [Column(Name = "Downline", DataType = "String")]
+        public String Downline
+        {
+            get { return _Downline; }
+            set { _Downline = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vTeamHd
+    [Serializable]
+    [Table(Name = "vTeamHd")]
+    public class vTeamHd
+    {
+        private Int32 _TeamID;
+        private String _TeamCode;
+        private String _TeamName;
+        private String _SiteID;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "TeamID", DataType = "Int32")]
+        public Int32 TeamID
+        {
+            get { return _TeamID; }
+            set { _TeamID = value; }
+        }
+        [Column(Name = "TeamCode", DataType = "String")]
+        public String TeamCode
+        {
+            get { return _TeamCode; }
+            set { _TeamCode = value; }
+        }
+        [Column(Name = "TeamName", DataType = "String")]
+        public String TeamName
+        {
+            get { return _TeamName; }
+            set { _TeamName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vProject
+    [Serializable]
+    [Table(Name = "vProject")]
+    public partial class vProject
+    {
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private String _SiteID;
+        private DateTime _StartDate;
+        private DateTime _EndDate;
+        private Int32 _PersonInCharge;
+        private String _EmployeeName;
+        private Int32 _ParentID;
+        private String _ParentProjectName;
+        private Boolean _IsHeader;
+        private String _GCProjectStatus;
+        private String _ProjectStatus;
+        private String _ProjectIndicator;
+        private String _ProjectTarget;
+        private String _ProjectAchievement;
+        private String _Remarks;
+
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "SiteID", DataType = "String")]
+        public String SiteID
+        {
+            get { return _SiteID; }
+            set { _SiteID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "PersonInCharge", DataType = "Int32")]
+        public Int32 PersonInCharge
+        {
+            get { return _PersonInCharge; }
+            set { _PersonInCharge = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "ParentID", DataType = "Int32")]
+        public Int32 ParentID
+        {
+            get { return _ParentID; }
+            set { _ParentID = value; }
+        }
+        [Column(Name = "ParentProjectName", DataType = "String")]
+        public String ParentProjectName
+        {
+            get { return _ParentProjectName; }
+            set { _ParentProjectName = value; }
+        }
+        [Column(Name = "IsHeader", DataType = "Boolean")]
+        public Boolean IsHeader
+        {
+            get { return _IsHeader; }
+            set { _IsHeader = value; }
+        }
+        [Column(Name = "GCProjectStatus", DataType = "String")]
+        public String GCProjectStatus
+        {
+            get { return _GCProjectStatus; }
+            set { _GCProjectStatus = value; }
+        }
+        [Column(Name = "ProjectStatus", DataType = "String")]
+        public String ProjectStatus
+        {
+            get { return _ProjectStatus; }
+            set { _ProjectStatus = value; }
+        }
+        [Column(Name = "ProjectIndicator", DataType = "String")]
+        public String ProjectIndicator
+        {
+            get { return _ProjectIndicator; }
+            set { _ProjectIndicator = value; }
+        }
+        [Column(Name = "ProjectTarget", DataType = "String")]
+        public String ProjectTarget
+        {
+            get { return _ProjectTarget; }
+            set { _ProjectTarget = value; }
+        }
+        [Column(Name = "ProjectAchievement", DataType = "String")]
+        public String ProjectAchievement
+        {
+            get { return _ProjectAchievement; }
+            set { _ProjectAchievement = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vProjectBudget
+    [Serializable]
+    [Table(Name = "vProjectBudget")]
+    public class vProjectBudget
+    {
+        private Int32 _BudgetID;
+        private String _BudgetCode;
+        private String _BudgetName;
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private Int32 _TeamDtID;
+        private String _Position;
+        private DateTime _RealizationDate;
+        private String _ListFund;
+        private Decimal _ProposedAmount;
+        private Decimal _RealizationAmount;
+        private Decimal _UsedAmount;
+        private String _Remarks;
+
+        [Column(Name = "BudgetID", DataType = "Int32")]
+        public Int32 BudgetID
+        {
+            get { return _BudgetID; }
+            set { _BudgetID = value; }
+        }
+        [Column(Name = "BudgetCode", DataType = "String")]
+        public String BudgetCode
+        {
+            get { return _BudgetCode; }
+            set { _BudgetCode = value; }
+        }
+        [Column(Name = "BudgetName", DataType = "String")]
+        public String BudgetName
+        {
+            get { return _BudgetName; }
+            set { _BudgetName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "TeamDtID", DataType = "Int32")]
+        public Int32 TeamDtID
+        {
+            get { return _TeamDtID; }
+            set { _TeamDtID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "RealizationDate", DataType = "DateTime")]
+        public DateTime RealizationDate
+        {
+            get { return _RealizationDate; }
+            set { _RealizationDate = value; }
+        }
+        [Column(Name = "ListFund", DataType = "String")]
+        public String ListFund
+        {
+            get { return _ListFund; }
+            set { _ListFund = value; }
+        }
+        [Column(Name = "ProposedAmount", DataType = "Decimal")]
+        public Decimal ProposedAmount
+        {
+            get { return _ProposedAmount; }
+            set { _ProposedAmount = value; }
+        }
+        [Column(Name = "RealizationAmount", DataType = "Decimal")]
+        public Decimal RealizationAmount
+        {
+            get { return _RealizationAmount; }
+            set { _RealizationAmount = value; }
+        }
+        [Column(Name = "UsedAmount", DataType = "Decimal")]
+        public Decimal UsedAmount
+        {
+            get { return _UsedAmount; }
+            set { _UsedAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vProjectTask
+    [Serializable]
+    [Table(Name = "vProjectTask")]
+    public partial class vProjectTask
+    {
+        private Int32 _ProjectTaskID;
+        private Int32 _ScheduledTaskID;
+        private String _ScheduledTaskName;
+        private String _ProjectTaskCode;
+        private String _ProjectTaskName;
+        private Int32 _ProjectID;
+        private DateTime _StartDate;
+        private String _StartTime;
+        private DateTime _EndDate;
+        private String _EndTime;
+        private DateTime _ScheduleTaskStartDate;
+        private DateTime _ScheduleTaskEndDate;
+        private Int32 _RepeatedDate;
+        private Int32 _RepeatedDay;
+        private Int32 _TeamDtID;
+        private String _Position;
+        private Int32 _EmployeeCoordinatorID;
+        private Int32 _OwnerID;
+        private String _EmployeeName;
+        private String _GCProjectTaskType;
+        private String _ProjectTaskType;
+        private String _GCProjectTaskPriority;
+        private String _ProjectTaskPriority;
+        private String _GCProjectTaskStatus;
+        private String _ProjectTaskStatus;
+        private String _Remarks;
+
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ScheduledTaskID", DataType = "Int32")]
+        public Int32 ScheduledTaskID
+        {
+            get { return _ScheduledTaskID; }
+            set { _ScheduledTaskID = value; }
+        }
+        [Column(Name = "ScheduledTaskName", DataType = "String")]
+        public String ScheduledTaskName
+        {
+            get { return _ScheduledTaskName; }
+            set { _ScheduledTaskName = value; }
+        }
+        [Column(Name = "ProjectTaskCode", DataType = "String")]
+        public String ProjectTaskCode
+        {
+            get { return _ProjectTaskCode; }
+            set { _ProjectTaskCode = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "ScheduleTaskStartDate", DataType = "DateTime")]
+        public DateTime ScheduleTaskStartDate
+        {
+            get { return _ScheduleTaskStartDate; }
+            set { _ScheduleTaskStartDate = value; }
+        }
+        [Column(Name = "ScheduleTaskEndDate", DataType = "DateTime")]
+        public DateTime ScheduleTaskEndDate
+        {
+            get { return _ScheduleTaskEndDate; }
+            set { _ScheduleTaskEndDate = value; }
+        }
+        [Column(Name = "RepeatedDate", DataType = "Int32")]
+        public Int32 RepeatedDate
+        {
+            get { return _RepeatedDate; }
+            set { _RepeatedDate = value; }
+        }
+        [Column(Name = "RepeatedDay", DataType = "Int32")]
+        public Int32 RepeatedDay
+        {
+            get { return _RepeatedDay; }
+            set { _RepeatedDay = value; }
+        }
+        [Column(Name = "TeamDtID", DataType = "Int32")]
+        public Int32 TeamDtID
+        {
+            get { return _TeamDtID; }
+            set { _TeamDtID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorID", DataType = "Int32")]
+        public Int32 EmployeeCoordinatorID
+        {
+            get { return _EmployeeCoordinatorID; }
+            set { _EmployeeCoordinatorID = value; }
+        }
+        [Column(Name = "OwnerID", DataType = "Int32")]
+        public Int32 OwnerID
+        {
+            get { return _OwnerID; }
+            set { _OwnerID = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "GCProjectTaskType", DataType = "String")]
+        public String GCProjectTaskType
+        {
+            get { return _GCProjectTaskType; }
+            set { _GCProjectTaskType = value; }
+        }
+        [Column(Name = "ProjectTaskType", DataType = "String")]
+        public String ProjectTaskType
+        {
+            get { return _ProjectTaskType; }
+            set { _ProjectTaskType = value; }
+        }
+        [Column(Name = "GCProjectTaskPriority", DataType = "String")]
+        public String GCProjectTaskPriority
+        {
+            get { return _GCProjectTaskPriority; }
+            set { _GCProjectTaskPriority = value; }
+        }
+        [Column(Name = "ProjectTaskPriority", DataType = "String")]
+        public String ProjectTaskPriority
+        {
+            get { return _ProjectTaskPriority; }
+            set { _ProjectTaskPriority = value; }
+        }
+        [Column(Name = "GCProjectTaskStatus", DataType = "String")]
+        public String GCProjectTaskStatus
+        {
+            get { return _GCProjectTaskStatus; }
+            set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "ProjectTaskStatus", DataType = "String")]
+        public String ProjectTaskStatus
+        {
+            get { return _ProjectTaskStatus; }
+            set { _ProjectTaskStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vProjectTaskCustom
+    [Serializable]
+    [Table(Name = "vProjectTaskCustom")]
+    public partial class vProjectTaskCustom
+    {
+        private Int32 _ProjectTaskID;
+        private String _ProjectTaskCode;
+        private String _ProjectTaskName;
+        private Int32 _ProjectID;
+        private String _ProjectName;
+        private String _ProjectTree;
+        private DateTime _StartDate;
+        private String _StartTime;
+        private DateTime _EndDate;
+        private String _EndTime;
+        private Int32 _TeamDtID;
+        private String _Position;
+        private Int32 _EmployeeCoordinatorID;
+        private Int32 _OwnerID;
+        private String _EmployeeName;
+        private String _ListAssigneeID;
+        private String _ListAssigneeName;
+        private String _GCProjectTaskPriority;
+        private String _ProjectTaskPriority;
+        private String _GCProjectTaskType;
+        private String _ProjectTaskType;
+        private String _GCProjectTaskStatus;
+        private String _ProjectTaskStatus;
+        private String _Remarks;
+
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskCode", DataType = "String")]
+        public String ProjectTaskCode
+        {
+            get { return _ProjectTaskCode; }
+            set { _ProjectTaskCode = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "ProjectTree", DataType = "String")]
+        public String ProjectTree
+        {
+            get { return _ProjectTree; }
+            set { _ProjectTree = value; }
+        }
+        [Column(Name = "StartDate", DataType = "DateTime")]
+        public DateTime StartDate
+        {
+            get { return _StartDate; }
+            set { _StartDate = value; }
+        }
+        [Column(Name = "StartTime", DataType = "String")]
+        public String StartTime
+        {
+            get { return _StartTime; }
+            set { _StartTime = value; }
+        }
+        [Column(Name = "EndDate", DataType = "DateTime")]
+        public DateTime EndDate
+        {
+            get { return _EndDate; }
+            set { _EndDate = value; }
+        }
+        [Column(Name = "EndTime", DataType = "String")]
+        public String EndTime
+        {
+            get { return _EndTime; }
+            set { _EndTime = value; }
+        }
+        [Column(Name = "TeamDtID", DataType = "Int32")]
+        public Int32 TeamDtID
+        {
+            get { return _TeamDtID; }
+            set { _TeamDtID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "EmployeeCoordinatorID", DataType = "Int32")]
+        public Int32 EmployeeCoordinatorID
+        {
+            get { return _EmployeeCoordinatorID; }
+            set { _EmployeeCoordinatorID = value; }
+        }
+        [Column(Name = "OwnerID", DataType = "Int32")]
+        public Int32 OwnerID
+        {
+            get { return _OwnerID; }
+            set { _OwnerID = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "ListAssigneeID", DataType = "String")]
+        public String ListAssigneeID
+        {
+            get { return _ListAssigneeID; }
+            set { _ListAssigneeID = value; }
+        }
+        [Column(Name = "ListAssigneeName", DataType = "String")]
+        public String ListAssigneeName
+        {
+            get { return _ListAssigneeName; }
+            set { _ListAssigneeName = value; }
+        }
+        [Column(Name = "GCProjectTaskPriority", DataType = "String")]
+        public String GCProjectTaskPriority
+        {
+            get { return _GCProjectTaskPriority; }
+            set { _GCProjectTaskPriority = value; }
+        }
+        [Column(Name = "ProjectTaskPriority", DataType = "String")]
+        public String ProjectTaskPriority
+        {
+            get { return _ProjectTaskPriority; }
+            set { _ProjectTaskPriority = value; }
+        }
+        [Column(Name = "GCProjectTaskType", DataType = "String")]
+        public String GCProjectTaskType
+        {
+            get { return _GCProjectTaskType; }
+            set { _GCProjectTaskType = value; }
+        }
+        [Column(Name = "ProjectTaskType", DataType = "String")]
+        public String ProjectTaskType
+        {
+            get { return _ProjectTaskType; }
+            set { _ProjectTaskType = value; }
+        }
+        [Column(Name = "GCProjectTaskStatus", DataType = "String")]
+        public String GCProjectTaskStatus
+        {
+            get { return _GCProjectTaskStatus; }
+            set { _GCProjectTaskStatus = value; }
+        }
+        [Column(Name = "ProjectTaskStatus", DataType = "String")]
+        public String ProjectTaskStatus
+        {
+            get { return _ProjectTaskStatus; }
+            set { _ProjectTaskStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
+    #region vProjectTaskFile
+    [Serializable]
+    [Table(Name = "vProjectTaskFile")]
+    public class vProjectTaskFile
+    {
+        private Int32 _FileID;
+        private String _Filename;
+        private String _FilePath;
+        private Int32 _ProjectTaskID;
+        private Boolean _IsDeleted;
+        private String _Uploader;
+
+        [Column(Name = "FileID", DataType = "Int32")]
+        public Int32 FileID
+        {
+            get { return _FileID; }
+            set { _FileID = value; }
+        }
+        [Column(Name = "Filename", DataType = "String")]
+        public String Filename
+        {
+            get { return _Filename; }
+            set { _Filename = value; }
+        }
+        [Column(Name = "FilePath", DataType = "String")]
+        public String FilePath
+        {
+            get { return _FilePath; }
+            set { _FilePath = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Uploader", DataType = "String")]
+        public String Uploader
+        {
+            get { return _Uploader; }
+            set { _Uploader = value; }
+        }
+    }
+    #endregion
+    #region vProjectTaskLog
+    [Serializable]
+    [Table(Name = "vProjectTaskLog")]
+    public partial class vProjectTaskLog
+    {
+        private Int32 _ProjectTaskLogID;
+        private String _NoteName;
+        private DateTime _NoteDate;
+        private String _NoteTime;
+        private String _Remarks;
+        private Int32 _EmployeeID;
+        private String _EmployeeName;
+        private Int32 _ProjectTaskID;
+        private String _ProjectTaskCode;
+        private String _ProjectTaskName;
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ProjectTaskLogID", DataType = "Int32")]
+        public Int32 ProjectTaskLogID
+        {
+            get { return _ProjectTaskLogID; }
+            set { _ProjectTaskLogID = value; }
+        }
+        [Column(Name = "NoteName", DataType = "String")]
+        public String NoteName
+        {
+            get { return _NoteName; }
+            set { _NoteName = value; }
+        }
+        [Column(Name = "NoteDate", DataType = "DateTime")]
+        public DateTime NoteDate
+        {
+            get { return _NoteDate; }
+            set { _NoteDate = value; }
+        }
+        [Column(Name = "NoteTime", DataType = "String")]
+        public String NoteTime
+        {
+            get { return _NoteTime; }
+            set { _NoteTime = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "EmployeeID", DataType = "Int32")]
+        public Int32 EmployeeID
+        {
+            get { return _EmployeeID; }
+            set { _EmployeeID = value; }
+        }
+        [Column(Name = "EmployeeName", DataType = "String")]
+        public String EmployeeName
+        {
+            get { return _EmployeeName; }
+            set { _EmployeeName = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskCode", DataType = "String")]
+        public String ProjectTaskCode
+        {
+            get { return _ProjectTaskCode; }
+            set { _ProjectTaskCode = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vProjectTaskStructure
+    [Serializable]
+    [Table(Name = "vProjectTaskStructure")]
+    public class vProjectTaskStructure
+    {
+        private Int32 _ProjectTaskID;
+        private String _ProjectTaskCode;
+        private String _ProjectTaskName;
+        private Int32 _PrevProjectTaskID;
+        private String _PrevProjectTaskCode;
+        private String _PrevProjectTaskName;
+        private String _PrevGCProjectTaskStatus;
+
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskCode", DataType = "String")]
+        public String ProjectTaskCode
+        {
+            get { return _ProjectTaskCode; }
+            set { _ProjectTaskCode = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "PrevProjectTaskID", DataType = "Int32")]
+        public Int32 PrevProjectTaskID
+        {
+            get { return _PrevProjectTaskID; }
+            set { _PrevProjectTaskID = value; }
+        }
+        [Column(Name = "PrevProjectTaskCode", DataType = "String")]
+        public String PrevProjectTaskCode
+        {
+            get { return _PrevProjectTaskCode; }
+            set { _PrevProjectTaskCode = value; }
+        }
+        [Column(Name = "PrevProjectTaskName", DataType = "String")]
+        public String PrevProjectTaskName
+        {
+            get { return _PrevProjectTaskName; }
+            set { _PrevProjectTaskName = value; }
+        }
+        [Column(Name = "PrevGCProjectTaskStatus", DataType = "String")]
+        public String PrevGCProjectTaskStatus
+        {
+            get { return _PrevGCProjectTaskStatus; }
+            set { _PrevGCProjectTaskStatus = value; }
+        }
+    }
+    #endregion
+    #region vProjectTeam
+    [Serializable]
+    [Table(Name = "vProjectTeam")]
+    public class vProjectTeam
+    {
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private Int32 _TeamID;
+        private String _TeamCode;
+        private String _TeamName;
+
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "TeamID", DataType = "Int32")]
+        public Int32 TeamID
+        {
+            get { return _TeamID; }
+            set { _TeamID = value; }
+        }
+        [Column(Name = "TeamCode", DataType = "String")]
+        public String TeamCode
+        {
+            get { return _TeamCode; }
+            set { _TeamCode = value; }
+        }
+        [Column(Name = "TeamName", DataType = "String")]
+        public String TeamName
+        {
+            get { return _TeamName; }
+            set { _TeamName = value; }
+        }
+    }
+    #endregion
+    #region vProposedBudgetDt
+    [Serializable]
+    [Table(Name = "vProposedBudgetDt")]
+    public partial class vProposedBudgetDt
+    {
+        private Int32 _ProposedBudgetDtID;
+        private Int32 _ProposedBudgetID;
+        private String _ProposedBudgetNo;
+        private String _ProposedBudgetCode;
+        private String _ProposedBudgetName;
+        private Int32 _ItemID;
+        private DateTime _RealizationDate;
+        private String _ListFund;
+        private Decimal _TotalAmount;
+        private String _Remarks;
+        private Boolean _IsDeleted;
+
+        [Column(Name = "ProposedBudgetDtID", DataType = "Int32")]
+        public Int32 ProposedBudgetDtID
+        {
+            get { return _ProposedBudgetDtID; }
+            set { _ProposedBudgetDtID = value; }
+        }
+        [Column(Name = "ProposedBudgetID", DataType = "Int32")]
+        public Int32 ProposedBudgetID
+        {
+            get { return _ProposedBudgetID; }
+            set { _ProposedBudgetID = value; }
+        }
+        [Column(Name = "ProposedBudgetNo", DataType = "String")]
+        public String ProposedBudgetNo
+        {
+            get { return _ProposedBudgetNo; }
+            set { _ProposedBudgetNo = value; }
+        }
+        [Column(Name = "ProposedBudgetCode", DataType = "String")]
+        public String ProposedBudgetCode
+        {
+            get { return _ProposedBudgetCode; }
+            set { _ProposedBudgetCode = value; }
+        }
+        [Column(Name = "ProposedBudgetName", DataType = "String")]
+        public String ProposedBudgetName
+        {
+            get { return _ProposedBudgetName; }
+            set { _ProposedBudgetName = value; }
+        }
+        [Column(Name = "ItemID", DataType = "Int32")]
+        public Int32 ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "RealizationDate", DataType = "DateTime")]
+        public DateTime RealizationDate
+        {
+            get { return _RealizationDate; }
+            set { _RealizationDate = value; }
+        }
+        [Column(Name = "ListFund", DataType = "String")]
+        public String ListFund
+        {
+            get { return _ListFund; }
+            set { _ListFund = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+    }
+    #endregion
+    #region vProposedBudgetHd
+    [Serializable]
+    [Table(Name = "vProposedBudgetHd")]
+    public class vProposedBudgetHd
+    {
+        private Int32 _ProposedBudgetID;
+        private String _ProposedBudgetNo;
+        private DateTime _ProposedBudgetDate;
+        private Int32 _ProjectID;
+        private String _ProjectName;
+        private Int32 _TeamDtID;
+        private String _Position;
+        private Decimal _TotalAmount;
+        private String _GCProposedBudgetStatus;
+        private String _ProposedBudgetStatus;
+        private String _Remarks;
+        private String _ProposedBudgetStatusWatermark;
+
+        [Column(Name = "ProposedBudgetID", DataType = "Int32")]
+        public Int32 ProposedBudgetID
+        {
+            get { return _ProposedBudgetID; }
+            set { _ProposedBudgetID = value; }
+        }
+        [Column(Name = "ProposedBudgetNo", DataType = "String")]
+        public String ProposedBudgetNo
+        {
+            get { return _ProposedBudgetNo; }
+            set { _ProposedBudgetNo = value; }
+        }
+        [Column(Name = "ProposedBudgetDate", DataType = "DateTime")]
+        public DateTime ProposedBudgetDate
+        {
+            get { return _ProposedBudgetDate; }
+            set { _ProposedBudgetDate = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "TeamDtID", DataType = "Int32")]
+        public Int32 TeamDtID
+        {
+            get { return _TeamDtID; }
+            set { _TeamDtID = value; }
+        }
+        [Column(Name = "Position", DataType = "String")]
+        public String Position
+        {
+            get { return _Position; }
+            set { _Position = value; }
+        }
+        [Column(Name = "TotalAmount", DataType = "Decimal")]
+        public Decimal TotalAmount
+        {
+            get { return _TotalAmount; }
+            set { _TotalAmount = value; }
+        }
+        [Column(Name = "GCProposedBudgetStatus", DataType = "String")]
+        public String GCProposedBudgetStatus
+        {
+            get { return _GCProposedBudgetStatus; }
+            set { _GCProposedBudgetStatus = value; }
+        }
+        [Column(Name = "ProposedBudgetStatus", DataType = "String")]
+        public String ProposedBudgetStatus
+        {
+            get { return _ProposedBudgetStatus; }
+            set { _ProposedBudgetStatus = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "ProposedBudgetStatusWatermark", DataType = "String")]
+        public String ProposedBudgetStatusWatermark
+        {
+            get { return _ProposedBudgetStatusWatermark; }
+            set { _ProposedBudgetStatusWatermark = value; }
+        }
+    }
+    #endregion
+    #endregion
 }

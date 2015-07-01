@@ -40,6 +40,7 @@ namespace CodeX.Web.Common
                 case "controlpanelhq": result = "CPHQ"; break;
                 case "finance": result = "FN"; break;
                 case "inventory": result = "IM"; break;
+                case "projectmanagement": result = "PM"; break;
                 default: result = "SM"; break;
             }
             return result;

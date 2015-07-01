@@ -622,5 +622,38 @@ namespace CodeX.Web.Common
             }
         }
         #endregion
+
+        #region ProjectID
+        public static Int32 ProjectID
+        {
+            get
+            {
+                if (HttpContext.Current.Session["_ProjectID"] == null)
+                {
+                    if (HttpContext.Current.Request.Cookies["DTRACK"] != null)
+                    {
+                        if (HttpContext.Current.Request.Cookies["DTRACK"]["_ProjectID"] != null)
+                        {
+                            int value = Convert.ToInt32(HttpContext.Current.Request.Cookies["DTRACK"]["_ProjectID"]);
+                            HttpContext.Current.Session["_ProjectID"] = value;
+                            return value;
+                        }
+                    }
+                    return 0;
+                }
+                return ((Int32)(HttpContext.Current.Session["_ProjectID"]));
+            }
+            set
+            {
+                if (HttpContext.Current.Request.Cookies["DTRACK"] != null)
+                {
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["DTRACK"];
+                    myCookie.Values["_ProjectID"] = value.ToString();
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                HttpContext.Current.Session["_ProjectID"] = value;
+            }
+        }
+        #endregion
     }
 }
