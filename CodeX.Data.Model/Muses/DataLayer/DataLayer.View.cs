@@ -29923,56 +29923,6 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
-    #region vProjectTeam
-    [Serializable]
-    [Table(Name = "vProjectTeam")]
-    public class vProjectTeam
-    {
-        private Int32 _ProjectID;
-        private String _ProjectCode;
-        private String _ProjectName;
-        private Int32 _TeamID;
-        private String _TeamCode;
-        private String _TeamName;
-
-        [Column(Name = "ProjectID", DataType = "Int32")]
-        public Int32 ProjectID
-        {
-            get { return _ProjectID; }
-            set { _ProjectID = value; }
-        }
-        [Column(Name = "ProjectCode", DataType = "String")]
-        public String ProjectCode
-        {
-            get { return _ProjectCode; }
-            set { _ProjectCode = value; }
-        }
-        [Column(Name = "ProjectName", DataType = "String")]
-        public String ProjectName
-        {
-            get { return _ProjectName; }
-            set { _ProjectName = value; }
-        }
-        [Column(Name = "TeamID", DataType = "Int32")]
-        public Int32 TeamID
-        {
-            get { return _TeamID; }
-            set { _TeamID = value; }
-        }
-        [Column(Name = "TeamCode", DataType = "String")]
-        public String TeamCode
-        {
-            get { return _TeamCode; }
-            set { _TeamCode = value; }
-        }
-        [Column(Name = "TeamName", DataType = "String")]
-        public String TeamName
-        {
-            get { return _TeamName; }
-            set { _TeamName = value; }
-        }
-    }
-    #endregion
     #region vProposedBudgetDt
     [Serializable]
     [Table(Name = "vProposedBudgetDt")]

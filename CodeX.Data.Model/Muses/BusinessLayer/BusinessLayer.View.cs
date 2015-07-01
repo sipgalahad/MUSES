@@ -11777,30 +11777,6 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
-        #region vProjectTeam
-        public static List<vProjectTeam> GetvProjectTeamList(string filterExpression)
-        {
-            List<vProjectTeam> result = new List<vProjectTeam>();
-            IDbContext ctx = DbFactory.Configure();
-            try
-            {
-                DbHelper helper = new DbHelper(typeof(vProjectTeam));
-                ctx.CommandText = helper.Select(filterExpression);
-                using (IDataReader reader = DaoBase.GetDataReader(ctx))
-                    while (reader.Read())
-                        result.Add((vProjectTeam)helper.IDataReaderToObject(reader, new vProjectTeam()));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            finally
-            {
-                ctx.Close();
-            }
-            return result;
-        }
-        #endregion
         #region vProposedBudgetDt
         public static List<vProposedBudgetDt> GetvProposedBudgetDtList(string filterExpression)
         {

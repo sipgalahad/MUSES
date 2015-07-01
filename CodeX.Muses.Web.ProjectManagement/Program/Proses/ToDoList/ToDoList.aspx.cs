@@ -58,12 +58,12 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             Methods.SetComboBoxField(cboProject, lstProject, "ProjectName", "ProjectID");
             cboProject.SelectedIndex = 0;
 
-            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID IN ('{0}','{1}')",Constant.StandardCode.PROJECT_TASK_STATUS, Constant.StandardCode.TASK_TYPE));
+            List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID IN ('{0}','{1}')",Constant.StandardCode.PROJECT_TASK_STATUS, Constant.StandardCode.PROJECT_TASK_TYPE));
             lstStandardCode.Insert(0,new StandardCode { StandardCodeID = "",StandardCodeName = "All", ParentID = Constant.StandardCode.PROJECT_TASK_STATUS});
             Methods.SetComboBoxField(cboStatus, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.PROJECT_TASK_STATUS && x.StandardCodeID != Constant.ProjectTaskStatus.VOID).ToList(), "StandardCodeName", "StandardCodeID");
             cboStatus.SelectedIndex = 0;
 
-            Methods.SetComboBoxField(cboTaskType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.TASK_TYPE).ToList(),"StandardCodeName","StandardCodeID");
+            Methods.SetComboBoxField(cboTaskType, lstStandardCode.Where(x => x.ParentID == Constant.StandardCode.PROJECT_TASK_TYPE).ToList(),"StandardCodeName","StandardCodeID");
             cboTaskType.SelectedIndex = 0;
 
             lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_TASK_PRIORITY));
