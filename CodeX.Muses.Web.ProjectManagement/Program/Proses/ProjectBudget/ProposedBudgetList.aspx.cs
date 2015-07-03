@@ -47,7 +47,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Bind Grid View
         private String OnGetFilterExpression() 
         {
-            String filterExpression = String.Format("GCProposedBudgetStatus = '{0}'", Constant.ProjectStatus.PROPOSED);
+            String filterExpression = String.Format("GCProposedBudgetStatus = '{0}' AND ProjectID = {1}", Constant.ProjectStatus.PROPOSED, AppSession.ProjectID);
             return filterExpression;
         }
 

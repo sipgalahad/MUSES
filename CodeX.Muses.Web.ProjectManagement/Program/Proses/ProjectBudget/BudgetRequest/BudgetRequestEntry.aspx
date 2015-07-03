@@ -81,6 +81,14 @@
             $('#entryDetailContainer').show();
         });
 
+        $('.divDetailDelete').die('click');
+        $('.divDetailDelete').live('click', function () {
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetRequestDtID);
+            cbpProcess.PerformCallback('delete');
+        });
+
         //#region ProjectBudget
         function onGetProjectBudgetFilterExpression() {
             var filterExpression = "<%=OnGetProjectBudgetFilterExpression() %>";

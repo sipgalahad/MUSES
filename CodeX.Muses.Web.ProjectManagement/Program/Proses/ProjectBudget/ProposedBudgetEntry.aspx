@@ -99,7 +99,33 @@
             $('#<%=hdnID.ClientID %>').val(entity.ProposedBudgetID);
             $('#<%=hdnEntryID.ClientID %>').val(entity.ProposedBudgetDtID);
             $('#<%=txtProposedBudgetCode.ClientID %>').val(entity.ProposedBudgetCode);
-            $('#<%=txtProposedBudgetName.ClientID %>').val(entity.ProposedBudgetName);
+
+            if (entity.ItemID != null) {
+                cboBudgetType.SetValue('DT007^002');
+                tacItem.setText(entity.ProposedBudgetName);
+                tacItem.setValue(entity.ItemID);
+                $('#<%=hdnItemName.ClientID %>').val(entity.ProposedBudgetName);
+                $('#<%=hdnItemID.ClientID %>').val(entity.ItemID);
+                cboItemUnit.PerformCallback();
+                $('#<%=txtItemQuantity.ClientID %>').val(entity.Quantity);
+                $('#<%=hdnGCBaseUnit.ClientID %>').val(entity.GCBaseUnit);
+                var baseText = entity.BaseUnit;
+                cboItemUnit.SetValue(entity.GCPurchaseUnit);
+                var purchaseUnit = entity.PurchaseUnit;
+                $('#<%=hdnItemUnitValue.ClientID %>').val(entity.ConversionFactor);
+                var conversion = "1 " + baseText + " = " + entity.ConversionFactor + " " + purchaseUnit;
+                $('#<%=txtConversion.ClientID %>').val(conversion);
+
+                $('#trBudgetName').hide();
+                $('#trBudgetItem').show();
+                $('#trItemQuantity').show();
+            } else {
+                cboBudgetType.SetValue('DT007^001');
+                $('#<%=txtProposedBudgetName.ClientID %>').val(entity.ProposedBudgetName);
+                $('#trBudgetName').show();
+                $('#trBudgetItem').hide();
+                $('#trItemQuantity').hide();
+            }
             $('#<%=txtRealizationDate.ClientID %>').val(entity.RealizationDateInDatePicker);
             var listFund = entity.ListFund;
             var data = listFund.split('|');
@@ -202,6 +228,119 @@
         }
         //#endregion
 
+        //#region Item
+        function onGetItemFilterExpression() {
+            var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
+            var requestID = '';
+            if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
+                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+            if (requestID != '')
+                filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM PurchaseRequestDt WHERE PurchaseRequestID = " + requestID + " AND IsDeleted = 0)";
+            return filterExpression;
+        }
+
+        function onTacItemButtonSearchClick() {
+            openSearchDialog('item', onGetItemFilterExpression(), function (value) {
+                var filterExpression = onGetItemFilterExpression() + " AND ItemCode = '" + value + "'";
+                Methods.getObject('GetvItemMasterList', filterExpression, function (result) {
+                    if (result != null) {
+                        tacItem.setValue(result.ItemID);
+                        tacItem.setText(result.ItemName1);
+                        Methods.getItemMasterPurchase(result.ItemID, 0, function (result2) {
+                            $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
+                            $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
+                        })
+                        entityToControlItem(result);
+                        cboItemUnit.PerformCallback();
+                    }
+                    else {
+                        tacItem.setValue('');
+                        tacItem.setText('');
+                        entityToControlItem(null);
+                    }
+                });
+            });
+        }
+
+        function onTacItemValueChanged() {
+            var id = tacItem.getValue();
+            if (id != '') {
+                var filterExpression = "ItemID = " + id;
+                Methods.getObject('GetvItemMasterList', filterExpression, function (result) {
+                    if (result != null) {
+                        Methods.getItemMasterPurchase(result.ItemID, 0, function (result2) {
+                            $('#<%=hdnGCBaseUnit.ClientID %>').val(result2.ItemUnit);
+                            $('#<%=hdnGCItemUnit.ClientID %>').val(result2.PurchaseUnit);
+                        })
+                        entityToControlItem(result);
+                        cboItemUnit.PerformCallback();
+                    }
+                    else
+                        entityToControlItem(null);
+                });
+            } else {
+                entityToControlItem(null);
+            }
+        }
+
+        function entityToControlItem(result) {
+            if (result != null) {
+                $('#<%=hdnItemName.ClientID %>').val(result.ItemName1);
+                $('#<%=hdnItemID.ClientID %>').val(result.ItemID);
+            }
+
+            else {
+                $('#<%=hdnItemName.ClientID %>').val(null);
+                $('#<%=hdnItemID.ClientID %>').val(null);
+            }
+                
+        }
+        //#endregion
+
+        //#region cboItemUnit
+        function onCboItemUnitEndCallBack() {
+            if ($('#<%=hdnGCItemUnit.ClientID %>').val() == '') {
+                cboItemUnit.SetValue($('#<%=hdnGCBaseUnit.ClientID %>').val());
+            }
+            else cboItemUnit.SetValue($('#<%=hdnGCItemUnit.ClientID %>').val());
+            onCboItemUnitChanged();
+        }
+
+        function onCboItemUnitChanged() {
+            var baseValue = $('#<%=hdnGCBaseUnit.ClientID %>').val();
+            var toUnitItem = cboItemUnit.GetValue();
+            var baseText = getItemUnitName(baseValue);
+            
+            if (baseValue == toUnitItem) {
+                $('#<%=hdnItemUnitValue.ClientID %>').val('1');
+                var conversion = "1 " + baseText + " = 1 " + baseText;
+                $('#<%=txtConversion.ClientID %>').val(conversion);
+            }
+            else {
+                var itemID = $('#<%=hdnItemID.ClientID %>').val();
+                var filterExpression = "ItemID = " + itemID + " AND GCAlternateUnit = '" + toUnitItem + "'";
+                Methods.getObjectValue('GetvItemAlternateUnitList', filterExpression, 'ConversionFactor', function (result) {
+                    var toConversion = getItemUnitName(toUnitItem);
+                    $('#<%=hdnItemUnitValue.ClientID %>').val(result);
+                    var conversion = "1 " + toConversion + " = " + result + " " + baseText;
+                    $('#<%=txtConversion.ClientID %>').val(conversion);
+                });
+            }
+            var convertion = parseFloat($('#<%=hdnItemUnitValue.ClientID %>').val());
+            var priceperitemunit = parseFloat(($('#<%=hdnPrice.ClientID %>').val()));
+            var pricePerPurchaseUnit = convertion * priceperitemunit;
+            //$('.txtFund_0').val(pricePerPurchaseUnit).trigger('changeValue');
+        }
+
+        function getItemUnitName(baseValue) {
+            var value = cboItemUnit.GetValue();
+            cboItemUnit.SetValue(baseValue);
+            var text = cboItemUnit.GetText();
+            cboItemUnit.SetValue(value);
+            return text;
+        }
+        //#endregion
+
         //#region Paging
         var pageCount = parseInt('<%=PageCount %>');
         var rowCount = parseInt('<%=RowCount %>');
@@ -260,6 +399,7 @@
     <input type="hidden" id="hdnEntryID" runat="server" value="" />
     <input type="hidden" id="hdnLstFundItem" runat="server" value="" />
     <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value=""/>
+    <input type="hidden" value="0" id="hdnPrice" runat="server" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width: 50%" />
@@ -329,20 +469,57 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox runat="server" ID="txtProposedBudgetName" Width="220px" /></td>
                                 </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
+                                    <td>
+                                        <input type="hidden" value="" id="hdnItemGroupID" runat="server" />
+                                        <table cellpadding="0" cellspacing="0">
+                                            <colgroup>
+                                                <col style="width: 120px" />
+                                                <col style="width: 3px" />
+                                                <col style="width: 250px" />
+                                            </colgroup>
+                                            <tr>
+                                                <td><asp:TextBox ID="txtItemGroupCode" Width="100%" runat="server" /></td>
+                                                <td>&nbsp;</td>
+                                                <td><asp:TextBox ID="txtItemGroupName" ReadOnly="true" Width="100%" runat="server" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
                                 <tr id="trBudgetItem">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Item")%></label></td>
                                     <td>
-                                        <input type="hidden" id="Hidden1" value="" runat="server" />
-                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="CodeXAutoCompleteTextBox1" ClientInstanceName="tacTeamDt" MethodName="GetvTeamDtList" GetFilterExpressionFunction="onGetTeamDtFilterExpression"
-                                            SearchFields="Position" TextField="Position" ValueField="TeamDtID" SearchText="<b>${Position}</b>" OrderByExpression="TeamDtID">
-                                            <ClientSideEvents ButtonSearchClick="function(){ onTacTeamDtButtonSearchClick(); }"
-                                                ValueChanged="function(){ onTacTeamDtValueChanged(); }" />
+                                        <input type="hidden" id="hdnItemName" value="" runat="server" />
+                                        <input type="hidden" id="hdnItemID" value="" runat="server" />
+                                        <input type="hidden" value="" id="hdnGCBaseUnit" runat="server" />
+                                        <input type="hidden" value="" id="hdnGCItemUnit" runat="server" />
+                                        <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacItem" ClientInstanceName="tacItem" MethodName="GetvItemMasterList" GetFilterExpressionFunction="onGetItemFilterExpression"
+                                            SearchFields="ItemName1,ItemCode" TextField="ItemName1" ValueField="ItemID" SearchText="${ItemName1} (<b>${ItemCode}</b>)" OrderByExpression="ItemName1">
+                                            <ClientSideEvents ButtonSearchClick="function(){ onTacItemButtonSearchClick(); }"
+                                                ValueChanged="function(){ onTacItemValueChanged(); }" />
                                         </cdx:CodeXAutoCompleteTextBox>
                                     </td>
                                 </tr>
                                 <tr id="trItemQuantity">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah")%></label></td>
                                     <td><asp:TextBox runat="server" ID="txtItemQuantity" Width="120px" CssClass="number" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Satuan Item")%></label></td>
+                                    <td>
+                                        <dxe:ASPxComboBox runat="server" ID="cboItemUnit" ClientInstanceName="cboItemUnit"
+                                            Width="300px" OnCallback="cboItemUnit_Callback">
+                                            <ClientSideEvents EndCallback="function(s,e){ onCboItemUnitEndCallBack(); }" ValueChanged="function(s,e){ onCboItemUnitChanged(); }" />
+                                        </dxe:ASPxComboBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Konversi")%></label></td>
+                                    <td>
+                                        <input type="hidden" value="" id="hdnItemUnitValue" runat="server" />
+                                        <asp:TextBox ID="txtConversion" Width="180px" runat="server" ReadOnly="true" />
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Realisasi")%></label></td>
@@ -438,6 +615,12 @@
                                                         <input type="hidden" value="<%#Eval("ProposedBudgetName") %>" bindingfield="ProposedBudgetName" />
                                                         <input type="hidden" value="<%#Eval("RealizationDateInDatePicker") %>" bindingfield="RealizationDateInDatePicker" />
                                                         <input type="hidden" value="<%#Eval("ItemID") %>" bindingfield="ItemID" />
+                                                        <input type="hidden" value="<%#Eval("Quantity") %>" bindingfield="Quantity" />
+                                                        <input type="hidden" value="<%#Eval("GCPurchaseUnit") %>" bindingfield="GCPurchaseUnit" />
+                                                        <input type="hidden" value="<%#Eval("PurchaseUnit") %>" bindingfield="PurchaseUnit" />
+                                                        <input type="hidden" value="<%#Eval("GCBaseUnit") %>" bindingfield="GCBaseUnit" />
+                                                        <input type="hidden" value="<%#Eval("BaseUnit") %>" bindingfield="BaseUnit" />
+                                                        <input type="hidden" value="<%#Eval("ConversionFactor") %>" bindingfield="ConversionFactor" />
                                                         <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
                                                         <input type="hidden" value="<%#Eval("ListFund") %>" bindingfield="ListFund" />
                                                         <input type="hidden" value="<%#Eval("TotalAmount") %>" bindingfield="TotalAmount" />

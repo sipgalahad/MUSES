@@ -54,23 +54,17 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #region Filter Expression Search Dialog
         protected string OnGetProjectBudgetFilterExpression()
         {
-            return string.Format("ProjectID = {0}", AppSession.ProjectID);
+            return string.Format("ProjectID = {0} AND ItemID IS NULL", AppSession.ProjectID);
         }
         #endregion
 
         protected override void OnControlEntrySetting()
         {
-            //SetControlEntrySetting(hdnRequestID, new ControlEntrySetting(false, false, false, "0"));
-            //SetControlEntrySetting(txtOrderNo, new ControlEntrySetting(false, false, false));
-            //SetControlEntrySetting(txtItemOrderDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
-            //SetControlEntrySetting(txtItemOrderTime, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.TIME_FORMAT)));
-            //SetControlEntrySetting(cboWarehouse, new ControlEntrySetting(true, false, true));
-            //SetControlEntrySetting(hdnLocationID, new ControlEntrySetting(true, false));
-            //SetControlEntrySetting(txtLocationCode, new ControlEntrySetting(true, false, true));
-            //SetControlEntrySetting(txtLocationName, new ControlEntrySetting(false, false, true));
-            //SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
-
-            //SetControlEntrySetting(lblLocation, new ControlEntrySetting(true, false));
+            SetControlEntrySetting(hdnRequestID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(txtBudgetRequestNo, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtRequestDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(cboTeamDt, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtNotes, new ControlEntrySetting(true, true, false));
         }
 
         #region Load Entity
@@ -124,6 +118,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 hdnIsEditable.Value = "1";
 
             hdnRequestID.Value = entity.BudgetRequestID.ToString();
+            cboTeamDt.Text = entity.Position;
+            cboTeamDt.Value = entity.TeamDtID.ToString();
             txtBudgetRequestNo.Text = entity.BudgetRequestNo;
             txtRequestDate.Text = entity.RequestDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtNotes.Text = entity.Remarks;
@@ -237,12 +233,12 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 budgetHdDao.Update(budgetRequestHd);
 
                 string filterExpressionPurchaseRequestHd = String.Format("BudgetRequestID = {0} AND IsDeleted = 0", budgetRequestHd.BudgetRequestID);
-                List<BudgetRequestDt> lstPurchaseRequestDt = BusinessLayer.GetBudgetRequestDtList(filterExpressionPurchaseRequestHd);
-                foreach (BudgetRequestDt purchaseDt in lstPurchaseRequestDt)
+                List<BudgetRequestDt> lstBudgetRequestDt = BusinessLayer.GetBudgetRequestDtList(filterExpressionPurchaseRequestHd);
+                foreach (BudgetRequestDt budgetDt in lstBudgetRequestDt)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    budgetDtDao.Update(purchaseDt);
+                    budgetDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
+                    budgetDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    budgetDtDao.Update(budgetDt);
                 }
                 ctx.CommitTransaction();
             }
@@ -274,12 +270,12 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 budgetHdDao.Update(budgetRequestHd);
 
                 string filterExpressionPurchaseRequestHd = String.Format("BudgetRequestID = {0} AND IsDeleted = 0", budgetRequestHd.BudgetRequestID);
-                List<BudgetRequestDt> lstPurchaseRequestDt = BusinessLayer.GetBudgetRequestDtList(filterExpressionPurchaseRequestHd);
-                foreach (BudgetRequestDt purchaseDt in lstPurchaseRequestDt)
+                List<BudgetRequestDt> lstBudgetRequestDt = BusinessLayer.GetBudgetRequestDtList(filterExpressionPurchaseRequestHd);
+                foreach (BudgetRequestDt budgetDt in lstBudgetRequestDt)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    budgetDtDao.Update(purchaseDt);
+                    budgetDt.GCItemDetailStatus = Constant.TransactionStatus.WAIT_FOR_APPROVAL;
+                    budgetDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    budgetDtDao.Update(budgetDt);
                 }
                 ctx.CommitTransaction();
             }
@@ -310,13 +306,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 budgetRequestHd.LastUpdatedBy = AppSession.UserLogin.UserID;
                 budgetHdDao.Update(budgetRequestHd);
 
-                string filterExpressionPurchaseRequestHd = String.Format("BudgetRequestID = {0} AND IsDeleted = 0", budgetRequestHd.BudgetRequestID);
-                List<BudgetRequestDt> lstPurchaseRequestDt = BusinessLayer.GetBudgetRequestDtList(filterExpressionPurchaseRequestHd);
-                foreach (BudgetRequestDt purchaseDt in lstPurchaseRequestDt)
+                string filterExpressionBudgetRequestHd = String.Format("BudgetRequestID = {0} AND IsDeleted = 0", budgetRequestHd.BudgetRequestID);
+                List<BudgetRequestDt> lstBudgetRequestDt = BusinessLayer.GetBudgetRequestDtList(filterExpressionBudgetRequestHd);
+                foreach (BudgetRequestDt budgetDt in lstBudgetRequestDt)
                 {
-                    purchaseDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
-                    purchaseDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    budgetDtDao.Update(purchaseDt);
+                    budgetDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    budgetDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    budgetDtDao.Update(budgetDt);
                 }
                 ctx.CommitTransaction();
             }
@@ -419,6 +415,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 SaveBudgetRequestHd(ctx, ref OrderID);
                 BudgetRequestDt entityDt = new BudgetRequestDt();
                 ControlToEntity(entityDt);
+                entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                 entityDt.BudgetRequestID = OrderID;
                 entityDt.CreatedBy = AppSession.UserLogin.UserID;
                 entityDtDao.Insert(entityDt);

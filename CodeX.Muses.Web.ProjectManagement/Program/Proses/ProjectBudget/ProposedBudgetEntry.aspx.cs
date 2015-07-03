@@ -53,6 +53,16 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
 
+        protected override void OnControlEntrySetting()
+        {
+            SetControlEntrySetting(hdnID, new ControlEntrySetting(false, false, false, "0"));
+            SetControlEntrySetting(txtProposedBudgetNo, new ControlEntrySetting(false, false, false));
+            SetControlEntrySetting(txtProposedBudgetDate, new ControlEntrySetting(true, false, true, DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT)));
+            SetControlEntrySetting(hdnTeamDtID, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(tacTeamDt, new ControlEntrySetting(true, false, true));
+            SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false));
+        }
+
         protected void rptFundItem_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -70,6 +80,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             filterExpression = String.Format("ProjectID = {0} AND IsDeleted = 0", AppSession.ProjectID);
             return filterExpression;
         }
+        protected string OnGetFilterExpressionItemProduct()
+        {
+            return string.Format("GCItemType = '{0}' AND IsDeleted = 0", Constant.ItemType.PRODUCT);
+        }
         protected string OnGetProposedBudgetHdFilterExpression() 
         {
             return String.Format("ProjectID = '{0}'", AppSession.ProjectID);
@@ -77,6 +91,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #endregion
 
         #region Bind Grid View
+        protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
+        {
+            List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
+            Methods.SetComboBoxField<StandardCode>(cboItemUnit, lst, "StandardCodeName", "StandardCodeID");
+            cboItemUnit.SelectedIndex = 0;
+        }
+
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
             string filterExpression = "";
@@ -201,7 +222,24 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         private void ControlToEntity(ProposedBudgetDt entity) 
         {
             entity.ProposedBudgetCode = txtProposedBudgetCode.Text;
-            entity.ProposedBudgetName = txtProposedBudgetName.Text;
+            if (cboBudgetType.Value.ToString() == Constant.BudgetType.ANGGARAN)
+            {
+                entity.ProposedBudgetName = txtProposedBudgetName.Text;
+                entity.ItemID = null;
+                entity.Quantity = null;
+                entity.GCBaseUnit = null;
+                entity.GCPurchaseUnit = null;
+                entity.ConversionFactor = null;
+            }
+            else 
+            {
+                entity.ProposedBudgetName = hdnItemName.Value;
+                entity.ItemID = Convert.ToInt32(hdnItemID.Value);
+                entity.Quantity = Convert.ToInt32(txtItemQuantity.Text);
+                entity.GCBaseUnit = hdnGCBaseUnit.Value;
+                entity.GCPurchaseUnit = cboItemUnit.Value.ToString();
+                entity.ConversionFactor = Convert.ToDecimal(hdnItemUnitValue.Value);
+            }
             if (txtRealizationDate.Text != "")
                 entity.RealizationDate = Helper.GetDatePickerValue(txtRealizationDate.Text);
             else
@@ -212,7 +250,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         public void SaveHeader(IDbContext ctx, ref string retval)
         {
-            if (retval == "")
+            if (retval == "" || retval == "0")
             {
                 ProposedBudgetHdDao entityHdDao = new ProposedBudgetHdDao(ctx);
 
@@ -295,6 +333,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -322,6 +361,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 ProposedBudgetDt entityDt = new ProposedBudgetDt();
                 ControlToEntity(entityDt);
                 entityDt.ProposedBudgetID = ProposedBudgetID;
+                entityDt.GCItemDetailStatus = Constant.ProjectStatus.OPEN;
                 entityDtDao.Insert(entityDt);
 
                 int ProposedBudgetDtID = BusinessLayer.GetProposedBudgetDtMaxID(ctx);
@@ -343,6 +383,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -366,6 +407,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
             }
@@ -384,6 +426,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex) 
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -409,6 +452,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
             }
@@ -431,7 +475,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 List<ProposedBudgetDt> lstEntityDt = BusinessLayer.GetProposedBudgetDtList(filterExpression, ctx);
                 foreach (ProposedBudgetDt entityDt in lstEntityDt) 
                 {
-                    entityDt.IsDeleted = true;
+                    entityDt.GCItemDetailStatus = Constant.ProjectStatus.CANCELED;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityDtDao.Update(entityDt);
                 }
@@ -441,6 +485,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -455,16 +500,71 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         protected override bool OnProposeRecord(ref string errMessage)
         {
             bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ProposedBudgetHdDao entityHdDao = new ProposedBudgetHdDao(ctx);
+            ProposedBudgetDtDao entityDtDao = new ProposedBudgetDtDao(ctx);
             try
             {
-                ProposedBudgetHd entity = BusinessLayer.GetProposedBudgetHd(Convert.ToInt32(hdnID.Value));
+                ProposedBudgetHd entity = entityHdDao.Get(Convert.ToInt32(hdnID.Value));
                 entity.GCProposedBudgetStatus = Constant.ProjectStatus.PROPOSED;
-                BusinessLayer.UpdateProposedBudgetHd(entity);
+                entityHdDao.Update(entity);
+
+                List<ProposedBudgetDt> lstDt = BusinessLayer.GetProposedBudgetDtList(String.Format("ProposedBudgetID = {0} AND IsDeleted = 0", hdnID.Value), ctx);
+                foreach (ProposedBudgetDt entityDt in lstDt) 
+                {
+                    entityDt.GCItemDetailStatus = Constant.ProjectStatus.PROPOSED;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
+
+                ctx.CommitTransaction();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
+                ctx.RollBackTransaction();
+            }
+            finally 
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+
+        protected override bool OnReopenRecord(ref string errMessage)
+        {
+            bool result = true;
+            IDbContext ctx = DbFactory.Configure(true);
+            ProposedBudgetHdDao entityHdDao = new ProposedBudgetHdDao(ctx);
+            ProposedBudgetDtDao entityDtDao = new ProposedBudgetDtDao(ctx);
+            try
+            {
+                ProposedBudgetHd entity = entityHdDao.Get(Convert.ToInt32(hdnID.Value));
+                entity.GCProposedBudgetStatus = Constant.ProjectStatus.OPEN;
+                entityHdDao.Update(entity);
+
+                List<ProposedBudgetDt> lstDt = BusinessLayer.GetProposedBudgetDtList(String.Format("ProposedBudgetID = {0} AND IsDeleted = 0", hdnID.Value), ctx);
+                foreach (ProposedBudgetDt entityDt in lstDt)
+                {
+                    entityDt.GCItemDetailStatus = Constant.ProjectStatus.OPEN;
+                    entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
+                    entityDtDao.Update(entityDt);
+                }
+
+                ctx.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                Helper.InsertErrorLog(ex);
+                errMessage = ex.Message;
+                result = false;
+                ctx.RollBackTransaction();
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

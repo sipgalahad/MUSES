@@ -32436,8 +32436,13 @@ namespace CodeX.Data.Model
         private String _BudgetName;
         private Int32 _ProjectID;
         private Int32 _TeamDtID;
+        private Int32? _ItemID;
+        private Decimal _Quantity;
         private Int32 _ProposedBudgetDtID;
         private DateTime _RealizationDate;
+        private String _GCPurchaseUnit;
+        private String _GCBaseUnit;
+        private Decimal _ConversionFactor;
         private Decimal _ProposedAmount;
         private Decimal _RealizationAmount;
         private Decimal _UsedAmount;
@@ -32477,6 +32482,18 @@ namespace CodeX.Data.Model
             get { return _TeamDtID; }
             set { _TeamDtID = value; }
         }
+        [Column(Name = "ItemID", DataType = "Int32", IsNullable = true)]
+        public Int32? ItemID
+        {
+            get { return _ItemID; }
+            set { _ItemID = value; }
+        }
+        [Column(Name = "Quantity", DataType = "Decimal", IsNullable = true)]
+        public Decimal Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
         [Column(Name = "ProposedBudgetDtID", DataType = "Int32")]
         public Int32 ProposedBudgetDtID
         {
@@ -32488,6 +32505,24 @@ namespace CodeX.Data.Model
         {
             get { return _RealizationDate; }
             set { _RealizationDate = value; }
+        }
+        [Column(Name = "GCPurchaseUnit", DataType = "String", IsNullable = true)]
+        public String GCPurchaseUnit
+        {
+            get { return _GCPurchaseUnit; }
+            set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "GCBaseUnit", DataType = "String", IsNullable = true)]
+        public String GCBaseUnit
+        {
+            get { return _GCBaseUnit; }
+            set { _GCBaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
         }
         [Column(Name = "ProposedAmount", DataType = "Decimal")]
         public Decimal ProposedAmount
@@ -33317,9 +33352,14 @@ namespace CodeX.Data.Model
         private String _ProposedBudgetCode;
         private String _ProposedBudgetName;
         private Int32? _ItemID;
+        private Decimal? _Quantity;
         private DateTime? _RealizationDate;
+        private String _GCPurchaseUnit;
+        private String _GCBaseUnit;
+        private Decimal? _ConversionFactor;
         private Decimal _TotalAmount;
         private String _Remarks;
+        private String _GCItemDetailStatus;
         private Boolean _IsDeleted;
         private Int32 _CreatedBy;
         private DateTime _CreatedDate;
@@ -33356,11 +33396,35 @@ namespace CodeX.Data.Model
             get { return _ItemID; }
             set { _ItemID = value; }
         }
+        [Column(Name = "Quantity", DataType = "Decimal", IsNullable = true)]
+        public Decimal? Quantity
+        {
+            get { return _Quantity; }
+            set { _Quantity = value; }
+        }
         [Column(Name = "RealizationDate", DataType = "DateTime", IsNullable = true)]
         public DateTime? RealizationDate
         {
             get { return _RealizationDate; }
             set { _RealizationDate = value; }
+        }
+        [Column(Name = "GCPurchaseUnit", DataType = "String", IsNullable = true)]
+        public String GCPurchaseUnit
+        {
+            get { return _GCPurchaseUnit; }
+            set { _GCPurchaseUnit = value; }
+        }
+        [Column(Name = "GCBaseUnit", DataType = "String", IsNullable = true)]
+        public String GCBaseUnit
+        {
+            get { return _GCBaseUnit; }
+            set { _GCBaseUnit = value; }
+        }
+        [Column(Name = "ConversionFactor", DataType = "Decimal", IsNullable = true)]
+        public Decimal? ConversionFactor
+        {
+            get { return _ConversionFactor; }
+            set { _ConversionFactor = value; }
         }
         [Column(Name = "TotalAmount", DataType = "Decimal")]
         public Decimal TotalAmount
@@ -33373,6 +33437,12 @@ namespace CodeX.Data.Model
         {
             get { return _Remarks; }
             set { _Remarks = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
         }
         [Column(Name = "IsDeleted", DataType = "Boolean")]
         public Boolean IsDeleted

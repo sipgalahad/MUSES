@@ -635,15 +635,16 @@ namespace CodeX.Common
                 public const string TO_DO_LIST_IN_CALENDAR = "PM020400";
 
 
-                public const string PROJECT_MANAGEMENT_PAGE = "SM99010000";
-                public const string PROJECT_MANAGEMENT_DETAIL = "SM99010100";
-                public const string PROJECT_TASK_DETAIL = "SM99010101";
-                public const string TIMELINE = "SM99010102";
-                public const string PROJECT_EVALUATION = "SM99010103";
-                public const string PROPOSED_BUDGET = "SM99010104";
-                public const string LIST_PROPOSED_BUDGET = "SM99010105";
-                public const string PROJECT_BUDGET_INFORMATION = "SM99010106";
-                public const string BUDGET_REQUEST = "SM99010107";
+                public const string PROJECT_MANAGEMENT_PAGE = "PM99010000";
+                public const string PROJECT_MANAGEMENT_DETAIL = "PM99010100";
+                public const string PROJECT_TASK_DETAIL = "PM99010101";
+                public const string TIMELINE = "PM99010102";
+                public const string PROJECT_EVALUATION = "PM99010103";
+                public const string PROPOSED_BUDGET = "PM99010104";
+                public const string LIST_PROPOSED_BUDGET = "PM99010105";
+                public const string PROJECT_BUDGET_INFORMATION = "PM99010106";
+                public const string BUDGET_REQUEST = "PM99010107";
+                public const string ITEM_REQUEST = "PM99010108";
             }
             #endregion
 
@@ -856,6 +857,12 @@ namespace CodeX.Common
         {
             public const string MANDIRI = "MS023^001";
             public const string BCA = "MS023^002";
+        }
+
+        public class BudgetType 
+        { 
+            public const string ANGGARAN = "DT007^001";
+            public const string SARANA = "DT007^002";
         }
     }
 }
