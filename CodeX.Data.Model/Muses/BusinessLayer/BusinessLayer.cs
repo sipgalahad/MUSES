@@ -15013,6 +15013,102 @@ namespace CodeX.Data.Model
             return result;
         }
         #endregion
+        #region BudgetRealizationDt
+        public static BudgetRealizationDt GetBudgetRealizationDt(Int32 BudgetRealizationDtID)
+        {
+            return new BudgetRealizationDtDao().Get(BudgetRealizationDtID);
+        }
+        public static int InsertBudgetRealizationDt(BudgetRealizationDt record)
+        {
+            return new BudgetRealizationDtDao().Insert(record);
+        }
+        public static int UpdateBudgetRealizationDt(BudgetRealizationDt record)
+        {
+            return new BudgetRealizationDtDao().Update(record);
+        }
+        public static int DeleteBudgetRealizationDt(Int32 BudgetRealizationDtID)
+        {
+            return new BudgetRealizationDtDao().Delete(BudgetRealizationDtID);
+        }
+        public static List<BudgetRealizationDt> GetBudgetRealizationDtList(string filterExpression)
+        {
+            List<BudgetRealizationDt> result = new List<BudgetRealizationDt>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRealizationDt)helper.IDataReaderToObject(reader, new BudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region BudgetRealizationHd
+        public static BudgetRealizationHd GetBudgetRealizationHd(Int32 BudgetRealizationID)
+        {
+            return new BudgetRealizationHdDao().Get(BudgetRealizationID);
+        }
+        public static int InsertBudgetRealizationHd(BudgetRealizationHd record)
+        {
+            return new BudgetRealizationHdDao().Insert(record);
+        }
+        public static int UpdateBudgetRealizationHd(BudgetRealizationHd record)
+        {
+            return new BudgetRealizationHdDao().Update(record);
+        }
+        public static int DeleteBudgetRealizationHd(Int32 BudgetRealizationID)
+        {
+            return new BudgetRealizationHdDao().Delete(BudgetRealizationID);
+        }
+        public static List<BudgetRealizationHd> GetBudgetRealizationHdList(string filterExpression)
+        {
+            List<BudgetRealizationHd> result = new List<BudgetRealizationHd>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationHd));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRealizationHd)helper.IDataReaderToObject(reader, new BudgetRealizationHd()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        public static Int32 GetBudgetRealizationHdMaxID(IDbContext ctx)
+        {
+            Int32 result = 0;
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationHd));
+                ctx.CommandText = helper.SelectMaxColumn("BudgetRealizationID");
+                DataRow row = DaoBase.GetDataRow(ctx);
+                result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
         #region BudgetRequestDt
         public static BudgetRequestDt GetBudgetRequestDt(Int32 BudgetRequestDtID)
         {

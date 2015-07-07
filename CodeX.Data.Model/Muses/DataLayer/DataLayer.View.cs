@@ -28679,6 +28679,225 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vBudgetRealizationDt
+    [Serializable]
+    [Table(Name = "vBudgetRealizationDt")]
+    public partial class vBudgetRealizationDt
+    {
+        private Int32 _BudgetRealizationDtID;
+        private Int32 _BudgetRealizationID;
+        private String _BudgetRealizationNo;
+        private DateTime _RealizationDate;
+        private Int32 _BudgetRequestDtID;
+        private Int32 _BudgetID;
+        private String _BudgetCode;
+        private String _BudgetName;
+        private Decimal _ProposedAmount;
+        private Decimal _RequestAmount;
+        private Decimal _RealizationAmount;
+        private String _GCTransactionStatus;
+        private String _GCItemDetailStatus;
+        private Boolean _IsDeleted;
+        private String _Remarks;
+        private Int32 _CreatedBy;
+        private DateTime _CreatedDate;
+        private Int32 _LastUpdatedBy;
+        private DateTime _LastUpdatedDate;
+
+        [Column(Name = "BudgetRealizationDtID", DataType = "Int32")]
+        public Int32 BudgetRealizationDtID
+        {
+            get { return _BudgetRealizationDtID; }
+            set { _BudgetRealizationDtID = value; }
+        }
+        [Column(Name = "BudgetRealizationID", DataType = "Int32")]
+        public Int32 BudgetRealizationID
+        {
+            get { return _BudgetRealizationID; }
+            set { _BudgetRealizationID = value; }
+        }
+        [Column(Name = "BudgetRealizationNo", DataType = "String")]
+        public String BudgetRealizationNo
+        {
+            get { return _BudgetRealizationNo; }
+            set { _BudgetRealizationNo = value; }
+        }
+        [Column(Name = "RealizationDate", DataType = "DateTime")]
+        public DateTime RealizationDate
+        {
+            get { return _RealizationDate; }
+            set { _RealizationDate = value; }
+        }
+        [Column(Name = "BudgetRequestDtID", DataType = "Int32")]
+        public Int32 BudgetRequestDtID
+        {
+            get { return _BudgetRequestDtID; }
+            set { _BudgetRequestDtID = value; }
+        }
+        [Column(Name = "BudgetID", DataType = "Int32")]
+        public Int32 BudgetID
+        {
+            get { return _BudgetID; }
+            set { _BudgetID = value; }
+        }
+        [Column(Name = "BudgetCode", DataType = "String")]
+        public String BudgetCode
+        {
+            get { return _BudgetCode; }
+            set { _BudgetCode = value; }
+        }
+        [Column(Name = "BudgetName", DataType = "String")]
+        public String BudgetName
+        {
+            get { return _BudgetName; }
+            set { _BudgetName = value; }
+        }
+        [Column(Name = "ProposedAmount", DataType = "Decimal")]
+        public Decimal ProposedAmount
+        {
+            get { return _ProposedAmount; }
+            set { _ProposedAmount = value; }
+        }
+        [Column(Name = "RequestAmount", DataType = "Decimal")]
+        public Decimal RequestAmount
+        {
+            get { return _RequestAmount; }
+            set { _RequestAmount = value; }
+        }
+        [Column(Name = "RealizationAmount", DataType = "Decimal")]
+        public Decimal RealizationAmount
+        {
+            get { return _RealizationAmount; }
+            set { _RealizationAmount = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "GCItemDetailStatus", DataType = "String")]
+        public String GCItemDetailStatus
+        {
+            get { return _GCItemDetailStatus; }
+            set { _GCItemDetailStatus = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+        [Column(Name = "CreatedBy", DataType = "Int32")]
+        public Int32 CreatedBy
+        {
+            get { return _CreatedBy; }
+            set { _CreatedBy = value; }
+        }
+        [Column(Name = "CreatedDate", DataType = "DateTime")]
+        public DateTime CreatedDate
+        {
+            get { return _CreatedDate; }
+            set { _CreatedDate = value; }
+        }
+        [Column(Name = "LastUpdatedBy", DataType = "Int32")]
+        public Int32 LastUpdatedBy
+        {
+            get { return _LastUpdatedBy; }
+            set { _LastUpdatedBy = value; }
+        }
+        [Column(Name = "LastUpdatedDate", DataType = "DateTime")]
+        public DateTime LastUpdatedDate
+        {
+            get { return _LastUpdatedDate; }
+            set { _LastUpdatedDate = value; }
+        }
+    }
+    #endregion
+    #region vBudgetRealizationHd
+    [Serializable]
+    [Table(Name = "vBudgetRealizationHd")]
+    public partial class vBudgetRealizationHd
+    {
+        private Int32 _BudgetRealizationID;
+        private String _BudgetRealizationNo;
+        private DateTime _RealizationDate;
+        private Int32 _ProjectID;
+        private String _ProjectCode;
+        private String _ProjectName;
+        private String _GCTransactionStatus;
+        private String _TransactionStatus;
+        private String _TransactionStatusWatermark;
+        private String _Remarks;
+
+        [Column(Name = "BudgetRealizationID", DataType = "Int32")]
+        public Int32 BudgetRealizationID
+        {
+            get { return _BudgetRealizationID; }
+            set { _BudgetRealizationID = value; }
+        }
+        [Column(Name = "BudgetRealizationNo", DataType = "String")]
+        public String BudgetRealizationNo
+        {
+            get { return _BudgetRealizationNo; }
+            set { _BudgetRealizationNo = value; }
+        }
+        [Column(Name = "RealizationDate", DataType = "DateTime")]
+        public DateTime RealizationDate
+        {
+            get { return _RealizationDate; }
+            set { _RealizationDate = value; }
+        }
+        [Column(Name = "ProjectID", DataType = "Int32")]
+        public Int32 ProjectID
+        {
+            get { return _ProjectID; }
+            set { _ProjectID = value; }
+        }
+        [Column(Name = "ProjectCode", DataType = "String")]
+        public String ProjectCode
+        {
+            get { return _ProjectCode; }
+            set { _ProjectCode = value; }
+        }
+        [Column(Name = "ProjectName", DataType = "String")]
+        public String ProjectName
+        {
+            get { return _ProjectName; }
+            set { _ProjectName = value; }
+        }
+        [Column(Name = "GCTransactionStatus", DataType = "String")]
+        public String GCTransactionStatus
+        {
+            get { return _GCTransactionStatus; }
+            set { _GCTransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatus", DataType = "String")]
+        public String TransactionStatus
+        {
+            get { return _TransactionStatus; }
+            set { _TransactionStatus = value; }
+        }
+        [Column(Name = "TransactionStatusWatermark", DataType = "String")]
+        public String TransactionStatusWatermark
+        {
+            get { return _TransactionStatusWatermark; }
+            set { _TransactionStatusWatermark = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vBudgetRequestDt
     [Serializable]
     [Table(Name = "vBudgetRequestDt")]
@@ -30099,7 +30318,7 @@ namespace CodeX.Data.Model
     {
         private Int32 _ProposedBudgetID;
         private String _ProposedBudgetNo;
-        private DateTime _ProposedBudgetDate;
+        private DateTime _ProposedDate;
         private Int32 _ProjectID;
         private String _ProjectName;
         private Int32 _TeamDtID;
@@ -30122,11 +30341,11 @@ namespace CodeX.Data.Model
             get { return _ProposedBudgetNo; }
             set { _ProposedBudgetNo = value; }
         }
-        [Column(Name = "ProposedBudgetDate", DataType = "DateTime")]
-        public DateTime ProposedBudgetDate
+        [Column(Name = "ProposedDate", DataType = "DateTime")]
+        public DateTime ProposedDate
         {
-            get { return _ProposedBudgetDate; }
-            set { _ProposedBudgetDate = value; }
+            get { return _ProposedDate; }
+            set { _ProposedDate = value; }
         }
         [Column(Name = "ProjectID", DataType = "Int32")]
         public Int32 ProjectID

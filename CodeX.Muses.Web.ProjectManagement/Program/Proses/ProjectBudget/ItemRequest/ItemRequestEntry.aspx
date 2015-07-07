@@ -29,7 +29,6 @@
 
             //#region Order No
             $('#lblOrderNo.lblLink').click(function () {
-                alert("<%=GetFilterExpression() %>");
                 openSearchDialog('purchaserequesthd', "<%=GetFilterExpression() %>", function (value) {
                     $('#<%=txtOrderNo.ClientID %>').val(value);
                     onTxtOrderNoChanged(value);

@@ -2311,6 +2311,24 @@ namespace CodeX.Data.Model
 
     }
     #endregion
+    #region vBudgetRealizationDt
+    public partial class vBudgetRealizationDt
+    {
+        public bool IsAllowEditItem
+        {
+            get { return _GCItemDetailStatus != Constant.TransactionStatus.OPEN ? false : true; }
+        }
+    }
+    #endregion
+    #region vBudgetRealizationHd
+    public partial class vBudgetRealizationHd 
+    {
+        public String RealizationDateInString 
+        {
+            get { return _RealizationDate.ToString(Constant.FormatString.DATE_FORMAT); }
+        }
+    }
+    #endregion
     #region vBudgetRequestDt
     public partial class vBudgetRequestDt
     {
@@ -2443,9 +2461,22 @@ namespace CodeX.Data.Model
     #region vProposedBudgetDt
     public partial class vProposedBudgetDt
     {
+        public bool IsAllowEditItem
+        {
+            get { return _GCItemDetailStatus != Constant.ProjectStatus.OPEN ? false : true; }
+        }
+
         public String RealizationDateInDatePicker
         {
-            get { return _RealizationDate != null ? _RealizationDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT) : ""; }
+            get 
+            {
+                if(_RealizationDate != new DateTime(1900, 1, 1))
+                {
+                    DateTime temp = Convert.ToDateTime(_RealizationDate);
+                    return temp.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+                }
+                return ""; 
+            }
         }
     }
     #endregion

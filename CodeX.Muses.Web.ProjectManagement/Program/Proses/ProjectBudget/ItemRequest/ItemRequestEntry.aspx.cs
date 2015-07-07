@@ -91,6 +91,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             return hdnIsEditable.Value;
         }
+
         protected string GetFilterExpression()
         {
             return hdnRecordFilterExpression.Value;

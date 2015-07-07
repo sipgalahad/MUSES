@@ -37,6 +37,18 @@
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->
+  <!-- #Region Budget RealizationHd -->
+  <searchdialog type="budgetrealizationhd" methodname="GetvBudgetRealizationHdList" keyfieldname="BudgetRealizationNo" orderbyexpression="BudgetRealizationNo ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetRealizationNo" headertext="No" width="150px" />
+      <gridcolumn datafield="RealizationDateInString" headertext="Tanggal" width="120px" />
+      <gridcolumn datafield="TransactionStatus" headertext="Status" width="70px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetRealizationNo" headertext="No" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
   <!-- #Region Budget RequestHd -->
   <searchdialog type="budgetrequesthd" methodname="GetvBudgetRequestHdList" keyfieldname="BudgetRequestNo" orderbyexpression="BudgetRequestNo ASC">
     <gridcolumns>
@@ -45,7 +57,19 @@
       <gridcolumn datafield="TransactionStatus" headertext="Status" width="70px" />
     </gridcolumns>
     <intellisensetexts>
-      <intellisensetext datafield="BudgetRequestNo" headertext="Nama" description="" />
+      <intellisensetext datafield="BudgetRequestNo" headertext="No" description="" />
+    </intellisensetexts>
+  </searchdialog>
+  <!-- #EndRegion -->
+  <!-- #Region Budget RequestDt -->
+  <searchdialog type="budgetrequestdt" methodname="GetvBudgetRequestDtList" keyfieldname="BudgetRequestDtID" orderbyexpression="BudgetName ASC">
+    <gridcolumns>
+      <gridcolumn datafield="BudgetCode" headertext="Kode" width="120px" />
+      <gridcolumn datafield="BudgetName" headertext="Nama" width="220px" />
+    </gridcolumns>
+    <intellisensetexts>
+      <intellisensetext datafield="BudgetCode" headertext="Kode" description="" />
+      <intellisensetext datafield="BudgetName" headertext="Nama" description="" />
     </intellisensetexts>
   </searchdialog>
   <!-- #EndRegion -->

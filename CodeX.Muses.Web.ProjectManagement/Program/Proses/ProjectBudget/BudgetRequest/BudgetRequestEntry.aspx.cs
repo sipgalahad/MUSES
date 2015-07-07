@@ -18,6 +18,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
+
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.ProjectManagement.BUDGET_REQUEST;
@@ -26,26 +27,13 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         protected override void InitializeDataControl()
         {
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
-
-            //int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
-            //if (count > 0)
-            //    hdnRecordFilterExpression.Value = string.Format("FromLocationID IN (SELECT LocationID FROM LocationUser WHERE UserID = {0} AND IsDeleted = 0)", AppSession.UserLogin.UserID);
-            //else
-            //{
-            //    count = BusinessLayer.GetLocationUserRoleRowCount(string.Format("RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID));
-            //    if (count > 0)
-            //        hdnRecordFilterExpression.Value = string.Format("FromLocationID IN (SELECT LocationID FROM LocationUserRole WHERE RoleID IN (SELECT RoleID FROM UserInRole WHERE UserID = {0} AND SiteID = '{1}') AND IsDeleted = 0)", AppSession.UserLogin.UserID, AppSession.UserLogin.SiteID);
-            //    else
-            //        hdnRecordFilterExpression.Value = "";
-            //}
-
             hdnRecordFilterExpression.Value = String.Format("ProjectID = {0}", AppSession.ProjectID);
 
             List<TeamDt> lstTeamDt = BusinessLayer.GetTeamDtList(String.Format("ProjectID = '{0}' AND IsDeleted = 0", AppSession.ProjectID));
             Methods.SetComboBoxField(cboTeamDt, lstTeamDt, "Position", "TeamDtID");
             cboTeamDt.SelectedIndex = 0;
             txtRequestDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-
+            
             BindGridView(1, true, ref PageCount, ref RowCount);
             Helper.SetControlEntrySetting(tacProjectBudget, new ControlEntrySetting(true, false, true), "mpTrx");
             Helper.SetControlEntrySetting(txtRequestAmount, new ControlEntrySetting(true, true, true), "mpTrx");
@@ -88,7 +76,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         public override int OnGetRowCount()
         {
             string filterExpression = GetFilterExpression();
-            return BusinessLayer.GetvProposedBudgetHdRowCount(filterExpression);
+            return BusinessLayer.GetvBudgetRequestHdRowCount(filterExpression);
         }
 
         protected override void OnLoadEntity(int PageIndex, ref bool isShowWatermark, ref string watermarkText)
@@ -145,7 +133,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
-
         #endregion
 
         #region Save Header
@@ -329,7 +316,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             return result;
         }
-
         #endregion
 
         #region CallBack Trigger
@@ -356,7 +342,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
         }
-
         #endregion
 
         #region Process Detail

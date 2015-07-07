@@ -21,17 +21,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
     {
         protected int PageCount = 1;
         protected int RowCount = 1;
-        protected int RowCountPerPage = 1;
-        protected int CurrPage = 1;
-        protected bool IsEditable = true;
+        
         public override string OnGetMenuCode()
         {
             return Constant.MenuCode.ProjectManagement.PROPOSED_BUDGET;
-        }
-
-        public override void SetToolbarVisibility(ref bool IsAllowAdd, ref bool IsAllowSave, ref bool IsAllowVoid, ref bool IsAllowNextPrev)
-        {
-            IsAllowSave = IsAllowAdd = IsAllowVoid = IsAllowNextPrev = true;
         }
 
         protected override void InitializeDataControl()
@@ -49,8 +42,16 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             txtProposedBudgetDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
 
             hdnEmployeeCoordinatorID.Value = AppSession.UserLogin.EmployeeID.ToString();
-            RowCountPerPage = Constant.GridViewPageSize.GRID_MATRIX;
-            BindGridView(CurrPage, true, ref PageCount, ref RowCount);
+            hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
+            BindGridView(1, true, ref PageCount, ref RowCount);
+
+            Helper.SetControlEntrySetting(txtProposedBudgetCode, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtProposedBudgetName, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(tacItem, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtItemQuantity, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(cboItemUnit, new ControlEntrySetting(true, true, true), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtRealizationDate, new ControlEntrySetting(true, true, false), "mpTrxPopup");
+            Helper.SetControlEntrySetting(txtEntryRemarks, new ControlEntrySetting(true, true, false), "mpTrxPopup");
         }
 
         protected override void OnControlEntrySetting()
@@ -91,6 +92,29 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         #endregion
 
         #region Bind Grid View
+        public override void OnAddRecord()
+        {
+            hdnPageCount.Value = "0";
+            hdnRowCount.Value = "0";
+            hdnIsEditable.Value = "1";
+        }
+
+        protected string IsEditable()
+        {
+            return hdnIsEditable.Value;
+        }
+
+        protected string GetFilterExpression()
+        {
+            return hdnRecordFilterExpression.Value;
+        }
+
+        public override int OnGetRowCount()
+        {
+            string filterExpression = GetFilterExpression();
+            return BusinessLayer.GetvProposedBudgetHdRowCount(filterExpression);
+        }
+
         protected void cboItemUnit_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
         {
             List<StandardCode> lst = BusinessLayer.GetStandardCodeList(string.Format("ParentID = '{0}' AND (StandardCodeID IN (SELECT GCAlternateUnit FROM ItemAlternateUnit WHERE ItemID = {1}) OR StandardCodeID = (SELECT GCItemUnit FROM ItemMaster WHERE ItemID = {1}))", Constant.StandardCode.ITEM_UNIT, hdnItemID.Value));
@@ -121,16 +145,21 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             {
                 isShowWatermark = true;
                 watermarkText = entity.ProposedBudgetStatusWatermark;
-                IsEditable = false;
+                hdnIsEditable.Value = "0";
             }
+            else
+                hdnIsEditable.Value = "1";
+
             txtProposedBudgetNo.Text = entity.ProposedBudgetNo;
-            txtProposedBudgetDate.Text = entity.ProposedBudgetDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
+            txtProposedBudgetDate.Text = entity.ProposedDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
             txtRemarks.Text = entity.Remarks;
             tacTeamDt.Text = entity.Position;
             tacTeamDt.Value = entity.TeamDtID.ToString();
             hdnTeamDtID.Value = entity.TeamDtID.ToString();
             txtTotalProjectBudget.Text = entity.TotalAmount.ToString("N");
             BindGridView(1, true, ref PageCount, ref RowCount);
+            hdnPageCount.Value = PageCount.ToString();
+            hdnRowCount.Value = RowCount.ToString();
         }
 
         private String OnGetFilterExpression() 
@@ -216,7 +245,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.TeamDtID = Convert.ToInt32(hdnTeamDtID.Value);
             entity.Remarks = txtRemarks.Text;
             entity.TotalAmount = Convert.ToDecimal(Request.Form[txtTotalProjectBudget.UniqueID]);
-            entity.ProposedBudgetDate = Helper.GetDatePickerValue(txtProposedBudgetDate.Text);
+            entity.ProposedDate = Helper.GetDatePickerValue(txtProposedBudgetDate.Text);
         }
 
         private void ControlToEntity(ProposedBudgetDt entity) 

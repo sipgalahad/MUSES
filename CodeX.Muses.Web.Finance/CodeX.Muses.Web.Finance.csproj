@@ -138,6 +138,7 @@
     <Content Include="Program\ARInvoice\ARInvoiceStudent\StudentPaymentMethodEdit\StudentPaymentMethodEdit.aspx" />
     <Content Include="Program\Configuration\CreateTariff\CreateTariffEntry.aspx" />
     <Content Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx" />
+    <Content Include="Program\Process\BudgetRealization\BudgetRealizationEntry.aspx" />
     <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx" />
     <Content Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentEntry.aspx" />
     <Content Include="Program\Process\GenerateARStudent\GenerateARStudentEntry.aspx" />
@@ -636,6 +637,13 @@
     </Compile>
     <Compile Include="Program\Process\BankUploadedFile\BankUploadedFile.aspx.designer.cs">
       <DependentUpon>BankUploadedFile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Process\BudgetRealization\BudgetRealizationEntry.aspx.cs">
+      <DependentUpon>BudgetRealizationEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Process\BudgetRealization\BudgetRealizationEntry.aspx.designer.cs">
+      <DependentUpon>BudgetRealizationEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Program\Process\GenerateARProspectiveStudent\GenerateARProspectiveStudentDtCtl.ascx.cs">
       <DependentUpon>GenerateARProspectiveStudentDtCtl.ascx</DependentUpon>

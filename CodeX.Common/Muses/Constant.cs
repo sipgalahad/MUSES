@@ -515,6 +515,7 @@ namespace CodeX.Common
                 public const string BANK_UPLOADED_FILE = "FN070400";
                 public const string STUDENT_FEE_PENALTY = "FN070500";
                 public const string DIRECT_SALES_VOID = "FN070600";
+                public const string BUDGET_REALIZATION = "FN070700";
 
                 public const string PROSPECTIVE_STUDENT_PAGE = "FN99010000";
                 public const string AR_INVOICE_PROSPECTIVE_STUDENT_PROCESS = "FN99010101";
@@ -816,6 +817,7 @@ namespace CodeX.Common
 
             public const string PROPOSED_BUDGET = "8101";
             public const string BUDGET_REQUEST = "8102";
+            public const string BUDGET_REALIZATION = "8103";
         }
         #endregion
 

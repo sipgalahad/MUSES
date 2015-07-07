@@ -9,6 +9,10 @@
 <%@ Register Assembly="CodeX.Web.CustomControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" 
     Namespace="CodeX.Web.CustomControl" TagPrefix="cdx" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="plhHeader" runat="server">
+    <input type="hidden" id="hdnRowCountPerPage" runat="server" value="" />
+    <input type="hidden" id="hdnRecordFilterExpression" runat="server" />
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <style type="text/css">
         .trActivityLog  {height:50px;}
@@ -19,48 +23,67 @@
     </style>
         
     <script type="text/javascript">
-        $(function () {
+        function onLoad() {
+            if ($('#<%=hdnIsEditable.ClientID %>').val() == '1') {
+                $('#divTransactionAdd').show();
+            }
+            else {
+                $('#divTransactionAdd').hide();
+            }
+
             setDatePicker('<%=txtRealizationDate.ClientID %>');
             setDatePicker('<%=txtProposedBudgetDate.ClientID %>');
             calculateTotalProjectBudget();
-            $('#trBudgetItem').hide();
-            $('#trItemQuantity').hide();
-        });
+            $('.trBudgetName').show();
+            $('.trBudgetItem').hide();
+
+            $('#divTransactionAdd').click(function () {
+                $('#<%=hdnEntryID.ClientID %>').val('');
+                $('#<%=txtProposedBudgetCode.ClientID %>').val('');
+                $('#<%=txtProposedBudgetName.ClientID %>').val('');
+                $('#<%=txtRealizationDate.ClientID %>').val('');
+                $('#<%=txtEntryRemarks.ClientID %>').val('');
+
+                $('.txtFund').each(function () {
+                    $(this).val(0).trigger('changeValue');
+                });
+                $('#<%=txtTotalLineAmount.ClientID %>').val(0).trigger('changeValue');
+
+                cboBudgetType.SetValue("DT007^001");
+                $('.trBudgetName').show();
+                $('.trBudgetItem').hide();
+
+                $('.entryDetailContainer').show();
+            });
+
+            $('#btnCancel').click(function () {
+                $('.entryDetailContainer').hide();
+            });
+
+            $('#btnSave').click(function (evt) {
+                if (IsValid(evt, 'fsTrx', 'mpTrxPopup')) {
+                    var lst = '';
+                    $('.txtFund').each(function () {
+                        var value = $(this).attr('hiddenVal');
+                        if (lst != "")
+                            lst += '|';
+                        lst += value;
+                    });
+                    $('#<%=hdnLstFundItem.ClientID %>').val(lst);
+                    cbpProcess.PerformCallback('save');
+                }
+            });
+
+            var pageCount = parseInt($('#<%=hdnPageCount.ClientID %>').val());
+            var rowCount = parseInt($('#<%=hdnRowCount.ClientID %>').val());
+            var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
+            setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
+            setPaging($("#paging"), pageCount, function (page) {
+                cbpView.PerformCallback('changepage|' + page);
+                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
+            });
+        };
         
-        $('#divTransactionAdd').die('click');
-        $('#divTransactionAdd').live('click',function () {
-            $('#<%=hdnEntryID.ClientID %>').val('');
-            $('#<%=txtProposedBudgetCode.ClientID %>').val('');
-            $('#<%=txtProposedBudgetName.ClientID %>').val('');
-            $('#<%=txtRealizationDate.ClientID %>').val('');
-            $('#<%=txtEntryRemarks.ClientID %>').val('');
-
-            $('.txtFund').each(function () {
-                $(this).val(0).trigger('changeValue');
-            });
-            $('#<%=txtTotalLineAmount.ClientID %>').val(0).trigger('changeValue');
-
-            $('.entryDetailContainer').show();
-        });
-
-        $('#btnCancel').die('click');
-        $('#btnCancel').live('click',function () {
-            $('.entryDetailContainer').hide();
-        });
-
-        $('#btnSave').die('click');
-        $('#btnSave').live('click',function () {
-            var lst = '';
-            $('.txtFund').each(function () {
-                var value = $(this).attr('hiddenVal');
-                if (lst != "")
-                    lst += '|';
-                lst += value;
-            });
-            $('#<%=hdnLstFundItem.ClientID %>').val(lst);
-            cbpProcess.PerformCallback('save');
-        });
-
         //#region ProposedBudgetHd
         function onGetProposedBudgetHdFilterExpression() {
             var filterExpression = "<%=OnGetProposedBudgetHdFilterExpression() %>";
@@ -99,7 +122,9 @@
             $('#<%=hdnID.ClientID %>').val(entity.ProposedBudgetID);
             $('#<%=hdnEntryID.ClientID %>').val(entity.ProposedBudgetDtID);
             $('#<%=txtProposedBudgetCode.ClientID %>').val(entity.ProposedBudgetCode);
-
+            $('#<%=txtProposedBudgetCode.ClientID %>').attr('readonly', true);
+            cboBudgetType.SetEnabled(false);
+            
             if (entity.ItemID != null) {
                 cboBudgetType.SetValue('DT007^002');
                 tacItem.setText(entity.ProposedBudgetName);
@@ -115,18 +140,17 @@
                 $('#<%=hdnItemUnitValue.ClientID %>').val(entity.ConversionFactor);
                 var conversion = "1 " + baseText + " = " + entity.ConversionFactor + " " + purchaseUnit;
                 $('#<%=txtConversion.ClientID %>').val(conversion);
-
-                $('#trBudgetName').hide();
-                $('#trBudgetItem').show();
-                $('#trItemQuantity').show();
+                
+                $('.trBudgetName').hide();
+                $('.trBudgetItem').show();
             } else {
                 cboBudgetType.SetValue('DT007^001');
                 $('#<%=txtProposedBudgetName.ClientID %>').val(entity.ProposedBudgetName);
-                $('#trBudgetName').show();
-                $('#trBudgetItem').hide();
-                $('#trItemQuantity').hide();
+                $('#<%=txtRealizationDate.ClientID %>').val(entity.RealizationDateInDatePicker);
+                $('.trBudgetName').show();
+                $('.trBudgetItem').hide();
             }
-            $('#<%=txtRealizationDate.ClientID %>').val(entity.RealizationDateInDatePicker);
+            
             var listFund = entity.ListFund;
             var data = listFund.split('|');
             var count = 0;
@@ -167,16 +191,36 @@
         }
 
         function onCboBudgetTypeChanged() {
+            $('#<%=hdnEntryID.ClientID %>').val('');
+            $('#<%=txtProposedBudgetCode.ClientID %>').val('');
+            $('#<%=txtProposedBudgetName.ClientID %>').val('');
+            $('#<%=txtRealizationDate.ClientID %>').val('');
+            $('#<%=txtEntryRemarks.ClientID %>').val('');
+            tacItem.setText('');
+            tacItem.setValue('');
+            $('#<%=hdnItemName.ClientID %>').val('');
+            $('#<%=hdnItemID.ClientID %>').val('');
+            $('#<%=txtItemQuantity.ClientID %>').val(0);
+            $('#<%=hdnGCBaseUnit.ClientID %>').val('');
+            cboItemUnit.SetValue('');
+            $('#<%=hdnItemUnitValue.ClientID %>').val('');
+            $('#<%=txtConversion.ClientID %>').val('');
+
+            $('.txtFund').each(function () {
+                $(this).val(0).trigger('changeValue');
+            });
+            $('#<%=txtTotalLineAmount.ClientID %>').val(0).trigger('changeValue');
             if (cboBudgetType.GetValue() == 'DT007^002') {
-                $('#trBudgetName').hide();
-                $('#trBudgetItem').show();
-                $('#trItemQuantity').show();
+                $('.trBudgetName').hide();
+                $('.trBudgetItem').show();
             } else {
-                $('#trBudgetName').show();
-                $('#trBudgetItem').hide();
-                $('#trItemQuantity').hide();
-                
+                $('.trBudgetName').show();
+                $('.trBudgetItem').hide();
             }
+            $('.txtFund').each(function () {
+                $(this).val(0).trigger('changeValue');
+            });
+            $('#<%=txtTotalProjectBudget.ClientID %>').val(0).trigger('changeValue');
         }
 
         //#region TeamDt
@@ -231,11 +275,9 @@
         //#region Item
         function onGetItemFilterExpression() {
             var filterExpression = "<%=OnGetFilterExpressionItemProduct() %>";
-            var requestID = '';
-            if ($('#<%=txtItemGroupCode.ClientID %>').val() != '')
-                filterExpression += " AND ItemGroupID IN (SELECT ItemGroupID FROM vItemGroupMaster WHERE DisplayPath like '%/" + $('#<%=hdnItemGroupID.ClientID %>').val() + "/%')";
+            var requestID = $('#<%=hdnID.ClientID %>').val();
             if (requestID != '')
-                filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM PurchaseRequestDt WHERE PurchaseRequestID = " + requestID + " AND IsDeleted = 0)";
+                filterExpression += " AND ItemID NOT IN (SELECT ItemID FROM ProposedBudgetDt WHERE ProposedBudgetID = " + requestID + " AND IsDeleted = 0 AND ItemID IS NOT NULL)";
             return filterExpression;
         }
 
@@ -341,39 +383,40 @@
         }
         //#endregion
 
-        //#region Paging
-        var pageCount = parseInt('<%=PageCount %>');
-        var rowCount = parseInt('<%=RowCount %>');
-        var rowCountPerPage = parseInt('<%=RowCountPerPage %>');
-        var currPage = parseInt('<%=CurrPage %>');
-        $(function () {
-            setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
-            setPaging($("#paging"), pageCount, function (page) {
-                cbpView.PerformCallback('changepage|' + page);
-                setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
-            }, null, currPage);
-        });
+        function onAfterSaveRecordDtSuccess(OrderID) {
+            if ($('#<%=hdnID.ClientID %>').val() == '0') {
+                $('#<%=hdnID.ClientID %>').val(OrderID);
+                var filterExpression = 'ProposedBudgetID = ' + OrderID;
+                Methods.getObject('GetProposedBudgetHdList', filterExpression, function (result) {
+                    $('#<%=txtProposedBudgetNo.ClientID %>').val(result.ProposedBudgetNo);
+                    cbpView.PerformCallback('refresh');
+                });
+                onAfterCustomSaveSuccess();
+            }
+            else
+                cbpView.PerformCallback('refresh');
+        }
 
+        function onAfterSaveAddRecordEntryPopup(param) {
+            onAfterSaveRecordDtSuccess(param);
+        }
+
+        //#region Paging
         function onCbpViewEndCallback(s) {
             hideLoadingPanel();
             var param = s.cpResult.split('|');
             if (param[0] == 'refresh') {
                 var pageCount = parseInt(param[1]);
                 var rowCount = parseInt(param[2]);
-                if (pageCount > 0)
-                    $('#<%=grdView.ClientID %> tr:eq(1)').click();
-                else
-                    $('#<%=hdnID.ClientID %>').val('');
 
-                setNumEntriesText($('#informationNumEntries'), rowCount, currPage, rowCountPerPage);
+                var rowCountPerPage = parseInt($('#<%=hdnRowCountPerPage.ClientID %>').val());
+                setNumEntriesText($('#informationNumEntries'), rowCount, 1, rowCountPerPage);
                 setPaging($("#paging"), pageCount, function (page) {
                     cbpView.PerformCallback('changepage|' + page);
                     setNumEntriesText($('#informationNumEntries'), rowCount, page, rowCountPerPage);
                 });
-                calculateTotalProjectBudget();
+
             }
-            else
-                $('#<%=grdView.ClientID %> tr:eq(1)').click();
         }
         //#endregion
 
@@ -400,6 +443,9 @@
     <input type="hidden" id="hdnLstFundItem" runat="server" value="" />
     <input type="hidden" id="hdnEmployeeCoordinatorID" runat="server" value=""/>
     <input type="hidden" value="0" id="hdnPrice" runat="server" />
+    <input type="hidden" value="" id="hdnPageCount" runat="server" />
+    <input type="hidden" value="" id="hdnRowCount" runat="server" />
+    <input type="hidden" value="1" id="hdnIsEditable" runat="server" />
     <table class="tblContentArea">
         <colgroup>
             <col style="width: 50%" />
@@ -445,7 +491,7 @@
         <tr>
             <td colspan="2">
                 <div class="divTransactionEntry">
-                    <span style="<%=IsEditable.ToString() == "False" ? "display:none" : "" %>" id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span><br />
+                    <span id="divTransactionAdd" class="divAdd"><%=GetLabel("Tambah Data")%></span>
                     <div id="entryDetailContainer" class="entryDetailContainer" style="display: none">
                         <fieldset id="fsTrx" style="margin: 0">
                             <table width="100%">
@@ -465,29 +511,11 @@
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
                                     <td><asp:TextBox runat="server" ID="txtProposedBudgetCode" Width="120px" /></td>
                                 </tr>
-                                <tr id="trBudgetName">
+                                <tr class="trBudgetName">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                                     <td><asp:TextBox runat="server" ID="txtProposedBudgetName" Width="220px" /></td>
                                 </tr>
-                                <tr>
-                                    <td class="tdLabel"><label class="lblLink" id="lblItemGroup"><%=GetLabel("Kelompok Item")%></label></td>
-                                    <td>
-                                        <input type="hidden" value="" id="hdnItemGroupID" runat="server" />
-                                        <table cellpadding="0" cellspacing="0">
-                                            <colgroup>
-                                                <col style="width: 120px" />
-                                                <col style="width: 3px" />
-                                                <col style="width: 250px" />
-                                            </colgroup>
-                                            <tr>
-                                                <td><asp:TextBox ID="txtItemGroupCode" Width="100%" runat="server" /></td>
-                                                <td>&nbsp;</td>
-                                                <td><asp:TextBox ID="txtItemGroupName" ReadOnly="true" Width="100%" runat="server" /></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr id="trBudgetItem">
+                                <tr class="trBudgetItem">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Item")%></label></td>
                                     <td>
                                         <input type="hidden" id="hdnItemName" value="" runat="server" />
@@ -501,11 +529,11 @@
                                         </cdx:CodeXAutoCompleteTextBox>
                                     </td>
                                 </tr>
-                                <tr id="trItemQuantity">
+                                <tr class="trBudgetItem">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jumlah")%></label></td>
                                     <td><asp:TextBox runat="server" ID="txtItemQuantity" Width="120px" CssClass="number" /></td>
                                 </tr>
-                                <tr>
+                                <tr class="trBudgetItem">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Satuan Item")%></label></td>
                                     <td>
                                         <dxe:ASPxComboBox runat="server" ID="cboItemUnit" ClientInstanceName="cboItemUnit"
@@ -514,14 +542,14 @@
                                         </dxe:ASPxComboBox>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="trBudgetItem">
                                     <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Konversi")%></label></td>
                                     <td>
                                         <input type="hidden" value="" id="hdnItemUnitValue" runat="server" />
                                         <asp:TextBox ID="txtConversion" Width="180px" runat="server" ReadOnly="true" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="trBudgetItem">
                                     <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Tanggal Realisasi")%></label></td>
                                     <td><asp:TextBox ID="txtRealizationDate" Width="120px" runat="server" CssClass="datepicker" /></td>
                                 </tr>
@@ -607,8 +635,8 @@
                                                     </asp:Repeater>
                                                     <td align="right"><%#:Eval("TotalAmount","{0:N}")%></td>
                                                     <td>
-                                                        <div style='<%=IsEditable.ToString() == "False" ? "float:right;display:none" : "float:right;" %>' class="divDetailDelete" id="divDetailDelete"></div>
-                                                        <div style='float:right;margin-right:10px;<%=IsEditable.ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit" id="divDetailEdit"><%=GetLabel("Edit")%></div>
+                                                        <div style='float:right;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailDelete"></div>
+                                                        <div style='float:right;margin-right:10px;<%#Eval("IsAllowEditItem").ToString() == "False" ? "display:none" : "" %>' class="divDetailEdit"><%=GetLabel("Edit")%></div>
                                                         <input type="hidden" value="<%#Eval("ProposedBudgetDtID") %>" bindingfield="ProposedBudgetDtID" />
                                                         <input type="hidden" value="<%#Eval("ProposedBudgetID") %>" bindingfield="ProposedBudgetID" />
                                                         <input type="hidden" value="<%#Eval("ProposedBudgetCode") %>" bindingfield="ProposedBudgetCode" />
