@@ -29788,6 +29788,70 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProjectTaskBudget
+    [Serializable]
+    [Table(Name = "vProjectTaskBudget")]
+    public class vProjectTaskBudget
+    {
+        private Int32 _BudgetID;
+        private Int32 _ProjectTaskID;
+        private String _ProjectTaskCode;
+        private String _ProjectTaskName;
+        private Decimal _RealizationAmount;
+        private Decimal _UsedBudget;
+        private Boolean _IsDeleted;
+        private String _Remarks;
+
+        [Column(Name = "BudgetID", DataType = "Int32")]
+        public Int32 BudgetID
+        {
+            get { return _BudgetID; }
+            set { _BudgetID = value; }
+        }
+        [Column(Name = "ProjectTaskID", DataType = "Int32")]
+        public Int32 ProjectTaskID
+        {
+            get { return _ProjectTaskID; }
+            set { _ProjectTaskID = value; }
+        }
+        [Column(Name = "ProjectTaskCode", DataType = "String")]
+        public String ProjectTaskCode
+        {
+            get { return _ProjectTaskCode; }
+            set { _ProjectTaskCode = value; }
+        }
+        [Column(Name = "ProjectTaskName", DataType = "String")]
+        public String ProjectTaskName
+        {
+            get { return _ProjectTaskName; }
+            set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "RealizationAmount", DataType = "Decimal")]
+        public Decimal RealizationAmount
+        {
+            get { return _RealizationAmount; }
+            set { _RealizationAmount = value; }
+        }
+        [Column(Name = "UsedBudget", DataType = "Decimal")]
+        public Decimal UsedBudget
+        {
+            get { return _UsedBudget; }
+            set { _UsedBudget = value; }
+        }
+        [Column(Name = "IsDeleted", DataType = "Boolean")]
+        public Boolean IsDeleted
+        {
+            get { return _IsDeleted; }
+            set { _IsDeleted = value; }
+        }
+        [Column(Name = "Remarks", DataType = "String")]
+        public String Remarks
+        {
+            get { return _Remarks; }
+            set { _Remarks = value; }
+        }
+    }
+    #endregion
     #region vProjectTaskCustom
     [Serializable]
     [Table(Name = "vProjectTaskCustom")]

@@ -245,7 +245,6 @@ namespace CodeX.Muses.Web.Finance.Program
             IDbContext ctx = DbFactory.Configure(true);
             BudgetRealizationHdDao budgetHdDao = new BudgetRealizationHdDao(ctx);
             BudgetRealizationDtDao budgetDtDao = new BudgetRealizationDtDao(ctx);
-            BudgetRequestHdDao bRequestDao = new BudgetRequestHdDao(ctx);
             ProjectBudgetDao pBudgetDao = new ProjectBudgetDao(ctx);
 
             try
@@ -256,14 +255,14 @@ namespace CodeX.Muses.Web.Finance.Program
                 budgetHdDao.Update(budgetRequestHd);
 
                 string filterExpressionPurchaseRequestHd = String.Format("BudgetRealizationID = {0} AND IsDeleted = 0", budgetRequestHd.BudgetRealizationID);
-                List<vBudgetRealizationDt> lst = BusinessLayer.GetvBudgetRealizationDtList(filterExpressionPurchaseRequestHd);
-                List<BudgetRealizationDt> lstBudgetRequestDt = BusinessLayer.GetBudgetRealizationDtList(filterExpressionPurchaseRequestHd);
+                List<vBudgetRealizationDt> lst = BusinessLayer.GetvBudgetRealizationDtList(filterExpressionPurchaseRequestHd, ctx);
+                List<BudgetRealizationDt> lstBudgetRequestDt = BusinessLayer.GetBudgetRealizationDtList(filterExpressionPurchaseRequestHd, ctx);
                 foreach (BudgetRealizationDt budgetDt in lstBudgetRequestDt)
                 {
                     budgetDt.GCItemDetailStatus = Constant.TransactionStatus.APPROVED;
                     budgetDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     budgetDtDao.Update(budgetDt);
-                    
+
                     vBudgetRealizationDt temp = lst.FirstOrDefault(x => x.BudgetRealizationDtID == budgetDt.BudgetRealizationDtID);
                     ProjectBudget pBudget = pBudgetDao.Get(temp.BudgetID);
                     pBudget.RealizationAmount += budgetDt.RealizationAmount;

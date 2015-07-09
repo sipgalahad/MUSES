@@ -84,5 +84,14 @@
             </dx:PanelContent>
         </PanelCollection>
     </dxcp:ASPxCallbackPanel>
+    <div style="float:right; margin-top:5px;">
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="tdLabel" colspan="2"><label class="lblNormal"><%=GetLabel("Total Diajukan")%></label></td>
+                <td></td>
+                <td><asp:TextBox ID="txtTotalProjectBudget" CssClass="txtCurrency" ReadOnly="true" Width="108px" runat="server" /></td>
+            </tr>
+        </table>
+    </div>
 </div>
 

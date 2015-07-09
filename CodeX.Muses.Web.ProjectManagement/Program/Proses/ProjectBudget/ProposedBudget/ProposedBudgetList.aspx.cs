@@ -28,18 +28,8 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return Constant.MenuCode.ProjectManagement.LIST_PROPOSED_BUDGET;
         }
 
-        //protected string OnGetEmployeeFilterExpression()
-        //{
-        //    return string.Format("SiteID = '{0}' AND GCEmployeeStatus = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.EmployeeStatus.FULL_TIME_EMPLOYED);
-        //}
-
         protected override void InitializeDataControl()
         {
-            //List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(String.Format("IsDeleted = 0 AND IsActive = 1 AND ParentID = '{0}'", Constant.StandardCode.PROJECT_TASK_STATUS));
-            //lstStandardCode.Insert(0, new StandardCode { StandardCodeID = "", StandardCodeName = "All" });
-            //Methods.SetComboBoxField(cboStatus, lstStandardCode.Where(x => x.StandardCodeID != Constant.ProjectTaskStatus.VOID).ToList(), "StandardCodeName", "StandardCodeID");
-            //cboStatus.SelectedIndex = 0;
-
             RowCountPerPage = Constant.GridViewPageSize.GRID_MATRIX;
             BindGridView(CurrPage, true, ref PageCount, ref RowCount);
         }
@@ -62,7 +52,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
 
             List<vProposedBudgetHd> lstEntity = BusinessLayer.GetvProposedBudgetHdList(filterExpression);
-
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }
@@ -133,6 +122,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();

@@ -49,8 +49,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             rptViewHeader.DataSource = lstFundType.OrderBy(x => x.StandardCodeID);
             rptViewHeader.DataBind();
 
-            grdView.DataSource = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
+            List<vProposedBudgetDt> lstProposedBudget = BusinessLayer.GetvProposedBudgetDtList(filterExpression);
+            grdView.DataSource = lstProposedBudget;
             grdView.DataBind();
+            txtTotalProjectBudget.Text = lstProposedBudget.Sum(x => x.TotalAmount).ToString("N2");
         }
 
         protected void cbpViewPopup_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)

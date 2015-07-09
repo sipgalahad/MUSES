@@ -427,6 +427,9 @@
                 if (param[1] == 'fail')
                     showToast('Save Failed', 'Error Message : ' + param[2]);
                 else {
+                    var OrderID = s.cpOrderID;
+                    onAfterSaveRecordDtSuccess(OrderID);
+                    $('#divTransactionAdd').click();
                     cbpView.PerformCallback('refresh');
                 }
             }

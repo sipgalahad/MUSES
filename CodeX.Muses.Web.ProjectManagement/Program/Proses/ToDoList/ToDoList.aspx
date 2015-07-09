@@ -69,11 +69,18 @@
             });
         });
 
-        $('.lblLink').die('click');
-        $('.lblLink').live('click', function () {
+        $('.lblLink.lblTaskName').die('click');
+        $('.lblLink.lblTaskName').live('click', function () {
             var url = ResolveUrl('~/Program/Proses/ToDoList/ProjectTaskLogEntryCtl.ascx');
             var id = $(this).closest('tr').find('.keyField').html();
             openUserControlPopup(url, id, 'Log Entry', 900, 500);
+        });
+
+        $('.lblLink.lblBudget').die('click');
+        $('.lblLink.lblBudget').live('click', function () {
+            var url = ResolveUrl('~/Program/Proses/ToDoList/ProjectTaskBudgetEntryCtl.ascx');
+            var id = $(this).closest('tr').find('.keyField').html();
+            openUserControlPopup(url, id, 'Anggaran', 900, 500);
         });
 
         $('.btnSave').die('click');
@@ -667,11 +674,12 @@
                                                 <asp:BoundField DataField="ProjectTaskID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                                 <asp:TemplateField HeaderText="Nama" ItemStyle-HorizontalAlign="Left">
                                                     <ItemTemplate>
-                                                        <label class="lblLink"><%#:Eval("ProjectTaskName") %></label>
+                                                        <label class="lblLink lblTaskName"><%#:Eval("ProjectTaskName") %></label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="EndDateInString" HeaderText="Deadline" HeaderStyle-Width="90px" />
                                                 <asp:BoundField DataField="ProjectTaskPriority" HeaderText="Prioritas" HeaderStyle-Width="70px"/>
+                                                <asp:HyperLinkField Text="Anggaran" HeaderText="Anggaran" HeaderStyle-Width="90px" ItemStyle-CssClass="lblLink lblBudget" />
                                                 <asp:TemplateField HeaderText="Status" HeaderStyle-Width="100px">
                                                     <ItemTemplate>
                                                         <dxe:ASPxComboBox ID="cboTaskStatus" class="cboTaskStatus" Width="100px" runat="server" />

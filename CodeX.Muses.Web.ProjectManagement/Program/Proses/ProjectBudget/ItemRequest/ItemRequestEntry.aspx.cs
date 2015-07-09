@@ -213,6 +213,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;
@@ -236,6 +237,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 return false;
             }
@@ -267,6 +269,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -304,6 +307,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -340,6 +344,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 result = false;
                 ctx.RollBackTransaction();
@@ -461,6 +466,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             catch (Exception ex)
             {
                 result = false;
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
             }
@@ -487,6 +493,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             catch (Exception ex)
             {
                 result = false;
+                Helper.InsertErrorLog(ex);
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
             }
@@ -513,6 +520,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 ctx.RollBackTransaction();
                 errMessage = ex.Message;
                 result = false;

@@ -97,6 +97,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             hdnPageCount.Value = "0";
             hdnRowCount.Value = "0";
             hdnIsEditable.Value = "1";
+            BindGridView(1, true, ref PageCount, ref RowCount);
         }
 
         protected string IsEditable()
@@ -132,7 +133,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
         protected override void OnLoadEntity(string keyValue, ref int PageIndex, ref bool isShowWatermark, ref string watermarkText)
         {
-            string filterExpression = "";//String.Format("ProposedBudgetNo = '{0}'", keyValue);
+            string filterExpression = "";
             PageIndex = BusinessLayer.GetvProposedBudgetHdRowIndex(filterExpression, keyValue, "ProposedBudgetID DESC");
             vProposedBudgetHd entity = BusinessLayer.GetvProposedBudgetHd(filterExpression, PageIndex, "ProposedBudgetID DESC");
             hdnID.Value = entity.ProposedBudgetID.ToString();
@@ -277,9 +278,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             entity.Remarks = txtEntryRemarks.Text;
         }
 
-        public void SaveHeader(IDbContext ctx, ref string retval)
+        public void SaveHeader(IDbContext ctx, ref Int32 OrderID)
         {
-            if (retval == "" || retval == "0")
+            if (hdnID.Value == "" || hdnID.Value == "0")
             {
                 ProposedBudgetHdDao entityHdDao = new ProposedBudgetHdDao(ctx);
 
@@ -292,9 +293,12 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 entity.GCProposedBudgetStatus = Constant.ProjectStatus.OPEN;
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityHdDao.Insert(entity);
-                
-                int ProposedBudgetID = BusinessLayer.GetProposedBudgetHdMaxID(ctx);
-                retval = ProposedBudgetID.ToString();
+
+                OrderID = BusinessLayer.GetProposedBudgetHdMaxID(ctx);
+            }
+            else
+            {
+                OrderID = Convert.ToInt32(hdnID.Value);
             }
         }
 
@@ -302,13 +306,14 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             string result = "";
             string errMessage = "";
+            int OrderID = 0;
             string[] param = e.Parameter.Split('|');
             result = param[0] + "|";
-
             if (param[0] == "save")
             {
                 if (hdnEntryID.Value.ToString() != "")
                 {
+                    OrderID = Convert.ToInt32(hdnID.Value);
                     if (OnSaveEditRecordEntityDt(ref errMessage))
                         result += "success";
                     else
@@ -316,7 +321,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 }
                 else
                 {
-                    if (OnSaveAddRecordEntityDt(ref errMessage))
+                    if (OnSaveAddRecordEntityDt(ref errMessage, ref OrderID))
                         result += "success";
                     else
                         result += string.Format("fail|{0}", errMessage);
@@ -324,6 +329,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             }
             else if (param[0] == "delete")
             {
+                OrderID = Convert.ToInt32(hdnEntryID.Value);
                 if (OnDeleteRecordEntityDt(ref errMessage))
                     result += "success";
                 else
@@ -332,6 +338,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
+            panel.JSProperties["cpOrderID"] = OrderID.ToString();
         }
 
         public bool OnSaveEditRecordEntityDt(ref string errMessage) 
@@ -374,7 +381,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             return result;
         }
 
-        public bool OnSaveAddRecordEntityDt(ref string errMessage)
+        public bool OnSaveAddRecordEntityDt(ref string errMessage, ref Int32 OrderID)
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
@@ -383,13 +390,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             try
             {
-                String retval = hdnID.Value;
-                SaveHeader(ctx, ref retval);
-                int ProposedBudgetID = Convert.ToInt32(retval);
+                SaveHeader(ctx, ref OrderID);
                 
                 ProposedBudgetDt entityDt = new ProposedBudgetDt();
                 ControlToEntity(entityDt);
-                entityDt.ProposedBudgetID = ProposedBudgetID;
+                entityDt.ProposedBudgetID = OrderID;
                 entityDt.GCItemDetailStatus = Constant.ProjectStatus.OPEN;
                 entityDtDao.Insert(entityDt);
 
@@ -450,7 +455,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             
             try
             {
-                SaveHeader(ctx, ref retval);
+                int OrderID = 0;
+                SaveHeader(ctx, ref OrderID);
+                retval = OrderID.ToString();
                 ctx.CommitTransaction();
             }
             catch (Exception ex) 

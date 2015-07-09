@@ -11057,6 +11057,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<vBudgetRealizationDt> GetvBudgetRealizationDtList(string filterExpression,IDbContext ctx)
+        {
+            List<vBudgetRealizationDt> result = new List<vBudgetRealizationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vBudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vBudgetRealizationDt)helper.IDataReaderToObject(reader, new vBudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public static List<vBudgetRealizationDt> GetvBudgetRealizationDtList(string filterExpression, int numRows, int pageIndex, string orderByExpression = "")
         {
             List<vBudgetRealizationDt> result = new List<vBudgetRealizationDt>();
@@ -11717,6 +11734,30 @@ namespace CodeX.Data.Model
                 ctx.CommandText = helper.GetRowIndex(filterExpression, "ProjectTaskID", keyValue, orderByExpression);
                 DataRow row = DaoBase.GetDataRow(ctx);
                 result = Convert.ToInt32(row.ItemArray.GetValue(0));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
+            }
+            return result;
+        }
+        #endregion
+        #region vProjectTaskBudget
+        public static List<vProjectTaskBudget> GetvProjectTaskBudgetList(string filterExpression)
+        {
+            List<vProjectTaskBudget> result = new List<vProjectTaskBudget>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(vProjectTaskBudget));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((vProjectTaskBudget)helper.IDataReaderToObject(reader, new vProjectTaskBudget()));
             }
             catch (Exception ex)
             {

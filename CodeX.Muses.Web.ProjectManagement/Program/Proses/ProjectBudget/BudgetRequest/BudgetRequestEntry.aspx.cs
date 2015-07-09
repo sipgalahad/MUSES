@@ -29,7 +29,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             hdnRecordFilterExpression.Value = String.Format("ProjectID = {0}", AppSession.ProjectID);
 
-            List<TeamDt> lstTeamDt = BusinessLayer.GetTeamDtList(String.Format("ProjectID = '{0}' AND IsDeleted = 0", AppSession.ProjectID));
+            List<vTeamDt> lstTeamDt = BusinessLayer.GetvTeamDtList(String.Format("ProjectID = '{0}' AND IsDeleted = 0 AND (EmployeeCoordinatorID = {1} OR ListEmployeeID1 LIKE '%;{1};%')", AppSession.ProjectID, AppSession.UserLogin.EmployeeID));
             Methods.SetComboBoxField(cboTeamDt, lstTeamDt, "Position", "TeamDtID");
             cboTeamDt.SelectedIndex = 0;
             txtRequestDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);

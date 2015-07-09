@@ -15052,6 +15052,23 @@ namespace CodeX.Data.Model
             }
             return result;
         }
+        public static List<BudgetRealizationDt> GetBudgetRealizationDtList(string filterExpression, IDbContext ctx)
+        {
+            List<BudgetRealizationDt> result = new List<BudgetRealizationDt>();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(BudgetRealizationDt));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((BudgetRealizationDt)helper.IDataReaderToObject(reader, new BudgetRealizationDt()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         #endregion
         #region BudgetRealizationHd
         public static BudgetRealizationHd GetBudgetRealizationHd(Int32 BudgetRealizationID)
@@ -15658,6 +15675,46 @@ namespace CodeX.Data.Model
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        #endregion
+        #region ProjectTaskBudget
+        public static ProjectTaskBudget GetProjectTaskBudget(Int32 BudgetID, Int32 ProjectTaskID)
+        {
+            return new ProjectTaskBudgetDao().Get(BudgetID, ProjectTaskID);
+        }
+        public static int InsertProjectTaskBudget(ProjectTaskBudget record)
+        {
+            return new ProjectTaskBudgetDao().Insert(record);
+        }
+        public static int UpdateProjectTaskBudget(ProjectTaskBudget record)
+        {
+            return new ProjectTaskBudgetDao().Update(record);
+        }
+        public static int DeleteProjectTaskBudget(Int32 BudgetID, Int32 ProjectTaskID)
+        {
+            return new ProjectTaskBudgetDao().Delete(BudgetID, ProjectTaskID);
+        }
+        public static List<ProjectTaskBudget> GetProjectTaskBudgetList(string filterExpression)
+        {
+            List<ProjectTaskBudget> result = new List<ProjectTaskBudget>();
+            IDbContext ctx = DbFactory.Configure();
+            try
+            {
+                DbHelper helper = new DbHelper(typeof(ProjectTaskBudget));
+                ctx.CommandText = helper.Select(filterExpression);
+                using (IDataReader reader = DaoBase.GetDataReader(ctx))
+                    while (reader.Read())
+                        result.Add((ProjectTaskBudget)helper.IDataReaderToObject(reader, new ProjectTaskBudget()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                ctx.Close();
             }
             return result;
         }

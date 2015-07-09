@@ -46,13 +46,21 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
                 lstTeamDt = BusinessLayer.GetvTeamDtList(String.Format("ProjectID IN ({0}) AND EmployeeCoordinatorID = {1} AND IsDeleted = 0", String.Join(",", lstProject.Select(x => x.ProjectID)), AppSession.UserLogin.EmployeeID));
                 if (lstTeamDt.Count > 0) 
                 {
-                    hdnLstTeamDtID.Value = String.Format("{0},{1}", String.Join(",", lstTeamDt.Select(x => x.TeamDtID)), String.Join(",", lstTeamDt.Select(x => x.Downline)));
+                    string downline = String.Join(",", lstTeamDt.Select(x => x.Downline));
+                    if(downline != "")
+                        hdnLstTeamDtID.Value = String.Format("{0},{1}", String.Join(",", lstTeamDt.Select(x => x.TeamDtID)), downline);
+                    else
+                        hdnLstTeamDtID.Value = String.Format("{0}", String.Join(",", lstTeamDt.Select(x => x.TeamDtID)));
 
                     List<TeamDt> lst = BusinessLayer.GetTeamDtList(String.Format("TeamDtID IN ({0})", hdnLstTeamDtID.Value));
                     String tempTeamDt = String.Join(",", lst.Select(x => x.EmployeeCoordinatorID));
                     List<TeamDtMember> lstMember = BusinessLayer.GetTeamDtMemberList(String.Format("TeamDtID IN ({0})", hdnLstTeamDtID.Value));
                     String tempMember = String.Join(",", lstMember.Select(x => x.EmployeeID));
-                    hdnLstEmployeeID.Value = String.Format("{0},{1}", tempTeamDt, tempMember);
+                    if(tempMember != "")
+                        hdnLstEmployeeID.Value = String.Format("{0},{1}", tempTeamDt, tempMember);
+                    else
+                        hdnLstEmployeeID.Value = String.Format("{0}", tempTeamDt);
+
                 }
             }
             RowCountPerPage = Constant.GridViewPageSize.GRID_MATRIX;
