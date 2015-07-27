@@ -22,17 +22,23 @@
             var entity = rowToObject($row);
             var idx = entity.ItemIndex;
             $('#<%=hdnID.ClientID %>').val(entity.BudgetID);
-            var usedAmount = $('#txtUsedAmount' + idx).attr('hiddenVal');
-            $('#<%=hdnUsedAmount.ClientID %>').val(usedAmount);
+            var usedAmount = parseFloat($('.txtUsedAmount' + idx).attr('hiddenVal'));
+            var amount = parseFloat($row.find('.hdnAmount').val());
+            $('#<%=hdnUsedAmount.ClientID %>').val(usedAmount + amount);
+            cbpProcess.PerformCallback('save');
+        });
 
-            var amount = $row.find('.hdnAmount').val();
-            if ($('#<%=hdnUsedAmount.ClientID %>').val() > amount)
-                cbpProcess.PerformCallback('save');
+        $('.lblLink.lblUsedTaskAmount').live('click', function () {
+            var url = "~/Program/Proses/ProjectBudget/UseOfBudget/UsedTaskAmountCtl.ascx";
+            $row = $(this).closest('tr');
+            var entity = rowToObject($row);
+            var id = entity.BudgetID;
+            var param = id + '|UB';
+            openUserControlPopup(url, param, 'Detail', 700, 440);
         });
 
         function onCbpProcesEndCallback(s) {
             hideLoadingPanel();
-
             var param = s.cpResult.split('|');
             if (param[0] == 'save') {
                 if (param[1] == 'fail')
@@ -58,35 +64,70 @@
         <PanelCollection>
             <dx:PanelContent ID="PanelContent1" runat="server">
                 <asp:Panel runat="server" ID="pnlGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
-                    <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" 
-                            ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty"
-                            OnRowDataBound="grdView_RowDataBound">
-                            <Columns>
-                                <asp:BoundField DataField="BudgetID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="BudgetCode" HeaderText="Kode" HeaderStyle-Width="70px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="BudgetName" HeaderText="Nama" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="Position" HeaderText="Bagian" HeaderStyle-Width="170px"  HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="Remarks" HeaderText="Keterangan" HeaderStyle-Width="200px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="ProposedAmount" HeaderText="Dianggarkan" HeaderStyle-Width="70px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
-                                <asp:BoundField DataField="RealizationAmount" HeaderText="Direalisasikan" HeaderStyle-Width="70px" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N}" />
-                                <asp:TemplateField HeaderText="Digunakan" HeaderStyle-Width="70px" HeaderStyle-CssClass="thRight">
-                                    <ItemTemplate>
-                                        <input type="hidden" class="hdnAmount" id="hdnAmount" runat="server" value="0" />
-                                        <input type="text" class="txtCurrency" id="txtUsedAmount<%# Container.DataItemIndex %>" style="width:100%" value="<%#:Eval("UsedAmount") %>"/>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderStyle-Width="100px">
-                                    <ItemTemplate>
-                                        <input type="button" value="Simpan" class="btnSave" id="btnSave" runat="server" />
-                                        <input type="hidden" class="hdnItemIndex" value='<%# Container.DataItemIndex %>' bindingfield="ItemIndex" />
-                                        <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                            <EmptyDataTemplate>
-                                <%=GetLabel("Data Tidak Tersedia")%>
-                            </EmptyDataTemplate>
-                        </asp:GridView>
+                    <asp:ListView runat="server" ID="lvwView" OnItemDataBound="lvwView_ItemDataBound">
+                        <EmptyDataTemplate>
+                            <table id="tblView" runat="server" class="grdView notAllowSelect" cellspacing="0" rules="all" >
+                                <tr>
+                                    <th style="width:70px" rowspan="2" align="left"><%=GetLabel("Kode") %></th>
+                                    <th style="width:70px" rowspan="2" align="left"><%=GetLabel("Nama") %></th>
+                                    <th style="width:170px" rowspan="2" align="left"><%=GetLabel("Bagian") %></th>
+                                    <th style="width:200px" rowspan="2" align="left"><%=GetLabel("Keterangan") %></th>
+                                    <th style="width:70px" rowspan="2" align="left"><%=GetLabel("Dianggarkan") %></th>
+                                    <th style="width:70px" rowspan="2" align="right"><%=GetLabel("Direalisasikan") %></th>
+                                    <th style="width:70px" colspan="2" align="right"><%=GetLabel("Digunakan") %></th>
+                                    <th style="width:100px" rowspan="2" >&nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:35px" ><%=GetLabel("Kegiatan") %></th>
+                                    <th style="width:35px" ><%=GetLabel("Lain-lain") %></th>
+                                </tr>
+                                <tr class="trEmpty">
+                                    <td colspan="9">
+                                        <%=GetLabel("Data Tidak Tersedia")%>
+                                    </td>
+                                </tr>
+                            </table>
+                        </EmptyDataTemplate>
+                        <LayoutTemplate>
+                            <table id="tblView" runat="server" class="grdView notAllowSelect" width="100%" cellspacing="0" rules="all" >
+                                <tr>
+                                    <th style="width:70px" rowspan="2" align="left"><%=GetLabel("Kode") %></th>
+                                    <th rowspan="2" align="left"><%=GetLabel("Nama") %></th>
+                                    <th style="width:170px" rowspan="2" align="left"><%=GetLabel("Bagian") %></th>
+                                    <th style="width:250px" rowspan="2" align="left"><%=GetLabel("Keterangan") %></th>
+                                    <th style="width:70px" rowspan="2" align="left"><%=GetLabel("Dianggarkan") %></th>
+                                    <th style="width:70px" rowspan="2" class="thRight"><%=GetLabel("Direalisasikan") %></th>
+                                    <th style="width:140px" colspan="2" class="thCenter"><%=GetLabel("Digunakan") %></th>
+                                    <th style="width:100px" rowspan="2" >&nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:70px" class="thCenter"><%=GetLabel("Kegiatan") %></th>
+                                    <th style="width:70px" class="thCenter" ><%=GetLabel("Lain-lain") %></th>
+                                </tr>
+                                <tr runat="server" id="itemPlaceholder" ></tr>
+                            </table>
+                        </LayoutTemplate>
+                        <ItemTemplate>
+                            <tr>
+                                <td><%#:Eval("BudgetCode") %></td>
+                                <td><%#:Eval("BudgetName") %></td>
+                                <td><%#:Eval("Position") %></td>
+                                <td><%#:Eval("Remarks") %></td>
+                                <td align="right"><%#:Eval("ProposedAmount","{0:N}") %></td>
+                                <td align="right"><%#:Eval("RealizationAmount","{0:N}") %></td>
+                                <td align="right" runat="server" id="UsedTaskAmount"></td>
+                                <td>
+                                    <input type="hidden" class="hdnAmount" id="hdnAmount" runat="server" value="0" />
+                                    <input type="text" class="txtCurrency" id="txtUsedAmount" runat="server" style="width:100%" value=""/>
+                                </td>
+                                <td align="center">
+                                    <input type="button" value="Simpan" class="btnSave" id="btnSave" runat="server" />
+                                    <input type="hidden" class="hdnItemIndex" value='<%# Container.DataItemIndex %>' bindingfield="ItemIndex" />
+                                    <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:ListView>
                 </asp:Panel>
             </dx:PanelContent>
         </PanelCollection>

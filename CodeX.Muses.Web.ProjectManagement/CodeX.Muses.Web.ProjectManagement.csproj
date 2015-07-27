@@ -112,6 +112,7 @@
     <Content Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetDetailCtl.ascx" />
     <Content Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetEntry.aspx" />
     <Content Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetList.aspx" />
+    <Content Include="Program\Proses\ProjectBudget\UseOfBudget\UsedTaskAmountCtl.ascx" />
     <Content Include="Program\Proses\ProjectBudget\UseOfBudget\UseOfBudgetList.aspx" />
     <Content Include="Program\Proses\ProjectEvaluation\ProjectEvaluationEntry.aspx" />
     <Content Include="Program\Proses\ProjectManagement\ProjectManagementList.aspx" />
@@ -420,6 +421,13 @@
     </Compile>
     <Compile Include="Program\Proses\ProjectBudget\ProposedBudget\ProposedBudgetList.aspx.designer.cs">
       <DependentUpon>ProposedBudgetList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\UseOfBudget\UsedTaskAmountCtl.ascx.cs">
+      <DependentUpon>UsedTaskAmountCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program\Proses\ProjectBudget\UseOfBudget\UsedTaskAmountCtl.ascx.designer.cs">
+      <DependentUpon>UsedTaskAmountCtl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Program\Proses\ProjectBudget\UseOfBudget\UseOfBudgetList.aspx.cs">
       <DependentUpon>UseOfBudgetList.aspx</DependentUpon>

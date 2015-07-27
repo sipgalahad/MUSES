@@ -61,8 +61,46 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             if (lstEntity.Count > 0)
                 lstBudgetID = String.Join(",",lstEntity.Select(x => x.BudgetID));
             lstProjectTaskBudget = BusinessLayer.GetProjectTaskBudgetList(String.Format("BudgetID IN ({0})",lstBudgetID));
-            grdView.DataSource = lstEntity;
-            grdView.DataBind();
+            
+            lvwView.DataSource = lstEntity;
+            lvwView.DataBind();
+        }
+
+        protected void lvwView_ItemDataBound(object sender, ListViewItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListViewItemType.DataItem)
+            {
+                vProjectBudget entity = e.Item.DataItem as vProjectBudget;
+                int idx = e.Item.DataItemIndex;
+
+                HtmlInputHidden hdnAmount = e.Item.FindControl("hdnAmount") as HtmlInputHidden;
+                HtmlTableCell UsedTaskAmount = e.Item.FindControl("UsedTaskAmount") as HtmlTableCell;
+                HtmlInputText txtUsedAmount = e.Item.FindControl("txtUsedAmount") as HtmlInputText;
+                txtUsedAmount.Attributes.Add("class", "txtCurrency txtUsedAmount" + idx);
+
+                if (lstProjectTaskBudget.Count > 0)
+                {
+                    ProjectTaskBudget temp = lstProjectTaskBudget.FirstOrDefault(x => x.BudgetID == entity.BudgetID);
+                    if (temp != null)
+                    {
+                        hdnAmount.Value = temp.UsedBudget.ToString();
+                        UsedTaskAmount.InnerHtml = String.Format("<label class='lblLink lblUsedTaskAmount'>{0}</label>", temp.UsedBudget.ToString("N"));
+                        txtUsedAmount.Value = (entity.UsedAmount - temp.UsedBudget).ToString();
+                    }
+                    else
+                    {
+                        hdnAmount.Value = "0.00";
+                        UsedTaskAmount.InnerHtml = "0.00";
+                        txtUsedAmount.Value = entity.UsedAmount.ToString();
+                    }
+                }
+                else
+                {
+                    hdnAmount.Value = "0.00";
+                    UsedTaskAmount.InnerHtml = "0.00";
+                    txtUsedAmount.Value = entity.UsedAmount.ToString();
+                }
+            }
         }
 
         protected void cbpView_Callback(object sender, DevExpress.Web.ASPxClasses.CallbackEventArgsBase e)
@@ -87,26 +125,6 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
 
             ASPxCallbackPanel panel = sender as ASPxCallbackPanel;
             panel.JSProperties["cpResult"] = result;
-        }
-
-        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                vProjectBudget entity = e.Row.DataItem as vProjectBudget;
-
-                HtmlInputHidden hdnAmount = e.Row.FindControl("hdnAmount") as HtmlInputHidden;
-                if (lstProjectTaskBudget.Count > 0)
-                {
-                    ProjectTaskBudget temp = lstProjectTaskBudget.FirstOrDefault(x => x.BudgetID == entity.BudgetID);
-                    if (temp != null)
-                        hdnAmount.Value = temp.UsedBudget.ToString();
-                    else
-                        hdnAmount.Value = "0";
-                }
-                else
-                    hdnAmount.Value = "0";
-            }
         }
         #endregion
 

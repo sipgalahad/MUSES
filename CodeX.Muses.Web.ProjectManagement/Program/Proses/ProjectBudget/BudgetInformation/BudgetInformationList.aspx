@@ -16,7 +16,13 @@
     </style>
         
     <script type="text/javascript">
-        
+        $('.lblLink.lblUsedAmount').live('click', function () {
+            var url = "~/Program/Proses/ProjectBudget/UseOfBudget/UsedTaskAmountCtl.ascx";
+            $row = $(this).closest('tr');
+            var id = $row.find('.keyField').html();
+            var param = id + '|BI';
+            openUserControlPopup(url, param, 'Detail', 700, 440);
+        });
     </script>
     <input type="hidden" id="hdnID" runat="server" value="" />
     <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
@@ -63,7 +69,7 @@
                                         </asp:Repeater>
                                         <td align="right"><%#:Eval("ProposedAmount","{0:N}")%></td>
                                         <td align="right"><%#:Eval("RealizationAmount","{0:N}")%></td>
-                                        <td align="right"><%#:Eval("UsedAmount","{0:N}")%></td>
+                                        <td align="right"><label class="lblLink lblUsedAmount"><%#:Eval("UsedAmount","{0:N}")%></label></td>
                                     </tr>
                                 </tbody>
                             </ItemTemplate>
