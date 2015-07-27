@@ -34,7 +34,7 @@
         })
 
         $('.lblLink').live('click', function () {
-            var url = "~/Program/Proses/ProjectBudget/ProposedBudgetDetailCtl.ascx";
+            var url = "~/Program/Proses/ProjectBudget/ProposedBudget/ProposedBudgetDetailCtl.ascx";
             var id = $(this).closest('tr').find('.keyField').html();
             openUserControlPopup(url, id, 'Detail', 1200, 500);
         });

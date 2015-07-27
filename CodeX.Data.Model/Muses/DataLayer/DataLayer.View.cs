@@ -29791,12 +29791,15 @@ namespace CodeX.Data.Model
     #region vProjectTaskBudget
     [Serializable]
     [Table(Name = "vProjectTaskBudget")]
-    public class vProjectTaskBudget
+    public partial class vProjectTaskBudget
     {
         private Int32 _BudgetID;
+        private String _BudgetCode;
+        private String _BudgetName;
         private Int32 _ProjectTaskID;
         private String _ProjectTaskCode;
         private String _ProjectTaskName;
+        private Decimal _ProposedAmount;
         private Decimal _RealizationAmount;
         private Decimal _UsedBudget;
         private Boolean _IsDeleted;
@@ -29807,6 +29810,18 @@ namespace CodeX.Data.Model
         {
             get { return _BudgetID; }
             set { _BudgetID = value; }
+        }
+        [Column(Name = "BudgetCode", DataType = "String")]
+        public String BudgetCode
+        {
+            get { return _BudgetCode; }
+            set { _BudgetCode = value; }
+        }
+        [Column(Name = "BudgetName", DataType = "String")]
+        public String BudgetName
+        {
+            get { return _BudgetName; }
+            set { _BudgetName = value; }
         }
         [Column(Name = "ProjectTaskID", DataType = "Int32")]
         public Int32 ProjectTaskID
@@ -29825,6 +29840,12 @@ namespace CodeX.Data.Model
         {
             get { return _ProjectTaskName; }
             set { _ProjectTaskName = value; }
+        }
+        [Column(Name = "ProposedAmount", DataType = "Decimal")]
+        public Decimal ProposedAmount
+        {
+            get { return _ProposedAmount; }
+            set { _ProposedAmount = value; }
         }
         [Column(Name = "RealizationAmount", DataType = "Decimal")]
         public Decimal RealizationAmount

@@ -2400,6 +2400,15 @@ namespace CodeX.Data.Model
         }
     }
     #endregion
+    #region vProjectTaskBudget
+    public partial class vProjectTaskBudget
+    {
+        public string CustomRemarks
+        {
+            get { return WebUtility.HtmlEncode(_Remarks).Replace(";", "<br/>"); }
+        }
+    }
+    #endregion
     #region vProjectTaskCustom
     public partial class vProjectTaskCustom
     {

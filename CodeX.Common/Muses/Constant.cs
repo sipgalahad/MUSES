@@ -646,6 +646,7 @@ namespace CodeX.Common
                 public const string PROJECT_BUDGET_INFORMATION = "PM99010106";
                 public const string BUDGET_REQUEST = "PM99010107";
                 public const string ITEM_REQUEST = "PM99010108";
+                public const string USE_OF_BUDGET = "PM99010109";
             }
             #endregion
 

@@ -12,11 +12,13 @@
 
 <script type="text/javascript" id="dxss_serviceunitsiteentryctl">
     $(function () {
-        setDatePicker('<%=txtStartDate.ClientID %>');
-
         $('#divTransactionAddPopup').click(function () {
             $('#<%=hdnEntryID.ClientID %>').val('');
-            $('#<%=txtNoteName.ClientID %>').val('');
+            tacProjectBudget.setValue('');
+            tacProjectBudget.setText('');
+            $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
+            $('#<%=txtRealizationBudget.ClientID %>').val(0).trigger('changeValue');
+            $('#<%=txtUsedAmount.ClientID %>').val(0).trigger('changeValue');
             $('#<%=txtRemarks.ClientID %>').val('');
             $('#entryDetailContainerPopup').show();
         });
@@ -38,7 +40,7 @@
         showToastConfirmation("Are You Sure Want To Delete This Data?", function (result) {
             if (result) {
                 var entity = rowToObject($row);
-                $('#<%=hdnEntryID.ClientID %>').val(entity.ProjectTaskLogID);
+                $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetID);
                 cbpProcessPopup.PerformCallback('delete');
             }
         });
@@ -48,13 +50,72 @@
     $('#<%=grdView.ClientID %> .divPopupEdit').live('click', function () {
         $row = $(this).closest('tr');
         var entity = rowToObject($row);
-        $('#<%=hdnEntryID.ClientID %>').val(entity.ProjectTaskLogID);
-        $('#<%=txtNoteName.ClientID %>').val(entity.NoteName);
-        $('#<%=txtStartDate.ClientID %>').val(entity.NoteDateInDatePicker);
-        $('#<%=txtStartTime.ClientID %>').val(entity.NoteTime);
+        $('#<%=hdnEntryID.ClientID %>').val(entity.BudgetID);
+        tacProjectBudget.setValue(entity.BudgetID);
+        tacProjectBudget.setText(entity.BudgetName);
+        $('#<%=txtProposedBudget.ClientID %>').val(entity.ProposedAmount).trigger('changeValue');
+        $('#<%=txtRealizationBudget.ClientID %>').val(entity.RealizationAmount).trigger('changeValue');
+        $('#<%=txtUsedAmount.ClientID %>').val(entity.UsedBudget).trigger('changeValue');
         $('#<%=txtRemarks.ClientID %>').val(entity.Remarks);
         $('#entryDetailContainerPopup').show();
     });
+
+    //#region ProjectBudget
+    window.onGetProjectBudgetFilterExpression = function () {
+        var filterExpression = "ProjectID = " + $('#<%=hdnProjectID.ClientID %>').val() + " AND ItemID IS NULL";
+        return filterExpression;
+    }
+
+    function onTacProjectBudgetButtonSearchClick() {
+        openSearchDialog('projectbudget', onGetProjectBudgetFilterExpression(), function (value) {
+            var filterExpression = onGetProjectBudgetFilterExpression() + " AND BudgetCode = '" + value + "'";
+            Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
+                if (result != null) {
+                    tacProjectBudget.setValue(result.BudgetID);
+                    tacProjectBudget.setText(result.BudgetName);
+                    $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount).trigger('changeValue');
+                    $('#<%=txtRealizationBudget.ClientID %>').val(result.RealizationAmount).trigger('changeValue');
+                    entityToControlProjectBudget(result);
+                }
+                else {
+                    tacProjectBudget.setValue('');
+                    tacProjectBudget.setText('');
+                    $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
+                    $('#<%=txtRealizationBudget.ClientID %>').val(0).trigger('changeValue');
+                    entityToControlProjectBudget(null);
+                }
+            });
+        });
+    }
+
+    function onTacProjectBudgetValueChanged() {
+        var id = tacProjectBudget.getValue();
+        if (id != '') {
+            var filterExpression = "BudgetID = " + id;
+            Methods.getObject('GetvProjectBudgetList', filterExpression, function (result) {
+                if (result != null) {
+                    $('#<%=txtProposedBudget.ClientID %>').val(result.ProposedAmount).trigger('changeValue');
+                    $('#<%=txtRealizationBudget.ClientID %>').val(result.RealizationAmount).trigger('changeValue');
+                    entityToControlProjectBudget(result);
+                }
+                else {
+                    $('#<%=txtProposedBudget.ClientID %>').val(0).trigger('changeValue');
+                    $('#<%=txtRealizationBudget.ClientID %>').val(0).trigger('changeValue');
+                    entityToControlProjectBudget(null);
+                }
+            });
+        } else {
+            entityToControlProjectBudget(null);
+        }
+    }
+
+    function entityToControlProjectBudget(result) {
+        if (result != null)
+            $('#<%=hdnBudgetID.ClientID %>').val(result.BudgetID);
+        else
+            $('#<%=hdnBudgetID.ClientID %>').val(null);
+    }
+    //#endregion
 
     function onCbpProcesPopupEndCallback(s) {
         hideLoadingPanel();
@@ -79,6 +140,7 @@
 
 <div style="height:440px; overflow-y:auto">
     <input type="hidden" id="hdnID" value="" runat="server" />
+    <input type="hidden" id="hdnProjectID" value="" runat="server" />
     <input type="hidden" id="hdnEmployeeSave" value="" runat="server" />
     <table class="tblEntryContent" style="width:70%">
         <colgroup>
@@ -130,20 +192,27 @@
                         <col />
                     </colgroup>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama") %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtNoteName" Width="200px" /></td>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama Anggaran")%></label></td>
+                        <td>
+                            <input type="hidden" value="" id="hdnBudgetID" runat="server" />
+                            <cdx:CodeXAutoCompleteTextBox runat="server" Width="200px" ID="tacProjectBudget" ClientInstanceName="tacProjectBudget" MethodName="GetvProjectBudgetList" GetFilterExpressionFunction="onGetProjectBudgetFilterExpression"
+                                SearchFields="BudgetName,BudgetCode" TextField="BudgetName" ValueField="BudgetID" SearchText="${BudgetName} (<b>${BudgetCode}</b>)" OrderByExpression="BudgetName">
+                                <ClientSideEvents ButtonSearchClick="function(){ onTacProjectBudgetButtonSearchClick(); }"
+                                    ValueChanged="function(){ onTacProjectBudgetValueChanged(); }" />
+                            </cdx:CodeXAutoCompleteTextBox>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Tanggal")%></label></td>
-                        <td>
-                            <table cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td><asp:TextBox ID="txtStartDate" Width="120px" runat="server" CssClass="datepicker" /></td>
-                                    <td style="width:10px; text-align:center">&nbsp;</td>
-                                    <td><asp:TextBox ID="txtStartTime" CssClass="thCenter" Width="70px" runat="server"/></td>
-                                </tr>
-                            </table>
-                        </td>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jmlh. Anggaran")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtProposedBudget" ReadOnly="true" Width="120px" CssClass="txtCurrency" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Jmlh. Diterima")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtRealizationBudget" ReadOnly="true" Width="120px" CssClass="txtCurrency" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Jmlh. Digunakan")%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtUsedAmount" Width="120px" CssClass="txtCurrency" /></td>
                     </tr>
                     <tr>
                         <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Keterangan") %></label></td>
@@ -168,25 +237,23 @@
                 <asp:Panel runat="server" ID="pnlPatientVisitTransHdGrdView" Style="width: 100%; margin-left: auto; margin-right: auto; position: relative;font-size:0.95em;">
                     <asp:GridView ID="grdView" runat="server" CssClass="tblTransactionEntryResult" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                         <Columns>
-                            <asp:BoundField DataField="NoteName" HeaderText="Nama" HeaderStyle-Width="250px" />
-                            <asp:BoundField DataField="NoteDateInString" HeaderText="Tanggal" HeaderStyle-Width="120px" />
-                            <asp:BoundField DataField="NoteTime" HeaderText="Waktu" HeaderStyle-Width="70px" />
+                            <asp:BoundField DataField="BudgetName" HeaderText="Anggaran" HeaderStyle-Width="250px" />
                             <asp:TemplateField HeaderText="Keterangan" >
                                 <ItemTemplate>
                                     <%#Eval("CustomRemarks")%>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:BoundField DataField="UsedBudget" HeaderText="Jumlah" HeaderStyle-Width="120px" DataFormatString="{0:N}" HeaderStyle-CssClass="thRight" ItemStyle-HorizontalAlign="Right" />
                             <asp:TemplateField HeaderStyle-Width="80px" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <div style='float:right;' class="divPopupDelete">X</div>
                                     <div style='float:right;margin-right:10px;' class="divPopupEdit"><%=GetLabel("Edit")%></div>
-                                    <input type="hidden" value="<%#Eval("ProjectTaskLogID") %>" bindingfield="ProjectTaskLogID" />
-                                    <input type="hidden" value="<%#Eval("NoteName") %>" bindingfield="NoteName" />
-                                    <input type="hidden" value="<%#Eval("NoteDateInDatePicker") %>" bindingfield="NoteDateInDatePicker" />
-                                    <input type="hidden" value="<%#Eval("NoteTime") %>" bindingfield="NoteTime" />
+                                    <input type="hidden" value="<%#Eval("BudgetID") %>" bindingfield="BudgetID" />
+                                    <input type="hidden" value="<%#Eval("BudgetName") %>" bindingfield="BudgetName" />
+                                    <input type="hidden" value="<%#Eval("ProposedAmount") %>" bindingfield="ProposedAmount" />
+                                    <input type="hidden" value="<%#Eval("RealizationAmount") %>" bindingfield="RealizationAmount" />
+                                    <input type="hidden" value="<%#Eval("UsedBudget") %>" bindingfield="UsedBudget" />
                                     <input type="hidden" value="<%#Eval("Remarks") %>" bindingfield="Remarks" />
-                                    <input type="hidden" value="<%#Eval("EmployeeID") %>" bindingfield="EmployeeID" />
-                                    <input type="hidden" value="<%#Eval("EmployeeName") %>" bindingfield="EmployeeName" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

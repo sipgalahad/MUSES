@@ -17,7 +17,9 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
     {
         public override void InitializeDataControl(string param)
         {
-            hdnID.Value = param;
+            string[] data = param.Split('|');
+            hdnID.Value = data[0];
+            hdnProjectID.Value = data[1];
             vProjectTask entity = BusinessLayer.GetvProjectTaskList(String.Format("ProjectTaskID = {0}",Convert.ToInt32(hdnID.Value)))[0];
             txtHeaderText.Text = string.Format("{0} - {1}", entity.ProjectTaskCode, entity.ProjectTaskName);
             txtPTStartDate.Text = entity.StartDate.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
@@ -26,32 +28,31 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             txtPTEndTime.Text = entity.EndTime;
             txtPTRemarks.Text = entity.CustomRemarks;
 
-            txtStartDate.Text = DateTime.Now.ToString(Constant.FormatString.DATE_PICKER_FORMAT);
-            txtStartTime.Text = DateTime.Now.ToString("HH:mm");
-
             BindGridView();
 
-            Helper.SetControlEntrySetting(txtNoteName, new ControlEntrySetting(true, false, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, false, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, false, true), "mpTrxPopup");
-            Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtNoteName, new ControlEntrySetting(true, false, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtStartDate, new ControlEntrySetting(true, false, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtStartTime, new ControlEntrySetting(true, false, true), "mpTrxPopup");
+            //Helper.SetControlEntrySetting(txtRemarks, new ControlEntrySetting(true, true, false), "mpTrxPopup");
         }
 
+        #region HTML Getter
+        protected string OnGetProjectBudgetFilterExpression()
+        {
+            return string.Format("ProjectID = {0} AND ItemID IS NULL", AppSession.ProjectID);
+        }
+        #endregion
+
         private string OnGetFilterExpression() 
-        { 
-            String filterExpression = "";
-            if (AppSession.UserLogin.EmployeeID != 0)
-                filterExpression += string.Format("ProjectTaskID = {0} AND EmployeeID = {1} ", hdnID.Value, AppSession.UserLogin.EmployeeID);
-            else
-                filterExpression += string.Format("ProjectTaskID = {0} AND EmployeeID IS NULL ", hdnID.Value);
-            filterExpression += " AND IsDeleted = 0";
+        {
+            String filterExpression = string.Format("ProjectTaskID = {0} AND IsDeleted = 0", hdnID.Value);
             return filterExpression;
         }
 
         private void BindGridView()
         {
             String filterExpression = OnGetFilterExpression();
-            grdView.DataSource = BusinessLayer.GetvProjectTaskLogList(filterExpression);
+            grdView.DataSource = BusinessLayer.GetvProjectTaskBudgetList(filterExpression);
             grdView.DataBind();
         }
 
@@ -96,11 +97,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             panel.JSProperties["cpResult"] = result;
         }
 
-        private void ControlToEntity(ProjectTaskLog entity)
+        private void ControlToEntity(ProjectTaskBudget entity)
         {
-            entity.NoteName = txtNoteName.Text;
-            entity.NoteDate = Helper.GetDatePickerValue(txtStartDate.Text);
-            entity.NoteTime = txtStartTime.Text;
+            entity.BudgetID = Convert.ToInt32(hdnBudgetID.Value);
+            entity.UsedBudget = Convert.ToDecimal(txtUsedAmount.Text);
             entity.Remarks = txtRemarks.Text;
         }
 
@@ -110,15 +110,11 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             
             try
             {
-                ProjectTaskLog entity = new ProjectTaskLog();
+                ProjectTaskBudget entity = new ProjectTaskBudget();
                 ControlToEntity(entity);
-                if (AppSession.UserLogin.EmployeeID != 0)
-                    entity.EmployeeID = AppSession.UserLogin.EmployeeID;
-                else
-                    entity.EmployeeID = null;
                 entity.ProjectTaskID = Convert.ToInt32(hdnID.Value);
                 entity.CreatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.InsertProjectTaskLog(entity);
+                BusinessLayer.InsertProjectTaskBudget(entity);
             }
             catch (Exception ex)
             {
@@ -134,10 +130,10 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
             bool result = true;
             try
             {
-                ProjectTaskLog entity = BusinessLayer.GetProjectTaskLog(Convert.ToInt32(hdnEntryID.Value));
+                ProjectTaskBudget entity = BusinessLayer.GetProjectTaskBudget(Convert.ToInt32(hdnEntryID.Value),Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateProjectTaskLog(entity);
+                BusinessLayer.UpdateProjectTaskBudget(entity);
             }
             catch (Exception ex)
             {
@@ -152,10 +148,7 @@ namespace CodeX.Muses.Web.ProjectManagement.Program
         {
             try
             {
-                ProjectTaskLog entity = BusinessLayer.GetProjectTaskLog(Convert.ToInt32(hdnEntryID.Value));
-                entity.IsDeleted = true;
-                entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                BusinessLayer.UpdateProjectTaskLog(entity);
+                BusinessLayer.DeleteProjectTaskBudget(Convert.ToInt32(hdnEntryID.Value), Convert.ToInt32(hdnID.Value));
                 return true;
             }
             catch (Exception ex)

@@ -604,7 +604,7 @@
                             <div style="width:100%;">
                                 <dxcp:ASPxCallbackPanel ID="cbpViewPopup" runat="server" Width="100%" ClientInstanceName="cbpViewPopup"
                                     ShowLoadingPanel="false" OnCallback="cbpViewPopup_Callback">
-                                    <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
+                                    <ClientSideEvents BeginCallback="function(s,e){showLoadingPanel(); }"
                                         EndCallback="function(s,e){ hideLoadingPanel(); }" />
                                     <PanelCollection>
                                         <dx:PanelContent ID="PanelContent2" runat="server">

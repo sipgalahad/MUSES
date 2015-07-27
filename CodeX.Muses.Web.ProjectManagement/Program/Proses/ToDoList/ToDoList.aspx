@@ -80,7 +80,8 @@
         $('.lblLink.lblBudget').live('click', function () {
             var url = ResolveUrl('~/Program/Proses/ToDoList/ProjectTaskBudgetEntryCtl.ascx');
             var id = $(this).closest('tr').find('.keyField').html();
-            openUserControlPopup(url, id, 'Anggaran', 900, 500);
+            var param = id + '|' + cboProject.GetValue();
+            openUserControlPopup(url, param, 'Anggaran', 900, 500);
         });
 
         $('.btnSave').die('click');
