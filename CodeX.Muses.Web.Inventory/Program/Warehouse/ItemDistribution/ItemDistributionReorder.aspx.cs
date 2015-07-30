@@ -27,11 +27,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region Html Getter
         protected string OnGetFilterExpressionFromLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_DISTRIBUTION);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCode.Value);
         }
         protected string OnGetFilterExpressionToLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_REQUEST);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCodeItemRequest.Value);
         }
         #endregion
 
@@ -47,6 +47,16 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION_CROSS_SITE;
+                hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST_CROSS_SITE;
+            }
+            else
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION;
+                hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST;
+            }
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
             int PageCount = 1;
             int RowCount = 1;
@@ -153,7 +163,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             entityHd.DeliveryDate = Helper.GetDatePickerValue(txtItemOrderDate.Text);
             entityHd.DeliveryTime = txtItemOrderTime.Text;
             entityHd.DeliveryRemarks = txtNotes.Text;
-            entityHd.TransactionCode = Constant.TransactionCode.ITEM_DISTRIBUTION;
+            entityHd.TransactionCode = hdnTransactionCode.Value;
             entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.DeliveryDate, ctx);
             retval = entityHd.DistributionNo;
             entityHd.GCDistributionStatus = Constant.DistributionStatus.OPEN;

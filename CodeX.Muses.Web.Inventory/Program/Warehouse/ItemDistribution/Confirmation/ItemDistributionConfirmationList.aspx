@@ -127,6 +127,8 @@
             openUserControlPopup(url, param, 'Konfirmasi Penerimaan Barang', 800, 600);
         });
     </script>
+    <input type="hidden" id="hdnTransactionCode" runat="server" />
+    <input type="hidden" id="hdnTransactionCodeItemRequest" runat="server" />
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />

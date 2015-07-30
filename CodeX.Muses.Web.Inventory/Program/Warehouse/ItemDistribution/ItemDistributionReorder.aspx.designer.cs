@@ -31,6 +31,24 @@ namespace CodeX.Muses.Web.Inventory.Program {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnRowCountPerPage;
         
         /// <summary>
+        /// hdnTransactionCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransactionCode;
+        
+        /// <summary>
+        /// hdnTransactionCodeItemRequest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hdnTransactionCodeItemRequest;
+        
+        /// <summary>
         /// hdnPageCount control.
         /// </summary>
         /// <remarks>

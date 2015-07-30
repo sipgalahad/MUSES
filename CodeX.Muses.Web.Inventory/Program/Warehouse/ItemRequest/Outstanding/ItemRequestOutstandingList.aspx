@@ -64,6 +64,7 @@ CodeBehind="ItemRequestOutstandingList.aspx.cs" Inherits="CodeX.Muses.Web.Invent
         }
         //#endregion
     </script>
+    <input type="hidden" id="hdnTransactionCode" runat="server" />
     <input type="hidden" value="" id="hdnParam" runat="server" />
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />

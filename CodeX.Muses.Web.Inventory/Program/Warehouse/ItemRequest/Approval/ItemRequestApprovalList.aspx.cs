@@ -32,6 +32,10 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_REQUEST_CROSS_SITE;
+            else
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_REQUEST;
             RowCountPerPage = Constant.GridViewPageSize.GRID_MASTER;
             BindGridView(1, true, ref PageCount, ref RowCount);
         }
@@ -41,7 +45,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += String.Format("TransactionCode = '{0}' AND GCTransactionStatus = '{1}'", Constant.TransactionCode.ITEM_REQUEST, Constant.TransactionStatus.WAIT_FOR_APPROVAL);
+            filterExpression += String.Format("TransactionCode = '{0}' AND GCTransactionStatus = '{1}'", hdnTransactionCode.Value, Constant.TransactionStatus.WAIT_FOR_APPROVAL);
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
 
             if (count > 0)

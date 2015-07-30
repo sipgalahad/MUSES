@@ -28,11 +28,11 @@ namespace CodeX.Muses.Web.Inventory.Program
         #region Html Getter
         protected string OnGetFilterExpressionFromLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_DISTRIBUTION);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCode.Value);
         }
         protected string OnGetFilterExpressionToLocation()
         {
-            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, Constant.TransactionCode.ITEM_REQUEST);
+            return string.Format("{0};{1};{2};", AppSession.UserLogin.SiteID, AppSession.UserLogin.UserID, hdnTransactionCodeItemRequest.Value);
         }
         protected string OnGetFilterExpressionItemProduct()
         {
@@ -42,6 +42,16 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected override void InitializeDataControl()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION_CROSS_SITE;
+                hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST_CROSS_SITE;
+            }
+            else
+            {
+                hdnTransactionCode.Value = Constant.TransactionCode.ITEM_DISTRIBUTION;
+                hdnTransactionCodeItemRequest.Value = Constant.TransactionCode.ITEM_REQUEST;
+            }
             hdnRowCountPerPage.Value = Constant.GridViewPageSize.GRID_MASTER.ToString();
 
             int count = BusinessLayer.GetLocationUserRowCount(string.Format("UserID = {0} AND IsDeleted = 0", AppSession.UserLogin.UserID));
@@ -95,7 +105,7 @@ namespace CodeX.Muses.Web.Inventory.Program
 
         protected string GetFilterExpression()
         {
-            string filterExpression = String.Format("TransactionCode = '{0}'", Constant.TransactionCode.ITEM_DISTRIBUTION);
+            string filterExpression = String.Format("TransactionCode = '{0}'", hdnTransactionCode.Value);
             if (hdnRecordFilterExpression.Value != "")
                 filterExpression += string.Format(" AND {0}", hdnRecordFilterExpression.Value);
             return filterExpression;
@@ -193,7 +203,7 @@ namespace CodeX.Muses.Web.Inventory.Program
             {
                 ItemDistributionHd entityHd = new ItemDistributionHd();
                 ControlToEntityHd(entityHd);
-                entityHd.TransactionCode = Constant.TransactionCode.ITEM_DISTRIBUTION;
+                entityHd.TransactionCode = hdnTransactionCode.Value;
                 entityHd.DistributionNo = BusinessLayer.GenerateTransactionNo(entityHd.TransactionCode, entityHd.DeliveryDate, ctx);
                 entityHd.GCDistributionStatus = Constant.DistributionStatus.OPEN;
                 ctx.CommandType = CommandType.Text;

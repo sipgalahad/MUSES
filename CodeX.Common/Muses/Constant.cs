@@ -804,6 +804,8 @@ namespace CodeX.Common
             public const string CONSIGNMENT_ORDER = "4213";
             public const string CONSIGNMENT_RECEIVE = "4214";
             public const string CONSIGNMENT_RETURN = "4215";
+            public const string ITEM_REQUEST_CROSS_SITE = "4301";
+            public const string ITEM_DISTRIBUTION_CROSS_SITE = "4302";
 
             public const string AR_INVOICE_PROSPECTIVE_STUDENT = "5101";
             public const string AR_RECEIVE_PROSPECTIVE_STUDENT = "5102";
