@@ -26,6 +26,10 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected override void InitializeDataControl(string filterExpression, string keyValue)
         {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(string.Format("DisplayPath LIKE '%/{0}/%'", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
+            cboSite.SelectedIndex = 0;
+
             hdnFilterExpression.Value = filterExpression;
             hdnID.Value = keyValue;
             filterExpression = GetFilterExpression();

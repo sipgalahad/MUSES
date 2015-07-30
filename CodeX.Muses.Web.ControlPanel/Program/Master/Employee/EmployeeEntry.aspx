@@ -276,6 +276,10 @@
                             <col style="width:30%"/>
                         </colgroup>
                         <tr>
+                            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Base Site")%></label></td>
+                            <td><dxe:ASPxComboBox ID="cboSite" ClientInstanceName="cboSite" Width="120px" runat="server" /></td>
+                        </tr>
+                        <tr>
                             <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Bagian")%></label></td>
                             <td><dxe:ASPxComboBox ID="cboGCDepartment" ClientInstanceName="cboGCDepartment" Width="120px" runat="server" /></td>
                         </tr>

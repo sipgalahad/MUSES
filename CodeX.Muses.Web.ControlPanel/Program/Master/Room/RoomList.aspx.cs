@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetRoomRowIndex(filterExpression, keyValue, "RoomCode") + 1;
+                int row = BusinessLayer.GetvRoomRowIndex(filterExpression, keyValue, "RoomCode") + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            filterExpression += string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
             return filterExpression;
         }
 
@@ -61,11 +61,11 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
             if (isCountPageCount)
             {
-                rowCount = BusinessLayer.GetRoomRowCount(filterExpression);
+                rowCount = BusinessLayer.GetvRoomRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, Constant.GridViewPageSize.GRID_MASTER);
             }
 
-            List<Room> lstEntity = BusinessLayer.GetRoomList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "RoomCode");
+            List<vRoom> lstEntity = BusinessLayer.GetvRoomList(filterExpression, Constant.GridViewPageSize.GRID_MASTER, pageIndex, "RoomCode");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
         }

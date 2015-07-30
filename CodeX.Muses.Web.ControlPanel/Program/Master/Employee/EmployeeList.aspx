@@ -78,6 +78,7 @@
                                 <asp:BoundField DataField="EmployeeID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="EmployeeCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="EmployeeName" HeaderText="Nama Lengkap"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="SiteName" HeaderText="Base Site" HeaderStyle-Width="150px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

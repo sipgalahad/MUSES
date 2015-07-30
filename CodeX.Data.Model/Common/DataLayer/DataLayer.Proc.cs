@@ -662,7 +662,6 @@ namespace CodeX.Data.Model
         private String _MenuCode;
         private String _ModuleID;
         private String _MenuCaption;
-        private String _SiteID;
         private String _CRUDModeMenu;
         private Int32 _RoleID;
         private Int32 _Level;
@@ -701,13 +700,6 @@ namespace CodeX.Data.Model
         {
             get { return _MenuCaption; }
             set { _MenuCaption = value; }
-        }
-
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
 
         [Column(Name = "CRUDModeMenu", DataType = "String")]

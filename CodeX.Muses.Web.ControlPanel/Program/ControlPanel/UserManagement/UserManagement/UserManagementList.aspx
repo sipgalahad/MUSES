@@ -5,6 +5,8 @@
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="plhCustomButtonToolbar" runat="server">
     <li id="btnUserManagementResetPassword" CRUDMode="U" runat="server"><img src='<%=ResolveUrl("~/Libs/Images/Icon/back.png")%>' alt="" /><br style="clear:both"/><div><%=GetLabel("Reset Password")%></div></li>
@@ -33,31 +35,31 @@
         }
 
         $('.lnkMenuAccess a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserMenuAccessEntryCtl.ascx");
             openUserControlPopup(url, id, 'Menu Access', 900, 620);
         });
 
         $('.lnkLoginAttribute a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserLoginAttributeEntryCtl.ascx");
             openUserControlPopup(url, id, 'Login Attribute', 1000, 620);
         });
 
         $('.lnkLocation a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserLocationEntryCtl.ascx");
             openUserControlPopup(url, id, 'Location', 900, 550);
         });
 
         $('.lnkReport a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserReportEntryCtl.ascx");
             openUserControlPopup(url, id, 'Report', 900, 550);
         });
 
         $('.lnkUserRole a').live('click', function () {
-            var id = $(this).closest('tr').find('.keyField').html();
+            var id = $(this).closest('tr').find('.keyField').html() + '|' + cboSite.GetValue();
             var url = ResolveUrl("~/Program/ControlPanel/UserManagement/UserManagement/UserInRoleEntryCtl.ascx");
             openUserControlPopup(url, id, 'User Role', 900, 550);
         });
@@ -113,6 +115,16 @@
     </script>
     <input type="hidden" value="" id="hdnID" runat="server" />
     <input type="hidden" id="hdnFilterExpression" runat="server" value="" />
+    <table class="tblEntryContent" style="width:70%">
+        <colgroup>
+            <col style="width:160px"/>
+            <col/>
+        </colgroup>
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+            <td><dxe:ASPxComboBox ID="cboSite" ClientInstanceName="cboSite" runat="server" Width="200px" /></td>
+        </tr>  
+    </table>       
     <div style="position: relative;">
         <dxcp:ASPxCallbackPanel ID="cbpView" runat="server" Width="100%" ClientInstanceName="cbpView"
             ShowLoadingPanel="false" OnCallback="cbpView_Callback">

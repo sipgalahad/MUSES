@@ -23,7 +23,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
 
         protected string OnGetEmployeeFilterExpression()
         {
-            return string.Format("SiteID = '{0}' AND IsDeleted = 0", AppSession.UserLogin.SiteID);
+            return string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND IsDeleted = 0", AppSession.UserLogin.SiteID);
         }
 
         protected override void InitializeDataControl()

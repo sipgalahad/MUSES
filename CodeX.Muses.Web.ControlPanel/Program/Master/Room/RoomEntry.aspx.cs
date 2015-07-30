@@ -26,20 +26,29 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
+                SetControlProperties();
                 Room entity = BusinessLayer.GetRoom(Convert.ToInt32(ID));
                 EntityToControl(entity);
             }
             else
             {
+                SetControlProperties();
                 IsAdd = true;
             }
             txtRoomCode.Focus();
+        }
+
+        protected override void SetControlProperties()
+        {
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(string.Format("DisplayPath LIKE '%/{0}/%'", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
         }
 
         protected override void OnControlEntrySetting()
         {
             SetControlEntrySetting(txtRoomCode, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(txtRoomName, new ControlEntrySetting(true, true, true));
+            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(chkIsShared, new ControlEntrySetting(true, true, false));
         }
 
@@ -47,6 +56,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             txtRoomCode.Text = entity.RoomCode;
             txtRoomName.Text = entity.RoomName;
+            cboSite.Value = entity.SiteID;
             chkIsShared.Checked = entity.IsShared;
         }
 
@@ -54,6 +64,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             entity.RoomCode = txtRoomCode.Text;
             entity.RoomName = txtRoomName.Text;
+            entity.SiteID = cboSite.Value.ToString();
             entity.IsShared = chkIsShared.Checked;
         }
 

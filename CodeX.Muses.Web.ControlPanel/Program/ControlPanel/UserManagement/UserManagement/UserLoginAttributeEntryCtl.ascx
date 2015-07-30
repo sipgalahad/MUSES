@@ -145,6 +145,7 @@
     </script>
     <input type="hidden" id="hdnSelectedMember" runat="server" value="" />
     <input type="hidden" id="hdnUserID" runat="server" value="" />
+    <input type="hidden" id="hdnSiteID" runat="server" value="" />
     <input type="hidden" id="hdnParam" runat="server" value="" />
     <input type="hidden" id="hdnFilterItemCode" runat="server" />
     <input type="hidden" id="hdnFilterItemName" runat="server" />
@@ -157,6 +158,10 @@
         <tr>
             <td class="tdLabel"><label class="lblNormal"><%=GetLabel("User")%></label></td>
             <td><asp:TextBox ID="txtUserName" ReadOnly="true" Width="200px" runat="server" /></td>
+        </tr> 
+        <tr>
+            <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Site")%></label></td>
+            <td><asp:TextBox ID="txtSiteName" ReadOnly="true" Width="200px" runat="server" /></td>
         </tr> 
     </table>
     <table style="width:100%">

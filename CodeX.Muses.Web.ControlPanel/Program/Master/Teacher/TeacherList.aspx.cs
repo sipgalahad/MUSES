@@ -30,7 +30,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             filterExpression = GetFilterExpression();
             if (keyValue != "")
             {
-                int row = BusinessLayer.GetvTeacherRowIndex(filterExpression, keyValue) + 1;
+                int row = BusinessLayer.GetvTeacherRowIndex(filterExpression, keyValue, "Name ASC") + 1;
                 CurrPage = Helper.GetPageCount(row, Constant.GridViewPageSize.GRID_MASTER);
             }
             else
@@ -51,7 +51,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             string filterExpression = hdnFilterExpression.Value;
             if (filterExpression != "")
                 filterExpression += " AND ";
-            filterExpression += string.Format("SiteID = '{0}' AND GCEmployeeType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.EmployeeType.TEACHER);
+            filterExpression += string.Format("SiteID IN (SELECT SiteID FROM vSite WHERE DisplayPath LIKE '%/{0}/%') AND GCEmployeeType = '{1}' AND IsDeleted = 0", AppSession.UserLogin.SiteID, Constant.EmployeeType.TEACHER);
             return filterExpression;
         }
 

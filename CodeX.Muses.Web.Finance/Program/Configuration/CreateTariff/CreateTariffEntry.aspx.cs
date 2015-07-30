@@ -31,8 +31,8 @@ namespace CodeX.Muses.Web.Finance.Program
         {
             hdnVATPercentage.Value = BusinessLayer.GetSettingParameter(Constant.SettingParameter.VAT_PERCENTAGE).ParameterValue;
 
-            List<Site> lstSite = BusinessLayer.GetSiteList("");
-            Methods.SetComboBoxField<Site>(cboSite, lstSite, "SiteName", "SiteID");
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(string.Format("DisplayPath LIKE '%/{0}/%'", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
             cboSite.Value = AppSession.UserLogin.SiteID;
 
             List<StandardCode> lstStandardCode = BusinessLayer.GetStandardCodeList(string.Format("ParentID IN ('{0}', '{1}') AND IsDeleted = 0", Constant.StandardCode.TARIFF_SCHEME, Constant.StandardCode.ITEM_TYPE));

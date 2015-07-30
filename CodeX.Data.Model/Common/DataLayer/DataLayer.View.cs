@@ -899,6 +899,7 @@ namespace CodeX.Data.Model
         private String _ZipCode;
         private Int32 _Level;
         private String _Path;
+        private String _DisplayPath;
 
         [Column(Name = "SiteID", DataType = "String")]
         public String SiteID
@@ -1043,6 +1044,12 @@ namespace CodeX.Data.Model
         {
             get { return _Path; }
             set { _Path = value; }
+        }
+        [Column(Name = "DisplayPath", DataType = "String")]
+        public String DisplayPath
+        {
+            get { return _DisplayPath; }
+            set { _DisplayPath = value; }
         }
     }
     #endregion

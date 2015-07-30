@@ -3693,7 +3693,6 @@ namespace CodeX.Data.Model
         private Int32 _ID;
         private Int32 _MenuID;
         private Int32 _RoleID;
-        private String _SiteID;
         private String _CRUDMode;
         private Boolean _IsDeleted;
         private Int32? _CreatedBy;
@@ -3718,12 +3717,6 @@ namespace CodeX.Data.Model
         {
             get { return _RoleID; }
             set { _RoleID = value; }
-        }
-        [Column(Name = "SiteID", DataType = "String")]
-        public String SiteID
-        {
-            get { return _SiteID; }
-            set { _SiteID = value; }
         }
         [Column(Name = "CRUDMode", DataType = "String")]
         public String CRUDMode

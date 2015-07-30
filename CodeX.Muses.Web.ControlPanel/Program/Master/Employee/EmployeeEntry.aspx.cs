@@ -70,6 +70,9 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             Methods.SetComboBoxField<StandardCode>(cboGCOccupation, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.EMPLOYEE_OCCUPATION).ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboGCOccupationLevel, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.EMPLOYEE_OCCUPATION_LEVEL || sc.StandardCodeID == "").ToList(), "StandardCodeName", "StandardCodeID");
             Methods.SetComboBoxField<StandardCode>(cboGCEmployeeStatus, lstStandardCode.Where(sc => sc.ParentID == Constant.StandardCode.EMPLOYMENT_STATUS).ToList(), "StandardCodeName", "StandardCodeID");
+
+            List<vSite> lstSite = BusinessLayer.GetvSiteList(string.Format("DisplayPath LIKE '%/{0}/%'", AppSession.UserLogin.SiteID));
+            Methods.SetComboBoxField<vSite>(cboSite, lstSite, "SiteName", "SiteID");
         }
 
         protected override void OnControlEntrySetting()
@@ -94,6 +97,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
 
             #region Data Karyawan
+            SetControlEntrySetting(cboSite, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCDepartment, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupation, new ControlEntrySetting(true, true, true));
             SetControlEntrySetting(cboGCOccupationLevel, new ControlEntrySetting(true, true, false));
@@ -142,6 +146,8 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             txtRemarks.Text = entity.Remarks;
 
             #region Data Karyawan
+            cboSite.Value = entity.SiteID;
+            cboGCDepartment.Value = entity.GCDepartment;
             cboGCDepartment.Value = entity.GCDepartment;
             cboGCOccupation.Value = entity.GCOccupation;
             cboGCOccupationLevel.Value = entity.GCOccupationLevel;
@@ -212,6 +218,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             #endregion
 
             #region Data Karyawan
+            entity.SiteID = cboSite.Value.ToString();
             entity.GCDepartment = Helper.GetComboBoxValue(cboGCDepartment, true);
             entity.GCOccupation = Helper.GetComboBoxValue(cboGCOccupation, true);
             entity.GCOccupationLevel = Helper.GetComboBoxValue(cboGCOccupationLevel, true);

@@ -181,12 +181,12 @@
     </div>
 
     <div style="width:100%;text-align:center">
-    <table style="margin-left: auto; margin-right: auto; margin-top: 10px;">
-        <tr>
-            <td><input type="button" value='<%= GetLabel("Save")%>' style="width:70px" id="btnSaveReportUser" /></td>
-            <td><input type="button" value='<%= GetLabel("Close")%>' style="width:70px" onclick="pcRightPanelContent.Hide();" /></td>
-        </tr>
-    </table>
-</div>
+        <table style="margin-left: auto; margin-right: auto; margin-top: 10px;">
+            <tr>
+                <td><input type="button" value='<%= GetLabel("Save")%>' style="width:70px" id="btnSaveReportUser" /></td>
+                <td><input type="button" value='<%= GetLabel("Close")%>' style="width:70px" onclick="pcRightPanelContent.Hide();" /></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
