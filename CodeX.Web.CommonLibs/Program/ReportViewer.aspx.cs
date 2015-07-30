@@ -41,7 +41,7 @@ namespace CodeX.Web.CommonLibs.Program
 
                 hdnFilterExpression.Value = "";
 
-                divReportProperties.InnerHtml = string.Format("VIDA - {0}, Print Date/Time:{1}, User ID:{2}", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
+                divReportProperties.InnerHtml = string.Format("OTTIMO - {0}, Print Date/Time:{1}, User ID:{2}", reportMaster.ReportCode, DateTime.Now.ToString("dd-MMM-yyyy/HH:mm:ss"), AppSession.UserLogin.UserName);
 
                 oSite = BusinessLayer.GetvSiteList(string.Format("SiteID = '{0}'", AppSession.UserLogin.SiteID))[0];
                 if (oSite != null)
@@ -142,6 +142,7 @@ namespace CodeX.Web.CommonLibs.Program
                     SubHeaderText1 = SubHeaderText1.Replace("{" + reportParameter.Code + "}", paramText);
                 }
             }
+            displayParameter += "</table>";
             if (isShowParameter)
                 divContainerReportParameter.InnerHtml = displayParameter;
             else
@@ -268,6 +269,7 @@ namespace CodeX.Web.CommonLibs.Program
                     SubHeaderText1 = SubHeaderText1.Replace("{" + reportParameter.Code + "}", paramText);
                 }
             }
+            displayParameter += "</table>";
             if (isShowParameter)
                 divContainerReportParameter.InnerHtml = displayParameter;
             else
@@ -310,6 +312,18 @@ namespace CodeX.Web.CommonLibs.Program
                     throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, dataSourceHd));
                 var fieldValue = prop.GetValue(entityHd, null).ToString();
                 templateText = templateText.Replace("{" + columnName + ",N}", Convert.ToDecimal(fieldValue).ToString("N"));
+            }
+
+            regex = new Regex("{([(a-zA-Z0-9_.,)]*),DATE_FORMAT}");
+            collection = regex.Matches(templateText);
+            foreach (Match m in collection)
+            {
+                var columnName = m.Groups[1].Value;
+                var prop = entityHd.GetType().GetProperty(columnName);
+                if (prop == null)
+                    throw new Exception(string.Format("Property {0} Not Found in {1}", columnName, dataSourceHd));
+                var fieldValue = prop.GetValue(entityHd, null).ToString();
+                templateText = templateText.Replace("{" + columnName + ",DATE_FORMAT}", Convert.ToDateTime(fieldValue).ToString("dd-MMM-yyyy"));
             }
             templateText = templateText.Replace("{DateTime.Now}", DateTime.Now.ToString(Constant.FormatString.DATE_FORMAT));
 
@@ -358,8 +372,11 @@ namespace CodeX.Web.CommonLibs.Program
                                          FontFamily = sd.Attribute("fontfamily") != null ? sd.Attribute("fontfamily").Value : "Tahoma",
                                          TotalText = sd.Attribute("totaltext") != null ? sd.Attribute("totaltext").Value : "",
                                          IsShowTotal = sd.Attribute("isshowtotal") != null ? sd.Attribute("isshowtotal").Value == "1" : false,
+                                         TotalType = sd.Attribute("totaltype") != null ? sd.Attribute("totaltype").Value : "SUM",
                                          IsDataSourceFromSP = sd.Attribute("isdatasourcefromsp") != null ? sd.Attribute("isdatasourcefromsp").Value == "1" : false,
                                          IsShowHeaderFooter = sd.Attribute("isshowheaderfooter") != null ? sd.Attribute("isshowheaderfooter").Value == "1" : true,
+                                         IsShowHeader = sd.Attribute("isshowheader") != null ? sd.Attribute("isshowheader").Value == "1" : false,
+                                         IsShowFooter = sd.Attribute("isshowfooter") != null ? sd.Attribute("isshowfooter").Value == "1" : false,
                                          IsShowParameter = sd.Attribute("isshowparameter") != null ? sd.Attribute("isshowparameter").Value == "1" : false,
                                          IsShowHeaderBorder = sd.Attribute("isshowheaderborder") != null ? sd.Attribute("isshowheaderborder").Value == "1" : false,
                                          IsUsingDotMatrix = sd.Attribute("isusingdotmatrix") != null ? sd.Attribute("isusingdotmatrix").Value == "1" : false
@@ -389,8 +406,10 @@ namespace CodeX.Web.CommonLibs.Program
             SubHeaderText1 = tempReportSetting.SubHeaderText;
             if (!tempReportSetting.IsShowHeaderFooter)
             {
-                divPageHeader.Style.Add("display", "none");
-                divContainerPageFooter.Style.Add("display", "none");
+                if (!tempReportSetting.IsShowHeader)
+                    divPageHeader.Style.Add("display", "none");
+                if (!tempReportSetting.IsShowFooter)
+                    divContainerPageFooter.Style.Add("display", "none");
             }
 
             if (tempReportSetting.HeaderText != "")
@@ -509,7 +528,7 @@ namespace CodeX.Web.CommonLibs.Program
                 rptReport.HeaderTemplate = new MyTemplate(ListItemType.Header, lstTemplateField, lstGroupField, 0, xdocReport.Root.Elements("fields"), tempReportSetting.IsShowHeaderBorder, lstParameterCodeValue);
                 if (lstTemplateField.Count > 0)
                 {
-                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0);
+                    rptReport.ItemTemplate = new MyTemplate(ListItemType.Item, lstTemplateField, lstGroupField, 0, tempReportSetting.TotalType, tempReportSetting.TotalText);
 
                     object obj = null;
                     if (!tempReportSetting.IsDataSourceFromSP)
@@ -528,7 +547,7 @@ namespace CodeX.Web.CommonLibs.Program
                         obj = BusinessLayer.GetDataReport(tempReportSetting.DataSource, lstVariable);
                     }
 
-                    rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalText);
+                    rptReport.FooterTemplate = new MyTemplate(ListItemType.Footer, lstTemplateField, (IEnumerable<object>)obj, tempReportSetting.IsShowTotal, tempReportSetting.TotalType, tempReportSetting.TotalText);
 
                     if (lstGroupField.Count > 0)
                     {
@@ -646,17 +665,20 @@ namespace CodeX.Web.CommonLibs.Program
             List<GroupField> _lstGroupField;
             int _level;
             bool _isShowTotal;
+            string _totalType;
             bool _isShowHeaderBorder;
             IEnumerable<object> _lstEntity;
             string _totalText;
             IEnumerable<XElement> _lstField;
             List<Variable> _lstParameterCodeValue;
-            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level)
+            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, string totalType, string totalText)
             {
                 _type = type;
                 _lstTemplateField = lstTemplateField;
                 _level = level;
                 _lstGroupField = lstGroupField;
+                _totalType = totalType;
+                _totalType = totalType;
             }
             public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, List<GroupField> lstGroupField, int level, IEnumerable<XElement> lstField, bool isShowHeaderBorder, List<Variable> lstParameterCodeValue)
             {
@@ -668,13 +690,14 @@ namespace CodeX.Web.CommonLibs.Program
                 _isShowHeaderBorder = isShowHeaderBorder;
                 _lstParameterCodeValue = lstParameterCodeValue;
             }
-            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, IEnumerable<object> lstEntity, bool isShowTotal, string totalText)
+            public MyTemplate(ListItemType type, List<TemplateField> lstTemplateField, IEnumerable<object> lstEntity, bool isShowTotal, string totalType, string totalText)
             {
                 _type = type;
                 _lstTemplateField = lstTemplateField;
                 _isShowTotal = isShowTotal;
                 _lstEntity = lstEntity;
                 _totalText = totalText;
+                _totalType = totalType;
             }
 
             #region Generate Table Header
@@ -836,16 +859,21 @@ namespace CodeX.Web.CommonLibs.Program
                             {
                                 if (tf.IsShowSubTotal)
                                 {
-                                    if (tf.FieldType == "currency")
+                                    if (_totalType == "SUM")
                                     {
-                                        decimal subtotal = _lstEntity.Sum(c => Convert.ToDecimal(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
-                                        lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0:N}</td>", subtotal);
+                                        if (tf.FieldType == "currency")
+                                        {
+                                            decimal subtotal = _lstEntity.Sum(c => Convert.ToDecimal(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
+                                            lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0:N}</td>", subtotal);
+                                        }
+                                        else
+                                        {
+                                            int subtotal = _lstEntity.Sum(c => Convert.ToInt32(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
+                                            lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0}</td>", subtotal);
+                                        }
                                     }
                                     else
-                                    {
-                                        int subtotal = _lstEntity.Sum(c => Convert.ToInt32(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
-                                        lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0}</td>", subtotal);
-                                    }
+                                        lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0:N}</td>", _lstEntity.Count());
                                 }
                                 else
                                     lcSubTotal.Text += "<td class='tdDetail tdGrandDetail'>&nbsp;</td>";
@@ -863,7 +891,7 @@ namespace CodeX.Web.CommonLibs.Program
                             Literal lc = new Literal();
                             Repeater rptDetail = new Repeater();
                             rptDetail.ID = "rptDetail";
-                            rptDetail.ItemTemplate = new MyTemplate(ListItemType.Item, _lstTemplateField, _lstGroupField, _level + 1);
+                            rptDetail.ItemTemplate = new MyTemplate(ListItemType.Item, _lstTemplateField, _lstGroupField, _level + 1, _totalType, _totalText);
 
                             container.Controls.Add(lc);
                             container.Controls.Add(rptDetail);
@@ -914,16 +942,21 @@ namespace CodeX.Web.CommonLibs.Program
                                     {
                                         if (tf.IsShowSubTotal)
                                         {
-                                            if (tf.FieldType == "currency")
+                                            if (_totalType == "SUM")
                                             {
-                                                decimal subtotal = lst.Sum(c => Convert.ToDecimal(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
-                                                lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0:N}</td>", subtotal);
+                                                if (tf.FieldType == "currency")
+                                                {
+                                                    decimal subtotal = lst.Sum(c => Convert.ToDecimal(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
+                                                    lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0:N}</td>", subtotal);
+                                                }
+                                                else
+                                                {
+                                                    int subtotal = lst.Sum(c => Convert.ToInt32(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
+                                                    lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0}</td>", subtotal);
+                                                }
                                             }
                                             else
-                                            {
-                                                int subtotal = lst.Sum(c => Convert.ToInt32(c.GetType().GetProperty(tf.FieldName).GetValue(c, null)));
-                                                lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0}</td>", subtotal);
-                                            }
+                                                lcSubTotal.Text += string.Format("<td align='right' class='tdDetail tdSubTotalDetail'>{0}</td>", lst.Count());
                                         }
                                         else
                                             lcSubTotal.Text += "<td class='tdDetail tdSubTotalDetail'>&nbsp;</td>";
@@ -971,6 +1004,8 @@ namespace CodeX.Web.CommonLibs.Program
                                         lc.Text += string.Format("<td align='right' class='tdDetail'>{0:N}</td>", DataBinder.Eval(container1.DataItem, tf.FieldName));
                                     else if (tf.FieldType == "number")
                                         lc.Text += string.Format("<td align='right' class='tdDetail'>{0}</td>", DataBinder.Eval(container1.DataItem, tf.FieldName));
+                                    else if (tf.FieldType == "time")
+                                        lc.Text += string.Format("<td align='center' class='tdDetail'>{0}</td>", DataBinder.Eval(container1.DataItem, tf.FieldName));
                                     else
                                         lc.Text += string.Format("<td class='tdDetail'>{0}</td>", DataBinder.Eval(container1.DataItem, tf.FieldName));
                                 }

@@ -65,6 +65,7 @@
 
                 var p1 = $('#page' + idx + ' .divcontent');
                 var p1Height = p1.height();
+
                 if (p1Height > cont1Height) {
                     var containerp2 = $("<div class='page'><div id='page" + (idx + 1) + "' class='pageContent'><div class='divcontent'><div class='pageFooter'></div><div class='pageHeader'></div></div></div></div>");
                     var containerp1 = p1.parent();
@@ -86,6 +87,12 @@
 
                     $tbody = p1.find('.reportBody');
                     $tbody2 = p2.find('.reportBody');
+                    $tbody2.find('.trReportBody').each(function () {
+                        $(this).remove();
+                    });
+                    containerp2.insertAfter(p1.parent().parent());
+                    var cont2 = $('#page' + (idx + 1));
+                    var cont2Height = cont2.height();
 
                     if ($.browser.chrome) {
                         while (p1Height + 10 > cont1Height) {
@@ -98,18 +105,24 @@
                         }
                     }
                     else {
-                        while (p1Height > cont1Height) {
-                            $elm = $tbody.find('tr.trReportBody').last();
-                            $tbody2.prepend($elm);
+                        var p2Height = 0;
+                        var ctr = 0;
+                        while (p2Height < cont2Height) {
+                            $elm = $tbody.find('tr.trReportBody').first();
+                            $tbody2.append($elm);
 
                             //re-evaluate height
-                            p1Height = p1.height();
+                            p2Height = p2.height();
                             //loop
+                            ctr++;
                         }
+
+                        $tempBody = $tbody2.html();
+                        $tbody2.html($tbody.html());
+                        $tbody.html($tempBody);
                     }
 
                     setTimeout(function () {
-                        containerp2.insertAfter(p1.parent().parent());
                         processOverflowDiv1(idx + 1);
                     }, 0);
                 }

@@ -22,14 +22,14 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             string[] temp = param.Split('|');
             hdnFormID.Value = temp[0];
-            
+
             ProspectiveStudentForm entityHd = BusinessLayer.GetProspectiveStudentForm(Convert.ToInt32(hdnFormID.Value));
             txtFormCode.Text = entityHd.FormCode;
             txtFormName.Text = entityHd.FormName;
 
             if (param != "")
             {
-                List<vProspectiveStudentFolder> lstSelected = BusinessLayer.GetvProspectiveStudentFolderList(string.Format("FormID = {0} AND IsDeleted = 0", hdnFormID.Value));
+                List<vProspectiveStudentFolder> lstSelected = BusinessLayer.GetvProspectiveStudentFolderList(string.Format("FormID = {0}", hdnFormID.Value));
                 rptSelected.DataSource = lstSelected;
                 rptSelected.DataBind();
 
@@ -76,10 +76,21 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 int rowCount = BusinessLayer.GetvSiteRowCount(filterExpression);
                 pageCount = Helper.GetPageCount(rowCount, 8);
             }
-
+            lstSelectedMember = hdnSelectedMember.Value.Split(',');
             List<vSite> lstEntity = BusinessLayer.GetvSiteList(filterExpression, 8, pageIndex, "SiteID ASC");
             grdView.DataSource = lstEntity;
             grdView.DataBind();
+        }
+
+        protected void grdView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                vSite entity = e.Row.DataItem as vSite;
+                CheckBox chkIsSelected = e.Row.FindControl("chkIsSelected") as CheckBox;
+                if (lstSelectedMember.Contains(entity.SiteID.ToString()))
+                    chkIsSelected.Checked = true;
+            }
         }
 
         protected override bool OnSaveAddRecord(ref string errMessage, ref string retval)
@@ -90,7 +101,7 @@ namespace CodeX.Muses.Web.ControlPanel.Program
             try
             {
                 lstSelectedMember = hdnSelectedMember.Value.Split(',');
-                List<ProspectiveStudentFolder> lstProspectiveStudentFolder = BusinessLayer.GetProspectiveStudentFolderList(String.Format("FormID = {0}",hdnFormID.Value));
+                List<ProspectiveStudentFolder> lstProspectiveStudentFolder = BusinessLayer.GetProspectiveStudentFolderList(String.Format("FormID = {0}", hdnFormID.Value));
                 foreach (String member in lstSelectedMember)
                 {
                     ProspectiveStudentFolder entityDt = lstProspectiveStudentFolder.FirstOrDefault(x => x.SiteID == member);
@@ -101,16 +112,16 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                         entityDt.SiteID = member;
                         entityDtDao.Insert(entityDt);
                     }
-                    else 
+                    else
                     {
                         lstProspectiveStudentFolder.Remove(entityDt);
                     }
-                    foreach (ProspectiveStudentFolder psf in lstProspectiveStudentFolder) 
+                    foreach (ProspectiveStudentFolder psf in lstProspectiveStudentFolder)
                     {
                         entityDtDao.Delete(psf.SiteID, psf.FormID);
                     }
                 }
-                
+
                 ctx.CommitTransaction();
             }
             catch (Exception ex)

@@ -169,9 +169,9 @@ namespace CodeX.Muses.Web.Finance.Program
             }
             else
             {
-                filterExpression = string.Format("BusinessPartnerID = {0} AND GCItemType = '{1}' AND GCPurchaseType = '{2}' AND IsVerified = 1", AppSession.BusinessPartnerID, cboItemType.Value, cboPurchaseType.Value);
+                filterExpression = string.Format("BusinessPartnerID = {0} AND GCItemType = '{1}' AND GCPurchaseType = '{2}' AND IsVerified = 1 AND GCTransactionStatus NOT IN ('{3}','{4}','{5}')", AppSession.BusinessPartnerID, cboItemType.Value, cboPurchaseType.Value, Constant.TransactionStatus.CLOSED, Constant.TransactionStatus.OPEN, Constant.TransactionStatus.VOID);
                 List<vPurchaseInvoiceHd> lst = BusinessLayer.GetvPurchaseInvoiceHdList(filterExpression);
-                lvwView.DataSource = lst.Where(p => p.CustomSisaHutang > 0);
+                lvwView.DataSource = lst;
                 lvwView.DataBind();
             }
         }
@@ -395,11 +395,15 @@ namespace CodeX.Muses.Web.Finance.Program
             {
                 string filterExpression = string.Format("SupplierPaymentID = {0} AND IsVerified = 1", hdnSupplierPaymentID.Value);
                 List<vPurchaseInvoiceHdPayment> lstEntity = BusinessLayer.GetvPurchaseInvoiceHdPaymentList(filterExpression, ctx);
+                string lstPurchaseInvoiceID = string.Join(",", lstEntity.Select(p => p.PurchaseInvoiceID).ToList());
+
+                List<PurchaseInvoiceHd> lstPurchaseInvoiceHd = BusinessLayer.GetPurchaseInvoiceHdList(string.Format("PurchaseInvoiceID IN ({0})", lstPurchaseInvoiceID), ctx);
                 foreach (vPurchaseInvoiceHdPayment purchaseInvoiceHdPayment in lstEntity)
                 {
-                    PurchaseInvoiceHd pInvoice = BusinessLayer.GetPurchaseInvoiceHd(purchaseInvoiceHdPayment.PurchaseInvoiceID);
+                    PurchaseInvoiceHd pInvoice = lstPurchaseInvoiceHd.FirstOrDefault(p => p.PurchaseInvoiceID == purchaseInvoiceHdPayment.PurchaseInvoiceID);
                     pInvoice.NumberOfPayment -= 1;
                     pInvoice.PaymentAmount -= purchaseInvoiceHdPayment.PaymentAmount;
+                    pInvoice.GCTransactionStatus = Constant.TransactionStatus.APPROVED;
                     pInvoice.LastUpdatedBy = AppSession.UserLogin.UserID;
                     pinvoiceDao.Update(pInvoice);
                 }

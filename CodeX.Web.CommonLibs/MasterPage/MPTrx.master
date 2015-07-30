@@ -291,7 +291,7 @@
                         onPopupListShown();
                 }
 
-                function onCbpViewEndCallback(s) {
+                function onCbpSearchListEndCallback(s) {
                     hideLoadingPanel();
 
                     var param = s.cpResult.split('|');
@@ -547,7 +547,7 @@
                     <dxcp:ASPxCallbackPanel ID="cbpSearchList" runat="server" Width="100%" ClientInstanceName="cbpSearchList"
                         ShowLoadingPanel="false" OnCallback="cbpSearchList_Callback">
                         <ClientSideEvents BeginCallback="function(s,e){ showLoadingPanel(); }"
-                            EndCallback="function(s,e){ hideLoadingPanel(); }" />
+                            EndCallback="function(s,e){ onCbpSearchListEndCallback(s); }" />
                         <PanelCollection>
                             <dx:PanelContent ID="PanelContent2" runat="server">
                                 <asp:Panel runat="server" ID="pnlQuickMenuArea" Style="width: 100%; margin-left: auto; margin-right: auto">

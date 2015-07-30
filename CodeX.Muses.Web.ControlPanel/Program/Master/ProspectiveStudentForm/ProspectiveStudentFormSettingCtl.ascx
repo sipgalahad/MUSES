@@ -20,7 +20,7 @@
         });
 
         $('#<%=hdnSelectedMember.ClientID %>').val(lstSelectedMember.join(','));
-        
+
         return true;
     }
 
@@ -160,7 +160,7 @@
                         EndCallback="function(s,e){ onCbpPopupEndCallback(s); }" />
                     <PanelCollection>
                         <dx:PanelContent ID="PanelContent1" runat="server">
-                            <asp:GridView ID="grdView" runat="server" CssClass="grdView notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
+                            <asp:GridView ID="grdView" runat="server" CssClass="grdView notAllowSelect" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty" OnRowDataBound="grdView_RowDataBound">
                                 <Columns>
                                     <asp:BoundField DataField="SiteID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField"/>
                                     <asp:TemplateField HeaderStyle-Width="40px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">

@@ -57,7 +57,7 @@ namespace CodeX.Web.Accounting.Program
                 List<JournalTemplateDt> lstJournalTemplateDt = new List<JournalTemplateDt>();
                 foreach (string saveParam in lstSaveParam)
                 {
-                    string[] param = saveParam.Split(',');
+                    string[] param = saveParam.Split(';');
                     JournalTemplateDt entityDt = new JournalTemplateDt();
                     entityDt.TemplateID = entityHd.TemplateID;
                     entityDt.GLAccountID = Convert.ToInt32(param[1]);

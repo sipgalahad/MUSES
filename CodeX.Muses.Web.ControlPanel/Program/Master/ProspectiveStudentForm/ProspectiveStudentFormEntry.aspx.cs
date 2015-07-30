@@ -26,23 +26,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 IsAdd = false;
                 String ID = Request.QueryString["id"];
                 hdnID.Value = ID;
-                String filterExpression = String.Format("FormID = {0}", Convert.ToInt32(ID));
+                String filterExpression = String.Format("FormID = {0}", hdnID.Value);
                 ProspectiveStudentForm entity = BusinessLayer.GetProspectiveStudentFormList(filterExpression)[0];
-                
-                if (hdnID.Value != "")
-                {
-                    ProspectiveStudentFolder folder = BusinessLayer.GetProspectiveStudentFolder(AppSession.UserLogin.SiteID, Convert.ToInt32(hdnID.Value));
-                    if (folder == null) hdnIsExist.Value = "0";
-                    else hdnIsExist.Value = "1";
-                }
                 EntityToControl(entity);
             }
             else
-            {
                 IsAdd = true;
-                hdnIsExist.Value = "0";
-            }
-            
+
             txtFormCode.Focus();
         }
 
@@ -107,11 +97,13 @@ namespace CodeX.Muses.Web.ControlPanel.Program
                 entity.CreatedBy = AppSession.UserLogin.UserID;
                 entityDao.Insert(entity);
 
-                retval = BusinessLayer.GetProspectiveStudentFormMaxID(ctx).ToString();
+                entity.FormID = BusinessLayer.GetProspectiveStudentFormMaxID(ctx);
                 ProspectiveStudentFolder folder = new ProspectiveStudentFolder();
-                folder.FormID = Convert.ToInt32(retval);
+                folder.FormID = entity.FormID;
                 folder.SiteID = AppSession.UserLogin.SiteID;
                 folderDao.Insert(folder);
+
+                retval = entity.FormID.ToString();
 
                 ctx.CommitTransaction();
                 result = true;
@@ -134,22 +126,23 @@ namespace CodeX.Muses.Web.ControlPanel.Program
         {
             bool result = true;
             IDbContext ctx = DbFactory.Configure(true);
-            ProspectiveStudentFormDao formDao = new ProspectiveStudentFormDao(ctx);
+            ProspectiveStudentFormDao entityDao = new ProspectiveStudentFormDao(ctx);
             try
             {
-                ProspectiveStudentForm entity = formDao.Get(Convert.ToInt32(hdnID.Value));
+                ProspectiveStudentForm entity = entityDao.Get(Convert.ToInt32(hdnID.Value));
                 ControlToEntity(entity);
                 entity.LastUpdatedBy = AppSession.UserLogin.UserID;
-                formDao.Update(entity);
+                entityDao.Update(entity);
                 ctx.CommitTransaction();
             }
             catch (Exception ex)
             {
+                Helper.InsertErrorLog(ex);
                 result = false;
                 errMessage = ex.Message;
                 ctx.RollBackTransaction();
             }
-            finally 
+            finally
             {
                 ctx.Close();
             }

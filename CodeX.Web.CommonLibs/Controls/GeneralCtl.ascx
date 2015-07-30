@@ -130,7 +130,7 @@
         mode: "textareas",
         theme: "advanced",
         editor_selector: "htmlEditor",
-        encoding : "xml",
+        encoding: "xml",
         plugins: "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,visualblocks",
 
         theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
@@ -474,7 +474,7 @@
         $('#hdnRightPanelContentUrl').val(url);
         $('#hdnRightPanelContentFirstTimeLoad').val('1');
         $('#hdnRightPanelContentParam').val(param);
-        $('#hdnRightPanelContentTitle').val(title); 
+        $('#hdnRightPanelContentTitle').val(title);
         pcRightPanelContent.SetHeaderText(title);
         pcRightPanelContent.SetSize(width, height);
         pcRightPanelContent.Show();
@@ -524,7 +524,9 @@
         rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
         range: jQuery.validator.format("Please enter a value between {0} and {1}."),
         max: "",
-        min: ""
+        min: "",
+        maxcurrency: "",
+        mincurrency: ""
     });
 
     window.IsValid = function (evt, fieldID, validationGroup) {
@@ -562,6 +564,26 @@
             composedDate.getFullYear() == y;
     }
 
+    function isValidMinCurrency(value, element) {
+        var attr = $(element).attr('mincurrency');
+        if (typeof attr !== typeof undefined && attr !== false) {
+            var val = parseFloat($(element).attr('hiddenVal'));
+            var min = parseFloat($(element).attr('mincurrency'));
+            return val >= min;
+        }
+        return true;
+    }
+
+    function isValidMaxCurrency(value, element) {
+        var attr = $(element).attr('maxcurrency');
+        if (typeof attr !== typeof undefined && attr !== false) {
+            var val = parseFloat($(element).attr('hiddenVal'));
+            var max = parseFloat($(element).attr('maxcurrency'));
+            return val <= max;
+        }
+        return true;
+    }
+
     $(function () {
         $('span.required input:radio').each(function () {
             $(this).addClass('required');
@@ -571,6 +593,12 @@
         }, "");
         $.validator.addMethod("datepicker", function (value, element) {
             return isValidDate(value);
+        }, "");
+        $.validator.addMethod("mincurrency", function (value, element) {
+            return isValidMinCurrency(value, element);
+        }, "");
+        $.validator.addMethod("maxcurrency", function (value, element) {
+            return isValidMaxCurrency(value, element);
         }, "");
     });
     //#endregion
@@ -614,26 +642,29 @@
         $('.datepicker').each(function () {
             $(this).attr('placeholder', 'dd-MM-yyyy');
         });
+        $('.time').each(function () {
+            $(this).attr('placeholder', 'HH:mm');
+        });
     });
     /*$(function () {
-        $('.datepicker').datepicker({
-            defaultDate: "w",
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "dd-M-yy",
-            beforeShowDay: highlightDays
-        });
+    $('.datepicker').datepicker({
+    defaultDate: "w",
+    changeMonth: true,
+    changeYear: true,
+    dateFormat: "dd-M-yy",
+    beforeShowDay: highlightDays
+    });
 
-        var dates = ['04/30/2013', '05/01/2013'];
-        function highlightDays(date) {
-            for (var i = 0; i < dates.length; i++) {
-                if (new Date(dates[i]).toString() == date.toString()) {
-                    return [true, 'holiday'];
-                }
-            }
-            return [true, ''];
+    var dates = ['04/30/2013', '05/01/2013'];
+    function highlightDays(date) {
+    for (var i = 0; i < dates.length; i++) {
+    if (new Date(dates[i]).toString() == date.toString()) {
+    return [true, 'holiday'];
+    }
+    }
+    return [true, ''];
 
-        }
+    }
     });*/
     //#endregion
 
@@ -641,7 +672,7 @@
     var todayDateInString = '<%=TodayDate%>';
     window.todayDate = Methods.stringToDate(todayDateInString);
     //#endregion
-    
+
     //#region AppSession
     var AppSession = new (function () {
         this.siteID = '<%=SiteID%>';
