@@ -174,6 +174,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 foreach (GLTransactionDt entityDt in lstEntityDt)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.IsDeleted = true;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     glTransactionDtDao.Update(entityDt);
                 }

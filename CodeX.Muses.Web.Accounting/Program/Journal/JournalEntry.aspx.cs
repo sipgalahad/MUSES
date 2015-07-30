@@ -11,6 +11,7 @@ using CodeX.Data.Core.Dal;
 using DevExpress.Web.ASPxCallbackPanel;
 using System.Data;
 using CodeX.Common;
+using System.Web.Script.Serialization;
 
 namespace CodeX.Muses.Web.Accounting.Program
 {
@@ -234,11 +235,11 @@ namespace CodeX.Muses.Web.Accounting.Program
                 entityHdDao.Insert(entityHd);
                 int GLTransactionID = BusinessLayer.GetGLTransactionMaxID(ctx);
 
-                string[] lstSaveParam = hdnSaveParam.Value.Split('|');
+                JavaScriptSerializer json = new JavaScriptSerializer();
+                List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);
                 short i = 1;
-                foreach (string saveParam in lstSaveParam)
+                foreach (string[] param in lstSaveParam)
                 {
-                    string[] param = saveParam.Split(';');
                     GLTransactionDt entityDt = new GLTransactionDt();
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
                     entityDt.GLTransactionID = GLTransactionID;
@@ -297,12 +298,11 @@ namespace CodeX.Muses.Web.Accounting.Program
                 if (hdnListTransactionDtID.Value != "")
                     lstGLTransactionDt = BusinessLayer.GetGLTransactionDtList(string.Format("GLTransactionID = {0} AND GCItemDetailStatus != '{1}'", hdnID.Value, Constant.TransactionStatus.VOID));
 
-                string[] lstSaveParam = hdnSaveParam.Value.Split('|');
+                JavaScriptSerializer json = new JavaScriptSerializer();
+                List<string[]> lstSaveParam = json.Deserialize<List<string[]>>(hdnSaveParam.Value);
                 short i = 1;
-                foreach (string saveParam in lstSaveParam)
+                foreach (string[] param in lstSaveParam)
                 {
-                    string[] param = saveParam.Split(';');
-
                     int transactionDtID = Convert.ToInt32(param[0]);
                     if (transactionDtID > 0)
                     {
@@ -352,6 +352,7 @@ namespace CodeX.Muses.Web.Accounting.Program
                 foreach (GLTransactionDt entityDt in lstGLTransactionDt)
                 {
                     entityDt.GCItemDetailStatus = Constant.TransactionStatus.VOID;
+                    entityDt.IsDeleted = true;
                     entityDt.LastUpdatedBy = AppSession.UserLogin.UserID;
                     entityDtDao.Update(entityDt);
                 }
@@ -414,40 +415,6 @@ namespace CodeX.Muses.Web.Accounting.Program
                 ctx.Close();
             }
 
-            return result;
-        }
-
-        protected override bool OnReopenRecord(ref string errMessage)
-        {
-            bool result = true;
-            IDbContext ctx = DbFactory.Configure(true);
-            GLTransactionHdDao GLTransactionHdDao = new GLTransactionHdDao(ctx);
-            GLTransactionDtDao GlTransactionDtDao = new GLTransactionDtDao(ctx);
-
-            try
-            {
-                GLTransactionHd itemTransactionHd = GLTransactionHdDao.Get(Convert.ToInt32(hdnID.Value));
-                itemTransactionHd.GCTransactionStatus = Constant.TransactionStatus.OPEN;
-                itemTransactionHd.LastUpdatedBy = AppSession.UserLogin.UserID;
-                GLTransactionHdDao.Update(itemTransactionHd);
-
-                string filterExpression = String.Format("GLTransactionID = {0} AND GCItemDetailStatus != '{1}' ORDER BY DisplayOrder", hdnID.Value, Constant.TransactionStatus.VOID);
-                List<GLTransactionDt> lstGLTransactionDt = BusinessLayer.GetGLTransactionDtList(filterExpression, ctx);
-                foreach (GLTransactionDt GlTransactionDt in lstGLTransactionDt)
-                {
-                    GlTransactionDt.GCItemDetailStatus = Constant.TransactionStatus.OPEN;
-                    GlTransactionDt.LastUpdatedBy = AppSession.UserLogin.UserID;
-                    GlTransactionDtDao.Update(GlTransactionDt);
-                }
-
-                ctx.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                ctx.RollBackTransaction();
-                errMessage = ex.Message;
-                result = false;
-            }
             return result;
         }
     }

@@ -94,7 +94,7 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Full Name")%></label></td>
                         <td><asp:TextBox ID="txtFullName" Width="100%" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Email")%></label></td>
                         <td><asp:TextBox ID="txtEmail" Width="100%" CssClass="email" runat="server" /></td>
                     </tr>
@@ -106,19 +106,19 @@
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Confirm Password")%></label></td>
                         <td><asp:TextBox ID="txtConfirmPassword" CssClass="confirmpassword" Width="100%" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Mobile PIN")%></label></td>
                         <td><asp:TextBox ID="txtMobilePIN" Width="300px" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblNormal"><%=GetLabel("Confirm Mobile PIN")%></label></td>
                         <td><asp:TextBox ID="txtConfirmMobilePIN" CssClass="confirmmobilepin" Width="300px" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Security Question")%></label></td>
                         <td><asp:TextBox ID="txtSecurityQuestion" Width="100%" runat="server" /></td>
                     </tr>
-                    <tr>
+                    <tr style="display:none">
                         <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Security Answer")%></label></td>
                         <td><asp:TextBox ID="txtSecurityAnswer" Width="100%" runat="server" /></td>
                     </tr>

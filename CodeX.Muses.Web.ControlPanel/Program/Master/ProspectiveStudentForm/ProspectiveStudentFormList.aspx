@@ -63,7 +63,7 @@
         }
         //#endregion
 
-        $('.lnkDetail a').live('click', function () {
+        $('.lnkSite a').live('click', function () {
             var id = $(this).closest('tr').find('.keyField').html();
             var url = ResolveUrl("~/Program/Master/ProspectiveStudentForm/ProspectiveStudentFormSettingCtl.ascx");
             openUserControlPopup(url, id, 'Setting', 700, 450);
@@ -82,8 +82,10 @@
                         <asp:GridView ID="grdView" runat="server" CssClass="grdSelected" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true" EmptyDataRowStyle-CssClass="trEmpty">
                             <Columns>
                                 <asp:BoundField DataField="FormID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
-                                <asp:BoundField DataField="FormCode" HeaderText="Kode" HeaderStyle-Width="180px" HeaderStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="FormName" HeaderText="Nama"  HeaderStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="FormCode" HeaderText="Kode" HeaderStyle-Width="100px" />
+                                <asp:BoundField DataField="FormName" HeaderText="Nama" HeaderStyle-Width="250px" />
+                                <asp:BoundField DataField="Remarks" HeaderText="Catatan" />
+                                <asp:HyperLinkField HeaderText="Cabang" Text="Cabang" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkSite" HeaderStyle-Width="120px" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <%=GetLabel("Data Tidak Tersedia")%>

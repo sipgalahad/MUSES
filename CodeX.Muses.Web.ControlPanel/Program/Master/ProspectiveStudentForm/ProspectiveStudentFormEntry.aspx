@@ -12,9 +12,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="plhEntry" runat="server">
     <script type="text/javascript">
-        
     </script>
-    <input type="hidden" id="hdnIsExist" runat="server" value="" />
     <input type="hidden" id="hdnID" runat="server" value="" />
     <table>
         <colgroup>
@@ -23,22 +21,21 @@
         </colgroup>
         <tr>
             <td style="padding:5px;vertical-align:top">
-                <h4 class="h4expanded"><%=GetLabel("Data Formulir")%></h4>
                 <div class="containerTblEntryContent">
                     <table class="tblEntryContent">
                         <colgroup>
                             <col style="width:30%"/>
                         </colgroup>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Form Code")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Kode")%></label></td>
                             <td><asp:TextBox ID="txtFormCode" Width="100px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Form Name")%></label></td>
+                            <td class="tdLabel"><label class="lblMandatory"><%=GetLabel("Nama")%></label></td>
                             <td><asp:TextBox ID="txtFormName" Width="300px" runat="server" /></td>
                         </tr>
                         <tr>
-                            <td class="tdLabel" valign="top"><label class="lblMandatory"><%=GetLabel("Remarks")%></label></td>
+                            <td class="tdLabel" style="vertical-align:top; padding-top: 5px;"><label class="lblNormal"><%=GetLabel("Catatan")%></label></td>
                             <td><asp:TextBox ID="txtRemarks" TextMode="MultiLine" Width="300px" runat="server" /></td>
                         </tr>
                     </table>    

@@ -126,7 +126,6 @@
                                 <asp:BoundField DataField="UserID" HeaderStyle-CssClass="keyField" ItemStyle-CssClass="keyField" />
                                 <asp:BoundField DataField="UserName" HeaderText="UserName" HeaderStyle-Width="100px" />
                                 <asp:BoundField DataField="FullName" HeaderText="Full Name" />
-                                <asp:BoundField DataField="Email" HeaderText="Email" HeaderStyle-Width="200px"  />
                                 <asp:CheckBoxField DataField="IsLockedOut" HeaderText="Locked" HeaderStyle-CssClass="thCenter" HeaderStyle-Width="100px" ItemStyle-HorizontalAlign="Center"  />
                                 <asp:HyperLinkField HeaderText="User Role" Text="User Role" HeaderStyle-CssClass="thCenter" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="lnkUserRole" HeaderStyle-Width="100px" />
                                 <asp:HyperLinkField HeaderText="Location" Text="Location" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="thCenter" ItemStyle-CssClass="lnkLocation" HeaderStyle-Width="100px" />

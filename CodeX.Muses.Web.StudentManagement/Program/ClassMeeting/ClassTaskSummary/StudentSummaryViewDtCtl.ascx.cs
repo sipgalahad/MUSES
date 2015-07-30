@@ -39,7 +39,7 @@ namespace CodeX.Muses.Web.StudentManagement.Program
 
         private void BindGridView(int pageIndex, bool isCountPageCount, ref int pageCount, ref int rowCount)
         {
-            string filterExpression = string.Format("StudentID = {0} AND PeriodSectionID = {1} AND IsDeleted = 0", hdnStudentID.Value, AppSession.ClassSubject.PeriodSectionID);
+            string filterExpression = string.Format("StudentID = {0} AND PeriodSectionID = {1} AND ClassSubjectID = {2} AND IsDeleted = 0", hdnStudentID.Value, AppSession.ClassSubject.PeriodSectionID, AppSession.ClassSubject.ClassSubjectID);
             if (isCountPageCount)
             {
                 rowCount = BusinessLayer.GetStudentNoteRowCount(filterExpression);

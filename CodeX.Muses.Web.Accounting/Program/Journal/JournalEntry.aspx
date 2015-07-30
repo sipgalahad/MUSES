@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/libs/MasterPage/MPTrx.master" AutoEventWireup="true" 
-CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.JournalEntry" %>
+    CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.JournalEntry" %>
 
 <%@ Register Assembly="DevExpress.Web.v11.1, Version=11.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dxcp" %>
@@ -554,7 +554,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.J
                             tempHelper.init("COA" + idx, "GLAccountNo,GLAccountName", "GetChartOfAccountList", "", "onGetCOAFilterExpression", "GLAccountNo");
                             tempHelper.setClientSideEvents(onGLAccountIDValueChanged);
                             tempHelper.initializeControl();
-                            tempHelper.setValue(entity.GLAccount);
+                            tempHelper.setValue(entity.GLAccountID);
                             tempHelper.setText(entity.GLAccountName);
 
                             var debitAmount = 0;
@@ -610,7 +610,7 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.J
         }
 
         function onBeforeSaveRecord() {
-            var saveParam = '';
+            var objList = new Array();
             var lstTransactionDtID = '';
             $('.trJournalEntry').each(function () {
                 var glAccountID = $(this).find('.tacCOA').find('.hdnAutoCompleteValue').val();
@@ -628,13 +628,11 @@ CodeBehind="JournalEntry.aspx.cs" Inherits="CodeX.Muses.Web.Accounting.Program.J
                         lstTransactionDtID += transactionDtID;
                     }
 
-                    if (saveParam != '')
-                        saveParam += '|';
-                    saveParam += transactionDtID + ';' + glAccountID + ';' + subLedgerID + ';' + remarks + ';' + debit + ';' + kredit + ';' + documentNo;
+                    objList.push(new Array(transactionDtID, glAccountID, subLedgerID, remarks, debit, kredit, documentNo));
                 }
             });
 
-            $('#<%=hdnSaveParam.ClientID %>').val(saveParam);
+            $('#<%=hdnSaveParam.ClientID %>').val(JSON.stringify(objList));
             $('#<%=hdnListTransactionDtID.ClientID %>').val(lstTransactionDtID);
             return true;
         }
