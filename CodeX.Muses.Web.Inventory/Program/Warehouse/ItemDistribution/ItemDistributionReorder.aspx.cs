@@ -19,7 +19,9 @@ namespace CodeX.Muses.Web.Inventory.Program
     {
         public override string OnGetMenuCode()
         {
-            return Constant.MenuCode.Inventory.REORDER_ITEM_DISTRIBUTION;
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                return Constant.MenuCode.Inventory.REORDER_ITEM_DISTRIBUTION_CROSS_SITE;
+            return Constant.MenuCode.Inventory.REORDER_ITEM_DISTRIBUTION; 
         }
 
         #region Html Getter

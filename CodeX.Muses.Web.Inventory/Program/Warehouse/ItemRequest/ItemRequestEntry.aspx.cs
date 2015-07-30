@@ -20,6 +20,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         protected int RowCount = 1;
         public override string OnGetMenuCode()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                return Constant.MenuCode.Inventory.ITEM_REQUEST_CROSS_SITE;
             return Constant.MenuCode.Inventory.ITEM_REQUEST;
         }
 

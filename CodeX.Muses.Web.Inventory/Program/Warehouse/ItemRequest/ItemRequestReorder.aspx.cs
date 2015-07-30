@@ -20,6 +20,8 @@ namespace CodeX.Muses.Web.Inventory.Program
         private string[] lstQtyItemRequest = null;
         public override string OnGetMenuCode()
         {
+            if (Page.Request.QueryString.Count > 0 && Page.Request.QueryString["type"] == "cs")
+                return Constant.MenuCode.Inventory.REORDER_ITEM_REQUEST_CROSS_SITE;
             return Constant.MenuCode.Inventory.REORDER_ITEM_REQUEST;
         }
 
